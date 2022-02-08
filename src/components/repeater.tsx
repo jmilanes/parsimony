@@ -1,0 +1,36 @@
+import React from "react";
+import ComponentService from "../services/componentsService";
+import { clone } from "../utils";
+
+// These any's might be able to be generics
+export type IRepeaterProps = {
+  title: string;
+  items: any[];
+  pathToState: string;
+  updateState: (path: string, value: any) => void;
+  generateRow: (index: number) => JSX.Element;
+  initialData: any;
+};
+
+const Repeater = ({
+  items,
+  title,
+  generateRow,
+  updateState,
+  pathToState,
+  initialData
+}: IRepeaterProps) => {
+  const addRow = () => {
+    updateState(pathToState, [...items, clone(initialData)]);
+  };
+
+  return (
+    <>
+      <p>{title}</p>
+      {ComponentService.Button({ name: "add", action: addRow })}
+      {items.map((_, index) => generateRow(index))}
+    </>
+  );
+};
+
+export default Repeater;
