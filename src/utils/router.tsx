@@ -30,7 +30,7 @@ export const generaterRoutes = (routes: IRoute[]) => {
 };
 
 export const creatLink = (link: IRoute) => (
-  <Link key={`${link.name}_link_${uuid()}`} to={link.path}>
+  <Link key={`${link.name || ""}_link_${uuid()}`} to={link.path}>
     {link.name}
   </Link>
 );

@@ -1,10 +1,10 @@
-import { IProgram } from "../types";
+import { IProgram } from "../../types";
 import {
   InputTypes,
   ProgramValueTypes,
   UserRoles,
-  ProgamTypes
-} from "../enums";
+  ProgramTypes
+} from "../../enums";
 
 export const mockProgramData: IProgram[] = [
   {
@@ -15,7 +15,7 @@ export const mockProgramData: IProgram[] = [
     clientId: undefined,
     writeAccess: [UserRoles.Director],
     readAccess: [UserRoles.Director],
-    type: ProgamTypes.Main,
+    type: ProgramTypes.Main,
     lastEditedBy: "User_01",
     editedBy: ["User_01"],
     createdBy: "User_01",

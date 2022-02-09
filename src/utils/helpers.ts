@@ -1,9 +1,7 @@
-import { IUser } from "../types";
+import { IObject, IUser } from "../types";
 
-export const filterByProp = <T extends unknown>(
-  collection: T[],
-  prop: keyof T
-): T[] => collection.filter((c: T) => c[prop]);
+export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>
+  collection.filter((c: T) => c[prop]);
 
 /**
  * Flatten a multidimensional object
@@ -13,14 +11,14 @@ export const filterByProp = <T extends unknown>(
  * Returns:
  *   { a: 1, c: 2}
  */
-export const flattenObject = (obj: Record<string, any>) => {
-  const flattened: Record<string, any> = {};
+export const flattenObject = (obj: IObject) => {
+  const flattened: IObject = {};
 
   Object.keys(obj).forEach((key) => {
     const value = obj[key];
 
     if (typeof value === "object" && value !== null && !Array.isArray(value)) {
-      Object.assign(flattened, flattenObject(value));
+      Object.assign(flattened, flattenObject(value as IObject));
     } else {
       flattened[key] = value;
     }

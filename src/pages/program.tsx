@@ -1,4 +1,5 @@
 import React from "react";
+import { programTypes } from "../fixtures";
 import ComponentsService from "../services/componentsService";
 import { programData, StateManger } from "../services/dataAccessServices";
 import { IProgram } from "../types";
@@ -25,8 +26,16 @@ const Program = () => {
   };
 
   return (
-    <ComponentsService.Contianer>
+    <ComponentsService.Container>
       <h1>Program {program.title}</h1>
+      {ComponentsService.Selector({
+        title: "type",
+        options: programTypes,
+        pathToState: "type",
+        value: localState.type,
+        updateState,
+        readOnly: readOnlyMode
+      })}
       {ComponentsService.Field({
         pathToState: "title",
         value: localState.title,
@@ -48,7 +57,7 @@ const Program = () => {
         action: submitForm,
         hidden: readOnlyMode
       })}
-    </ComponentsService.Contianer>
+    </ComponentsService.Container>
   );
 };
 

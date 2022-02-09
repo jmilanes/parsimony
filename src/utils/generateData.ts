@@ -1,8 +1,8 @@
 import { Collections } from "../enums";
-import { mockSchoolData, mockUserData, mockProgramData } from "../mockData";
+import { mockSchoolData, mockUserData, mockProgramData } from "../fixtures";
 import { ICollection } from "../types";
 
-type IDataCreationFns = Record<Collections, (payload: any) => void>;
+type IDataCreationFns = Record<Collections, (payload: unknown) => void>;
 type IMockDataObj = {
   type: Collections;
   data: ICollection[];

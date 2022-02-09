@@ -5,11 +5,12 @@ import cn from "classnames";
 
 export const uuid = () => uuidv4();
 
-export const clone = (obj: any) => _.clone(obj);
+export const clone = (obj: Record<string, unknown>) => _.clone(obj);
 
-export const setDataWithPath = (obj: IObject, path: string, value: any) =>
+export const setDataWithPath = (obj: IObject, path: string, value: unknown) =>
   _.set(obj, path, value);
 
-export const getDataWithPath = (obj: IObject, path: string) => _.get(obj, path);
+export const getDataWithPath = (obj: IObject, path: string): unknown =>
+  _.get(obj, path);
 
-export const compileStyles = (classes: Record<any, boolean>) => cn(classes);
+export const compileStyles = (classes: Record<string, boolean>) => cn(classes);

@@ -1,7 +1,7 @@
 import { UserRoles } from "../enums";
 import { IUser } from "../types";
 
-const initalUserData: IUser = {
+const initialUserData: IUser = {
   id: "",
   contactInformation: {
     firstName: "",
@@ -17,4 +17,4 @@ const initalUserData: IUser = {
   type: UserRoles.Director
 };
 
-export default initalUserData;
+export default initialUserData;

@@ -1,23 +1,25 @@
+import { IOption } from "../components/selector";
 import {
   InputTypes,
-  ProgamTypes,
+  ProgramTypes,
   ProgramValueTypes,
   UserRoles
 } from "../enums";
 import { IProgram } from "../types";
 
-export const initalProgramData: IProgram = {
+export const initialProgramData: IProgram = {
   // Need to figure out how to remove ID from IProgram
   id: "",
 
-  //Should be set in the data access
+  // Should be set in the data access
   dateCreated: new Date(),
   dateEdited: new Date(),
-  //end
+  // end
   title: "",
+  description: "",
   writeAccess: [UserRoles.Director],
   readAccess: [UserRoles.Director],
-  type: ProgamTypes.Main,
+  type: ProgramTypes.Main,
   // Set when auth service is set and can be set in the data access
   lastEditedBy: "",
   editedBy: [],
@@ -31,7 +33,7 @@ export const initalProgramData: IProgram = {
   results: []
 };
 
-export const intialRuleData = {
+export const initialRuleData = {
   id: "",
   question: "",
   description: "",
@@ -42,7 +44,12 @@ export const intialRuleData = {
   valueType: ProgramValueTypes.number
 };
 
-export const initalOptionData = {
+export const initialOptionData = {
   name: "",
   value: 0
 };
+
+export const programTypes: IOption[] = [
+  { name: ProgramTypes.Main, value: ProgramTypes.Main },
+  { name: ProgramTypes.Client, value: ProgramTypes.Client }
+];

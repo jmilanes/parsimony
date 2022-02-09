@@ -1,6 +1,6 @@
 import React from "react";
 
-export const CreateState = (intalState: any) => {
-  const [state, updateState] = React.useState(intalState);
+export const CreateState = (initialState: Record<string, unknown>) => {
+  const [state, updateState] = React.useState(initialState);
   return { state, updateState };
 };

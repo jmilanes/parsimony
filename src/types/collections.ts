@@ -1,6 +1,6 @@
 import {
   UserRoles,
-  ProgamTypes,
+  ProgramTypes,
   InputTypes,
   ProgramValueTypes
 } from "../enums";
@@ -28,7 +28,7 @@ export type IUser = {
   timeZone?: string;
   roles: UserRoles[];
   type: UserRoles;
-  documents?: any; // These will be uploaded PDFs or maybe jpegs associated with clients
+  documents?: unknown; // These will be uploaded PDFs or maybe jpegs associated with clients
 };
 
 export type IContactInformation = {
@@ -45,11 +45,12 @@ export type IProgram = {
   mainProgramId?: IId;
   clientId?: IId;
   rules: IRule[];
+  description?: string;
   dateCreated: IDate;
   dateEdited: IDate;
   writeAccess: UserRoles[];
   readAccess: UserRoles[];
-  type: ProgamTypes;
+  type: ProgramTypes;
   lastEditedBy: IId;
   editedBy: IId[];
   createdBy: IId;

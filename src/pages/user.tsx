@@ -24,7 +24,7 @@ const User = () => {
   const editMode = mode === "edit";
 
   return (
-    <ComponentsService.Contianer>
+    <ComponentsService.Container>
       <h1>{getFullName(localState)}</h1>
       {ComponentsService.Field({
         pathToState: "contactInformation.firstName",
@@ -59,7 +59,7 @@ const User = () => {
         action: () => updateMode("readOnly"),
         hidden: readOnlyMode
       })}
-    </ComponentsService.Contianer>
+    </ComponentsService.Container>
   );
 };
 

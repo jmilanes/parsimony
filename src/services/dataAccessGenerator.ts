@@ -1,4 +1,6 @@
-export type ICollectionSercie<Schema> = {
+import { IStateService } from "./stateStervice";
+
+export type ICollectionService<Schema> = {
   create: (payload: Schema) => void;
   get: (id: string) => Schema;
   getAll: () => Schema[];
@@ -7,8 +9,8 @@ export type ICollectionSercie<Schema> = {
 };
 
 const dataAccessGenerator = <Schema>(
-  collectionService: ICollectionSercie<Schema>,
-  stateManager: any
+  collectionService: ICollectionService<Schema>,
+  stateManager: IStateService
 ) => {
   return {
     create: (payload: Schema) => {

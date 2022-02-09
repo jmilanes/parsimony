@@ -1,26 +1,25 @@
 import React from "react";
 import { IColumns, ITableAction } from "../components/table";
 import { AddForm } from "../containers";
-import { ProgamTypes } from "../enums";
 import {
-  initalProgramData,
-  intialRuleData,
-  initalOptionData
-} from "../initialData";
+  initialProgramData,
+  initialRuleData,
+  initialOptionData,
+  programTypes
+} from "../fixtures";
 import ComponentsService from "../services/componentsService";
 import { programData, StateManger } from "../services/dataAccessServices";
 import { IProgram } from "../types";
 import { generateKey, navigateToRoute } from "../utils";
-// NEXT Duplicate what you do with users and figure out how you are gonna do the programms
+// NEXT Duplicate what you do with users and figure out how you are gonna do the programs
 // Add users
 const Programs = () => {
   const navigate = navigateToRoute();
   const data = programData.getAll();
 
   const [showAddForm, setShowAddForm] = React.useState(false);
-  const [localState, updateLocalState] = React.useState<IProgram>(
-    initalProgramData
-  );
+  const [localState, updateLocalState] =
+    React.useState<IProgram>(initialProgramData);
 
   const updateState = StateManger.updateLocalState({
     localState,
@@ -32,7 +31,7 @@ const Programs = () => {
   const submitAddForm = () => {
     programData.create(localState);
     setShowAddForm(false);
-    updateLocalState(initalProgramData);
+    updateLocalState(initialProgramData);
   };
 
   const columns: IColumns[] = [
@@ -66,7 +65,7 @@ const Programs = () => {
           key: generateKey("option-value", index),
           placeHolderText: "Option Value",
           pathToState: `rules[${ruleIndex}].options[${index}].value`,
-          value: localState.rules[ruleIndex].options[index].value,
+          value: localState.rules[ruleIndex].options[index].value.toString(),
           updateState
         })}
       </>
@@ -90,7 +89,7 @@ const Programs = () => {
           pathToState: `rules[${index}].options`,
           updateState,
           generateRow: generateOtpion,
-          initialData: initalOptionData
+          initialData: initialOptionData
         })}
       </>
     );
@@ -116,15 +115,11 @@ const Programs = () => {
           value: localState.title,
           updateState
         })}
-
         {ComponentsService.Selector({
-          placeHolderText: "Title",
+          title: "Type",
           pathToState: "type",
           value: localState.type,
-          options: [
-            { name: ProgamTypes.Main, value: ProgamTypes.Main },
-            { name: ProgamTypes.Client, value: ProgamTypes.Client }
-          ],
+          options: programTypes,
           updateState
         })}
 
@@ -134,7 +129,7 @@ const Programs = () => {
           pathToState: "rules",
           updateState,
           generateRow: createRule,
-          initialData: intialRuleData
+          initialData: initialRuleData
         })}
 
         {/* Need to come up with how adding the rules ui might work */}

@@ -15,7 +15,7 @@ generateData({
   [Collections.Program]: programService.create
 });
 
-export const initalData = {
+export const initialData = {
   [Collections.School]: schoolService.getAll(),
   [Collections.User]: userService.getAll(),
   [Collections.Program]: programService.getAll()

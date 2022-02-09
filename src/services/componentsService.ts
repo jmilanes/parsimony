@@ -13,7 +13,7 @@ export enum Components {
   Table = "Table",
   Field = "Field",
   Button = "Button",
-  Container = "Contianer",
+  Container = "Container",
   Selector = "Selector",
   Repater = "Repeater"
 }

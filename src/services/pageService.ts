@@ -10,7 +10,7 @@ import {
 import { Pages } from "../enums";
 import { IComponent } from "../types";
 
-export type IPageComponents = Record<Pages, IComponent<any>>;
+export type IPageComponents = Record<Pages, IComponent<unknown>>;
 
 const PageService: IPageComponents = {
   [Pages.Home]: Home,

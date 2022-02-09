@@ -1,12 +1,12 @@
 import React from "react";
 
 export type IFieldProps = {
-  key?: any;
+  key?: string;
   readOnly?: boolean;
-  value: any;
+  value: string;
   pathToState: string;
   placeHolderText?: string;
-  updateState: (path: string, value: any) => void;
+  updateState: (path: string, value: string) => void;
 };
 
 const Field = ({

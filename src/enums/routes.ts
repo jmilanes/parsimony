@@ -13,7 +13,7 @@ export enum Pages {
   Programs = "Programs",
   Program = "Program",
   Observe = "Observe",
-  Users = "Directoy",
+  Users = "Directory",
   User = "User",
   Results = "Results"
 }

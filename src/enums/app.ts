@@ -12,7 +12,7 @@ export enum UserRoles {
   Employee = "EMPLOYEE"
 }
 
-export enum ProgamTypes {
+export enum ProgramTypes {
   Main = "MAIN",
   Client = "CLIENT"
 }

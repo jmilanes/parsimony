@@ -5,11 +5,11 @@ import { clone } from "../utils";
 // These any's might be able to be generics
 export type IRepeaterProps = {
   title: string;
-  items: any[];
+  items: unknown[];
   pathToState: string;
-  updateState: (path: string, value: any) => void;
+  updateState: (path: string, value: unknown) => void;
   generateRow: (index: number) => JSX.Element;
-  initialData: any;
+  initialData: Record<string, unknown>;
 };
 
 const Repeater = ({

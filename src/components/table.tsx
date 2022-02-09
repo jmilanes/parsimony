@@ -1,18 +1,18 @@
-import React from "react";
+import React, { Key, ReactNode } from "react";
 import { flattenObject, generateKey } from "../utils";
 
 export type ITableAction = {
   name: string;
-  method: (item: any) => any;
+  method: (item: unknown) => unknown;
 };
 
 export type IColumns = {
   propertyKey: string;
-  displayFn?: (data: any) => any;
+  displayFn?: (data: unknown) => any;
 };
 
 export type ITableProps = {
-  data: Record<string, any>[];
+  data: Record<string, unknown>[];
   columns: IColumns[];
   actions?: ITableAction[];
 };

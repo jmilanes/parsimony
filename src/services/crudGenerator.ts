@@ -3,7 +3,7 @@ import { IId } from "../types";
 
 const crudGenerator = <Schema>(collectionName: Collections) => {
   return class Service {
-    collection: Record<any, Schema>;
+    collection: Record<string, Schema>;
     count: number;
     constructor() {
       this.collection = {};

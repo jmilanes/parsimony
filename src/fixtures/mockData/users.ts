@@ -1,8 +1,9 @@
-import { IUser } from "../types";
-import { UserRoles } from "../enums";
+import { IUser } from "../../types";
+import { UserRoles } from "../../enums";
 
 export const mockUserData: IUser[] = [
   {
+    id: "",
     contactInformation: {
       firstName: "Molly",
       lastName: "Milanes",
@@ -17,6 +18,7 @@ export const mockUserData: IUser[] = [
     type: UserRoles.Director
   },
   {
+    id: "",
     contactInformation: {
       firstName: "Joey",
       lastName: "Milanes",

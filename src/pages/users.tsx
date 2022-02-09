@@ -5,14 +5,14 @@ import ComponentsService from "../services/componentsService";
 import { navigateToRoute } from "../utils";
 import { IUser } from "../types";
 import { AddForm } from "../containers";
-import { initalUserData } from "../initialData";
+import { initialUserData } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table";
 
 const Users = () => {
   const navigate = navigateToRoute();
   const data = userData.getAll();
   const [showAddForm, setShowAddForm] = React.useState(false);
-  const [localState, updateLocalState] = React.useState<IUser>(initalUserData);
+  const [localState, updateLocalState] = React.useState<IUser>(initialUserData);
 
   const updateState = StateManger.updateLocalState({
     localState,
@@ -22,7 +22,7 @@ const Users = () => {
   const submitAddForm = () => {
     userData.create(localState);
     setShowAddForm(false);
-    updateLocalState(initalUserData);
+    updateLocalState(initialUserData);
   };
 
   const columns: IColumns[] = [

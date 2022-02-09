@@ -2,13 +2,13 @@ import { uuid } from "../utils";
 import React from "react";
 
 export type IOption = { name: string; value: string | number };
-export type ISelectoProps = {
-  placeHolderText: string;
+export type ISelectorProps = {
+  title?: string;
   options: IOption[];
   pathToState: string;
-  updateState: (path: string, value: any) => void;
+  updateState: (path: string, value: string) => void;
   readOnly?: boolean;
-  value: any;
+  value: string;
 };
 const Selector = ({
   options,
@@ -16,13 +16,13 @@ const Selector = ({
   updateState,
   value,
   readOnly,
-  placeHolderText
-}: ISelectoProps) => {
+  title
+}: ISelectorProps) => {
   return readOnly ? (
     <p>{value}</p>
   ) : (
     <>
-      <p>{placeHolderText}</p>
+      <p>{title}</p>
       <select onChange={(e) => updateState(pathToState, e.currentTarget.value)}>
         {options.map((option) => {
           return (
