@@ -1,23 +1,30 @@
-import React, { Key, ReactNode } from "react";
+import React from "react";
 import { flattenObject, generateKey } from "../utils";
 
 export type ITableAction = {
   name: string;
-  method: (item: unknown) => unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  method: (item: any) => void;
 };
 
 export type IColumns = {
   propertyKey: string;
-  displayFn?: (data: unknown) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  displayFn?: (data: any) => any;
 };
 
-export type ITableProps = {
-  data: Record<string, unknown>[];
+export type ITableProps<Data> = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: Data[];
   columns: IColumns[];
   actions?: ITableAction[];
 };
 
-const Table = ({ data, actions, columns }: ITableProps) => {
+const Table = <Data extends { id: string }>({
+  data,
+  actions,
+  columns
+}: ITableProps<Data>) => {
   return (
     <table>
       <tbody>
@@ -29,9 +36,9 @@ const Table = ({ data, actions, columns }: ITableProps) => {
           ))}
         </tr>
 
-        {data.map((item) => {
-          const flatItem = flattenObject(item);
-          console.log(flatItem);
+        {data.map((item: Data) => {
+          const flatItem = flattenObject<Data>(item);
+
           return (
             <tr key={item.id}>
               {Object.values(columns).map((column, key) => (
@@ -43,7 +50,7 @@ const Table = ({ data, actions, columns }: ITableProps) => {
               ))}
               {actions?.map((action, key) => (
                 <td
-                  key={generateKey("tabel-action", key)}
+                  key={generateKey("table-action", key)}
                   onClick={() => action.method(item)}
                 >
                   {action.name}

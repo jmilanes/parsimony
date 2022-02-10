@@ -1,4 +1,5 @@
-import { IObject, IUser } from "../types";
+import { clone } from "../utils";
+import { IObject, IObjectValues, IUser } from "../types";
 
 export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>
   collection.filter((c: T) => c[prop]);
@@ -11,14 +12,16 @@ export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>
  * Returns:
  *   { a: 1, c: 2}
  */
-export const flattenObject = (obj: IObject) => {
+
+export const flattenObject = <IObj>(obj: IObj) => {
+  type ICurrentObject = IObjectValues<IObj>;
   const flattened: IObject = {};
+  const currentObject: ICurrentObject = clone(obj);
 
-  Object.keys(obj).forEach((key) => {
-    const value = obj[key];
-
+  Object.keys(currentObject).forEach((key: string) => {
+    const value = currentObject[key];
     if (typeof value === "object" && value !== null && !Array.isArray(value)) {
-      Object.assign(flattened, flattenObject(value as IObject));
+      Object.assign(flattened, flattenObject<typeof value>(value));
     } else {
       flattened[key] = value;
     }
@@ -32,3 +35,6 @@ export const generateKey = (type: string, key: string | number) =>
 
 export const getFullName = (user: IUser) =>
   `${user.contactInformation.firstName} ${user.contactInformation.lastName}`;
+
+export const createList = (arr: any[]) => arr.join(" | ");
+export const getLength = (arr: any[]) => arr?.length;

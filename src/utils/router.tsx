@@ -12,7 +12,7 @@ import ComponentsService from "../services/componentsService";
 import { uuid } from "./";
 import { IRoute } from "../types";
 
-export const generaterRoutes = (routes: IRoute[]) => {
+export const generateRoutes = (routes: IRoute[]) => {
   return (
     <BrowserRouter>
       {ComponentsService.Nav({ routes })}

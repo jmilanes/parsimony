@@ -53,7 +53,7 @@ const Users = () => {
         action: () => setShowAddForm(false),
         hidden: !showAddForm
       })}
-      {ComponentsService.Table({ data, columns, actions })}
+      {ComponentsService.Table<IUser>({ data, columns, actions })}
       <AddForm showForm={showAddForm} action={submitAddForm} title="Add Users">
         {ComponentsService.Field({
           placeHolderText: "First Name",

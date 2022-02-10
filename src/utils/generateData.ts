@@ -2,7 +2,8 @@ import { Collections } from "../enums";
 import { mockSchoolData, mockUserData, mockProgramData } from "../fixtures";
 import { ICollection } from "../types";
 
-type IDataCreationFns = Record<Collections, (payload: unknown) => void>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type IDataCreationFns = Record<Collections, (payload: any) => void>;
 type IMockDataObj = {
   type: Collections;
   data: ICollection[];

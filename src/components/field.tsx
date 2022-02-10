@@ -3,7 +3,7 @@ import React from "react";
 export type IFieldProps = {
   key?: string;
   readOnly?: boolean;
-  value: string;
+  value: string | undefined;
   pathToState: string;
   placeHolderText?: string;
   updateState: (path: string, value: string) => void;

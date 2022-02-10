@@ -5,3 +5,5 @@ export { default as Button } from "./button";
 export { default as Container } from "./container";
 export { default as Selector } from "./selector";
 export { default as Repeater } from "./repeater";
+export { default as Checkbox } from "./checkbox";
+export { default as MultiSelect } from "./multiSelect";

@@ -5,12 +5,16 @@ import {
   initialProgramData,
   initialRuleData,
   initialOptionData,
-  programTypes
+  programTypes,
+  inputTypes,
+  programValueTypes,
+  stepsOptions,
+  userRoleOptions
 } from "../fixtures";
 import ComponentsService from "../services/componentsService";
 import { programData, StateManger } from "../services/dataAccessServices";
 import { IProgram } from "../types";
-import { generateKey, navigateToRoute } from "../utils";
+import { createList, generateKey, getLength, navigateToRoute } from "../utils";
 // NEXT Duplicate what you do with users and figure out how you are gonna do the programs
 // Add users
 const Programs = () => {
@@ -38,7 +42,11 @@ const Programs = () => {
     { propertyKey: "title" },
     { propertyKey: "clientId" },
     { propertyKey: "type" },
-    { propertyKey: "rules", displayFn: (arr: any[]) => arr?.length }
+    { propertyKey: "description" },
+    { propertyKey: "writeAccess", displayFn: createList },
+    { propertyKey: "readAccess", displayFn: createList },
+    { propertyKey: "createBy" },
+    { propertyKey: "rules", displayFn: getLength }
   ];
   const actions: ITableAction[] = [
     {
@@ -53,34 +61,64 @@ const Programs = () => {
 
   const createOption = (ruleIndex: number) => (index: number) => {
     return (
-      <>
+      <ComponentsService.Container key={generateKey("option", index)}>
         {ComponentsService.Field({
-          key: generateKey("option-name", index),
           placeHolderText: "Option Name",
           pathToState: `rules[${ruleIndex}].options[${index}].name`,
           value: localState.rules[ruleIndex].options[index].name,
           updateState
         })}
         {ComponentsService.Field({
-          key: generateKey("option-value", index),
           placeHolderText: "Option Value",
           pathToState: `rules[${ruleIndex}].options[${index}].value`,
           value: localState.rules[ruleIndex].options[index].value.toString(),
           updateState
         })}
-      </>
+      </ComponentsService.Container>
     );
   };
 
   const createRule = (index: number) => {
-    const generateOtpion = createOption(index);
+    const generateOption = createOption(index);
     return (
-      <>
+      <ComponentsService.Container key={generateKey("rule", index)}>
         {ComponentsService.Field({
-          key: generateKey("rule", index),
           placeHolderText: "Question",
           pathToState: `rules[${index}].question`,
           value: localState.rules[index].question,
+          updateState
+        })}
+        {ComponentsService.Field({
+          placeHolderText: "Description",
+          pathToState: `rules[${index}].description`,
+          value: localState.rules[index].description,
+          updateState
+        })}
+        {ComponentsService.Selector({
+          title: "Steps",
+          pathToState: `rules[${index}].steps`,
+          value: localState.rules[index].steps,
+          options: stepsOptions,
+          updateState
+        })}
+        {ComponentsService.Checkbox({
+          title: "Required",
+          pathToState: `rules[${index}].required`,
+          value: localState.rules[index].required,
+          updateState
+        })}
+        {ComponentsService.Selector({
+          title: "Input Type",
+          value: localState.rules[index].inputType,
+          pathToState: `rules[${index}].inputType`,
+          options: inputTypes,
+          updateState
+        })}
+        {ComponentsService.Selector({
+          title: "Input Type",
+          pathToState: `rules[${index}].valueType`,
+          value: localState.rules[index].valueType,
+          options: programValueTypes,
           updateState
         })}
         {ComponentsService.Repeater({
@@ -88,10 +126,10 @@ const Programs = () => {
           items: localState.rules[index].options,
           pathToState: `rules[${index}].options`,
           updateState,
-          generateRow: generateOtpion,
+          generateRow: generateOption,
           initialData: initialOptionData
         })}
-      </>
+      </ComponentsService.Container>
     );
   };
   return (
@@ -107,12 +145,18 @@ const Programs = () => {
         action: () => setShowAddForm(false),
         hidden: !showAddForm
       })}
-      {ComponentsService.Table({ data, columns, actions })}
+      {ComponentsService.Table<IProgram>({ data, columns, actions })}
       <AddForm showForm={showAddForm} action={submitAddForm} title="Add Users">
         {ComponentsService.Field({
           placeHolderText: "Title",
           pathToState: "title",
           value: localState.title,
+          updateState
+        })}
+        {ComponentsService.Field({
+          placeHolderText: "Description",
+          pathToState: "description",
+          value: localState.description,
           updateState
         })}
         {ComponentsService.Selector({
@@ -122,7 +166,20 @@ const Programs = () => {
           options: programTypes,
           updateState
         })}
-
+        {ComponentsService.MultiSelect({
+          title: "Write Access",
+          pathToState: "readAccess",
+          items: userRoleOptions,
+          values: localState.readAccess,
+          updateState
+        })}
+        {ComponentsService.MultiSelect({
+          title: "Write Access",
+          pathToState: "writeAccess",
+          items: userRoleOptions,
+          values: localState.writeAccess,
+          updateState
+        })}
         {ComponentsService.Repeater({
           title: "Rules",
           items: localState.rules,
@@ -131,10 +188,6 @@ const Programs = () => {
           generateRow: createRule,
           initialData: initialRuleData
         })}
-
-        {/* Need to come up with how adding the rules ui might work */}
-        {/* button to add rule which will push an empty rule to the array  */}
-        {/* for each rule pushed we need rule edit container that has all the fields  */}
       </AddForm>
     </>
   );

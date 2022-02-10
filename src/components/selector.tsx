@@ -8,7 +8,7 @@ export type ISelectorProps = {
   pathToState: string;
   updateState: (path: string, value: string) => void;
   readOnly?: boolean;
-  value: string;
+  value?: string | number;
 };
 const Selector = ({
   options,
@@ -23,14 +23,13 @@ const Selector = ({
   ) : (
     <>
       <p>{title}</p>
-      <select onChange={(e) => updateState(pathToState, e.currentTarget.value)}>
+      <select
+        value={value}
+        onChange={(e) => updateState(pathToState, e.currentTarget.value)}
+      >
         {options.map((option) => {
           return (
-            <option
-              selected={option.value === value}
-              key={uuid()}
-              value={option.value}
-            >
+            <option key={uuid()} value={option.value}>
               {option.name}
             </option>
           );

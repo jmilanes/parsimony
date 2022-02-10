@@ -48,7 +48,7 @@ const Program = () => {
         hidden: editMode
       })}
       {ComponentsService.Button({
-        name: "Cancle",
+        name: "Cancel",
         action: () => updateMode("readOnly"),
         hidden: readOnlyMode
       })}

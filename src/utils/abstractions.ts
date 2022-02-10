@@ -5,7 +5,7 @@ import cn from "classnames";
 
 export const uuid = () => uuidv4();
 
-export const clone = (obj: Record<string, unknown>) => _.clone(obj);
+export const clone = (obj: Record<string, any>) => _.clone(obj);
 
 export const setDataWithPath = (obj: IObject, path: string, value: unknown) =>
   _.set(obj, path, value);

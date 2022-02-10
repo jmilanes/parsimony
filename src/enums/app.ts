@@ -5,7 +5,7 @@ export enum Collections {
 }
 
 export enum UserRoles {
-  Adim = "ADMIN",
+  Admin = "ADMIN",
   Director = "DIRECTOR",
   Client = "CLIENT",
   Guardian = "GUARIAN",
