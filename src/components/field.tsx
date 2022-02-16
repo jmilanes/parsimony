@@ -1,11 +1,12 @@
 import React from "react";
+import ComponentsService from "../services/componentsService";
 
 export type IFieldProps = {
   key?: string;
   readOnly?: boolean;
-  value: string | undefined;
+  value?: string;
   pathToState: string;
-  placeHolderText?: string;
+  placeHolderText: string;
   updateState: (path: string, value: string) => void;
 };
 
@@ -18,7 +19,10 @@ const Field = ({
   key
 }: IFieldProps) => {
   return readOnly ? (
-    <p>{value}</p>
+    <ComponentsService.Container flexDirection="row" key={key}>
+      <ComponentsService.Header text={placeHolderText} size="md" />
+      <p>{value}</p>
+    </ComponentsService.Container>
   ) : (
     <input
       key={key}

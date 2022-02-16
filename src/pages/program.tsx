@@ -27,7 +27,7 @@ const Program = () => {
 
   return (
     <ComponentsService.Container>
-      <h1>Program {program.title}</h1>
+      <ComponentsService.Header text={`Program ${program.title}`} size="lg" />
       {ComponentsService.Selector({
         title: "type",
         options: programTypes,
@@ -37,6 +37,7 @@ const Program = () => {
         readOnly: readOnlyMode
       })}
       {ComponentsService.Field({
+        placeHolderText: "Title",
         pathToState: "title",
         value: localState.title,
         updateState,

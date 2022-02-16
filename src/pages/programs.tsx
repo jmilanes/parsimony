@@ -1,6 +1,7 @@
 import React from "react";
 import { IColumns, ITableAction } from "../components/table";
 import { AddForm } from "../containers";
+import { Pages } from "../enums";
 import {
   initialProgramData,
   initialRuleData,
@@ -134,7 +135,7 @@ const Programs = () => {
   };
   return (
     <>
-      <h1>Programs</h1>
+      <ComponentsService.Header text={Pages.Programs} size="lg" />
       {ComponentsService.Button({
         name: "Add",
         action: () => setShowAddForm(true),
@@ -166,17 +167,17 @@ const Programs = () => {
           options: programTypes,
           updateState
         })}
-        {ComponentsService.MultiSelect({
-          title: "Write Access",
+        {/* {ComponentsService.MultiSelect({
+          title: "Read Access",
           pathToState: "readAccess",
-          items: userRoleOptions,
+          options: userRoleOptions,
           values: localState.readAccess,
           updateState
-        })}
+        })} */}
         {ComponentsService.MultiSelect({
           title: "Write Access",
           pathToState: "writeAccess",
-          items: userRoleOptions,
+          options: userRoleOptions,
           values: localState.writeAccess,
           updateState
         })}

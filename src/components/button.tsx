@@ -2,7 +2,7 @@ import React from "react";
 
 export type IButtonProps = {
   name: string;
-  action: () => void;
+  action: (payload: unknown | undefined) => void;
   hidden?: boolean;
 };
 

@@ -1,11 +1,12 @@
 import React from "react";
+import ComponentsService from "../services/componentsService";
 
 export type ICheckBoxProps = {
   key?: string;
   readOnly?: boolean;
   value: boolean;
   pathToState: string;
-  title?: string;
+  title: string;
   updateState: (path: string, value: boolean) => void;
 };
 
@@ -18,15 +19,15 @@ const Checkbox = ({
   key
 }: ICheckBoxProps) => {
   return (
-    <>
-      <p>{title}</p>
+    <ComponentsService.Container flexDirection="row" key={key}>
+      <ComponentsService.Header text={`${title}: `} size="sm" />
       <input
         type="checkbox"
         disabled={readOnly}
         checked={value}
         onChange={() => updateState(pathToState, !value)}
-      ></input>
-    </>
+      />
+    </ComponentsService.Container>
   );
 };
 

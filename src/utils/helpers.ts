@@ -38,3 +38,13 @@ export const getFullName = (user: IUser) =>
 
 export const createList = (arr: any[]) => arr.join(" | ");
 export const getLength = (arr: any[]) => arr?.length;
+
+export const makeIncludedKey =
+  <Item>(values: unknown[], prop: keyof Item) =>
+  (acc: Record<string, any>, curr: Record<typeof prop, any>) => {
+    acc[curr[prop]] = values.includes(curr[prop]);
+    return acc;
+  };
+
+export const createCommaSeparatedSting = (value: string, index: number) =>
+  index === 0 ? value : `, ${value}`;

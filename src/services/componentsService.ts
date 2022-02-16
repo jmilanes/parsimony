@@ -7,7 +7,8 @@ import {
   Selector,
   Repeater,
   Checkbox,
-  MultiSelect
+  MultiSelect,
+  Header
 } from "../components";
 
 export enum Components {
@@ -19,7 +20,8 @@ export enum Components {
   Selector = "Selector",
   Repeater = "Repeater",
   Checkbox = "Checkbox",
-  MultiSelect = "MultiSelect"
+  MultiSelect = "MultiSelect",
+  Header = "Header"
 }
 
 const ComponentsService = {
@@ -31,7 +33,8 @@ const ComponentsService = {
   [Components.Selector]: Selector,
   [Components.Repeater]: Repeater,
   [Components.Checkbox]: Checkbox,
-  [Components.MultiSelect]: MultiSelect
+  [Components.MultiSelect]: MultiSelect,
+  [Components.Header]: Header
 };
 
 export default ComponentsService;

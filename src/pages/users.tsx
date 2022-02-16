@@ -5,8 +5,13 @@ import ComponentsService from "../services/componentsService";
 import { navigateToRoute } from "../utils";
 import { IUser } from "../types";
 import { AddForm } from "../containers";
-import { initialUserData } from "../fixtures";
+import {
+  initialUserData,
+  userRoleOptions,
+  userRoleOptionsWithStringValues
+} from "../fixtures";
 import { IColumns, ITableAction } from "../components/table";
+import { Pages } from "../enums";
 
 const Users = () => {
   const navigate = navigateToRoute();
@@ -42,7 +47,7 @@ const Users = () => {
 
   return (
     <>
-      <h1>Users</h1>
+      <ComponentsService.Header text={Pages.Users} size="lg" />
       {ComponentsService.Button({
         name: "Add",
         action: () => setShowAddForm(true),
@@ -71,6 +76,20 @@ const Users = () => {
           placeHolderText: "Phone Number",
           pathToState: "contactInformation.phone",
           value: localState.contactInformation?.phone,
+          updateState
+        })}
+        {ComponentsService.Selector({
+          title: "Type",
+          options: userRoleOptionsWithStringValues,
+          pathToState: "type",
+          value: localState.type,
+          updateState
+        })}
+        {ComponentsService.MultiSelect({
+          title: "Type",
+          options: userRoleOptions,
+          pathToState: "roles",
+          values: localState.roles,
           updateState
         })}
       </AddForm>

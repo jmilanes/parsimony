@@ -1,10 +1,8 @@
 import React from "react";
+import ComponentsService from "../services/componentsService";
 import { navigateToRoute } from "../utils";
 
 const Home = () => {
-  const navigate = navigateToRoute();
-  return (
-    <h1 onClick={() => navigate("/program/12345")}>KMF: Keep Moving Forward</h1>
-  );
+  return <ComponentsService.Header text="KMF: Keep Moving Forward" size="lg" />;
 };
 export default Home;

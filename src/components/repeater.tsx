@@ -26,7 +26,7 @@ const Repeater = ({
 
   return (
     <>
-      <p>{title}</p>
+      <ComponentService.Header text={title} size="md" />
       {ComponentService.Button({ name: "add", action: addRow })}
       {items.map((_, index) => generateRow(index))}
     </>

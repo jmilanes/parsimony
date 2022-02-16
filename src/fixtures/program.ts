@@ -88,3 +88,11 @@ export const userRoleOptions: IOptionMultiSelect[] = [
   { name: UserRoles.Employee, value: false },
   { name: UserRoles.Guardian, value: false }
 ];
+
+export const userRoleOptionsWithStringValues: IOption[] = [
+  { name: UserRoles.Admin, value: UserRoles.Admin },
+  { name: UserRoles.Client, value: UserRoles.Client },
+  { name: UserRoles.Director, value: UserRoles.Director },
+  { name: UserRoles.Employee, value: UserRoles.Employee },
+  { name: UserRoles.Guardian, value: UserRoles.Guardian }
+];

@@ -1,6 +1,11 @@
 import React from "react";
 import { Checkbox } from ".";
-import { generateKey } from "../utils";
+import ComponentsService from "../services/componentsService";
+import {
+  createCommaSeparatedSting,
+  generateKey,
+  makeIncludedKey
+} from "../utils";
 
 export type IOptionMultiSelect = {
   name: string;
@@ -10,29 +15,26 @@ export type IOptionMultiSelect = {
 export type IMultiSelectProps = {
   key?: string;
   readOnly?: boolean;
-  items: IOptionMultiSelect[];
+  options: IOptionMultiSelect[];
   values: unknown[];
   pathToState: string;
-  title?: string;
+  title: string;
   updateState: (path: string, value: unknown) => void;
 };
 
 const MultiSelect = ({
   readOnly,
-  items,
+  options,
   updateState,
   pathToState,
   values,
   title,
   key
 }: IMultiSelectProps) => {
-  const itemsReduced = items.reduce((acc: Record<string, any>, curr) => {
-    acc[curr.name] = values.includes(curr.name);
-    return acc;
-  }, {});
+  const optionsReduced = options.reduce(makeIncludedKey(values, "name"), {});
 
   const [selections, updateSelections] =
-    React.useState<Record<string, boolean>>(itemsReduced);
+    React.useState<Record<string, boolean>>(optionsReduced);
 
   const updateSelectionsAndState = (value: string) => {
     updateSelections({ ...selections, [value]: !selections[value] });
@@ -43,22 +45,38 @@ const MultiSelect = ({
     );
   };
 
-  return (
-    <>
-      <p>{title}</p>
-      {items.map((item, index) => {
-        return (
-          <Checkbox
-            key={generateKey("multi-select-option", index)}
-            value={selections[item.name]}
-            title={item.name}
-            pathToState={item.name}
-            updateState={() => updateSelectionsAndState(item.name)}
-          />
-        );
-      })}
-    </>
-  );
+  const ReadOnlyOptions = () => {
+    const filteredOptions = options.filter((item) => selections[item.name]);
+    return (
+      <ComponentsService.Container flexDirection="row" key={key}>
+        <ComponentsService.Header text={title} size="md" />
+        <p>
+          {filteredOptions.map((option, i) =>
+            createCommaSeparatedSting(option.name, i)
+          )}
+        </p>
+      </ComponentsService.Container>
+    );
+  };
+
+  const Options = () => {
+    return (
+      <div>
+        <ComponentsService.Header text={title} size="md" />
+        {options.map((option, index) =>
+          ComponentsService.Checkbox({
+            key: generateKey("multi-select-option", index),
+            value: selections[option.name],
+            title: option.name,
+            pathToState: option.name,
+            updateState: () => updateSelectionsAndState(option.name)
+          })
+        )}
+      </div>
+    );
+  };
+
+  return readOnly ? <ReadOnlyOptions /> : <Options />;
 };
 
 export default MultiSelect;
