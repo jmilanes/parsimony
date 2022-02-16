@@ -1,3 +1,4 @@
+import { update, values } from "lodash";
 import React from "react";
 import { IColumns, ITableAction } from "../components/table";
 import { AddForm } from "../containers";
@@ -10,7 +11,8 @@ import {
   inputTypes,
   programValueTypes,
   stepsOptions,
-  userRoleOptions
+  userRoleOptions,
+  promptsByType
 } from "../fixtures";
 import ComponentsService from "../services/componentsService";
 import { programData, StateManger } from "../services/dataAccessServices";
@@ -30,8 +32,6 @@ const Programs = () => {
     localState,
     updateLocalState
   });
-
-  console.log(localState);
 
   const submitAddForm = () => {
     programData.create(localState);
@@ -62,15 +62,18 @@ const Programs = () => {
 
   const createOption = (ruleIndex: number) => (index: number) => {
     return (
-      <ComponentsService.Container key={generateKey("option", index)}>
+      <ComponentsService.Container
+        key={generateKey("option", index)}
+        flexDirection="row"
+      >
         {ComponentsService.Field({
-          placeHolderText: "Option Name",
+          placeHolderText: "Prompt Name",
           pathToState: `rules[${ruleIndex}].options[${index}].name`,
           value: localState.rules[ruleIndex].options[index].name,
           updateState
         })}
         {ComponentsService.Field({
-          placeHolderText: "Option Value",
+          placeHolderText: "Prompt Value",
           pathToState: `rules[${ruleIndex}].options[${index}].value`,
           value: localState.rules[ruleIndex].options[index].value.toString(),
           updateState
@@ -122,8 +125,20 @@ const Programs = () => {
           options: programValueTypes,
           updateState
         })}
+
+        <ComponentsService.Container flexDirection="row">
+          <ComponentsService.Header text="Pre-filled Prompts:" size="sm" />
+          {Object.entries(promptsByType).map(([key, value]) =>
+            ComponentsService.Button({
+              name: key,
+              action: () => updateState(`rules[${index}].options`, value)
+            })
+          )}
+        </ComponentsService.Container>
+
         {ComponentsService.Repeater({
-          title: "Options",
+          title: "Prompts",
+          // TODO: Should these be renamed to prompts?
           items: localState.rules[index].options,
           pathToState: `rules[${index}].options`,
           updateState,
@@ -167,13 +182,13 @@ const Programs = () => {
           options: programTypes,
           updateState
         })}
-        {/* {ComponentsService.MultiSelect({
+        {ComponentsService.MultiSelect({
           title: "Read Access",
           pathToState: "readAccess",
           options: userRoleOptions,
           values: localState.readAccess,
           updateState
-        })} */}
+        })}
         {ComponentsService.MultiSelect({
           title: "Write Access",
           pathToState: "writeAccess",

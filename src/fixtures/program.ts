@@ -4,6 +4,8 @@ import {
   InputTypes,
   ProgramTypes,
   ProgramValueTypes,
+  Prompts,
+  PromptTypes,
   UserRoles
 } from "../enums";
 import { IProgram } from "../types";
@@ -96,3 +98,33 @@ export const userRoleOptionsWithStringValues: IOption[] = [
   { name: UserRoles.Employee, value: UserRoles.Employee },
   { name: UserRoles.Guardian, value: UserRoles.Guardian }
 ];
+
+export const physicalPrompts: IOption[] = [
+  { name: Prompts.FullPhysical, value: 1 },
+  { name: Prompts.PartialPhysical, value: 2 },
+  { name: Prompts.LightPhysical, value: 3 },
+  { name: Prompts.Gesture, value: 4 },
+  { name: Prompts.Independent, value: 5 }
+];
+
+export const verbalPrompts: IOption[] = [
+  { name: Prompts.FullVerbalModel, value: 1 },
+  { name: Prompts.PartialVerbalModel, value: 2 },
+  { name: Prompts.InitialSoundCue, value: 3 },
+  { name: Prompts.Phonetic, value: 4 },
+  { name: Prompts.Independent, value: 5 }
+];
+export const timePrompts: IOption[] = [
+  { name: Prompts.Immediate, value: 1 },
+  { name: Prompts.TwoSecondDelay, value: 2 },
+  { name: Prompts.FourSecondDelay, value: 3 },
+  { name: Prompts.SixSecondDelay, value: 4 },
+  { name: Prompts.EightSecondDelay, value: 5 },
+  { name: Prompts.TenSecondDelay, value: 6 }
+];
+
+export const promptsByType: Record<PromptTypes, IOption[]> = {
+  [PromptTypes.Physical]: physicalPrompts,
+  [PromptTypes.Verbal]: verbalPrompts,
+  [PromptTypes.Time]: timePrompts
+};
