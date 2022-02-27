@@ -1,8 +1,7 @@
 import React from "react";
-import ComponentsService from "../services/componentsService";
-import { navigateToRoute } from "../utils";
+import { Header } from "../components";
 
 const Home = () => {
-  return <ComponentsService.Header text="KMF: Keep Moving Forward" size="lg" />;
+  return <Header text="KMF: Keep Moving Forward" size="lg" />;
 };
 export default Home;

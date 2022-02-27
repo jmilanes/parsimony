@@ -10,6 +10,7 @@ export type IRepeaterProps = {
   updateState: (path: string, value: unknown) => void;
   generateRow: (index: number) => JSX.Element;
   initialData: Record<string, unknown>;
+  readOnly: boolean;
 };
 
 const Repeater = ({
@@ -18,13 +19,16 @@ const Repeater = ({
   generateRow,
   updateState,
   pathToState,
-  initialData
+  initialData,
+  readOnly
 }: IRepeaterProps) => {
   const addRow = () => {
     updateState(pathToState, [...items, clone(initialData)]);
   };
 
-  return (
+  return readOnly ? (
+    <>{items.map((_, index) => generateRow(index))}</>
+  ) : (
     <>
       <ComponentService.Header text={title} size="md" />
       {ComponentService.Button({ name: "add", action: addRow })}

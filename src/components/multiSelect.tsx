@@ -49,7 +49,7 @@ const MultiSelect = ({
     const filteredOptions = options.filter((item) => selections[item.name]);
     return (
       <ComponentsService.Container flexDirection="row" key={key}>
-        <ComponentsService.Header text={title} size="md" />
+        <ComponentsService.Header text={title} size="sm" />
         <p>
           {filteredOptions.map((option, i) =>
             createCommaSeparatedSting(option.name, i)

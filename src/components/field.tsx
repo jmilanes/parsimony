@@ -19,8 +19,8 @@ const Field = ({
   key
 }: IFieldProps) => {
   return readOnly ? (
-    <ComponentsService.Container flexDirection="row" key={key}>
-      <ComponentsService.Header text={placeHolderText} size="md" />
+    <ComponentsService.Container flexDirection="column" key={key}>
+      <ComponentsService.Header text={placeHolderText} size="sm" />
       <p>{value}</p>
     </ComponentsService.Container>
   ) : (

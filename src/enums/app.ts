@@ -52,3 +52,8 @@ export enum Prompts {
   EightSecondDelay = "8 Second delay",
   TenSecondDelay = "10 Second delay"
 }
+
+export enum Modes {
+  ReadOnly = "readOnly",
+  Edit = "edit"
+}

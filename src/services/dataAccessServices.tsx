@@ -9,11 +9,14 @@ const schoolService = new SchoolService();
 const userService = new UserService();
 const programService = new ProgramService();
 
-generateData({
-  [Collections.School]: schoolService.create,
-  [Collections.User]: userService.create,
-  [Collections.Program]: programService.create
-});
+if (localStorage.getItem("generatedData") !== "true") {
+  generateData({
+    [Collections.School]: schoolService.create,
+    [Collections.User]: userService.create,
+    [Collections.Program]: programService.create
+  });
+  localStorage.setItem("generatedData", "true");
+}
 
 export const initialData = {
   [Collections.School]: schoolService.getAll(),

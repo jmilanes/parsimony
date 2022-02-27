@@ -1,7 +1,14 @@
 import React from "react";
 
 import { StateManger, userData } from "../services/dataAccessServices";
-import ComponentsService from "../services/componentsService";
+import {
+  Button,
+  Table,
+  Field,
+  MultiSelect,
+  Selector,
+  Header
+} from "../components";
 import { navigateToRoute } from "../utils";
 import { IUser } from "../types";
 import { AddForm } from "../containers";
@@ -47,51 +54,51 @@ const Users = () => {
 
   return (
     <>
-      <ComponentsService.Header text={Pages.Users} size="lg" />
-      {ComponentsService.Button({
-        name: "Add",
-        action: () => setShowAddForm(true),
-        hidden: showAddForm
-      })}
-      {ComponentsService.Button({
-        name: "Cancel",
-        action: () => setShowAddForm(false),
-        hidden: !showAddForm
-      })}
-      {ComponentsService.Table<IUser>({ data, columns, actions })}
+      <Header text={Pages.Users} size="lg" />
+      <Button
+        name="Add"
+        action={() => setShowAddForm(true)}
+        hidden={showAddForm}
+      />
+      <Button
+        name="Cancel"
+        action={() => setShowAddForm(false)}
+        hidden={!showAddForm}
+      />
+      <Table data={data} columns={columns} actions={actions} />
       <AddForm showForm={showAddForm} action={submitAddForm} title="Add Users">
-        {ComponentsService.Field({
-          placeHolderText: "First Name",
-          pathToState: "contactInformation.firstName",
-          value: localState.contactInformation?.firstName,
-          updateState
-        })}
-        {ComponentsService.Field({
-          placeHolderText: "Last Name",
-          pathToState: "contactInformation.lastName",
-          value: localState.contactInformation?.lastName,
-          updateState
-        })}
-        {ComponentsService.Field({
-          placeHolderText: "Phone Number",
-          pathToState: "contactInformation.phone",
-          value: localState.contactInformation?.phone,
-          updateState
-        })}
-        {ComponentsService.Selector({
-          title: "Type",
-          options: userRoleOptionsWithStringValues,
-          pathToState: "type",
-          value: localState.type,
-          updateState
-        })}
-        {ComponentsService.MultiSelect({
-          title: "Type",
-          options: userRoleOptions,
-          pathToState: "roles",
-          values: localState.roles,
-          updateState
-        })}
+        <Field
+          placeHolderText="First Name"
+          pathToState="contactInformation.firstName"
+          value={localState.contactInformation?.firstName}
+          updateState={updateState}
+        />
+        <Field
+          placeHolderText="Last Name"
+          pathToState="contactInformation.lastName"
+          value={localState.contactInformation?.lastName}
+          updateState={updateState}
+        />
+        <Field
+          placeHolderText="Phone Number"
+          pathToState="contactInformation.phone"
+          value={localState.contactInformation?.phone}
+          updateState={updateState}
+        />
+        <Selector
+          title="Type"
+          options={userRoleOptionsWithStringValues}
+          pathToState="type"
+          value={localState.type}
+          updateState={updateState}
+        />
+        <MultiSelect
+          title="Type"
+          options={userRoleOptions}
+          pathToState="roles"
+          values={localState.roles}
+          updateState={updateState}
+        />
       </AddForm>
     </>
   );

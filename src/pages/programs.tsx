@@ -1,25 +1,20 @@
-import { update, values } from "lodash";
 import React from "react";
 import { IColumns, ITableAction } from "../components/table";
-import { AddForm } from "../containers";
+import { AddForm, RulesForm } from "../containers";
 import { Pages } from "../enums";
-import {
-  initialProgramData,
-  initialRuleData,
-  initialOptionData,
-  programTypes,
-  inputTypes,
-  programValueTypes,
-  stepsOptions,
-  userRoleOptions,
-  promptsByType
-} from "../fixtures";
-import ComponentsService from "../services/componentsService";
+import { initialProgramData, programTypes, userRoleOptions } from "../fixtures";
 import { programData, StateManger } from "../services/dataAccessServices";
 import { IProgram } from "../types";
-import { createList, generateKey, getLength, navigateToRoute } from "../utils";
-// NEXT Duplicate what you do with users and figure out how you are gonna do the programs
-// Add users
+import { createList, getLength, navigateToRoute } from "../utils";
+import {
+  Button,
+  Header,
+  Field,
+  Table,
+  MultiSelect,
+  Selector
+} from "../components";
+
 const Programs = () => {
   const navigate = navigateToRoute();
   const data = programData.getAll();
@@ -60,150 +55,55 @@ const Programs = () => {
     }
   ];
 
-  const createOption = (ruleIndex: number) => (index: number) => {
-    return (
-      <ComponentsService.Container
-        key={generateKey("option", index)}
-        flexDirection="row"
-      >
-        {ComponentsService.Field({
-          placeHolderText: "Prompt Name",
-          pathToState: `rules[${ruleIndex}].options[${index}].name`,
-          value: localState.rules[ruleIndex].options[index].name,
-          updateState
-        })}
-        {ComponentsService.Field({
-          placeHolderText: "Prompt Value",
-          pathToState: `rules[${ruleIndex}].options[${index}].value`,
-          value: localState.rules[ruleIndex].options[index].value.toString(),
-          updateState
-        })}
-      </ComponentsService.Container>
-    );
-  };
-
-  const createRule = (index: number) => {
-    const generateOption = createOption(index);
-    return (
-      <ComponentsService.Container key={generateKey("rule", index)}>
-        {ComponentsService.Field({
-          placeHolderText: "Question",
-          pathToState: `rules[${index}].question`,
-          value: localState.rules[index].question,
-          updateState
-        })}
-        {ComponentsService.Field({
-          placeHolderText: "Description",
-          pathToState: `rules[${index}].description`,
-          value: localState.rules[index].description,
-          updateState
-        })}
-        {ComponentsService.Selector({
-          title: "Steps",
-          pathToState: `rules[${index}].steps`,
-          value: localState.rules[index].steps,
-          options: stepsOptions,
-          updateState
-        })}
-        {ComponentsService.Checkbox({
-          title: "Required",
-          pathToState: `rules[${index}].required`,
-          value: localState.rules[index].required,
-          updateState
-        })}
-        {ComponentsService.Selector({
-          title: "Input Type",
-          value: localState.rules[index].inputType,
-          pathToState: `rules[${index}].inputType`,
-          options: inputTypes,
-          updateState
-        })}
-        {ComponentsService.Selector({
-          title: "Input Type",
-          pathToState: `rules[${index}].valueType`,
-          value: localState.rules[index].valueType,
-          options: programValueTypes,
-          updateState
-        })}
-
-        <ComponentsService.Container flexDirection="row">
-          <ComponentsService.Header text="Pre-filled Prompts:" size="sm" />
-          {Object.entries(promptsByType).map(([key, value]) =>
-            ComponentsService.Button({
-              name: key,
-              action: () => updateState(`rules[${index}].options`, value)
-            })
-          )}
-        </ComponentsService.Container>
-
-        {ComponentsService.Repeater({
-          title: "Prompts",
-          // TODO: Should these be renamed to prompts?
-          items: localState.rules[index].options,
-          pathToState: `rules[${index}].options`,
-          updateState,
-          generateRow: generateOption,
-          initialData: initialOptionData
-        })}
-      </ComponentsService.Container>
-    );
-  };
   return (
     <>
-      <ComponentsService.Header text={Pages.Programs} size="lg" />
-      {ComponentsService.Button({
-        name: "Add",
-        action: () => setShowAddForm(true),
-        hidden: showAddForm
-      })}
-      {ComponentsService.Button({
-        name: "Cancel",
-        action: () => setShowAddForm(false),
-        hidden: !showAddForm
-      })}
-      {ComponentsService.Table<IProgram>({ data, columns, actions })}
+      <Header text={Pages.Programs} size="lg" />
+      <Button
+        name="Add"
+        action={() => setShowAddForm(true)}
+        hidden={showAddForm}
+      />
+      <Button
+        name="Cancel"
+        action={() => setShowAddForm(false)}
+        hidden={!showAddForm}
+      />
+      <Table<IProgram> data={data} columns={columns} actions={actions}></Table>
       <AddForm showForm={showAddForm} action={submitAddForm} title="Add Users">
-        {ComponentsService.Field({
-          placeHolderText: "Title",
-          pathToState: "title",
-          value: localState.title,
-          updateState
-        })}
-        {ComponentsService.Field({
-          placeHolderText: "Description",
-          pathToState: "description",
-          value: localState.description,
-          updateState
-        })}
-        {ComponentsService.Selector({
-          title: "Type",
-          pathToState: "type",
-          value: localState.type,
-          options: programTypes,
-          updateState
-        })}
-        {ComponentsService.MultiSelect({
-          title: "Read Access",
-          pathToState: "readAccess",
-          options: userRoleOptions,
-          values: localState.readAccess,
-          updateState
-        })}
-        {ComponentsService.MultiSelect({
-          title: "Write Access",
-          pathToState: "writeAccess",
-          options: userRoleOptions,
-          values: localState.writeAccess,
-          updateState
-        })}
-        {ComponentsService.Repeater({
-          title: "Rules",
-          items: localState.rules,
-          pathToState: "rules",
-          updateState,
-          generateRow: createRule,
-          initialData: initialRuleData
-        })}
+        <Field
+          placeHolderText="Title"
+          pathToState="title"
+          value={localState.title}
+          updateState={updateState}
+        />
+        <Field
+          placeHolderText="Description"
+          pathToState="description"
+          value={localState.description}
+          updateState={updateState}
+        />
+        <Selector
+          title="Type"
+          pathToState="type"
+          value={localState.type}
+          options={programTypes}
+          updateState={updateState}
+        />
+        <MultiSelect
+          title="Read Access"
+          pathToState="readAccess"
+          options={userRoleOptions}
+          values={localState.readAccess}
+          updateState={updateState}
+        />
+        <MultiSelect
+          title="Write Access"
+          pathToState="writeAccess"
+          options={userRoleOptions}
+          values={localState.writeAccess}
+          updateState={updateState}
+        />
+        <RulesForm localState={localState} updateState={updateState} />
       </AddForm>
     </>
   );

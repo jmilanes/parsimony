@@ -1,5 +1,7 @@
 import { clone } from "../utils";
-import { IObject, IObjectValues, IUser } from "../types";
+import { IObject, IObjectValues, IUser, ValueOf } from "../types";
+import { Modes } from "../enums";
+import { IModes } from "../types";
 
 export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>
   collection.filter((c: T) => c[prop]);
@@ -48,3 +50,9 @@ export const makeIncludedKey =
 
 export const createCommaSeparatedSting = (value: string, index: number) =>
   index === 0 ? value : `, ${value}`;
+
+export const wrapFn = (fn: any) => fn();
+
+export const isReadOnlyMode = (mode: IModes): boolean =>
+  mode === Modes.ReadOnly;
+export const isEditMode = (mode: IModes): boolean => mode === Modes.Edit;

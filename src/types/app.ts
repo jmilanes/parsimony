@@ -13,3 +13,5 @@ export type ValueOf<T> = T[keyof T];
 export type IObject = Record<string, unknown>;
 export type IObjectAny = Record<string, any>;
 export type IObjectValues<IObj> = Record<string, ValueOf<IObj>>;
+
+export type IModes = "readOnly" | "edit";

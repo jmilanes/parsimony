@@ -1,9 +1,9 @@
 import React from "react";
 import { Pages } from "../enums";
-import ComponentsService from "../services/componentsService";
+import { Header } from "../components";
 
 const Results = () => {
-  return <ComponentsService.Header text={Pages.Results} size="lg" />;
+  return <Header text={Pages.Results} size="lg" />;
 };
 
 export default Results;

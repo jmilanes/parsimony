@@ -1,5 +1,5 @@
 import React from "react";
-import ComponentsService from "../services/componentsService";
+import { Container, Header, Button } from "../components";
 
 export type IAddFormProps = React.PropsWithChildren<{
   showForm: boolean;
@@ -9,11 +9,11 @@ export type IAddFormProps = React.PropsWithChildren<{
 
 const AddForm = ({ showForm, action, children, title }: IAddFormProps) => {
   return (
-    <ComponentsService.Container hidden={!showForm}>
-      <h3>{title}</h3>
+    <Container hidden={!showForm}>
+      <Header text={title} size="md" />
       {children}
-      {ComponentsService.Button({ name: "Create", action })}
-    </ComponentsService.Container>
+      <Button name="Create" action={action} />
+    </Container>
   );
 };
 

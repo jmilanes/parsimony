@@ -1,13 +1,23 @@
 import React from "react";
 import { userRoleOptions, userRoleOptionsWithStringValues } from "../fixtures";
 
-import ComponentsService from "../services/componentsService";
+import {
+  Header,
+  Container,
+  Field,
+  Selector,
+  MultiSelect,
+  Button
+} from "../components";
 import { StateManger, userData } from "../services/dataAccessServices";
-import { IUser } from "../types";
+import { IModes, IUser } from "../types";
 
-import { getFullName, getRouterParams } from "../utils";
-
-export type IModes = "readOnly" | "edit";
+import {
+  getFullName,
+  getRouterParams,
+  isEditMode,
+  isReadOnlyMode
+} from "../utils";
 
 const User = () => {
   const { userId } = getRouterParams();
@@ -21,65 +31,63 @@ const User = () => {
     updateLocalState
   });
 
-  const readOnlyMode = mode === "readOnly";
-  const editMode = mode === "edit";
+  const submitForm = () => {
+    userData.update(localState);
+    updateMode("readOnly");
+  };
 
   return (
-    <ComponentsService.Container>
-      <ComponentsService.Header text={getFullName(localState)} size="lg" />
-      {ComponentsService.Field({
-        placeHolderText: "First Name",
-        pathToState: "contactInformation.firstName",
-        value: localState.contactInformation.firstName,
-        updateState,
-        readOnly: readOnlyMode
-      })}
-      {ComponentsService.Field({
-        placeHolderText: "Last Name",
-        pathToState: "contactInformation.lastName",
-        value: localState.contactInformation.lastName,
-        updateState,
-        readOnly: readOnlyMode
-      })}
-      {ComponentsService.Field({
-        placeHolderText: "Phone",
-        pathToState: "contactInformation.phone",
-        value: localState.contactInformation.phone,
-        updateState,
-        readOnly: readOnlyMode
-      })}
-      {ComponentsService.Selector({
-        title: "Type",
-        options: userRoleOptionsWithStringValues,
-        pathToState: "type",
-        value: localState.type,
-        updateState,
-        readOnly: readOnlyMode
-      })}
-      {ComponentsService.MultiSelect({
-        title: "User Roles",
-        options: userRoleOptions,
-        pathToState: "roles",
-        values: localState.roles,
-        updateState,
-        readOnly: readOnlyMode
-      })}
-      {ComponentsService.Button({
-        name: "Edit",
-        action: () => updateMode("edit"),
-        hidden: editMode
-      })}
-      {ComponentsService.Button({
-        name: "Cancel",
-        action: () => updateMode("readOnly"),
-        hidden: readOnlyMode
-      })}
-      {ComponentsService.Button({
-        name: "Submit",
-        action: () => updateMode("readOnly"),
-        hidden: readOnlyMode
-      })}
-    </ComponentsService.Container>
+    <Container>
+      <Header text={getFullName(localState)} size="lg" />
+      <Field
+        placeHolderText="First Name"
+        pathToState="contactInformation.firstName"
+        value={localState.contactInformation?.firstName}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+      />
+      <Field
+        placeHolderText="Last Name"
+        pathToState="contactInformation.lastName"
+        value={localState.contactInformation?.lastName}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+      />
+      <Field
+        placeHolderText="Phone Number"
+        pathToState="contactInformation.phone"
+        value={localState.contactInformation?.phone}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+      />
+      <Selector
+        title="Type"
+        options={userRoleOptionsWithStringValues}
+        pathToState="type"
+        value={localState.type}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+      />
+      <MultiSelect
+        title="Type"
+        options={userRoleOptions}
+        pathToState="roles"
+        values={localState.roles}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+      />
+      <Button
+        name="Edit"
+        action={() => updateMode("edit")}
+        hidden={isEditMode(mode)}
+      />
+      <Button
+        name="Cancel"
+        action={() => updateMode("readOnly")}
+        hidden={isReadOnlyMode(mode)}
+      />
+      <Button name="Submit" action={submitForm} hidden={isReadOnlyMode(mode)} />
+    </Container>
   );
 };
 
