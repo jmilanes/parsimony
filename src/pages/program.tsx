@@ -12,13 +12,24 @@ import {
 import { programData, StateManger } from "../services/dataAccessServices";
 import { IProgram, IModes } from "../types";
 
-import { getRouterParams, isEditMode, isReadOnlyMode } from "../utils";
+import {
+  getRouterParams,
+  getSearchParams,
+  isEditMode,
+  isReadOnlyMode,
+  navigateToRoute
+} from "../utils";
+import { ProgramTypes, Routes } from "../enums";
 
 const Program = () => {
+  const navigate = navigateToRoute();
   const { programId } = getRouterParams();
+  let [searchParams] = getSearchParams();
   const program = programData.get(programId || "");
   const [localState, updateLocalState] = React.useState<IProgram>(program);
-  const [mode, updateMode] = React.useState<IModes>("readOnly");
+  const [mode, updateMode] = React.useState<IModes>(
+    (searchParams.get("mode") as IModes) || "readOnly"
+  );
 
   const updateState = StateManger.updateLocalState({
     localState,
@@ -76,6 +87,26 @@ const Program = () => {
         action={() => updateMode("edit")}
         hidden={isEditMode(mode)}
       />
+
+      {program.type === ProgramTypes.Client && (
+        <>
+          <Button
+            name="Client"
+            action={() => navigate(`${Routes.Users}/${program.clientId}`)}
+            hidden={isEditMode(mode)}
+          />
+          <Button
+            name="Start Observation"
+            action={() => navigate(`${Routes.Observe}?programId=${program.id}`)}
+            hidden={isEditMode(mode)}
+          />
+          <Button
+            name="View Data"
+            action={() => navigate(`${Routes.Results}?programId=${program.id}`)}
+            hidden={isEditMode(mode)}
+          />
+        </>
+      )}
       <Button
         name="Cancel"
         action={() => updateMode("readOnly")}

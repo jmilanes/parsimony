@@ -1,5 +1,6 @@
 import React from "react";
-import ComponentsService from "../services/componentsService";
+
+import { Container, Header } from "../components";
 
 export type IFieldProps = {
   key?: string;
@@ -19,10 +20,10 @@ const Field = ({
   key
 }: IFieldProps) => {
   return readOnly ? (
-    <ComponentsService.Container flexDirection="column" key={key}>
-      <ComponentsService.Header text={placeHolderText} size="sm" />
+    <Container flexDirection="column" key={key}>
+      <Header text={placeHolderText} size="sm" />
       <p>{value}</p>
-    </ComponentsService.Container>
+    </Container>
   ) : (
     <input
       key={key}

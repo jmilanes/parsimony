@@ -1,4 +1,3 @@
-import { type } from "ramda";
 import React, { PropsWithChildren } from "react";
 import { compileStyles } from "../utils";
 import "./styles.css";

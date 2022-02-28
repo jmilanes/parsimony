@@ -48,7 +48,7 @@ const crudGeneratorWithLocalStorage = <Schema>(collectionName: Collections) => {
       this.count = 0;
     }
 
-    create = (payload: Schema) => {
+    create = (payload: Schema): string => {
       let count = parseInt(
         localStorage.getItem(`${collectionName}_count`) || "0"
       );
@@ -57,6 +57,7 @@ const crudGeneratorWithLocalStorage = <Schema>(collectionName: Collections) => {
       collection[uuid] = { ...payload, id: uuid };
       setCollection(collection);
       localStorage.setItem(`${collectionName}_count`, (++count).toString());
+      return uuid;
     };
     get = (id: string): Schema => {
       const collection = getCollection();

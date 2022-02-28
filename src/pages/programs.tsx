@@ -4,8 +4,13 @@ import { AddForm, RulesForm } from "../containers";
 import { Pages } from "../enums";
 import { initialProgramData, programTypes, userRoleOptions } from "../fixtures";
 import { programData, StateManger } from "../services/dataAccessServices";
-import { IProgram } from "../types";
-import { createList, getLength, navigateToRoute } from "../utils";
+import { IId, IProgram } from "../types";
+import {
+  createList,
+  getLength,
+  getSearchParams,
+  navigateToRoute
+} from "../utils";
 import {
   Button,
   Header,
@@ -14,9 +19,11 @@ import {
   MultiSelect,
   Selector
 } from "../components";
+import { ProgramTypes } from "../enums";
 
 const Programs = () => {
   const navigate = navigateToRoute();
+  let [searchParams] = getSearchParams();
   const data = programData.getAll();
 
   const [showAddForm, setShowAddForm] = React.useState(false);
@@ -44,6 +51,7 @@ const Programs = () => {
     { propertyKey: "createBy" },
     { propertyKey: "rules", displayFn: getLength }
   ];
+
   const actions: ITableAction[] = [
     {
       name: "View",
@@ -52,6 +60,19 @@ const Programs = () => {
     {
       name: "Delete",
       method: (program: Required<IProgram>) => programData.delete(program.id)
+    },
+    {
+      name: "Copy",
+      method: (program: Required<IProgram>) => {
+        const id = programData.create({
+          ...program,
+          title: `${program.title}_Copy`,
+          clientId: searchParams.get("userId") as IId,
+          id: "",
+          type: ProgramTypes.Client
+        });
+        navigate(`/programs/${id}?mode=edit`);
+      }
     }
   ];
 

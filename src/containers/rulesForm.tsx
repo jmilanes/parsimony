@@ -31,7 +31,7 @@ const RulesForm = ({
   readOnly = false,
   updateState
 }: RuleFormProps) => {
-  const createOption = (ruleIndex: number) => (index: number) => {
+  const option = (ruleIndex: number) => (index: number) => {
     return (
       <ComponentsService.Container
         key={generateKey("option", index)}
@@ -55,8 +55,8 @@ const RulesForm = ({
     );
   };
 
-  const createRule = (index: number) => {
-    const generateOption = createOption(index);
+  const rule = (index: number) => {
+    const generateOption = option(index);
     return (
       <Container key={generateKey("rule", index)}>
         <Field
@@ -135,7 +135,7 @@ const RulesForm = ({
       items={localState.rules}
       pathToState={`rules`}
       updateState={updateState}
-      generateRow={createRule}
+      generateRow={rule}
       initialData={initialRuleData}
       readOnly={readOnly}
     />

@@ -4,6 +4,7 @@ import { generateData } from "../utils";
 import dataAccessGenerator from "./dataAccessGenerator";
 import { IProgram, ISchool, IUser } from "../types";
 import StateService from "./stateStervice";
+import FilterService from "./filterService";
 
 const schoolService = new SchoolService();
 const userService = new UserService();
@@ -24,6 +25,7 @@ export const initialData = {
   [Collections.Program]: programService.getAll()
 };
 export const StateManger = new StateService();
+export const filterService = new FilterService(StateManger);
 export const schoolData = dataAccessGenerator<ISchool>(
   schoolService,
   StateManger

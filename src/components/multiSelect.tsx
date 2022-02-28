@@ -1,6 +1,5 @@
 import React from "react";
-import { Checkbox } from ".";
-import ComponentsService from "../services/componentsService";
+import { Checkbox, Container, Header } from "../components";
 import {
   createCommaSeparatedSting,
   generateKey,
@@ -48,30 +47,30 @@ const MultiSelect = ({
   const ReadOnlyOptions = () => {
     const filteredOptions = options.filter((item) => selections[item.name]);
     return (
-      <ComponentsService.Container flexDirection="row" key={key}>
-        <ComponentsService.Header text={title} size="sm" />
+      <Container flexDirection="row" key={key}>
+        <Header text={title} size="sm" />
         <p>
           {filteredOptions.map((option, i) =>
             createCommaSeparatedSting(option.name, i)
           )}
         </p>
-      </ComponentsService.Container>
+      </Container>
     );
   };
 
   const Options = () => {
     return (
       <div>
-        <ComponentsService.Header text={title} size="md" />
-        {options.map((option, index) =>
-          ComponentsService.Checkbox({
-            key: generateKey("multi-select-option", index),
-            value: selections[option.name],
-            title: option.name,
-            pathToState: option.name,
-            updateState: () => updateSelectionsAndState(option.name)
-          })
-        )}
+        <Header text={title} size="md" />
+        {options.map((option, index) => (
+          <Checkbox
+            key={generateKey("multi-select-option", index)}
+            value={selections[option.name]}
+            title={option.name}
+            pathToState={option.name}
+            updateState={() => updateSelectionsAndState(option.name)}
+          />
+        ))}
       </div>
     );
   };

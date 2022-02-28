@@ -1,6 +1,6 @@
-import { uuid } from "../utils";
 import React from "react";
 import ComponentsService from "../services/componentsService";
+import { Header, Container } from "../components";
 import { generateKey } from "../utils";
 
 export type IOption = { name: string; value: string | number };
@@ -25,14 +25,14 @@ const Selector = ({
 }: ISelectorProps) => {
   const ReadOnlyOption = () => (
     <>
-      <ComponentsService.Header text={title} size="sm" />
+      <Header text={title} size="sm" />
       <p>{value}</p>
     </>
   );
 
   const Options = () => (
     <>
-      <ComponentsService.Header text={title} size="sm" />
+      <Header text={title} size="sm" />
       <select
         value={value}
         onChange={(e) => updateState(pathToState, e.currentTarget.value)}
@@ -47,9 +47,9 @@ const Selector = ({
   );
 
   return (
-    <ComponentsService.Container flexDirection="row" key={key}>
+    <Container flexDirection="row" key={key}>
       {readOnly ? <ReadOnlyOption /> : <Options />}
-    </ComponentsService.Container>
+    </Container>
   );
 };
 

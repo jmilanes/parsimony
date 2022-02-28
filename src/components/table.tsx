@@ -1,4 +1,5 @@
 import React from "react";
+import { filterService } from "../services/dataAccessServices";
 import { flattenObject, generateKey } from "../utils";
 
 export type ITableAction = {
@@ -36,7 +37,7 @@ const Table = <Data extends { id: string }>({
           ))}
         </tr>
 
-        {data.map((item: Data) => {
+        {filterService.filter(data).map((item: Data) => {
           const flatItem = flattenObject<Data>(item);
 
           return (

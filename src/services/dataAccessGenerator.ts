@@ -1,7 +1,7 @@
 import { IStateService } from "./stateStervice";
 
 export type ICollectionService<Schema> = {
-  create: (payload: Schema) => void;
+  create: (payload: Schema) => string;
   get: (id: string) => Schema;
   getAll: () => Schema[];
   delete: (id: string) => void;
@@ -14,8 +14,9 @@ const dataAccessGenerator = <Schema>(
 ) => {
   return {
     create: (payload: Schema) => {
-      collectionService.create(payload);
+      const id = collectionService.create(payload);
       stateManager.updateState();
+      return id;
     },
     get: (id: string): Schema => collectionService.get(id),
     getAll: (): Schema[] => collectionService.getAll(),

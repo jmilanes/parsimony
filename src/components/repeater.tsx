@@ -1,5 +1,5 @@
 import React from "react";
-import ComponentService from "../services/componentsService";
+import { Header, Button } from "../components";
 import { clone } from "../utils";
 
 // These any's might be able to be generics
@@ -22,16 +22,14 @@ const Repeater = ({
   initialData,
   readOnly
 }: IRepeaterProps) => {
-  const addRow = () => {
-    updateState(pathToState, [...items, clone(initialData)]);
-  };
+  const addRow = () => updateState(pathToState, [...items, clone(initialData)]);
 
   return readOnly ? (
     <>{items.map((_, index) => generateRow(index))}</>
   ) : (
     <>
-      <ComponentService.Header text={title} size="md" />
-      {ComponentService.Button({ name: "add", action: addRow })}
+      <Header text={title} size="md" />
+      <Button name="add" action={addRow} />
       {items.map((_, index) => generateRow(index))}
     </>
   );

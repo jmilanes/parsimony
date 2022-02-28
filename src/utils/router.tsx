@@ -6,16 +6,17 @@ import {
   Route,
   useParams,
   Link,
-  useNavigate
+  useNavigate,
+  useSearchParams
 } from "react-router-dom";
-import ComponentsService from "../services/componentsService";
+import { Nav } from "../components";
 import { uuid } from "./";
 import { IRoute } from "../types";
 
 export const generateRoutes = (routes: IRoute[]) => {
   return (
     <BrowserRouter>
-      {ComponentsService.Nav({ routes })}
+      <Nav routes={routes} />
       <Routes>
         {routes.map((route) => (
           <Route
@@ -29,12 +30,20 @@ export const generateRoutes = (routes: IRoute[]) => {
   );
 };
 
-export const creatLink = (link: IRoute) => (
-  <Link key={`${link.name || ""}_link_${uuid()}`} to={link.path}>
-    {link.name}
-  </Link>
-);
+export const creatLink = (link: IRoute, filterService?: any) => {
+  return (
+    <Link
+      key={`${link.name || ""}_link_${uuid()}`}
+      to={link.path}
+      onClick={() => filterService?.clear()}
+    >
+      {link.name}
+    </Link>
+  );
+};
 
 export const getRouterParams = useParams;
 
 export const navigateToRoute = useNavigate;
+
+export const getSearchParams = useSearchParams;
