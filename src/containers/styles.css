@@ -1,0 +1,7 @@
+.observeRule {
+  border: 1px solid black;
+}
+
+.observeRule.complete {
+  border: 1px solid green;
+}

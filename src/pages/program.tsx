@@ -97,12 +97,12 @@ const Program = () => {
           />
           <Button
             name="Start Observation"
-            action={() => navigate(`${Routes.Observe}?programId=${program.id}`)}
+            action={() => navigate(`${Routes.Programs}/${program.id}/observe`)}
             hidden={isEditMode(mode)}
           />
           <Button
             name="View Data"
-            action={() => navigate(`${Routes.Results}?programId=${program.id}`)}
+            action={() => navigate(`/results/${program.clientId}`)}
             hidden={isEditMode(mode)}
           />
         </>

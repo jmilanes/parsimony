@@ -56,3 +56,13 @@ export const wrapFn = (fn: any) => fn();
 export const isReadOnlyMode = (mode: IModes): boolean =>
   mode === Modes.ReadOnly;
 export const isEditMode = (mode: IModes): boolean => mode === Modes.Edit;
+
+export const increment = (
+  step: number,
+  update: React.Dispatch<React.SetStateAction<number>>
+) => update(step + 1);
+
+export const decrement = (
+  step: number,
+  update: React.Dispatch<React.SetStateAction<number>>
+) => update(step - 1);
