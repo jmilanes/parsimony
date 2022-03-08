@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Header, Button } from "../components";
 import { IOption } from "../components/selector";
-import { IRule } from "../types";
+import { initialResultData } from "../fixtures";
+import { IResult, IResultData, IResultDataValue, IRule } from "../types";
 import { increment, decrement, generateKey, compileStyles } from "../utils";
 import "./styles.css";
 
 export type IObserverRuleProps = React.PropsWithChildren<{
   rule: IRule;
+  onComplete: (result: IResultData) => void;
 }>;
 
-const ObserveRule = ({ rule }: IObserverRuleProps) => {
+const ObserveRule = ({ rule, onComplete }: IObserverRuleProps) => {
   const [active, setActive] = useState(false);
   const [complete, setComplete] = useState(false);
+  const [results, setResults] = useState<IResultDataValue[]>([]);
   const [step, setStep] = useState(1);
 
   const incrementStep = () => {
@@ -23,10 +26,17 @@ const ObserveRule = ({ rule }: IObserverRuleProps) => {
     increment(step, setStep);
   };
 
+  useEffect(() => {
+    onComplete({ [rule.id]: results });
+  }, [results]);
+
   const decrementStep = () => {
     decrement(step, setStep);
-    // need to destroy the current result if it has been updated
+    // need to destroy the current result if it has been updated (be able to remove from the array)
   };
+
+  const updateResults = (resultData: IResultDataValue) =>
+    setResults([...results, resultData]);
 
   const InactiveRule = () => {
     return (
@@ -39,6 +49,7 @@ const ObserveRule = ({ rule }: IObserverRuleProps) => {
 
   const selectOption = (option: IOption, step: number) => {
     console.log(option);
+    updateResults({ step, option });
     incrementStep();
   };
   const ActiveRule = () => {

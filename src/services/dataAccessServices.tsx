@@ -1,20 +1,27 @@
-import { SchoolService, UserService, ProgramService } from "./crudServices";
+import {
+  SchoolService,
+  UserService,
+  ProgramService,
+  ResultService
+} from "./crudServices";
 import { Collections } from "../enums";
 import { generateData } from "../utils";
 import dataAccessGenerator from "./dataAccessGenerator";
-import { IProgram, ISchool, IUser } from "../types";
-import StateService from "./stateStervice";
+import { IProgram, IResult, ISchool, IUser } from "../types";
+import StateService from "./stateService";
 import FilterService from "./filterService";
 
 const schoolService = new SchoolService();
 const userService = new UserService();
 const programService = new ProgramService();
+const resultsService = new ResultService();
 
 if (localStorage.getItem("generatedData") !== "true") {
   generateData({
     [Collections.School]: schoolService.create,
     [Collections.User]: userService.create,
-    [Collections.Program]: programService.create
+    [Collections.Program]: programService.create,
+    [Collections.Result]: resultsService.create
   });
   localStorage.setItem("generatedData", "true");
 }
@@ -33,5 +40,9 @@ export const schoolData = dataAccessGenerator<ISchool>(
 export const userData = dataAccessGenerator<IUser>(userService, StateManger);
 export const programData = dataAccessGenerator<IProgram>(
   programService,
+  StateManger
+);
+export const resultsData = dataAccessGenerator<IResult>(
+  resultsService,
   StateManger
 );

@@ -30,10 +30,7 @@ export const initialProgramData: IProgram = {
   // end
 
   // This is the meet of what we need to add
-  rules: [],
-
-  // These will be added when people are tracking clients
-  results: []
+  rules: []
 };
 
 export const initialRuleData = {

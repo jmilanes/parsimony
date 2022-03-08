@@ -1,3 +1,4 @@
+import { IOption } from "../components/selector";
 import {
   UserRoles,
   ProgramTypes,
@@ -54,7 +55,6 @@ export type IProgram = {
   lastEditedBy: IId;
   editedBy: IId[];
   createdBy: IId;
-  results: IResult[] | [];
 };
 
 export type IRule = {
@@ -74,8 +74,11 @@ export type IRuleOption = {
 };
 
 export type IResult = {
+  id: IId;
   dateCreated: IDate;
-  data: IResultData[];
+  programId: IId;
+  clientId?: IId;
+  data: IResultData;
 };
 
 type RuleId = IId;
@@ -83,5 +86,5 @@ export type IResultData = Record<RuleId, IResultDataValue[]>;
 
 export type IResultDataValue = {
   step: number;
-  value: number;
+  option: IOption;
 };

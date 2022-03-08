@@ -34,17 +34,6 @@ export const mockProgramData: IProgram[] = [
         inputType: InputTypes.radio,
         valueType: ProgramValueTypes.number
       }
-    ],
-    results: [
-      {
-        dateCreated: new Date(),
-        data: [
-          {
-            "rule-1": [{ step: 1, value: 1 }],
-            "rule-2": [{ step: 1, value: 1 }]
-          }
-        ]
-      }
     ]
   }
 ];

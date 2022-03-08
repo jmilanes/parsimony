@@ -1,5 +1,5 @@
 import { IObject } from "../types";
-import { IStateService } from "./stateStervice";
+import { IStateService } from "./stateService";
 
 export type FilterFn = (obj: IObject) => boolean;
 

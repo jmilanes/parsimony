@@ -57,13 +57,11 @@ const User = () => {
   const actions: ITableAction[] = [
     {
       name: "Start Observing",
-      method: (program: IProgram) =>
-        navigate(`${Routes.Observe}?programId=${program.id}`)
+      method: (program: IProgram) => navigate(`/programs/${program.id}/observe`)
     },
     {
       name: "View Data",
-      method: (program: IProgram) =>
-        navigate(`${Routes.Results}?programId=${program.id}`)
+      method: (program: IProgram) => navigate(`/results/${program.clientId}`)
     }
   ];
 

@@ -17,6 +17,7 @@ const generateData = (dataCreationFns: IDataCreationFns) => {
   ];
   const createData = (mockDataObj: IMockDataObj) =>
     mockDataObj.data.forEach(dataCreationFns[mockDataObj.type]);
+
   mockData.forEach(createData);
 };
 

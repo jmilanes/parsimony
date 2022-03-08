@@ -1,15 +1,8 @@
-import { IStateService } from "./stateStervice";
-
-export type ICollectionService<Schema> = {
-  create: (payload: Schema) => string;
-  get: (id: string) => Schema;
-  getAll: () => Schema[];
-  delete: (id: string) => void;
-  update: (payload: Schema) => void;
-};
+import { ICrudGenerator, IId } from "../types";
+import { IStateService } from "./stateService";
 
 const dataAccessGenerator = <Schema>(
-  collectionService: ICollectionService<Schema>,
+  collectionService: ICrudGenerator<Schema>,
   stateManager: IStateService
 ) => {
   return {
@@ -24,7 +17,7 @@ const dataAccessGenerator = <Schema>(
       collectionService.delete(id);
       stateManager.updateState();
     },
-    update: (payload: Schema) => {
+    update: (payload: Schema & { id: IId }) => {
       collectionService.update(payload);
       stateManager.updateState();
     }
