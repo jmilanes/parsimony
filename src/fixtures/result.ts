@@ -5,5 +5,6 @@ export const initialResultData: IResult = {
   dateCreated: new Date(),
   programId: "",
   clientId: "",
+  completeness: 0,
   data: {}
 };

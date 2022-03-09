@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Container, Header, Button } from "../components";
-import { IOption } from "../components/selector";
-import { initialResultData } from "../fixtures";
-import { IResult, IResultData, IResultDataValue, IRule } from "../types";
+import { getMax, getSum } from "../utils";
+import { Container, Button } from "../components";
+import { IResultData, IRule, IRuleResult } from "../types";
 import { increment, decrement, generateKey, compileStyles } from "../utils";
 import "./styles.css";
 
@@ -14,7 +13,8 @@ export type IObserverRuleProps = React.PropsWithChildren<{
 const ObserveRule = ({ rule, onComplete }: IObserverRuleProps) => {
   const [active, setActive] = useState(false);
   const [complete, setComplete] = useState(false);
-  const [results, setResults] = useState<IResultDataValue[]>([]);
+  const [completeness, setCompleteness] = useState(0);
+  const [results, setResults] = useState<IRuleResult[]>([]);
   const [step, setStep] = useState(1);
 
   const incrementStep = () => {
@@ -26,8 +26,23 @@ const ObserveRule = ({ rule, onComplete }: IObserverRuleProps) => {
     increment(step, setStep);
   };
 
+  const calculateCompleteness = (rule: IRule, results: IRuleResult[]) => {
+    const maxValue = getMax(rule.options).value;
+    const numberOfResults = results.length;
+    const resultSum = getSum(results, "option.value");
+    const max = numberOfResults * maxValue;
+    const completeness = (resultSum / max) * 100;
+    setCompleteness(completeness);
+    return completeness;
+  };
+
   useEffect(() => {
-    onComplete({ [rule.id]: results });
+    onComplete({
+      [rule.id]: {
+        ruleCompleteness: calculateCompleteness(rule, results),
+        ruleResults: results
+      }
+    });
   }, [results]);
 
   const decrementStep = () => {
@@ -35,7 +50,7 @@ const ObserveRule = ({ rule, onComplete }: IObserverRuleProps) => {
     // need to destroy the current result if it has been updated (be able to remove from the array)
   };
 
-  const updateResults = (resultData: IResultDataValue) =>
+  const updateResults = (resultData: IRuleResult) =>
     setResults([...results, resultData]);
 
   const InactiveRule = () => {
@@ -47,15 +62,20 @@ const ObserveRule = ({ rule, onComplete }: IObserverRuleProps) => {
     );
   };
 
-  const selectOption = (option: IOption, step: number) => {
+  const selectOption = (
+    option: { name: string; value: number },
+    step: number
+  ) => {
     console.log(option);
-    updateResults({ step, option });
+    const obj: IRuleResult = { step, option };
+    updateResults(obj);
     incrementStep();
   };
   const ActiveRule = () => {
     return (
       <>
         <p>{rule.question}</p>
+        <p>Individual Completeness: {completeness}%</p>
         <Button name="Close" action={() => setActive(false)}></Button>
         <Container>
           {step > 1 && <Button name="Back" action={decrementStep}></Button>}

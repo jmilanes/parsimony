@@ -55,7 +55,11 @@ export type IProgram = {
   lastEditedBy: IId;
   editedBy: IId[];
   createdBy: IId;
+  ruleType?: RuleType;
 };
+
+// This will either show rules in the program as one group or give each group it's own group stepper
+export type RuleType = "GROUP" | "SINGLE";
 
 export type IRule = {
   id: IId;
@@ -78,13 +82,20 @@ export type IResult = {
   dateCreated: IDate;
   programId: IId;
   clientId?: IId;
+  programCompleteness: number;
   data: IResultData;
 };
 
 type RuleId = IId;
-export type IResultData = Record<RuleId, IResultDataValue[]>;
 
-export type IResultDataValue = {
+export type IResultData = Record<RuleId, IResultRuleData>;
+
+export type IResultRuleData = {
+  ruleCompleteness: number;
+  ruleResults: IRuleResult[];
+};
+
+export type IRuleResult = {
   step: number;
-  option: IOption;
+  option: { name: string; value: number };
 };

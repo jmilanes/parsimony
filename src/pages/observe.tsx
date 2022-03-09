@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header, Button } from "../components";
-import { generateKey, getRouterParams } from "../utils";
+import { generateKey, getRouterParams, getSum, getMax } from "../utils";
 import { programData, resultsData } from "../services/dataAccessServices";
 import { ObserveRule } from "../containers";
 import { IResult, IResultData } from "../types";
@@ -17,6 +17,24 @@ const Observe = () => {
     programId: program.id
   });
 
+  const updateCompleteness = (programResults: IResult) => {
+    const totalCompleteness = Object.values(programResults.data).reduce(
+      (a, c) => a + c.ruleCompleteness,
+      0
+    );
+    const averageCompleteness =
+      totalCompleteness / Object.keys(programResults.data).length;
+    setProgramResults({
+      ...programResults,
+      programCompleteness: averageCompleteness
+    });
+  };
+
+  useEffect(() => {
+    console.log(programResults);
+    updateCompleteness(programResults);
+  }, [programResults.data]);
+
   const updateProgramResult = (result: IResultData) =>
     setProgramResults({
       ...programResults,
@@ -27,6 +45,7 @@ const Observe = () => {
   return (
     <>
       <Header text={program?.title} size="lg" />
+      <p>Completeness: {programResults.programCompleteness}%</p>
       {program.rules.map((rule, i) => (
         <ObserveRule
           key={generateKey("observeRule", i)}
