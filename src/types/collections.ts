@@ -3,7 +3,8 @@ import {
   UserRoles,
   ProgramTypes,
   InputTypes,
-  ProgramValueTypes
+  ProgramValueTypes,
+  RuleStyle
 } from "../enums";
 
 export type IId = string;
@@ -55,11 +56,11 @@ export type IProgram = {
   lastEditedBy: IId;
   editedBy: IId[];
   createdBy: IId;
-  ruleType?: RuleType;
+  ruleStyle?: RuleStyle;
 };
 
 // This will either show rules in the program as one group or give each group it's own group stepper
-export type RuleType = "GROUP" | "SINGLE";
+// export type RuleStyle = "GROUP" | "SINGLE";
 
 export type IRule = {
   id: IId;

@@ -6,6 +6,7 @@ import {
   ProgramValueTypes,
   Prompts,
   PromptTypes,
+  RuleStyle,
   UserRoles
 } from "../enums";
 import { IProgram } from "../types";
@@ -52,6 +53,11 @@ export const initialOptionData = {
 export const programTypes: IOption[] = [
   { name: ProgramTypes.Main, value: ProgramTypes.Main },
   { name: ProgramTypes.Client, value: ProgramTypes.Client }
+];
+
+export const ruleStyles: IOption[] = [
+  { name: RuleStyle.Separate, value: RuleStyle.Separate },
+  { name: RuleStyle.Group, value: RuleStyle.Group }
 ];
 
 export const inputTypes: IOption[] = [

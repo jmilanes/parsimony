@@ -1,5 +1,5 @@
 import React from "react";
-import { programTypes, userRoleOptions } from "../fixtures";
+import { programTypes, ruleStyles, userRoleOptions } from "../fixtures";
 import { RulesForm } from "../containers";
 import {
   Container,
@@ -63,6 +63,14 @@ const Program = () => {
         pathToState="type"
         value={localState.type}
         options={programTypes}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+      />
+      <Selector
+        title="Rule Style"
+        pathToState="ruleStyle"
+        value={localState.ruleStyle}
+        options={ruleStyles}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />

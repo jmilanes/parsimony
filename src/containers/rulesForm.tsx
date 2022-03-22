@@ -18,7 +18,7 @@ import {
 } from "../fixtures";
 import ComponentsService from "../services/componentsService";
 import { IProgram } from "../types";
-import { generateKey } from "../utils";
+import { generateKey, uuid } from "../utils";
 
 type RuleFormProps = {
   localState: IProgram;
@@ -80,6 +80,7 @@ const RulesForm = ({
           options={stepsOptions}
           updateState={updateState}
           readOnly={readOnly}
+          isNumber={true}
         />
         <Checkbox
           title="Required"
@@ -128,6 +129,12 @@ const RulesForm = ({
       </Container>
     );
   };
+
+  const ruleWithUuid = () => {
+    initialRuleData.id = uuid();
+    return initialRuleData;
+  };
+
   return (
     <Repeater
       title="Rules"
@@ -136,7 +143,7 @@ const RulesForm = ({
       pathToState={`rules`}
       updateState={updateState}
       generateRow={rule}
-      initialData={initialRuleData}
+      initialData={ruleWithUuid()}
       readOnly={readOnly}
     />
   );

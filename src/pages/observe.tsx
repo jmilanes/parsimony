@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Header, Button } from "../components";
-import { generateKey, getRouterParams, getSum, getMax } from "../utils";
+import { generateKey, getRouterParams } from "../utils";
 import { programData, resultsData } from "../services/dataAccessServices";
 import { ObserveRule } from "../containers";
 import { IResult, IResultData } from "../types";
 import { initialResultData } from "../fixtures";
+import { RuleStyle } from "../enums";
 
 const Observe = () => {
   const { programId } = getRouterParams();
@@ -31,28 +32,35 @@ const Observe = () => {
   };
 
   useEffect(() => {
-    console.log(programResults);
     updateCompleteness(programResults);
   }, [programResults.data]);
 
-  const updateProgramResult = (result: IResultData) =>
+  const updateProgramResult = (result: IResultData) => {
     setProgramResults({
       ...programResults,
       data: { ...programResults.data, ...result }
-    }); //TODO: Need to delete
+    });
+  };
 
   const createResult = () => resultsData.create(programResults);
+
+  const isGroup = program.ruleStyle === RuleStyle.Group;
+
   return (
     <>
       <Header text={program?.title} size="lg" />
       <p>Completeness: {programResults.programCompleteness}%</p>
-      {program.rules.map((rule, i) => (
-        <ObserveRule
-          key={generateKey("observeRule", i)}
-          rule={rule}
-          onComplete={updateProgramResult}
-        />
-      ))}
+      {isGroup ? (
+        <ObserveRule rule={program.rules} onComplete={updateProgramResult} />
+      ) : (
+        program.rules.map((rule, i) => (
+          <ObserveRule
+            key={generateKey("observeRule", i)}
+            rule={rule}
+            onComplete={updateProgramResult}
+          />
+        ))
+      )}
       <Button name="Submit Observation" action={createResult}></Button>
     </>
   );

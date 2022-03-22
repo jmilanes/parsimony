@@ -2,7 +2,12 @@ import React from "react";
 import { IColumns, ITableAction } from "../components/table";
 import { AddForm, RulesForm } from "../containers";
 import { Pages } from "../enums";
-import { initialProgramData, programTypes, userRoleOptions } from "../fixtures";
+import {
+  initialProgramData,
+  programTypes,
+  ruleStyles,
+  userRoleOptions
+} from "../fixtures";
 import { programData, StateManger } from "../services/dataAccessServices";
 import { IId, IProgram } from "../types";
 import {
@@ -108,6 +113,13 @@ const Programs = () => {
           pathToState="type"
           value={localState.type}
           options={programTypes}
+          updateState={updateState}
+        />
+        <Selector
+          title="Rule Style"
+          pathToState="ruleStyle"
+          value={localState.ruleStyle}
+          options={ruleStyles}
           updateState={updateState}
         />
         <MultiSelect

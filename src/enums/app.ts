@@ -18,6 +18,11 @@ export enum ProgramTypes {
   Client = "CLIENT"
 }
 
+export enum RuleStyle {
+  Separate = "SEPARATE",
+  Group = "GROUP"
+}
+
 export enum InputTypes {
   radio = "RADIO",
   text = "TEXT"
