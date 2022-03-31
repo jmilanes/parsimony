@@ -27,16 +27,6 @@ const ObserveRule = ({
 
   const isGroup = Array.isArray(rule);
 
-  const incrementStep = (rule: IRule) => {
-    // TODO: THE STEP MUST BE SAVED AS A NUMBER right now it is actually being saved as a string when you save the number
-    if (rule.steps && step == rule.steps) {
-      setComplete(true);
-      setActive(false);
-      return;
-    }
-    increment(step, setStep);
-  };
-
   const calculateCompleteness = (
     rule: IRule,
     results: IRuleResult[],
@@ -51,34 +41,51 @@ const ObserveRule = ({
     return completenessTotal;
   };
 
-  const parseResultsWithCompleteness = (results: IResultsState) => {
-    const cloneCompleteness = clone(completeness);
-    const parsedResults = Object.entries(results).reduce(
-      (acc: IResultData, [key, value]: [string, IRuleResult[]]) => {
-        const foundRule = isGroup ? rule.find((rule) => rule.id === key) : rule;
-        acc[key] = {
-          ruleCompleteness: foundRule
-            ? calculateCompleteness(foundRule, value, cloneCompleteness)
-            : 0,
-          ruleResults: results[key]
-        };
-        return acc;
-      },
-      {}
-    );
-    setCompleteness(cloneCompleteness);
-    return parsedResults;
-  };
-
   useEffect(() => {
     if (Object.keys(results).length) {
       onComplete(parseResultsWithCompleteness(results));
     }
   }, [results]);
 
+  const parseResultsWithCompleteness = (results: IResultsState) => {
+    const cloneCompleteness = clone(completeness);
+    const parsedResults = Object.entries(results).reduce(
+      createResult(cloneCompleteness),
+      {}
+    );
+    setCompleteness(cloneCompleteness);
+    return parsedResults;
+  };
+
+  const createResult =
+    (completeness: ICompletenessState) =>
+    (acc: IResultData, [key, value]: [string, IRuleResult[]]) => {
+      const processedRule = isGroup
+        ? rule.find((rule) => rule.id === key)
+        : rule;
+      const ruleCompleteness = processedRule
+        ? calculateCompleteness(processedRule, value, completeness)
+        : 0;
+      acc[key] = {
+        ruleCompleteness,
+        ruleResults: results[key]
+      };
+      return acc;
+    };
+
   useEffect(() => {
     patentActiveState !== undefined && setActive(patentActiveState);
   }, [patentActiveState]);
+
+  const incrementStep = (rule: IRule) => {
+    // TODO: THE STEP MUST BE SAVED AS A NUMBER right now it is actually being saved as a string when you save the number
+    if (rule.steps && step == rule.steps) {
+      setComplete(true);
+      setActive(false);
+      return;
+    }
+    increment(step, setStep);
+  };
 
   const decrementStep = () => {
     decrement(step, setStep);
