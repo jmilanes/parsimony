@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { clone, getMax, getSum } from "../utils";
 import { Container, Button } from "../components";
-import { IId, IResultData, IRule, IRuleResult } from "../types";
+import { IResultData, IRule, IRuleResult } from "../types";
 import { increment, decrement, generateKey, compileStyles } from "../utils";
 import "./styles.css";
 
@@ -42,9 +42,9 @@ const ObserveRule = ({
     results: IRuleResult[],
     completenessObj: ICompletenessState
   ) => {
-    const maxValue = getMax(rule.options).value;
+    const maxValue = rule.options.reduce(getMax()).value;
     const numberOfResults = results.length;
-    const resultSum = getSum(results, "option.value");
+    const resultSum = results.reduce(getSum("option.value"), 0);
     const max = numberOfResults * maxValue;
     const completenessTotal = (resultSum / max) * 100;
     completenessObj[rule.id] = completenessTotal;

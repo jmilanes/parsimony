@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Header, Button } from "../components";
-import { generateKey, getRouterParams } from "../utils";
+import { calculateAverage, generateKey, getRouterParams } from "../utils";
 import { programData, resultsData } from "../services/dataAccessServices";
 import { ObserveRule } from "../containers";
 import { IResult, IResultData } from "../types";
@@ -19,16 +19,15 @@ const Observe = () => {
   });
 
   const updateCompleteness = (programResults: IResult) => {
-    const totalCompleteness = Object.values(programResults.data).reduce(
-      (a, c) => a + c.ruleCompleteness,
-      0
+    const averageCompleteness = calculateAverage(
+      programResults.data,
+      "ruleCompleteness"
     );
-    const averageCompleteness =
-      totalCompleteness / Object.keys(programResults.data).length;
-    setProgramResults({
-      ...programResults,
-      programCompleteness: averageCompleteness
-    });
+    !!averageCompleteness &&
+      setProgramResults({
+        ...programResults,
+        programCompleteness: averageCompleteness
+      });
   };
 
   useEffect(() => {

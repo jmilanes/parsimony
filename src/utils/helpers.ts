@@ -68,22 +68,24 @@ export const decrement = (
   update: React.Dispatch<React.SetStateAction<number>>
 ) => update(step - 1);
 
-export const getSum = (arr: any[], path?: string): number =>
-  arr.reduce((a, c) => {
+export const getSum =
+  (path?: string): ((a: any, c: any) => number) =>
+  (a, c): number => {
     if (path) return a + getDataWithPath(c, path);
     return a + c;
-  }, 0);
+  };
 
-export const getMax = (arr: any[], path?: string) => {
-  return arr.reduce((a: any, c: any) => {
-    if (path) {
-      const aValue = getDataWithPath(a, path) as number;
-      const cValue = getDataWithPath(c, path) as number;
-      if (aValue > cValue) return a;
-      if (aValue < cValue) return c;
-    }
-    if (a.value > c.value) return a;
-    if (a.value < c.value) return c;
-    return a;
-  });
+export const getMax = (path?: string) => (a: any, c: any) => {
+  if (path) {
+    const aValue = getDataWithPath(a, path) as number;
+    const cValue = getDataWithPath(c, path) as number;
+    if (aValue > cValue) return a;
+    if (aValue < cValue) return c;
+  }
+  if (a.value > c.value) return a;
+  if (a.value < c.value) return c;
+  return a;
 };
+
+export const calculateAverage = (data: any[] | Object, path?: string) =>
+  Object.values(data).reduce(getSum(path), 0) / Object.keys(data).length;
