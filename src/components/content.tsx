@@ -2,16 +2,16 @@ import React, { PropsWithChildren } from "react";
 import "./styles.css";
 import { Layout } from "antd";
 
-const { Content } = Layout;
+const { Content: AntContent } = Layout;
 
 export type IContentProps = PropsWithChildren<{
   hidden?: boolean;
 }>;
 
-const Container = ({ children, hidden }: IContentProps) => {
+const Content = ({ children, hidden }: IContentProps) => {
   if (hidden) return <></>;
   return (
-    <Content
+    <AntContent
       className="site-layout-background"
       style={{
         margin: "24px 16px",
@@ -20,7 +20,7 @@ const Container = ({ children, hidden }: IContentProps) => {
       }}
     >
       {children}
-    </Content>
+    </AntContent>
   );
 };
 

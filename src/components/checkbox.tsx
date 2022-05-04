@@ -1,3 +1,4 @@
+import { Switch } from "antd";
 import React from "react";
 import { Container, Header } from "../components";
 
@@ -21,8 +22,7 @@ const Checkbox = ({
   return (
     <Container flexDirection="row" key={key}>
       <Header text={`${title}: `} size="sm" />
-      <input
-        type="checkbox"
+      <Switch
         disabled={readOnly}
         checked={value}
         onChange={() => updateState(pathToState, !value)}

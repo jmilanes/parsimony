@@ -1,11 +1,14 @@
+import { Select } from "antd";
 import React from "react";
 import { Checkbox, Container, Header } from "../components";
 import {
   createCommaSeparatedSting,
+  formatFormHeader,
   generateKey,
-  makeIncludedKey,
-  uuid
+  makeIncludedKey
 } from "../utils";
+
+const { Option } = Select;
 
 export type IOptionMultiSelect = {
   name: string;
@@ -16,7 +19,7 @@ export type IMultiSelectProps = {
   key?: string;
   readOnly?: boolean;
   options: IOptionMultiSelect[];
-  values: unknown[];
+  values: string[];
   pathToState: string;
   title: string;
   updateState: (path: string, value: unknown) => void;
@@ -30,28 +33,19 @@ const MultiSelect = ({
   values,
   title
 }: IMultiSelectProps) => {
-  const optionsReduced = options.reduce(makeIncludedKey(values, "name"), {});
-
-  const [selections, updateSelections] =
-    React.useState<Record<string, boolean>>(optionsReduced);
-
-  const updateSelectionsAndState = (value: string) => {
-    updateSelections({ ...selections, [value]: !selections[value] });
-    const isValueSelected = values.includes(value);
-    updateState(
-      pathToState,
-      isValueSelected ? values.filter((x) => x !== value) : [...values, value]
-    );
+  const updateSelectionsAndState = (values: unknown[]) => {
+    updateState(pathToState, values);
   };
 
+  const FormHeder = () => <Header text={formatFormHeader(title)} size="sm" />;
+
   const ReadOnlyOptions = () => {
-    const filteredOptions = options.filter((item) => selections[item.name]);
     return (
       <Container flexDirection="row">
-        <Header text={title} size="sm" />
+        <FormHeder />
         <p>
-          {filteredOptions.map((option, i) =>
-            createCommaSeparatedSting(option.name, i)
+          {values.map((value: string, i: number) =>
+            createCommaSeparatedSting(value, i)
           )}
         </p>
       </Container>
@@ -61,20 +55,23 @@ const MultiSelect = ({
   const Options = () => {
     return (
       <Container flexDirection="row">
-        <Header text={`${title}:`} size="sm" />
-        {options.map((option, index) => (
-          <div key={generateKey(`multi-select-option-${title}`, index)}>
-            <Checkbox
-              value={selections[option.name]}
-              title={option.name}
-              pathToState={option.name}
-              updateState={() => updateSelectionsAndState(option.name)}
-            />
-          </div>
-        ))}
+        <FormHeder />
+        <Select
+          mode="multiple"
+          allowClear
+          style={{ width: "100%" }}
+          placeholder="Please select"
+          defaultValue={values}
+          onChange={(value) => updateSelectionsAndState(value)}
+        >
+          {options.map((option) => (
+            <Option key={option.name}>{option.name}</Option>
+          ))}
+        </Select>
       </Container>
     );
   };
+  Select;
 
   return readOnly ? <ReadOnlyOptions /> : <Options />;
 };

@@ -9,3 +9,5 @@ export { default as Checkbox } from "./checkbox";
 export { default as MultiSelect } from "./multiSelect";
 export { default as Header } from "./header";
 export { default as Content } from "./content";
+export { default as Col } from "./col";
+export { default as Row } from "./row";

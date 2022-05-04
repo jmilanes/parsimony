@@ -1,7 +1,10 @@
+import { Select } from "antd";
 import React from "react";
-import ComponentsService from "../services/componentsService";
 import { Header, Container } from "../components";
-import { generateKey } from "../utils";
+import { formatFormHeader, generateKey } from "../utils";
+import { Row, Col } from "./";
+
+const { Option } = Select;
 
 export type IOption = { name: string; value: string | number };
 export type ISelectorProps = {
@@ -27,30 +30,33 @@ const Selector = ({
 }: ISelectorProps) => {
   const ReadOnlyOption = () => (
     <>
-      <Header text={title} size="sm" />
+      <Header text={formatFormHeader(title)} size="sm" />
       <p>{value}</p>
     </>
   );
 
   const Options = () => (
-    <>
-      <Header text={title} size="sm" />
-      <select
+    <Row>
+      <Col span={24}>
+        <Header text={formatFormHeader(title)} size="sm" />
+      </Col>
+
+      <Select
         value={value}
-        onChange={(e) =>
+        onChange={(val) =>
           updateState(
             pathToState,
-            isNumber ? parseInt(e.currentTarget.value) : e.currentTarget.value
+            isNumber && typeof val === "string" ? parseInt(val) : val
           )
         }
       >
         {options.map((option, i) => (
-          <option key={generateKey("select-option", i)} value={option.value}>
+          <Option key={generateKey("select-option", i)} value={option.value}>
             {option.name}
-          </option>
+          </Option>
         ))}
-      </select>
-    </>
+      </Select>
+    </Row>
   );
 
   return (

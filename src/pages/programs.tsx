@@ -1,5 +1,4 @@
 import React from "react";
-import { Content } from "antd";
 import { IColumns, ITableAction } from "../components/table";
 import { AddForm, RulesForm } from "../containers";
 import { Pages } from "../enums";
@@ -153,6 +152,7 @@ const Programs = () => {
           values={localState.writeAccess}
           updateState={updateState}
         />
+
         <RulesForm localState={localState} updateState={updateState} />
       </AddForm>
     </>

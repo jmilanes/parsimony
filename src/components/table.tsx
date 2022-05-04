@@ -75,7 +75,11 @@ const Table = <Data extends { id: string }>({
     return dataSourceObj;
   });
 
-  return <AntTable dataSource={dataSource} columns={columns} />;
+  return (
+    <Content>
+      <AntTable dataSource={dataSource} columns={columns} />
+    </Content>
+  );
 };
 
 export default Table;

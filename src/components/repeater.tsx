@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Button } from "../components";
+import { Header, Button, Row, Col } from "../components";
 import { clone } from "../utils";
 
 // These any's might be able to be generics
@@ -27,11 +27,15 @@ const Repeater = ({
   return readOnly ? (
     <>{items.map((_, index) => generateRow(index))}</>
   ) : (
-    <>
-      <Header text={title} size="md" />
-      <Button name="add" action={addRow} />
+    <Row>
+      <Col span={24}>
+        <Row align="middle" justify="space-between">
+          <Header text={title} size="md" />
+          <Button name="add" action={addRow} />
+        </Row>
+      </Col>
       {items.map((_, index) => generateRow(index))}
-    </>
+    </Row>
   );
 };
 

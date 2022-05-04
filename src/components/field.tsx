@@ -1,3 +1,4 @@
+import { Input } from "antd";
 import React from "react";
 
 import { Container, Header } from "../components";
@@ -21,16 +22,16 @@ const Field = ({
 }: IFieldProps) => {
   return readOnly ? (
     <Container flexDirection="column" key={key}>
-      <Header text={placeHolderText} size="sm" />
+      <Header text={`${placeHolderText}:`} size="sm" />
       <p>{value}</p>
     </Container>
   ) : (
-    <input
+    <Input
       key={key}
       placeholder={placeHolderText}
       value={value}
       onChange={(e) => updateState(pathToState, e.currentTarget.value)}
-    ></input>
+    ></Input>
   );
 };
 
