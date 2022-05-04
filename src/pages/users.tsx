@@ -38,8 +38,8 @@ const Users = () => {
   };
 
   const columns: IColumns[] = [
-    { propertyKey: "firstName" },
-    { propertyKey: "lastName" }
+    { key: "firstName", dataIndex: "firstName", title: "firstName" },
+    { key: "lastName", dataIndex: "lastName", title: "lastName" }
   ];
   const actions: ITableAction[] = [
     {
@@ -54,19 +54,25 @@ const Users = () => {
 
   return (
     <>
-      <Header text={Pages.Users} size="lg" />
-      <Button
-        name="Add"
-        action={() => setShowAddForm(true)}
-        hidden={showAddForm}
-      />
-      <Button
-        name="Cancel"
-        action={() => setShowAddForm(false)}
-        hidden={!showAddForm}
+      <Header
+        text={Pages.Users}
+        size="page"
+        extra={[
+          <Button
+            key="add"
+            name="Add"
+            action={() => setShowAddForm(true)}
+            hidden={showAddForm}
+          />
+        ]}
       />
       <Table data={data} columns={columns} actions={actions} />
-      <AddForm showForm={showAddForm} action={submitAddForm} title="Add Users">
+      <AddForm
+        showForm={showAddForm}
+        onCreate={submitAddForm}
+        title="Add User"
+        onCancel={() => setShowAddForm(false)}
+      >
         <Field
           placeHolderText="First Name"
           pathToState="contactInformation.firstName"
@@ -93,7 +99,7 @@ const Users = () => {
           updateState={updateState}
         />
         <MultiSelect
-          title="Type"
+          title="Roles"
           options={userRoleOptions}
           pathToState="roles"
           values={localState.roles}

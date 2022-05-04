@@ -1,4 +1,5 @@
 import React from "react";
+import { Content } from "antd";
 import { IColumns, ITableAction } from "../components/table";
 import { AddForm, RulesForm } from "../containers";
 import { Pages } from "../enums";
@@ -47,14 +48,24 @@ const Programs = () => {
   };
 
   const columns: IColumns[] = [
-    { propertyKey: "title" },
-    { propertyKey: "clientId" },
-    { propertyKey: "type" },
-    { propertyKey: "description" },
-    { propertyKey: "writeAccess", displayFn: createList },
-    { propertyKey: "readAccess", displayFn: createList },
-    { propertyKey: "createBy" },
-    { propertyKey: "rules", displayFn: getLength }
+    { key: "title", title: "title", dataIndex: "title" },
+    { key: "clientId", title: "clientId", dataIndex: "clientId" },
+    { key: "type", title: "type", dataIndex: "type" },
+    { key: "description", title: "description", dataIndex: "description" },
+    {
+      key: "writeAccess",
+      title: "writeAccess",
+      dataIndex: "writeAccess",
+      displayFn: createList
+    },
+    {
+      key: "readAccess",
+      title: "readAccess",
+      dataIndex: "readAccess",
+      displayFn: createList
+    },
+    { key: "createBy", title: "createBy", dataIndex: "createBy" },
+    { key: "rules", title: "rules", dataIndex: "rules", displayFn: getLength }
   ];
 
   const actions: ITableAction[] = [
@@ -83,19 +94,25 @@ const Programs = () => {
 
   return (
     <>
-      <Header text={Pages.Programs} size="lg" />
-      <Button
-        name="Add"
-        action={() => setShowAddForm(true)}
-        hidden={showAddForm}
-      />
-      <Button
-        name="Cancel"
-        action={() => setShowAddForm(false)}
-        hidden={!showAddForm}
+      <Header
+        text={Pages.Programs}
+        size="page"
+        extra={[
+          <Button
+            key="add"
+            name="Add"
+            action={() => setShowAddForm(true)}
+            hidden={showAddForm}
+          />
+        ]}
       />
       <Table<IProgram> data={data} columns={columns} actions={actions}></Table>
-      <AddForm showForm={showAddForm} action={submitAddForm} title="Add Users">
+      <AddForm
+        showForm={showAddForm}
+        onCreate={submitAddForm}
+        onCancel={() => setShowAddForm(false)}
+        title="Add Program"
+      >
         <Field
           placeHolderText="Title"
           pathToState="title"

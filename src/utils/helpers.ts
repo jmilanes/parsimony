@@ -19,7 +19,7 @@ export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>
 export const flattenObject = <IObj>(obj: IObj) => {
   type ICurrentObject = IObjectValues<IObj>;
   const flattened: IObject = {};
-  const currentObject: ICurrentObject = clone(obj);
+  const currentObject: ICurrentObject = clone<any>(obj);
 
   Object.keys(currentObject).forEach((key: string) => {
     const value = currentObject[key];

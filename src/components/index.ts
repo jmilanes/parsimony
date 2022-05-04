@@ -8,3 +8,4 @@ export { default as Repeater } from "./repeater";
 export { default as Checkbox } from "./checkbox";
 export { default as MultiSelect } from "./multiSelect";
 export { default as Header } from "./header";
+export { default as Content } from "./content";

@@ -1,6 +1,8 @@
 import React from "react";
 import { filterService } from "../services/dataAccessServices";
 import { flattenObject, generateKey } from "../utils";
+import { Table as AntTable, Button, Space } from "antd";
+import { Content } from "../components";
 
 export type ITableAction = {
   name: string;
@@ -9,9 +11,12 @@ export type ITableAction = {
 };
 
 export type IColumns = {
-  propertyKey: string;
+  title: string;
+  dataIndex: string;
+  key: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   displayFn?: (data: any) => any;
+  render?: any;
 };
 
 export type ITableProps<Data> = {
@@ -26,43 +31,51 @@ const Table = <Data extends { id: string }>({
   actions,
   columns
 }: ITableProps<Data>) => {
-  return (
-    <table>
-      <tbody>
-        <tr>
-          {columns.map((column, key) => (
-            <th key={generateKey("table-heading", key)}>
-              {column.propertyKey}
-            </th>
-          ))}
-        </tr>
-
-        {filterService.filter(data).map((item: Data) => {
-          const flatItem = flattenObject<Data>(item);
-
+  if (actions) {
+    columns = [
+      ...columns,
+      {
+        title: "Actions",
+        key: "actions",
+        dataIndex: "actions",
+        render: (_, record: { source: Data }) => {
           return (
-            <tr key={item.id}>
-              {Object.values(columns).map((column, key) => (
-                <td key={generateKey("table-row", key)}>
-                  {column.displayFn
-                    ? column.displayFn(flatItem[column.propertyKey])
-                    : flatItem[column.propertyKey]}
-                </td>
-              ))}
-              {actions?.map((action, key) => (
-                <td
-                  key={generateKey("table-action", key)}
-                  onClick={() => action.method(item)}
-                >
-                  {action.name}
-                </td>
-              ))}
-            </tr>
+            <Space size="middle">
+              {actions.map((action) => {
+                return (
+                  <Button
+                    key={generateKey(
+                      `table-action-${action.name}`,
+                      record.source.id
+                    )}
+                    onClick={() => action.method(record.source)}
+                  >
+                    {action.name}
+                  </Button>
+                );
+              })}
+            </Space>
           );
-        })}
-      </tbody>
-    </table>
-  );
+        }
+      }
+    ];
+  }
+
+  const dataSource = filterService.filter(data).map((item: Data) => {
+    const flatItem = flattenObject<Data>(item);
+    const dataSourceObj: any = { key: item.id, source: flatItem };
+
+    Object.values(columns).forEach(
+      (column) =>
+        (dataSourceObj[column.key] = column.displayFn
+          ? column.displayFn(flatItem[column.key])
+          : flatItem[column.key])
+    );
+
+    return dataSourceObj;
+  });
+
+  return <AntTable dataSource={dataSource} columns={columns} />;
 };
 
 export default Table;

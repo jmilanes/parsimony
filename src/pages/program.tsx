@@ -26,6 +26,7 @@ const Program = () => {
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
   const program = programData.get(programId || "");
+  console.log("🚀 ~ file: program.tsx ~ line 29 ~ Program ~ program", program);
   const [localState, updateLocalState] = React.useState<IProgram>(program);
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
@@ -43,7 +44,31 @@ const Program = () => {
 
   return (
     <Container>
-      <Header text={`Program ${program.title}`} size="lg" />
+      <Header
+        text={`Program ${program.title}`}
+        size="page"
+        extra={[
+          <Button
+            key="edit"
+            name="Edit"
+            action={() => updateMode("edit")}
+            hidden={isEditMode(mode)}
+          />,
+          <Button
+            key="cancel"
+            name="Cancel"
+            action={() => updateMode("readOnly")}
+            hidden={isReadOnlyMode(mode)}
+          />,
+          <Button
+            key="submit"
+            name="Submit"
+            type="primary"
+            action={submitForm}
+            hidden={isReadOnlyMode(mode)}
+          />
+        ]}
+      />
       <Field
         placeHolderText="Title"
         pathToState="title"
@@ -90,11 +115,6 @@ const Program = () => {
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />
-      <Button
-        name="Edit"
-        action={() => updateMode("edit")}
-        hidden={isEditMode(mode)}
-      />
 
       {program.type === ProgramTypes.Client && (
         <>
@@ -115,18 +135,14 @@ const Program = () => {
           />
         </>
       )}
-      <Button
-        name="Cancel"
-        action={() => updateMode("readOnly")}
-        hidden={isReadOnlyMode(mode)}
-      />
-      <Button name="Submit" action={submitForm} hidden={isReadOnlyMode(mode)} />
 
-      <RulesForm
-        localState={localState}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-      />
+      {Array.isArray(localState.rules) && (
+        <RulesForm
+          localState={localState}
+          updateState={updateState}
+          readOnly={isReadOnlyMode(mode)}
+        />
+      )}
     </Container>
   );
 };

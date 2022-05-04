@@ -13,6 +13,8 @@ const dataAccessGenerator = <Schema>(
     },
     get: (id: string): Schema => collectionService.get(id),
     getAll: (): Schema[] => collectionService.getAll(),
+    getAllBy: (key: keyof Schema, value: unknown): Schema[] =>
+      collectionService.getAll().filter((item) => item[key] === value),
     delete: (id: string) => {
       collectionService.delete(id);
       stateManager.updateState();

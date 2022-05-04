@@ -5,7 +5,7 @@ export enum Routes {
   Observe = "/programs/:programId/observe",
   Users = "/directory",
   User = "/directory/:userId",
-  Results = "/results/:userId"
+  Results = "/results/:programId"
 }
 
 export enum Pages {

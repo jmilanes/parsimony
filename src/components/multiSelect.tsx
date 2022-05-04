@@ -3,7 +3,8 @@ import { Checkbox, Container, Header } from "../components";
 import {
   createCommaSeparatedSting,
   generateKey,
-  makeIncludedKey
+  makeIncludedKey,
+  uuid
 } from "../utils";
 
 export type IOptionMultiSelect = {
@@ -27,8 +28,7 @@ const MultiSelect = ({
   updateState,
   pathToState,
   values,
-  title,
-  key
+  title
 }: IMultiSelectProps) => {
   const optionsReduced = options.reduce(makeIncludedKey(values, "name"), {});
 
@@ -47,7 +47,7 @@ const MultiSelect = ({
   const ReadOnlyOptions = () => {
     const filteredOptions = options.filter((item) => selections[item.name]);
     return (
-      <Container flexDirection="row" key={key}>
+      <Container flexDirection="row">
         <Header text={title} size="sm" />
         <p>
           {filteredOptions.map((option, i) =>
@@ -60,18 +60,19 @@ const MultiSelect = ({
 
   const Options = () => {
     return (
-      <div>
-        <Header text={title} size="md" />
+      <Container flexDirection="row">
+        <Header text={`${title}:`} size="sm" />
         {options.map((option, index) => (
-          <Checkbox
-            key={generateKey("multi-select-option", index)}
-            value={selections[option.name]}
-            title={option.name}
-            pathToState={option.name}
-            updateState={() => updateSelectionsAndState(option.name)}
-          />
+          <div key={generateKey(`multi-select-option-${title}`, index)}>
+            <Checkbox
+              value={selections[option.name]}
+              title={option.name}
+              pathToState={option.name}
+              updateState={() => updateSelectionsAndState(option.name)}
+            />
+          </div>
         ))}
-      </div>
+      </Container>
     );
   };
 

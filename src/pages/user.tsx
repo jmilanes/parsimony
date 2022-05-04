@@ -50,8 +50,8 @@ const User = () => {
   };
 
   const columns: IColumns[] = [
-    { propertyKey: "title" },
-    { propertyKey: "description" }
+    { key: "title", dataIndex: "title", title: "title" },
+    { key: "description", dataIndex: "description", title: "description" }
   ];
 
   const actions: ITableAction[] = [
@@ -61,13 +61,37 @@ const User = () => {
     },
     {
       name: "View Data",
-      method: (program: IProgram) => navigate(`/results/${program.clientId}`)
+      method: (program: IProgram) => navigate(`/results/${program.id}`)
     }
   ];
 
   return (
     <Container>
-      <Header text={getFullName(localState)} size="lg" />
+      <Header
+        text={getFullName(localState)}
+        size="page"
+        extra={[
+          <Button
+            key="edit"
+            name="Edit"
+            action={() => updateMode("edit")}
+            hidden={isEditMode(mode)}
+          />,
+          <Button
+            key="cancel"
+            name="Cancel"
+            action={() => updateMode("readOnly")}
+            hidden={isReadOnlyMode(mode)}
+          />,
+          <Button
+            key="submit"
+            type="primary"
+            name="Submit"
+            action={submitForm}
+            hidden={isReadOnlyMode(mode)}
+          />
+        ]}
+      />
       <Field
         placeHolderText="First Name"
         pathToState="contactInformation.firstName"
@@ -105,17 +129,7 @@ const User = () => {
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />
-      <Button
-        name="Edit"
-        action={() => updateMode("edit")}
-        hidden={isEditMode(mode)}
-      />
-      <Button
-        name="Cancel"
-        action={() => updateMode("readOnly")}
-        hidden={isReadOnlyMode(mode)}
-      />
-      <Button name="Submit" action={submitForm} hidden={isReadOnlyMode(mode)} />
+
       <Button
         name="Add Programs"
         action={() => {
