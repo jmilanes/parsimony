@@ -8,10 +8,15 @@ import {
   ruleStyles,
   userRoleOptions
 } from "../fixtures";
-import { programData, StateManger } from "../services/dataAccessServices";
+import {
+  programData,
+  StateManger,
+  userData
+} from "../services/dataAccessServices";
 import { IId, IProgram } from "../types";
 import {
   createList,
+  getFullName,
   getLength,
   getSearchParams,
   navigateToRoute
@@ -30,6 +35,9 @@ const Programs = () => {
   const navigate = navigateToRoute();
   let [searchParams] = getSearchParams();
   const data = programData.getAll();
+  const clientDataOptions = userData
+    .getAll()
+    .map((client) => ({ name: getFullName(client), value: client.id }));
 
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
@@ -131,6 +139,16 @@ const Programs = () => {
           options={programTypes}
           updateState={updateState}
         />
+        {localState.type === ProgramTypes.Client && (
+          <Selector
+            title="Client"
+            pathToState="clientId"
+            value={localState.clientId}
+            options={clientDataOptions}
+            updateState={updateState}
+          />
+        )}
+
         <Selector
           title="Rule Style"
           pathToState="ruleStyle"

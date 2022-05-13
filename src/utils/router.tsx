@@ -1,15 +1,16 @@
 import React from "react";
 
 import {
-  BrowserRouter,
   Routes,
   Route,
   useParams,
   Link,
   useNavigate,
-  useSearchParams
+  useSearchParams,
+  HashRouter,
+  BrowserRouter
 } from "react-router-dom";
-import { Nav } from "../components";
+import { Button, Nav } from "../components";
 import { uuid } from "./";
 import { IRoute } from "../types";
 
@@ -36,8 +37,9 @@ export const creatLink = (link: IRoute, filterService?: any) => {
       key={`${link.name || ""}_link_${uuid()}`}
       to={link.path}
       onClick={() => filterService?.clear()}
+      className="nav-item"
     >
-      {link.name}
+      <Button name={link.name || ""} action={() => null} />
     </Link>
   );
 };

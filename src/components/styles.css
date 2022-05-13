@@ -22,7 +22,7 @@
 }
 
 p {
-  margin: 5px 0;
+  margin: 5px;
   font-size: 14px;
 }
 h3 {
@@ -41,11 +41,16 @@ input[type="checkbox"] {
   margin: 5px 0;
 }
 
-button {
-  margin: 5px !important;
-}
 .add-rule-row {
-  border: 1px solid green;
+  border: 1px solid black;
   padding: 10px;
   margin: 10px;
+}
+
+.nav {
+  padding: 20px;
+}
+
+.nav-item {
+  margin: 5px;
 }

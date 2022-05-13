@@ -21,17 +21,20 @@ const Field = ({
   key
 }: IFieldProps) => {
   return readOnly ? (
-    <Container flexDirection="column" key={key}>
+    <Container flexDirection="row" key={key}>
       <Header text={`${placeHolderText}:`} size="sm" />
       <p>{value}</p>
     </Container>
   ) : (
-    <Input
-      key={key}
-      placeholder={placeHolderText}
-      value={value}
-      onChange={(e) => updateState(pathToState, e.currentTarget.value)}
-    ></Input>
+    <Container flexDirection="column" key={key}>
+      <Header text={`${placeHolderText}:`} size="sm" />
+      <Input
+        key={key}
+        placeholder={placeHolderText}
+        value={value}
+        onChange={(e) => updateState(pathToState, e.currentTarget.value)}
+      ></Input>
+    </Container>
   );
 };
 

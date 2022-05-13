@@ -42,7 +42,7 @@ const Selector = ({
       </Col>
 
       <Select
-        value={value}
+        value={value || "Please select an option"}
         onChange={(val) =>
           updateState(
             pathToState,

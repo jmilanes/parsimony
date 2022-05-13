@@ -58,7 +58,7 @@ const Results = () => {
 
   return (
     <>
-      <Header text={Pages.Results} size="lg" />
+      <Header text={Pages.Results} size="page" />
       <Line data={state} />
     </>
   );

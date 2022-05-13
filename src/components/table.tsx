@@ -38,7 +38,7 @@ const Table = <Data extends { id: string }>({
         title: "Actions",
         key: "actions",
         dataIndex: "actions",
-        render: (_, record: { source: Data }) => {
+        render: (_: any, record: { source: Data }) => {
           return (
             <Space size="middle">
               {actions.map((action) => {

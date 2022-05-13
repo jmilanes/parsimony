@@ -11,7 +11,7 @@ const filterRoutesByName = (routes: IRoute[]) =>
   filterByProp<IRoute>(routes, "name");
 
 const Nav = ({ routes }: INavProps) => (
-  <ul>
+  <ul className="nav">
     {filterRoutesByName(routes).map((route: IRoute) =>
       creatLink(route, filterService)
     )}

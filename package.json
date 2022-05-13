@@ -7,7 +7,9 @@
     "start": "parcel index.html --open",
     "build": "parcel build index.html",
     "lint": "yarn run eslint . --ext .js,.jsx,.ts,.tsx",
-    "test": "jest --watch"
+    "test:watch": "jest --watch",
+    "test": "jest",
+    "deploy:prd": "cd deploy-scripts/ && python3 deploy.py && cd ../"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",

@@ -25,7 +25,7 @@ const Repeater = ({
   const addRow = () => updateState(pathToState, [...items, clone(initialData)]);
 
   return readOnly ? (
-    <>{items.map((_, index) => generateRow(index))}</>
+    <>{items.map((_: any, index) => generateRow(index))}</>
   ) : (
     <Row>
       <Col span={24}>
@@ -34,7 +34,7 @@ const Repeater = ({
           <Button name="add" action={addRow} />
         </Row>
       </Col>
-      {items.map((_, index) => generateRow(index))}
+      {items.map((_: any, index) => generateRow(index))}
     </Row>
   );
 };

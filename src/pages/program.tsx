@@ -7,12 +7,18 @@ import {
   Field,
   Button,
   Selector,
-  MultiSelect
+  MultiSelect,
+  Row
 } from "../components";
-import { programData, StateManger } from "../services/dataAccessServices";
+import {
+  programData,
+  StateManger,
+  userData
+} from "../services/dataAccessServices";
 import { IProgram, IModes } from "../types";
 
 import {
+  getFullName,
   getRouterParams,
   getSearchParams,
   isEditMode,
@@ -25,8 +31,14 @@ const Program = () => {
   const navigate = navigateToRoute();
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
+  console.log(
+    "🚀 ~ file: program.tsx ~ line 28 ~ Program ~ searchParams",
+    searchParams
+  );
   const program = programData.get(programId || "");
-  console.log("🚀 ~ file: program.tsx ~ line 29 ~ Program ~ program", program);
+  const client = userData.get(program.clientId || "");
+  console.log("🚀 ~ file: program.tsx ~ line 34 ~ Program ~ client", client);
+
   const [localState, updateLocalState] = React.useState<IProgram>(program);
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
@@ -69,6 +81,10 @@ const Program = () => {
           />
         ]}
       />
+
+      {program.type === ProgramTypes.Client && (
+        <Header text={`Client: ${getFullName(client)}`} size="sm" />
+      )}
       <Field
         placeHolderText="Title"
         pathToState="title"
@@ -117,9 +133,9 @@ const Program = () => {
       />
 
       {program.type === ProgramTypes.Client && (
-        <>
+        <Row>
           <Button
-            name="Client"
+            name="View Client"
             action={() => navigate(`${Routes.Users}/${program.clientId}`)}
             hidden={isEditMode(mode)}
           />
@@ -133,7 +149,7 @@ const Program = () => {
             action={() => navigate(`/results/${program.clientId}`)}
             hidden={isEditMode(mode)}
           />
-        </>
+        </Row>
       )}
 
       {Array.isArray(localState.rules) && (
