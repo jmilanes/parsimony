@@ -1,12 +1,7 @@
 import { Select } from "antd";
 import React from "react";
-import { Checkbox, Container, Header } from "../components";
-import {
-  createCommaSeparatedSting,
-  formatFormHeader,
-  generateKey,
-  makeIncludedKey
-} from "../utils";
+import { Container, Header } from "../components";
+import { createCommaSeparatedSting, formatFormHeader } from "../utils";
 
 const { Option } = Select;
 

@@ -8,7 +8,8 @@ import {
   Selector,
   MultiSelect,
   Button,
-  Table
+  Table,
+  Row
 } from "../components";
 import {
   StateManger,
@@ -130,14 +131,21 @@ const User = () => {
         readOnly={isReadOnlyMode(mode)}
       />
 
-      <Button
-        name="Add Programs"
-        action={() => {
-          filterService.setFromLink();
-          filterService.addFilter("main", (data: any) => data.type === "MAIN");
-          navigate(`${Routes.Programs}?userId=${user.id}`);
-        }}
-      />
+      <Row justify="space-between" align="middle">
+        <Header text="Programs:" size="md" />
+        <Button
+          name="Add Programs"
+          action={() => {
+            filterService.setFromLink();
+            filterService.addFilter(
+              "main",
+              (data: any) => data.type === "MAIN"
+            );
+            navigate(`${Routes.Programs}?userId=${user.id}`);
+          }}
+        />
+      </Row>
+
       <Table<IProgram>
         data={associatedPrograms}
         columns={columns}

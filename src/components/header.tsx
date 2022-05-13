@@ -15,7 +15,7 @@ const Header = ({ text, action, hidden, size, extra }: IHeaderProps) => {
   const headers: Record<IHeaderSizes, JSX.Element> = {
     sm: <h5 onClick={action}>{text}</h5>,
     md: <h3 onClick={action}>{text}</h3>,
-    lg: <h2 onClick={action}>{text}</h2>,
+    lg: <h1 onClick={action}>{text}</h1>,
     page: (
       <PageHeader
         title={text}

@@ -7,8 +7,7 @@ import {
   Link,
   useNavigate,
   useSearchParams,
-  HashRouter,
-  BrowserRouter
+  HashRouter
 } from "react-router-dom";
 import { Button, Nav } from "../components";
 import { uuid } from "./";
@@ -16,7 +15,7 @@ import { IRoute } from "../types";
 
 export const generateRoutes = (routes: IRoute[]) => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Nav routes={routes} />
       <Routes>
         {routes.map((route) => (
@@ -27,7 +26,7 @@ export const generateRoutes = (routes: IRoute[]) => {
           />
         ))}
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
