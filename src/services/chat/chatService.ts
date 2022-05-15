@@ -20,6 +20,8 @@ import { threadsService } from "../dataAccessServices";
 // Lets take this to drawing board before we go any further
 // Tests are dope
 
+// I think this whole service should be thought of as being lifted out and being the middle between DB and Frontend. Frontend will only ever fire actions
+
 class ChatService {
   threads: IThreads;
   constructor() {
