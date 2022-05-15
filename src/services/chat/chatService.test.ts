@@ -1,12 +1,13 @@
-import ChatService, {
-  ChatActionTypes,
+import {
   IAddMessagePayload,
   ICreatePayload,
   IDeleteThreadPayload,
   IEditMessagePayload,
   ISubscribeUsersToThreadPayload,
   IUpdateIsTypingPayload
-} from "./chatService";
+} from "../../types";
+import { ChatActionTypes } from "../../enums";
+import ChatService from "./chatService";
 
 let idCount = 0;
 const mockUUID = "testID";

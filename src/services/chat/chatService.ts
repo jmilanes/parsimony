@@ -1,69 +1,24 @@
-import { IId } from "../../types";
+import { ChatActionTypes } from "../../enums";
+import {
+  IAction,
+  IThread,
+  IThreads,
+  ICreatePayload,
+  IDeleteThreadPayload,
+  ISubscribeUsersToThreadPayload,
+  IAddMessagePayload,
+  IEditMessagePayload,
+  IUpdateIsTypingPayload
+} from "../../types";
 import { clone, uuid } from "../../utils";
+import { threadsService } from "../dataAccessServices";
 
 // One thing we could do is have threads be there own reducers and there would be less cloning and the events would be much clearer
 // Cloning the state with all of the messages will get very expensive eventually for every thread which is what you are doing
-export enum ChatActionTypes {
-  CREATE_THREAD = "CREATE_THREAD",
-  DELETE_THREAD = "DELETE_THREAD",
-  SUBSCRIBE_USERS_TO_THREAD = "SUBSCRIBE_USERS_TO_THREAD",
-  ADD_MESSAGE = "ADD_MESSAGE",
-  EDIT_MESSAGE = "EDIT_MESSAGE",
-  UPDATE_IS_TYPING = "UPDATE_IS_TYPING"
-}
 
-export type IThread = {
-  id: IId;
-  subscribers: IId[];
-  messages: IMessage[];
-  isTyping: IId[];
-};
-
-export type IMessage = {
-  id?: IId;
-  userId: IId;
-  dataType: "string" | "image";
-  value: string;
-  timeStamp: Date;
-};
-
-export type IAction<payload> = {
-  type: ChatActionTypes;
-  payload: payload;
-};
-
-export type ICreatePayload = {
-  subscribers: string[];
-  message: IMessage;
-};
-
-export type IDeleteThreadPayload = {
-  threadId: IId;
-};
-
-export type ISubscribeUsersToThreadPayload = {
-  threadId: IId;
-  subscribers: IId[];
-};
-
-export type IAddMessagePayload = {
-  threadId: IId;
-  message: IMessage;
-};
-
-export type IEditMessagePayload = {
-  messageId: IId;
-  threadId: IId;
-  value: string;
-};
-
-export type IUpdateIsTypingPayload = {
-  threadId: IId;
-  user: string;
-  value: boolean;
-};
-
-export type IThreads = Record<IId, IThread>;
+/// Think we want to generate on of these things for each thread and then interact with just the one in a simple way
+// Lets take this to drawing board before we go any further
+// Tests are dope
 
 class ChatService {
   threads: IThreads;
@@ -74,7 +29,6 @@ class ChatService {
   // registerThreadSubscribers = (id: IId) =>
   //   this.threads[id]?.notifySubscribers();
   // notifyThreadSubscribers = (id: IId) => this.threads[id]?.notifySubscribers();
-
   update = <payload>(action: IAction<payload>) => {
     this.threads = this.updateThread<payload>(this.threads, action);
   };

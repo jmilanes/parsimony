@@ -2,7 +2,8 @@ import {
   SchoolService,
   UserService,
   ProgramService,
-  ResultService
+  ResultService,
+  ThreadService
 } from "./crudServices";
 import { Collections } from "../enums";
 import { generateData } from "../utils";
@@ -15,16 +16,17 @@ const schoolService = new SchoolService();
 const userService = new UserService();
 const programService = new ProgramService();
 const resultsService = new ResultService();
+export const threadsService = new ThreadService();
 
-if (localStorage.getItem("generatedData") !== "true") {
-  generateData({
-    [Collections.School]: schoolService.create,
-    [Collections.User]: userService.create,
-    [Collections.Program]: programService.create,
-    [Collections.Result]: resultsService.create
-  });
-  localStorage.setItem("generatedData", "true");
-}
+// if (localStorage.getItem("generatedData") !== "true") {
+//   generateData({
+//     [Collections.School]: schoolService.create,
+//     [Collections.User]: userService.create,
+//     [Collections.Program]: programService.create,
+//     [Collections.Result]: resultsService.create
+//   });
+//   localStorage.setItem("generatedData", "true");
+// }
 
 export const initialData = {
   [Collections.School]: schoolService.getAll(),

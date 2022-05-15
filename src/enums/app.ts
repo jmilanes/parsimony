@@ -2,7 +2,8 @@ export enum Collections {
   School = "school",
   User = "user",
   Program = "program",
-  Result = "result"
+  Result = "result",
+  Thread = "thread"
 }
 
 export enum UserRoles {
