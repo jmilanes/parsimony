@@ -1,7 +1,8 @@
 {
-  "name": "@kfm/server",
+  "name": "@kmf/server",
   "version": "1.0.0",
   "description": "",
+  "main": "src",
   "scripts": {
     "mongo:start": "sudo mongod && sudo brew services start mongodb-community@5.0",
     "start": "nodemon src/index.ts"
@@ -16,7 +17,9 @@
     "ts-node": "^10.8.0",
     "typescript": "^4.6.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@kmf/types": "1.0.0"
+  },
   "resolutions": {},
   "keywords": []
 }

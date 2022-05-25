@@ -1,0 +1,60 @@
+Arguments: 
+  /opt/homebrew/Cellar/node/18.0.0/bin/node /opt/homebrew/bin/yarn
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/3.6/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/opt/homebrew/bin:/opt/homebrew/sbin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  18.0.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@kmf%2ftypes: Not found
+      at params.callback [as _callback] (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:67029:18)
+      at self.callback (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:140883:22)
+      at Request.emit (node:events:527:28)
+      at Request.<anonymous> (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:141855:10)
+      at Request.emit (node:events:527:28)
+      at IncomingMessage.<anonymous> (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:141777:12)
+      at Object.onceWrapper (node:events:641:28)
+      at IncomingMessage.emit (node:events:539:35)
+      at endReadableNT (node:internal/streams/readable:1344:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+npm manifest: 
+  {
+    "name": "@kmf/server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src",
+    "scripts": {
+      "mongo:start": "sudo mongod && sudo brew services start mongodb-community@5.0",
+      "start": "nodemon src/index.ts"
+    },
+    "dependencies": {
+      "@types/mongoose": "^5.11.97",
+      "@types/node": "^17.0.35",
+      "apollo-server": "^3.7.0",
+      "graphql": "^16.5.0",
+      "mongodb": "^4.6.0",
+      "mongoose": "^6.3.3",
+      "ts-node": "^10.8.0",
+      "typescript": "^4.6.4"
+    },
+    "devDependencies": {
+      "@kmf/types": "1.0.0"
+    },
+    "resolutions": {},
+    "keywords": []
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

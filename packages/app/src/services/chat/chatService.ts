@@ -11,7 +11,6 @@ import {
   IUpdateIsTypingPayload
 } from "../../types";
 import { clone, uuid } from "../../utils";
-import { threadsService } from "../dataAccessServices";
 
 // One thing we could do is have threads be there own reducers and there would be less cloning and the events would be much clearer
 // Cloning the state with all of the messages will get very expensive eventually for every thread which is what you are doing

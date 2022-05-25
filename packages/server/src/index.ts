@@ -18,3 +18,12 @@ const server = new ApolloServer({
 server.listen().then(({ url }: { url: string }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
+
+// TODO
+// Make sure we are not coupling to much to GraphQL
+//  ** One way to do this to see if your CRUD generator will work if you move it up
+//  ** See if the in between layer can be swapped with the graph ql fetches
+//  ** Keep in mind chat and call will prob need to extend
+// Potential move types/enum out of APP
+// Compile your types into graph
+// Look into lerna, shared ts cofigs, and make sure workspaces is done right
