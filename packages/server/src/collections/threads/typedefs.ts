@@ -25,6 +25,7 @@ export default gql`
   }
 
   input ICreatePayload {
+    sender: String
     name: String
     subscribers: [String]
     message: IMessage

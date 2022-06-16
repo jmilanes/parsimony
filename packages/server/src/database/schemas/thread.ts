@@ -6,9 +6,3 @@ export default {
   isTyping: [String],
   name: String
 };
-
-// export type IThread = {
-//   subscribers: IId[];
-//   messages: IMessage[];
-//   isTyping: IId[];
-// };
