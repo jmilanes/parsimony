@@ -1,4 +1,4 @@
-import { ICreateResolverParams } from "@kmf/types";
+import { ICreateResolverParams } from "@parsimony/types";
 import { threadTypeDefs, threadResolvers } from "./threads";
 
 const createResolvers = (params: ICreateResolverParams) => {

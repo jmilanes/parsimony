@@ -1,5 +1,5 @@
 {
-  "name": "@kmf/server",
+  "name": "@parsimony/server",
   "version": "1.0.0",
   "description": "",
   "main": "src",
@@ -20,7 +20,7 @@
     "ws": "^8.8.0"
   },
   "devDependencies": {
-    "@kmf/types": "1.0.0"
+    "@parsimony/types": "1.0.0"
   },
   "resolutions": {},
   "keywords": []

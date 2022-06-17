@@ -28,7 +28,7 @@ Trace:
 
 npm manifest: 
   {
-    "name": "@kmf/server",
+    "name": "@parsimony/server",
     "version": "1.0.0",
     "description": "",
     "main": "src",
@@ -47,7 +47,7 @@ npm manifest:
       "typescript": "^4.6.4"
     },
     "devDependencies": {
-      "@kmf/types": "1.0.0"
+      "@parsimony/types": "1.0.0"
     },
     "resolutions": {},
     "keywords": []
@@ -4103,7 +4103,7 @@ Lockfile:
   esrecurse@^4.3.0:
     version "4.3.0"
     resolved "https://registry.yarnpkg.com/esrecurse/-/esrecurse-4.3.0.tgz#7ad7964d679abb28bee72cec63758b1c5d2c9921"
-    integrity sha512-KmfKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag==
+    integrity sha512-parsimonyKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag==
     dependencies:
       estraverse "^5.2.0"
   
@@ -7905,7 +7905,7 @@ Lockfile:
   regjsparser@^0.8.2:
     version "0.8.4"
     resolved "https://registry.yarnpkg.com/regjsparser/-/regjsparser-0.8.4.tgz#8a14285ffcc5de78c5b95d62bbf413b6bc132d5f"
-    integrity sha512-J3LABycON/VNEu3abOviqGHuB/LOtOQj8SKmfP9anY5GfAVw/SPjwzSjxGjbZXIxbGfqTHtJw58C2Li/WkStmA==
+    integrity sha512-J3LABycON/VNEu3abOviqGHuB/LOtOQj8SparsimonyP9anY5GfAVw/SPjwzSjxGjbZXIxbGfqTHtJw58C2Li/WkStmA==
     dependencies:
       jsesc "~0.5.0"
   
@@ -9350,7 +9350,7 @@ Lockfile:
   word-wrap@^1.2.3, word-wrap@~1.2.3:
     version "1.2.3"
     resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
-    integrity sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==
+    integrity sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJparsimony0uW1KJCl0H701g3ZGus+muE5vQ==
   
   wrap-ansi@^7.0.0:
     version "7.0.0"

@@ -1,4 +1,4 @@
-import { ICreateResolverParams } from "@kmf/types";
+import { ICreateResolverParams } from "@parsimony/types";
 
 export default ({ db, broadcast }: ICreateResolverParams) => ({
   Mutation: {

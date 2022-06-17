@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 import { BroadcastController } from "./broadcast";
 import graphQlConfig from "./collections";
-import { ICreateResolverParams } from "@kmf/types";
+import { ICreateResolverParams } from "@parsimony/types";
 import DataBaseController from "./database/connection";
 
 const broadCastController = new BroadcastController(8080);
@@ -9,7 +9,7 @@ broadCastController.init();
 
 const { ApolloServer } = require("apollo-server");
 
-const CONNECTION_STRING = "mongodb://127.0.0.1:27017/kmf-02";
+const CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
 
 const db = new DataBaseController(mongoose);
 db.connectDataBase(CONNECTION_STRING);
