@@ -1,4 +1,6 @@
-export default (db: any) => ({
+import { ICreateResolverParams } from "@kmf/types";
+
+export default ({ db, broadcast }: ICreateResolverParams) => ({
   Mutation: {
     createThread: async (_: any, { payload }: { payload: any }) => {
       const thread = new db.models.Thread({
@@ -6,9 +8,13 @@ export default (db: any) => ({
         messages: [payload.message]
       });
       await thread.save();
-      thread.subscribers.forEach((subscriber: string) => {
-        console.log(`NOTIFY: ${subscriber}`);
-      });
+      // TODO: Ignore if the user who sent it
+      broadcast(
+        JSON.stringify({
+          subscribers: thread.subscribers,
+          type: "CHAT"
+        })
+      );
       return thread;
     }
   },

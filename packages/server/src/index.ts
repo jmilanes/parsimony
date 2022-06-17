@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
+import { BroadcastController } from "./broadcast";
 import graphQlConfig from "./collections";
+import { ICreateResolverParams } from "@kmf/types";
 import DataBaseController from "./database/connection";
+
+const broadCastController = new BroadcastController(8080);
+broadCastController.init();
 
 const { ApolloServer } = require("apollo-server");
 
@@ -10,9 +15,14 @@ const db = new DataBaseController(mongoose);
 db.connectDataBase(CONNECTION_STRING);
 db.createModels();
 
+const resolverUtils: ICreateResolverParams = {
+  db,
+  broadcast: broadCastController.broadcast
+};
+
 const server = new ApolloServer({
   typeDefs: graphQlConfig.typeDefs,
-  resolvers: graphQlConfig.createResolvers(db)
+  resolvers: graphQlConfig.createResolvers(resolverUtils)
 });
 
 server.listen().then(({ url }: { url: string }) => {
@@ -23,7 +33,7 @@ server.listen().then(({ url }: { url: string }) => {
 // Make sure we are not coupling to much to GraphQL
 //  ** One way to do this to see if your CRUD generator will work if you move it up
 //  ** See if the in between layer can be swapped with the graph ql fetches
-//  ** Keep in mind chat and call will prob need to extend
+//  ** Keep in mind chat and cal will prob need to extend
 // Potential move types/enum out of APP
 // Compile your types into graph
 // Look into lerna, shared ts cofigs, and make sure workspaces is done right

@@ -18,6 +18,17 @@ console.log("DATA", {
 
 const app = document.getElementById("app");
 
+const webSocket = new WebSocket("ws://localhost:8080");
+
+webSocket.onopen = () => console.log("User connection opened!");
+
+webSocket.onmessage = (message: any) => {
+  console.log(
+    "🚀 ~ file: index.tsx ~ line 28 ~ message",
+    JSON.parse(message.data)
+  );
+};
+
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, updateState] = React.useState({});
