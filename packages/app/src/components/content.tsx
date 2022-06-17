@@ -1,12 +1,13 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, ReactNode } from "react";
 import "./styles.css";
 import { Layout } from "antd";
 
 const { Content: AntContent } = Layout;
 
-export type IContentProps = PropsWithChildren<{
+export type IContentProps = {
   hidden?: boolean;
-}>;
+  children: any;
+};
 
 const Content = ({ children, hidden }: IContentProps) => {
   if (hidden) return <></>;
