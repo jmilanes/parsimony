@@ -7,11 +7,16 @@
   ],
   "scripts": {
     "test": "jest",
-    "build": "cd app/ && yarn build",
-    "deploy:prd": "cd deploy-scripts/ && python3 deploy.py && cd ../"
+    "build": "cd packages/app/ && yarn build",
+    "deploy:prd": "cd deploy-scripts/ && python3 deploy.py && cd ../",
+    "start:server": "cd packages/server/ && yarn start",
+    "start:app": "cd packages/app/ && yarn start",
+    "start": "concurrently \"yarn start:server\" \"yarn start:app\""
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "concurrently": "^7.2.2"
+  },
   "resolutions": {},
   "keywords": []
 }
