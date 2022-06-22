@@ -12,6 +12,7 @@
       "dom"
     ],
     "rootDir": "src",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "types": ["node", "jest"],
   }
 }
