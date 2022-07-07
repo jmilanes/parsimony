@@ -1,4 +1,4 @@
 export type ICreateResolverParams = {
   db: any;
-  broadcast: (payload: string) => void;
+  broadcast: (payload: Record<string, any>) => void;
 };

@@ -21,12 +21,13 @@ export type IAction<payload> = {
 };
 
 export type ICreatePayload = {
+  id: IId;
   subscribers: string[];
-  message: IMessage;
+  messages: IMessage[];
 };
 
 export type IDeleteThreadPayload = {
-  threadId: IId;
+  id: IId;
 };
 
 export type ISubscribeUsersToThreadPayload = {

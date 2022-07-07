@@ -5,7 +5,8 @@ export enum Routes {
   Observe = "/programs/:programId/observe",
   Users = "/directory",
   User = "/directory/:userId",
-  Results = "/results/:programId"
+  Results = "/results/:programId",
+  Chat = "/chat"
 }
 
 export enum Pages {
@@ -15,11 +16,13 @@ export enum Pages {
   Observe = "Observe",
   Users = "Directory",
   User = "User",
-  Results = "Results"
+  Results = "Results",
+  Chat = "Chat"
 }
 
 export enum NavTitles {
   Home = "Home",
   Programs = "Programs",
-  Users = "Directory"
+  Users = "Directory",
+  Chat = "Chat"
 }

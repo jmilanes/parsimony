@@ -33,6 +33,11 @@ const routes: IRoute[] = [
   {
     path: Routes.Observe,
     element: PageService[Pages.Observe]
+  },
+  {
+    path: Routes.Chat,
+    element: PageService[Pages.Chat],
+    name: NavTitles.Chat
   }
 ];
 

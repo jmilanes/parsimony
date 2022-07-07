@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 import { BroadcastController } from "./broadcast";
 import graphQlConfig from "./collections";
 import { ICreateResolverParams } from "@parsimony/types";
-import DataBaseController from "./database/connection";
+import DataBaseController from "./database/dataBaseController";
 
 const broadCastController = new BroadcastController(8080);
 broadCastController.init();

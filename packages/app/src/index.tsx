@@ -1,5 +1,7 @@
+import "@babel/polyfill";
 import React from "react";
 import ReactDom from "react-dom";
+import { Observable } from "rxjs";
 
 import { generateRoutes } from "./utils";
 import routes from "./routes";
@@ -20,14 +22,16 @@ const app = document.getElementById("app");
 
 const webSocket = new WebSocket("ws://localhost:8080");
 
+console.log("just before subscribe");
+
 webSocket.onopen = () => console.log("User connection opened!");
 
-webSocket.onmessage = (message: any) => {
-  console.log(
-    "🚀 ~ file: index.tsx ~ line 28 ~ message",
-    JSON.parse(message.data)
-  );
-};
+export const socketObservable = new Observable((subscriber) => {
+  webSocket.onmessage = (message: any) => {
+    console.log("When socket updates", message.data);
+    subscriber.next(JSON.parse(message.data));
+  };
+});
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

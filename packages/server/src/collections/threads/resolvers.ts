@@ -1,27 +1,70 @@
-import { ICreateResolverParams } from "@parsimony/types";
+import { ChatActionTypes, ICreateResolverParams } from "@parsimony/types";
+import { modelTypes } from "../../database/dataBaseController";
 
-export default ({ db, broadcast }: ICreateResolverParams) => ({
+export default (ICreateResolverParams: ICreateResolverParams) => ({
   Mutation: {
-    createThread: async (_: any, { payload }: { payload: any }) => {
-      // TODO: Get direct mongo code out of the resolvers
-      // ** This should be createCollection("thread", payload)
-      // ** Make a simple object mock version to test that stays aligned or find a way to mock mongo :D
-      const thread = new db.models.Thread({
-        ...payload,
-        messages: [payload.message]
-      });
-      await thread.save();
-      // TODO: Ignore if the user who sent it
-      broadcast(
-        JSON.stringify({
-          subscribers: thread.subscribers,
-          type: "CHAT"
-        })
-      );
-      return thread;
-    }
+    createThread: createThread(ICreateResolverParams),
+    deleteThread: deleteThread(ICreateResolverParams),
+    addMessage: addMessage(ICreateResolverParams)
   },
   Query: {
-    threads: async () => await db.models.Thread.find({})
+    threads: async () => await ICreateResolverParams.db.models.Thread.find({})
   }
 });
+
+export const createThread =
+  ({ db, broadcast }: ICreateResolverParams) =>
+  async (_: any, { payload }: { payload: any }) => {
+    const thread = await db.createEntry(modelTypes.thread, {
+      ...payload
+    });
+
+    broadcast({
+      type: ChatActionTypes.CREATE_THREAD,
+      payload: {
+        subscribers: thread.subscribers,
+        id: thread._id,
+        messages: thread.messages
+      }
+    });
+
+    return thread;
+  };
+
+export const deleteThread =
+  ({ db, broadcast }: ICreateResolverParams) =>
+  async (_: any, { payload }: { payload: any }) => {
+    await db.deleteEntry(modelTypes.thread, payload.id);
+    broadcast({
+      type: ChatActionTypes.DELETE_THREAD,
+      payload: {
+        id: payload.id
+      }
+    });
+    return payload.id;
+  };
+
+export const addMessage =
+  ({ db, broadcast }: ICreateResolverParams) =>
+  async (_: any, { payload }: { payload: any }) => {
+    const thread = await db.findAndUpdateEntry(modelTypes.thread, {
+      id: payload.id
+    });
+
+    broadcast({
+      type: ChatActionTypes.ADD_MESSAGE,
+      payload: {
+        subscribers: thread.subscribers,
+        threadId: thread._id,
+        message: {
+          // id?: IId;
+          // userId: IId;
+          // dataType: "string" | "image";
+          // value: string;
+          // timeStamp: Date;
+        }
+      }
+    });
+
+    return thread;
+  };

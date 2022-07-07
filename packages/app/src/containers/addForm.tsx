@@ -27,7 +27,7 @@ const AddForm = ({
       ]}
       onCancel={onCancel}
     >
-      {children}
+      <>{children}</>
     </Modal>
   );
 };

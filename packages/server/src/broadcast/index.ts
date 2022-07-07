@@ -35,5 +35,6 @@ export class BroadcastController {
     });
   };
 
-  broadcast = (payload: string) => this.webSocket.send(payload);
+  broadcast = (payload: Record<string, any>): void =>
+    this.webSocket.send(JSON.stringify(payload));
 }
