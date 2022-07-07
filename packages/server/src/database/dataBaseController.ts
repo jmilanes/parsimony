@@ -40,11 +40,15 @@ export default class DataBaseController {
     await this.dataBase.models[model].findOneAndUpdate(filter, update);
   }
 
-  async findentry(model: modelTypes, filter: Record<string, any>) {
-    await this.dataBase.models[model].find(filter);
+  async findEntry(model: modelTypes, filter: Record<string, any>) {
+    return await this.dataBase.models[model].findOne(filter);
+  }
+
+  async findEntries(model: modelTypes, filter: Record<string, any>) {
+    return await this.dataBase.models[model].find(filter);
   }
 
   async updateEntry(entry: any, update: Record<string, any>) {
-    await entry.update(update);
+    await entry.updateOne(update);
   }
 }

@@ -40,6 +40,6 @@ export default gql`
   type Mutation {
     createThread(payload: ICreatePayload): Thread
     deleteThread(payload: IDeletePayload): ID
-    addMessage(payload: IMessagePayload): ID
+    addMessage(payload: IMessagePayload): Thread
   }
 `;

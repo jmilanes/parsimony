@@ -16,7 +16,8 @@ export const createThread =
   ({ db, broadcast }: ICreateResolverParams) =>
   async (_: any, { payload }: { payload: any }) => {
     const thread = await db.createEntry(modelTypes.thread, {
-      ...payload
+      ...payload,
+      messages: []
     });
 
     broadcast({
@@ -47,22 +48,25 @@ export const deleteThread =
 export const addMessage =
   ({ db, broadcast }: ICreateResolverParams) =>
   async (_: any, { payload }: { payload: any }) => {
-    const thread = await db.findAndUpdateEntry(modelTypes.thread, {
-      id: payload.id
+    console.log(
+      "🚀 ~ file: resolvers.ts ~ line 51 ~ payload",
+      payload.threadId
+    );
+    const thread = await db.findEntry(modelTypes.thread, {
+      _id: payload.threadId
+    });
+
+    const message = { ...payload, timeStamp: new Date() };
+
+    db.updateEntry(thread, {
+      messages: [...thread.messages, message]
     });
 
     broadcast({
       type: ChatActionTypes.ADD_MESSAGE,
       payload: {
-        subscribers: thread.subscribers,
         threadId: thread._id,
-        message: {
-          // id?: IId;
-          // userId: IId;
-          // dataType: "string" | "image";
-          // value: string;
-          // timeStamp: Date;
-        }
+        message: thread.messages[thread.messages.length - 1]
       }
     });
 

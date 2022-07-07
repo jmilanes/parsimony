@@ -31,9 +31,13 @@ const Chat = () => {
     <div>
       <button onClick={() => onCreate()}>Crete Thread</button>
       {Object.values(threads).map((thread: IThread) => (
-        <h1 key={uuid()} onClick={() => onDelete(thread.id)}>
-          {thread.id}
-        </h1>
+        <div key={uuid()}>
+          <h1>{thread.id}</h1>
+          {thread.messages.map((message) => (
+            <p key={uuid()}>{message?.value}</p>
+          ))}
+          <button onClick={() => onDelete(thread.id)}>Delete</button>
+        </div>
       ))}
     </div>
   );

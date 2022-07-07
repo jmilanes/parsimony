@@ -73,3 +73,18 @@ export const deleteThread = async (payload: { id: string }) => {
   });
   return await response.json();
 };
+
+// TODO for Chat
+// ** Musts
+// Finish Add Add Message
+// Think through message schema and thread schema
+// Chat testing api and ubal / document the flow (things are kinda spread out so maybe document how you add a method full circle)
+// Organize types and see if there is a better way and maybe generate types for queries
+// Other thread methods (might need to add some)
+// Basic Auth
+// Basic UI
+
+// ** Nice to haves
+// Limit messages initial requests and load more
+// FE Broadcast for like who is typing
+// Bulk delete
