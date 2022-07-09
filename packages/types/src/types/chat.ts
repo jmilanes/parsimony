@@ -3,6 +3,7 @@ import { IId } from "./";
 
 export type IThread = {
   id: IId;
+  name?: string;
   subscribers: IId[];
   messages: IMessage[];
   isTyping: IId[];
@@ -22,7 +23,7 @@ export type IAction<payload> = {
 };
 
 export type ICreateThreadPayload = {
-  name?: IId;
+  name?: string;
   subscribers: string[];
 };
 
@@ -35,9 +36,20 @@ export type ISubscribeUsersToThreadPayload = {
   subscribers: IId[];
 };
 
+export type IUpdateThreadPayload = {
+  id: IId;
+  subscribers: IId[];
+  name: string;
+};
+
 export type IAddMessagePayload = {
   threadId: IId;
   message: IMessage;
+};
+
+export type IDeleteMessagePayload = {
+  threadId: IId;
+  messageId: IId;
 };
 
 export type IEditMessagePayload = {

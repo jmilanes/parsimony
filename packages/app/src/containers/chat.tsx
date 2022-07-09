@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { addMessage, createThread, deleteThread } from "../bal";
+import {
+  addMessage,
+  createThread,
+  deleteMessage,
+  deleteThread,
+  editMessage
+} from "../bal";
 import ChatServiceObservable from "../services/chat/chatObs";
 import { IThread, IThreads } from "@parsimony/types";
 import { uuid } from "../utils";
@@ -23,6 +29,10 @@ const Chat = () => {
     });
 
   const onDelete = (id: string) => deleteThread({ id });
+  const onDeleteMessage = (threadId: string, messageId: string) =>
+    deleteMessage({ threadId, messageId });
+  const onEditMessage = (e: any, threadId: string, messageId: string) =>
+    editMessage({ value: e.target.value, threadId, messageId });
   const onAddMessage = (e: any, threadId: string) =>
     addMessage({
       message: {
@@ -32,13 +42,15 @@ const Chat = () => {
       },
       threadId
     });
+  console.log("🚀 ~ file: chat.tsx ~ line 40 ~ Chat ~ threads", threads);
 
   return (
     <div>
       <button onClick={() => onCreate()}>Crete Thread</button>
       {Object.values(threads).map((thread: IThread) => (
         <div key={uuid()}>
-          <h1>{thread.id}</h1>
+          <h1>{thread.name}</h1>
+          <p>{thread.id}</p>
           <input
             type="text"
             name=""
@@ -46,7 +58,20 @@ const Chat = () => {
             onBlur={(e) => onAddMessage(e, thread.id)}
           />
           {thread.messages.map((message) => (
-            <p key={uuid()}>{message?.value}</p>
+            <div key={uuid()}>
+              <p>{message?.value}</p>
+              <input
+                type="text"
+                name=""
+                id=""
+                onBlur={(e) => onEditMessage(e, thread.id, message.id || "")}
+              />
+              <button
+                onClick={() => onDeleteMessage(thread.id, message.id || "")}
+              >
+                Delete
+              </button>
+            </div>
           ))}
           <button onClick={() => onDelete(thread.id)}>Delete</button>
         </div>

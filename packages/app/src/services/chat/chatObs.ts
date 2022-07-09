@@ -7,6 +7,8 @@ import {
   IAddMessagePayload,
   IEditMessagePayload,
   IUpdateIsTypingPayload,
+  IUpdateThreadPayload,
+  IDeleteMessagePayload,
   IId,
   ChatActionTypes
 } from "@parsimony/types";
@@ -54,28 +56,37 @@ class ChatServiceObservable {
     this.updateThreads(this.updateThreadWithPayload(this.threads, payload));
   };
 
-  // updateThreadWithPayload = <payload>(threads: IThreads, action: IAction<payload>) => {
   updateThreadWithPayload = (threads: IThreads, action: any) => {
     switch (action.type) {
       case ChatActionTypes.CREATE_THREAD:
         return createThread(
           threads,
-          action.payload as unknown as ICreateThreadPayload
+          action.payload as unknown as ICreateThreadPayload & { id: string }
         );
       case ChatActionTypes.DELETE_THREAD:
         return deleteThread(
           threads,
           action.payload as unknown as IDeleteThreadPayload
         );
-      case ChatActionTypes.SUBSCRIBE_USERS_TO_THREAD:
+      case ChatActionTypes.SUBSCRIBE_USERS_TO_THREAD: // Changed to update Thread and handles name, subscribers, any top level
         return subscribersUsersToThread(
           threads,
           action.payload as unknown as ISubscribeUsersToThreadPayload
+        );
+      case ChatActionTypes.UPDATE_THREAD:
+        return updateThread(
+          threads,
+          action.payload as unknown as IUpdateThreadPayload
         );
       case ChatActionTypes.ADD_MESSAGE:
         return addMessage(
           threads,
           action.payload as unknown as IAddMessagePayload
+        );
+      case ChatActionTypes.DELETE_MESSAGE:
+        return deleteMessage(
+          threads,
+          action.payload as unknown as IDeleteMessagePayload
         );
       case ChatActionTypes.EDIT_MESSAGE:
         return editMessage(
@@ -95,7 +106,7 @@ class ChatServiceObservable {
 
 const createThread = (
   threads: IThreads,
-  payload: ICreateThreadPayload & { id: IId }
+  payload: ICreateThreadPayload & { id: string }
 ) => {
   const updatedState = clone<IThread>(threads);
   updatedState[payload.id] = {
@@ -124,9 +135,14 @@ const subscribersUsersToThread = (
   return updatedState;
 };
 
+const updateThread = (threads: IThreads, payload: IUpdateThreadPayload) => {
+  const updatedState = clone<IThread>(threads);
+  updatedState[payload.id] = { ...updatedState[payload.id], ...payload };
+  return updatedState;
+};
+
 const addMessage = (threads: IThreads, payload: IAddMessagePayload) => {
   const updatedState = clone<IThread>(threads);
-  payload.message.id = uuid();
   updatedState[payload.threadId].messages = [
     ...updatedState[payload.threadId].messages,
     payload.message
@@ -134,11 +150,19 @@ const addMessage = (threads: IThreads, payload: IAddMessagePayload) => {
   return updatedState;
 };
 
+const deleteMessage = (threads: IThreads, payload: IDeleteMessagePayload) => {
+  const updatedState = clone<IThread>(threads);
+  const thread = updatedState[payload.threadId];
+  thread.messages = thread.messages.filter(
+    (msg) => msg.id !== payload.messageId
+  );
+  return updatedState;
+};
+
 const editMessage = (threads: IThreads, payload: IEditMessagePayload) => {
   const updatedState = clone<IThread>(threads);
-  updatedState[payload.threadId].messages = updatedState[
-    payload.threadId
-  ].messages.map((message) => {
+  const thread = updatedState[payload.threadId];
+  thread.messages = thread.messages.map((message) => {
     if (message.id === payload.messageId) {
       message.value = payload.value;
       return message;

@@ -1,7 +1,9 @@
 import {
   IAddMessagePayload,
   ICreateThreadPayload,
-  IDeleteThreadPayload
+  IDeleteMessagePayload,
+  IDeleteThreadPayload,
+  IEditMessagePayload
 } from "@parsimony/types";
 import { IObject } from "@parsimony/types";
 
@@ -90,9 +92,30 @@ export const addMessage = (payload: IAddMessagePayload) => {
   );
 };
 
+export const deleteMessage = (payload: IDeleteMessagePayload) => {
+  fetchMutation<IDeleteMessagePayload>(
+    `
+    mutation DeleteMessage($payload: DeleteMessagePayload) {
+      deleteMessage(payload: $payload)
+    }
+      `,
+    payload
+  );
+};
+
+export const editMessage = (payload: IEditMessagePayload) => {
+  fetchMutation<IEditMessagePayload>(
+    `
+    mutation EditMessage($payload: EditMessagePayload) {
+      editMessage(payload: $payload)
+    }
+      `,
+    payload
+  );
+};
+
 // TODO for Chat
 // ** Musts
-// Think through message schema and thread schema
 // Chat testing api and ubal / document the flow (things are kinda spread out so maybe document how you add a method full circle)
 // Organize types and see if there is a better way and maybe generate types for queries
 // Other thread methods (might need to add some)

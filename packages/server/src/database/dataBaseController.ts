@@ -24,7 +24,7 @@ export default class DataBaseController {
 
   async createEntry(model: modelTypes, entry: Record<string, any>) {
     const thread = new this.dataBase.models[model](entry);
-    await thread.save();
+    await this.saveEntry(thread);
     return thread;
   }
 
@@ -50,5 +50,8 @@ export default class DataBaseController {
 
   async updateEntry(entry: any, update: Record<string, any>) {
     await entry.updateOne(update);
+  }
+  async saveEntry(entry: any) {
+    await entry.save();
   }
 }

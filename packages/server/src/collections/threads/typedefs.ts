@@ -19,6 +19,21 @@ export default gql`
     userId: String
   }
 
+  input CreateThreadPayload {
+    name: String
+    subscribers: [String]
+  }
+
+  input DeletePayload {
+    id: ID
+  }
+
+  input UpdateThreadPayload {
+    id: ID
+    subscribers: [String]
+    name: String
+  }
+
   input MessagePayload {
     dataType: String
     value: String
@@ -30,13 +45,14 @@ export default gql`
     message: MessagePayload
   }
 
-  input CreateThreadPayload {
-    name: String
-    subscribers: [String]
+  input EditMessagePayload {
+    threadId: ID
+    messageId: ID
+    value: String
   }
-
-  input DeletePayload {
-    id: ID
+  input DeleteMessagePayload {
+    threadId: ID
+    messageId: ID
   }
 
   type Query {
@@ -46,6 +62,29 @@ export default gql`
   type Mutation {
     createThread(payload: CreateThreadPayload): Thread
     deleteThread(payload: DeletePayload): ID
+    updateThread(payload: UpdateThreadPayload): Thread
     addMessage(payload: MessagePayload): Thread
+    deleteMessage(payload: DeleteMessagePayload): ID
+    editMessage(payload: EditMessagePayload): ID
   }
 `;
+
+// Users need to go in to db
+// Auth service
+//    Log in
+//    Log out
+//    15 min auto log out for prod (if we want)
+// fake password for now
+// temp log in page
+
+// getUserThreads (only get the threads that a user is subscribed)
+// Change string arrays to ID
+// is typing
+
+// UI
+// Testing
+// Errors
+
+//* GOALz
+// Close loop on chat (with testing)
+// Get one FE collection into mongo/graphQL land
