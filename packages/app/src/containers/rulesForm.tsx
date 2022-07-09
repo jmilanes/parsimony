@@ -18,7 +18,7 @@ import {
   promptsByType
 } from "../fixtures";
 
-import { IProgram } from "../types";
+import { IProgram } from "@parsimony/types";
 import { generateKey, uuid } from "../utils";
 import "./styles.css";
 

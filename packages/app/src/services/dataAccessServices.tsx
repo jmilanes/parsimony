@@ -5,10 +5,10 @@ import {
   ResultService,
   ThreadService
 } from "./crudServices";
-import { Collections } from "../enums";
+import { Collections } from "@parsimony/types";
 import { generateData } from "../utils";
 import dataAccessGenerator from "./dataAccessGenerator";
-import { IProgram, IResult, ISchool, IUser } from "../types";
+import { IProgram, IResult, ISchool, IUser } from "@parsimony/types";
 import StateService from "./stateService";
 import FilterService from "./filterService";
 

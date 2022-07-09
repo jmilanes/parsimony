@@ -1,5 +1,5 @@
-import { Collections } from "../../enums";
-import { ICrudGenerator, IId } from "../../types";
+import { Collections } from "@parsimony/types";
+import { ICrudGenerator, IId } from "@parsimony/types";
 
 // ** This is a great example of where you would want to have an interface so if you provide something
 // ** that abides by the contract then you will always have the same functionality throughout your app!

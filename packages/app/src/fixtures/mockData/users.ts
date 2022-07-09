@@ -1,5 +1,5 @@
-import { IUser } from "../../types";
-import { UserRoles } from "../../enums";
+import { IUser } from "@parsimony/types";
+import { UserRoles } from "@parsimony/types";
 
 export const mockUserData: IUser[] = [
   {

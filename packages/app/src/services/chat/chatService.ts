@@ -1,15 +1,15 @@
-import { ChatActionTypes } from "../../enums";
 import {
   IAction,
   IThread,
   IThreads,
-  ICreatePayload,
+  ICreateThreadPayload,
   IDeleteThreadPayload,
   ISubscribeUsersToThreadPayload,
   IAddMessagePayload,
   IEditMessagePayload,
-  IUpdateIsTypingPayload
-} from "../../types";
+  IUpdateIsTypingPayload,
+  ChatActionTypes
+} from "@parsimony/types";
 import { clone, uuid } from "../../utils";
 
 // One thing we could do is have threads be there own reducers and there would be less cloning and the events would be much clearer
@@ -39,7 +39,7 @@ class ChatService {
       case ChatActionTypes.CREATE_THREAD:
         return createThread(
           threads,
-          action.payload as unknown as ICreatePayload
+          action.payload as unknown as ICreateThreadPayload
         );
       case ChatActionTypes.DELETE_THREAD:
         return deleteThread(
@@ -72,14 +72,13 @@ class ChatService {
   };
 }
 
-const createThread = (threads: IThreads, payload: ICreatePayload) => {
+const createThread = (threads: IThreads, payload: ICreateThreadPayload) => {
   const id = uuid();
   const updatedState = clone<IThread>(threads);
-  payload.message.id = uuid();
   updatedState[id] = {
     id,
     subscribers: payload.subscribers,
-    messages: [payload.message],
+    messages: [],
     isTyping: []
   };
   return updatedState;
@@ -87,7 +86,7 @@ const createThread = (threads: IThreads, payload: ICreatePayload) => {
 
 const deleteThread = (threads: IThreads, payload: IDeleteThreadPayload) => {
   const updatedState = clone<IThread>(threads);
-  delete updatedState[payload.threadId];
+  delete updatedState[payload.id];
   return updatedState;
 };
 

@@ -1,7 +1,7 @@
 import { clone } from "../utils";
-import { IObject, IObjectValues, IUser, ValueOf } from "../types";
-import { Modes } from "../enums";
-import { IModes } from "../types";
+import { IObject, IObjectValues, IUser, ValueOf } from "@parsimony/types";
+import { Modes } from "@parsimony/types";
+import { IModes } from "@parsimony/types";
 import { getDataWithPath } from "./abstractions";
 
 export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>

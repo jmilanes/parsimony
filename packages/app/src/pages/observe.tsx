@@ -8,9 +8,9 @@ import {
 } from "../utils";
 import { programData, resultsData } from "../services/dataAccessServices";
 import { ObserveRule } from "../containers";
-import { IResult, IResultData } from "../types";
+import { IResult, IResultData } from "@parsimony/types";
 import { initialResultData } from "../fixtures";
-import { RuleStyle } from "../enums";
+import { RuleStyle } from "@parsimony/types";
 
 const Observe = () => {
   const { programId } = getRouterParams();

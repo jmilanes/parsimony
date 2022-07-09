@@ -1,19 +1,20 @@
-import { ChatActionTypes } from "../../enums";
 import {
-  IAction,
   IThread,
   IThreads,
-  ICreatePayload,
+  ICreateThreadPayload,
   IDeleteThreadPayload,
   ISubscribeUsersToThreadPayload,
   IAddMessagePayload,
   IEditMessagePayload,
-  IUpdateIsTypingPayload
+  IUpdateIsTypingPayload,
+  IId,
+  ChatActionTypes
 } from "@parsimony/types";
 import { clone, uuid } from "../../utils";
 import { Subject } from "rxjs";
 import { socketObservable } from "../..";
 import { fetchTreads } from "../../bal";
+import { message } from "antd";
 
 class ChatServiceObservable {
   threads$: Subject<IThreads>;
@@ -59,7 +60,7 @@ class ChatServiceObservable {
       case ChatActionTypes.CREATE_THREAD:
         return createThread(
           threads,
-          action.payload as unknown as ICreatePayload
+          action.payload as unknown as ICreateThreadPayload
         );
       case ChatActionTypes.DELETE_THREAD:
         return deleteThread(
@@ -92,11 +93,15 @@ class ChatServiceObservable {
   };
 }
 
-const createThread = (threads: IThreads, payload: ICreatePayload) => {
+const createThread = (
+  threads: IThreads,
+  payload: ICreateThreadPayload & { id: IId }
+) => {
   const updatedState = clone<IThread>(threads);
   updatedState[payload.id] = {
     ...payload,
-    isTyping: []
+    isTyping: [],
+    messages: []
   };
   return updatedState;
 };

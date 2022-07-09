@@ -1,11 +1,10 @@
-import { IOption } from "../components/selector";
 import {
   UserRoles,
   ProgramTypes,
   InputTypes,
   ProgramValueTypes,
   RuleStyle
-} from "../enums";
+} from "@parsimony/types";
 
 export type IId = string;
 export type IDate = Date;

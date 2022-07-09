@@ -1,7 +1,7 @@
 import React from "react";
 import { IColumns, ITableAction } from "../components/table";
 import { AddForm, RulesForm } from "../containers";
-import { Pages } from "../enums";
+import { Pages } from "@parsimony/types";
 import {
   initialProgramData,
   programTypes,
@@ -13,7 +13,7 @@ import {
   StateManger,
   userData
 } from "../services/dataAccessServices";
-import { IId, IProgram } from "../types";
+import { IId, IProgram } from "@parsimony/types";
 import {
   createList,
   getFullName,
@@ -29,7 +29,7 @@ import {
   MultiSelect,
   Selector
 } from "../components";
-import { ProgramTypes } from "../enums";
+import { ProgramTypes } from "@parsimony/types";
 
 const Programs = () => {
   const navigate = navigateToRoute();

@@ -1,4 +1,4 @@
-import { IResult } from "../types";
+import { IResult } from "@parsimony/types";
 
 export const initialResultData: IResult = {
   id: "",

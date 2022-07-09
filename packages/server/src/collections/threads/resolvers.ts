@@ -52,7 +52,7 @@ export const addMessage =
       _id: payload.threadId
     });
 
-    const message = { ...payload, timeStamp: new Date() };
+    const message = { ...payload.message, timeStamp: new Date() };
 
     db.updateEntry(thread, {
       messages: [...thread.messages, message]

@@ -1,6 +1,6 @@
-import { Routes, NavTitles, Pages } from "../enums";
+import { Routes, NavTitles, Pages } from "@parsimony/types";
 import PageService from "../services/pageService";
-import { IRoute } from "../types";
+import { IRoute } from "@parsimony/types";
 
 const routes: IRoute[] = [
   {

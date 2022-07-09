@@ -1,5 +1,5 @@
 import React from "react";
-import { Pages, ProgramTypes } from "../enums";
+import { Pages, ProgramTypes } from "@parsimony/types";
 import { Header } from "../components";
 import { getRouterParams } from "../utils";
 import { programData, resultsData } from "../services/dataAccessServices";

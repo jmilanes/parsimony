@@ -1,5 +1,6 @@
-import { ChatActionTypes } from "../enums";
-export type IId = string;
+import { ChatActionTypes } from "@parsimony/types";
+import { IId } from "./";
+
 export type IThread = {
   id: IId;
   subscribers: IId[];
@@ -12,7 +13,7 @@ export type IMessage = {
   userId: IId;
   dataType: "string" | "image";
   value: string;
-  timeStamp: Date;
+  timeStamp?: Date;
 };
 
 export type IAction<payload> = {
@@ -36,7 +37,8 @@ export type ISubscribeUsersToThreadPayload = {
 
 export type IAddMessagePayload = {
   threadId: IId;
-} & Pick<IMessage, "userId" | "dataType" | "value">;
+  message: IMessage;
+};
 
 export type IEditMessagePayload = {
   messageId: IId;

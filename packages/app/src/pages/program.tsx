@@ -15,7 +15,7 @@ import {
   StateManger,
   userData
 } from "../services/dataAccessServices";
-import { IProgram, IModes } from "../types";
+import { IProgram, IModes } from "@parsimony/types";
 
 import {
   getFullName,
@@ -25,7 +25,7 @@ import {
   isReadOnlyMode,
   navigateToRoute
 } from "../utils";
-import { ProgramTypes, Routes } from "../enums";
+import { ProgramTypes, Routes } from "@parsimony/types";
 
 const Program = () => {
   const navigate = navigateToRoute();

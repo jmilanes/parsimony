@@ -1,10 +1,10 @@
-import { IProgram } from "../../types";
+import { IProgram } from "@parsimony/types";
 import {
   InputTypes,
   ProgramValueTypes,
   UserRoles,
   ProgramTypes
-} from "../../enums";
+} from "@parsimony/types";
 
 export const mockProgramData: IProgram[] = [
   {

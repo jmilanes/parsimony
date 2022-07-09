@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { addMessage, createThread, deleteThread } from "../bal";
 import ChatServiceObservable from "../services/chat/chatObs";
-import { IThread, IThreads } from "../types";
+import { IThread, IThreads } from "@parsimony/types";
 import { uuid } from "../utils";
 
 export const chatService = new ChatServiceObservable();
@@ -25,9 +25,11 @@ const Chat = () => {
   const onDelete = (id: string) => deleteThread({ id });
   const onAddMessage = (e: any, threadId: string) =>
     addMessage({
-      userId: "joey",
-      value: e.target.value,
-      dataType: "string",
+      message: {
+        userId: "joey",
+        dataType: "string",
+        value: e.target.value
+      },
       threadId
     });
 

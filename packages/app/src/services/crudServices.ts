@@ -1,6 +1,6 @@
 import crudGenerator from "./crudGenerators/crudGeneratorWithLocalStorage";
-import { Collections } from "../enums";
-import { ISchool, IUser, IProgram, IResult, IThread } from "../types";
+import { Collections } from "@parsimony/types";
+import { ISchool, IUser, IProgram, IResult, IThread } from "@parsimony/types";
 
 export const SchoolService = crudGenerator<ISchool>(Collections.School);
 export const UserService = crudGenerator<IUser>(Collections.User);

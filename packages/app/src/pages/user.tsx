@@ -16,7 +16,7 @@ import {
   userData,
   programData
 } from "../services/dataAccessServices";
-import { IModes, IProgram, IUser } from "../types";
+import { IModes, IProgram, IUser } from "@parsimony/types";
 
 import {
   getFullName,
@@ -26,7 +26,7 @@ import {
 } from "../utils";
 import { navigateToRoute } from "../utils";
 import { filterService } from "../services/dataAccessServices";
-import { Routes } from "../enums";
+import { Routes } from "@parsimony/types";
 import { IColumns, ITableAction } from "../components/table";
 
 const User = () => {

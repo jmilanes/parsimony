@@ -1,4 +1,4 @@
-import { ICrudGenerator, IId } from "../types";
+import { ICrudGenerator, IId } from "@parsimony/types";
 import { IStateService } from "./stateService";
 
 const dataAccessGenerator = <Schema>(

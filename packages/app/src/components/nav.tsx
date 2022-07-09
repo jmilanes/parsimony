@@ -1,6 +1,6 @@
 import React from "react";
 import { creatLink, filterByProp } from "../utils";
-import { IRoute } from "../types";
+import { IRoute } from "@parsimony/types";
 import { filterService } from "../services/dataAccessServices";
 
 export type INavProps = {

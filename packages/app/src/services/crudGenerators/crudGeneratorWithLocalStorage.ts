@@ -1,5 +1,5 @@
-import { Collections } from "../../enums";
-import { ICrudGenerator, IId } from "../../types";
+import { Collections } from "@parsimony/types";
+import { ICrudGenerator, IId } from "@parsimony/types";
 
 const crudGeneratorWithLocalStorage = <Schema>(collectionName: Collections) => {
   if (!localStorage[collectionName]) {

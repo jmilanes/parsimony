@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import { Button, Nav } from "../components";
 import { uuid } from "./";
-import { IRoute } from "../types";
+import { IRoute } from "@parsimony/types";
 
 export const generateRoutes = (routes: IRoute[]) => {
   return (

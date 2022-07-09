@@ -1,4 +1,4 @@
-import { ISchool } from "../../types";
+import { ISchool } from "@parsimony/types";
 
 export const mockSchoolData: ISchool[] = [
   {

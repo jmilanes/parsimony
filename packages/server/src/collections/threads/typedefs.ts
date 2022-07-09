@@ -16,30 +16,36 @@ export default gql`
     dataType: String
     value: String
     timeStamp: Date
+    userId: String
   }
 
-  input IMessagePayload {
-    threadId: ID
+  input MessagePayload {
     dataType: String
     value: String
     userId: String
   }
 
-  input ICreateThreadPayload {
+  input MessagePayload {
+    threadId: ID
+    message: MessagePayload
+  }
+
+  input CreateThreadPayload {
     name: String
     subscribers: [String]
   }
 
-  input IDeletePayload {
+  input DeletePayload {
     id: ID
   }
 
   type Query {
     threads: [Thread]
   }
+
   type Mutation {
-    createThread(payload: ICreateThreadPayload): Thread
-    deleteThread(payload: IDeletePayload): ID
-    addMessage(payload: IMessagePayload): Thread
+    createThread(payload: CreateThreadPayload): Thread
+    deleteThread(payload: DeletePayload): ID
+    addMessage(payload: MessagePayload): Thread
   }
 `;

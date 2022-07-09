@@ -1,12 +1,12 @@
 import {
   IAddMessagePayload,
-  ICreatePayload,
+  ICreateThreadPayload,
   IDeleteThreadPayload,
   IEditMessagePayload,
   ISubscribeUsersToThreadPayload,
   IUpdateIsTypingPayload
-} from "../../types";
-import { ChatActionTypes } from "../../enums";
+} from "@parsimony/types";
+import { ChatActionTypes } from "@parsimony/types";
 import ChatService from "./chatService";
 
 let idCount = 0;
@@ -15,16 +15,10 @@ jest.mock("uuid", () => ({ v4: () => `${mockUUID}_${idCount++}` }));
 const getMockId = (count: number) => `${mockUUID}_${count}`;
 
 const addThread = (chat: ChatService, date: Date) => {
-  chat.update<ICreatePayload>({
+  chat.update<ICreateThreadPayload>({
     type: ChatActionTypes.CREATE_THREAD,
     payload: {
-      subscribers: ["user1", "user2"],
-      message: {
-        userId: "user1",
-        dataType: "string",
-        value: "Hello, let's chat",
-        timeStamp: date
-      }
+      subscribers: ["user1", "user2"]
     }
   });
 };
@@ -48,15 +42,7 @@ describe("Chat Service Tests", () => {
       [getMockId(0)]: {
         id: getMockId(0),
         isTyping: [],
-        messages: [
-          {
-            id: getMockId(1),
-            dataType: "string",
-            userId: "user1",
-            timeStamp: date,
-            value: "Hello, let's chat"
-          }
-        ],
+        messages: [],
         subscribers: ["user1", "user2"]
       }
     });
@@ -66,7 +52,7 @@ describe("Chat Service Tests", () => {
     chat.update<IDeleteThreadPayload>({
       type: ChatActionTypes.DELETE_THREAD,
       payload: {
-        threadId: getMockId(0)
+        id: getMockId(0)
       }
     });
     expect(Object.keys(chat.threads).length).toBe(0);
@@ -97,9 +83,21 @@ describe("Chat Service Tests", () => {
       payload: {
         threadId: getMockId(0),
         message: {
-          userId: "user2",
+          userId: "user1",
           dataType: "string",
           value: "Hello, what's popping?",
+          timeStamp: date
+        }
+      }
+    });
+    chat.update<IAddMessagePayload>({
+      type: ChatActionTypes.ADD_MESSAGE,
+      payload: {
+        threadId: getMockId(0),
+        message: {
+          userId: "user2",
+          dataType: "string",
+          value: "Hello, what's popping again?",
           timeStamp: date
         }
       }
@@ -107,24 +105,36 @@ describe("Chat Service Tests", () => {
 
     expect(chat.threads[getMockId(0)].messages).toStrictEqual([
       {
-        dataType: "string",
-        userId: "user1",
         id: getMockId(1),
-        timeStamp: date,
-        value: "Hello, let's chat"
-      },
-      {
-        id: getMockId(2),
-        userId: "user2",
+        userId: "user1",
         dataType: "string",
         value: "Hello, what's popping?",
         timeStamp: date
+      },
+      {
+        dataType: "string",
+        userId: "user2",
+        id: getMockId(2),
+        timeStamp: date,
+        value: "Hello, what's popping again?"
       }
     ]);
   });
 
   test("should edit message in thread", () => {
     addThread(chat, date);
+    chat.update<IAddMessagePayload>({
+      type: ChatActionTypes.ADD_MESSAGE,
+      payload: {
+        threadId: getMockId(0),
+        message: {
+          userId: "user1",
+          dataType: "string",
+          value: "Hello, what's popping?",
+          timeStamp: date
+        }
+      }
+    });
     chat.update<IEditMessagePayload>({
       type: ChatActionTypes.EDIT_MESSAGE,
       payload: {

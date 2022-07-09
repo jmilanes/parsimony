@@ -10,7 +10,7 @@ import {
   Header
 } from "../components";
 import { navigateToRoute } from "../utils";
-import { IUser } from "../types";
+import { IUser } from "@parsimony/types";
 import { AddForm } from "../containers";
 import {
   initialUserData,
@@ -18,7 +18,7 @@ import {
   userRoleOptionsWithStringValues
 } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table";
-import { Pages } from "../enums";
+import { Pages } from "@parsimony/types";
 
 const Users = () => {
   const navigate = navigateToRoute();

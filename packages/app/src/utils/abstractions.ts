@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
-import { IObject } from "../types";
+import { IObject } from "@parsimony/types";
 import cn from "classnames";
 
 export const uuid = () => uuidv4();

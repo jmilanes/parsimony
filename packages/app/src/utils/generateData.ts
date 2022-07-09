@@ -1,6 +1,6 @@
-import { Collections } from "../enums";
+import { Collections } from "@parsimony/types";
 import { mockSchoolData, mockUserData, mockProgramData } from "../fixtures";
-import { ICollection } from "../types";
+import { ICollection } from "@parsimony/types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type IDataCreationFns = Record<Collections, (payload: any) => void>;

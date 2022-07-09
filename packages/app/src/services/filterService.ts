@@ -1,4 +1,4 @@
-import { IObject } from "../types";
+import { IObject } from "@parsimony/types";
 import { IStateService } from "./stateService";
 
 export type FilterFn = (obj: IObject) => boolean;

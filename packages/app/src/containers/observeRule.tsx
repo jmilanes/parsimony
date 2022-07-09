@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { clone, getMax, getSum } from "../utils";
 import { Container, Button } from "../components";
-import { IResultData, IRule, IRuleResult } from "../types";
+import { IResultData, IRule, IRuleResult } from "@parsimony/types";
 import { increment, decrement, generateKey, compileStyles } from "../utils";
 import "./styles.css";
 

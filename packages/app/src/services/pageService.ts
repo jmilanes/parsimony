@@ -7,8 +7,8 @@ import {
   Results,
   Observe
 } from "../pages";
-import { Pages } from "../enums";
-import { IComponent } from "../types";
+import { Pages } from "@parsimony/types";
+import { IComponent } from "@parsimony/types";
 import { Chat } from "../containers";
 
 export type IPageComponents = Record<Pages, IComponent<unknown>>;

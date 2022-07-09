@@ -3,7 +3,7 @@ import {
   ICreateThreadPayload,
   IDeleteThreadPayload
 } from "@parsimony/types";
-import { IObject } from "../types";
+import { IObject } from "@parsimony/types";
 
 const SERVER_URL = "http://localhost:4000";
 
@@ -56,7 +56,7 @@ query Threads {
 export const createThread = (payload: ICreateThreadPayload) => {
   fetchMutation<ICreateThreadPayload>(
     `
-  mutation CreateThread($payload: ICreateThreadPayload) {
+  mutation CreateThread($payload: CreateThreadPayload) {
     createThread(payload: $payload) {
       id
     }
@@ -69,7 +69,7 @@ export const createThread = (payload: ICreateThreadPayload) => {
 export const deleteThread = (payload: IDeleteThreadPayload) => {
   fetchMutation<IDeleteThreadPayload>(
     `
-    mutation DeleteThread($payload: IDeletePayload) {
+    mutation DeleteThread($payload: DeletePayload) {
       deleteThread(payload: $payload)
     }
       `,
@@ -80,7 +80,7 @@ export const deleteThread = (payload: IDeleteThreadPayload) => {
 export const addMessage = (payload: IAddMessagePayload) => {
   fetchMutation<IAddMessagePayload>(
     `
-    mutation AddMessage($payload: IMessagePayload) {
+    mutation AddMessage($payload: MessagePayload) {
       addMessage(payload: $payload){
         id
       }

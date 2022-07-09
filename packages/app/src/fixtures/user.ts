@@ -1,6 +1,6 @@
 import { IOption } from "../components/selector";
-import { UserRoles } from "../enums";
-import { IUser } from "../types";
+import { UserRoles } from "@parsimony/types";
+import { IUser } from "@parsimony/types";
 
 const initialUserData: IUser = {
   id: "",

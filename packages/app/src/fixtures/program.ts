@@ -8,8 +8,8 @@ import {
   PromptTypes,
   RuleStyle,
   UserRoles
-} from "../enums";
-import { IProgram } from "../types";
+} from "@parsimony/types";
+import { IProgram } from "@parsimony/types";
 
 export const initialProgramData: IProgram = {
   // Need to figure out how to remove ID from IProgram
