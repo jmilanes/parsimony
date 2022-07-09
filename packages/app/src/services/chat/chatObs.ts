@@ -3,7 +3,6 @@ import {
   IThreads,
   ICreateThreadPayload,
   IDeleteThreadPayload,
-  ISubscribeUsersToThreadPayload,
   IAddMessagePayload,
   IEditMessagePayload,
   IUpdateIsTypingPayload,
@@ -12,13 +11,12 @@ import {
   IId,
   ChatActionTypes
 } from "@parsimony/types";
-import { clone, uuid } from "../../utils";
+import { clone } from "../../utils";
 import { Subject } from "rxjs";
 import { socketObservable } from "../..";
 import { fetchTreads } from "../../bal";
-import { message } from "antd";
 
-class ChatServiceObservable {
+export default class ChatServiceObservable {
   threads$: Subject<IThreads>;
   threads: IThreads;
   stateUpdate: () => void;
@@ -49,6 +47,7 @@ class ChatServiceObservable {
 
   updateThreads = (update: IThreads) => {
     this.threads = update;
+    //TODO Need to make a universal space for state managment
     this.threads$.next(this.threads);
   };
 
@@ -57,45 +56,41 @@ class ChatServiceObservable {
   };
 
   updateThreadWithPayload = (threads: IThreads, action: any) => {
+    const freshThreads = action.type && clone<IThread>(threads);
     switch (action.type) {
       case ChatActionTypes.CREATE_THREAD:
         return createThread(
-          threads,
+          freshThreads,
           action.payload as unknown as ICreateThreadPayload & { id: string }
         );
       case ChatActionTypes.DELETE_THREAD:
         return deleteThread(
-          threads,
+          freshThreads,
           action.payload as unknown as IDeleteThreadPayload
-        );
-      case ChatActionTypes.SUBSCRIBE_USERS_TO_THREAD: // Changed to update Thread and handles name, subscribers, any top level
-        return subscribersUsersToThread(
-          threads,
-          action.payload as unknown as ISubscribeUsersToThreadPayload
         );
       case ChatActionTypes.UPDATE_THREAD:
         return updateThread(
-          threads,
+          freshThreads,
           action.payload as unknown as IUpdateThreadPayload
         );
       case ChatActionTypes.ADD_MESSAGE:
         return addMessage(
-          threads,
+          freshThreads,
           action.payload as unknown as IAddMessagePayload
         );
       case ChatActionTypes.DELETE_MESSAGE:
         return deleteMessage(
-          threads,
+          freshThreads,
           action.payload as unknown as IDeleteMessagePayload
         );
       case ChatActionTypes.EDIT_MESSAGE:
         return editMessage(
-          threads,
+          freshThreads,
           action.payload as unknown as IEditMessagePayload
         );
       case ChatActionTypes.UPDATE_IS_TYPING:
         return updateIsTyping(
-          threads,
+          freshThreads,
           action.payload as unknown as IUpdateIsTypingPayload
         );
       default:
@@ -108,89 +103,58 @@ const createThread = (
   threads: IThreads,
   payload: ICreateThreadPayload & { id: string }
 ) => {
-  const updatedState = clone<IThread>(threads);
-  updatedState[payload.id] = {
+  threads[payload.id] = {
     ...payload,
     isTyping: [],
     messages: []
   };
-  return updatedState;
+  return threads;
 };
 
 const deleteThread = (threads: IThreads, payload: IDeleteThreadPayload) => {
-  const updatedState = clone<IThread>(threads);
-  delete updatedState[payload.id];
-  return updatedState;
-};
-
-const subscribersUsersToThread = (
-  threads: IThreads,
-  payload: ISubscribeUsersToThreadPayload
-) => {
-  const updatedState = clone<IThread>(threads);
-  updatedState[payload.threadId].subscribers = [
-    ...updatedState[payload.threadId].subscribers,
-    ...payload.subscribers
-  ];
-  return updatedState;
+  delete threads[payload.id];
+  return threads;
 };
 
 const updateThread = (threads: IThreads, payload: IUpdateThreadPayload) => {
-  const updatedState = clone<IThread>(threads);
-  updatedState[payload.id] = { ...updatedState[payload.id], ...payload };
-  return updatedState;
+  threads[payload.id] = { ...threads[payload.id], ...payload };
+  return threads;
 };
 
 const addMessage = (threads: IThreads, payload: IAddMessagePayload) => {
-  const updatedState = clone<IThread>(threads);
-  updatedState[payload.threadId].messages = [
-    ...updatedState[payload.threadId].messages,
-    payload.message
-  ];
-  return updatedState;
+  const thread = threads[payload.threadId];
+  thread.messages = [...thread.messages, payload.message];
+  return threads;
 };
 
 const deleteMessage = (threads: IThreads, payload: IDeleteMessagePayload) => {
-  const updatedState = clone<IThread>(threads);
-  const thread = updatedState[payload.threadId];
+  const thread = threads[payload.threadId];
   thread.messages = thread.messages.filter(
     (msg) => msg.id !== payload.messageId
   );
-  return updatedState;
+  return threads;
 };
 
 const editMessage = (threads: IThreads, payload: IEditMessagePayload) => {
-  const updatedState = clone<IThread>(threads);
-  const thread = updatedState[payload.threadId];
+  const thread = threads[payload.threadId];
   thread.messages = thread.messages.map((message) => {
     if (message.id === payload.messageId) {
-      message.value = payload.value;
-      return message;
+      return { ...message, value: payload.value };
     }
     return message;
   });
-  return updatedState;
+  return threads;
 };
 
 const updateIsTyping = (threads: IThreads, payload: IUpdateIsTypingPayload) => {
-  const updatedState = clone<IThread>(threads);
-  if (
-    payload.value &&
-    updatedState[payload.threadId].isTyping.includes(payload.user)
-  )
-    return updatedState;
+  const thread = threads[payload.threadId];
+  if (payload.value && thread.isTyping.includes(payload.user)) return threads;
   if (payload.value) {
-    updatedState[payload.threadId].isTyping = [
-      ...updatedState[payload.threadId].isTyping,
-      payload.user
-    ];
+    thread.isTyping = [...thread.isTyping, payload.user];
   } else {
-    updatedState[payload.threadId].isTyping = updatedState[
-      payload.threadId
-    ].isTyping.filter((user) => user !== payload.user);
+    thread.isTyping = threads[payload.threadId].isTyping.filter(
+      (user) => user !== payload.user
+    );
   }
-
-  return updatedState;
+  return threads;
 };
-
-export default ChatServiceObservable;

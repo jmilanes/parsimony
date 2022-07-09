@@ -128,3 +128,14 @@ export const editMessage = (payload: IEditMessagePayload) => {
 // Limit messages initial requests and load more
 // FE Broadcast for like who is typing
 // Bulk delete
+
+// Place to change in current flow
+//* FE
+//  Chat Service
+//  BAL
+// Where ever we are passing in payloads to ball
+//* Types
+//  Payload types (should be generated from typedefs hopefully)
+//* Server
+//  TypeDefs
+//  Resolvers

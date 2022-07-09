@@ -31,11 +31,6 @@ export type IDeleteThreadPayload = {
   id: IId;
 };
 
-export type ISubscribeUsersToThreadPayload = {
-  threadId: IId;
-  subscribers: IId[];
-};
-
 export type IUpdateThreadPayload = {
   id: IId;
   subscribers: IId[];

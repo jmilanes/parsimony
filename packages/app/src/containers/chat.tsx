@@ -10,8 +10,7 @@ import ChatServiceObservable from "../services/chat/chatObs";
 import { IThread, IThreads } from "@parsimony/types";
 import { uuid } from "../utils";
 
-export const chatService = new ChatServiceObservable();
-
+const chatService = new ChatServiceObservable();
 const Chat = () => {
   const [threads, setThreads] = useState<IThreads>({} as IThreads);
 
@@ -42,7 +41,6 @@ const Chat = () => {
       },
       threadId
     });
-  console.log("🚀 ~ file: chat.tsx ~ line 40 ~ Chat ~ threads", threads);
 
   return (
     <div>
