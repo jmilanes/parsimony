@@ -20,10 +20,9 @@ export type IAction<payload> = {
   payload: payload;
 };
 
-export type ICreatePayload = {
-  id: IId;
+export type ICreateThreadPayload = {
+  name?: IId;
   subscribers: string[];
-  messages: IMessage[];
 };
 
 export type IDeleteThreadPayload = {
@@ -37,8 +36,7 @@ export type ISubscribeUsersToThreadPayload = {
 
 export type IAddMessagePayload = {
   threadId: IId;
-  message: IMessage;
-};
+} & Pick<IMessage, "userId" | "dataType" | "value">;
 
 export type IEditMessagePayload = {
   messageId: IId;

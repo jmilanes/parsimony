@@ -48,10 +48,6 @@ export const deleteThread =
 export const addMessage =
   ({ db, broadcast }: ICreateResolverParams) =>
   async (_: any, { payload }: { payload: any }) => {
-    console.log(
-      "🚀 ~ file: resolvers.ts ~ line 51 ~ payload",
-      payload.threadId
-    );
     const thread = await db.findEntry(modelTypes.thread, {
       _id: payload.threadId
     });
@@ -66,7 +62,7 @@ export const addMessage =
       type: ChatActionTypes.ADD_MESSAGE,
       payload: {
         threadId: thread._id,
-        message: thread.messages[thread.messages.length - 1]
+        message
       }
     });
 

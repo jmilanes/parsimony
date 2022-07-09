@@ -19,13 +19,13 @@ export default gql`
   }
 
   input IMessagePayload {
-    threadId: ID!
+    threadId: ID
     dataType: String
     value: String
     userId: String
   }
 
-  input ICreatePayload {
+  input ICreateThreadPayload {
     name: String
     subscribers: [String]
   }
@@ -38,7 +38,7 @@ export default gql`
     threads: [Thread]
   }
   type Mutation {
-    createThread(payload: ICreatePayload): Thread
+    createThread(payload: ICreateThreadPayload): Thread
     deleteThread(payload: IDeletePayload): ID
     addMessage(payload: IMessagePayload): Thread
   }

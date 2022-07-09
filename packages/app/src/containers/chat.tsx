@@ -1,9 +1,6 @@
-import { ChatActionTypes } from "@parsimony/types/src";
 import React, { useEffect, useState } from "react";
-import { socketObservable } from "..";
-import { createThread, deleteThread, fetchTreads } from "../bal";
+import { addMessage, createThread, deleteThread } from "../bal";
 import ChatServiceObservable from "../services/chat/chatObs";
-import { StateManger } from "../services/dataAccessServices";
 import { IThread, IThreads } from "../types";
 import { uuid } from "../utils";
 
@@ -25,7 +22,14 @@ const Chat = () => {
       subscribers: ["joey", "molly"]
     });
 
-  const onDelete = (id: any) => deleteThread({ id });
+  const onDelete = (id: string) => deleteThread({ id });
+  const onAddMessage = (e: any, threadId: string) =>
+    addMessage({
+      userId: "joey",
+      value: e.target.value,
+      dataType: "string",
+      threadId
+    });
 
   return (
     <div>
@@ -33,6 +37,12 @@ const Chat = () => {
       {Object.values(threads).map((thread: IThread) => (
         <div key={uuid()}>
           <h1>{thread.id}</h1>
+          <input
+            type="text"
+            name=""
+            id=""
+            onBlur={(e) => onAddMessage(e, thread.id)}
+          />
           {thread.messages.map((message) => (
             <p key={uuid()}>{message?.value}</p>
           ))}
