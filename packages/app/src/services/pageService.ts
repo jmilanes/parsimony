@@ -5,7 +5,8 @@ import {
   Users,
   User,
   Results,
-  Observe
+  Observe,
+  Login
 } from "../pages";
 import { Pages } from "@parsimony/types";
 import { IComponent } from "@parsimony/types";
@@ -21,7 +22,8 @@ const PageService: IPageComponents = {
   [Pages.User]: User,
   [Pages.Results]: Results,
   [Pages.Observe]: Observe,
-  [Pages.Chat]: Chat
+  [Pages.Chat]: Chat,
+  [Pages.Login]: Login
 };
 
 export default PageService;

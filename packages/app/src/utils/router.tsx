@@ -7,22 +7,31 @@ import {
   Link,
   useNavigate,
   useSearchParams,
-  HashRouter
+  HashRouter,
+  Navigate
 } from "react-router-dom";
 import { Button, Nav } from "../components";
-import { uuid } from "./";
+import { uuid } from ".";
 import { IRoute } from "@parsimony/types";
+import AuthService from "../services/authService";
+import { Login } from "../pages";
 
-export const generateRoutes = (routes: IRoute[]) => {
+export const generateRoutes = (routes: IRoute[], authService: AuthService) => {
   return (
     <HashRouter>
-      <Nav routes={routes} />
+      {authService.isLoggedIn && <Nav routes={routes} />}
       <Routes>
         {routes.map((route) => (
           <Route
             key={`route_${uuid()}`}
             path={route.path}
-            element={<route.element />}
+            element={
+              !authService.isLoggedIn && route.path !== "/login" ? (
+                <Login from={route.path} />
+              ) : (
+                <route.element />
+              )
+            }
           />
         ))}
       </Routes>
@@ -30,7 +39,7 @@ export const generateRoutes = (routes: IRoute[]) => {
   );
 };
 
-export const creatLink = (link: IRoute, filterService?: any) => {
+export const createLink = (link: IRoute, filterService?: any) => {
   return (
     <Link
       key={`${link.name || ""}_link_${uuid()}`}

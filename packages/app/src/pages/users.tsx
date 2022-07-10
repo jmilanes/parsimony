@@ -76,20 +76,20 @@ const Users = () => {
       >
         <Field
           placeHolderText="First Name"
-          pathToState="contactInformation.firstName"
-          value={localState.contactInformation?.firstName}
+          pathToState="firstName"
+          value={localState.firstName}
           updateState={updateState}
         />
         <Field
           placeHolderText="Last Name"
-          pathToState="contactInformation.lastName"
-          value={localState.contactInformation?.lastName}
+          pathToState="lastName"
+          value={localState.lastName}
           updateState={updateState}
         />
         <Field
           placeHolderText="Phone Number"
-          pathToState="contactInformation.phone"
-          value={localState.contactInformation?.phone}
+          pathToState="phone"
+          value={localState.phone}
           updateState={updateState}
         />
         <Selector

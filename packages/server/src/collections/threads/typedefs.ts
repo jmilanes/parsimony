@@ -80,9 +80,11 @@ export default gql`
 // getUserThreads (only get the threads that a user is subscribed)
 // Change string arrays to ID
 // is typing
+// auto generate payload types from type defs
+// Chat service more observable thing
 
 // UI
-// Testing
+// Testing (graphQL and Observable in service)
 // Errors
 
 //* GOALz

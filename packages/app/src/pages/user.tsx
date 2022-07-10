@@ -95,22 +95,22 @@ const User = () => {
       />
       <Field
         placeHolderText="First Name"
-        pathToState="contactInformation.firstName"
-        value={localState.contactInformation?.firstName}
+        pathToState="firstName"
+        value={localState.firstName}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />
       <Field
         placeHolderText="Last Name"
-        pathToState="contactInformation.lastName"
-        value={localState.contactInformation?.lastName}
+        pathToState="lastName"
+        value={localState.lastName}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />
       <Field
         placeHolderText="Phone Number"
-        pathToState="contactInformation.phone"
-        value={localState.contactInformation?.phone}
+        pathToState="phone"
+        value={localState.phone}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />

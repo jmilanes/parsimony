@@ -6,11 +6,12 @@ import {
   ThreadService
 } from "./crudServices";
 import { Collections } from "@parsimony/types";
-import { generateData } from "../utils";
+import { generateData, navigateToRoute } from "../utils";
 import dataAccessGenerator from "./dataAccessGenerator";
 import { IProgram, IResult, ISchool, IUser } from "@parsimony/types";
 import StateService from "./stateService";
 import FilterService from "./filterService";
+import AuthService from "./authService";
 
 const schoolService = new SchoolService();
 const userService = new UserService();
@@ -48,3 +49,5 @@ export const resultsData = dataAccessGenerator<IResult>(
   resultsService,
   StateManger
 );
+
+export const authService = new AuthService(userData.getAll());

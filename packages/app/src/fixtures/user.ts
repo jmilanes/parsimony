@@ -4,18 +4,18 @@ import { IUser } from "@parsimony/types";
 
 const initialUserData: IUser = {
   id: "",
-  contactInformation: {
-    firstName: "",
-    lastName: "",
-    dateOfBirth: new Date(),
-    phone: "",
-    contacts: []
-  },
+  firstName: "",
+  lastName: "",
+  dateOfBirth: new Date(),
+  phone: "",
+  contacts: [],
   dateCreated: new Date(),
   dateEdited: new Date(),
   schoolId: "School_01",
   roles: [UserRoles.Director],
-  type: UserRoles.Director
+  type: UserRoles.Director,
+  email: "",
+  password: ""
 };
 
 export default initialUserData;

@@ -37,7 +37,7 @@ export const generateKey = (type: string, key: string | number) =>
   `${type}-${key}`;
 
 export const getFullName = (user: IUser) =>
-  `${user.contactInformation.firstName} ${user.contactInformation.lastName}`;
+  `${user.firstName} ${user.lastName}`;
 
 export const createList = (arr: any[]) => arr.join(" | ");
 export const getLength = (arr: any[]) => arr?.length;

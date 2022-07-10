@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { generateRoutes } from "./utils";
 import routes from "./routes";
 import {
+  authService,
   programData,
   schoolData,
   StateManger,
@@ -39,7 +40,7 @@ const App = () => {
   React.useEffect(() => {
     StateManger.registerUpdateState(() => updateState({}));
   }, [updateState]);
-  return generateRoutes(routes);
+  return generateRoutes(routes, authService);
 };
 
 ReactDom.render(<App />, app);

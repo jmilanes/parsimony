@@ -22,7 +22,6 @@ export type IUserWithoutID = Omit<IUser, "id">;
 
 export type IUser = {
   id: IId;
-  contactInformation: IContactInformation;
   dateCreated: IDate;
   dateEdited: IDate;
   schoolId: string;
@@ -30,9 +29,8 @@ export type IUser = {
   roles: UserRoles[];
   type: UserRoles;
   documents?: unknown; // These will be uploaded PDFs or maybe jpegs associated with clients
-};
-
-export type IContactInformation = {
+  password?: string;
+  email?: string;
   firstName: string;
   lastName: string;
   dateOfBirth: IDate;

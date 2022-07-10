@@ -4,32 +4,32 @@ import { UserRoles } from "@parsimony/types";
 export const mockUserData: IUser[] = [
   {
     id: "",
-    contactInformation: {
-      firstName: "Molly",
-      lastName: "Milanes",
-      dateOfBirth: new Date(),
-      phone: "1-111-111-1111",
-      contacts: []
-    },
+    firstName: "Molly",
+    lastName: "Milanes",
+    dateOfBirth: new Date(),
+    phone: "1-111-111-1111",
+    contacts: [],
     dateCreated: new Date(),
     dateEdited: new Date(),
     schoolId: "School_01",
     roles: [UserRoles.Director],
-    type: UserRoles.Director
+    type: UserRoles.Director,
+    password: "p345089",
+    email: "molly@gmail.com"
   },
   {
     id: "",
-    contactInformation: {
-      firstName: "Joey",
-      lastName: "Milanes",
-      dateOfBirth: new Date(),
-      phone: "1-111-111-1111",
-      contacts: []
-    },
+    firstName: "Joey",
+    lastName: "Milanes",
+    dateOfBirth: new Date(),
+    phone: "1-111-111-1111",
+    contacts: [],
     dateCreated: new Date(),
     dateEdited: new Date(),
     schoolId: "School_01",
     roles: [UserRoles.Director],
-    type: UserRoles.Director
+    type: UserRoles.Director,
+    password: "p345089",
+    email: "joey@gmail.com"
   }
 ];
