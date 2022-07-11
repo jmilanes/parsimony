@@ -1,22 +1,22 @@
-import { IUser } from "@parsimony/types/src";
+import { IDataAccess, IUser } from "@parsimony/types";
 import { message } from "antd";
 
 export default class AuthService {
   isLoggedIn: boolean;
   previousPage: string;
   currentUser?: IUser;
-  users: IUser[];
-  constructor(users: IUser[]) {
+  usersData: IDataAccess<IUser>;
+  constructor(usersData: IDataAccess<IUser>) {
     this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    this.users = users;
-    this.currentUser = JSON.parse(
-      localStorage.getItem("currentUser") || "{}"
-    ) as IUser;
+    this.usersData = usersData;
+    this.currentUser = usersData.get(
+      localStorage.getItem("currentUserId") || ""
+    );
     this.previousPage = "";
   }
 
   logIn = (email: string, password: string) => {
-    const user = this.users.find((user) => user.email === email);
+    const user = this.usersData.getAll().find((user) => user.email === email);
     if (!user) {
       message.error("Email not found");
       return false;
@@ -26,7 +26,7 @@ export default class AuthService {
       return false;
     }
     localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("currentUser", JSON.stringify(user));
+    localStorage.setItem("currentUserId", user.id);
     window.location.reload();
   };
 

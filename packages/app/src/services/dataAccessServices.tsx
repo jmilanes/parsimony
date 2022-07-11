@@ -50,4 +50,8 @@ export const resultsData = dataAccessGenerator<IResult>(
   StateManger
 );
 
-export const authService = new AuthService(userData.getAll());
+export const authService = new AuthService(userData);
+console.log(
+  "🚀 ~ file: dataAccessServices.tsx ~ line 54 ~ authService",
+  authService.getCurrentUser()
+);
