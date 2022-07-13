@@ -1,12 +1,9 @@
-import thread from "./schemas/thread";
-
-export enum modelTypes {
-  thread = "thread"
-}
+import { WithEmptyObj } from "@parsimony/types/src";
+import { modelTypes } from "./models";
 
 export default class DataBaseController {
   dataBase: any;
-  models: Record<string, any>;
+  models: WithEmptyObj<Record<modelTypes, any>>;
   constructor(dataBase: any) {
     this.dataBase = dataBase;
     this.models = {};
@@ -18,14 +15,19 @@ export default class DataBaseController {
     });
   }
 
-  createModels() {
-    this.models.Thread = this.dataBase.model("thread", thread);
+  createModels(models: Record<modelTypes, any>) {
+    Object.entries(models).forEach(([modelType, model]) => {
+      this.models[modelType as modelTypes] = this.dataBase.model(
+        modelType,
+        model
+      );
+    });
   }
 
   async createEntry(model: modelTypes, entry: Record<string, any>) {
-    const thread = new this.dataBase.models[model](entry);
-    await this.saveEntry(thread);
-    return thread;
+    const newEntry = new this.dataBase.models[model](entry);
+    await this.saveEntry(newEntry);
+    return newEntry;
   }
 
   async deleteEntry(model: modelTypes, id: string) {

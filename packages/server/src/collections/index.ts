@@ -1,5 +1,6 @@
 import DataBaseController from "../database/dataBaseController";
 import { threadTypeDefs, threadResolvers } from "./threads";
+import { userTypeDefs, userResolvers } from "./users";
 
 export type ICreateResolverParams = {
   db: DataBaseController;
@@ -7,10 +8,13 @@ export type ICreateResolverParams = {
 };
 
 const createResolvers = (params: ICreateResolverParams) => {
-  const resolvers = [threadResolvers];
+  const resolvers = [threadResolvers, userResolvers];
   return resolvers.map((resolver) => resolver(params));
 };
 
-const graphQlConfig = { typeDefs: [threadTypeDefs], createResolvers };
+const graphQlConfig = {
+  typeDefs: [threadTypeDefs, userTypeDefs],
+  createResolvers
+};
 
 export default graphQlConfig;

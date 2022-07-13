@@ -52,6 +52,7 @@ const Chat = () => {
           <input
             type="text"
             name=""
+            placeholder="Add Message"
             id=""
             onBlur={(e) => onAddMessage(e, thread.id)}
           />
@@ -61,6 +62,7 @@ const Chat = () => {
               <input
                 type="text"
                 name=""
+                placeholder="Edit Message"
                 id=""
                 onBlur={(e) => onEditMessage(e, thread.id, message.id || "")}
               />

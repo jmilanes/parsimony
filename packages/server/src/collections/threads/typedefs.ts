@@ -68,25 +68,3 @@ export default gql`
     editMessage(payload: EditMessagePayload): ID
   }
 `;
-
-// Users need to go in to db
-// Auth service
-//    Log in
-//    Log out
-//    15 min auto log out for prod (if we want)
-// fake password for now
-// temp log in page
-
-// getUserThreads (only get the threads that a user is subscribed)
-// Change string arrays to ID
-// is typing
-// auto generate payload types from type defs
-// Chat service more observable thing
-
-// UI
-// Testing (graphQL and Observable in service)
-// Errors
-
-//* GOALz
-// Close loop on chat (with testing)
-// Get one FE collection into mongo/graphQL land

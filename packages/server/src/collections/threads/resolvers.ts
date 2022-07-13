@@ -1,8 +1,7 @@
 import { ChatActionTypes } from "@parsimony/types";
 import { ICreateResolverParams } from "..";
-import DataBaseController, {
-  modelTypes
-} from "../../database/dataBaseController";
+import DataBaseController from "../../database/dataBaseController";
+import { modelTypes } from "../../database/models";
 
 export default (ICreateResolverParams: ICreateResolverParams) => ({
   Mutation: {
@@ -14,7 +13,8 @@ export default (ICreateResolverParams: ICreateResolverParams) => ({
     editMessage: editMessage(ICreateResolverParams)
   },
   Query: {
-    threads: async () => await ICreateResolverParams.db.models.Thread.find({})
+    threads: async () =>
+      await ICreateResolverParams.db.models[modelTypes.thread].find({})
   }
 });
 
