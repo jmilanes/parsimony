@@ -21,6 +21,7 @@ const resolverUtils: ICreateResolverParams = {
 };
 // makeExecutableSchema
 const server = new ApolloServer({
+  namespace: "Parsimony",
   typeDefs: graphQlConfig.typeDefs,
   resolvers: graphQlConfig.createResolvers(resolverUtils)
 });
