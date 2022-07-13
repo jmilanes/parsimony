@@ -7,8 +7,7 @@ import {
   Link,
   useNavigate,
   useSearchParams,
-  HashRouter,
-  Navigate
+  HashRouter
 } from "react-router-dom";
 import { Button, Nav } from "../components";
 import { uuid } from ".";

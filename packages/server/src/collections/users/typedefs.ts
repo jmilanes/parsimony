@@ -72,7 +72,8 @@ export default gql`
   }
 `;
 
-// getUserThreads (only get the threads that a user is subscribed)
+// TODO
+// Set up FE to handle async users
 // Change string arrays to ID
 // is typing
 // auto generate payload types from type defs

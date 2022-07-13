@@ -5,7 +5,9 @@
   "main": "src",
   "scripts": {
     "mongo:start": "sudo mongod && sudo brew services start mongodb-community@5.0",
-    "start": "nodemon src/index.ts"
+    "start": "nodemon src/index.ts",
+    "codegen:schema": "npx apollo client:download-schema --endpoint=http://localhost:4000/api",
+    "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=src/**/*.tsx --target=typescript"
   },
   "dependencies": {
     "@types/mongoose": "^5.11.97",
@@ -25,7 +27,7 @@
     "jest": "^28.1.1",
     "supertest": "^6.2.3",
     "ts-jest": "^28.0.5",
-    "ts-node": "^10.8.1"
+    "ts-node": "^10.8.0"
   },
   "resolutions": {},
   "keywords": [],
