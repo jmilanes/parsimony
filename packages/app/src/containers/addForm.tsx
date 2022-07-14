@@ -22,8 +22,13 @@ const AddForm = ({
       visible={showForm}
       width={800}
       footer={[
-        <Button name="Cancel" action={onCancel} />,
-        <Button type="primary" name="Create" action={onCreate} />
+        <Button key="modal-cancel" name="Cancel" action={onCancel} />,
+        <Button
+          key="modal-create"
+          type="primary"
+          name="Create"
+          action={onCreate}
+        />
       ]}
       onCancel={onCancel}
     >

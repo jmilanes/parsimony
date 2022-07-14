@@ -1,23 +1,24 @@
 import {
   IAddMessagePayload,
-  ICreateThreadPayload,
-  IDeleteMessagePayload,
-  IDeleteThreadPayload,
-  IEditMessagePayload,
-  IThread
+  CreateThreadPayload,
+  DeleteMessagePayload,
+  DeletePayload,
+  EditMessagePayload,
+  Thread
 } from "@parsimony/types";
 import { createQueryRequestFn, createMutationRequestFn } from "../../utils";
 import operationStrings from "../operationStrings";
 
-export const fetchTreads = createQueryRequestFn<IThread[]>(
+export const fetchTreads = createQueryRequestFn<Thread[]>(
   operationStrings.threads.fetchThreads
 );
 
-export const createThread = createMutationRequestFn<ICreateThreadPayload>(
+export const createThread = createMutationRequestFn<CreateThreadPayload>(
   operationStrings.threads.createThread
 );
 
-export const deleteThread = createMutationRequestFn<IDeleteThreadPayload>(
+// TODO Rename in Sever to DeleteThreadPAyload
+export const deleteThread = createMutationRequestFn<DeletePayload>(
   operationStrings.threads.deleteThread
 );
 
@@ -25,10 +26,10 @@ export const addMessage = createMutationRequestFn<IAddMessagePayload>(
   operationStrings.threads.addMessage
 );
 
-export const deleteMessage = createMutationRequestFn<IDeleteMessagePayload>(
+export const deleteMessage = createMutationRequestFn<DeleteMessagePayload>(
   operationStrings.threads.deleteMessage
 );
 
-export const editMessage = createMutationRequestFn<IEditMessagePayload>(
+export const editMessage = createMutationRequestFn<EditMessagePayload>(
   operationStrings.threads.editMessage
 );

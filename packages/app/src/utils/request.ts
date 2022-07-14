@@ -18,11 +18,11 @@ export const createBody = (query: string, variables?: IObject) => {
 };
 
 export const createQueryRequestFn =
-  <R>(query: string) =>
-  async (): Promise<R> => {
+  <R, P>(query: string) =>
+  async (payload?: P): Promise<R> => {
     const response = await fetch(SERVER_URL, {
       ...requestParams,
-      body: createBody(query)
+      body: createBody(query, payload as IObject)
     });
     return await response.json();
   };

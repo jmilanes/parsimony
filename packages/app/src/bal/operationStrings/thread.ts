@@ -48,7 +48,7 @@ const editMessage = `
     }
       `;
 
-export const threadOperationString = {
+export default {
   fetchThreads,
   createThread,
   deleteThread,

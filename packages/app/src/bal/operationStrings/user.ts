@@ -1,58 +1,62 @@
-const fetchUsers = `
-query Threads {
-  threads {
-    id
-    name
-    subscribers
-    messages {
-      timeStamp
-      value
-      dataType
-      id
-    }
-  }
-}
+const fullSchema = `
+  id
+  updated_at
+  created_at
+  schoolId
+  timeZone
+  roles
+  type
+  documents
+  password
+  email
+  firstName
+  lastName
+  dateOfBirth
+  phone
+  contacts
 `;
 
-const fetchUser = `
-query Threads {
-  threads {
-    id
-    name
-    subscribers
-    messages {
-      timeStamp
-      value
-      dataType
-      id
+const getAllUsers = `
+  query GetAllUsers {
+    getAllUsers {
+      ${fullSchema}
     }
   }
-}
+`;
+
+const getUser = `
+  query GetUser($payload: GetUserPayload) {
+    getUser(payload: $payload) {
+      ${fullSchema}
+    }
+  }
 `;
 
 export const createUser = `
-  mutation CreateThread($payload: CreateThreadPayload) {
-    createThread(payload: $payload) {
-      id
+    mutation CreateUser($payload: CreateUserPayload) {
+      createUser(payload: $payload) {
+        ${fullSchema}
+      }
     }
-  } 
   `;
 
 export const deleteUser = `
-    mutation DeleteThread($payload: DeletePayload) {
-      deleteThread(payload: $payload)
-    }
-      `;
+  mutation DeleteUser($payload: DeleteUserPayload) {
+    deleteUser(payload: $payload)
+  }
+  `;
 
 export const editUser = `
-    mutation DeleteThread($payload: DeletePayload) {
-      deleteThread(payload: $payload)
-    }
+  mutation UpdateUser($payload: UpdateUserPayload) {
+    updateUser(payload: $payload) {
+      ${fullSchema}
+    } 
+  }
       `;
 
-export const threadOperationString = {
-  fetchUsers,
-  fetchUser,
+export default {
+  getAllUsers,
+  getUser,
   createUser,
   deleteUser,
   editUser

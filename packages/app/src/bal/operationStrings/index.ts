@@ -1,7 +1,9 @@
-import * as threads from "./thread";
+import threads from "./thread";
+import users from "./user";
 
 const operationStrings = {
-  threads
+  threads,
+  users
 };
 
 export default operationStrings;
