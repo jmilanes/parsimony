@@ -5,54 +5,56 @@ export default gql`
 
   type Thread {
     id: ID!
-    name: String
-    subscribers: [String]
-    messages: [Message]
-    isTyping: [String]
+    name: String!
+    subscribers: [String]!
+    messages: [Message]!
+    isTyping: [String]!
   }
 
   type Message {
     id: ID!
-    dataType: String
-    value: String
-    timeStamp: Date
-    userId: String
+    dataType: String!
+    value: String!
+    timeStamp: Date!
+    userId: String!
   }
 
   input CreateThreadPayload {
-    name: String
-    subscribers: [String]
+    name: String!
+    subscribers: [String]!
   }
 
   input DeletePayload {
-    id: ID
+    id: ID!
   }
 
   input UpdateThreadPayload {
-    id: ID
-    subscribers: [String]
-    name: String
+    id: ID!
+    subscribers: [String]!
+    name: String!
   }
 
   input MessagePayload {
+    id: ID
     dataType: String
     value: String
     userId: String
+    timeStamp: Date
   }
 
-  input MessagePayload {
-    threadId: ID
-    message: MessagePayload
+  input AddMessagePayload {
+    threadId: ID!
+    message: MessagePayload!
   }
 
   input EditMessagePayload {
-    threadId: ID
-    messageId: ID
-    value: String
+    threadId: ID!
+    messageId: ID!
+    value: String!
   }
   input DeleteMessagePayload {
-    threadId: ID
-    messageId: ID
+    threadId: ID!
+    messageId: ID!
   }
 
   type Query {

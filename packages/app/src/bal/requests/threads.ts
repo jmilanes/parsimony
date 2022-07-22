@@ -9,7 +9,13 @@ import {
 import { createQueryRequestFn, createMutationRequestFn } from "../../utils";
 import operationStrings from "../operationStrings";
 
-export const fetchTreads = createQueryRequestFn<Thread[]>(
+type threadResponse = {
+  data: {
+    threads: Thread[];
+  };
+};
+
+export const fetchTreads = createQueryRequestFn<threadResponse, {}>(
   operationStrings.threads.fetchThreads
 );
 

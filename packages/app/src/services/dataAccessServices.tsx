@@ -6,7 +6,6 @@ import {
   ThreadService
 } from "./crudServices";
 import { Collections } from "@parsimony/types";
-import { generateData, navigateToRoute } from "../utils";
 import dataAccessGenerator from "./dataAccessGenerator";
 import { IProgram, IResult, ISchool, IUser } from "@parsimony/types";
 import StateService from "./stateService";
@@ -51,7 +50,11 @@ export const resultsData = dataAccessGenerator<IResult>(
 );
 
 export const authService = new AuthService(userData);
-console.log(
-  "🚀 ~ file: dataAccessServices.tsx ~ line 54 ~ authService",
-  authService.getCurrentUser()
-);
+
+// 1) Generate crud services (Local storage rn)
+// 2) Create new Crud Services
+// 3) Pass service to the data access
+// 4) Directly access the data
+
+// 1) Create an async crudService
+// 2) Make a data store with a subscription that will call next every time we make a request and then update react

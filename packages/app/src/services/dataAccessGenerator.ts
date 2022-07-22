@@ -6,6 +6,7 @@ const dataAccessGenerator = <Schema>(
   stateManager: IStateService
 ): IDataAccess<Schema> => {
   return {
+    // These will use the
     create: (payload: Schema) => {
       const id = collectionService.create(payload);
       stateManager.updateState();
@@ -19,6 +20,7 @@ const dataAccessGenerator = <Schema>(
       collectionService.delete(id);
       stateManager.updateState();
     },
+    // These will read from the store
     get: (id: string): Schema => collectionService.get(id),
     getAll: (): Schema[] => collectionService.getAll(),
     getAllBy: (key: keyof Schema, value: unknown): Schema[] =>

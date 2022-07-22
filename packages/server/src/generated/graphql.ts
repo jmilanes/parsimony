@@ -14,9 +14,14 @@ export type Scalars = {
   Date: any;
 };
 
+export type AddMessagePayload = {
+  message: MessagePayload;
+  threadId: Scalars['ID'];
+};
+
 export type CreateThreadPayload = {
-  name?: InputMaybe<Scalars['String']>;
-  subscribers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  name: Scalars['String'];
+  subscribers: Array<InputMaybe<Scalars['String']>>;
 };
 
 export type CreateUserPayload = {
@@ -35,12 +40,12 @@ export type CreateUserPayload = {
 };
 
 export type DeleteMessagePayload = {
-  messageId?: InputMaybe<Scalars['ID']>;
-  threadId?: InputMaybe<Scalars['ID']>;
+  messageId: Scalars['ID'];
+  threadId: Scalars['ID'];
 };
 
 export type DeletePayload = {
-  id?: InputMaybe<Scalars['ID']>;
+  id: Scalars['ID'];
 };
 
 export type DeleteUserPayload = {
@@ -48,9 +53,9 @@ export type DeleteUserPayload = {
 };
 
 export type EditMessagePayload = {
-  messageId?: InputMaybe<Scalars['ID']>;
-  threadId?: InputMaybe<Scalars['ID']>;
-  value?: InputMaybe<Scalars['String']>;
+  messageId: Scalars['ID'];
+  threadId: Scalars['ID'];
+  value: Scalars['String'];
 };
 
 export type GetUserPayload = {
@@ -59,17 +64,17 @@ export type GetUserPayload = {
 
 export type Message = {
   __typename?: 'Message';
-  dataType?: Maybe<Scalars['String']>;
+  dataType: Scalars['String'];
   id: Scalars['ID'];
-  timeStamp?: Maybe<Scalars['Date']>;
-  userId?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  timeStamp: Scalars['Date'];
+  userId: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type MessagePayload = {
   dataType?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<MessagePayload>;
-  threadId?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
+  timeStamp?: InputMaybe<Scalars['Date']>;
   userId?: InputMaybe<Scalars['String']>;
   value?: InputMaybe<Scalars['String']>;
 };
@@ -147,16 +152,16 @@ export type QueryGetUserArgs = {
 export type Thread = {
   __typename?: 'Thread';
   id: Scalars['ID'];
-  isTyping?: Maybe<Array<Maybe<Scalars['String']>>>;
-  messages?: Maybe<Array<Maybe<Message>>>;
-  name?: Maybe<Scalars['String']>;
-  subscribers?: Maybe<Array<Maybe<Scalars['String']>>>;
+  isTyping: Array<Maybe<Scalars['String']>>;
+  messages: Array<Maybe<Message>>;
+  name: Scalars['String'];
+  subscribers: Array<Maybe<Scalars['String']>>;
 };
 
 export type UpdateThreadPayload = {
-  id?: InputMaybe<Scalars['ID']>;
-  name?: InputMaybe<Scalars['String']>;
-  subscribers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  subscribers: Array<InputMaybe<Scalars['String']>>;
 };
 
 export type UpdateUserPayload = {
@@ -263,6 +268,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  AddMessagePayload: AddMessagePayload;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateThreadPayload: CreateThreadPayload;
   CreateUserPayload: CreateUserPayload;
@@ -286,6 +292,7 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  AddMessagePayload: AddMessagePayload;
   Boolean: Scalars['Boolean'];
   CreateThreadPayload: CreateThreadPayload;
   CreateUserPayload: CreateUserPayload;
@@ -312,11 +319,11 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type MessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
-  dataType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  dataType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  timeStamp?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  value?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  timeStamp?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -340,10 +347,10 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type ThreadResolvers<ContextType = any, ParentType extends ResolversParentTypes['Thread'] = ResolversParentTypes['Thread']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  isTyping?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
-  messages?: Resolver<Maybe<Array<Maybe<ResolversTypes['Message']>>>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  subscribers?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  isTyping?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
+  messages?: Resolver<Array<Maybe<ResolversTypes['Message']>>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subscribers?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

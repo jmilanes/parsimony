@@ -6,13 +6,18 @@ import {
   deleteThread,
   editMessage
 } from "../bal";
-import ChatServiceObservable from "../services/chat/chatObs";
-import { IThread, IThreads } from "@parsimony/types";
+import ChatServiceObservable, {
+  ThreadCollection
+} from "../services/chat/chatService";
+import { Thread } from "@parsimony/types";
 import { uuid } from "../utils";
 
 const chatService = new ChatServiceObservable();
+
 const Chat = () => {
-  const [threads, setThreads] = useState<IThreads>({} as IThreads);
+  const [threads, setThreads] = useState<ThreadCollection>(
+    {} as ThreadCollection
+  );
 
   useEffect(() => {
     chatService.init();
@@ -28,10 +33,13 @@ const Chat = () => {
     });
 
   const onDelete = (id: string) => deleteThread({ id });
+
   const onDeleteMessage = (threadId: string, messageId: string) =>
     deleteMessage({ threadId, messageId });
+
   const onEditMessage = (e: any, threadId: string, messageId: string) =>
     editMessage({ value: e.target.value, threadId, messageId });
+
   const onAddMessage = (e: any, threadId: string) =>
     addMessage({
       message: {
@@ -45,8 +53,8 @@ const Chat = () => {
   return (
     <div>
       <button onClick={() => onCreate()}>Crete Thread</button>
-      {Object.values(threads).map((thread: IThread) => (
-        <div key={uuid()}>
+      {Object.values(threads).map((thread: Thread) => (
+        <div key={thread.id}>
           <h1>{thread.name}</h1>
           <p>{thread.id}</p>
           <input

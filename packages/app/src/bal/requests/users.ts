@@ -35,3 +35,5 @@ export const updateUser = createMutationRequestFn<UpdateUserPayload>(
 // See if observables it the way to go
 // Then copy pattern for other things!
 // This will be a good way to understand the flow and the pattern you are using now - before diving in
+
+// Then make login work on safari
