@@ -65,7 +65,7 @@ export default gql`
     createThread(payload: CreateThreadPayload): Thread
     deleteThread(payload: DeletePayload): ID
     updateThread(payload: UpdateThreadPayload): Thread
-    addMessage(payload: MessagePayload): Thread
+    addMessage(payload: AddMessagePayload): Thread
     deleteMessage(payload: DeleteMessagePayload): ID
     editMessage(payload: EditMessagePayload): ID
   }

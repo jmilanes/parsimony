@@ -29,7 +29,7 @@ const deleteThread = `
       `;
 
 const addMessage = `
-    mutation AddMessage($payload: MessagePayload) {
+    mutation AddMessage($payload: AddMessagePayload) {
       addMessage(payload: $payload){
         id
       }
