@@ -2,11 +2,12 @@ import { Input } from "antd";
 import React from "react";
 
 import { Container, Header } from "../components";
+import { Maybe } from "@parsimony/types";
 
 export type IFieldProps = {
   key?: string;
   readOnly?: boolean;
-  value?: string;
+  value?: Maybe<string>;
   pathToState: string;
   placeHolderText: string;
   updateState: (path: string, value: string) => void;
@@ -31,7 +32,7 @@ const Field = ({
       <Input
         key={key}
         placeholder={placeHolderText}
-        value={value}
+        value={value || ""}
         onChange={(e) => updateState(pathToState, e.currentTarget.value)}
       ></Input>
     </Container>

@@ -8,11 +8,7 @@ import {
   ruleStyles,
   userRoleOptions
 } from "../fixtures";
-import {
-  programData,
-  StateManger,
-  userData
-} from "../services/dataAccessServices";
+import { programData, userData } from "../services/dataAccessServices";
 import { IId, IProgram } from "@parsimony/types";
 import {
   createList,
@@ -30,6 +26,7 @@ import {
   Selector
 } from "../components";
 import { ProgramTypes } from "@parsimony/types";
+import { StateManger } from "../services/crudServices";
 
 const Programs = () => {
   const navigate = navigateToRoute();

@@ -9,9 +9,9 @@ import {
   authService,
   programData,
   schoolData,
-  StateManger,
   userData
 } from "./services/dataAccessServices";
+import { StateManger } from "./services/crudServices";
 
 console.log("DATA", {
   schools: schoolData.getAll(),

@@ -10,7 +10,7 @@ export default gql`
     schoolId: String
     timeZone: String
     roles: [String]
-    type: [String]
+    type: String
     documents: [String]
     password: String
     email: String
@@ -25,7 +25,7 @@ export default gql`
     schoolId: String
     timeZone: String
     roles: [String]
-    type: [String]
+    type: String
     documents: [String]
     password: String
     email: String
@@ -49,7 +49,7 @@ export default gql`
     schoolId: String
     timeZone: String
     roles: [String]
-    type: [String]
+    type: String
     documents: [String]
     password: String
     email: String

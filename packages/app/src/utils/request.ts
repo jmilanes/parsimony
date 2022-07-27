@@ -1,4 +1,5 @@
 import { IObject } from "@parsimony/types/src";
+import { Alert, notification } from "antd";
 
 const SERVER_URL = "http://localhost:4000";
 
@@ -17,21 +18,17 @@ export const createBody = (query: string, variables?: IObject) => {
   return JSON.stringify(body);
 };
 
-export const createQueryRequestFn =
-  <R, P>(query: string) =>
-  async (payload?: P): Promise<R> => {
+// TODO 2 one void one return type or one with an optional return type
+export const createRequest =
+  <P, R>(mutation: string) =>
+  async (payload: P): Promise<R> => {
     const response = await fetch(SERVER_URL, {
-      ...requestParams,
-      body: createBody(query, payload as IObject)
-    });
-    return await response.json();
-  };
-
-export const createMutationRequestFn =
-  <P>(mutation: string) =>
-  async (payload: P) => {
-    fetch(SERVER_URL, {
       ...requestParams,
       body: createBody(mutation, { payload })
     });
+
+    return parseResponseJson<R>(await response.json());
   };
+
+const parseResponseJson = <R>(response: { data: Record<string, unknown> }): R =>
+  Object.values(response.data)[0] as R;

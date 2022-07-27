@@ -26,7 +26,7 @@ const Chat = () => {
     });
   }, []);
 
-  const onCreate = () =>
+  const onCreateThread = () =>
     createThread({
       name: "New Thread",
       subscribers: ["joey", "molly"]
@@ -52,7 +52,7 @@ const Chat = () => {
 
   return (
     <div>
-      <button onClick={() => onCreate()}>Crete Thread</button>
+      <button onClick={() => onCreateThread()}>Crete Thread</button>
       {Object.values(threads).map((thread: Thread) => (
         <div key={thread.id}>
           <h1>{thread.name}</h1>

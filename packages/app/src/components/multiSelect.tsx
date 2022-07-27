@@ -7,7 +7,7 @@ const { Option } = Select;
 
 export type IOptionMultiSelect = {
   name: string;
-  value: string | number | boolean;
+  value: string | number;
 };
 
 export type IMultiSelectProps = {
@@ -39,7 +39,7 @@ const MultiSelect = ({
       <Container flexDirection="row">
         <FormHeder />
         <p>
-          {values.map((value: string, i: number) =>
+          {values?.map((value: string, i: number) =>
             createCommaSeparatedSting(value, i)
           )}
         </p>
@@ -56,11 +56,13 @@ const MultiSelect = ({
           allowClear
           style={{ width: "100%" }}
           placeholder="Please select"
-          defaultValue={values}
+          defaultValue={values as string[]}
           onChange={(value) => updateSelectionsAndState(value)}
         >
-          {options.map((option) => (
-            <Option key={option.name}>{option.name}</Option>
+          {options.map(({ value, name }) => (
+            <Option value={value} key={name}>
+              {name}
+            </Option>
           ))}
         </Select>
       </Container>

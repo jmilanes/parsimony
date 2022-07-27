@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StateManger, userData } from "../services/dataAccessServices";
+import { userData } from "../services/dataAccessServices";
 import {
   Button,
   Table,
@@ -10,7 +10,7 @@ import {
   Header
 } from "../components";
 import { navigateToRoute } from "../utils";
-import { IUser } from "@parsimony/types";
+import { User } from "@parsimony/types";
 import { AddForm } from "../containers";
 import {
   initialUserData,
@@ -19,12 +19,15 @@ import {
 } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table";
 import { Pages } from "@parsimony/types";
+import { StateManger } from "../services/crudServices";
 
 const Users = () => {
   const navigate = navigateToRoute();
   const data = userData.getAll();
+
   const [showAddForm, setShowAddForm] = React.useState(false);
-  const [localState, updateLocalState] = React.useState<IUser>(initialUserData);
+  const [localState, updateLocalState] =
+    React.useState<Partial<User>>(initialUserData);
 
   const updateState = StateManger.updateLocalState({
     localState,
@@ -32,7 +35,7 @@ const Users = () => {
   });
 
   const submitAddForm = () => {
-    userData.create(localState);
+    userData.create(localState); // TODO:
     setShowAddForm(false);
     updateLocalState(initialUserData);
   };
@@ -42,14 +45,15 @@ const Users = () => {
     { key: "lastName", dataIndex: "lastName", title: "lastName" },
     { key: "type", dataIndex: "type", title: "type" }
   ];
+
   const actions: ITableAction[] = [
     {
       name: "View",
-      method: (user: IUser) => navigate(`/directory/${user.id}`)
+      method: (user: User) => navigate(`/directory/${user.id}`)
     },
     {
       name: "Delete",
-      method: (user: Required<IUser>) => userData.delete(user.id)
+      method: (user: Required<User>) => userData.delete({ id: user.id })
     }
   ];
 

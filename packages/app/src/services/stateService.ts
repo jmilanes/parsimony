@@ -1,4 +1,6 @@
+import { Collections } from "@parsimony/types/src";
 import { clone, setDataWithPath } from "../utils";
+import { Store } from "./store";
 
 export type IUpdateLocalStatePayload = {
   localState: Record<string, unknown>;
@@ -11,12 +13,20 @@ export interface IStateService {
 }
 
 class StateService implements IStateService {
+  store: Store;
   updateState: () => void;
-  constructor() {
+  constructor(store: Store) {
+    this.store = store;
     this.updateState = () => console.log("No update state function registered");
   }
 
-  registerUpdateState = (updateFn: () => void) => (this.updateState = updateFn);
+  registerUpdateState = (updateFn: () => void) => {
+    this.updateState = updateFn;
+    this.store.subscribeToStoreCollection(Collections.User, () => {
+      console.log("RUN");
+      this.updateState();
+    });
+  };
 
   updateLocalState =
     ({ localState, updateLocalState }: IUpdateLocalStatePayload) =>

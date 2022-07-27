@@ -10,11 +10,7 @@ import {
   MultiSelect,
   Row
 } from "../components";
-import {
-  programData,
-  StateManger,
-  userData
-} from "../services/dataAccessServices";
+import { programData, userData } from "../services/dataAccessServices";
 import { IProgram, IModes } from "@parsimony/types";
 
 import {
@@ -26,18 +22,15 @@ import {
   navigateToRoute
 } from "../utils";
 import { ProgramTypes, Routes } from "@parsimony/types";
+import { StateManger } from "../services/crudServices";
 
 const Program = () => {
   const navigate = navigateToRoute();
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
-  console.log(
-    "🚀 ~ file: program.tsx ~ line 28 ~ Program ~ searchParams",
-    searchParams
-  );
+
   const program = programData.get(programId || "");
   const client = userData.get(program.clientId || "");
-  console.log("🚀 ~ file: program.tsx ~ line 34 ~ Program ~ client", client);
 
   const [localState, updateLocalState] = React.useState<IProgram>(program);
   const [mode, updateMode] = React.useState<IModes>(

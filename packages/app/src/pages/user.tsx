@@ -11,11 +11,7 @@ import {
   Table,
   Row
 } from "../components";
-import {
-  StateManger,
-  userData,
-  programData
-} from "../services/dataAccessServices";
+import { userData, programData } from "../services/dataAccessServices";
 import { IModes, IProgram, IUser } from "@parsimony/types";
 
 import {
@@ -28,6 +24,7 @@ import { navigateToRoute } from "../utils";
 import { filterService } from "../services/dataAccessServices";
 import { Routes } from "@parsimony/types";
 import { IColumns, ITableAction } from "../components/table";
+import { StateManger } from "../services/crudServices";
 
 const User = () => {
   const { userId } = getRouterParams();

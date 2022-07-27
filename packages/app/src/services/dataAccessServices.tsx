@@ -3,12 +3,13 @@ import {
   UserService,
   ProgramService,
   ResultService,
-  ThreadService
+  ThreadService,
+  store,
+  StateManger
 } from "./crudServices";
 import { Collections } from "@parsimony/types";
 import dataAccessGenerator from "./dataAccessGenerator";
-import { IProgram, IResult, ISchool, IUser } from "@parsimony/types";
-import StateService from "./stateService";
+import { IProgram, IResult, ISchool } from "@parsimony/types";
 import FilterService from "./filterService";
 import AuthService from "./authService";
 
@@ -33,13 +34,15 @@ export const initialData = {
   [Collections.User]: userService.getAll(),
   [Collections.Program]: programService.getAll()
 };
-export const StateManger = new StateService();
+
 export const filterService = new FilterService(StateManger);
 export const schoolData = dataAccessGenerator<ISchool>(
   schoolService,
   StateManger
 );
-export const userData = dataAccessGenerator<IUser>(userService, StateManger);
+export const userData = userService;
+userData.fetch();
+
 export const programData = dataAccessGenerator<IProgram>(
   programService,
   StateManger

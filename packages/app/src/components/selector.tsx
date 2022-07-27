@@ -3,6 +3,7 @@ import React from "react";
 import { Header, Container } from "../components";
 import { formatFormHeader, generateKey } from "../utils";
 import { Row, Col } from "./";
+import { Maybe } from "@parsimony/types";
 
 const { Option } = Select;
 
@@ -13,7 +14,7 @@ export type ISelectorProps = {
   pathToState: string;
   updateState: (path: string, value: string | number) => void;
   readOnly?: boolean;
-  value?: string | number;
+  value?: Maybe<string | number>;
   isNumber?: boolean;
   key?: string;
 };

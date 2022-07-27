@@ -1,12 +1,12 @@
-import { IDataAccess, IUser } from "@parsimony/types";
+import { IDataAccess, User } from "@parsimony/types";
 import { message } from "antd";
 
 export default class AuthService {
   isLoggedIn: boolean;
   previousPage: string;
-  currentUser?: IUser;
-  usersData: IDataAccess<IUser>;
-  constructor(usersData: IDataAccess<IUser>) {
+  currentUser?: User;
+  usersData: IDataAccess<User>;
+  constructor(usersData: IDataAccess<User>) {
     this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     this.usersData = usersData;
     this.currentUser = usersData.get(

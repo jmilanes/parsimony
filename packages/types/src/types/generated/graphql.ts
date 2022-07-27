@@ -36,7 +36,7 @@ export type CreateUserPayload = {
   roles?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   schoolId?: InputMaybe<Scalars['String']>;
   timeZone?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  type?: InputMaybe<Scalars['String']>;
 };
 
 export type DeleteMessagePayload = {
@@ -94,7 +94,7 @@ export type Mutation = {
 
 
 export type MutationAddMessageArgs = {
-  payload?: InputMaybe<MessagePayload>;
+  payload?: InputMaybe<AddMessagePayload>;
 };
 
 
@@ -177,7 +177,7 @@ export type UpdateUserPayload = {
   roles?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   schoolId?: InputMaybe<Scalars['String']>;
   timeZone?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  type?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
@@ -195,7 +195,7 @@ export type User = {
   roles?: Maybe<Array<Maybe<Scalars['String']>>>;
   schoolId?: Maybe<Scalars['String']>;
   timeZone?: Maybe<Scalars['String']>;
-  type?: Maybe<Array<Maybe<Scalars['String']>>>;
+  type?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['Date']>;
 };
 
@@ -368,7 +368,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   roles?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   schoolId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   timeZone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  type?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updated_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

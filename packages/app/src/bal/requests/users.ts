@@ -5,26 +5,26 @@ import {
   DeleteUserPayload,
   UpdateUserPayload
 } from "@parsimony/types";
-import { createQueryRequestFn, createMutationRequestFn } from "../../utils";
+import { createRequest } from "../../utils";
 import operationStrings from "../operationStrings";
 
-export const getAllUsers = createQueryRequestFn<User[], undefined>(
+export const getAllUsers = createRequest<undefined, User[]>(
   operationStrings.users.getAllUsers
 );
 
-export const getUser = createQueryRequestFn<User, GetUserPayload>(
+export const getUser = createRequest<GetUserPayload, User>(
   operationStrings.users.getUser
 );
 
-export const createUser = createMutationRequestFn<CreateUserPayload>(
+export const createUser = createRequest<CreateUserPayload, User>(
   operationStrings.users.createUser
 );
 
-export const deleteUser = createMutationRequestFn<DeleteUserPayload>(
+export const deleteUser = createRequest<DeleteUserPayload, { id: string }>(
   operationStrings.users.deleteUser
 );
 
-export const updateUser = createMutationRequestFn<UpdateUserPayload>(
+export const updateUser = createRequest<UpdateUserPayload, User>(
   operationStrings.users.editUser
 );
 
