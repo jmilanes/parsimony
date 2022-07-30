@@ -14,7 +14,7 @@ export type IMultiSelectProps = {
   key?: string;
   readOnly?: boolean;
   options: IOptionMultiSelect[];
-  values: string[];
+  values?: string[];
   pathToState: string;
   title: string;
   updateState: (path: string, value: unknown) => void;
@@ -29,6 +29,14 @@ const MultiSelect = ({
   title
 }: IMultiSelectProps) => {
   const updateSelectionsAndState = (values: unknown[]) => {
+    console.log(
+      "🚀 ~ file: multiSelect.tsx ~ line 32 ~ updateSelectionsAndState ~ values",
+      values
+    );
+    console.log(
+      "🚀 ~ file: multiSelect.tsx ~ line 33 ~ updateSelectionsAndState ~ pathToState",
+      pathToState
+    );
     updateState(pathToState, values);
   };
 
@@ -60,7 +68,7 @@ const MultiSelect = ({
           onChange={(value) => updateSelectionsAndState(value)}
         >
           {options.map(({ value, name }) => (
-            <Option value={value} key={name}>
+            <Option value={name} key={name}>
               {name}
             </Option>
           ))}

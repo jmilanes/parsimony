@@ -1,8 +1,9 @@
 import { clone } from "../utils";
-import { IObject, IObjectValues, IUser, ValueOf } from "@parsimony/types";
+import { IObject, IObjectValues, User } from "@parsimony/types";
 import { Modes } from "@parsimony/types";
 import { IModes } from "@parsimony/types";
 import { getDataWithPath } from "./abstractions";
+import { omit } from "ramda";
 
 export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>
   collection.filter((c: T) => c[prop]);
@@ -36,8 +37,7 @@ export const flattenObject = <IObj>(obj: IObj) => {
 export const generateKey = (type: string, key: string | number) =>
   `${type}-${key}`;
 
-export const getFullName = (user: IUser) =>
-  `${user.firstName} ${user.lastName}`;
+export const getFullName = (user: User) => `${user.firstName} ${user.lastName}`;
 
 export const createList = (arr: any[]) => arr.join(" | ");
 export const getLength = (arr: any[]) => arr?.length;
@@ -97,3 +97,6 @@ export const arrayToObj = (arr: any[]) =>
     a[c.id] = c;
     return a;
   }, {});
+
+export const omitMongoKeys = <R>(obj: any): R =>
+  omit(["updated_at", "created_at"], obj) as R;

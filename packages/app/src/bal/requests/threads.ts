@@ -9,13 +9,7 @@ import {
 import { createRequest } from "../../utils";
 import operationStrings from "../operationStrings";
 
-type threadResponse = {
-  data: {
-    threads: Thread[];
-  };
-};
-
-export const fetchTreads = createRequest<void, threadResponse>(
+export const fetchTreads = createRequest<void, Thread[]>(
   operationStrings.threads.fetchThreads
 );
 

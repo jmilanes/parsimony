@@ -51,9 +51,8 @@ export const deleteModel =
 export const updateModel =
   ({ db }: ICreateResolverParams, model: modelTypes) =>
   async (_: any, { payload }: { payload: any }) => {
-    // TODO Add a way to handle nested structure arrays of things... maybe not if we are always sending the correct record
-    await db.findAndUpdateEntry(model, { id: payload.id }, payload);
-    return payload;
+    await db.findAndUpdateEntry(model, { _id: payload.id }, payload);
+    return await db.findEntry(model, { _id: payload.id });
   };
 
 export const getModels =

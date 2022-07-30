@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { userRoleOptions, userRoleOptionsWithStringValues } from "../fixtures";
 
 import {
@@ -12,13 +12,14 @@ import {
   Row
 } from "../components";
 import { userData, programData } from "../services/dataAccessServices";
-import { IModes, IProgram, IUser } from "@parsimony/types";
+import { IModes, IProgram, UpdateUserPayload, User } from "@parsimony/types";
 
 import {
   getFullName,
   getRouterParams,
   isEditMode,
-  isReadOnlyMode
+  isReadOnlyMode,
+  omitMongoKeys
 } from "../utils";
 import { navigateToRoute } from "../utils";
 import { filterService } from "../services/dataAccessServices";
@@ -30,20 +31,37 @@ const User = () => {
   const { userId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const user = userData.get(userId || "");
+  const user: User = userData.get(userId || "");
+
+  const [mode, updateMode] = React.useState<IModes>("readOnly");
+
+  // TODO Look into that observable state hook this is gross
+  const [localState, updateLocalState] =
+    React.useState<UpdateUserPayload>(user);
+
+  useEffect(() => {
+    if (user && !localState) updateLocalState(user);
+  }, [user]);
+
+  if (!user || !localState) return null;
+  // !!
+
   const associatedPrograms = programData
     .getAll()
     .filter((program) => program.clientId === user.id);
-  const [localState, updateLocalState] = React.useState<IUser>(user);
 
-  const [mode, updateMode] = React.useState<IModes>("readOnly");
   const updateState = StateManger.updateLocalState({
     localState,
     updateLocalState
   });
 
   const submitForm = () => {
-    userData.update(localState);
+    let payload = omitMongoKeys<UpdateUserPayload>(localState);
+    console.log(
+      "🚀 ~ file: user.tsx ~ line 57 ~ submitForm ~ payload",
+      payload
+    );
+    userData.update(payload);
     updateMode("readOnly");
   };
 
@@ -63,6 +81,7 @@ const User = () => {
     }
   ];
 
+  console.log("🚀 ~ file: user.tsx ~ line 76 ~ User ~ localState", localState);
   return (
     <Container>
       <Header
@@ -123,7 +142,7 @@ const User = () => {
         title="Type"
         options={userRoleOptions}
         pathToState="roles"
-        values={localState.roles}
+        values={localState.roles as string[]}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />

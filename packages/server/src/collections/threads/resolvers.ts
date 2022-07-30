@@ -46,6 +46,7 @@ export const updateThread =
 export const deleteThread =
   ({ db, broadcast }: ICreateResolverParams) =>
   async (_: any, { payload }: { payload: any }) => {
+    console.log("🚀 ~ file: resolvers.ts ~ line 49 ~ payload", payload);
     await db.deleteEntry(modelTypes.thread, payload.id);
     broadcast({
       type: ChatActionTypes.DELETE_THREAD,

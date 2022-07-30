@@ -87,11 +87,11 @@ export const stepsOptions: IOption[] = [
 ];
 
 export const userRoleOptions: IOptionMultiSelect[] = [
-  { name: UserRoles.Admin, value: false },
-  { name: UserRoles.Client, value: false },
-  { name: UserRoles.Director, value: false },
-  { name: UserRoles.Employee, value: false },
-  { name: UserRoles.Guardian, value: false }
+  { name: UserRoles.Admin, value: UserRoles.Admin },
+  { name: UserRoles.Client, value: UserRoles.Client },
+  { name: UserRoles.Director, value: UserRoles.Director },
+  { name: UserRoles.Employee, value: UserRoles.Employee },
+  { name: UserRoles.Guardian, value: UserRoles.Guardian }
 ];
 
 export const userRoleOptionsWithStringValues: IOption[] = [

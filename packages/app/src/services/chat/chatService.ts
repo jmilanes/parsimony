@@ -25,8 +25,8 @@ export default class ChatServiceObservable {
   }
 
   init = () => {
-    fetchTreads().then(({ data }) => {
-      const formattedData = data.threads.reduce(
+    fetchTreads().then((threads) => {
+      const formattedData = threads.reduce(
         (acc: ThreadCollection, curr: Thread) => {
           acc[curr.id] = curr;
           return acc;
@@ -42,7 +42,7 @@ export default class ChatServiceObservable {
   };
 
   updateThreads = (update: ThreadCollection) => {
-    //TODO Need to make a universal space for state managment
+    //TODO Need to make a universal space for state management
     this.threads$.next(update);
   };
 

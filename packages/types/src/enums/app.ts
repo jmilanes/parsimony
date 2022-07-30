@@ -10,7 +10,7 @@ export enum UserRoles {
   Admin = "ADMIN",
   Director = "DIRECTOR",
   Client = "CLIENT",
-  Guardian = "GUARID",
+  Guardian = "GUARDIAN",
   Employee = "EMPLOYEE"
 }
 
