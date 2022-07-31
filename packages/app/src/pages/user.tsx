@@ -56,12 +56,7 @@ const User = () => {
   });
 
   const submitForm = () => {
-    let payload = omitMongoKeys<UpdateUserPayload>(localState);
-    console.log(
-      "🚀 ~ file: user.tsx ~ line 57 ~ submitForm ~ payload",
-      payload
-    );
-    userData.update(payload);
+    userData.update(omitMongoKeys(localState));
     updateMode("readOnly");
   };
 

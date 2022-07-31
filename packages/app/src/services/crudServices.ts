@@ -26,7 +26,6 @@ const userRequests = {
 };
 
 export const SchoolService = crudGenerator<ISchool>(Collections.School);
-// export const UserService = crudGenerator<IUser>(Collections.User);
 export const UserService = asyncCrudGenerator<
   User,
   CreateUserPayload,

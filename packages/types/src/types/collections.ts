@@ -3,12 +3,13 @@ import {
   ProgramTypes,
   InputTypes,
   ProgramValueTypes,
-  RuleStyle
+  RuleStyle,
+  User
 } from "@parsimony/types";
 
 export type IId = string;
 export type IDate = Date;
-export type ICollection = ISchool | IUser | IProgram;
+export type ICollection = ISchool | User | IProgram;
 
 export type ISchool = {
   id: IId;
@@ -16,26 +17,6 @@ export type ISchool = {
   domain: string;
   userCount: number;
   accessTokens: [string];
-};
-
-export type IUserWithoutID = Omit<IUser, "id">;
-
-export type IUser = {
-  id: IId;
-  dateCreated: IDate;
-  dateEdited: IDate;
-  schoolId: string;
-  timeZone?: string;
-  roles: UserRoles[];
-  type: UserRoles;
-  documents?: unknown; // These will be uploaded PDFs or maybe jpegs associated with clients
-  password?: string;
-  email?: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: IDate;
-  phone: string;
-  contacts: IId[] | [];
 };
 
 export type IProgram = {

@@ -118,8 +118,6 @@ export const asyncCrudGenerator = <
     };
     update = async (payload: UploadPayload) => {
       const item = await requests.update(payload);
-      // TODO: 1 MAke this work
-      console.log("MAKE ME WORK");
       store.updateStore(collectionName, item);
     };
     fetch = () => {
@@ -129,5 +127,12 @@ export const asyncCrudGenerator = <
     get = (id: IId) => store.getCollectionItem(collectionName, id);
     getAllBy = (key: keyof Schema, value: unknown) =>
       store.getCollectionValueBy(collectionName, key, value);
+    subscribe = (service: { set: (data: any[]) => void }) => {
+      store.subscribeToStoreCollection(
+        collectionName,
+        (obs: BehaviorSubject<Record<string, unknown>>) =>
+          service.set(Object.values(obs))
+      );
+    };
   };
 };

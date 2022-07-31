@@ -35,7 +35,7 @@ const Users = () => {
   });
 
   const submitAddForm = () => {
-    userData.create(localState); // TODO:
+    userData.create(localState);
     setShowAddForm(false);
     updateLocalState(initialUserData);
   };
@@ -96,6 +96,18 @@ const Users = () => {
           value={localState.phone}
           updateState={updateState}
         />
+        <Field
+          placeHolderText="Email"
+          pathToState="email"
+          value={localState.email}
+          updateState={updateState}
+        />
+        <Field
+          placeHolderText="Password"
+          pathToState="password"
+          value={localState.password}
+          updateState={updateState}
+        />
         <Selector
           title="Type"
           options={userRoleOptionsWithStringValues}
@@ -107,8 +119,7 @@ const Users = () => {
           title="Roles"
           options={userRoleOptions}
           pathToState="roles"
-          // TODO Figure out this TS Error
-          values={localState.roles}
+          values={localState.roles as string[]}
           updateState={updateState}
         />
       </AddForm>

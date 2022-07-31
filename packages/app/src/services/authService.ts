@@ -5,18 +5,21 @@ export default class AuthService {
   isLoggedIn: boolean;
   previousPage: string;
   currentUser?: User;
-  usersData: IDataAccess<User>;
-  constructor(usersData: IDataAccess<User>) {
+  users: User[];
+  constructor(subscribeToUserStore: (t: any) => void, currentUser: User) {
     this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    this.usersData = usersData;
-    this.currentUser = usersData.get(
-      localStorage.getItem("currentUserId") || ""
-    );
+    this.users = [];
+    subscribeToUserStore(this);
+    this.currentUser = currentUser;
     this.previousPage = "";
   }
 
+  set = (users: User[]) => {
+    this.users = users;
+  };
+
   logIn = (email: string, password: string) => {
-    const user = this.usersData.getAll().find((user) => user.email === email);
+    const user = this.users.find((user) => user.email === email);
     if (!user) {
       message.error("Email not found");
       return false;

@@ -28,17 +28,8 @@ const MultiSelect = ({
   values,
   title
 }: IMultiSelectProps) => {
-  const updateSelectionsAndState = (values: unknown[]) => {
-    console.log(
-      "🚀 ~ file: multiSelect.tsx ~ line 32 ~ updateSelectionsAndState ~ values",
-      values
-    );
-    console.log(
-      "🚀 ~ file: multiSelect.tsx ~ line 33 ~ updateSelectionsAndState ~ pathToState",
-      pathToState
-    );
+  const updateSelectionsAndState = (values: unknown[]) =>
     updateState(pathToState, values);
-  };
 
   const FormHeder = () => <Header text={formatFormHeader(title)} size="sm" />;
 
