@@ -37,11 +37,11 @@ export default gql`
   }
 
   input DeleteUserPayload {
-    id: ID
+    id: ID!
   }
 
   input GetUserPayload {
-    id: ID
+    id: ID!
   }
 
   input UpdateUserPayload {

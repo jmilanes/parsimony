@@ -46,6 +46,7 @@ const User = () => {
   if (!user || !localState) return null;
   // !!
 
+  // TODO: Potentially store an array of program ids on the user
   const associatedPrograms = programData
     .getAll()
     .filter((program) => program.clientId === user.id);
@@ -76,7 +77,6 @@ const User = () => {
     }
   ];
 
-  console.log("🚀 ~ file: user.tsx ~ line 76 ~ User ~ localState", localState);
   return (
     <Container>
       <Header
