@@ -1,10 +1,9 @@
-import { IResult } from "@parsimony/types";
+import { Result } from "@parsimony/types";
 
-export const initialResultData: IResult = {
+export const initialResultData: Result = {
   id: "",
-  dateCreated: new Date(),
   programId: "",
   clientId: "",
   programCompleteness: 0,
-  data: {}
+  data: []
 };

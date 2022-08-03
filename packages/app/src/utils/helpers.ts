@@ -100,3 +100,5 @@ export const arrayToObj = (arr: any[]) =>
 
 export const omitMongoKeys = <R>(obj: any): R =>
   omit(["updated_at", "created_at"], obj) as R;
+
+export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

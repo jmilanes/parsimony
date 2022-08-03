@@ -12,7 +12,7 @@ import {
   Row
 } from "../components";
 import { userData, programData } from "../services/dataAccessServices";
-import { IModes, IProgram, UpdateUserPayload, User } from "@parsimony/types";
+import { IModes, Program, UpdateUserPayload, User } from "@parsimony/types";
 
 import {
   getFullName,
@@ -69,11 +69,11 @@ const User = () => {
   const actions: ITableAction[] = [
     {
       name: "Start Observing",
-      method: (program: IProgram) => navigate(`/programs/${program.id}/observe`)
+      method: (program: Program) => navigate(`/programs/${program.id}/observe`)
     },
     {
       name: "View Data",
-      method: (program: IProgram) => navigate(`/results/${program.id}`)
+      method: (program: Program) => navigate(`/results/${program.id}`)
     }
   ];
 
@@ -157,7 +157,7 @@ const User = () => {
         />
       </Row>
 
-      <Table<IProgram>
+      <Table<Program>
         data={associatedPrograms}
         columns={columns}
         actions={actions}

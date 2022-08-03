@@ -9,7 +9,7 @@ import {
   userRoleOptions
 } from "../fixtures";
 import { programData, userData } from "../services/dataAccessServices";
-import { IId, IProgram } from "@parsimony/types";
+import { IId, Program } from "@parsimony/types";
 import {
   createList,
   getFullName,
@@ -27,6 +27,7 @@ import {
 } from "../components";
 import { ProgramTypes } from "@parsimony/types";
 import { StateManger } from "../services/crudServices";
+import { omit } from "ramda";
 
 const Programs = () => {
   const navigate = navigateToRoute();
@@ -38,7 +39,7 @@ const Programs = () => {
 
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
-    React.useState<IProgram>(initialProgramData);
+    React.useState<Program>(initialProgramData);
 
   const updateState = StateManger.updateLocalState({
     localState,
@@ -46,7 +47,14 @@ const Programs = () => {
   });
 
   const submitAddForm = () => {
-    programData.create(localState);
+    //TODO: Better solution for this
+    // TODO: Fix Options not saving
+    localState.rules = localState.rules?.map((rule) => omit(["id"], rule));
+    console.log(
+      "🚀 ~ file: programs.tsx ~ line 53 ~ submitAddForm ~ localState.rules",
+      localState.rules
+    );
+    programData.create(omit(["id"], localState));
     setShowAddForm(false);
     updateLocalState(initialProgramData);
   };
@@ -75,20 +83,19 @@ const Programs = () => {
   const actions: ITableAction[] = [
     {
       name: "View",
-      method: (program: IProgram) => navigate(`/programs/${program.id}`)
+      method: (program: Program) => navigate(`/programs/${program.id}`)
     },
     {
       name: "Delete",
-      method: (program: Required<IProgram>) => programData.delete(program.id)
+      method: (program: Required<Program>) => programData.delete(program.id)
     },
     {
       name: "Copy",
-      method: (program: Required<IProgram>) => {
+      method: (program: Required<Program>) => {
         const id = programData.create({
           ...program,
           title: `${program.title}_Copy`,
           clientId: searchParams.get("userId") as IId,
-          id: "",
           type: ProgramTypes.Client
         });
         navigate(`/programs/${id}?mode=edit`);
@@ -110,7 +117,7 @@ const Programs = () => {
           />
         ]}
       />
-      <Table<IProgram> data={data} columns={columns} actions={actions}></Table>
+      <Table<Program> data={data} columns={columns} actions={actions}></Table>
       <AddForm
         showForm={showAddForm}
         onCreate={submitAddForm}
@@ -157,14 +164,14 @@ const Programs = () => {
           title="Read Access"
           pathToState="readAccess"
           options={userRoleOptions}
-          values={localState.readAccess}
+          values={localState.readAccess as string[]}
           updateState={updateState}
         />
         <MultiSelect
           title="Write Access"
           pathToState="writeAccess"
           options={userRoleOptions}
-          values={localState.writeAccess}
+          values={localState.writeAccess as string[]}
           updateState={updateState}
         />
 

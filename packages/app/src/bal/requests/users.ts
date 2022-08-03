@@ -3,37 +3,61 @@ import {
   GetUserPayload,
   CreateUserPayload,
   DeleteUserPayload,
-  UpdateUserPayload
+  UpdateUserPayload,
+  Collections
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
-import operationStrings from "../operationStrings";
+import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
+
+const fullSchema = `
+  id
+  updated_at
+  created_at
+  schoolId
+  timeZone
+  roles
+  type
+  documents
+  password
+  email
+  firstName
+  lastName
+  dateOfBirth
+  phone
+  contacts
+`;
+
+const userOperationStrings = generateCrudOperationStrings(
+  Collections.User,
+  fullSchema
+);
 
 export const getAllUsers = createRequest<undefined, User[]>(
-  operationStrings.users.getAllUsers
+  userOperationStrings.getAll
 );
 
 export const getUser = createRequest<GetUserPayload, User>(
-  operationStrings.users.getUser
+  userOperationStrings.get
 );
 
 export const createUser = createRequest<CreateUserPayload, User>(
-  operationStrings.users.createUser
+  userOperationStrings.create
 );
 
-export const deleteUser = createRequest<DeleteUserPayload, { id: string }>(
-  operationStrings.users.deleteUser
+export const deleteUser = createRequest<DeleteUserPayload, string>(
+  userOperationStrings.deleteItem
 );
 
 export const updateUser = createRequest<UpdateUserPayload, User>(
-  operationStrings.users.editUser
+  userOperationStrings.edit
 );
 
-// ** Once th damn thing works
-// Draw up the flow
-// Don't feel stuck in your current classes (you already know it is not ideal for async)
-// Take a step back draw what you currently have see where you can inject async to find gaps
-// See if observables it the way to go
-// Then copy pattern for other things!
-// This will be a good way to understand the flow and the pattern you are using now - before diving in
+const userRequests = {
+  getAll: getAllUsers,
+  get: getUser,
+  create: createUser,
+  delete: deleteUser,
+  update: updateUser
+};
 
-// Then make login work on safari
+export default userRequests;

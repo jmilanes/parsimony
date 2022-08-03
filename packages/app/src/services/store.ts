@@ -1,15 +1,17 @@
-import { Collections, IId, User } from "@parsimony/types";
-import { BehaviorSubject, pipe } from "rxjs";
+import { Collections, IId, Program, User } from "@parsimony/types";
+import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../utils";
 
 type UserCollection = Record<IId, User>;
+type ProgramCollection = Record<IId, Program>;
 
 export class Store {
   public store$: Record<IId, BehaviorSubject<Record<IId, any>>>;
 
   constructor() {
     this.store$ = {
-      [Collections.User]: new BehaviorSubject<UserCollection>({})
+      [Collections.User]: new BehaviorSubject<UserCollection>({}),
+      [Collections.Program]: new BehaviorSubject<ProgramCollection>({})
     };
   }
 
@@ -74,65 +76,86 @@ export class Store {
 export interface ICrudGeneratorAsync<
   Schema,
   CreatePayload,
-  DeletePAyload,
+  DeleteThreadPayload,
   UploadPayload
 > {
   create: (payload: CreatePayload) => void;
-  fetch: () => void;
-  delete: (payload: DeletePAyload) => void;
+  init: () => void;
+  delete: (payload: DeleteThreadPayload) => void;
   update: (payload: UploadPayload) => void;
   get: (id: string) => Schema;
   getAll: () => Schema[];
   getAllBy: (key: keyof Schema, value: unknown) => Schema[];
 }
 
-export type ICrudRequests<Schema, CreatePayload, DeletePAyload, UploadPayload> =
-  {
-    fetch: () => Promise<Schema[]>;
-    delete: (payload: DeletePAyload) => Promise<string>;
-    create: (payload: CreatePayload) => Promise<Schema>;
-    update: (payload: UploadPayload) => Promise<Schema>;
-  };
-
-export const asyncCrudGenerator = <
+export type ICrudRequests<
   Schema,
   CreatePayload,
-  DeletePAyload,
-  UploadPayload
->(
-  collectionName: Collections,
-  requests: ICrudRequests<Schema, CreatePayload, DeletePAyload, UploadPayload>,
-  store: Store
-) => {
-  return class Service
-    implements
-      ICrudGeneratorAsync<Schema, CreatePayload, DeletePAyload, UploadPayload>
-  {
-    create = async (payload: CreatePayload) => {
-      const item = await requests.create(payload);
-      store.addItemToStore(collectionName, item);
-    };
-    delete = async (payload: DeletePAyload) => {
-      const id = await requests.delete(payload);
-      store.deleteItemFromStore(collectionName, id);
-    };
-    update = async (payload: UploadPayload) => {
-      const item = await requests.update(payload);
-      store.updateStore(collectionName, item);
-    };
-    fetch = () => {
-      store.initCollectionInStore(collectionName, requests.fetch);
-    };
-    getAll = () => Object.values(store.getCollectionValue(collectionName));
-    get = (id: IId) => store.getCollectionItem(collectionName, id);
-    getAllBy = (key: keyof Schema, value: unknown) =>
-      store.getCollectionValueBy(collectionName, key, value);
-    subscribe = (service: { set: (data: any[]) => void }) => {
-      store.subscribeToStoreCollection(
-        collectionName,
-        (obs: BehaviorSubject<Record<string, unknown>>) =>
-          service.set(Object.values(obs))
-      );
-    };
-  };
+  DeleteThreadPayload,
+  UploadPayload,
+  GetPayload
+> = {
+  getAll: () => Promise<Schema[]>;
+  get: (payload?: GetPayload) => Promise<Schema>;
+  delete: (payload?: DeleteThreadPayload) => Promise<string>;
+  create: (payload?: CreatePayload) => Promise<Schema>;
+  update: (payload?: UploadPayload) => Promise<Schema>;
 };
+
+export class AsyncCrudGenerator<
+  Schema,
+  CreatePayload,
+  DeleteThreadPayload,
+  UploadPayload,
+  GetPayload
+> implements
+    ICrudGeneratorAsync<
+      Schema,
+      CreatePayload,
+      DeleteThreadPayload,
+      UploadPayload
+    >
+{
+  collectionName: Collections;
+  requests: ICrudRequests<
+    Schema,
+    CreatePayload,
+    DeleteThreadPayload,
+    UploadPayload,
+    GetPayload
+  >;
+  store: Store;
+  constructor(collectionName: Collections, requests: any, store: Store) {
+    this.store = store;
+    this.collectionName = collectionName;
+    this.requests = requests;
+  }
+
+  init = () => {
+    this.store.initCollectionInStore(this.collectionName, this.requests.getAll);
+  };
+  create = async (payload: CreatePayload) => {
+    const item = await this.requests.create(payload);
+    this.store.addItemToStore(this.collectionName, item);
+  };
+  delete = async (payload: DeleteThreadPayload) => {
+    const id = await this.requests.delete(payload);
+    this.store.deleteItemFromStore(this.collectionName, id);
+  };
+  update = async (payload: UploadPayload) => {
+    const item = await this.requests.update(payload);
+    this.store.updateStore(this.collectionName, item);
+  };
+  getAll = () =>
+    Object.values(this.store.getCollectionValue(this.collectionName));
+  get = (id: IId) => this.store.getCollectionItem(this.collectionName, id);
+  getAllBy = (key: keyof Schema, value: unknown) =>
+    this.store.getCollectionValueBy(this.collectionName, key, value);
+  subscribe = (service: { set: (data: any[]) => void }) => {
+    this.store.subscribeToStoreCollection(
+      this.collectionName,
+      (obs: BehaviorSubject<Record<string, unknown>>) =>
+        service.set(Object.values(obs))
+    );
+  };
+}

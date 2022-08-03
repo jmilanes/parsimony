@@ -23,7 +23,7 @@ const createThread = `
   `;
 
 const deleteThread = `
-    mutation DeleteThread($payload: DeletePayload) {
+    mutation DeleteThread($payload: DeleteThreadPayload) {
       deleteThread(payload: $payload)
     }
       `;

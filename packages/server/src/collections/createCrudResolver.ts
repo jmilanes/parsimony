@@ -7,17 +7,14 @@ type ICrudResolverExtensions = {
   mutations: IObjectAny;
 };
 
-const capitalizeFirstLetter = (text: string) => {
-  const firstLetter = text.charAt(0).toUpperCase();
-  return firstLetter + text.slice(1);
-};
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 const createCrudResolver = (
   model: modelTypes,
   extensions?: ICrudResolverExtensions
 ) => {
   const propWithModel = (action: string, suffix?: boolean) =>
-    `${action}${capitalizeFirstLetter(model)}${suffix ? "s" : ""}`;
+    `${action}${capitalize(model)}${suffix ? "s" : ""}`;
   return (CreateResolverParams: ICreateResolverParams) => ({
     Mutation: {
       [propWithModel("create")]: createModel(CreateResolverParams, model),
@@ -35,10 +32,10 @@ const createCrudResolver = (
 export const createModel =
   ({ db }: ICreateResolverParams, model: modelTypes) =>
   async (_: any, { payload }: { payload: any }) => {
-    const thread = await db.createEntry(model, {
+    const entry = await db.createEntry(model, {
       ...payload
     });
-    return thread;
+    return entry;
   };
 
 export const deleteModel =

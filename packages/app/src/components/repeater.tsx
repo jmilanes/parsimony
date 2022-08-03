@@ -8,7 +8,7 @@ export type IRepeaterProps = {
   items: unknown[];
   pathToState: string;
   updateState: (path: string, value: unknown) => void;
-  generateRow: (index: number) => JSX.Element;
+  generateRow: (index: number) => JSX.Element | null;
   initialData: Record<string, unknown>;
   readOnly: boolean;
 };

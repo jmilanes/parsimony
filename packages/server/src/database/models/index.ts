@@ -7,7 +7,7 @@ import user from "./user";
 export enum modelTypes {
   thread = "thread",
   user = "user",
-  program = "user",
+  program = "program",
   result = "result",
   school = "school"
 }

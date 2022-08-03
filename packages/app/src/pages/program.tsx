@@ -11,7 +11,7 @@ import {
   Row
 } from "../components";
 import { programData, userData } from "../services/dataAccessServices";
-import { IProgram, IModes } from "@parsimony/types";
+import { Program, IModes } from "@parsimony/types";
 
 import {
   getFullName,
@@ -32,7 +32,7 @@ const Program = () => {
   const program = programData.get(programId || "");
   const client = userData.get(program.clientId || "");
 
-  const [localState, updateLocalState] = React.useState<IProgram>(program);
+  const [localState, updateLocalState] = React.useState<Program>(program);
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
   );
@@ -43,6 +43,7 @@ const Program = () => {
   });
 
   const submitForm = () => {
+    // TODO Fix Edit
     programData.update(localState);
     updateMode("readOnly");
   };

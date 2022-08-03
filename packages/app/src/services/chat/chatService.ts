@@ -4,7 +4,7 @@ import {
   Thread,
   CreateThreadPayload,
   IId,
-  DeletePayload,
+  DeleteThreadPayload,
   UpdateThreadPayload,
   DeleteMessagePayload,
   AddMessagePayload,
@@ -63,7 +63,7 @@ export default class ChatServiceObservable {
       case ChatActionTypes.DELETE_THREAD:
         return deleteThread(
           freshThreads,
-          action.payload as unknown as DeletePayload
+          action.payload as unknown as DeleteThreadPayload
         );
       case ChatActionTypes.UPDATE_THREAD:
         return updateThread(
@@ -108,7 +108,10 @@ const createThread = (
   return threads;
 };
 
-const deleteThread = (threads: ThreadCollection, payload: DeletePayload) => {
+const deleteThread = (
+  threads: ThreadCollection,
+  payload: DeleteThreadPayload
+) => {
   delete threads[payload.id];
   return threads;
 };

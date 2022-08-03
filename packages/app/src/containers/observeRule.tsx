@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { clone, getMax, getSum } from "../utils";
 import { Container, Button } from "../components";
-import { IResultData, IRule, IRuleResult } from "@parsimony/types";
+import { ResultData, Rule, RuleResult } from "@parsimony/types";
 import { increment, decrement, generateKey, compileStyles } from "../utils";
 import "./styles.css";
 
 export type IObserverRuleProps = React.PropsWithChildren<{
-  rule: IRule | IRule[];
-  onComplete: (result: IResultData) => void;
+  rule: Rule | Rule[];
+  onComplete: (result: ResultData) => void;
   patentActiveState?: boolean;
 }>;
 
-export type IResultsState = Record<string, IRuleResult[]>;
+export type IResultsState = Record<string, RuleResult[]>;
 export type ICompletenessState = Record<string, number>;
+export type IResultData = Record<string, ResultData>;
 
 const ObserveRule = ({
   rule,
@@ -28,16 +29,16 @@ const ObserveRule = ({
   const isGroup = Array.isArray(rule);
 
   const calculateCompleteness = (
-    rule: IRule,
-    results: IRuleResult[],
+    rule: Rule,
+    results: RuleResult[],
     completenessObj: ICompletenessState
   ) => {
-    const maxValue = rule.options.reduce(getMax()).value;
+    const maxValue = rule?.options?.reduce(getMax())?.value || 0;
     const numberOfResults = results.length;
     const resultSum = results.reduce(getSum("option.value"), 0);
     const max = numberOfResults * maxValue;
     const completenessTotal = (resultSum / max) * 100;
-    completenessObj[rule.id] = completenessTotal;
+    completenessObj[rule.id as string] = completenessTotal;
     return completenessTotal;
   };
 
@@ -59,7 +60,7 @@ const ObserveRule = ({
 
   const createResult =
     (completeness: ICompletenessState) =>
-    (acc: IResultData, [key, value]: [string, IRuleResult[]]) => {
+    (acc: IResultData, [key, value]: [string, RuleResult[]]) => {
       const processedRule = isGroup
         ? rule.find((rule) => rule.id === key)
         : rule;
@@ -69,7 +70,7 @@ const ObserveRule = ({
       acc[key] = {
         ruleCompleteness,
         ruleResults: results[key]
-      };
+      } as ResultData;
       return acc;
     };
 
@@ -77,7 +78,7 @@ const ObserveRule = ({
     patentActiveState !== undefined && setActive(patentActiveState);
   }, [patentActiveState]);
 
-  const incrementStep = (rule: IRule) => {
+  const incrementStep = (rule: Rule) => {
     // TODO: THE STEP MUST BE SAVED AS A NUMBER right now it is actually being saved as a string when you save the number
     if (rule.steps && step == rule.steps) {
       setComplete(true);
@@ -92,26 +93,24 @@ const ObserveRule = ({
     // need to destroy the current result if it has been updated (be able to remove from the array)
   };
 
-  const updateRuleResultAtStep = (
-    results: IRuleResult[],
-    data: IRuleResult
-  ) => {
+  const updateRuleResultAtStep = (results: RuleResult[], data: RuleResult) => {
     const update = [...results];
-    update[data.step - 1] = data;
+    update[(data.step || 0) - 1] = data;
     return update;
   };
 
-  const updateResults = (resultData: IRuleResult, rule: IRule) => {
-    const updatedResults = results[rule.id]
-      ? updateRuleResultAtStep(results[rule.id], resultData)
+  const updateResults = (resultData: RuleResult, rule: Rule) => {
+    const id = rule.id as string;
+    const updatedResults = results[id]
+      ? updateRuleResultAtStep(results[id], resultData)
       : [resultData];
     setResults({
       ...results,
-      [rule.id]: updatedResults
+      [id]: updatedResults
     });
   };
 
-  const InactiveRule = (rule: IRule) => {
+  const InactiveRule = (rule: Rule) => {
     const classes = isGroup
       ? undefined
       : compileStyles({ observeRule: true, complete });
@@ -128,27 +127,28 @@ const ObserveRule = ({
   const selectOption = (
     option: { name: string; value: number },
     step: number,
-    rule: IRule
+    rule: Rule
   ) => {
-    const obj: IRuleResult = { step, option };
+    const obj: RuleResult = { step, option };
     updateResults(obj, rule);
     !isGroup && incrementStep(rule);
   };
-  const ActiveRule = (rule: IRule) => {
+
+  const ActiveRule = (rule: Rule) => {
     return (
       <>
         <p>{rule.question}</p>
-        <p>Individual Completeness: {completeness[rule.id] || 0}%</p>
+        <p>Individual Completeness: {completeness[rule.id as string] || 0}%</p>
         {!isGroup && (
           <Button name="Close" action={() => setActive(false)}></Button>
         )}
         <Container>
           {step > 1 && <Button name="Back" action={decrementStep}></Button>}
           {!isGroup && <h1>{step}</h1>}
-          {rule.options.map((option, i) => (
+          {rule?.options?.map((option, i) => (
             <Button
               key={generateKey("optionButton", i)}
-              name={option.name}
+              name={option?.name as string}
               action={() => selectOption(option, step, rule)}
             />
           ))}
@@ -157,7 +157,7 @@ const ObserveRule = ({
     );
   };
 
-  const SingleRule = (rule: IRule) =>
+  const SingleRule = (rule: Rule) =>
     active ? <ActiveRule {...rule} /> : <InactiveRule {...rule} />;
 
   const Rule = () =>

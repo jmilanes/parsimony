@@ -71,18 +71,3 @@ export default gql`
     updateUser(payload: UpdateUserPayload): User
   }
 `;
-
-// TODO
-// Set up FE to handle async users
-// Change string arrays to ID
-// is typing
-// auto generate payload types from type defs
-// Chat service more observable thing
-
-// UI
-// Testing (graphQL and Observable in service)
-// Errors
-
-//* GOALz
-// Close loop on chat (with testing)
-// Get one FE collection into mongo/graphQL land

@@ -2,34 +2,33 @@ import {
   AddMessagePayload,
   CreateThreadPayload,
   DeleteMessagePayload,
-  DeletePayload,
+  DeleteThreadPayload,
   EditMessagePayload,
   Thread
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
-import operationStrings from "../operationStrings";
+import threadOperationStrings from "./operationStrings/threadOperationStrings";
 
 export const fetchTreads = createRequest<void, Thread[]>(
-  operationStrings.threads.fetchThreads
+  threadOperationStrings.fetchThreads
 );
 
 export const createThread = createRequest<CreateThreadPayload, void>(
-  operationStrings.threads.createThread
+  threadOperationStrings.createThread
 );
 
-// TODO Rename in Sever to DeleteThreadPAyload
-export const deleteThread = createRequest<DeletePayload, void>(
-  operationStrings.threads.deleteThread
+export const deleteThread = createRequest<DeleteThreadPayload, void>(
+  threadOperationStrings.deleteThread
 );
 
 export const addMessage = createRequest<AddMessagePayload, void>(
-  operationStrings.threads.addMessage
+  threadOperationStrings.addMessage
 );
 
 export const deleteMessage = createRequest<DeleteMessagePayload, void>(
-  operationStrings.threads.deleteMessage
+  threadOperationStrings.deleteMessage
 );
 
 export const editMessage = createRequest<EditMessagePayload, void>(
-  operationStrings.threads.editMessage
+  threadOperationStrings.editMessage
 );

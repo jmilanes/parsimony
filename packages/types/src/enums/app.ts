@@ -5,37 +5,6 @@ export enum Collections {
   Result = "result",
   Thread = "thread"
 }
-
-export enum UserRoles {
-  Admin = "ADMIN",
-  Director = "DIRECTOR",
-  Client = "CLIENT",
-  Guardian = "GUARDIAN",
-  Employee = "EMPLOYEE"
-}
-
-export enum ProgramTypes {
-  Main = "MAIN",
-  Client = "CLIENT"
-}
-
-export enum RuleStyle {
-  Separate = "SEPARATE",
-  Group = "GROUP"
-}
-
-export enum InputTypes {
-  radio = "RADIO",
-  text = "TEXT"
-}
-
-export enum ProgramValueTypes {
-  string = "STRING",
-  number = "NUMBER",
-  date = "DATE",
-  boolean = "BOOLEAN"
-}
-
 export enum PromptTypes {
   Verbal = "VERBAL",
   Physical = "PHYSICAL",

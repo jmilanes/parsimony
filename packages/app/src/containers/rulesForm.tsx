@@ -18,12 +18,12 @@ import {
   promptsByType
 } from "../fixtures";
 
-import { IProgram } from "@parsimony/types";
+import { Program, Rule, RuleOption } from "@parsimony/types";
 import { generateKey, uuid } from "../utils";
 import "./styles.css";
 
 type RuleFormProps = {
-  localState: IProgram;
+  localState: Program;
   readOnly?: boolean;
   updateState: (path: string, value: unknown) => void;
 };
@@ -34,6 +34,10 @@ const RulesForm = ({
   updateState
 }: RuleFormProps) => {
   const option = (ruleIndex: number) => (index: number) => {
+    if (!localState.rules) return null;
+    const rule = localState.rules[ruleIndex] as Rule;
+    if (!rule.options) return null;
+    const option = rule.options[index] as RuleOption;
     return (
       <Col span={24} key={generateKey("option", index)}>
         <Row gutter={8}>
@@ -41,7 +45,7 @@ const RulesForm = ({
             <Field
               placeHolderText="Prompt Name"
               pathToState={`rules[${ruleIndex}].options[${index}].name`}
-              value={localState.rules[ruleIndex].options[index].name}
+              value={option.name}
               updateState={updateState}
               readOnly={readOnly}
             />
@@ -50,9 +54,7 @@ const RulesForm = ({
             <Field
               placeHolderText="Prompt Value"
               pathToState={`rules[${ruleIndex}].options[${index}].value`}
-              value={localState.rules[ruleIndex].options[
-                index
-              ].value.toString()}
+              value={option.value?.toString()}
               updateState={updateState}
               readOnly={readOnly}
             />
@@ -64,13 +66,15 @@ const RulesForm = ({
 
   const rule = (index: number) => {
     const generateOption = option(index);
+    if (!localState.rules) return null;
+    const rule = localState.rules[index] as Rule;
     return (
       <Row className="add-rule-row" key={generateKey("rule", index)}>
         <Col span={24}>
           <Field
             placeHolderText="Question"
             pathToState={`rules[${index}].question`}
-            value={localState.rules[index].question}
+            value={rule.question}
             updateState={updateState}
             readOnly={readOnly}
           />
@@ -79,7 +83,7 @@ const RulesForm = ({
           <Field
             placeHolderText="Description"
             pathToState={`rules[${index}].description`}
-            value={localState.rules[index].description}
+            value={rule.description}
             updateState={updateState}
             readOnly={readOnly}
           />
@@ -89,7 +93,7 @@ const RulesForm = ({
           <Selector
             title="Steps"
             pathToState={`rules[${index}].steps`}
-            value={localState.rules[index].steps}
+            value={rule.steps}
             options={stepsOptions}
             updateState={updateState}
             readOnly={readOnly}
@@ -100,7 +104,7 @@ const RulesForm = ({
           <Checkbox
             title="Required"
             pathToState={`rules[${index}].required`}
-            value={localState.rules[index].required}
+            value={!!rule.required}
             updateState={updateState}
             readOnly={readOnly}
           />
@@ -109,7 +113,7 @@ const RulesForm = ({
           <Selector
             title="Input Type"
             pathToState={`rules[${index}].inputType`}
-            value={localState.rules[index].inputType}
+            value={rule.inputType}
             options={inputTypes}
             updateState={updateState}
             readOnly={readOnly}
@@ -119,7 +123,7 @@ const RulesForm = ({
           <Selector
             title="Value Type"
             pathToState={`rules[${index}].valueType`}
-            value={localState.rules[index].valueType}
+            value={rule.valueType}
             options={programValueTypes}
             updateState={updateState}
             readOnly={readOnly}
@@ -141,7 +145,7 @@ const RulesForm = ({
           <Repeater
             title="Prompts"
             // TODO: Should these be renamed to prompts?
-            items={localState.rules[index].options}
+            items={rule.options || []}
             pathToState={`rules[${index}].options`}
             updateState={updateState}
             generateRow={generateOption}
@@ -153,20 +157,15 @@ const RulesForm = ({
     );
   };
 
-  const ruleWithUuid = () => {
-    initialRuleData.id = uuid();
-    return initialRuleData;
-  };
-
   return (
     <Repeater
       title="Rules"
       // TODO: Should these be renamed to prompts?
-      items={localState.rules}
+      items={localState.rules || []}
       pathToState={`rules`}
       updateState={updateState}
       generateRow={rule}
-      initialData={ruleWithUuid()}
+      initialData={initialRuleData}
       readOnly={readOnly}
     />
   );

@@ -9,15 +9,13 @@ import {
   RuleStyle,
   UserRoles
 } from "@parsimony/types";
-import { IProgram } from "@parsimony/types";
+import { Program } from "@parsimony/types";
 
-export const initialProgramData: IProgram = {
-  // Need to figure out how to remove ID from IProgram
+const currentUser = localStorage.getItem("currentUserId");
+
+export const initialProgramData: Program = {
+  // Need to figure out how to remove ID from Program
   id: "",
-
-  // Should be set in the data access
-  dateCreated: new Date(),
-  dateEdited: new Date(),
   // end
   title: "",
   description: "",
@@ -25,9 +23,9 @@ export const initialProgramData: IProgram = {
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,
   // Set when auth service is set and can be set in the data access
-  lastEditedBy: "",
-  editedBy: [],
-  createdBy: "",
+  lastEditedBy: currentUser,
+  editedBy: [currentUser],
+  createdBy: currentUser,
   // end
 
   // This is the meet of what we need to add
@@ -41,8 +39,8 @@ export const initialRuleData = {
   steps: 0,
   options: [],
   required: true,
-  inputType: InputTypes.radio,
-  valueType: ProgramValueTypes.number
+  inputType: InputTypes.Radio,
+  valueType: ProgramValueTypes.Number
 };
 
 export const initialOptionData = {
@@ -61,15 +59,15 @@ export const ruleStyles: IOption[] = [
 ];
 
 export const inputTypes: IOption[] = [
-  { name: InputTypes.radio, value: InputTypes.radio },
+  { name: InputTypes.Radio, value: InputTypes.Radio },
   { name: InputTypes.text, value: InputTypes.text }
 ];
 
 export const programValueTypes: IOption[] = [
-  { name: ProgramValueTypes.number, value: ProgramValueTypes.number },
-  { name: ProgramValueTypes.string, value: ProgramValueTypes.string },
-  { name: ProgramValueTypes.boolean, value: ProgramValueTypes.boolean },
-  { name: ProgramValueTypes.date, value: ProgramValueTypes.date }
+  { name: ProgramValueTypes.Number, value: ProgramValueTypes.Number },
+  { name: ProgramValueTypes.String, value: ProgramValueTypes.String },
+  { name: ProgramValueTypes.Boolean, value: ProgramValueTypes.Boolean },
+  { name: ProgramValueTypes.Date, value: ProgramValueTypes.Date }
 ];
 
 export const stepsOptions: IOption[] = [

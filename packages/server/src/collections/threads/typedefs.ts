@@ -24,7 +24,7 @@ export default gql`
     subscribers: [String]!
   }
 
-  input DeletePayload {
+  input DeleteThreadPayload {
     id: ID!
   }
 
@@ -63,7 +63,7 @@ export default gql`
 
   type Mutation {
     createThread(payload: CreateThreadPayload): Thread
-    deleteThread(payload: DeletePayload): ID
+    deleteThread(payload: DeleteThreadPayload): ID
     updateThread(payload: UpdateThreadPayload): Thread
     addMessage(payload: AddMessagePayload): Thread
     deleteMessage(payload: DeleteMessagePayload): ID

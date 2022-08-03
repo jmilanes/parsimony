@@ -1,4 +1,4 @@
-import { IProgram } from "@parsimony/types";
+import { Program } from "@parsimony/types";
 import {
   InputTypes,
   ProgramValueTypes,
@@ -6,7 +6,7 @@ import {
   ProgramTypes
 } from "@parsimony/types";
 
-export const mockProgramData: IProgram[] = [
+export const mockProgramData: Program[] = [
   {
     id: "",
     dateCreated: new Date(),

@@ -6,6 +6,7 @@ export default gql`
   type Program {
     id: ID!
     mainProgramId: ID
+    title: String
     clientId: ID
     rules: [Rule]
     description: String
@@ -21,21 +22,24 @@ export default gql`
   }
 
   type Rule {
+    id: ID
     question: String
     description: String
     steps: Int
-    options: RuleOption
+    options: [RuleOption]
     required: Boolean
     inputType: InputTypes
     valueType: ProgramValueTypes
   }
 
   type RuleOption {
+    id: ID
     name: String
     value: Int
   }
 
   input CreateProgramPayload {
+    title: String
     mainProgramId: ID
     clientId: ID
     rules: [RuleInput]
@@ -59,6 +63,7 @@ export default gql`
 
   input UpdateProgramPayload {
     id: ID!
+    title: String
     mainProgramId: ID
     clientId: ID
     rules: [RuleInput]
@@ -76,13 +81,14 @@ export default gql`
     question: String
     description: String
     steps: Int
-    options: RuleOptionInput
+    options: [RuleOptionInput]
     required: Boolean
     inputType: InputTypes
     valueType: ProgramValueTypes
   }
 
   input RuleOptionInput {
+    id: ID
     name: String
     value: Int
   }

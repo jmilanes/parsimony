@@ -22,10 +22,10 @@ class StateService implements IStateService {
 
   registerUpdateState = (updateFn: () => void) => {
     this.updateState = updateFn;
-    this.store.subscribeToStoreCollection(Collections.User, () => {
-      console.log("RUN");
-      this.updateState();
-    });
+    const collections = [Collections.User, Collections.Program];
+    collections.forEach((collection) =>
+      this.store.subscribeToStoreCollection(collection, this.updateState)
+    );
   };
 
   updateLocalState =
