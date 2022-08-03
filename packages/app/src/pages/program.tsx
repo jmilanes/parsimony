@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { programTypes, ruleStyles, userRoleOptions } from "../fixtures";
 import { RulesForm } from "../containers";
 import {
@@ -19,7 +19,8 @@ import {
   getSearchParams,
   isEditMode,
   isReadOnlyMode,
-  navigateToRoute
+  navigateToRoute,
+  omitMongoKeys
 } from "../utils";
 import { ProgramTypes, Routes } from "@parsimony/types";
 import { StateManger } from "../services/crudServices";
@@ -30,12 +31,20 @@ const Program = () => {
   let [searchParams] = getSearchParams();
 
   const program = programData.get(programId || "");
-  const client = userData.get(program.clientId || "");
 
   const [localState, updateLocalState] = React.useState<Program>(program);
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
   );
+
+  //TODO FIx this madness
+  useEffect(() => {
+    if (program && !localState) updateLocalState(program);
+  }, [program]);
+
+  if (!program || !localState) return null;
+
+  const client = userData.get(program?.clientId || "");
 
   const updateState = StateManger.updateLocalState({
     localState,
@@ -43,8 +52,7 @@ const Program = () => {
   });
 
   const submitForm = () => {
-    // TODO Fix Edit
-    programData.update(localState);
+    programData.update(omitMongoKeys(localState));
     updateMode("readOnly");
   };
 
@@ -113,7 +121,7 @@ const Program = () => {
         title="Read Access"
         pathToState="readAccess"
         options={userRoleOptions}
-        values={localState.readAccess}
+        values={localState.readAccess as string[]}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />
@@ -121,7 +129,7 @@ const Program = () => {
         title="Write Access"
         pathToState="writeAccess"
         options={userRoleOptions}
-        values={localState.writeAccess}
+        values={localState.writeAccess as string[]}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />

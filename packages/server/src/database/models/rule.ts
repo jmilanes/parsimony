@@ -9,7 +9,7 @@ export default {
   question: String,
   description: String,
   steps: Number,
-  options: RuleOption,
+  options: [RuleOption],
   required: Boolean,
   inputType: { type: String, enum: InputTypes },
   valueType: { type: String, enum: ProgramValueTypes }

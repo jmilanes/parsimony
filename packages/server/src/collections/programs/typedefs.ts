@@ -78,6 +78,7 @@ export default gql`
   }
 
   input RuleInput {
+    id: ID
     question: String
     description: String
     steps: Int

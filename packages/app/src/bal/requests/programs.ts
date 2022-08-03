@@ -31,6 +31,7 @@ const fullSchema = `
   writeAccess
   readAccess
   type
+  title
   lastEditedBy
   editedBy
   createdBy

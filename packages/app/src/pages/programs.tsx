@@ -48,12 +48,7 @@ const Programs = () => {
 
   const submitAddForm = () => {
     //TODO: Better solution for this
-    // TODO: Fix Options not saving
     localState.rules = localState.rules?.map((rule) => omit(["id"], rule));
-    console.log(
-      "🚀 ~ file: programs.tsx ~ line 53 ~ submitAddForm ~ localState.rules",
-      localState.rules
-    );
     programData.create(omit(["id"], localState));
     setShowAddForm(false);
     updateLocalState(initialProgramData);
@@ -87,7 +82,8 @@ const Programs = () => {
     },
     {
       name: "Delete",
-      method: (program: Required<Program>) => programData.delete(program.id)
+      method: (program: Required<Program>) =>
+        programData.delete({ id: program.id })
     },
     {
       name: "Copy",
