@@ -1,9 +1,10 @@
-import { Collections, IId, Program, User } from "@parsimony/types";
+import { Collections, IId, Program, Result, User } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../utils";
 
 type UserCollection = Record<IId, User>;
 type ProgramCollection = Record<IId, Program>;
+type ResultCollection = Record<IId, Result>;
 
 export class Store {
   public store$: Record<IId, BehaviorSubject<Record<IId, any>>>;
@@ -11,7 +12,8 @@ export class Store {
   constructor() {
     this.store$ = {
       [Collections.User]: new BehaviorSubject<UserCollection>({}),
-      [Collections.Program]: new BehaviorSubject<ProgramCollection>({})
+      [Collections.Program]: new BehaviorSubject<ProgramCollection>({}),
+      [Collections.Result]: new BehaviorSubject<ResultCollection>({})
     };
   }
 
@@ -19,10 +21,12 @@ export class Store {
     collectionName: Collections,
     request: () => Promise<any>
   ) {
-    request().then((data) => {
-      const dataObject = arrayToObj(data);
-      this.store$[collectionName].next(dataObject);
-    });
+    request()
+      .then((data) => {
+        const dataObject = arrayToObj(data);
+        this.store$[collectionName].next(dataObject);
+      })
+      .catch((err) => console.error(err));
   }
 
   subscribeToStoreCollection(collectionName: Collections, next: any) {

@@ -60,7 +60,7 @@ export const ruleStyles: IOption[] = [
 
 export const inputTypes: IOption[] = [
   { name: InputTypes.Radio, value: InputTypes.Radio },
-  { name: InputTypes.text, value: InputTypes.text }
+  { name: InputTypes.Text, value: InputTypes.Text }
 ];
 
 export const programValueTypes: IOption[] = [

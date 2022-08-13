@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { clone, getMax, getSum } from "../utils";
 import { Container, Button } from "../components";
-import { ResultData, Rule, RuleResult } from "@parsimony/types";
+import {
+  ResultData,
+  Rule,
+  RuleResult,
+  IResultsState,
+  ICompletenessState,
+  IResultData,
+  RuleOption,
+  RuleResultOption
+} from "@parsimony/types";
 import { increment, decrement, generateKey, compileStyles } from "../utils";
 import "./styles.css";
 
 export type IObserverRuleProps = React.PropsWithChildren<{
   rule: Rule | Rule[];
-  onComplete: (result: ResultData) => void;
+  onComplete: (result: IResultData) => void;
   patentActiveState?: boolean;
 }>;
-
-export type IResultsState = Record<string, RuleResult[]>;
-export type ICompletenessState = Record<string, number>;
-export type IResultData = Record<string, ResultData>;
 
 const ObserveRule = ({
   rule,
@@ -101,12 +106,12 @@ const ObserveRule = ({
 
   const updateResults = (resultData: RuleResult, rule: Rule) => {
     const id = rule.id as string;
-    const updatedResults = results[id]
+    const updatedResultArray = results[id]
       ? updateRuleResultAtStep(results[id], resultData)
       : [resultData];
     setResults({
       ...results,
-      [id]: updatedResults
+      [id]: updatedResultArray
     });
   };
 
@@ -124,11 +129,7 @@ const ObserveRule = ({
     );
   };
 
-  const selectOption = (
-    option: { name: string; value: number },
-    step: number,
-    rule: Rule
-  ) => {
+  const selectOption = (option: RuleResultOption, step: number, rule: Rule) => {
     const obj: RuleResult = { step, option };
     updateResults(obj, rule);
     !isGroup && incrementStep(rule);
@@ -149,7 +150,10 @@ const ObserveRule = ({
             <Button
               key={generateKey("optionButton", i)}
               name={option?.name as string}
-              action={() => selectOption(option, step, rule)}
+              //!! RuleResultOption and RuleOption are the same thing in type def need to share...
+              action={() =>
+                selectOption(option as RuleResultOption, step, rule)
+              }
             />
           ))}
         </Container>

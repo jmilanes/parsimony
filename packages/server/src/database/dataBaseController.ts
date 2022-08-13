@@ -50,6 +50,10 @@ export default class DataBaseController {
     return await this.dataBase.models[model].find(filter);
   }
 
+  async findAllEntries(model: modelTypes) {
+    return await this.dataBase.models[model].find({});
+  }
+
   async updateEntry(entry: any, update: Record<string, any>) {
     await entry.updateOne(update);
   }

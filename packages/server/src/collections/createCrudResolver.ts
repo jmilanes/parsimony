@@ -55,7 +55,7 @@ export const updateModel =
 export const getModels =
   ({ db }: ICreateResolverParams, model: modelTypes) =>
   async () =>
-    await db.models[model].find({});
+    await db.findAllEntries(model);
 
 export const getModelById =
   ({ db }: ICreateResolverParams, model: modelTypes) =>

@@ -4,11 +4,12 @@ import {
   calculateAverage,
   generateKey,
   getRouterParams,
-  navigateToRoute
+  navigateToRoute,
+  omitMongoKeys
 } from "../utils";
 import { programData, resultsData } from "../services/dataAccessServices";
 import { ObserveRule } from "../containers";
-import { IResult, IResultData } from "@parsimony/types";
+import { IResultData, Program, Result } from "@parsimony/types";
 import { initialResultData } from "../fixtures";
 import { RuleStyle } from "@parsimony/types";
 
@@ -16,17 +17,17 @@ const Observe = () => {
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const program = programData.get(programId || "");
+  const program = programData.get(programId || "") as Program;
 
-  const [programResults, setProgramResults] = useState<IResult>({
+  const [programResults, setProgramResults] = useState<Result>({
     ...initialResultData,
-    clientId: program.clientId,
-    programId: program.id
+    clientId: program?.clientId,
+    programId: program?.id
   });
 
-  const updateCompleteness = (programResults: IResult) => {
+  const updateCompleteness = (programResults: Result) => {
     const averageCompleteness = calculateAverage(
-      programResults.data,
+      programResults.data as [],
       "ruleCompleteness"
     );
     !!averageCompleteness &&
@@ -37,34 +38,62 @@ const Observe = () => {
   };
 
   useEffect(() => {
+    console.log(
+      "🚀 ~ file: observe.tsx ~ line 43 ~ useEffect ~ program",
+      program
+    );
     updateCompleteness(programResults);
-  }, [programResults.data]);
+    if (program) {
+      if (!programResults.clientId || !programResults.programId) {
+        setProgramResults({
+          ...programResults,
+          clientId: program.clientId,
+          programId: program.id
+        });
+      }
+    }
+  }, [programResults.data, program]);
 
+  if (!program || !programResults) return null;
+
+  //TODO: This seems wrong need to re evaluate if objects are the right move.
   const updateProgramResult = (result: IResultData) => {
     setProgramResults({
       ...programResults,
-      data: { ...programResults.data, ...result }
+      data: programResults.data
+        ? [...programResults.data, ...Object.values(result)]
+        : [...Object.values(result)]
     });
   };
 
-  const createResult = () => resultsData.create(programResults);
+  const createResult = () => {
+    //TODO Find better way to do this
+    delete programResults.id;
+    return resultsData.create(omitMongoKeys(programResults));
+  };
 
   const isGroup = program.ruleStyle === RuleStyle.Group;
 
   return (
     <>
-      <Header text={program?.title} size="page" />
+      <Header text={program?.title || ""} size="page" />
       <p>Completeness: {programResults.programCompleteness}%</p>
       {isGroup ? (
-        <ObserveRule rule={program.rules} onComplete={updateProgramResult} />
+        <ObserveRule
+          rule={program.rules as []}
+          onComplete={updateProgramResult}
+        />
       ) : (
-        program.rules.map((rule, i) => (
-          <ObserveRule
-            key={generateKey("observeRule", i)}
-            rule={rule}
-            onComplete={updateProgramResult}
-          />
-        ))
+        program.rules?.map(
+          (rule, i) =>
+            rule && (
+              <ObserveRule
+                key={generateKey("observeRule", i)}
+                rule={rule}
+                onComplete={updateProgramResult}
+              />
+            )
+        )
       )}
       <Button name="Submit Observation" action={createResult}></Button>
       <Button

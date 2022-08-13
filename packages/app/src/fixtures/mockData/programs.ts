@@ -9,8 +9,6 @@ import {
 export const mockProgramData: Program[] = [
   {
     id: "",
-    dateCreated: new Date(),
-    dateEdited: new Date(),
     title: "Program 1",
     clientId: undefined,
     writeAccess: [UserRoles.Director],
@@ -31,8 +29,8 @@ export const mockProgramData: Program[] = [
           { name: "Poor", value: 3 }
         ],
         required: true,
-        inputType: InputTypes.radio,
-        valueType: ProgramValueTypes.number
+        inputType: InputTypes.Radio,
+        valueType: ProgramValueTypes.Number
       }
     ]
   }

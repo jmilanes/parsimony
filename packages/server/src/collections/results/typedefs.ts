@@ -7,14 +7,14 @@ export default gql`
     id: ID!
     programId: ID
     clientId: ID
-    programCompleteness: Int
+    programCompleteness: Float
     data: [ResultData]
     updated_at: Date
     created_at: Date
   }
 
   type ResultData {
-    ruleCompleteness: Int
+    ruleCompleteness: Float
     ruleResults: [RuleResult]
   }
 
@@ -24,11 +24,13 @@ export default gql`
   }
 
   type RuleResultOption {
+    id: ID
     name: String
     value: Int
   }
 
   input RuleResultOptionInput {
+    id: ID
     name: String
     value: Int
   }
@@ -39,14 +41,14 @@ export default gql`
   }
 
   input ResultDataInput {
-    ruleCompleteness: Int
+    ruleCompleteness: Float
     ruleResults: [RuleResultInput]
   }
 
   input CreateResultPayload {
     programId: ID!
     clientId: ID!
-    programCompleteness: Int!
+    programCompleteness: Float!
     data: [ResultDataInput]
   }
 
@@ -62,7 +64,7 @@ export default gql`
     id: ID!
     programId: ID!
     clientId: ID!
-    programCompleteness: Int!
+    programCompleteness: Float!
     data: [ResultDataInput]
   }
 

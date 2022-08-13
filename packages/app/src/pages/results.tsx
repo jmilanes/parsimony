@@ -1,5 +1,5 @@
-import React from "react";
-import { Pages, ProgramTypes } from "@parsimony/types";
+import React, { useEffect, useState } from "react";
+import { Pages, ProgramTypes, Result } from "@parsimony/types";
 import { Header } from "../components";
 import { getRouterParams } from "../utils";
 import { programData, resultsData } from "../services/dataAccessServices";
@@ -28,19 +28,25 @@ ChartJS.register(
 const Results = () => {
   const { programId } = getRouterParams();
   const program = programData.get(programId || "");
-  if (program.type !== ProgramTypes.Client) return null;
-  const results = resultsData.getAllBy("programId", programId);
+  const [results, setResults] = useState<Result[]>([]);
 
-  const programCompletenessData = results.map(
+  useEffect(() => {
+    if (program) setResults(resultsData.getAllBy("programId", programId));
+  }, [program]);
+
+  if (!program) return null;
+  if (program.type !== ProgramTypes.Client) return null;
+
+  const programCompletenessData = results?.map(
     (result) => result.programCompleteness
   );
 
   const programDateLabels = results.map((result) => {
-    const date = new Date(result.dateCreated);
+    const date = new Date(result.created_at);
     return `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`;
   });
 
-  // Todo would be really cool to have a place to add data sets here
+  // TODO: would be really cool to have a place to add data sets here
   const state = {
     labels: programDateLabels,
     datasets: [
