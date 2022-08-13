@@ -1,5 +1,5 @@
 import { IObject } from "@parsimony/types";
-import { IStateService } from "./stateService";
+import { IStateService } from "./state.service";
 
 export type FilterFn = (obj: IObject) => boolean;
 

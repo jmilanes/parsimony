@@ -1,8 +1,8 @@
-export { default as Home } from "./home";
-export { default as Programs } from "./programs";
-export { default as Program } from "./program";
-export { default as Users } from "./users";
-export { default as User } from "./user";
-export { default as Results } from "./results";
-export { default as Observe } from "./observe";
-export { default as Login } from "./login";
+export { default as Home } from "./home.page";
+export { default as Programs } from "./programs.page";
+export { default as Program } from "./program.page";
+export { default as Users } from "./users.page";
+export { default as User } from "./user.page";
+export { default as Results } from "./results.page";
+export { default as Observe } from "./observe.page";
+export { default as Login } from "./login.page";

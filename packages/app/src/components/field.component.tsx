@@ -1,7 +1,7 @@
 import { Input } from "antd";
 import React from "react";
 
-import { Container, Header } from "../components";
+import { Container, Header } from ".";
 import { Maybe } from "@parsimony/types";
 
 export type IFieldProps = {

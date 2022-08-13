@@ -15,11 +15,11 @@ export class BroadcastController {
     this.webSocketServer = new WS.Server({ port: port });
   }
 
-  init = () => {
+  public init = () => {
     this.webSocketServer.on("connection", (socket: any) => {
       console.log(`${new Date()} Connection accepted.`);
       socket.on("message", (payload: string) =>
-        this.broadcastPayloadToClients(this.webSocketServer.clients, payload)
+        this._broadcastPayloadToClients(this.webSocketServer.clients, payload)
       );
       socket.on("close", () => console.log(`Connection Closed.`));
     });
@@ -27,14 +27,15 @@ export class BroadcastController {
     this.webSocket = new WS(`ws://localhost:${this.port}`);
   };
 
-  broadcastPayloadToClients = (clients: any[], payload: any) => {
-    clients.forEach((client) => {
-      if (client.readyState === WS.OPEN) {
-        client.send(JSON.stringify(JSON.parse(payload)));
-      }
-    });
+  private _broadcastPayloadToClients = (clients: any[], payload: any) =>
+    clients.forEach(this._sendPayload(payload));
+
+  private _sendPayload = (payload: any) => (client: any) => {
+    if (client.readyState === WS.OPEN) {
+      client.send(JSON.stringify(JSON.parse(payload)));
+    }
   };
 
-  broadcast = (payload: Record<string, any>): void =>
+  public broadcast = (payload: Record<string, any>): void =>
     this.webSocket.send(JSON.stringify(payload));
 }

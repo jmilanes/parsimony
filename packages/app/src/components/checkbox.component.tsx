@@ -1,6 +1,6 @@
 import { Switch } from "antd";
 import React from "react";
-import { Container, Header } from "../components";
+import { Container, Header } from ".";
 
 export type ICheckBoxProps = {
   key?: string;

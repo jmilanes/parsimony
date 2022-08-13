@@ -1,5 +1,5 @@
 import React from "react";
-import { IColumns, ITableAction } from "../components/table";
+import { IColumns, ITableAction } from "../components/table.component";
 import { AddForm, RulesForm } from "../containers";
 import { Pages } from "@parsimony/types";
 import {
@@ -8,7 +8,7 @@ import {
   ruleStyles,
   userRoleOptions
 } from "../fixtures";
-import { programData, userData } from "../services/dataAccessServices";
+import { programData, userData } from "../services/dataAccess.service";
 import { IId, Program } from "@parsimony/types";
 import {
   createList,
@@ -26,7 +26,7 @@ import {
   Selector
 } from "../components";
 import { ProgramTypes } from "@parsimony/types";
-import { StateManger } from "../services/crudServices";
+import { StateManger } from "../services/crud.service";
 import { omit } from "ramda";
 
 const Programs = () => {

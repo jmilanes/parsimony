@@ -17,10 +17,10 @@ import {
 } from "@parsimony/types";
 import { ISchool, User, Program, Thread } from "@parsimony/types";
 import { AsyncCrudGenerator, Store } from "./store";
-import userRequests from "../bal/requests/users";
-import StateService from "./stateService";
-import programRequests from "../bal/requests/programs";
-import resultRequests from "../bal/requests/results";
+import userRequests from "../bal/requests/users.requests";
+import StateService from "./state.service";
+import programRequests from "../bal/requests/programs.requests";
+import resultRequests from "../bal/requests/results.requests";
 
 export const store = new Store();
 export const StateManger = new StateService(store);

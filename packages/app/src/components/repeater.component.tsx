@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Button, Row, Col } from "../components";
+import { Header, Button, Row, Col } from ".";
 import { clone } from "../utils";
 
 // These any's might be able to be generics

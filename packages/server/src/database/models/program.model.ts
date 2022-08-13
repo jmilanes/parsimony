@@ -1,5 +1,5 @@
 import { ProgramTypes, RuleStyle, UserRoles } from "@parsimony/types";
-import Rule from "./rule";
+import Rule from "./rule.model";
 import { ObjectId } from "mongodb";
 
 export default {

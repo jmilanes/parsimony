@@ -1,6 +1,6 @@
 import { ChatActionTypes } from "@parsimony/types";
 import { ICreateResolverParams } from "..";
-import DataBaseController from "../../database/dataBaseController";
+import DataBaseController from "../../database/dataBase.controller";
 import { modelTypes } from "../../database/models";
 
 export default (ICreateResolverParams: ICreateResolverParams) => ({

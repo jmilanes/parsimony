@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "../components";
-import { authService } from "../services/dataAccessServices";
+import { authService } from "../services/dataAccess.service";
 import { navigateToRoute } from "../utils";
 
 const Login = ({ from }: { from: string }) => {

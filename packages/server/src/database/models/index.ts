@@ -1,8 +1,8 @@
-import program from "./program";
-import result from "./result";
-import school from "./school";
-import thread from "./thread";
-import user from "./user";
+import program from "./program.model";
+import result from "./result.model";
+import school from "./school.model";
+import thread from "./thread.model";
+import user from "./user.model";
 
 export enum modelTypes {
   thread = "thread",

@@ -1,8 +1,8 @@
 import React from "react";
 import { createLink, filterByProp } from "../utils";
 import { IRoute } from "@parsimony/types";
-import { authService, filterService } from "../services/dataAccessServices";
-import Button from "./button";
+import { authService, filterService } from "../services/dataAccess.service";
+import Button from "./button.component";
 
 export type INavProps = {
   routes: IRoute[];

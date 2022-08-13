@@ -1,5 +1,5 @@
-import { IOptionMultiSelect } from "../components/multiSelect";
-import { IOption } from "../components/selector";
+import { IOptionMultiSelect } from "../components/multiSelect.component";
+import { IOption } from "../components/selector.component";
 import {
   InputTypes,
   ProgramTypes,

@@ -1,8 +1,8 @@
 import { Select } from "antd";
 import React from "react";
-import { Header, Container } from "../components";
+import { Header, Container } from ".";
 import { formatFormHeader, generateKey } from "../utils";
-import { Row, Col } from "./";
+import { Row, Col } from ".";
 import { Maybe } from "@parsimony/types";
 
 const { Option } = Select;

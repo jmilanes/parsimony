@@ -1,8 +1,8 @@
 import React from "react";
-import { filterService } from "../services/dataAccessServices";
+import { filterService } from "../services/dataAccess.service";
 import { flattenObject, generateKey } from "../utils";
 import { Table as AntTable, Button, Space } from "antd";
-import { Content } from "../components";
+import { Content } from ".";
 
 export type ITableAction = {
   name: string;

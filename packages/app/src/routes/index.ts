@@ -1,5 +1,5 @@
 import { Routes, NavTitles, Pages } from "@parsimony/types";
-import PageService from "../services/pageService";
+import PageService from "../services/page.service";
 import { IRoute } from "@parsimony/types";
 
 const routes: IRoute[] = [

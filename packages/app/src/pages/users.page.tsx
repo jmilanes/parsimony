@@ -1,6 +1,6 @@
 import React from "react";
 
-import { userData } from "../services/dataAccessServices";
+import { userData } from "../services/dataAccess.service";
 import {
   Button,
   Table,
@@ -17,9 +17,9 @@ import {
   userRoleOptions,
   userRoleOptionsWithStringValues
 } from "../fixtures";
-import { IColumns, ITableAction } from "../components/table";
+import { IColumns, ITableAction } from "../components/table.component";
 import { Pages } from "@parsimony/types";
-import { StateManger } from "../services/crudServices";
+import { StateManger } from "../services/crud.service";
 
 const Users = () => {
   const navigate = navigateToRoute();

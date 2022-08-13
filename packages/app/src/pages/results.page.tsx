@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Pages, ProgramTypes, Result } from "@parsimony/types";
 import { Header } from "../components";
 import { getRouterParams } from "../utils";
-import { programData, resultsData } from "../services/dataAccessServices";
+import { programData, resultsData } from "../services/dataAccess.service";
 import {
   Chart as ChartJS,
   CategoryScale,

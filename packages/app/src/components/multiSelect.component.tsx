@@ -1,6 +1,6 @@
 import { Select } from "antd";
 import React from "react";
-import { Container, Header } from "../components";
+import { Container, Header } from ".";
 import { createCommaSeparatedSting, formatFormHeader } from "../utils";
 
 const { Option } = Select;

@@ -1,8 +1,8 @@
-import { clone } from "../utils";
+import { clone } from ".";
 import { IObject, IObjectValues, User } from "@parsimony/types";
 import { Modes } from "@parsimony/types";
 import { IModes } from "@parsimony/types";
-import { getDataWithPath } from "./abstractions";
+import { getDataWithPath } from "./abstractions.util";
 import { omit } from "ramda";
 
 export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>

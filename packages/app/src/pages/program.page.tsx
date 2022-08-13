@@ -10,7 +10,7 @@ import {
   MultiSelect,
   Row
 } from "../components";
-import { programData, userData } from "../services/dataAccessServices";
+import { programData, userData } from "../services/dataAccess.service";
 import { Program, IModes } from "@parsimony/types";
 
 import {
@@ -23,7 +23,7 @@ import {
   omitMongoKeys
 } from "../utils";
 import { ProgramTypes, Routes } from "@parsimony/types";
-import { StateManger } from "../services/crudServices";
+import { StateManger } from "../services/crud.service";
 
 const Program = () => {
   const navigate = navigateToRoute();

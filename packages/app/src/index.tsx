@@ -10,8 +10,8 @@ import {
   programData,
   schoolData,
   userData
-} from "./services/dataAccessServices";
-import { StateManger } from "./services/crudServices";
+} from "./services/dataAccess.service";
+import { StateManger } from "./services/crud.service";
 
 console.log("DATA", {
   schools: schoolData.getAll(),

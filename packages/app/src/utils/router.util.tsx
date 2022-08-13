@@ -12,7 +12,7 @@ import {
 import { Button, Nav } from "../components";
 import { uuid } from ".";
 import { IRoute } from "@parsimony/types";
-import AuthService from "../services/authService";
+import AuthService from "../services/auth.service";
 import { Login } from "../pages";
 
 export const generateRoutes = (routes: IRoute[], authService: AuthService) => {

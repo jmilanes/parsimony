@@ -11,7 +11,7 @@ import {
   Table,
   Row
 } from "../components";
-import { userData, programData } from "../services/dataAccessServices";
+import { userData, programData } from "../services/dataAccess.service";
 import { IModes, Program, UpdateUserPayload, User } from "@parsimony/types";
 
 import {
@@ -22,10 +22,10 @@ import {
   omitMongoKeys
 } from "../utils";
 import { navigateToRoute } from "../utils";
-import { filterService } from "../services/dataAccessServices";
+import { filterService } from "../services/dataAccess.service";
 import { Routes } from "@parsimony/types";
-import { IColumns, ITableAction } from "../components/table";
-import { StateManger } from "../services/crudServices";
+import { IColumns, ITableAction } from "../components/table.component";
+import { StateManger } from "../services/crud.service";
 
 const User = () => {
   const { userId } = getRouterParams();

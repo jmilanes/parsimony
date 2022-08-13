@@ -5,11 +5,11 @@ import {
   ResultService,
   ThreadService,
   StateManger
-} from "./crudServices";
+} from "./crud.service";
 import dataAccessGenerator from "./dataAccessGenerator";
 import { ISchool } from "@parsimony/types";
-import FilterService from "./filterService";
-import AuthService from "./authService";
+import FilterService from "./filter.service";
+import AuthService from "./auth.service";
 
 const schoolService = new SchoolService();
 export const threadsService = new ThreadService();

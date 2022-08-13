@@ -1,4 +1,4 @@
-import DataBaseController from "../database/dataBaseController";
+import DataBaseController from "../database/dataBase.controller";
 import { threadTypeDefs, threadResolvers } from "./threads";
 import { userTypeDefs, userResolvers } from "./users";
 import { programTypeDefs, programResolvers } from "./programs";

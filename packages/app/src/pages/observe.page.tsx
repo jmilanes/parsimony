@@ -7,7 +7,7 @@ import {
   navigateToRoute,
   omitMongoKeys
 } from "../utils";
-import { programData, resultsData } from "../services/dataAccessServices";
+import { programData, resultsData } from "../services/dataAccess.service";
 import { ObserveRule } from "../containers";
 import { IResultData, Program, Result } from "@parsimony/types";
 import { initialResultData } from "../fixtures";
