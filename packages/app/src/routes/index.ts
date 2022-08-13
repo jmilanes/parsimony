@@ -1,47 +1,58 @@
-import { Routes, NavTitles, Pages } from "@parsimony/types";
-import PageService from "../services/page.service";
+import { Routes, NavTitles } from "@parsimony/types";
+
+import {
+  Home,
+  Programs,
+  Program,
+  User,
+  Users,
+  Observe,
+  Login,
+  Results,
+  Chat
+} from "../pages";
 import { IRoute } from "@parsimony/types";
 
 const routes: IRoute[] = [
   {
     path: Routes.Home,
-    element: PageService[Pages.Home],
+    element: Home,
     name: NavTitles.Home
   },
   {
     path: Routes.Programs,
-    element: PageService[Pages.Programs],
+    element: Programs,
     name: NavTitles.Programs
   },
   {
     path: Routes.Program,
-    element: PageService[Pages.Program]
+    element: Program
   },
   {
     path: Routes.Users,
-    element: PageService[Pages.Users],
+    element: Users,
     name: NavTitles.Users
   },
   {
     path: Routes.User,
-    element: PageService[Pages.User]
+    element: User
   },
   {
     path: Routes.Results,
-    element: PageService[Pages.Results]
+    element: Results
   },
   {
     path: Routes.Observe,
-    element: PageService[Pages.Observe]
+    element: Observe
   },
   {
     path: Routes.Chat,
-    element: PageService[Pages.Chat],
+    element: Chat,
     name: NavTitles.Chat
   },
   {
     path: Routes.Login,
-    element: PageService[Pages.Login]
+    element: Login
   }
 ];
 

@@ -19,6 +19,7 @@ const resolverUtils: ICreateResolverParams = {
   db,
   broadcast: broadCastController.broadcast
 };
+
 // makeExecutableSchema
 const server = new ApolloServer({
   namespace: "Parsimony",

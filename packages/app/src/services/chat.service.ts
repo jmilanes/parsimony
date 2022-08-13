@@ -11,10 +11,10 @@ import {
   EditMessagePayload,
   Message
 } from "@parsimony/types";
-import { clone } from "../../utils";
+import { clone } from "../utils";
 import { BehaviorSubject } from "rxjs";
-import { socketObservable } from "../..";
-import { fetchTreads } from "../../bal";
+import { socketObservable } from "..";
+import { fetchTreads } from "../bal";
 
 export type ThreadCollection = Record<string, Thread>;
 

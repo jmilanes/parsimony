@@ -8,7 +8,7 @@ import {
 } from "../bal";
 import ChatServiceObservable, {
   ThreadCollection
-} from "../services/chat/chat.service";
+} from "../services/chat.service";
 import { Thread } from "@parsimony/types";
 import { uuid } from "../utils";
 

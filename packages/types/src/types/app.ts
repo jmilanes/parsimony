@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from "react";
 
 export type IRoute = {
   path: string;
-  element: IComponent<unknown>;
+  element: IComponent<any>;
   name?: string;
 };
 
