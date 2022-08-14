@@ -11,7 +11,7 @@ import {
   Table,
   Row
 } from "../components";
-import { userData, programData } from "../services/dataAccess.service";
+
 import { IModes, Program, UpdateUserPayload, User } from "@parsimony/types";
 
 import {
@@ -22,16 +22,16 @@ import {
   omitMongoKeys
 } from "../utils";
 import { navigateToRoute } from "../utils";
-import { filterService } from "../services/dataAccess.service";
 import { Routes } from "@parsimony/types";
 import { IColumns, ITableAction } from "../components/table.component";
-import { StateManger } from "../services/crud.service";
+import { useServices } from "../context";
 
 const User = () => {
+  const { filterService, stateManager, dataAccess } = useServices();
   const { userId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const user: User = userData.get(userId || "");
+  const user: User = dataAccess.user.get(userId || "");
 
   const [mode, updateMode] = React.useState<IModes>("readOnly");
 
@@ -47,17 +47,17 @@ const User = () => {
   // !!
 
   // TODO: Potentially store an array of program ids on the user
-  const associatedPrograms = programData
+  const associatedPrograms = dataAccess.program
     .getAll()
-    .filter((program) => program.clientId === user.id);
+    .filter((program: Program) => program.clientId === user.id);
 
-  const updateState = StateManger.updateLocalState({
+  const updateState = stateManager.updateLocalState({
     localState,
     updateLocalState
   });
 
   const submitForm = () => {
-    userData.update(omitMongoKeys(localState));
+    dataAccess.user.update(omitMongoKeys(localState));
     updateMode("readOnly");
   };
 

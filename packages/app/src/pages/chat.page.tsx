@@ -6,22 +6,20 @@ import {
   deleteThread,
   editMessage
 } from "../bal";
-import ChatServiceObservable, {
-  ThreadCollection
-} from "../services/chat.service";
+import ChatService, { ThreadCollection } from "../services/chat.service";
 import { Thread } from "@parsimony/types";
 import { uuid } from "../utils";
-
-const chatService = new ChatServiceObservable();
+import { useServices } from "../context";
 
 const Chat = () => {
+  const { chat } = useServices();
   const [threads, setThreads] = useState<ThreadCollection>(
     {} as ThreadCollection
   );
 
   useEffect(() => {
-    chatService.init();
-    chatService.threads$.subscribe({
+    chat.init();
+    chat.threads$.subscribe({
       next: setThreads
     });
   }, []);

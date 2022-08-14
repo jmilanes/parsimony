@@ -1,14 +1,13 @@
 import React from "react";
 import { IColumns, ITableAction } from "../components/table.component";
 import { AddForm, RulesForm } from "../containers";
-import { Pages } from "@parsimony/types";
+import { Pages, User } from "@parsimony/types";
 import {
   initialProgramData,
   programTypes,
   ruleStyles,
   userRoleOptions
 } from "../fixtures";
-import { programData, userData } from "../services/dataAccess.service";
 import { IId, Program } from "@parsimony/types";
 import {
   createList,
@@ -26,22 +25,24 @@ import {
   Selector
 } from "../components";
 import { ProgramTypes } from "@parsimony/types";
-import { StateManger } from "../services/crud.service";
 import { omit } from "ramda";
+import { useServices } from "../context";
 
 const Programs = () => {
+  const { stateManager, dataAccess } = useServices();
   const navigate = navigateToRoute();
   let [searchParams] = getSearchParams();
-  const data = programData.getAll();
-  const clientDataOptions = userData
+  const data = dataAccess.program.getAll();
+
+  const clientDataOptions = dataAccess.user
     .getAll()
-    .map((client) => ({ name: getFullName(client), value: client.id }));
+    .map((client: User) => ({ name: getFullName(client), value: client.id }));
 
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
     React.useState<Program>(initialProgramData);
 
-  const updateState = StateManger.updateLocalState({
+  const updateState = stateManager.updateLocalState({
     localState,
     updateLocalState
   });
@@ -49,7 +50,7 @@ const Programs = () => {
   const submitAddForm = () => {
     //TODO: Better solution for this
     localState.rules = localState.rules?.map((rule) => omit(["id"], rule));
-    programData.create(omit(["id"], localState));
+    dataAccess.program.create(omit(["id"], localState));
     setShowAddForm(false);
     updateLocalState(initialProgramData);
   };
@@ -83,12 +84,12 @@ const Programs = () => {
     {
       name: "Delete",
       method: (program: Required<Program>) =>
-        programData.delete({ id: program.id })
+        dataAccess.program.delete({ id: program.id })
     },
     {
       name: "Copy",
       method: (program: Required<Program>) => {
-        const id = programData.create({
+        const id = dataAccess.program.create({
           ...program,
           title: `${program.title}_Copy`,
           clientId: searchParams.get("userId") as IId,

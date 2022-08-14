@@ -1,8 +1,9 @@
 import React from "react";
-import { filterService } from "../services/dataAccess.service";
+
 import { flattenObject, generateKey } from "../utils";
 import { Table as AntTable, Button, Space } from "antd";
 import { Content } from ".";
+import { useServices } from "../context";
 
 export type ITableAction = {
   name: string;
@@ -31,6 +32,8 @@ const Table = <Data extends { id: string }>({
   actions,
   columns
 }: ITableProps<Data>) => {
+  const { filterService } = useServices();
+
   if (actions) {
     columns = [
       ...columns,

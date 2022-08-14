@@ -33,3 +33,12 @@ export enum Modes {
   ReadOnly = "readOnly",
   Edit = "edit"
 }
+
+export enum ServiceTypes {
+  Chat = "chat",
+  Store = "store",
+  Filter = "filterService",
+  StateManager = "stateManager",
+  DataAccess = "dataAccess",
+  AuthService = "authService"
+}

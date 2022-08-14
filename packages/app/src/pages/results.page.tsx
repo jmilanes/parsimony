@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Pages, ProgramTypes, Result } from "@parsimony/types";
 import { Header } from "../components";
 import { getRouterParams } from "../utils";
-import { programData, resultsData } from "../services/dataAccess.service";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,6 +14,7 @@ import {
   Legend
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useServices } from "../context";
 
 ChartJS.register(
   CategoryScale,
@@ -26,12 +27,13 @@ ChartJS.register(
 );
 
 const Results = () => {
+  const { dataAccess } = useServices();
   const { programId } = getRouterParams();
-  const program = programData.get(programId || "");
+  const program = dataAccess.program.get(programId || "");
   const [results, setResults] = useState<Result[]>([]);
 
   useEffect(() => {
-    if (program) setResults(resultsData.getAllBy("programId", programId));
+    if (program) setResults(dataAccess.result.getAllBy("programId", programId));
   }, [program]);
 
   if (!program) return null;

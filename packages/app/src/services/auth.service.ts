@@ -1,4 +1,4 @@
-import { IDataAccess, User } from "@parsimony/types";
+import { User } from "@parsimony/types";
 import { message } from "antd";
 
 export default class AuthService {

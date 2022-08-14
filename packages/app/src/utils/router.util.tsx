@@ -12,10 +12,11 @@ import {
 import { Button, Nav } from "../components";
 import { uuid } from ".";
 import { IRoute } from "@parsimony/types";
-import AuthService from "../services/auth.service";
 import { Login } from "../pages";
+import { useServices } from "../context";
 
-export const generateRoutes = (routes: IRoute[], authService: AuthService) => {
+export const generateRoutes = (routes: IRoute[]) => {
+  const { authService } = useServices();
   return (
     <HashRouter>
       {authService.isLoggedIn && <Nav routes={routes} />}
@@ -38,7 +39,8 @@ export const generateRoutes = (routes: IRoute[], authService: AuthService) => {
   );
 };
 
-export const createLink = (link: IRoute, filterService?: any) => {
+export const createLink = (link: IRoute) => {
+  const { filterService } = useServices();
   return (
     <Link
       key={`${link.name || ""}_link_${uuid()}`}

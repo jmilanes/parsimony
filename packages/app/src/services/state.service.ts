@@ -1,6 +1,6 @@
 import { Collections } from "@parsimony/types/src";
 import { clone, setDataWithPath } from "../utils";
-import { Store } from "./store";
+import Store from "./store";
 
 export type IUpdateLocalStatePayload = {
   localState: Record<string, unknown>;

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "../components";
-import { authService } from "../services/dataAccess.service";
+import { useServices } from "../context";
 import { navigateToRoute } from "../utils";
 
 const Login = ({ from }: { from: string }) => {
+  const { authService } = useServices();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = navigateToRoute();

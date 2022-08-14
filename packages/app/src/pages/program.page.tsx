@@ -10,7 +10,6 @@ import {
   MultiSelect,
   Row
 } from "../components";
-import { programData, userData } from "../services/dataAccess.service";
 import { Program, IModes } from "@parsimony/types";
 
 import {
@@ -23,14 +22,16 @@ import {
   omitMongoKeys
 } from "../utils";
 import { ProgramTypes, Routes } from "@parsimony/types";
-import { StateManger } from "../services/crud.service";
+
+import { useServices } from "../context";
 
 const Program = () => {
+  const { stateManager, dataAccess } = useServices();
   const navigate = navigateToRoute();
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
 
-  const program = programData.get(programId || "");
+  const program = dataAccess.program.get(programId || "");
 
   const [localState, updateLocalState] = React.useState<Program>(program);
   const [mode, updateMode] = React.useState<IModes>(
@@ -44,15 +45,15 @@ const Program = () => {
 
   if (!program || !localState) return null;
 
-  const client = userData.get(program?.clientId || "");
+  const client = dataAccess.user.get(program?.clientId || "");
 
-  const updateState = StateManger.updateLocalState({
+  const updateState = stateManager.updateLocalState({
     localState,
     updateLocalState
   });
 
   const submitForm = () => {
-    programData.update(omitMongoKeys(localState));
+    dataAccess.program.update(omitMongoKeys(localState));
     updateMode("readOnly");
   };
 

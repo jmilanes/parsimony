@@ -1,13 +1,13 @@
 import { IObject } from "@parsimony/types";
-import { IStateService } from "./state.service";
+import StateService from "./state.service";
 
 export type FilterFn = (obj: IObject) => boolean;
 
 class FilterService {
   filters: Record<string, FilterFn>;
   fromLink: boolean;
-  stateManagement: IStateService;
-  constructor(stateManager: IStateService) {
+  stateManagement: StateService;
+  constructor(stateManager: StateService) {
     this.filters = {};
     this.fromLink = false;
     this.stateManagement = stateManager;

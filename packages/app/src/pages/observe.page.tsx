@@ -7,17 +7,18 @@ import {
   navigateToRoute,
   omitMongoKeys
 } from "../utils";
-import { programData, resultsData } from "../services/dataAccess.service";
 import { ObserveRule } from "../containers";
 import { IResultData, Program, Result } from "@parsimony/types";
 import { initialResultData } from "../fixtures";
 import { RuleStyle } from "@parsimony/types";
+import { useServices } from "../context";
 
 const Observe = () => {
+  const { dataAccess } = useServices();
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const program = programData.get(programId || "") as Program;
+  const program = dataAccess.program.get(programId || "") as Program;
 
   const [programResults, setProgramResults] = useState<Result>({
     ...initialResultData,
@@ -38,10 +39,6 @@ const Observe = () => {
   };
 
   useEffect(() => {
-    console.log(
-      "🚀 ~ file: observe.tsx ~ line 43 ~ useEffect ~ program",
-      program
-    );
     updateCompleteness(programResults);
     if (program) {
       if (!programResults.clientId || !programResults.programId) {
@@ -69,7 +66,7 @@ const Observe = () => {
   const createResult = () => {
     //TODO Find better way to do this
     delete programResults.id;
-    return resultsData.create(omitMongoKeys(programResults));
+    return dataAccess.result.create(omitMongoKeys(programResults));
   };
 
   const isGroup = program.ruleStyle === RuleStyle.Group;

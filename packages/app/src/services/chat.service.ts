@@ -13,15 +13,17 @@ import {
 } from "@parsimony/types";
 import { clone } from "../utils";
 import { BehaviorSubject } from "rxjs";
-import { socketObservable } from "..";
 import { fetchTreads } from "../bal";
+import { ISocket$ } from "./app.service";
 
 export type ThreadCollection = Record<string, Thread>;
 
-export default class ChatServiceObservable {
+export default class ChatService {
   threads$: BehaviorSubject<ThreadCollection>;
-  constructor() {
+  socket$: ISocket$;
+  constructor(socket$: ISocket$) {
     this.threads$ = new BehaviorSubject<ThreadCollection>({});
+    this.socket$ = socket$;
   }
 
   init = () => {
@@ -36,7 +38,7 @@ export default class ChatServiceObservable {
       this.updateThreads(formattedData);
     });
 
-    socketObservable.subscribe({
+    this.socket$.subscribe({
       next: (socketMessage: any) => this.updateThread(socketMessage)
     });
   };

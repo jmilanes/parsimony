@@ -5,7 +5,7 @@ import {
   IId
 } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
-import { Store } from "../store";
+import Store from "../store";
 
 export class AsyncCrudGenerator<
   Schema,

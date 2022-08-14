@@ -1,6 +1,5 @@
 import React from "react";
 
-import { userData } from "../services/dataAccess.service";
 import {
   Button,
   Table,
@@ -19,23 +18,25 @@ import {
 } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table.component";
 import { Pages } from "@parsimony/types";
-import { StateManger } from "../services/crud.service";
+
+import { useServices } from "../context";
 
 const Users = () => {
+  const { stateManager, dataAccess } = useServices();
   const navigate = navigateToRoute();
-  const data = userData.getAll();
+  const data = dataAccess.user.getAll();
 
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
     React.useState<Partial<User>>(initialUserData);
 
-  const updateState = StateManger.updateLocalState({
+  const updateState = stateManager.updateLocalState({
     localState,
     updateLocalState
   });
 
   const submitAddForm = () => {
-    userData.create(localState);
+    dataAccess.user.create(localState);
     setShowAddForm(false);
     updateLocalState(initialUserData);
   };
@@ -53,7 +54,7 @@ const Users = () => {
     },
     {
       name: "Delete",
-      method: (user: Required<User>) => userData.delete({ id: user.id })
+      method: (user: Required<User>) => dataAccess.user.delete({ id: user.id })
     }
   ];
 

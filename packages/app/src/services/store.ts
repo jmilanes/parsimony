@@ -6,7 +6,7 @@ type UserCollection = Record<IId, User>;
 type ProgramCollection = Record<IId, Program>;
 type ResultCollection = Record<IId, Result>;
 
-export class Store {
+export default class Store {
   public store$: Record<IId, BehaviorSubject<Record<IId, any>>>;
 
   constructor() {

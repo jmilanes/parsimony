@@ -37,7 +37,7 @@ export type CreateProgramPayload = {
 export type CreateResultPayload = {
   clientId: Scalars['ID'];
   data?: InputMaybe<Array<InputMaybe<ResultDataInput>>>;
-  programCompleteness: Scalars['Int'];
+  programCompleteness: Scalars['Float'];
   programId: Scalars['ID'];
 };
 
@@ -319,19 +319,19 @@ export type Result = {
   created_at?: Maybe<Scalars['Date']>;
   data?: Maybe<Array<Maybe<ResultData>>>;
   id: Scalars['ID'];
-  programCompleteness?: Maybe<Scalars['Int']>;
+  programCompleteness?: Maybe<Scalars['Float']>;
   programId?: Maybe<Scalars['ID']>;
   updated_at?: Maybe<Scalars['Date']>;
 };
 
 export type ResultData = {
   __typename?: 'ResultData';
-  ruleCompleteness?: Maybe<Scalars['Int']>;
+  ruleCompleteness?: Maybe<Scalars['Float']>;
   ruleResults?: Maybe<Array<Maybe<RuleResult>>>;
 };
 
 export type ResultDataInput = {
-  ruleCompleteness?: InputMaybe<Scalars['Int']>;
+  ruleCompleteness?: InputMaybe<Scalars['Float']>;
   ruleResults?: InputMaybe<Array<InputMaybe<RuleResultInput>>>;
 };
 
@@ -349,6 +349,7 @@ export type Rule = {
 
 export type RuleInput = {
   description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
   inputType?: InputMaybe<InputTypes>;
   options?: InputMaybe<Array<InputMaybe<RuleOptionInput>>>;
   question?: InputMaybe<Scalars['String']>;
@@ -383,11 +384,13 @@ export type RuleResultInput = {
 
 export type RuleResultOption = {
   __typename?: 'RuleResultOption';
+  id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   value?: Maybe<Scalars['Int']>;
 };
 
 export type RuleResultOptionInput = {
+  id?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
   value?: InputMaybe<Scalars['Int']>;
 };
@@ -437,7 +440,7 @@ export type UpdateResultPayload = {
   clientId: Scalars['ID'];
   data?: InputMaybe<Array<InputMaybe<ResultDataInput>>>;
   id: Scalars['ID'];
-  programCompleteness: Scalars['Int'];
+  programCompleteness: Scalars['Float'];
   programId: Scalars['ID'];
 };
 
@@ -582,6 +585,7 @@ export type ResolversTypes = {
   DeleteThreadPayload: DeleteThreadPayload;
   DeleteUserPayload: DeleteUserPayload;
   EditMessagePayload: EditMessagePayload;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
   GetSchoolPayload: GetSchoolPayload;
@@ -637,6 +641,7 @@ export type ResolversParentTypes = {
   DeleteThreadPayload: DeleteThreadPayload;
   DeleteUserPayload: DeleteUserPayload;
   EditMessagePayload: EditMessagePayload;
+  Float: Scalars['Float'];
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
   GetSchoolPayload: GetSchoolPayload;
@@ -740,14 +745,14 @@ export type ResultResolvers<ContextType = any, ParentType extends ResolversParen
   created_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   data?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResultData']>>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  programCompleteness?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  programCompleteness?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   programId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   updated_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ResultDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResultData'] = ResolversParentTypes['ResultData']> = {
-  ruleCompleteness?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  ruleCompleteness?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   ruleResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['RuleResult']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -778,6 +783,7 @@ export type RuleResultResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type RuleResultOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['RuleResultOption'] = ResolversParentTypes['RuleResultOption']> = {
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   value?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
