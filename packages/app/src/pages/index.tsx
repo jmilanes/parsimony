@@ -7,3 +7,4 @@ export { default as Results } from "./results.page";
 export { default as Observe } from "./observe.page";
 export { default as Login } from "./login.page";
 export { default as Chat } from "./chat.page";
+export { default as School } from "./school.page";

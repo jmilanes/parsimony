@@ -32,11 +32,6 @@ const Results = () => {
   const program = dataAccess.program.get(programId || "");
   const [results, setResults] = useState<Result[]>([]);
 
-  useEffect(() => {
-    if (program) setResults(dataAccess.result.getAllBy("programId", programId));
-  }, [program]);
-
-  if (!program) return null;
   if (program.type !== ProgramTypes.Client) return null;
 
   const programCompletenessData = results?.map(

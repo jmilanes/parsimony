@@ -40,5 +40,6 @@ export enum ServiceTypes {
   Filter = "filterService",
   StateManager = "stateManager",
   DataAccess = "dataAccess",
-  AuthService = "authService"
+  AuthService = "authService",
+  App = "appService"
 }

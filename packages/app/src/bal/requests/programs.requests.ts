@@ -65,12 +65,10 @@ export const updateProgram = createRequest<UpdateProgramPayload, Program>(
   programOperationStrings.edit
 );
 
-const programRequests = {
+export const programRequests = {
   getAll: getAllPrograms,
   get: getProgram,
   create: createProgram,
   delete: deleteProgram,
   update: updateProgram
 };
-
-export default programRequests;

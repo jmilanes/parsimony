@@ -1,10 +1,18 @@
-import { Collections, IId, Program, Result, User } from "@parsimony/types";
+import {
+  Collections,
+  IId,
+  Program,
+  Result,
+  School,
+  User
+} from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../utils";
 
 type UserCollection = Record<IId, User>;
 type ProgramCollection = Record<IId, Program>;
 type ResultCollection = Record<IId, Result>;
+type SchoolCollection = Record<IId, School>;
 
 export default class Store {
   public store$: Record<IId, BehaviorSubject<Record<IId, any>>>;
@@ -13,15 +21,16 @@ export default class Store {
     this.store$ = {
       [Collections.User]: new BehaviorSubject<UserCollection>({}),
       [Collections.Program]: new BehaviorSubject<ProgramCollection>({}),
-      [Collections.Result]: new BehaviorSubject<ResultCollection>({})
+      [Collections.Result]: new BehaviorSubject<ResultCollection>({}),
+      [Collections.School]: new BehaviorSubject<SchoolCollection>({})
     };
   }
 
-  initCollectionInStore(
+  async initCollectionInStore(
     collectionName: Collections,
     request: () => Promise<any>
   ) {
-    request()
+    return request()
       .then((data) => {
         const dataObject = arrayToObj(data);
         this.store$[collectionName].next(dataObject);
@@ -31,6 +40,13 @@ export default class Store {
 
   subscribeToStoreCollection(collectionName: Collections, next: any) {
     this.store$[collectionName].subscribe({ next });
+  }
+
+  // Used to connect all collections to the the state manager update
+  subscribeToStore(next: any) {
+    Object.values(this.store$).forEach((collection$) => {
+      collection$.subscribe({ next });
+    });
   }
 
   addItemToStore<T>(collectionName: Collections, item: T & { id?: IId }) {

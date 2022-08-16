@@ -1,12 +1,10 @@
-import { Collections, ServiceTypes } from "@parsimony/types/src";
-import { Observable } from "rxjs";
-import ChatService from "./chat.service";
-import FilterService from "./filter.service";
-import StateService from "./state.service";
-import Store from "./store";
-
-import crudGenerator from "./crudGenerators/crudGeneratorWithLocalStorage";
 import {
+  Collections,
+  CreateSchoolPayload,
+  DeleteSchoolPayload,
+  GetSchoolPayload,
+  ServiceTypes,
+  UpdateSchoolPayload,
   CreateProgramPayload,
   CreateResultPayload,
   CreateUserPayload,
@@ -19,16 +17,32 @@ import {
   Result,
   UpdateProgramPayload,
   UpdateResultPayload,
-  UpdateUserPayload
-} from "@parsimony/types";
-import { ISchool, User, Program } from "@parsimony/types";
-import userRequests from "../bal/requests/users.requests";
-import programRequests from "../bal/requests/programs.requests";
-import resultRequests from "../bal/requests/results.requests";
+  UpdateUserPayload,
+  User,
+  Program,
+  School
+} from "@parsimony/types/src";
+import { Observable } from "rxjs";
+import ChatService from "./chat.service";
+import FilterService from "./filter.service";
+import StateService from "./state.service";
+import Store from "./store";
+
+import {
+  userRequests,
+  programRequests,
+  resultRequests,
+  schoolRequests
+} from "../bal/requests";
+
 import { AsyncCrudGenerator } from "./crudGenerators/asyncCrud.generator";
 import AuthService from "./auth.service";
+import { wait } from "../utils";
 
 export type Services = {
+  [ServiceTypes.App]: {
+    isLoading: boolean;
+  };
   [ServiceTypes.Chat]: ChatService;
   [ServiceTypes.Store]: Store;
   [ServiceTypes.StateManager]: StateService;
@@ -44,12 +58,14 @@ export type Services = {
 
 export type ISocket$ = Observable<any>;
 export default class AppController {
-  isLoading: boolean;
   socket$?: ISocket$;
   services: Services;
   constructor() {
-    this.isLoading = true;
-    this.services = {} as Services;
+    this.services = {
+      [ServiceTypes.App]: {
+        isLoading: true
+      }
+    } as Services;
   }
 
   init = () => {
@@ -59,6 +75,20 @@ export default class AppController {
     this._initAuthService(this.services.dataAccess.user);
     this._initChatService(this.socket$ as ISocket$);
     console.log("All Services Loads", this.services);
+  };
+
+  loadCollections = async () => {
+    const collectionsStoreInitPromises = Object.values(
+      this.services.dataAccess
+    ).map((collection) => collection.init());
+    await Promise.all(collectionsStoreInitPromises);
+    this._isLoading(false);
+    console.log("All Data Loaded");
+  };
+
+  private _isLoading = (isLoading: boolean) => {
+    this.services[ServiceTypes.App].isLoading = isLoading;
+    this.services.stateManager.updateState();
   };
 
   private _initWebSocket = () => {
@@ -88,7 +118,7 @@ export default class AppController {
   };
 
   private _initDataAccess = () => {
-    this.services.dataAccess = createDataAccessServices(
+    this.services[ServiceTypes.DataAccess] = createDataAccessServices(
       this.services.store as Store
     );
   };
@@ -97,7 +127,7 @@ export default class AppController {
     const currentUserId = userDataAccess.get(
       localStorage.getItem("currentUserId") || ""
     );
-    this.services.authService = new AuthService(
+    this.services[ServiceTypes.AuthService] = new AuthService(
       userDataAccess.subscribe,
       currentUserId
     );
@@ -129,11 +159,13 @@ export const createDataAccessServices = (store: Store) => {
     GetResultPayload
   >(Collections.Result, resultRequests, store);
 
-  const SchoolService = crudGenerator<ISchool>(Collections.School);
-
-  UserService.init();
-  ProgramService.init();
-  ResultService.init();
+  const SchoolService = new AsyncCrudGenerator<
+    School,
+    CreateSchoolPayload,
+    DeleteSchoolPayload,
+    UpdateSchoolPayload,
+    GetSchoolPayload
+  >(Collections.School, schoolRequests, store);
 
   return {
     [Collections.Program]: ProgramService,

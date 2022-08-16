@@ -7,7 +7,8 @@ export enum Routes {
   User = "/directory/:userId",
   Results = "/results/:programId",
   Chat = "/chat",
-  Login = "/login"
+  Login = "/login",
+  School = "/school"
 }
 
 export enum Pages {
@@ -19,12 +20,14 @@ export enum Pages {
   User = "User",
   Results = "Results",
   Chat = "Chat",
-  Login = "Login"
+  Login = "Login",
+  School = "School"
 }
 
 export enum NavTitles {
   Home = "Home",
   Programs = "Programs",
   Users = "Directory",
-  Chat = "Chat"
+  Chat = "Chat",
+  School = "School"
 }

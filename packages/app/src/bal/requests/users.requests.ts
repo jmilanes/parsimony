@@ -52,12 +52,10 @@ export const updateUser = createRequest<UpdateUserPayload, User>(
   userOperationStrings.edit
 );
 
-const userRequests = {
+export const userRequests = {
   getAll: getAllUsers,
   get: getUser,
   create: createUser,
   delete: deleteUser,
   update: updateUser
 };
-
-export default userRequests;

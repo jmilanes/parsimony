@@ -39,13 +39,6 @@ const User = () => {
   const [localState, updateLocalState] =
     React.useState<UpdateUserPayload>(user);
 
-  useEffect(() => {
-    if (user && !localState) updateLocalState(user);
-  }, [user]);
-
-  if (!user || !localState) return null;
-  // !!
-
   // TODO: Potentially store an array of program ids on the user
   const associatedPrograms = dataAccess.program
     .getAll()

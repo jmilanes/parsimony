@@ -1,4 +1,4 @@
-export { default as initialUserData } from "./user";
-export * from "./program";
-export * from "./result";
-export * from "./mockData";
+export * from "./user.fixtures";
+export * from "./program.fixture";
+export * from "./result.fixtures";
+export * from "./school.fixtures";

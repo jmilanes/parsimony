@@ -38,13 +38,6 @@ const Program = () => {
     (searchParams.get("mode") as IModes) || "readOnly"
   );
 
-  //TODO FIx this madness
-  useEffect(() => {
-    if (program && !localState) updateLocalState(program);
-  }, [program]);
-
-  if (!program || !localState) return null;
-
   const client = dataAccess.user.get(program?.clientId || "");
 
   const updateState = stateManager.updateLocalState({

@@ -53,12 +53,10 @@ export const updateResult = createRequest<UpdateResultPayload, Result>(
   resultOperationStrings.edit
 );
 
-const resultRequests = {
+export const resultRequests = {
   getAll: getAllResults,
   get: getResult,
   create: createResult,
   delete: deleteResult,
   update: updateResult
 };
-
-export default resultRequests;

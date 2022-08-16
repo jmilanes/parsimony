@@ -1,4 +1,3 @@
-import { Collections } from "@parsimony/types/src";
 import { clone, setDataWithPath } from "../utils";
 import Store from "./store";
 
@@ -22,10 +21,7 @@ class StateService implements IStateService {
 
   registerUpdateState = (updateFn: () => void) => {
     this.updateState = updateFn;
-    const collections = [Collections.User, Collections.Program];
-    collections.forEach((collection) =>
-      this.store.subscribeToStoreCollection(collection, this.updateState)
-    );
+    this.store.subscribeToStore(updateFn);
   };
 
   updateLocalState =

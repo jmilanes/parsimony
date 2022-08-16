@@ -36,21 +36,28 @@ export class AsyncCrudGenerator<
     this.requests = requests;
   }
 
-  init = () => {
-    this.store.initCollectionInStore(this.collectionName, this.requests.getAll);
+  init = async () => {
+    await this.store.initCollectionInStore(
+      this.collectionName,
+      this.requests.getAll
+    );
   };
+
   create = async (payload: CreatePayload) => {
     const item = await this.requests.create(payload);
     this.store.addItemToStore(this.collectionName, item);
   };
+
   delete = async (payload: DeleteThreadPayload) => {
     const id = await this.requests.delete(payload);
     this.store.deleteItemFromStore(this.collectionName, id);
   };
+
   update = async (payload: UploadPayload) => {
     const item = await this.requests.update(payload);
     this.store.updateStore(this.collectionName, item);
   };
+
   getAll = () =>
     Object.values(this.store.getCollectionValue(this.collectionName));
   get = (id: IId) => this.store.getCollectionItem(this.collectionName, id);

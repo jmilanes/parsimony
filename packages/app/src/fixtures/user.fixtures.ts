@@ -1,6 +1,6 @@
 import { User, UserRoles } from "@parsimony/types";
 
-const initialUserData: Partial<User> = {
+export const initialUserData: Partial<User> = {
   firstName: "",
   lastName: "",
   dateOfBirth: new Date(),
@@ -12,5 +12,3 @@ const initialUserData: Partial<User> = {
   email: "joey@gmail.com",
   password: "123456789"
 };
-
-export default initialUserData;

@@ -7,7 +7,6 @@ const Login = ({ from }: { from: string }) => {
   const { authService } = useServices();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = navigateToRoute();
 
   useEffect(() => {
     authService.setPreviousPage(from);
