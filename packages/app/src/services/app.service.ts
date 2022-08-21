@@ -118,6 +118,7 @@ export default class AppController {
   };
 
   private _initDataAccess = () => {
+    // ** This is where I could just swap out the local storage version
     this.services[ServiceTypes.DataAccess] = createDataAccessServices(
       this.services.store as Store
     );

@@ -101,7 +101,18 @@ export const arrayToObj = (arr: any[]) =>
 export const omitMongoKeys = <R>(obj: any): R =>
   omit(["updated_at", "created_at"], obj) as R;
 
+export const removeMongoIds = (obj: any) => {
+  delete obj.id;
+  Object.values(obj).forEach((value) => {
+    if (Array.isArray(value)) value.forEach(removeMongoIds);
+  });
+  return obj;
+};
+
 export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 export const wait = (milliseconds: number) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+export const removeItemByIndex = (arr: unknown[], index: number) =>
+  arr.filter((_, i) => i !== index);

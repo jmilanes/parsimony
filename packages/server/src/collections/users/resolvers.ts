@@ -1,4 +1,4 @@
 import { modelTypes } from "../../database/models";
-import createCrudResolver from "../createCrudResolver";
+import { CrudResolvers } from "../createCrudResolver";
 
-export default createCrudResolver(modelTypes.user);
+export default new CrudResolvers(modelTypes.user);

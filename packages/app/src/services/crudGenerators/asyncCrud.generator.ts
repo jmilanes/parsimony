@@ -46,16 +46,19 @@ export class AsyncCrudGenerator<
   create = async (payload: CreatePayload) => {
     const item = await this.requests.create(payload);
     this.store.addItemToStore(this.collectionName, item);
+    return item;
   };
 
   delete = async (payload: DeleteThreadPayload) => {
     const id = await this.requests.delete(payload);
     this.store.deleteItemFromStore(this.collectionName, id);
+    return id;
   };
 
   update = async (payload: UploadPayload) => {
     const item = await this.requests.update(payload);
     this.store.updateStore(this.collectionName, item);
+    return item;
   };
 
   getAll = () =>

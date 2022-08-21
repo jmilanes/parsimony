@@ -14,7 +14,9 @@ import {
   getFullName,
   getLength,
   getSearchParams,
-  navigateToRoute
+  navigateToRoute,
+  omitMongoKeys,
+  removeMongoIds
 } from "../utils";
 import {
   Button,
@@ -25,7 +27,6 @@ import {
   Selector
 } from "../components";
 import { ProgramTypes } from "@parsimony/types";
-import { omit } from "ramda";
 import { useServices } from "../context";
 
 const Programs = () => {
@@ -48,9 +49,7 @@ const Programs = () => {
   });
 
   const submitAddForm = () => {
-    //TODO: Better solution for this
-    localState.rules = localState.rules?.map((rule) => omit(["id"], rule));
-    dataAccess.program.create(omit(["id"], localState));
+    dataAccess.program.create(removeMongoIds(localState));
     setShowAddForm(false);
     updateLocalState(initialProgramData);
   };
@@ -88,14 +87,19 @@ const Programs = () => {
     },
     {
       name: "Copy",
-      method: (program: Required<Program>) => {
-        const id = dataAccess.program.create({
-          ...program,
-          title: `${program.title}_Copy`,
-          clientId: searchParams.get("userId") as IId,
-          type: ProgramTypes.Client
-        });
-        navigate(`/programs/${id}?mode=edit`);
+      method: async (program: Required<Program>) => {
+        program.mainProgramId = program.id;
+        const userId = searchParams.get("userId");
+        const payload = omitMongoKeys(
+          removeMongoIds({
+            ...program,
+            title: `${program.title}_Copy`,
+            clientId: userId || null,
+            type: ProgramTypes.Client
+          })
+        );
+        const createdProgram = await dataAccess.program.create(payload);
+        navigate(`/programs/${createdProgram.id}?mode=edit`);
       }
     }
   ];
@@ -171,7 +175,6 @@ const Programs = () => {
           values={localState.writeAccess as string[]}
           updateState={updateState}
         />
-
         <RulesForm localState={localState} updateState={updateState} />
       </AddForm>
     </>

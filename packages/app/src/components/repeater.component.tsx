@@ -31,7 +31,7 @@ const Repeater = ({
       <Col span={24}>
         <Row align="middle" justify="space-between">
           <Header text={title} size="md" />
-          <Button name="add" action={addRow} />
+          <Button name="Add" action={addRow} />
         </Row>
       </Col>
       {items.map((_: any, index) => generateRow(index))}

@@ -2,7 +2,7 @@ import { InputTypes, ProgramValueTypes } from "@parsimony/types";
 
 const RuleOption = {
   name: String,
-  value: Number
+  target: Boolean
 };
 
 export default {

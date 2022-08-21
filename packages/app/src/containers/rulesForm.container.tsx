@@ -19,7 +19,7 @@ import {
 } from "../fixtures";
 
 import { Program, Rule, RuleOption } from "@parsimony/types";
-import { generateKey, uuid } from "../utils";
+import { generateKey, removeItemByIndex } from "../utils";
 import "./styles.css";
 
 type RuleFormProps = {
@@ -33,6 +33,17 @@ const RulesForm = ({
   readOnly = false,
   updateState
 }: RuleFormProps) => {
+  const deleteItem = (arr: any[], index: number, path: string) =>
+    updateState(path, removeItemByIndex(arr, index));
+
+  const setTargetOption = (options: RuleOption[], targetName: string) =>
+    options?.map((option) => {
+      option?.name === targetName
+        ? (option.target = true)
+        : delete option?.target;
+      return option;
+    });
+
   const option = (ruleIndex: number) => (index: number) => {
     if (!localState.rules) return null;
     const rule = localState.rules[ruleIndex] as Rule;
@@ -51,13 +62,29 @@ const RulesForm = ({
             />
           </Col>
           <Col span={12}>
-            <Field
-              placeHolderText="Prompt Value"
-              pathToState={`rules[${ruleIndex}].options[${index}].value`}
-              value={option.value?.toString()}
-              updateState={updateState}
-              readOnly={readOnly}
+            <Button
+              name="Delete Prompt"
+              action={() =>
+                deleteItem(
+                  rule.options || [],
+                  index,
+                  `rules[${ruleIndex}].options`
+                )
+              }
             />
+            <Button
+              name="Set to Target"
+              action={() =>
+                updateState(
+                  `rules[${ruleIndex}].options`,
+                  setTargetOption(
+                    rule.options as RuleOption[],
+                    option.name || ""
+                  )
+                )
+              }
+            />
+            {option.target ? <p>Target Prompt</p> : null}
           </Col>
         </Row>
       </Col>
@@ -70,6 +97,10 @@ const RulesForm = ({
     const rule = localState.rules[index] as Rule;
     return (
       <Row className="add-rule-row" key={generateKey("rule", index)}>
+        <Button
+          name="Delete Rule"
+          action={() => deleteItem(localState.rules || [], index, "rules")}
+        />
         <Col span={24}>
           <Field
             placeHolderText="Question"
@@ -132,19 +163,20 @@ const RulesForm = ({
 
         <Col span={24} hidden={readOnly}>
           <Header text="Pre-filled Prompts:" size="sm" />
-          {Object.entries(promptsByType).map(([key, value]) => (
-            <Button
-              key={generateKey("pre-filled-prompt-button", key)}
-              name={key}
-              action={() => updateState(`rules[${index}].options`, value)}
-            />
-          ))}
+          {Object.entries(promptsByType).map(([key, value]) => {
+            return (
+              <Button
+                key={generateKey("pre-filled-prompt-button", key)}
+                name={key}
+                action={() => updateState(`rules[${index}].options`, value)}
+              />
+            );
+          })}
         </Col>
 
         <Col span={24}>
           <Repeater
             title="Prompts"
-            // TODO: Should these be renamed to prompts?
             items={rule.options || []}
             pathToState={`rules[${index}].options`}
             updateState={updateState}
@@ -160,7 +192,6 @@ const RulesForm = ({
   return (
     <Repeater
       title="Rules"
-      // TODO: Should these be renamed to prompts?
       items={localState.rules || []}
       pathToState={`rules`}
       updateState={updateState}

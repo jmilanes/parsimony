@@ -13,10 +13,10 @@ export type ICreateResolverParams = {
 const createResolvers = (params: ICreateResolverParams) => {
   const resolvers = [
     threadResolvers,
-    userResolvers,
-    programResolvers,
-    resultResolvers,
-    schoolResolvers
+    userResolvers.getResolver(),
+    programResolvers.getResolver(),
+    resultResolvers.getResolver(),
+    schoolResolvers.getResolver()
   ];
   return resolvers.map((resolver) => resolver(params));
 };

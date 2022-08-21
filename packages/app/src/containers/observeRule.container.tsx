@@ -164,6 +164,12 @@ const ObserveRule = ({
   const SingleRule = (rule: Rule) =>
     active ? <ActiveRule {...rule} /> : <InactiveRule {...rule} />;
 
+  const StepUI = (rule: Rule, step: number, active: boolean) => {};
+
+  console.log(
+    "🚀 ~ file: observeRule.container.tsx ~ line 174 ~ isGroup",
+    isGroup
+  );
   const Rule = () =>
     isGroup ? (
       <div className={compileStyles({ observeRule: true, complete })}>

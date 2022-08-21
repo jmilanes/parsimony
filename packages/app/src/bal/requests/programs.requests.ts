@@ -21,7 +21,7 @@ const fullSchema = `
     options {
       id
       name
-      value
+      target
     }
     required
     inputType

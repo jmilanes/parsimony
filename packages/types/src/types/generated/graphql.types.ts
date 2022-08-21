@@ -362,13 +362,13 @@ export type RuleOption = {
   __typename?: 'RuleOption';
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['Int']>;
+  target?: Maybe<Scalars['Boolean']>;
 };
 
 export type RuleOptionInput = {
   id?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['Int']>;
+  target?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type RuleResult = {
@@ -772,7 +772,7 @@ export type RuleResolvers<ContextType = any, ParentType extends ResolversParentT
 export type RuleOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['RuleOption'] = ResolversParentTypes['RuleOption']> = {
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  value?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  target?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

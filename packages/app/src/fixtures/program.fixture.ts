@@ -6,6 +6,7 @@ import {
   ProgramValueTypes,
   Prompts,
   PromptTypes,
+  RuleOption,
   RuleStyle,
   UserRoles
 } from "@parsimony/types";
@@ -44,8 +45,7 @@ export const initialRuleData = {
 };
 
 export const initialOptionData = {
-  name: "",
-  value: 0
+  name: ""
 };
 
 export const programTypes: IOption[] = [
@@ -100,31 +100,31 @@ export const userRoleOptionsWithStringValues: IOption[] = [
   { name: UserRoles.Guardian, value: UserRoles.Guardian }
 ];
 
-export const physicalPrompts: IOption[] = [
-  { name: Prompts.FullPhysical, value: 1 },
-  { name: Prompts.PartialPhysical, value: 2 },
-  { name: Prompts.LightPhysical, value: 3 },
-  { name: Prompts.Gesture, value: 4 },
-  { name: Prompts.Independent, value: 5 }
+export const physicalPrompts: RuleOption[] = [
+  { name: Prompts.FullPhysical },
+  { name: Prompts.PartialPhysical },
+  { name: Prompts.LightPhysical },
+  { name: Prompts.Gesture },
+  { name: Prompts.Independent }
 ];
 
-export const verbalPrompts: IOption[] = [
-  { name: Prompts.FullVerbalModel, value: 1 },
-  { name: Prompts.PartialVerbalModel, value: 2 },
-  { name: Prompts.InitialSoundCue, value: 3 },
-  { name: Prompts.Phonetic, value: 4 },
-  { name: Prompts.Independent, value: 5 }
+export const verbalPrompts: RuleOption[] = [
+  { name: Prompts.FullVerbalModel },
+  { name: Prompts.PartialVerbalModel },
+  { name: Prompts.InitialSoundCue },
+  { name: Prompts.Phonetic },
+  { name: Prompts.Independent }
 ];
-export const timePrompts: IOption[] = [
-  { name: Prompts.Immediate, value: 1 },
-  { name: Prompts.TwoSecondDelay, value: 2 },
-  { name: Prompts.FourSecondDelay, value: 3 },
-  { name: Prompts.SixSecondDelay, value: 4 },
-  { name: Prompts.EightSecondDelay, value: 5 },
-  { name: Prompts.TenSecondDelay, value: 6 }
+export const timePrompts: RuleOption[] = [
+  { name: Prompts.Immediate },
+  { name: Prompts.TwoSecondDelay },
+  { name: Prompts.FourSecondDelay },
+  { name: Prompts.SixSecondDelay },
+  { name: Prompts.EightSecondDelay },
+  { name: Prompts.TenSecondDelay }
 ];
 
-export const promptsByType: Record<PromptTypes, IOption[]> = {
+export const promptsByType: Record<PromptTypes, RuleOption[]> = {
   [PromptTypes.Physical]: physicalPrompts,
   [PromptTypes.Verbal]: verbalPrompts,
   [PromptTypes.Time]: timePrompts

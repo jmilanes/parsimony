@@ -5,7 +5,8 @@ import {
   generateKey,
   getRouterParams,
   navigateToRoute,
-  omitMongoKeys
+  omitMongoKeys,
+  removeMongoIds
 } from "../utils";
 import { ObserveRule } from "../containers";
 import { IResultData, Program, Result } from "@parsimony/types";
@@ -64,9 +65,9 @@ const Observe = () => {
   };
 
   const createResult = () => {
-    //TODO Find better way to do this
-    delete programResults.id;
-    return dataAccess.result.create(omitMongoKeys(programResults));
+    return dataAccess.result.create(
+      removeMongoIds(omitMongoKeys(programResults))
+    );
   };
 
   const isGroup = program.ruleStyle === RuleStyle.Group;

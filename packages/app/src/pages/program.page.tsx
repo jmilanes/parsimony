@@ -10,7 +10,7 @@ import {
   MultiSelect,
   Row
 } from "../components";
-import { Program, IModes } from "@parsimony/types";
+import { Program, IModes, User } from "@parsimony/types";
 
 import {
   getFullName,
@@ -39,6 +39,12 @@ const Program = () => {
   );
 
   const client = dataAccess.user.get(program?.clientId || "");
+
+  //TODO: Filter so only clients are this way
+  const allClientOptions = dataAccess.user.getAll().map((user: User) => ({
+    name: getFullName(user),
+    value: user.id
+  }));
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -78,7 +84,7 @@ const Program = () => {
         ]}
       />
 
-      {program.type === ProgramTypes.Client && (
+      {program.type === ProgramTypes.Client && client && (
         <Header text={`Client: ${getFullName(client)}`} size="sm" />
       )}
       <Field
@@ -103,6 +109,15 @@ const Program = () => {
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />
+      {mode === "edit" && (
+        <Selector
+          title="Client"
+          pathToState="clientId"
+          value={localState.clientId}
+          options={allClientOptions}
+          updateState={updateState}
+        />
+      )}
       <Selector
         title="Rule Style"
         pathToState="ruleStyle"
@@ -128,7 +143,7 @@ const Program = () => {
         readOnly={isReadOnlyMode(mode)}
       />
 
-      {program.type === ProgramTypes.Client && (
+      {program.type === ProgramTypes.Client && client && (
         <Row>
           <Button
             name="View Client"

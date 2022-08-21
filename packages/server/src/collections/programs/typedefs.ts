@@ -35,7 +35,7 @@ export default gql`
   type RuleOption {
     id: ID
     name: String
-    value: Int
+    target: Boolean
   }
 
   input CreateProgramPayload {
@@ -91,7 +91,7 @@ export default gql`
   input RuleOptionInput {
     id: ID
     name: String
-    value: Int
+    target: Boolean
   }
 
   enum ProgramValueTypes {
