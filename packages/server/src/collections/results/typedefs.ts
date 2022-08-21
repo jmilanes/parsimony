@@ -14,33 +14,39 @@ export default gql`
   }
 
   type ResultData {
+    ruleId: ID
     ruleCompleteness: Float
     ruleResults: [RuleResult]
   }
 
   type RuleResult {
     step: Int
+    targetId: ID
+    completed: Boolean
     option: RuleResultOption
   }
 
   type RuleResultOption {
     id: ID
     name: String
-    value: Int
+    target: Boolean
   }
 
   input RuleResultOptionInput {
     id: ID
     name: String
-    value: Int
+    target: Boolean
   }
 
   input RuleResultInput {
     step: Int
     option: RuleResultOptionInput
+    completed: Boolean
+    targetId: ID
   }
 
   input ResultDataInput {
+    ruleId: ID
     ruleCompleteness: Float
     ruleResults: [RuleResultInput]
   }

@@ -20,6 +20,18 @@ export type IObserverRuleProps = React.PropsWithChildren<{
   patentActiveState?: boolean;
 }>;
 
+const calculateCompleteness = (
+  rule: Rule,
+  results: RuleResult[],
+  completenessObj: ICompletenessState
+) => {
+  const max = results.length;
+  const resultSum = results.filter((result) => !!result.completed).length;
+  const completenessTotal = (resultSum / max) * 100;
+  completenessObj[rule.id as string] = completenessTotal;
+  return completenessTotal;
+};
+
 const ObserveRule = ({
   rule,
   onComplete,
@@ -32,20 +44,6 @@ const ObserveRule = ({
   const [step, setStep] = useState(1);
 
   const isGroup = Array.isArray(rule);
-
-  const calculateCompleteness = (
-    rule: Rule,
-    results: RuleResult[],
-    completenessObj: ICompletenessState
-  ) => {
-    const maxValue = rule?.options?.reduce(getMax())?.value || 0;
-    const numberOfResults = results.length;
-    const resultSum = results.reduce(getSum("option.value"), 0);
-    const max = numberOfResults * maxValue;
-    const completenessTotal = (resultSum / max) * 100;
-    completenessObj[rule.id as string] = completenessTotal;
-    return completenessTotal;
-  };
 
   useEffect(() => {
     if (Object.keys(results).length) {
@@ -69,10 +67,13 @@ const ObserveRule = ({
       const processedRule = isGroup
         ? rule.find((rule) => rule.id === key)
         : rule;
+
       const ruleCompleteness = processedRule
         ? calculateCompleteness(processedRule, value, completeness)
         : 0;
+
       acc[key] = {
+        ruleId: processedRule?.id,
         ruleCompleteness,
         ruleResults: results[key]
       } as ResultData;
@@ -109,6 +110,7 @@ const ObserveRule = ({
     const updatedResultArray = results[id]
       ? updateRuleResultAtStep(results[id], resultData)
       : [resultData];
+
     setResults({
       ...results,
       [id]: updatedResultArray
@@ -130,7 +132,23 @@ const ObserveRule = ({
   };
 
   const selectOption = (option: RuleResultOption, step: number, rule: Rule) => {
-    const obj: RuleResult = { step, option };
+    const targetId = rule.options?.find((option) => !!option?.target)?.id;
+    type IndexObj = { targetIndex: number; optionIndex: number };
+
+    const indexObj = rule.options?.reduce((acc: IndexObj, curr, index) => {
+      if (curr?.target) acc.targetIndex = index;
+      if (curr?.id === option.id) acc.optionIndex = index;
+      return acc as IndexObj;
+    }, {} as IndexObj) as IndexObj;
+
+    const completed = indexObj.optionIndex >= indexObj.targetIndex;
+
+    const obj: RuleResult = {
+      step,
+      option,
+      targetId,
+      completed
+    };
     updateResults(obj, rule);
     !isGroup && incrementStep(rule);
   };
@@ -164,12 +182,6 @@ const ObserveRule = ({
   const SingleRule = (rule: Rule) =>
     active ? <ActiveRule {...rule} /> : <InactiveRule {...rule} />;
 
-  const StepUI = (rule: Rule, step: number, active: boolean) => {};
-
-  console.log(
-    "🚀 ~ file: observeRule.container.tsx ~ line 174 ~ isGroup",
-    isGroup
-  );
   const Rule = () =>
     isGroup ? (
       <div className={compileStyles({ observeRule: true, complete })}>

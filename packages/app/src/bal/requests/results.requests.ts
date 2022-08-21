@@ -15,12 +15,14 @@ const fullSchema = `
   clientId
   programCompleteness
   data {
+    ruleId
     ruleCompleteness
     ruleResults {
       step
+      targetId
+      completed
       option {
           name
-          value
       }
     }
   }

@@ -34,6 +34,10 @@ const Results = () => {
 
   if (program.type !== ProgramTypes.Client) return null;
 
+  useEffect(() => {
+    if (program) setResults(dataAccess.result.getAllBy("programId", programId));
+  }, [program]);
+
   const programCompletenessData = results?.map(
     (result) => result.programCompleteness
   );

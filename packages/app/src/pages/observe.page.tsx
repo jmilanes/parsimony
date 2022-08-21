@@ -9,7 +9,7 @@ import {
   removeMongoIds
 } from "../utils";
 import { ObserveRule } from "../containers";
-import { IResultData, Program, Result } from "@parsimony/types";
+import { IResultData, Program, Result, RuleResult } from "@parsimony/types";
 import { initialResultData } from "../fixtures";
 import { RuleStyle } from "@parsimony/types";
 import { useServices } from "../context";
@@ -54,13 +54,28 @@ const Observe = () => {
 
   if (!program || !programResults) return null;
 
-  //TODO: This seems wrong need to re evaluate if objects are the right move.
   const updateProgramResult = (result: IResultData) => {
+    // In the case of a Separate program these wll be single arrays
+    // In the case of groups these will have multiple arrays
+    const latestsResults = Object.values(result);
+    let data = programResults.data || [];
+
+    latestsResults.forEach((latestResult) => {
+      const current = data.find((d) => d?.ruleId === latestResult.ruleId);
+      if (!!current) {
+        // If there is current result data replace with latest
+        data = data.map((d) => {
+          return d?.ruleId === latestResult.ruleId ? latestResult : d;
+        });
+      } else {
+        // If there is no current result append the latest to any current data items
+        data = [...data, latestResult];
+      }
+    });
+
     setProgramResults({
       ...programResults,
-      data: programResults.data
-        ? [...programResults.data, ...Object.values(result)]
-        : [...Object.values(result)]
+      data
     });
   };
 

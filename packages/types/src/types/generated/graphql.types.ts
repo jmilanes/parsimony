@@ -327,11 +327,13 @@ export type Result = {
 export type ResultData = {
   __typename?: 'ResultData';
   ruleCompleteness?: Maybe<Scalars['Float']>;
+  ruleId?: Maybe<Scalars['ID']>;
   ruleResults?: Maybe<Array<Maybe<RuleResult>>>;
 };
 
 export type ResultDataInput = {
   ruleCompleteness?: InputMaybe<Scalars['Float']>;
+  ruleId?: InputMaybe<Scalars['ID']>;
   ruleResults?: InputMaybe<Array<InputMaybe<RuleResultInput>>>;
 };
 
@@ -373,13 +375,17 @@ export type RuleOptionInput = {
 
 export type RuleResult = {
   __typename?: 'RuleResult';
+  completed?: Maybe<Scalars['Boolean']>;
   option?: Maybe<RuleResultOption>;
   step?: Maybe<Scalars['Int']>;
+  targetId?: Maybe<Scalars['ID']>;
 };
 
 export type RuleResultInput = {
+  completed?: InputMaybe<Scalars['Boolean']>;
   option?: InputMaybe<RuleResultOptionInput>;
   step?: InputMaybe<Scalars['Int']>;
+  targetId?: InputMaybe<Scalars['ID']>;
 };
 
 export type RuleResultOption = {
@@ -753,6 +759,7 @@ export type ResultResolvers<ContextType = any, ParentType extends ResolversParen
 
 export type ResultDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResultData'] = ResolversParentTypes['ResultData']> = {
   ruleCompleteness?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  ruleId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   ruleResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['RuleResult']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -777,8 +784,10 @@ export type RuleOptionResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type RuleResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['RuleResult'] = ResolversParentTypes['RuleResult']> = {
+  completed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   option?: Resolver<Maybe<ResolversTypes['RuleResultOption']>, ParentType, ContextType>;
   step?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  targetId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
