@@ -4,7 +4,7 @@ import graphQlConfig, { ICreateResolverParams } from "./collections";
 import DataBaseController from "./database/dataBase.controller";
 import models from "./database/models";
 
-const broadCastController = new BroadcastController(1212);
+const broadCastController = new BroadcastController(9999);
 broadCastController.init();
 
 const { ApolloServer } = require("apollo-server");
