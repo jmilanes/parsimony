@@ -10,9 +10,12 @@ export default class DataBaseController {
   }
 
   connectDataBase(connectionString: string) {
-    this.dataBase.connect(connectionString, {
-      useNewUrlParser: true
-    });
+    this.dataBase
+      .connect(connectionString, {
+        useNewUrlParser: true
+      })
+      .then(() => console.log("Connected to DB!"))
+      .catch((e: any) => console.log("DB ERROR", e));
   }
 
   createModels(models: Record<modelTypes, any>) {
