@@ -43,7 +43,8 @@ const Table = <Data extends { id: string }>({
         dataIndex: "actions",
         render: (_: any, record: { source: Data }) => {
           return (
-            <Space size="middle">
+            <>
+              <Space />
               {actions.map((action) => {
                 return (
                   <Button
@@ -57,7 +58,7 @@ const Table = <Data extends { id: string }>({
                   </Button>
                 );
               })}
-            </Space>
+            </>
           );
         }
       }

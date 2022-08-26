@@ -4,12 +4,12 @@ import graphQlConfig, { ICreateResolverParams } from "./collections";
 import DataBaseController from "./database/dataBase.controller";
 import models from "./database/models";
 
-const broadCastController = new BroadcastController(8080);
+const broadCastController = new BroadcastController(1212);
 broadCastController.init();
 
 const { ApolloServer } = require("apollo-server");
 
-const CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
+const CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony";
 
 const db = new DataBaseController(mongoose);
 db.connectDataBase(CONNECTION_STRING);

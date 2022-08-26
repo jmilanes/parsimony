@@ -1,7 +1,10 @@
 import { IObject } from "@parsimony/types/src";
-import { Alert, notification } from "antd";
+import { envIs } from "./helpers.util";
 
-const SERVER_URL = "http://localhost:4000";
+const LOCAL_URL = "http://localhost:4000";
+const PRODUCTION_URL = "https://api.parsimony.app/";
+
+const SERVER_URL = envIs("prod") ? PRODUCTION_URL : LOCAL_URL;
 
 export const requestParams = {
   method: "POST",

@@ -37,7 +37,6 @@ import {
 
 import { AsyncCrudGenerator } from "./crudGenerators/asyncCrud.generator";
 import AuthService from "./auth.service";
-import { wait } from "../utils";
 
 export type Services = {
   [ServiceTypes.App]: {
