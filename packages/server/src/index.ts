@@ -9,8 +9,7 @@ broadCastController.init();
 
 const { ApolloServer } = require("apollo-server");
 
-// const CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony";
-const CONNECTION_STRING = "127.0.0.1:27017/parsimony";
+const CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony";
 mongoose.Promise = global.Promise;
 const db = new DataBaseController(mongoose);
 db.connectDataBase(CONNECTION_STRING);
