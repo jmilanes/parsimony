@@ -19,6 +19,7 @@ export default gql`
     ruleStyle: RuleStyle
     updated_at: Date
     created_at: Date
+    mastered: Boolean
   }
 
   type Rule {
@@ -51,6 +52,7 @@ export default gql`
     editedBy: [ID]
     createdBy: ID
     ruleStyle: RuleStyle
+    mastered: Boolean
   }
 
   input DeleteProgramPayload {
@@ -75,6 +77,7 @@ export default gql`
     editedBy: [ID]
     createdBy: ID
     ruleStyle: RuleStyle
+    mastered: Boolean
   }
 
   input RuleInput {

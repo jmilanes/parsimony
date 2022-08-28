@@ -3,7 +3,9 @@ import result from "./result.model";
 import school from "./school.model";
 import thread from "./thread.model";
 import user from "./user.model";
-import actionItem from "./actionitems.model";
+import actionItem from "./actionItem.model";
+import document from "./document.model";
+import event from "./event.model";
 
 export enum modelTypes {
   thread = "thread",
@@ -11,7 +13,9 @@ export enum modelTypes {
   program = "program",
   result = "result",
   school = "school",
-  actionItem = "actionItem"
+  actionItem = "actionItem",
+  document = "document",
+  event = "event"
 }
 
 export default {
@@ -20,5 +24,7 @@ export default {
   [modelTypes.program]: program,
   [modelTypes.result]: result,
   [modelTypes.school]: school,
-  [modelTypes.actionItem]: actionItem
+  [modelTypes.actionItem]: actionItem,
+  [modelTypes.document]: document,
+  [modelTypes.event]: event
 };

@@ -14,23 +14,20 @@ import { Program } from "@parsimony/types";
 
 const currentUser = localStorage.getItem("currentUserId");
 
+// TODO: need to pass in the user...
+
 export const initialProgramData: Program = {
-  // Need to figure out how to remove ID from Program
   id: "",
-  // end
   title: "",
   description: "",
   writeAccess: [UserRoles.Director],
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,
-  // Set when auth service is set and can be set in the data access
   lastEditedBy: currentUser,
   editedBy: [currentUser],
   createdBy: currentUser,
-  // end
-
-  // This is the meet of what we need to add
-  rules: []
+  rules: [],
+  mastered: false
 };
 
 export const initialRuleData = {

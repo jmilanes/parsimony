@@ -21,8 +21,18 @@ import {
   User,
   Program,
   School,
-  Collections$
-} from "@parsimony/types/src";
+  Collections$,
+  CreateEventPayload,
+  DeleteEventPayload,
+  UpdateEventPayload,
+  GetEventPayload,
+  Event,
+  Document,
+  CreateDocumentPayload,
+  DeleteDocumentPayload,
+  UpdateDocumentPayload,
+  GetDocumentPayload
+} from "@parsimony/types";
 import { Observable } from "rxjs";
 import ChatService from "./chat.service";
 import FilterService from "./filter.service";
@@ -33,7 +43,9 @@ import {
   userRequests,
   programRequests,
   resultRequests,
-  schoolRequests
+  schoolRequests,
+  documentRequests,
+  eventRequests
 } from "../bal/requests";
 
 import { AsyncCrudGenerator } from "./crudGenerators/asyncCrud.generator";
@@ -53,6 +65,8 @@ export type Services = {
     [Collections.User]: any;
     [Collections.Program]: any;
     [Collections.Result]: any;
+    [Collections.Event]: any;
+    [Collections.Document]: any;
     [Collections$.Thread$]: ChatService;
   };
 };
@@ -166,11 +180,29 @@ export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
     GetSchoolPayload
   >(Collections.School, schoolRequests, store);
 
+  const DocumentService = new AsyncCrudGenerator<
+    Document,
+    CreateDocumentPayload,
+    DeleteDocumentPayload,
+    UpdateDocumentPayload,
+    GetDocumentPayload
+  >(Collections.Document, documentRequests, store);
+
+  const EventService = new AsyncCrudGenerator<
+    Event,
+    CreateEventPayload,
+    DeleteEventPayload,
+    UpdateEventPayload,
+    GetEventPayload
+  >(Collections.Event, eventRequests, store);
+
   return {
     [Collections.Program]: ProgramService,
     [Collections.User]: UserService,
     [Collections.Result]: ResultService,
     [Collections.School]: SchoolService,
+    [Collections.Document]: DocumentService,
+    [Collections.Event]: EventService,
     [Collections$.Thread$]: new ChatService(socket$, store)
   };
 };

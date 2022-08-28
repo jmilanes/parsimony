@@ -4,6 +4,8 @@ import { userTypeDefs, userResolvers } from "./users";
 import { programTypeDefs, programResolvers } from "./programs";
 import { resultTypeDefs, resultResolvers } from "./results";
 import { schoolTypeDefs, schoolResolvers } from "./schools";
+import { documentTypeDefs, documentResolvers } from "./documents";
+import { eventTypeDefs, eventResolvers } from "./events";
 
 export type ICreateResolverParams = {
   db: DataBaseController;
@@ -16,7 +18,9 @@ const createResolvers = (params: ICreateResolverParams) => {
     userResolvers.getResolver(),
     programResolvers.getResolver(),
     resultResolvers.getResolver(),
-    schoolResolvers.getResolver()
+    schoolResolvers.getResolver(),
+    documentResolvers.getResolver(),
+    eventResolvers.getResolver()
   ];
   return resolvers.map((resolver) => resolver(params));
 };
@@ -27,7 +31,9 @@ const graphQlConfig = {
     userTypeDefs,
     programTypeDefs,
     resultTypeDefs,
-    schoolTypeDefs
+    schoolTypeDefs,
+    documentTypeDefs,
+    eventTypeDefs
   ],
   createResolvers
 };

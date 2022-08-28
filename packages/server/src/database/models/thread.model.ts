@@ -1,4 +1,8 @@
-import Message from "./message.model";
+const Message = {
+  dataType: String,
+  value: String,
+  timeStamp: Date
+};
 
 export default {
   subscribers: [String],

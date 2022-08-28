@@ -1,10 +1,12 @@
 import {
   Collections,
+  Event,
   IId,
   Program,
   Result,
   School,
-  User
+  User,
+  Document
 } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../utils";
@@ -14,6 +16,8 @@ type ProgramCollection = Record<IId, Program>;
 type ResultCollection = Record<IId, Result>;
 type SchoolCollection = Record<IId, School>;
 type ThreadCollection = Record<IId, School>;
+type EventCollection = Record<IId, Event>;
+type DocumentCollection = Record<IId, Document>;
 
 export default class Store {
   public store$: Record<IId, BehaviorSubject<Record<IId, any>>>;
@@ -24,7 +28,9 @@ export default class Store {
       [Collections.Program]: new BehaviorSubject<ProgramCollection>({}),
       [Collections.Result]: new BehaviorSubject<ResultCollection>({}),
       [Collections.School]: new BehaviorSubject<SchoolCollection>({}),
-      [Collections.Thread]: new BehaviorSubject<ThreadCollection>({})
+      [Collections.Thread]: new BehaviorSubject<ThreadCollection>({}),
+      [Collections.Document]: new BehaviorSubject<DocumentCollection>({}),
+      [Collections.Event]: new BehaviorSubject<EventCollection>({})
     };
   }
 
