@@ -1,2 +1,2 @@
-export { default as programTypeDefs } from "./typedefs";
-export { default as programResolvers } from "./resolvers";
+export { default as programTypeDefs } from "./program.typedefs";
+export { default as programResolvers } from "./program.resolvers";

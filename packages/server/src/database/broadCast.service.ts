@@ -5,7 +5,7 @@ const WS = require("ws");
 //   type: "THREAD" | "CALENDAR";
 // };
 
-export class BroadcastController {
+export class BroadcastService {
   port: number;
   webSocket: Record<string, any>;
   webSocketServer: Record<string, any>;

@@ -1,4 +1,4 @@
-import DataBaseController from "../database/dataBase.controller";
+import { DataBaseService } from "../database";
 import { threadTypeDefs, threadResolvers } from "./threads";
 import { userTypeDefs, userResolvers } from "./users";
 import { programTypeDefs, programResolvers } from "./programs";
@@ -8,7 +8,7 @@ import { documentTypeDefs, documentResolvers } from "./documents";
 import { eventTypeDefs, eventResolvers } from "./events";
 
 export type ICreateResolverParams = {
-  db: DataBaseController;
+  db: DataBaseService;
   broadcast: (payload: Record<string, any>) => void;
 };
 

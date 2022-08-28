@@ -1,2 +1,2 @@
-export { default as threadTypeDefs } from "./typedefs";
-export { default as threadResolvers } from "./resolvers";
+export { default as threadTypeDefs } from "./threads.typedefs";
+export { default as threadResolvers } from "./threads.resolvers";

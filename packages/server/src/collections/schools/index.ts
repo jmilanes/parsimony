@@ -1,2 +1,2 @@
-export { default as schoolTypeDefs } from "./typedefs";
-export { default as schoolResolvers } from "./resolvers";
+export { default as schoolTypeDefs } from "./schools.typedefs";
+export { default as schoolResolvers } from "./schools.resolvers";

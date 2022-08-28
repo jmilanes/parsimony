@@ -1,2 +1,2 @@
-export { default as eventTypeDefs } from "./typedefs";
-export { default as eventResolvers } from "./resolvers";
+export { default as eventTypeDefs } from "./event.typedefs";
+export { default as eventResolvers } from "./event.resolvers";

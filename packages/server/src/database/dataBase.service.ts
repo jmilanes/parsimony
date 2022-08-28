@@ -1,7 +1,7 @@
 import { WithEmptyObj } from "@parsimony/types/src";
 import { modelTypes } from "./models";
 
-export default class DataBaseController {
+export class DataBaseService {
   dataBase: any;
   models: WithEmptyObj<Record<modelTypes, any>>;
   constructor(dataBase: any) {

@@ -18,7 +18,7 @@ export enum modelTypes {
   event = "event"
 }
 
-export default {
+export const models = {
   [modelTypes.thread]: thread,
   [modelTypes.user]: user,
   [modelTypes.program]: program,

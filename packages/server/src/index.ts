@@ -1,23 +1,22 @@
 const mongoose = require("mongoose");
-import { BroadcastController } from "./broadcast";
-import graphQlConfig, { ICreateResolverParams } from "./collections";
-import DataBaseController from "./database/dataBase.controller";
-import models from "./database/models";
 
-const broadCastController = new BroadcastController(8080);
-broadCastController.init();
+import { BroadcastService, DataBaseService, models } from "./database";
+import graphQlConfig, { ICreateResolverParams } from "./collections";
+
+const broadcastService = new BroadcastService(8080);
+broadcastService.init();
 
 const { ApolloServer } = require("apollo-server");
 
 const CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
 mongoose.Promise = global.Promise;
-const db = new DataBaseController(mongoose);
+const db = new DataBaseService(mongoose);
 db.connectDataBase(CONNECTION_STRING);
 db.createModels(models);
 
 const resolverUtils: ICreateResolverParams = {
   db,
-  broadcast: broadCastController.broadcast
+  broadcast: broadcastService.broadcast
 };
 
 //***** TESTING *****/

@@ -1,6 +1,6 @@
 import { ChatActionTypes } from "@parsimony/types";
 import { ICreateResolverParams } from "..";
-import DataBaseController from "../../database/dataBase.controller";
+import { DataBaseService } from "../../database";
 import { modelTypes } from "../../database/models";
 
 export default (ICreateResolverParams: ICreateResolverParams) => ({
@@ -57,7 +57,7 @@ export const deleteThread =
     return payload.id;
   };
 
-const _findThread = async (db: DataBaseController, threadId: string) =>
+const _findThread = async (db: DataBaseService, threadId: string) =>
   await db.findEntry(modelTypes.thread, {
     _id: threadId
   });
