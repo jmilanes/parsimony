@@ -19,6 +19,9 @@ export default gql`
     dateOfBirth: Date
     phone: String
     contacts: [ID]
+    clients: [ID]
+    programs: [ID]
+    actionItems: [ID]
   }
 
   input CreateUserPayload {
@@ -34,6 +37,9 @@ export default gql`
     dateOfBirth: Date
     phone: String
     contacts: [ID]
+    clients: [ID]
+    programs: [ID]
+    actionItems: [ID]
   }
 
   input DeleteUserPayload {
@@ -58,6 +64,9 @@ export default gql`
     dateOfBirth: Date
     phone: String
     contacts: [ID]
+    clients: [ID]
+    programs: [ID]
+    actionItems: [ID]
   }
 
   type Query {

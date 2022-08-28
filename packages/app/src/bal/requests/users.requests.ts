@@ -25,6 +25,9 @@ const fullSchema = `
   dateOfBirth
   phone
   contacts
+  clients
+  programs
+  actionItems
 `;
 
 const userOperationStrings = generateCrudOperationStrings(

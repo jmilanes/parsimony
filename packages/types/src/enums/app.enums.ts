@@ -43,3 +43,11 @@ export enum ServiceTypes {
   AuthService = "authService",
   App = "appService"
 }
+
+export enum Collections$ {
+  School$ = "school$",
+  User$ = "user$",
+  Program$ = "program$",
+  Result$ = "result$",
+  Thread$ = "thread$"
+}

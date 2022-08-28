@@ -24,7 +24,6 @@ const Routes = () => {
 const App = () => {
   const appController = new AppController();
   appController.init();
-  appController.loadCollections();
   const ServicesProvider = createServicesProvider(appController.services);
   return (
     <ServicesProvider>

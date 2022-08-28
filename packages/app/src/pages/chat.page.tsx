@@ -6,23 +6,18 @@ import {
   deleteThread,
   editMessage
 } from "../bal";
-import ChatService, { ThreadCollection } from "../services/chat.service";
+import { ThreadCollection } from "../services/chat.service";
 import { Thread } from "@parsimony/types";
 import { uuid } from "../utils";
 import { useServices } from "../context";
 
 const Chat = () => {
-  const { chat } = useServices();
+  const { dataAccess, authService } = useServices();
   const [threads, setThreads] = useState<ThreadCollection>(
     {} as ThreadCollection
   );
 
-  useEffect(() => {
-    chat.init();
-    chat.threads$.subscribe({
-      next: setThreads
-    });
-  }, []);
+  useEffect(() => dataAccess.thread$.subscribe(setThreads), []);
 
   const onCreateThread = () =>
     createThread({
@@ -38,15 +33,16 @@ const Chat = () => {
   const onEditMessage = (e: any, threadId: string, messageId: string) =>
     editMessage({ value: e.target.value, threadId, messageId });
 
-  const onAddMessage = (e: any, threadId: string) =>
+  const onAddMessage = (e: any, threadId: string) => {
     addMessage({
       message: {
-        userId: "joey",
+        userId: authService.currentUser?.id,
         dataType: "string",
         value: e.target.value
       },
       threadId
     });
+  };
 
   return (
     <div>
@@ -70,10 +66,10 @@ const Chat = () => {
                 name=""
                 placeholder="Edit Message"
                 id=""
-                onBlur={(e) => onEditMessage(e, thread.id, message.id || "")}
+                onBlur={(e) => onEditMessage(e, thread.id, message?.id || "")}
               />
               <button
-                onClick={() => onDeleteMessage(thread.id, message.id || "")}
+                onClick={() => onDeleteMessage(thread.id, message?.id || "")}
               >
                 Delete
               </button>

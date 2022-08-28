@@ -9,20 +9,22 @@ import {
   DeleteMessagePayload,
   AddMessagePayload,
   EditMessagePayload,
-  Message
+  Message,
+  Collections
 } from "@parsimony/types";
 import { clone } from "../utils";
 import { BehaviorSubject } from "rxjs";
 import { fetchTreads } from "../bal";
 import { ISocket$ } from "./app.service";
+import Store from "./store";
 
 export type ThreadCollection = Record<string, Thread>;
 
 export default class ChatService {
   threads$: BehaviorSubject<ThreadCollection>;
   socket$: ISocket$;
-  constructor(socket$: ISocket$) {
-    this.threads$ = new BehaviorSubject<ThreadCollection>({});
+  constructor(socket$: ISocket$, store: Store) {
+    this.threads$ = store.getCollection$(Collections.Thread);
     this.socket$ = socket$;
   }
 
@@ -43,15 +45,21 @@ export default class ChatService {
     });
   };
 
-  updateThreads = (update: ThreadCollection) => {
+  subscribe = (next: any) => {
+    this.threads$.subscribe(next);
+  };
+
+  updateThreads = (threads: ThreadCollection) => {
     //TODO Need to make a universal space for state management
-    this.threads$.next(update);
+    this.threads$.next(threads);
   };
 
   updateThread = (payload: any) => {
-    this.updateThreads(
-      this.updateThreadWithPayload(this.threads$.value, payload)
+    const updatedThreads = this.updateThreadWithPayload(
+      this.threads$.value,
+      payload
     );
+    this.updateThreads(updatedThreads);
   };
 
   updateThreadWithPayload = (threads: ThreadCollection, action: any) => {

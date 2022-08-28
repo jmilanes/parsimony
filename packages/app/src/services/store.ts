@@ -13,6 +13,7 @@ type UserCollection = Record<IId, User>;
 type ProgramCollection = Record<IId, Program>;
 type ResultCollection = Record<IId, Result>;
 type SchoolCollection = Record<IId, School>;
+type ThreadCollection = Record<IId, School>;
 
 export default class Store {
   public store$: Record<IId, BehaviorSubject<Record<IId, any>>>;
@@ -22,7 +23,8 @@ export default class Store {
       [Collections.User]: new BehaviorSubject<UserCollection>({}),
       [Collections.Program]: new BehaviorSubject<ProgramCollection>({}),
       [Collections.Result]: new BehaviorSubject<ResultCollection>({}),
-      [Collections.School]: new BehaviorSubject<SchoolCollection>({})
+      [Collections.School]: new BehaviorSubject<SchoolCollection>({}),
+      [Collections.Thread]: new BehaviorSubject<ThreadCollection>({})
     };
   }
 

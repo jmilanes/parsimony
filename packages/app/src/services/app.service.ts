@@ -20,7 +20,8 @@ import {
   UpdateUserPayload,
   User,
   Program,
-  School
+  School,
+  Collections$
 } from "@parsimony/types/src";
 import { Observable } from "rxjs";
 import ChatService from "./chat.service";
@@ -52,6 +53,7 @@ export type Services = {
     [Collections.User]: any;
     [Collections.Program]: any;
     [Collections.Result]: any;
+    [Collections$.Thread$]: ChatService;
   };
 };
 
@@ -71,8 +73,7 @@ export default class AppController {
     this._initWebSocket();
     this._initServices();
     this._initDataAccess();
-    this._initAuthService(this.services.dataAccess.user);
-    this._initChatService(this.socket$ as ISocket$);
+    this.loadCollections();
     console.log("All Services Loads", this.services);
   };
 
@@ -81,6 +82,7 @@ export default class AppController {
       this.services.dataAccess
     ).map((collection) => collection.init());
     await Promise.all(collectionsStoreInitPromises);
+    this._initAuthService(this.services.dataAccess.user);
     this._isLoading(false);
     console.log("All Data Loaded");
   };
@@ -102,10 +104,6 @@ export default class AppController {
     });
   };
 
-  private _initChatService = (socket$: ISocket$) => {
-    this.services[ServiceTypes.Chat] = new ChatService(socket$);
-  };
-
   private _initServices = () => {
     this.services[ServiceTypes.Store] = new Store();
     this.services[ServiceTypes.StateManager] = new StateService(
@@ -119,7 +117,8 @@ export default class AppController {
   private _initDataAccess = () => {
     // ** This is where I could just swap out the local storage version
     this.services[ServiceTypes.DataAccess] = createDataAccessServices(
-      this.services.store as Store
+      this.services.store as Store,
+      this.socket$ as ISocket$
     );
   };
 
@@ -134,7 +133,7 @@ export default class AppController {
   };
 }
 
-export const createDataAccessServices = (store: Store) => {
+export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
   const UserService = new AsyncCrudGenerator<
     User,
     CreateUserPayload,
@@ -171,6 +170,7 @@ export const createDataAccessServices = (store: Store) => {
     [Collections.Program]: ProgramService,
     [Collections.User]: UserService,
     [Collections.Result]: ResultService,
-    [Collections.School]: SchoolService
+    [Collections.School]: SchoolService,
+    [Collections$.Thread$]: new ChatService(socket$, store)
   };
 };

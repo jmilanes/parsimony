@@ -54,6 +54,8 @@ export type CreateThreadPayload = {
 };
 
 export type CreateUserPayload = {
+  actionItems?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  clients?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   contacts?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   dateOfBirth?: InputMaybe<Scalars['Date']>;
   documents?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -62,6 +64,7 @@ export type CreateUserPayload = {
   lastName?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
+  programs?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   roles?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   schoolId?: InputMaybe<Scalars['String']>;
   timeZone?: InputMaybe<Scalars['String']>;
@@ -392,13 +395,13 @@ export type RuleResultOption = {
   __typename?: 'RuleResultOption';
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['Int']>;
+  target?: Maybe<Scalars['Boolean']>;
 };
 
 export type RuleResultOptionInput = {
   id?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['Int']>;
+  target?: InputMaybe<Scalars['Boolean']>;
 };
 
 export enum RuleStyle {
@@ -465,6 +468,8 @@ export type UpdateThreadPayload = {
 };
 
 export type UpdateUserPayload = {
+  actionItems?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  clients?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   contacts?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   dateOfBirth?: InputMaybe<Scalars['Date']>;
   documents?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -474,6 +479,7 @@ export type UpdateUserPayload = {
   lastName?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
+  programs?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   roles?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   schoolId?: InputMaybe<Scalars['String']>;
   timeZone?: InputMaybe<Scalars['String']>;
@@ -482,6 +488,8 @@ export type UpdateUserPayload = {
 
 export type User = {
   __typename?: 'User';
+  actionItems?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  clients?: Maybe<Array<Maybe<Scalars['ID']>>>;
   contacts?: Maybe<Array<Maybe<Scalars['ID']>>>;
   created_at?: Maybe<Scalars['Date']>;
   dateOfBirth?: Maybe<Scalars['Date']>;
@@ -492,6 +500,7 @@ export type User = {
   lastName?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
+  programs?: Maybe<Array<Maybe<Scalars['ID']>>>;
   roles?: Maybe<Array<Maybe<Scalars['String']>>>;
   schoolId?: Maybe<Scalars['String']>;
   timeZone?: Maybe<Scalars['String']>;
@@ -794,7 +803,7 @@ export type RuleResultResolvers<ContextType = any, ParentType extends ResolversP
 export type RuleResultOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['RuleResultOption'] = ResolversParentTypes['RuleResultOption']> = {
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  value?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  target?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -819,6 +828,8 @@ export type ThreadResolvers<ContextType = any, ParentType extends ResolversParen
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  actionItems?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
+  clients?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
   contacts?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
   created_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   dateOfBirth?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
@@ -829,6 +840,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  programs?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
   roles?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   schoolId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   timeZone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
