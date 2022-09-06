@@ -4,7 +4,8 @@ import {
   DeleteMessagePayload,
   DeleteThreadPayload,
   EditMessagePayload,
-  Thread
+  Thread,
+  GetThreadByUserIdPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 import threadOperationStrings from "./operationStrings/threadOperationStrings";
@@ -12,6 +13,11 @@ import threadOperationStrings from "./operationStrings/threadOperationStrings";
 export const fetchTreads = createRequest<void, Thread[]>(
   threadOperationStrings.fetchThreads
 );
+
+export const getThreadsByUserId = createRequest<
+  GetThreadByUserIdPayload,
+  Thread[]
+>(threadOperationStrings.getThreadsByUserId);
 
 export const createThread = createRequest<CreateThreadPayload, void>(
   threadOperationStrings.createThread

@@ -6,7 +6,7 @@ import { CrudResolvers } from "../createCrudResolver";
 class ProgramCrudResolver extends CrudResolvers {
   delete = ({ db }: ICreateResolverParams) => {
     return async (_: any, { payload }: { payload: any }) => {
-      console.log("FROM EXTENSION ");
+      console.log("FROM Program Delete Extension");
       await db.deleteEntry(modelTypes.program, payload.id);
       return payload.id;
     };

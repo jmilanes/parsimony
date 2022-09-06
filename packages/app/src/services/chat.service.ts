@@ -14,7 +14,7 @@ import {
 } from "@parsimony/types";
 import { clone } from "../utils";
 import { BehaviorSubject } from "rxjs";
-import { fetchTreads } from "../bal";
+import { getThreadsByUserId } from "../bal";
 import { ISocket$ } from "./app.service";
 import Store from "./store";
 
@@ -29,7 +29,10 @@ export default class ChatService {
   }
 
   init = () => {
-    fetchTreads().then((threads) => {
+    // TODO: Create better way to get current user data (auth shouldn't need to be reliant on client side user data and there should be a service to access the auth data)
+    getThreadsByUserId({
+      id: localStorage.getItem("currentUserId") || ""
+    }).then((threads) => {
       const formattedData = threads.reduce(
         (acc: ThreadCollection, curr: Thread) => {
           acc[curr.id] = curr;

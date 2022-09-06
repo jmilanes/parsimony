@@ -1,15 +1,26 @@
+const fullSchema = `
+  id
+  name
+  subscribers
+  messages {
+    timeStamp
+    value
+    dataType
+    id
+}`;
+
 const fetchThreads = `
 query Threads {
-  threads {
-    id
-    name
-    subscribers
-    messages {
-      timeStamp
-      value
-      dataType
-      id
-    }
+ threads {
+  ${fullSchema}
+ } 
+}
+`;
+
+const getThreadsByUserId = `
+query GetThreadsByUserId($payload: GetThreadByUserIdPayload) {
+  getThreadsByUserId(payload: $payload) {
+    ${fullSchema}
   }
 }
 `;
@@ -54,5 +65,6 @@ export default {
   deleteThread,
   addMessage,
   editMessage,
-  deleteMessage
+  deleteMessage,
+  getThreadsByUserId
 };

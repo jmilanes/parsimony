@@ -21,8 +21,8 @@ const Chat = () => {
 
   const onCreateThread = () =>
     createThread({
-      name: "New Thread",
-      subscribers: ["joey", "molly"]
+      name: "New Thread Joey and Molly User ID",
+      subscribers: ["62e9ee2370d1d288df4c8e8b", "630ab6b82e68791506f3ec5e"]
     });
 
   const onDelete = (id: string) => deleteThread({ id });

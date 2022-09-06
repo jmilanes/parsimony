@@ -14,7 +14,8 @@ export default (ICreateResolverParams: ICreateResolverParams) => ({
   },
   Query: {
     threads: async () =>
-      await ICreateResolverParams.db.models[modelTypes.thread].find({})
+      await ICreateResolverParams.db.models[modelTypes.thread].find({}),
+    getThreadsByUserId: getThreadsByUserId(ICreateResolverParams)
   }
 });
 
@@ -46,7 +47,6 @@ export const updateThread =
 export const deleteThread =
   ({ db, broadcast }: ICreateResolverParams) =>
   async (_: any, { payload }: { payload: any }) => {
-    console.log("🚀 ~ file: resolvers.ts ~ line 49 ~ payload", payload);
     await db.deleteEntry(modelTypes.thread, payload.id);
     broadcast({
       type: ChatActionTypes.DELETE_THREAD,
@@ -112,4 +112,12 @@ export const editMessage =
       payload: payload
     });
     return payload.messageId;
+  };
+
+export const getThreadsByUserId =
+  ({ db }: ICreateResolverParams) =>
+  async (_: any, { payload }: any) => {
+    return await db.findEntries(modelTypes.thread, {
+      subscribers: payload.id
+    });
   };

@@ -19,6 +19,10 @@ export default gql`
     userId: String!
   }
 
+  input GetThreadByUserIdPayload {
+    id: ID!
+  }
+
   input CreateThreadPayload {
     name: String!
     subscribers: [String]!
@@ -59,6 +63,7 @@ export default gql`
 
   type Query {
     threads: [Thread]
+    getThreadsByUserId(payload: GetThreadByUserIdPayload): [Thread]
   }
 
   type Mutation {

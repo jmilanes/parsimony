@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 const Message = {
   dataType: String,
   value: String,
@@ -5,7 +7,7 @@ const Message = {
 };
 
 export default {
-  subscribers: [String],
+  subscribers: [{ type: ObjectId, ref: "User" }],
   messages: [Message],
   isTyping: [String],
   name: String

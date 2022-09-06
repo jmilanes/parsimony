@@ -177,6 +177,10 @@ export type GetSchoolPayload = {
   id: Scalars['ID'];
 };
 
+export type GetThreadByUserIdPayload = {
+  id: Scalars['ID'];
+};
+
 export type GetUserPayload = {
   id: Scalars['ID'];
 };
@@ -396,6 +400,7 @@ export type Query = {
   getProgram?: Maybe<Program>;
   getResult?: Maybe<Result>;
   getSchool?: Maybe<School>;
+  getThreadsByUserId?: Maybe<Array<Maybe<Thread>>>;
   getUser?: Maybe<User>;
   threads?: Maybe<Array<Maybe<Thread>>>;
 };
@@ -423,6 +428,11 @@ export type QueryGetResultArgs = {
 
 export type QueryGetSchoolArgs = {
   payload?: InputMaybe<GetSchoolPayload>;
+};
+
+
+export type QueryGetThreadsByUserIdArgs = {
+  payload?: InputMaybe<GetThreadByUserIdPayload>;
 };
 
 
@@ -750,6 +760,7 @@ export type ResolversTypes = {
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
   GetSchoolPayload: GetSchoolPayload;
+  GetThreadByUserIdPayload: GetThreadByUserIdPayload;
   GetUserPayload: GetUserPayload;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   InputTypes: InputTypes;
@@ -816,6 +827,7 @@ export type ResolversParentTypes = {
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
   GetSchoolPayload: GetSchoolPayload;
+  GetThreadByUserIdPayload: GetThreadByUserIdPayload;
   GetUserPayload: GetUserPayload;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
@@ -945,6 +957,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getProgram?: Resolver<Maybe<ResolversTypes['Program']>, ParentType, ContextType, Partial<QueryGetProgramArgs>>;
   getResult?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType, Partial<QueryGetResultArgs>>;
   getSchool?: Resolver<Maybe<ResolversTypes['School']>, ParentType, ContextType, Partial<QueryGetSchoolArgs>>;
+  getThreadsByUserId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Thread']>>>, ParentType, ContextType, Partial<QueryGetThreadsByUserIdArgs>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserArgs>>;
   threads?: Resolver<Maybe<Array<Maybe<ResolversTypes['Thread']>>>, ParentType, ContextType>;
 };
