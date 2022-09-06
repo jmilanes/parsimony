@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { clone } from "../utils";
 import { Container, Button } from "../components";
 import {
-  ResultData,
   Rule,
   RuleResult,
   IResultsState,
@@ -10,7 +8,13 @@ import {
   IResultData,
   RuleResultOption
 } from "@parsimony/types";
-import { increment, decrement, generateKey, compileStyles } from "../utils";
+import {
+  increment,
+  decrement,
+  generateKey,
+  compileStyles,
+  parseResultsWithCompleteness
+} from "../utils";
 import "./styles.css";
 
 export type IObserverRuleProps = React.PropsWithChildren<{
@@ -18,57 +22,6 @@ export type IObserverRuleProps = React.PropsWithChildren<{
   onComplete: (result: IResultData) => void;
   patentActiveState?: boolean;
 }>;
-
-const calculateCompleteness = (
-  rule: Rule,
-  results: RuleResult[],
-  completenessObj: ICompletenessState
-) => {
-  const max = results.length;
-  const resultSum = results.filter((result) => !!result.completed).length;
-  const completenessTotal = (resultSum / max) * 100;
-  completenessObj[rule.id as string] = completenessTotal;
-  return completenessTotal;
-};
-
-const parseResultsWithCompleteness = (
-  results: IResultsState,
-  completeness: ICompletenessState,
-  setCompleteness: (c: ICompletenessState) => void,
-  rule: Rule | Rule[]
-) => {
-  const cloneCompleteness = clone(completeness);
-  const parsedResults = Object.entries(results).reduce(
-    createResult(cloneCompleteness, rule, results),
-    {}
-  );
-  setCompleteness(cloneCompleteness);
-  return parsedResults;
-};
-
-const createResult =
-  (
-    completeness: ICompletenessState,
-    rule: Rule | Rule[],
-    results: IResultsState
-  ) =>
-  (acc: IResultData, [key, value]: [string, RuleResult[]]) => {
-    const processedRule = Array.isArray(rule)
-      ? rule.find((rule) => rule.id === key)
-      : rule;
-
-    const ruleCompleteness = processedRule
-      ? calculateCompleteness(processedRule, value, completeness)
-      : 0;
-
-    acc[key] = {
-      ruleId: processedRule?.id,
-      ruleCompleteness,
-      ruleResults: results[key]
-    } as ResultData;
-
-    return acc;
-  };
 
 const ObserveRule = ({
   rule,
