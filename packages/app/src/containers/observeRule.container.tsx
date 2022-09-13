@@ -19,15 +19,16 @@ import "./styles.css";
 
 export type IObserverRuleProps = React.PropsWithChildren<{
   rule: Rule | Rule[];
-  onComplete: (result: IResultData) => void;
+  updateResultData: (result: IResultData) => void;
   patentActiveState?: boolean;
 }>;
 
 const ObserveRule = ({
   rule,
-  onComplete,
+  updateResultData,
   patentActiveState
 }: IObserverRuleProps) => {
+  // TODO: Revisit this and latest results
   const [active, setActive] = useState(patentActiveState || false);
   const [complete, setComplete] = useState(false);
   const [completeness, setCompleteness] = useState<ICompletenessState>({});
@@ -38,14 +39,17 @@ const ObserveRule = ({
 
   useEffect(() => {
     if (Object.keys(results).length) {
-      onComplete(
-        parseResultsWithCompleteness(
-          results,
-          completeness,
-          setCompleteness,
-          rule
-        )
+      const latestResult = parseResultsWithCompleteness(
+        results,
+        completeness,
+        setCompleteness,
+        rule
       );
+      console.log(
+        "🚀 ~ file: observeRule.container.tsx ~ line 47 ~ useEffect ~ latestResult",
+        latestResult
+      );
+      updateResultData(latestResult);
     }
   }, [results]);
 
@@ -53,6 +57,7 @@ const ObserveRule = ({
     patentActiveState !== undefined && setActive(patentActiveState);
   }, [patentActiveState]);
 
+  // TODO: Make this cleaner
   const incrementStep = (rule: Rule) => {
     if (rule.steps && step === rule.steps) {
       setComplete(true);
@@ -107,6 +112,8 @@ const ObserveRule = ({
     updateResults(obj, rule);
     !isGroup && incrementStep(rule);
   };
+
+  // TODO --END--
 
   const InactiveRule = (rule: Rule) => {
     const classes = isGroup

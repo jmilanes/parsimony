@@ -27,6 +27,7 @@ export const calculateCompleteness = (
   return completenessTotal;
 };
 
+// TODO: Make sense of these
 export const parseResultsWithCompleteness = (
   results: IResultsState,
   completeness: ICompletenessState,
@@ -65,3 +66,5 @@ export const createResult =
 
     return acc;
   };
+
+export default class HandleRuleService {}
