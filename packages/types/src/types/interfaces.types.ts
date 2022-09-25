@@ -39,11 +39,15 @@ export type ICrudRequests<
   CreatePayload,
   DeleteThreadPayload,
   UploadPayload,
-  GetPayload
+  GetPayload,
+  GetAllByRelationshipPayload
 > = {
   getAll: () => Promise<Schema[]>;
-  get: (payload?: GetPayload) => Promise<Schema>;
-  delete: (payload?: DeleteThreadPayload) => Promise<string>;
-  create: (payload?: CreatePayload) => Promise<Schema>;
-  update: (payload?: UploadPayload) => Promise<Schema>;
+  get: (payload: GetPayload) => Promise<Schema>;
+  getAllByRelationship: (
+    payload: GetAllByRelationshipPayload
+  ) => Promise<Schema[]>;
+  delete: (payload: DeleteThreadPayload) => Promise<string>;
+  create: (payload: CreatePayload) => Promise<Schema>;
+  update: (payload: UploadPayload) => Promise<Schema>;
 };

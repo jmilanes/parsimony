@@ -51,6 +51,7 @@ export const updateFile = createRequest<UpdateFilePayload, File>(
 export const fileRequests = {
   getAll: getAllFiles,
   get: getFile,
+  getAllByRelationship: getAllFilesByRelationship,
   create: createFile,
   delete: deleteFile,
   update: updateFile

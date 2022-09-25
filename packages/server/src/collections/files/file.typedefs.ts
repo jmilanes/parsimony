@@ -35,7 +35,7 @@ export default gql`
   }
 
   input GetAllFilesByRelationShipPayload {
-    propToMatch: String!
+    relationshipProperty: String!
     id: ID!
   }
 

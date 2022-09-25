@@ -80,6 +80,11 @@ export default gql`
     mastered: Boolean
   }
 
+  input GetAllProgramsByRelationshipPayload {
+    relationshipProperty: String
+    id: ID!
+  }
+
   input RuleInput {
     id: ID
     question: String
@@ -130,6 +135,9 @@ export default gql`
   type Query {
     getAllPrograms: [Program]
     getProgram(payload: GetProgramPayload): Program
+    getAllProgramsByRelationship(
+      payload: GetAllProgramsByRelationshipPayload
+    ): [Program]
   }
 
   type Mutation {

@@ -179,7 +179,12 @@ export type File = {
 
 export type GetAllFilesByRelationShipPayload = {
   id: Scalars['ID'];
-  propToMatch: Scalars['String'];
+  relationshipProperty: Scalars['String'];
+};
+
+export type GetAllProgramsByRelationshipPayload = {
+  id: Scalars['ID'];
+  relationshipProperty?: InputMaybe<Scalars['String']>;
 };
 
 export type GetDocumentPayload = {
@@ -441,6 +446,7 @@ export type Query = {
   getAllFiles?: Maybe<Array<Maybe<File>>>;
   getAllFilesByRelationship?: Maybe<Array<Maybe<File>>>;
   getAllPrograms?: Maybe<Array<Maybe<Program>>>;
+  getAllProgramsByRelationship?: Maybe<Array<Maybe<Program>>>;
   getAllResults?: Maybe<Array<Maybe<Result>>>;
   getAllSchools?: Maybe<Array<Maybe<School>>>;
   getAllUsers?: Maybe<Array<Maybe<User>>>;
@@ -458,6 +464,11 @@ export type Query = {
 
 export type QueryGetAllFilesByRelationshipArgs = {
   payload?: InputMaybe<GetAllFilesByRelationShipPayload>;
+};
+
+
+export type QueryGetAllProgramsByRelationshipArgs = {
+  payload?: InputMaybe<GetAllProgramsByRelationshipPayload>;
 };
 
 
@@ -827,6 +838,7 @@ export type ResolversTypes = {
   File: ResolverTypeWrapper<File>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GetAllFilesByRelationShipPayload: GetAllFilesByRelationShipPayload;
+  GetAllProgramsByRelationshipPayload: GetAllProgramsByRelationshipPayload;
   GetDocumentPayload: GetDocumentPayload;
   GetEventPayload: GetEventPayload;
   GetFilePayload: GetFilePayload;
@@ -900,6 +912,7 @@ export type ResolversParentTypes = {
   File: File;
   Float: Scalars['Float'];
   GetAllFilesByRelationShipPayload: GetAllFilesByRelationShipPayload;
+  GetAllProgramsByRelationshipPayload: GetAllProgramsByRelationshipPayload;
   GetDocumentPayload: GetDocumentPayload;
   GetEventPayload: GetEventPayload;
   GetFilePayload: GetFilePayload;
@@ -1043,6 +1056,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getAllFiles?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType>;
   getAllFilesByRelationship?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType, Partial<QueryGetAllFilesByRelationshipArgs>>;
   getAllPrograms?: Resolver<Maybe<Array<Maybe<ResolversTypes['Program']>>>, ParentType, ContextType>;
+  getAllProgramsByRelationship?: Resolver<Maybe<Array<Maybe<ResolversTypes['Program']>>>, ParentType, ContextType, Partial<QueryGetAllProgramsByRelationshipArgs>>;
   getAllResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['Result']>>>, ParentType, ContextType>;
   getAllSchools?: Resolver<Maybe<Array<Maybe<ResolversTypes['School']>>>, ParentType, ContextType>;
   getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;

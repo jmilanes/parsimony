@@ -73,8 +73,11 @@ export class CrudResolvers {
 
   getAllByRelationship =
     ({ db }: ICreateResolverParams) =>
-    async (_: any, { propToMatch, id }: { propToMatch: string; id: string }) =>
+    async (
+      _: any,
+      { relationshipProperty, id }: { relationshipProperty: string; id: string }
+    ) =>
       await db.findEntries(modelTypes.thread, {
-        [propToMatch]: id
+        [relationshipProperty]: id
       });
 }
