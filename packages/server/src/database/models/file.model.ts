@@ -4,8 +4,6 @@ import { ObjectId } from "mongodb";
 export default {
   title: String,
   clientId: { type: ObjectId, ref: "User" },
-  details: String,
-  signature: String,
-  completed: Boolean,
-  template: String
+  document: String, // TODO: Make this actually a file
+  uploadedBy: { type: ObjectId, ref: "User" }
 };

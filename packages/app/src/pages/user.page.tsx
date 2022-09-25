@@ -9,7 +9,8 @@ import {
   MultiSelect,
   Button,
   Table,
-  Row
+  Row,
+  FileUpload
 } from "../components";
 
 import { IModes, Program, UpdateUserPayload, User } from "@parsimony/types";
@@ -39,7 +40,7 @@ const User = () => {
   const [localState, updateLocalState] =
     React.useState<UpdateUserPayload>(user);
 
-  // TODO: Potentially store an array of program ids on the user
+  // TODO: Add an array of program ids on the user
   const associatedPrograms = dataAccess.program
     .getAll()
     .filter((program: Program) => program.clientId === user.id);
@@ -155,6 +156,10 @@ const User = () => {
         columns={columns}
         actions={actions}
       ></Table>
+
+      <Header text="Client Files" size="sm" />
+      <p>Upload your client files here:</p>
+      <FileUpload></FileUpload>
     </Container>
   );
 };

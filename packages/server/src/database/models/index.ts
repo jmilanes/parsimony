@@ -6,6 +6,7 @@ import user from "./user.model";
 import actionItem from "./actionItem.model";
 import document from "./document.model";
 import event from "./event.model";
+import file from "./event.model";
 
 export enum modelTypes {
   thread = "thread",
@@ -15,7 +16,8 @@ export enum modelTypes {
   school = "school",
   actionItem = "actionItem",
   document = "document",
-  event = "event"
+  event = "event",
+  file = "file"
 }
 
 export const models = {
@@ -26,5 +28,6 @@ export const models = {
   [modelTypes.school]: school,
   [modelTypes.actionItem]: actionItem,
   [modelTypes.document]: document,
-  [modelTypes.event]: event
+  [modelTypes.event]: event,
+  [modelTypes.file]: file
 };

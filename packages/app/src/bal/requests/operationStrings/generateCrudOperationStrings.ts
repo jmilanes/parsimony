@@ -23,6 +23,14 @@ const generateCrudOperationStrings = (
   }
 `;
 
+  const getAllByRelationship = `
+  query Get${type}($payload: GetAll${type}ByRelationshipPayload) {
+    getAll${type}byRelationship(payload: $payload) {
+      ${fullSchema}
+    }
+  }
+`;
+
   const create = `
     mutation Create${type}($payload: Create${type}Payload) {
       create${type}(payload: $payload) {
@@ -48,6 +56,7 @@ const generateCrudOperationStrings = (
   return {
     getAll,
     get,
+    getAllByRelationship,
     create,
     deleteItem,
     edit

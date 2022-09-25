@@ -70,4 +70,11 @@ export class CrudResolvers {
     ({ db }: ICreateResolverParams) =>
     async (_: any, payload: { id: string }) =>
       await db.findEntry(this.model, payload);
+
+  getAllByRelationship =
+    ({ db }: ICreateResolverParams) =>
+    async (_: any, { propToMatch, id }: { propToMatch: string; id: string }) =>
+      await db.findEntries(modelTypes.thread, {
+        [propToMatch]: id
+      });
 }

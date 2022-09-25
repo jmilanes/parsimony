@@ -5,7 +5,8 @@ export enum Collections {
   Result = "result",
   Thread = "thread",
   Event = "event",
-  Document = "document"
+  Document = "document",
+  File = "file"
 }
 export enum PromptTypes {
   Verbal = "VERBAL",

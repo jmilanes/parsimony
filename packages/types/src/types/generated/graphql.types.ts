@@ -40,6 +40,13 @@ export type CreateEventPayload = {
   users: Array<InputMaybe<Scalars['ID']>>;
 };
 
+export type CreateFilePayload = {
+  clientId: Scalars['ID'];
+  document: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
+  uploadedBy: Scalars['ID'];
+};
+
 export type CreateProgramPayload = {
   clientId?: InputMaybe<Scalars['ID']>;
   createdBy?: InputMaybe<Scalars['ID']>;
@@ -101,6 +108,10 @@ export type DeleteEventPayload = {
   id: Scalars['ID'];
 };
 
+export type DeleteFilePayload = {
+  id: Scalars['ID'];
+};
+
 export type DeleteMessagePayload = {
   messageId: Scalars['ID'];
   threadId: Scalars['ID'];
@@ -157,11 +168,29 @@ export type Event = {
   users?: Maybe<Array<Maybe<Scalars['ID']>>>;
 };
 
+export type File = {
+  __typename?: 'File';
+  clientId?: Maybe<Scalars['ID']>;
+  document?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+  uploadedBy?: Maybe<Scalars['ID']>;
+};
+
+export type GetAllFilesByRelationShipPayload = {
+  id: Scalars['ID'];
+  propToMatch: Scalars['String'];
+};
+
 export type GetDocumentPayload = {
   id: Scalars['ID'];
 };
 
 export type GetEventPayload = {
+  id: Scalars['ID'];
+};
+
+export type GetFilePayload = {
   id: Scalars['ID'];
 };
 
@@ -212,6 +241,7 @@ export type Mutation = {
   addMessage?: Maybe<Thread>;
   createDocument?: Maybe<Document>;
   createEvent?: Maybe<Event>;
+  createFile?: Maybe<File>;
   createProgram?: Maybe<Program>;
   createResult?: Maybe<Result>;
   createSchool?: Maybe<School>;
@@ -219,6 +249,7 @@ export type Mutation = {
   createUser?: Maybe<User>;
   deleteDocument?: Maybe<Scalars['ID']>;
   deleteEvent?: Maybe<Scalars['ID']>;
+  deleteFile?: Maybe<Scalars['ID']>;
   deleteMessage?: Maybe<Scalars['ID']>;
   deleteProgram?: Maybe<Scalars['ID']>;
   deleteResult?: Maybe<Scalars['ID']>;
@@ -228,6 +259,7 @@ export type Mutation = {
   editMessage?: Maybe<Scalars['ID']>;
   updateDocument?: Maybe<Document>;
   updateEvent?: Maybe<Event>;
+  updateFile?: Maybe<File>;
   updateProgram?: Maybe<Program>;
   updateResult?: Maybe<Result>;
   updateSchool?: Maybe<School>;
@@ -248,6 +280,11 @@ export type MutationCreateDocumentArgs = {
 
 export type MutationCreateEventArgs = {
   payload?: InputMaybe<CreateEventPayload>;
+};
+
+
+export type MutationCreateFileArgs = {
+  payload?: InputMaybe<CreateFilePayload>;
 };
 
 
@@ -283,6 +320,11 @@ export type MutationDeleteDocumentArgs = {
 
 export type MutationDeleteEventArgs = {
   payload?: InputMaybe<DeleteEventPayload>;
+};
+
+
+export type MutationDeleteFileArgs = {
+  payload?: InputMaybe<DeleteFilePayload>;
 };
 
 
@@ -328,6 +370,11 @@ export type MutationUpdateDocumentArgs = {
 
 export type MutationUpdateEventArgs = {
   payload?: InputMaybe<UpdateEventPayload>;
+};
+
+
+export type MutationUpdateFileArgs = {
+  payload?: InputMaybe<UpdateFilePayload>;
 };
 
 
@@ -391,18 +438,26 @@ export type Query = {
   __typename?: 'Query';
   getAllDocuments?: Maybe<Array<Maybe<Document>>>;
   getAllEvents?: Maybe<Array<Maybe<Event>>>;
+  getAllFiles?: Maybe<Array<Maybe<File>>>;
+  getAllFilesByRelationship?: Maybe<Array<Maybe<File>>>;
   getAllPrograms?: Maybe<Array<Maybe<Program>>>;
   getAllResults?: Maybe<Array<Maybe<Result>>>;
   getAllSchools?: Maybe<Array<Maybe<School>>>;
   getAllUsers?: Maybe<Array<Maybe<User>>>;
   getDocument?: Maybe<Document>;
   getEvent?: Maybe<Event>;
+  getFile?: Maybe<File>;
   getProgram?: Maybe<Program>;
   getResult?: Maybe<Result>;
   getSchool?: Maybe<School>;
   getThreadsByUserId?: Maybe<Array<Maybe<Thread>>>;
   getUser?: Maybe<User>;
   threads?: Maybe<Array<Maybe<Thread>>>;
+};
+
+
+export type QueryGetAllFilesByRelationshipArgs = {
+  payload?: InputMaybe<GetAllFilesByRelationShipPayload>;
 };
 
 
@@ -413,6 +468,11 @@ export type QueryGetDocumentArgs = {
 
 export type QueryGetEventArgs = {
   payload?: InputMaybe<GetEventPayload>;
+};
+
+
+export type QueryGetFileArgs = {
+  payload?: InputMaybe<GetFilePayload>;
 };
 
 
@@ -576,6 +636,14 @@ export type UpdateEventPayload = {
   users: Array<InputMaybe<Scalars['ID']>>;
 };
 
+export type UpdateFilePayload = {
+  clientId?: InputMaybe<Scalars['ID']>;
+  document?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+  uploadedBy?: InputMaybe<Scalars['ID']>;
+};
+
 export type UpdateProgramPayload = {
   clientId?: InputMaybe<Scalars['ID']>;
   createdBy?: InputMaybe<Scalars['ID']>;
@@ -737,6 +805,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateDocumentPayload: CreateDocumentPayload;
   CreateEventPayload: CreateEventPayload;
+  CreateFilePayload: CreateFilePayload;
   CreateProgramPayload: CreateProgramPayload;
   CreateResultPayload: CreateResultPayload;
   CreateSchoolPayload: CreateSchoolPayload;
@@ -745,6 +814,7 @@ export type ResolversTypes = {
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DeleteDocumentPayload: DeleteDocumentPayload;
   DeleteEventPayload: DeleteEventPayload;
+  DeleteFilePayload: DeleteFilePayload;
   DeleteMessagePayload: DeleteMessagePayload;
   DeleteProgramPayload: DeleteProgramPayload;
   DeleteResultPayload: DeleteResultPayload;
@@ -754,9 +824,12 @@ export type ResolversTypes = {
   Document: ResolverTypeWrapper<Document>;
   EditMessagePayload: EditMessagePayload;
   Event: ResolverTypeWrapper<Event>;
+  File: ResolverTypeWrapper<File>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
+  GetAllFilesByRelationShipPayload: GetAllFilesByRelationShipPayload;
   GetDocumentPayload: GetDocumentPayload;
   GetEventPayload: GetEventPayload;
+  GetFilePayload: GetFilePayload;
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
   GetSchoolPayload: GetSchoolPayload;
@@ -789,6 +862,7 @@ export type ResolversTypes = {
   Thread: ResolverTypeWrapper<Thread>;
   UpdateDocumentPayload: UpdateDocumentPayload;
   UpdateEventPayload: UpdateEventPayload;
+  UpdateFilePayload: UpdateFilePayload;
   UpdateProgramPayload: UpdateProgramPayload;
   UpdateResultPayload: UpdateResultPayload;
   UpdateSchoolPayload: UpdateSchoolPayload;
@@ -804,6 +878,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   CreateDocumentPayload: CreateDocumentPayload;
   CreateEventPayload: CreateEventPayload;
+  CreateFilePayload: CreateFilePayload;
   CreateProgramPayload: CreateProgramPayload;
   CreateResultPayload: CreateResultPayload;
   CreateSchoolPayload: CreateSchoolPayload;
@@ -812,6 +887,7 @@ export type ResolversParentTypes = {
   Date: Scalars['Date'];
   DeleteDocumentPayload: DeleteDocumentPayload;
   DeleteEventPayload: DeleteEventPayload;
+  DeleteFilePayload: DeleteFilePayload;
   DeleteMessagePayload: DeleteMessagePayload;
   DeleteProgramPayload: DeleteProgramPayload;
   DeleteResultPayload: DeleteResultPayload;
@@ -821,9 +897,12 @@ export type ResolversParentTypes = {
   Document: Document;
   EditMessagePayload: EditMessagePayload;
   Event: Event;
+  File: File;
   Float: Scalars['Float'];
+  GetAllFilesByRelationShipPayload: GetAllFilesByRelationShipPayload;
   GetDocumentPayload: GetDocumentPayload;
   GetEventPayload: GetEventPayload;
+  GetFilePayload: GetFilePayload;
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
   GetSchoolPayload: GetSchoolPayload;
@@ -852,6 +931,7 @@ export type ResolversParentTypes = {
   Thread: Thread;
   UpdateDocumentPayload: UpdateDocumentPayload;
   UpdateEventPayload: UpdateEventPayload;
+  UpdateFilePayload: UpdateFilePayload;
   UpdateProgramPayload: UpdateProgramPayload;
   UpdateResultPayload: UpdateResultPayload;
   UpdateSchoolPayload: UpdateSchoolPayload;
@@ -889,6 +969,15 @@ export type EventResolvers<ContextType = any, ParentType extends ResolversParent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type FileResolvers<ContextType = any, ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']> = {
+  clientId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  document?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  uploadedBy?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
   dataType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -902,6 +991,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addMessage?: Resolver<Maybe<ResolversTypes['Thread']>, ParentType, ContextType, Partial<MutationAddMessageArgs>>;
   createDocument?: Resolver<Maybe<ResolversTypes['Document']>, ParentType, ContextType, Partial<MutationCreateDocumentArgs>>;
   createEvent?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType, Partial<MutationCreateEventArgs>>;
+  createFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, Partial<MutationCreateFileArgs>>;
   createProgram?: Resolver<Maybe<ResolversTypes['Program']>, ParentType, ContextType, Partial<MutationCreateProgramArgs>>;
   createResult?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType, Partial<MutationCreateResultArgs>>;
   createSchool?: Resolver<Maybe<ResolversTypes['School']>, ParentType, ContextType, Partial<MutationCreateSchoolArgs>>;
@@ -909,6 +999,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationCreateUserArgs>>;
   deleteDocument?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, Partial<MutationDeleteDocumentArgs>>;
   deleteEvent?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, Partial<MutationDeleteEventArgs>>;
+  deleteFile?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, Partial<MutationDeleteFileArgs>>;
   deleteMessage?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, Partial<MutationDeleteMessageArgs>>;
   deleteProgram?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, Partial<MutationDeleteProgramArgs>>;
   deleteResult?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, Partial<MutationDeleteResultArgs>>;
@@ -918,6 +1009,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   editMessage?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, Partial<MutationEditMessageArgs>>;
   updateDocument?: Resolver<Maybe<ResolversTypes['Document']>, ParentType, ContextType, Partial<MutationUpdateDocumentArgs>>;
   updateEvent?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType, Partial<MutationUpdateEventArgs>>;
+  updateFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, Partial<MutationUpdateFileArgs>>;
   updateProgram?: Resolver<Maybe<ResolversTypes['Program']>, ParentType, ContextType, Partial<MutationUpdateProgramArgs>>;
   updateResult?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType, Partial<MutationUpdateResultArgs>>;
   updateSchool?: Resolver<Maybe<ResolversTypes['School']>, ParentType, ContextType, Partial<MutationUpdateSchoolArgs>>;
@@ -948,12 +1040,15 @@ export type ProgramResolvers<ContextType = any, ParentType extends ResolversPare
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getAllDocuments?: Resolver<Maybe<Array<Maybe<ResolversTypes['Document']>>>, ParentType, ContextType>;
   getAllEvents?: Resolver<Maybe<Array<Maybe<ResolversTypes['Event']>>>, ParentType, ContextType>;
+  getAllFiles?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType>;
+  getAllFilesByRelationship?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType, Partial<QueryGetAllFilesByRelationshipArgs>>;
   getAllPrograms?: Resolver<Maybe<Array<Maybe<ResolversTypes['Program']>>>, ParentType, ContextType>;
   getAllResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['Result']>>>, ParentType, ContextType>;
   getAllSchools?: Resolver<Maybe<Array<Maybe<ResolversTypes['School']>>>, ParentType, ContextType>;
   getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   getDocument?: Resolver<Maybe<ResolversTypes['Document']>, ParentType, ContextType, Partial<QueryGetDocumentArgs>>;
   getEvent?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType, Partial<QueryGetEventArgs>>;
+  getFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, Partial<QueryGetFileArgs>>;
   getProgram?: Resolver<Maybe<ResolversTypes['Program']>, ParentType, ContextType, Partial<QueryGetProgramArgs>>;
   getResult?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType, Partial<QueryGetResultArgs>>;
   getSchool?: Resolver<Maybe<ResolversTypes['School']>, ParentType, ContextType, Partial<QueryGetSchoolArgs>>;
@@ -1060,6 +1155,7 @@ export type Resolvers<ContextType = any> = {
   Date?: GraphQLScalarType;
   Document?: DocumentResolvers<ContextType>;
   Event?: EventResolvers<ContextType>;
+  File?: FileResolvers<ContextType>;
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Program?: ProgramResolvers<ContextType>;

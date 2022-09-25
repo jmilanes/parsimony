@@ -16,6 +16,7 @@ import {
   parseResultsWithCompleteness
 } from "../utils";
 import "./styles.css";
+import { curry } from "ramda";
 
 export type IObserverRuleProps = React.PropsWithChildren<{
   rule: Rule | Rule[];
@@ -45,10 +46,7 @@ const ObserveRule = ({
         setCompleteness,
         rule
       );
-      console.log(
-        "🚀 ~ file: observeRule.container.tsx ~ line 47 ~ useEffect ~ latestResult",
-        latestResult
-      );
+
       updateResultData(latestResult);
     }
   }, [results]);
@@ -74,7 +72,8 @@ const ObserveRule = ({
 
   const updateRuleResultAtStep = (results: RuleResult[], data: RuleResult) => {
     const update = [...results];
-    update[(data.step || 0) - 1] = data;
+    const zeroIndexStep = (data.step || 1) - 1;
+    update[zeroIndexStep] = data;
     return update;
   };
 
@@ -90,25 +89,31 @@ const ObserveRule = ({
     });
   };
 
-  const selectOption = (option: RuleResultOption, step: number, rule: Rule) => {
-    const targetId = rule.options?.find((option) => !!option?.target)?.id;
-    type IndexObj = { targetIndex: number; optionIndex: number };
+  const getTargetId = (rule: Rule) =>
+    rule.options?.find((option) => !!option?.target)?.id || "";
 
-    const indexObj = rule.options?.reduce((acc: IndexObj, curr, index) => {
-      if (curr?.target) acc.targetIndex = index;
-      if (curr?.id === option.id) acc.optionIndex = index;
-      return acc as IndexObj;
-    }, {} as IndexObj) as IndexObj;
-
+  const selectOption = (
+    option: RuleResultOption,
+    step: number,
+    rule: Rule,
+    targetId: string
+  ) => {
+    let completed = true;
     // If the selection is above the target option then you get a 100% completeness
-    const completed = indexObj.optionIndex >= indexObj.targetIndex;
-
+    for (const opt of rule.options || []) {
+      if (opt?.target) break;
+      if (opt?.id === option.id) {
+        completed = false;
+        break;
+      }
+    }
     const obj: RuleResult = {
       step,
       option,
       targetId,
       completed
     };
+
     updateResults(obj, rule);
     !isGroup && incrementStep(rule);
   };
@@ -146,7 +151,12 @@ const ObserveRule = ({
               name={option?.name as string}
               //!! RuleResultOption and RuleOption are the same thing in type def need to share...
               action={() =>
-                selectOption(option as RuleResultOption, step, rule)
+                selectOption(
+                  option as RuleResultOption,
+                  step,
+                  rule,
+                  getTargetId(rule)
+                )
               }
             />
           ))}

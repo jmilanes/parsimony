@@ -1,6 +1,7 @@
 export { default as Nav } from "./nav.component";
 export { default as Table } from "./table.component";
 export { default as Field } from "./field.component";
+export { default as FileUpload } from "./fileUpload.component";
 export { default as Button } from "./button.component";
 export { default as Container } from "./container.component";
 export { default as Selector } from "./selector.component";

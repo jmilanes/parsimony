@@ -5,3 +5,4 @@ export * from "./results.requests";
 export * from "./schools.requests";
 export * from "./documents.requests";
 export * from "./events.requests";
+export * from "./files.requests";

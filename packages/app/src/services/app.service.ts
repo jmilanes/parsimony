@@ -31,7 +31,10 @@ import {
   CreateDocumentPayload,
   DeleteDocumentPayload,
   UpdateDocumentPayload,
-  GetDocumentPayload
+  GetDocumentPayload,
+  CreateFilePayload,
+  DeleteFilePayload,
+  UpdateFilePayload
 } from "@parsimony/types";
 import { Observable } from "rxjs";
 import ChatService from "./chat.service";
@@ -45,7 +48,8 @@ import {
   resultRequests,
   schoolRequests,
   documentRequests,
-  eventRequests
+  eventRequests,
+  fileRequests
 } from "../bal/requests";
 
 import { AsyncCrudGenerator } from "./crudGenerators/asyncCrud.generator";
@@ -67,6 +71,7 @@ export type Services = {
     [Collections.Result]: any;
     [Collections.Event]: any;
     [Collections.Document]: any;
+    [Collections.File]: any;
     [Collections$.Thread$]: ChatService;
   };
 };
@@ -196,6 +201,14 @@ export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
     GetEventPayload
   >(Collections.Event, eventRequests, store);
 
+  const FileService = new AsyncCrudGenerator<
+    Event,
+    CreateFilePayload,
+    DeleteFilePayload,
+    UpdateFilePayload,
+    GetEventPayload
+  >(Collections.File, fileRequests, store);
+
   return {
     [Collections.Program]: ProgramService,
     [Collections.User]: UserService,
@@ -203,6 +216,7 @@ export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
     [Collections.School]: SchoolService,
     [Collections.Document]: DocumentService,
     [Collections.Event]: EventService,
+    [Collections.File]: FileService,
     [Collections$.Thread$]: new ChatService(socket$, store)
   };
 };
