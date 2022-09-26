@@ -10,7 +10,7 @@ import {
   MultiSelect,
   Row
 } from "../components";
-import { Program, IModes, User } from "@parsimony/types";
+import { Program, IModes, User, Collections } from "@parsimony/types";
 
 import {
   getFullName,
@@ -24,27 +24,37 @@ import {
 import { ProgramTypes, Routes } from "@parsimony/types";
 
 import { useServices } from "../context";
+import { update } from "ramda";
 
 const Program = () => {
-  const { stateManager, dataAccess } = useServices();
+  const { stateManager, dataAccess, store } = useServices();
   const navigate = navigateToRoute();
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
 
-  const program = dataAccess.program.get(programId || "");
+  const program = store.getCollectionItem(Collections.Program, programId || "");
 
   const [localState, updateLocalState] = React.useState<Program>(program);
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
   );
 
-  const client = dataAccess.user.get(program?.clientId || "");
+  useEffect(() => {
+    //TODO Eventually get all by
+    if (!program) dataAccess.program.get(programId);
+    if (!localState) updateLocalState(program);
+    dataAccess.user.getAll();
+  }, [program]);
+
+  const client = store.getCollectionItem(Collections.User, program?.clientId);
 
   //TODO: Filter so only clients are this way
-  const allClientOptions = dataAccess.user.getAll().map((user: User) => ({
-    name: getFullName(user),
-    value: user.id
-  }));
+  const allClientOptions = store
+    .getCurrentList(Collections.User)
+    .map((user: User) => ({
+      name: getFullName(user),
+      value: user.id
+    }));
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -56,6 +66,7 @@ const Program = () => {
     updateMode("readOnly");
   };
 
+  if (!program || !localState) return null;
   return (
     <Container>
       <Header

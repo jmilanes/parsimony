@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Button, Table, Field, Header } from "../components";
-import { School } from "@parsimony/types";
+import { Collections, School } from "@parsimony/types";
 import { AddForm } from "../containers";
 import { initialSchoolData } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table.component";
@@ -9,10 +9,14 @@ import { Pages } from "@parsimony/types";
 
 import { useServices } from "../context";
 
-const Users = () => {
-  const { stateManager, dataAccess } = useServices();
+const Schools = () => {
+  const { stateManager, dataAccess, store } = useServices();
 
-  const schoolData = dataAccess.school.getAll();
+  const data = store.getCurrentList(Collections.School);
+
+  useEffect(() => {
+    dataAccess.school.getAll();
+  }, []);
 
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
@@ -41,6 +45,7 @@ const Users = () => {
     }
   ];
 
+  if (!data.length) return null;
   return (
     <>
       <Header
@@ -55,7 +60,7 @@ const Users = () => {
           />
         ]}
       />
-      <Table data={schoolData} columns={columns} actions={actions} />
+      <Table data={data} columns={columns} actions={actions} />
       <AddForm
         showForm={showAddForm}
         onCreate={submitAddForm}
@@ -73,4 +78,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Schools;

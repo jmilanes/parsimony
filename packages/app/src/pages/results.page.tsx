@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Pages, ProgramTypes, Result } from "@parsimony/types";
+import { Collections, Pages, ProgramTypes, Result } from "@parsimony/types";
 import { Header } from "../components";
 import { getRouterParams } from "../utils";
 
@@ -27,15 +27,22 @@ ChartJS.register(
 );
 
 const Results = () => {
-  const { dataAccess } = useServices();
+  const { dataAccess, store } = useServices();
   const { programId } = getRouterParams();
-  const program = dataAccess.program.get(programId || "");
+  const program = store.getCollectionItem(Collections.Program, programId || "");
+  console.log(
+    "🚀 ~ file: results.page.tsx ~ line 33 ~ Results ~ program",
+    program
+  );
   const [results, setResults] = useState<Result[]>([]);
 
-  if (program.type !== ProgramTypes.Client) return null;
+  useEffect(() => {
+    dataAccess.program.get(programId);
+  }, []);
 
   useEffect(() => {
-    if (program) setResults(dataAccess.result.getAllBy("programId", programId));
+    //TODO the end point needs to be fixed
+    if (program) dataAccess.result.getAllBy("programId", programId);
   }, [program]);
 
   const programCompletenessData = results?.map(
@@ -46,6 +53,8 @@ const Results = () => {
     const date = new Date(result.created_at);
     return `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`;
   });
+
+  if (!program || !results.length) return null;
 
   // TODO: would be really cool to have a place to add data sets here
   const state = {

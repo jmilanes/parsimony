@@ -97,10 +97,10 @@ export default class AppController {
   };
 
   loadCollections = async () => {
-    const collectionsStoreInitPromises = Object.values(
-      this.services.dataAccess
-    ).map((collection) => collection.init());
-    await Promise.all(collectionsStoreInitPromises);
+    await Promise.all([
+      this.services.dataAccess.user.init,
+      this.services.dataAccess.thread$
+    ]);
     this._initAuthService(this.services.dataAccess.user);
     this._isLoading(false);
     console.log("All Data Loaded");

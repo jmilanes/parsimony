@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IColumns, ITableAction } from "../components/table.component";
 import { AddForm, RulesForm } from "../containers";
-import { Pages, User } from "@parsimony/types";
+import { Collections, Pages, User } from "@parsimony/types";
 import {
   initialProgramData,
   programTypes,
@@ -30,13 +30,18 @@ import { ProgramTypes } from "@parsimony/types";
 import { useServices } from "../context";
 
 const Programs = () => {
-  const { stateManager, dataAccess } = useServices();
+  const { stateManager, dataAccess, store } = useServices();
   const navigate = navigateToRoute();
   let [searchParams] = getSearchParams();
-  const data = dataAccess.program.getAll();
 
-  const clientDataOptions = dataAccess.user
-    .getAll()
+  const data = store.getCurrentList(Collections.Program);
+
+  useEffect(() => {
+    dataAccess.program.getAll();
+  }, []);
+
+  const clientDataOptions = store
+    .getCurrentList(Collections.User)
     .map((client: User) => ({ name: getFullName(client), value: client.id }));
 
   const [showAddForm, setShowAddForm] = React.useState(false);

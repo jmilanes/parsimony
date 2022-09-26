@@ -27,7 +27,8 @@ export class AsyncCrudGenerator<
     CreatePayload,
     DeleteThreadPayload,
     UploadPayload,
-    GetPayload
+    GetPayload,
+    void
   >;
   store: Store;
   constructor(collectionName: Collections, requests: any, store: Store) {
@@ -61,11 +62,25 @@ export class AsyncCrudGenerator<
     return item;
   };
 
-  getAll = () =>
-    Object.values(this.store.getCollectionValue(this.collectionName));
-  get = (id: IId) => this.store.getCollectionItem(this.collectionName, id);
-  getAllBy = (key: keyof Schema, value: unknown) =>
+  getAll = async () => {
+    try {
+      const items = await this.requests.getAll();
+      this.store.getCollection$(this.collectionName).next(items);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  get = async (id: IId) => {
+    const item = await this.requests.get({ id });
+    this.store.addItemToStore(this.collectionName, item);
+  };
+
+  getAllBy = (key: keyof Schema, value: unknown) => {
+    // TODO Add the relationsip too all once it works
     this.store.getCollectionValueBy(this.collectionName, key, value);
+  };
+
   subscribe = (service: { set: (data: any[]) => void }) => {
     this.store.subscribeToStoreCollection(
       this.collectionName,

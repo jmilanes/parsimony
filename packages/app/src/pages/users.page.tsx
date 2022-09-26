@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Button,
@@ -9,7 +9,7 @@ import {
   Header
 } from "../components";
 import { navigateToRoute } from "../utils";
-import { User } from "@parsimony/types";
+import { Collections, User } from "@parsimony/types";
 import { AddForm } from "../containers";
 import {
   initialUserData,
@@ -22,9 +22,13 @@ import { Pages } from "@parsimony/types";
 import { useServices } from "../context";
 
 const Users = () => {
-  const { stateManager, dataAccess } = useServices();
+  const { stateManager, dataAccess, store } = useServices();
   const navigate = navigateToRoute();
-  const data = dataAccess.user.getAll();
+  const data = store.getCurrentList(Collections.User);
+
+  useEffect(() => {
+    dataAccess.user.getAll();
+  }, []);
 
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =

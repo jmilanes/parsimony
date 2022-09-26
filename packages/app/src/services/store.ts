@@ -6,9 +6,11 @@ import {
   Result,
   School,
   User,
-  Document
+  Document,
+  File
 } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
+import threadOperationStrings from "../bal/requests/operationStrings/threadOperationStrings";
 import { arrayToObj } from "../utils";
 
 type UserCollection = Record<IId, User>;
@@ -18,11 +20,14 @@ type SchoolCollection = Record<IId, School>;
 type ThreadCollection = Record<IId, School>;
 type EventCollection = Record<IId, Event>;
 type DocumentCollection = Record<IId, Document>;
+type FileCollection = Record<IId, File>;
 
 export default class Store {
   public store$: Record<IId, BehaviorSubject<Record<IId, any>>>;
+  public isLoading: boolean;
 
   constructor() {
+    // lists
     this.store$ = {
       [Collections.User]: new BehaviorSubject<UserCollection>({}),
       [Collections.Program]: new BehaviorSubject<ProgramCollection>({}),
@@ -30,8 +35,15 @@ export default class Store {
       [Collections.School]: new BehaviorSubject<SchoolCollection>({}),
       [Collections.Thread]: new BehaviorSubject<ThreadCollection>({}),
       [Collections.Document]: new BehaviorSubject<DocumentCollection>({}),
-      [Collections.Event]: new BehaviorSubject<EventCollection>({})
+      [Collections.Event]: new BehaviorSubject<EventCollection>({}),
+      [Collections.File]: new BehaviorSubject<FileCollection>({})
     };
+
+    this.isLoading = false;
+  }
+
+  setIsLoading(isLoading: boolean) {
+    this.isLoading = isLoading;
   }
 
   async initCollectionInStore(
@@ -94,6 +106,10 @@ export default class Store {
 
   getCollectionItem = (collectionName: Collections, id: IId) => {
     return this.store$[collectionName].value[id];
+  };
+
+  getCurrentList = (collectionName: Collections) => {
+    return Object.values(this.store$[collectionName].value);
   };
 
   getCollection$ = (collectionName: Collections) => {

@@ -13,7 +13,13 @@ import {
   FileUpload
 } from "../components";
 
-import { IModes, Program, UpdateUserPayload, User } from "@parsimony/types";
+import {
+  Collections,
+  IModes,
+  Program,
+  UpdateUserPayload,
+  User
+} from "@parsimony/types";
 
 import {
   getFullName,
@@ -28,11 +34,11 @@ import { IColumns, ITableAction } from "../components/table.component";
 import { useServices } from "../context";
 
 const User = () => {
-  const { filterService, stateManager, dataAccess } = useServices();
+  const { filterService, stateManager, dataAccess, store } = useServices();
   const { userId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const user: User = dataAccess.user.get(userId || "");
+  const user = store.getCollectionItem(Collections.User, userId || "");
 
   const [mode, updateMode] = React.useState<IModes>("readOnly");
 
@@ -40,10 +46,16 @@ const User = () => {
   const [localState, updateLocalState] =
     React.useState<UpdateUserPayload>(user);
 
-  // TODO: Add an array of program ids on the user
-  const associatedPrograms = dataAccess.program
-    .getAll()
-    .filter((program: Program) => program.clientId === user.id);
+  useEffect(() => {
+    //TODO Eventually get all by
+    dataAccess.program.getAll();
+    if (!user) dataAccess.user.get(userId);
+    if (!localState) updateLocalState(user);
+  }, [user]);
+
+  const associatedPrograms = store
+    .getCurrentList(Collections.Program)
+    .filter((program: Program) => program.clientId === userId);
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -71,10 +83,11 @@ const User = () => {
     }
   ];
 
+  if (!user || !localState) return null;
   return (
     <Container>
       <Header
-        text={getFullName(localState)}
+        text={getFullName(user)}
         size="page"
         extra={[
           <Button

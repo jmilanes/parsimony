@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Header, Button } from "../components";
 import { generateKey, getRouterParams, navigateToRoute } from "../utils";
 import { ObserveRule } from "../containers";
-import { Program } from "@parsimony/types";
+import { Collections, Program } from "@parsimony/types";
 import { RuleStyle } from "@parsimony/types";
 import { useServices } from "../context";
 import ObservationService from "../services/observation.service";
@@ -10,14 +10,15 @@ import ObservationService from "../services/observation.service";
 const observation = new ObservationService();
 
 const Observe = () => {
-  const { dataAccess, stateManager } = useServices();
+  const { dataAccess, stateManager, store } = useServices();
 
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const program = dataAccess.program.get(programId || "") as Program;
+  const program = store.getCollectionItem(Collections.Program, programId || "");
 
   useEffect(() => {
+    if (!program) dataAccess.program.get(programId);
     if (program) {
       observation.init(program, stateManager.updateState);
     }
