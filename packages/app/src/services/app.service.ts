@@ -34,7 +34,13 @@ import {
   GetDocumentPayload,
   CreateFilePayload,
   DeleteFilePayload,
-  UpdateFilePayload
+  UpdateFilePayload,
+  GetAllProgramsByRelationshipPayload,
+  GetAllFilesByRelationshipPayload,
+  GetAllUsersByRelationshipPayload,
+  GetAllSchoolByRelationshipPayload,
+  GetAllDocumentsByRelationshipPayload,
+  GetAllEventsByRelationshipPayload
 } from "@parsimony/types";
 import { Observable } from "rxjs";
 import ChatService from "./chat.service";
@@ -158,7 +164,8 @@ export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
     CreateUserPayload,
     DeleteUserPayload,
     UpdateUserPayload,
-    GetUserPayload
+    GetUserPayload,
+    GetAllUsersByRelationshipPayload
   >(Collections.User, userRequests, store);
 
   const ProgramService = new AsyncCrudGenerator<
@@ -166,7 +173,8 @@ export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
     CreateProgramPayload,
     DeleteProgramPayload,
     UpdateProgramPayload,
-    GetProgramPayload
+    GetProgramPayload,
+    GetAllProgramsByRelationshipPayload
   >(Collections.Program, programRequests, store);
 
   const ResultService = new AsyncCrudGenerator<
@@ -174,7 +182,8 @@ export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
     CreateResultPayload,
     DeleteResultPayload,
     UpdateResultPayload,
-    GetResultPayload
+    GetResultPayload,
+    GetAllProgramsByRelationshipPayload
   >(Collections.Result, resultRequests, store);
 
   const SchoolService = new AsyncCrudGenerator<
@@ -182,7 +191,8 @@ export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
     CreateSchoolPayload,
     DeleteSchoolPayload,
     UpdateSchoolPayload,
-    GetSchoolPayload
+    GetSchoolPayload,
+    GetAllSchoolByRelationshipPayload
   >(Collections.School, schoolRequests, store);
 
   const DocumentService = new AsyncCrudGenerator<
@@ -190,7 +200,8 @@ export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
     CreateDocumentPayload,
     DeleteDocumentPayload,
     UpdateDocumentPayload,
-    GetDocumentPayload
+    GetDocumentPayload,
+    GetAllDocumentsByRelationshipPayload
   >(Collections.Document, documentRequests, store);
 
   const EventService = new AsyncCrudGenerator<
@@ -198,7 +209,8 @@ export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
     CreateEventPayload,
     DeleteEventPayload,
     UpdateEventPayload,
-    GetEventPayload
+    GetEventPayload,
+    GetAllEventsByRelationshipPayload
   >(Collections.Event, eventRequests, store);
 
   const FileService = new AsyncCrudGenerator<
@@ -206,7 +218,8 @@ export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
     CreateFilePayload,
     DeleteFilePayload,
     UpdateFilePayload,
-    GetEventPayload
+    GetEventPayload,
+    GetAllFilesByRelationshipPayload
   >(Collections.File, fileRequests, store);
 
   return {

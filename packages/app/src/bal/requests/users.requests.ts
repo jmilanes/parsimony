@@ -4,7 +4,8 @@ import {
   CreateUserPayload,
   DeleteUserPayload,
   UpdateUserPayload,
-  Collections
+  Collections,
+  GetAllUsersByRelationshipPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
@@ -43,6 +44,11 @@ export const getUser = createRequest<GetUserPayload, User>(
   userOperationStrings.get
 );
 
+export const getAllUsersByRelationship = createRequest<
+  GetAllUsersByRelationshipPayload,
+  User[]
+>(userOperationStrings.getAllByRelationship);
+
 export const createUser = createRequest<CreateUserPayload, User>(
   userOperationStrings.create
 );
@@ -60,5 +66,6 @@ export const userRequests = {
   get: getUser,
   create: createUser,
   delete: deleteUser,
-  update: updateUser
+  update: updateUser,
+  getAllByRelationship: getAllUsersByRelationship
 };

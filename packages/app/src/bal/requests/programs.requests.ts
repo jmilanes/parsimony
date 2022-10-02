@@ -4,7 +4,9 @@ import {
   CreateProgramPayload,
   DeleteProgramPayload,
   UpdateProgramPayload,
-  GetProgramPayload
+  GetProgramPayload,
+  GetAllFilesByRelationshipPayload,
+  GetAllProgramsByRelationshipPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
@@ -53,6 +55,11 @@ export const getProgram = createRequest<GetProgramPayload, Program>(
   programOperationStrings.get
 );
 
+export const getAllProgramsByRelationship = createRequest<
+  GetAllProgramsByRelationshipPayload,
+  Program[]
+>(programOperationStrings.getAllByRelationship);
+
 export const createProgram = createRequest<CreateProgramPayload, Program>(
   programOperationStrings.create
 );
@@ -68,6 +75,7 @@ export const updateProgram = createRequest<UpdateProgramPayload, Program>(
 export const programRequests = {
   getAll: getAllPrograms,
   get: getProgram,
+  getAllByRelationship: getAllProgramsByRelationship,
   create: createProgram,
   delete: deleteProgram,
   update: updateProgram

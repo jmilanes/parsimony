@@ -24,8 +24,8 @@ const generateCrudOperationStrings = (
 `;
 
   const getAllByRelationship = `
-  query Get${type}($payload: GetAll${type}sByRelationshipPayload) {
-    getAll${type}sbyRelationship(payload: $payload) {
+  query GetAll${type}sByRelationship($payload: GetAll${type}sByRelationshipPayload) {
+    getAll${type}sByRelationship(payload: $payload) {
       ${fullSchema}
     }
   }

@@ -4,7 +4,8 @@ import {
   CreateEventPayload,
   DeleteEventPayload,
   UpdateEventPayload,
-  Collections
+  Collections,
+  GetAllEventsByRelationshipPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
@@ -35,6 +36,11 @@ export const getEvent = createRequest<GetEventPayload, Event>(
   eventOperationStrings.get
 );
 
+export const getAllEventsByRelationship = createRequest<
+  GetAllEventsByRelationshipPayload,
+  Event[]
+>(eventOperationStrings.getAllByRelationship);
+
 export const createEvent = createRequest<CreateEventPayload, Event>(
   eventOperationStrings.create
 );
@@ -50,6 +56,7 @@ export const updateEvent = createRequest<UpdateEventPayload, Event>(
 export const eventRequests = {
   getAll: getAllEvents,
   get: getEvent,
+  getAllByRelationship: getAllEventsByRelationship,
   create: createEvent,
   delete: deleteEvent,
   update: updateEvent

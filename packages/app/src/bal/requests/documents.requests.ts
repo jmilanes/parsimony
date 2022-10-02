@@ -4,7 +4,8 @@ import {
   DeleteDocumentPayload,
   UpdateDocumentPayload,
   GetDocumentPayload,
-  Document
+  Document,
+  GetAllDocumentsByRelationshipPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
@@ -31,6 +32,11 @@ export const getDocument = createRequest<GetDocumentPayload, Document>(
   documentOperationStrings.get
 );
 
+export const getAllDocumentsByRelationship = createRequest<
+  GetAllDocumentsByRelationshipPayload,
+  Document[]
+>(documentOperationStrings.getAllByRelationship);
+
 export const createDocument = createRequest<CreateDocumentPayload, Document>(
   documentOperationStrings.create
 );
@@ -46,6 +52,7 @@ export const updateDocument = createRequest<UpdateDocumentPayload, Document>(
 export const documentRequests = {
   getAll: getAllDocuments,
   get: getDocument,
+  getAllByRelationship: getAllDocumentsByRelationship,
   create: createDocument,
   delete: deleteDocument,
   update: updateDocument

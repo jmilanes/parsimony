@@ -5,7 +5,7 @@ import {
   DeleteFilePayload,
   UpdateFilePayload,
   Collections,
-  GetAllFilesByRelationShipPayload
+  GetAllFilesByRelationshipPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
@@ -32,8 +32,8 @@ export const getFile = createRequest<GetFilePayload, File>(
 );
 
 export const getAllFilesByRelationship = createRequest<
-  GetAllFilesByRelationShipPayload,
-  File
+  GetAllFilesByRelationshipPayload,
+  File[]
 >(eventOperationStrings.getAllByRelationship);
 
 export const createFile = createRequest<CreateFilePayload, File>(

@@ -4,7 +4,8 @@ import {
   DeleteSchoolPayload,
   UpdateSchoolPayload,
   GetSchoolPayload,
-  School
+  School,
+  GetAllSchoolByRelationshipPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
@@ -32,6 +33,11 @@ export const getSchool = createRequest<GetSchoolPayload, School>(
   schoolOperationStrings.get
 );
 
+export const getAllSchoolsByRelationship = createRequest<
+  GetAllSchoolByRelationshipPayload,
+  File[]
+>(schoolOperationStrings.getAllByRelationship);
+
 export const createSchool = createRequest<CreateSchoolPayload, School>(
   schoolOperationStrings.create
 );
@@ -47,6 +53,7 @@ export const updateSchool = createRequest<UpdateSchoolPayload, School>(
 export const schoolRequests = {
   getAll: getAllSchools,
   get: getSchool,
+  getAllByRelationship: getAllSchoolsByRelationship,
   create: createSchool,
   delete: deleteSchool,
   update: updateSchool

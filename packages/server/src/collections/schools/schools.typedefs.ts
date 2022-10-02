@@ -36,9 +36,17 @@ export default gql`
     accessTokens: [String]
   }
 
+  input GetAllSchoolByRelationshipPayload {
+    relationshipProperty: String!
+    id: ID!
+  }
+
   type Query {
     getAllSchools: [School]
     getSchool(payload: GetSchoolPayload): School
+    getAllSchoolsByRelationship(
+      payload: GetAllSchoolByRelationshipPayload
+    ): [School]
   }
 
   type Mutation {

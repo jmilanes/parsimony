@@ -37,9 +37,17 @@ export default gql`
     completed: Boolean
   }
 
+  input GetAllDocumentsByRelationshipPayload {
+    relationshipProperty: String!
+    id: ID!
+  }
+
   type Query {
     getAllDocuments: [Document]
     getDocument(payload: GetDocumentPayload): Document
+    getAllDocumentsByRelationship(
+      payload: GetAllDocumentsByRelationshipPayload
+    ): [Document]
   }
 
   type Mutation {

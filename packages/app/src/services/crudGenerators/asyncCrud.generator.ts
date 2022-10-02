@@ -7,18 +7,24 @@ import {
 import { BehaviorSubject } from "rxjs";
 import Store from "../store";
 
+type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
+  id?: string | undefined;
+};
+
 export class AsyncCrudGenerator<
   Schema,
   CreatePayload,
   DeleteThreadPayload,
   UploadPayload,
-  GetPayload
+  GetPayload,
+  GetAllByRelationshipPayload
 > implements
     ICrudGeneratorAsync<
       Schema,
       CreatePayload,
       DeleteThreadPayload,
-      UploadPayload
+      UploadPayload,
+      GetAllByRelationshipPayload
     >
 {
   collectionName: Collections;
@@ -28,7 +34,7 @@ export class AsyncCrudGenerator<
     DeleteThreadPayload,
     UploadPayload,
     GetPayload,
-    void
+    GetAllByRelationshipPayload
   >;
   store: Store;
   constructor(collectionName: Collections, requests: any, store: Store) {
@@ -45,7 +51,9 @@ export class AsyncCrudGenerator<
   };
 
   create = async (payload: CreatePayload) => {
-    const item = await this.requests.create(payload);
+    const item = (await this.requests.create(
+      payload
+    )) as AwaitedSchemaWithId<Schema>;
     this.store.addItemToStore(this.collectionName, item);
     return item;
   };
@@ -57,7 +65,9 @@ export class AsyncCrudGenerator<
   };
 
   update = async (payload: UploadPayload) => {
-    const item = await this.requests.update(payload);
+    const item = (await this.requests.update(
+      payload
+    )) as AwaitedSchemaWithId<Schema>;
     this.store.updateStore(this.collectionName, item);
     return item;
   };
@@ -72,13 +82,25 @@ export class AsyncCrudGenerator<
   };
 
   get = async (id: IId) => {
-    const item = await this.requests.get({ id });
+    const item = (await this.requests.get({
+      id
+    } as GetPayload)) as AwaitedSchemaWithId<Schema>;
     this.store.addItemToStore(this.collectionName, item);
   };
 
-  getAllBy = (key: keyof Schema, value: unknown) => {
-    // TODO Add the relationsip too all once it works
-    this.store.getCollectionValueBy(this.collectionName, key, value);
+  getAllByRelationship = async (
+    relationshipProperty: keyof Schema,
+    id: string
+  ) => {
+    try {
+      const items = await this.requests.getAllByRelationship({
+        relationshipProperty,
+        id
+      } as GetAllByRelationshipPayload);
+      this.store.getCollection$(this.collectionName).next(items);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   subscribe = (service: { set: (data: any[]) => void }) => {

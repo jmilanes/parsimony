@@ -23,15 +23,19 @@ export interface ICrudGeneratorAsync<
   Schema,
   CreatePayload,
   DeleteThreadPayload,
-  UploadPayload
+  UploadPayload,
+  GetAllByRelationshipPayload
 > {
-  create: (payload: CreatePayload) => void;
+  create: (payload: CreatePayload) => Promise<Schema>;
   init: () => void;
-  delete: (payload: DeleteThreadPayload) => void;
-  update: (payload: UploadPayload) => void;
-  get: (id: string) => Schema;
-  getAll: () => Schema[];
-  getAllBy: (key: keyof Schema, value: unknown) => Schema[];
+  delete: (payload: DeleteThreadPayload) => Promise<string>;
+  update: (payload: UploadPayload) => Promise<Schema>;
+  get: (id: string) => Promise<void>;
+  getAll: () => Promise<void>;
+  getAllByRelationship: (
+    relationshipProperty: keyof Schema,
+    id: string
+  ) => Promise<void>;
 }
 
 export type ICrudRequests<

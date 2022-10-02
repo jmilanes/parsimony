@@ -30,20 +30,18 @@ const Results = () => {
   const { dataAccess, store } = useServices();
   const { programId } = getRouterParams();
   const program = store.getCollectionItem(Collections.Program, programId || "");
-  console.log(
-    "🚀 ~ file: results.page.tsx ~ line 33 ~ Results ~ program",
-    program
-  );
-  const [results, setResults] = useState<Result[]>([]);
+
+  const results = store.getCurrentList(Collections.Result);
 
   useEffect(() => {
     dataAccess.program.get(programId);
   }, []);
 
   useEffect(() => {
-    //TODO the end point needs to be fixed
-    if (program) dataAccess.result.getAllBy("programId", programId);
+    if (program) dataAccess.result.getAllByRelationship("programId", programId);
   }, [program]);
+
+  if (!program || !results.length) return null;
 
   const programCompletenessData = results?.map(
     (result) => result.programCompleteness
@@ -54,9 +52,7 @@ const Results = () => {
     return `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`;
   });
 
-  if (!program || !results.length) return null;
-
-  // TODO: would be really cool to have a place to add data sets here
+  // TODO: would be really cool to have a place to add multiple data sets here
   const state = {
     labels: programDateLabels,
     datasets: [

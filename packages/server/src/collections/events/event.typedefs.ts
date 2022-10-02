@@ -52,9 +52,17 @@ export default gql`
     users: [ID]!
   }
 
+  input GetAllEventsByRelationshipPayload {
+    relationshipProperty: String!
+    id: ID!
+  }
+
   type Query {
     getAllEvents: [Event]
     getEvent(payload: GetEventPayload): Event
+    getAllEventsByRelationship(
+      payload: GetAllEventsByRelationshipPayload
+    ): [Event]
   }
 
   type Mutation {

@@ -69,9 +69,15 @@ export default gql`
     actionItems: [ID]
   }
 
+  input GetAllUsersByRelationshipPayload {
+    relationshipProperty: String!
+    id: ID!
+  }
+
   type Query {
     getAllUsers: [User]
     getUser(payload: GetUserPayload): User
+    getAllUsersByRelationship(payload: GetAllUsersByRelationshipPayload): [User]
   }
 
   type Mutation {

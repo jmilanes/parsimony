@@ -23,7 +23,9 @@ export class CrudResolvers {
   getQuires(CreateResolverParams: ICreateResolverParams) {
     return {
       [this.propWithModel("getAll", true)]: this.getAll(CreateResolverParams),
-      [this.propWithModel("get")]: this.get(CreateResolverParams)
+      [this.propWithModel("get")]: this.get(CreateResolverParams),
+      [`${this.propWithModel("getAll", true)}ByRelationship`]:
+        this.getAllByRelationship(CreateResolverParams)
     };
   }
 
@@ -77,7 +79,7 @@ export class CrudResolvers {
       _: any,
       { relationshipProperty, id }: { relationshipProperty: string; id: string }
     ) =>
-      await db.findEntries(modelTypes.thread, {
+      await db.findEntries(this.model, {
         [relationshipProperty]: id
       });
 }

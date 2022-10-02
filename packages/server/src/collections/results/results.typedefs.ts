@@ -74,6 +74,11 @@ export default gql`
     data: [ResultDataInput]
   }
 
+  input GetAllResultsByRelationshipPayload {
+    relationshipProperty: String!
+    id: ID!
+  }
+
   enum ProgramValueTypes {
     STRING
     NUMBER
@@ -89,6 +94,9 @@ export default gql`
   type Query {
     getAllResults: [Result]
     getResult(payload: GetResultPayload): Result
+    getAllResultsByRelationship(
+      payload: GetAllResultsByRelationshipPayload
+    ): [Result]
   }
 
   type Mutation {

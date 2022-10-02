@@ -34,7 +34,7 @@ export default gql`
     document: String
   }
 
-  input GetAllFilesByRelationShipPayload {
+  input GetAllFilesByRelationshipPayload {
     relationshipProperty: String!
     id: ID!
   }
@@ -42,7 +42,7 @@ export default gql`
   type Query {
     getAllFiles: [File]
     getFile(payload: GetFilePayload): File
-    getAllFilesByRelationship(payload: GetAllFilesByRelationShipPayload): [File]
+    getAllFilesByRelationship(payload: GetAllFilesByRelationshipPayload): [File]
   }
 
   type Mutation {
