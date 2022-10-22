@@ -47,15 +47,14 @@ const User = () => {
     React.useState<UpdateUserPayload>(user);
 
   useEffect(() => {
-    //TODO Eventually get all by
-    dataAccess.program.getAll();
+    dataAccess.program.getAllByRelationship("clientId", userId);
     if (!user) dataAccess.user.get(userId);
     if (!localState) updateLocalState(user);
   }, [user]);
 
-  const associatedPrograms = store
-    .getCurrentList(Collections.Program)
-    .filter((program: Program) => program.clientId === userId);
+  const associatedPrograms = store.getCurrentCollectionItems(
+    Collections.Program
+  );
 
   const updateState = stateManager.updateLocalState({
     localState,

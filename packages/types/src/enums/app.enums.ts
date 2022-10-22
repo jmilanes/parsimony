@@ -6,7 +6,8 @@ export enum Collections {
   Thread = "thread",
   Event = "event",
   Document = "document",
-  File = "file"
+  File = "file",
+  AppControls = "appControls"
 }
 export enum PromptTypes {
   Verbal = "VERBAL",
@@ -44,7 +45,8 @@ export enum ServiceTypes {
   StateManager = "stateManager",
   DataAccess = "dataAccess",
   AuthService = "authService",
-  App = "appService"
+  App = "appService",
+  AppControls = "appControls"
 }
 
 export enum Collections$ {

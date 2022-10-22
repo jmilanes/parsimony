@@ -12,7 +12,7 @@ import { useServices } from "../context";
 const Schools = () => {
   const { stateManager, dataAccess, store } = useServices();
 
-  const data = store.getCurrentList(Collections.School);
+  const data = store.getCurrentCollectionItems(Collections.School);
 
   useEffect(() => {
     dataAccess.school.getAll();

@@ -34,14 +34,14 @@ const Programs = () => {
   const navigate = navigateToRoute();
   let [searchParams] = getSearchParams();
 
-  const data = store.getCurrentList(Collections.Program);
+  const data = store.getCurrentCollectionItems(Collections.Program);
 
   useEffect(() => {
     dataAccess.program.getAll();
   }, []);
 
   const clientDataOptions = store
-    .getCurrentList(Collections.User)
+    .getCurrentCollectionItems(Collections.User)
     .map((client: User) => ({ name: getFullName(client), value: client.id }));
 
   const [showAddForm, setShowAddForm] = React.useState(false);

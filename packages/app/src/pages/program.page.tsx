@@ -50,7 +50,7 @@ const Program = () => {
 
   //TODO: Filter so only clients are this way
   const allClientOptions = store
-    .getCurrentList(Collections.User)
+    .getCurrentCollectionItems(Collections.User)
     .map((user: User) => ({
       name: getFullName(user),
       value: user.id

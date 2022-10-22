@@ -31,7 +31,7 @@ const Results = () => {
   const { programId } = getRouterParams();
   const program = store.getCollectionItem(Collections.Program, programId || "");
 
-  const results = store.getCurrentList(Collections.Result);
+  const results = store.getCurrentCollectionItems(Collections.Result);
 
   useEffect(() => {
     dataAccess.program.get(programId);

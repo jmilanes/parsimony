@@ -6,19 +6,29 @@ import { generateRoutes } from "./utils";
 import routes from "./routes";
 import AppController from "./services/app.service";
 import { createServicesProvider, useServices } from "./context";
+import { Drawer } from "./containers";
+import "antd/dist/antd.css";
 
 const app = document.getElementById("app");
 
-const Routes = () => {
+const AppContent = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, updateState] = React.useState({});
   const { stateManager } = useServices();
 
   React.useEffect(() => {
-    stateManager.registerUpdateState(() => updateState({}));
+    stateManager.registerUpdateState(() => {
+      console.log("UPDATED STATE");
+      updateState({});
+    });
   }, [updateState]);
 
-  return generateRoutes(routes);
+  return (
+    <>
+      {generateRoutes(routes)}
+      <Drawer />
+    </>
+  );
 };
 
 const App = () => {
@@ -27,7 +37,7 @@ const App = () => {
   const ServicesProvider = createServicesProvider(appController.services);
   return (
     <ServicesProvider>
-      <Routes />
+      <AppContent />
     </ServicesProvider>
   );
 };

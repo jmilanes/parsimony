@@ -10,8 +10,8 @@ import {
   File
 } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
-import threadOperationStrings from "../bal/requests/operationStrings/threadOperationStrings";
 import { arrayToObj } from "../utils";
+import { AppControls } from "./appControls.service";
 
 type UserCollection = Record<IId, User>;
 type ProgramCollection = Record<IId, Program>;
@@ -23,11 +23,15 @@ type DocumentCollection = Record<IId, Document>;
 type FileCollection = Record<IId, File>;
 
 export default class Store {
-  public store$: Record<IId, BehaviorSubject<Record<IId, any>>>;
+  public store$: Record<Collections, BehaviorSubject<any>>;
   public isLoading: boolean;
 
+  // These collections will be updated upon requests on a per page basis.
+  // Each page can set up with it need. User page only needs programs for that user so programs will be only the ones for that user
+  // Programs page could do the same with pagination or filtering
+  // This ensures every page has what they need pulling from this source but requesting from data access
   constructor() {
-    // lists
+    // collections
     this.store$ = {
       [Collections.User]: new BehaviorSubject<UserCollection>({}),
       [Collections.Program]: new BehaviorSubject<ProgramCollection>({}),
@@ -36,7 +40,10 @@ export default class Store {
       [Collections.Thread]: new BehaviorSubject<ThreadCollection>({}),
       [Collections.Document]: new BehaviorSubject<DocumentCollection>({}),
       [Collections.Event]: new BehaviorSubject<EventCollection>({}),
-      [Collections.File]: new BehaviorSubject<FileCollection>({})
+      [Collections.File]: new BehaviorSubject<FileCollection>({}),
+      [Collections.AppControls]: new BehaviorSubject<AppControls>(
+        {} as AppControls
+      )
     };
 
     this.isLoading = false;
@@ -62,56 +69,57 @@ export default class Store {
     this.store$[collectionName].subscribe({ next });
   }
 
-  // Used to connect all collections to the the state manager update
+  // Used to connect all collections to the the state manager updated
   subscribeToStore(next: any) {
     Object.values(this.store$).forEach((collection$) => {
       collection$.subscribe({ next });
     });
   }
 
-  addItemToStore<T>(collectionName: Collections, item: T & { id?: IId }) {
+  addItemToCollection<T>(collectionName: Collections, item: T & { id?: IId }) {
     if (!item.id) return;
     const newStore$ = { ...this.store$[collectionName].value, [item.id]: item };
     this.store$[collectionName].next(newStore$);
   }
 
+  addItemsToCollection<T>(collectionName: Collections, items: T[] = []) {
+    const newStore$ = { ...this.store$[collectionName].value, ...items };
+    this.store$[collectionName].next(newStore$);
+  }
+
   deleteItemFromStore(collectionName: Collections, id: IId) {
-    const collection = this.getCollectionValue(collectionName);
+    const collection = { ...this.getCollectionValue(collectionName) };
     delete collection[id];
     this.store$[collectionName].next(collection);
   }
 
-  updateStore<T>(collectionName: Collections, update: T & { id?: IId }) {
-    if (!update.id) return;
-    const updateStore$ = {
+  updateCollectionListItem<T>(
+    collectionName: Collections,
+    updatedItem: T & { id?: IId }
+  ) {
+    if (!updatedItem.id) return;
+    const updatedCollection = {
       ...this.store$[collectionName].value,
-      [update.id]: update
+      [updatedItem.id]: updatedItem
     };
-    this.store$[collectionName].next(updateStore$);
+    this.store$[collectionName].next(updatedCollection);
   }
 
+  // Returns an object
   getCollectionValue = (collectionName: Collections) => {
     return this.store$[collectionName].value;
-  };
-
-  getCollectionValueBy = (
-    collectionName: Collections,
-    key: any,
-    value: unknown
-  ) => {
-    return Object.values(this.store$[collectionName].value).filter(
-      (item) => item[key] === value
-    );
   };
 
   getCollectionItem = (collectionName: Collections, id: IId) => {
     return this.store$[collectionName].value[id];
   };
 
-  getCurrentList = (collectionName: Collections) => {
+  // Returns an array
+  getCurrentCollectionItems = (collectionName: Collections) => {
     return Object.values(this.store$[collectionName].value);
   };
 
+  // Returns an observable
   getCollection$ = (collectionName: Collections) => {
     return this.store$[collectionName];
   };

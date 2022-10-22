@@ -20,6 +20,7 @@ import Store from "./store";
 
 export type ThreadCollection = Record<string, Thread>;
 
+// This service could be abstract SocketStreamingGenerator
 export default class ChatService {
   threads$: BehaviorSubject<ThreadCollection>;
   socket$: ISocket$;

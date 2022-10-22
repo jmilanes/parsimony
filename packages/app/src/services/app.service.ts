@@ -60,6 +60,7 @@ import {
 
 import { AsyncCrudGenerator } from "./crudGenerators/asyncCrud.generator";
 import AuthService from "./auth.service";
+import AppControlsService from "./appControls.service";
 
 export type Services = {
   [ServiceTypes.App]: {
@@ -70,8 +71,10 @@ export type Services = {
   [ServiceTypes.StateManager]: StateService;
   [ServiceTypes.Filter]: FilterService;
   [ServiceTypes.AuthService]: AuthService;
+  [ServiceTypes.AppControls]: AppControlsService;
   [ServiceTypes.DataAccess]: {
     [Collections.School]: any;
+    //TODO: Current User
     [Collections.User]: any;
     [Collections.Program]: any;
     [Collections.Result]: any;
@@ -88,6 +91,7 @@ export default class AppController {
   services: Services;
   constructor() {
     this.services = {
+      //TODO Move to app controls
       [ServiceTypes.App]: {
         isLoading: true
       }
@@ -97,16 +101,14 @@ export default class AppController {
   init = () => {
     this._initWebSocket();
     this._initServices();
+    this.services[ServiceTypes.AppControls].init();
     this._initDataAccess();
     this.loadCollections();
     console.log("All Services Loads", this.services);
   };
 
   loadCollections = async () => {
-    await Promise.all([
-      this.services.dataAccess.user.init,
-      this.services.dataAccess.thread$
-    ]);
+    this.services.dataAccess.thread$.init();
     this._initAuthService(this.services.dataAccess.user);
     this._isLoading(false);
     console.log("All Data Loaded");
@@ -132,6 +134,9 @@ export default class AppController {
   private _initServices = () => {
     this.services[ServiceTypes.Store] = new Store();
     this.services[ServiceTypes.StateManager] = new StateService(
+      this.services.store
+    );
+    this.services[ServiceTypes.AppControls] = new AppControlsService(
       this.services.store
     );
     this.services[ServiceTypes.Filter] = new FilterService(

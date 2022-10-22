@@ -54,7 +54,7 @@ export class AsyncCrudGenerator<
     const item = (await this.requests.create(
       payload
     )) as AwaitedSchemaWithId<Schema>;
-    this.store.addItemToStore(this.collectionName, item);
+    this.store.addItemToCollection(this.collectionName, item);
     return item;
   };
 
@@ -68,7 +68,7 @@ export class AsyncCrudGenerator<
     const item = (await this.requests.update(
       payload
     )) as AwaitedSchemaWithId<Schema>;
-    this.store.updateStore(this.collectionName, item);
+    this.store.updateCollectionListItem(this.collectionName, item);
     return item;
   };
 
@@ -85,7 +85,7 @@ export class AsyncCrudGenerator<
     const item = (await this.requests.get({
       id
     } as GetPayload)) as AwaitedSchemaWithId<Schema>;
-    this.store.addItemToStore(this.collectionName, item);
+    this.store.addItemToCollection(this.collectionName, item);
   };
 
   getAllByRelationship = async (

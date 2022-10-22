@@ -24,7 +24,7 @@ import { useServices } from "../context";
 const Users = () => {
   const { stateManager, dataAccess, store } = useServices();
   const navigate = navigateToRoute();
-  const data = store.getCurrentList(Collections.User);
+  const data = store.getCurrentCollectionItems(Collections.User);
 
   useEffect(() => {
     dataAccess.user.getAll();

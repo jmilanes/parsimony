@@ -7,15 +7,17 @@ import {
   editMessage
 } from "../bal";
 import { ThreadCollection } from "../services/chat.service";
-import { Thread } from "@parsimony/types";
+import { Collections, Thread } from "@parsimony/types";
 import { uuid } from "../utils";
 import { useServices } from "../context";
 
 const Chat = () => {
-  const { dataAccess, authService } = useServices();
+  const { dataAccess, authService, appControls, store } = useServices();
   const [threads, setThreads] = useState<ThreadCollection>(
     {} as ThreadCollection
   );
+
+  const controls = store.getCollectionValue(Collections.AppControls)?.drawer;
 
   useEffect(() => dataAccess.thread$.subscribe(setThreads), []);
 
@@ -44,8 +46,18 @@ const Chat = () => {
     });
   };
 
+  const showDrawer = () => {
+    appControls.updateControls({
+      drawer: {
+        ...controls,
+        active: true
+      }
+    });
+  };
+
   return (
     <div>
+      <button onClick={showDrawer}>SHOW DRAWER</button>
       <button onClick={() => onCreateThread()}>Crete Thread</button>
       {Object.values(threads).map((thread: Thread) => (
         <div key={thread.id}>
