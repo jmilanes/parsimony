@@ -12,13 +12,23 @@ type Subset<K> = {
     : K[attr];
 };
 
-export type AppControls = {
-  drawer: {
-    active: boolean;
-    width: number;
-    placement: "left" | "right";
-  };
+export enum DrawerContentTypes {
+  Chat = "chat",
+  CreateChat = "createChat"
+}
+
+type DrawerControls = {
+  active: boolean;
+  width: number;
+  placement: "left" | "right";
+  content: DrawerContentTypes;
 };
+
+export type AppControls = {
+  drawer: DrawerControls;
+};
+
+type ControlPayloads = Partial<DrawerControls>;
 export default class AppControlsService {
   store: Store;
   defaultControls: AppControls;
@@ -28,7 +38,8 @@ export default class AppControlsService {
       drawer: {
         active: false,
         width: 500,
-        placement: "left"
+        placement: "left",
+        content: DrawerContentTypes.Chat
       }
     };
   }
@@ -39,13 +50,18 @@ export default class AppControlsService {
       .next(this.defaultControls);
   };
 
-  updateControls = (update: Subset<AppControls>) => {
+  updateControls = (control: keyof AppControls, update: ControlPayloads) => {
     const currentControls = clone(
       this.store.getCollectionValue(Collections.AppControls)
     );
 
+    currentControls[control] = {
+      ...(currentControls[control] as Record<string, any>),
+      ...update
+    };
+
     this.store
       .getCollection$(Collections.AppControls)
-      .next({ ...currentControls, ...update });
+      .next({ ...currentControls });
   };
 }

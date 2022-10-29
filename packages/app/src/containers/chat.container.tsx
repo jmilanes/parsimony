@@ -10,22 +10,16 @@ import { ThreadCollection } from "../services/chat.service";
 import { Collections, Thread } from "@parsimony/types";
 import { uuid } from "../utils";
 import { useServices } from "../context";
+import { DrawerContentTypes } from "../services/appControls.service";
+import { Button } from "../components";
 
 const Chat = () => {
-  const { dataAccess, authService, appControls, store } = useServices();
+  const { dataAccess, authService, appControls } = useServices();
   const [threads, setThreads] = useState<ThreadCollection>(
     {} as ThreadCollection
   );
 
-  const controls = store.getCollectionValue(Collections.AppControls)?.drawer;
-
   useEffect(() => dataAccess.thread$.subscribe(setThreads), []);
-
-  const onCreateThread = () =>
-    createThread({
-      name: "New Thread Joey and Molly User ID",
-      subscribers: ["62e9ee2370d1d288df4c8e8b", "630ab6b82e68791506f3ec5e"]
-    });
 
   const onDelete = (id: string) => deleteThread({ id });
 
@@ -46,30 +40,19 @@ const Chat = () => {
     });
   };
 
-  const showDrawer = () => {
-    appControls.updateControls({
-      drawer: {
-        ...controls,
-        active: true
-      }
+  const showCreateChat = () => {
+    appControls.updateControls("drawer", {
+      content: DrawerContentTypes.CreateChat
     });
   };
 
   return (
     <div>
-      <button onClick={showDrawer}>SHOW DRAWER</button>
-      <button onClick={() => onCreateThread()}>Crete Thread</button>
+      <Button name="Create Chat" action={showCreateChat}></Button>
       {Object.values(threads).map((thread: Thread) => (
         <div key={thread.id}>
           <h1>{thread.name}</h1>
           <p>{thread.id}</p>
-          <input
-            type="text"
-            name=""
-            placeholder="Add Message"
-            id=""
-            onBlur={(e) => onAddMessage(e, thread.id)}
-          />
           {thread.messages.map((message) => (
             <div key={uuid()}>
               <p>{message?.value}</p>

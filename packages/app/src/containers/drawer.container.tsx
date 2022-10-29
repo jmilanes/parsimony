@@ -3,6 +3,8 @@ import { Drawer } from "antd";
 
 import { useServices } from "../context";
 import { Collections } from "@parsimony/types/src";
+import { DrawerContentTypes } from "../services/appControls.service";
+import { Chat, CreateChat } from "../containers";
 
 const PDrawer = ({ content }: { content?: React.FC }) => {
   const [extended, updateExtended] = useState(false);
@@ -13,20 +15,14 @@ const PDrawer = ({ content }: { content?: React.FC }) => {
   if (!controls) return null;
 
   const onClose = () => {
-    appControls.updateControls({
-      drawer: {
-        ...controls,
-        active: false
-      }
+    appControls.updateControls("drawer", {
+      active: false
     });
   };
 
   const onExtend = () => {
-    appControls.updateControls({
-      drawer: {
-        ...controls,
-        width: extended ? 500 : 1000
-      }
+    appControls.updateControls("drawer", {
+      width: extended ? 500 : 1000
     });
     updateExtended(!extended);
   };
@@ -39,7 +35,8 @@ const PDrawer = ({ content }: { content?: React.FC }) => {
       open={controls.active}
     >
       <button onClick={onExtend}>{extended ? "collapse" : "extend"}</button>
-      <h1>H1</h1>
+      {controls.content === DrawerContentTypes.Chat && <Chat />}
+      {controls.content === DrawerContentTypes.CreateChat && <CreateChat />}
     </Drawer>
   );
 };

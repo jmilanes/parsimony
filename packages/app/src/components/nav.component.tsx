@@ -4,6 +4,7 @@ import { IRoute } from "@parsimony/types";
 
 import Button from "./button.component";
 import { useServices } from "../context";
+import { OpenChatButton } from "../containers";
 
 export type INavProps = {
   routes: IRoute[];
@@ -19,6 +20,9 @@ const Nav = ({ routes }: INavProps) => {
       {filterRoutesByName(routes).map((route: IRoute) => createLink(route))}
       <a className="nav-item">
         <Button name="Log Out" action={() => authService.logOut()} />
+      </a>
+      <a className="nav-item">
+        <OpenChatButton />
       </a>
     </ul>
   );
