@@ -24,7 +24,7 @@ export type IObserverRuleProps = React.PropsWithChildren<{
   patentActiveState?: boolean;
 }>;
 
-const ObserveRule = ({
+export const ObserveRule = ({
   rule,
   updateResultData,
   patentActiveState
@@ -196,5 +196,3 @@ const ObserveRule = ({
 
   return isGroup ? <GroupRule /> : <SingleRule {...rule} />;
 };
-
-export default ObserveRule;

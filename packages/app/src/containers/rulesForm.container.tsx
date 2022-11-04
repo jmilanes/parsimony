@@ -28,7 +28,7 @@ type RuleFormProps = {
   updateState: (path: string, value: unknown) => void;
 };
 
-const RulesForm = ({
+export const RulesForm = ({
   localState,
   readOnly = false,
   updateState
@@ -201,5 +201,3 @@ const RulesForm = ({
     />
   );
 };
-
-export default RulesForm;

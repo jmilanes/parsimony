@@ -9,7 +9,7 @@ export type IAddFormProps = React.PropsWithChildren<{
   title: string;
 }>;
 
-const AddForm = ({
+export const AddForm = ({
   showForm,
   onCreate,
   children,
@@ -36,5 +36,3 @@ const AddForm = ({
     </Modal>
   );
 };
-
-export default AddForm;

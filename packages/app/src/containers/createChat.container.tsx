@@ -6,7 +6,7 @@ import { createThread } from "../bal";
 import { useServices } from "../context";
 import { DrawerContentTypes } from "../services/appControls.service";
 
-const CreateChat = () => {
+export const CreateChat = () => {
   const { appControls } = useServices();
 
   const onCreateThread = () => {
@@ -27,5 +27,3 @@ const CreateChat = () => {
     </div>
   );
 };
-
-export default CreateChat;

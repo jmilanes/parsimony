@@ -2,7 +2,7 @@ import React from "react";
 import { useServices } from "../context";
 import { Button } from "../components";
 
-const OpenChatButton = () => {
+export const OpenChatButton = () => {
   const { appControls } = useServices();
 
   const showDrawer = () => {
@@ -13,5 +13,3 @@ const OpenChatButton = () => {
 
   return <Button name="Show Chat" action={showDrawer} />;
 };
-
-export default OpenChatButton;

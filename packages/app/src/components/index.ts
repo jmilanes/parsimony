@@ -12,3 +12,4 @@ export { default as Header } from "./header.component";
 export { default as Content } from "./content.component";
 export { default as Col } from "./col.component";
 export { default as Row } from "./row.component";
+export { default as InputWithAction } from "./inputWithAction.component";

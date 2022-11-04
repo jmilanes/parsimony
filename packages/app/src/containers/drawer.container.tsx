@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Drawer } from "antd";
+import { Drawer as ADrawer } from "antd";
 
 import { useServices } from "../context";
 import { Collections } from "@parsimony/types/src";
 import { DrawerContentTypes } from "../services/appControls.service";
 import { Chat, CreateChat } from "../containers";
 
-const PDrawer = ({ content }: { content?: React.FC }) => {
+export const Drawer = ({ content }: { content?: React.FC }) => {
   const [extended, updateExtended] = useState(false);
   const { appControls, store } = useServices();
 
@@ -28,7 +28,7 @@ const PDrawer = ({ content }: { content?: React.FC }) => {
   };
 
   return (
-    <Drawer
+    <ADrawer
       placement={controls.placement || "left"}
       width={controls.width || "500"}
       onClose={onClose}
@@ -37,8 +37,6 @@ const PDrawer = ({ content }: { content?: React.FC }) => {
       <button onClick={onExtend}>{extended ? "collapse" : "extend"}</button>
       {controls.content === DrawerContentTypes.Chat && <Chat />}
       {controls.content === DrawerContentTypes.CreateChat && <CreateChat />}
-    </Drawer>
+    </ADrawer>
   );
 };
-
-export default PDrawer;

@@ -7,17 +7,19 @@ import {
   editMessage
 } from "../bal";
 import { ThreadCollection } from "../services/chat.service";
-import { Collections, Thread } from "@parsimony/types";
-import { uuid } from "../utils";
+import { Message, Thread } from "@parsimony/types";
 import { useServices } from "../context";
 import { DrawerContentTypes } from "../services/appControls.service";
-import { Button } from "../components";
+import { Button, InputWithAction } from "../components";
+import { ChatMessage } from "../containers";
 
-const Chat = () => {
+export const Chat = () => {
   const { dataAccess, authService, appControls } = useServices();
   const [threads, setThreads] = useState<ThreadCollection>(
     {} as ThreadCollection
   );
+
+  const [currentThread, setCurrentThread] = useState<string>();
 
   useEffect(() => dataAccess.thread$.subscribe(setThreads), []);
 
@@ -29,12 +31,12 @@ const Chat = () => {
   const onEditMessage = (e: any, threadId: string, messageId: string) =>
     editMessage({ value: e.target.value, threadId, messageId });
 
-  const onAddMessage = (e: any, threadId: string) => {
+  const onAddMessage = (threadId: string) => (value: string) => {
     addMessage({
       message: {
         userId: authService.currentUser?.id,
         dataType: "string",
-        value: e.target.value
+        value
       },
       threadId
     });
@@ -46,35 +48,50 @@ const Chat = () => {
     });
   };
 
+  const ThreadList = ({ threads }: { threads: Thread[] }) => {
+    return (
+      <ul>
+        {threads.map((thread: Thread) => (
+          <li key={thread.id} onClick={() => setCurrentThread(thread.id)}>
+            <h4>{thread.name}</h4>
+            <button onClick={() => onDelete(thread.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const SelectedThread = ({ thread }: { thread?: Thread }) => {
+    if (!thread) return <h1>No Thread Selected</h1>;
+    const sendMessage = onAddMessage(thread?.id);
+    return (
+      <div>
+        <h2>{thread.name}</h2>
+        <button onClick={() => onDelete(thread.id)}>Delete</button>
+        {thread.messages.map((message) => (
+          <ChatMessage
+            key={message?.id}
+            threadId={thread.id}
+            message={message as Message}
+          />
+        ))}
+        <InputWithAction
+          action={sendMessage}
+          //TODO Subscribers should have more than just ID saved
+          placeholder={`Message ${thread.name}`}
+          buttonText="Send"
+        ></InputWithAction>
+      </div>
+    );
+  };
+
   return (
     <div>
       <Button name="Create Chat" action={showCreateChat}></Button>
-      {Object.values(threads).map((thread: Thread) => (
-        <div key={thread.id}>
-          <h1>{thread.name}</h1>
-          <p>{thread.id}</p>
-          {thread.messages.map((message) => (
-            <div key={uuid()}>
-              <p>{message?.value}</p>
-              <input
-                type="text"
-                name=""
-                placeholder="Edit Message"
-                id=""
-                onBlur={(e) => onEditMessage(e, thread.id, message?.id || "")}
-              />
-              <button
-                onClick={() => onDeleteMessage(thread.id, message?.id || "")}
-              >
-                Delete
-              </button>
-            </div>
-          ))}
-          <button onClick={() => onDelete(thread.id)}>Delete</button>
-        </div>
-      ))}
+      <ThreadList threads={Object.values(threads)} />
+      <SelectedThread
+        thread={currentThread ? threads[currentThread] : undefined}
+      />
     </div>
   );
 };
-
-export default Chat;
