@@ -2,7 +2,7 @@ import React from "react";
 import { createLink, filterByProp } from "../utils";
 import { IRoute } from "@parsimony/types";
 
-import Button from "./button.component";
+import { Button } from "../components";
 import { useServices } from "../context";
 import { OpenChatButton } from "../containers";
 
@@ -13,7 +13,7 @@ export type INavProps = {
 const filterRoutesByName = (routes: IRoute[]) =>
   filterByProp<IRoute>(routes, "name");
 
-const Nav = ({ routes }: INavProps) => {
+export const Nav = ({ routes }: INavProps) => {
   const { authService } = useServices();
   return (
     <ul className="nav">
@@ -27,5 +27,3 @@ const Nav = ({ routes }: INavProps) => {
     </ul>
   );
 };
-
-export default Nav;

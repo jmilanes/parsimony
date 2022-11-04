@@ -1,7 +1,7 @@
 import { Input } from "antd";
 import React from "react";
 
-import { Container, Header } from ".";
+import { Container, Header } from "../components";
 import { Maybe } from "@parsimony/types";
 
 export type IFieldProps = {
@@ -13,7 +13,7 @@ export type IFieldProps = {
   updateState: (path: string, value: string) => void;
 };
 
-const Field = ({
+export const Field = ({
   readOnly,
   value,
   updateState,
@@ -38,5 +38,3 @@ const Field = ({
     </Container>
   );
 };
-
-export default Field;

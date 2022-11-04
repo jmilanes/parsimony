@@ -8,9 +8,7 @@ export type IColPros = PropsWithChildren<
   } & ColProps
 >;
 
-const Col = ({ children, hidden, ...colProps }: IColPros) => {
+export const Col = ({ children, hidden, ...colProps }: IColPros) => {
   if (hidden) return <></>;
   return <AntCol {...colProps}>{children}</AntCol>;
 };
-
-export default Col;

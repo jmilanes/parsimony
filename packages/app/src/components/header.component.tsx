@@ -10,7 +10,7 @@ export type IHeaderProps = {
   extra?: any[];
 };
 
-const Header = ({ text, action, hidden, size, extra }: IHeaderProps) => {
+export const Header = ({ text, action, hidden, size, extra }: IHeaderProps) => {
   if (hidden) return <></>;
   const headers: Record<IHeaderSizes, JSX.Element> = {
     sm: <h5 onClick={action}>{text}</h5>,
@@ -27,5 +27,3 @@ const Header = ({ text, action, hidden, size, extra }: IHeaderProps) => {
 
   return headers[size];
 };
-
-export default Header;

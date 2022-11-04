@@ -1,6 +1,6 @@
 import { Select } from "antd";
 import React from "react";
-import { Container, Header } from ".";
+import { Container, Header } from "../components";
 import { createCommaSeparatedSting, formatFormHeader } from "../utils";
 
 const { Option } = Select;
@@ -20,7 +20,7 @@ export type IMultiSelectProps = {
   updateState: (path: string, value: unknown) => void;
 };
 
-const MultiSelect = ({
+export const MultiSelect = ({
   readOnly,
   options,
   updateState,
@@ -71,5 +71,3 @@ const MultiSelect = ({
 
   return readOnly ? <ReadOnlyOptions /> : <Options />;
 };
-
-export default MultiSelect;

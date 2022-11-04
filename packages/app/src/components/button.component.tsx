@@ -9,7 +9,7 @@ export type IButtonProps = {
   type?: "primary";
 };
 
-const Button = ({ name, action, hidden, type }: IButtonProps) => {
+export const Button = ({ name, action, hidden, type }: IButtonProps) => {
   if (hidden) return <></>;
   return (
     <AntDButton type={type} onClick={action}>
@@ -17,5 +17,3 @@ const Button = ({ name, action, hidden, type }: IButtonProps) => {
     </AntDButton>
   );
 };
-
-export default Button;

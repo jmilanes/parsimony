@@ -10,7 +10,7 @@ export type IInputWithActionProps = {
   action: (value: string) => void;
 };
 
-const InputWithAction = ({
+export const InputWithAction = ({
   buttonText,
   action,
   placeholder,
@@ -25,5 +25,3 @@ const InputWithAction = ({
     />
   );
 };
-
-export default InputWithAction;

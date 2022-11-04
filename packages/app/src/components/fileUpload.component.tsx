@@ -1,16 +1,16 @@
 import { message, Upload } from "antd";
 import React from "react";
 
-import { Button } from ".";
+import { Button } from "../components";
 
-const FileUpload = () => {
+export const FileUpload = () => {
   const props = {
     name: "file",
     action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
     headers: {
       authorization: "authorization-text"
     },
-    onChange(info) {
+    onChange(info: any) {
       if (info.file.status !== "uploading") {
         console.log(info.file, info.fileList);
       }
@@ -28,5 +28,3 @@ const FileUpload = () => {
     </Upload>
   );
 };
-
-export default FileUpload;

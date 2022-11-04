@@ -1,6 +1,6 @@
 import { Switch } from "antd";
 import React from "react";
-import { Container, Header } from ".";
+import { Container, Header } from "../components";
 
 export type ICheckBoxProps = {
   key?: string;
@@ -11,7 +11,7 @@ export type ICheckBoxProps = {
   updateState: (path: string, value: boolean) => void;
 };
 
-const Checkbox = ({
+export const Checkbox = ({
   readOnly,
   value,
   updateState,
@@ -30,5 +30,3 @@ const Checkbox = ({
     </Container>
   );
 };
-
-export default Checkbox;

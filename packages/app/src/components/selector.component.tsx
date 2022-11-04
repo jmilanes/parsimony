@@ -19,7 +19,7 @@ export type ISelectorProps = {
   key?: string;
 };
 
-const Selector = ({
+export const Selector = ({
   options,
   pathToState,
   updateState,
@@ -66,5 +66,3 @@ const Selector = ({
     </Container>
   );
 };
-
-export default Selector;

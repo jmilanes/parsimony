@@ -8,9 +8,7 @@ export type IRowProps = PropsWithChildren<
   } & RowProps
 >;
 
-const Row = ({ children, hidden, ...rowProps }: IRowProps) => {
+export const Row = ({ children, hidden, ...rowProps }: IRowProps) => {
   if (hidden) return <></>;
   return <AntRow {...rowProps}>{children}</AntRow>;
 };
-
-export default Row;

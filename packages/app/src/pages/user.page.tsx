@@ -147,7 +147,6 @@ const User = () => {
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />
-
       <Row justify="space-between" align="middle">
         <Header text="Programs:" size="md" />
         <Button
@@ -162,16 +161,16 @@ const User = () => {
           }}
         />
       </Row>
-
       <Table<Program>
-        data={associatedPrograms}
+        //TODO: getCurrentCollectionItems should return the proper type
+        data={associatedPrograms as Program[]}
         columns={columns}
         actions={actions}
       ></Table>
-
       <Header text="Client Files" size="sm" />
       <p>Upload your client files here:</p>
-      <FileUpload></FileUpload>
+      //TODO FIX FILE UPLOAD
+      {/* <FileUpload></FileUpload> */}
     </Container>
   );
 };

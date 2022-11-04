@@ -13,7 +13,11 @@ export type IContainerProps = PropsWithChildren<{
   containerKey?: string;
 }>;
 
-const Container = ({ children, hidden, flexDirection }: IContainerProps) => {
+export const Container = ({
+  children,
+  hidden,
+  flexDirection
+}: IContainerProps) => {
   const containerStyles = compileStyles({
     container: true,
     hidden: !!hidden,
@@ -24,5 +28,3 @@ const Container = ({ children, hidden, flexDirection }: IContainerProps) => {
   });
   return <div className={containerStyles}>{children}</div>;
 };
-
-export default Container;

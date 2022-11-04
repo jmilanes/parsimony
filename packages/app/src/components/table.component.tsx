@@ -2,7 +2,7 @@ import React from "react";
 
 import { flattenObject, generateKey } from "../utils";
 import { Table as AntTable, Button, Space } from "antd";
-import { Content } from ".";
+import { Content } from "../components";
 import { useServices } from "../context";
 
 export type ITableAction = {
@@ -27,7 +27,7 @@ export type ITableProps<Data> = {
   actions?: ITableAction[];
 };
 
-const Table = <Data extends { id: string }>({
+export const Table = <Data extends { id: string }>({
   data,
   actions,
   columns
@@ -85,5 +85,3 @@ const Table = <Data extends { id: string }>({
     </Content>
   );
 };
-
-export default Table;

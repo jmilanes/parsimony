@@ -9,7 +9,7 @@ export type IContentProps = {
   children: any;
 };
 
-const Content = ({ children, hidden }: IContentProps) => {
+export const Content = ({ children, hidden }: IContentProps) => {
   if (hidden) return <></>;
   return (
     <AntContent
@@ -24,5 +24,3 @@ const Content = ({ children, hidden }: IContentProps) => {
     </AntContent>
   );
 };
-
-export default Content;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Button, Row, Col } from ".";
+import { Header, Button, Row, Col } from "../components";
 import { clone } from "../utils";
 
 // These any's might be able to be generics
@@ -13,7 +13,7 @@ export type IRepeaterProps = {
   readOnly: boolean;
 };
 
-const Repeater = ({
+export const Repeater = ({
   items,
   title,
   generateRow,
@@ -38,5 +38,3 @@ const Repeater = ({
     </Row>
   );
 };
-
-export default Repeater;
