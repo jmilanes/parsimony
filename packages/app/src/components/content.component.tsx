@@ -1,8 +1,6 @@
 import React from "react";
 import "./styles.css";
-import { Layout } from "antd";
-
-const { Content: AntContent } = Layout;
+import MAterialContainer from "@mui/material/Container";
 
 export type IContentProps = {
   hidden?: boolean;
@@ -12,15 +10,8 @@ export type IContentProps = {
 export const Content = ({ children, hidden }: IContentProps) => {
   if (hidden) return <></>;
   return (
-    <AntContent
-      className="site-layout-background"
-      style={{
-        margin: "24px 16px",
-        padding: 24,
-        minHeight: 280
-      }}
-    >
+    <MAterialContainer className="site-layout-background">
       {children}
-    </AntContent>
+    </MAterialContainer>
   );
 };

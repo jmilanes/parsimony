@@ -1,6 +1,6 @@
-import { Switch } from "antd";
 import React from "react";
 import { Container, Header } from "../components";
+import MaterialSwitch from "@mui/material/Switch";
 
 export type ICheckBoxProps = {
   key?: string;
@@ -22,7 +22,7 @@ export const Checkbox = ({
   return (
     <Container flexDirection="row" key={key}>
       <Header text={`${title}: `} size="sm" />
-      <Switch
+      <MaterialSwitch
         disabled={readOnly}
         checked={value}
         onChange={() => updateState(pathToState, !value)}

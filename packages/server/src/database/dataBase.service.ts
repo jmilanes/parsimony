@@ -34,7 +34,7 @@ export class DataBaseService {
   }
 
   async deleteEntry(model: modelTypes, id: string) {
-    await this.dataBase.models[model].remove({ _id: id });
+    await this.dataBase.models[model].deleteOne({ _id: id });
   }
 
   async findAndUpdateEntry(

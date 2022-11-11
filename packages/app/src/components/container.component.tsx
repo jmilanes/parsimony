@@ -11,12 +11,14 @@ export type IContainerProps = PropsWithChildren<{
   hidden?: boolean;
   flexDirection?: IFlexDirection;
   containerKey?: string;
+  margin?: number;
 }>;
 
 export const Container = ({
   children,
   hidden,
-  flexDirection
+  flexDirection,
+  margin
 }: IContainerProps) => {
   const containerStyles = compileStyles({
     container: true,
@@ -26,5 +28,9 @@ export const Container = ({
     rowReversed: flexDirection === "row-reverse",
     columnReversed: flexDirection === "columns-reverse"
   });
-  return <div className={containerStyles}>{children}</div>;
+  return (
+    <div style={{ margin }} className={containerStyles}>
+      {children}
+    </div>
+  );
 };

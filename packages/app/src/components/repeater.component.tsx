@@ -28,8 +28,8 @@ export const Repeater = ({
     <>{items.map((_: any, index) => generateRow(index))}</>
   ) : (
     <Row>
-      <Col span={24}>
-        <Row align="middle" justify="space-between">
+      <Col xs={12}>
+        <Row>
           <Header text={title} size="md" />
           <Button name="Add" action={addRow} />
         </Row>

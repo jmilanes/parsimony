@@ -50,9 +50,9 @@ export const RulesForm = ({
     if (!rule.options) return null;
     const option = rule.options[index] as RuleOption;
     return (
-      <Col span={24} key={generateKey("option", index)}>
+      <Col xs={12} key={generateKey("option", index)}>
         <Row gutter={8}>
-          <Col span={12}>
+          <Col xs={12}>
             <Field
               placeHolderText="Prompt Name"
               pathToState={`rules[${ruleIndex}].options[${index}].name`}
@@ -61,7 +61,7 @@ export const RulesForm = ({
               readOnly={readOnly}
             />
           </Col>
-          <Col span={12}>
+          <Col xs={6}>
             <Button
               name="Delete Prompt"
               action={() =>
@@ -101,7 +101,7 @@ export const RulesForm = ({
           name="Delete Rule"
           action={() => deleteItem(localState.rules || [], index, "rules")}
         />
-        <Col span={24}>
+        <Col xs={12}>
           <Field
             placeHolderText="Question"
             pathToState={`rules[${index}].question`}
@@ -110,7 +110,7 @@ export const RulesForm = ({
             readOnly={readOnly}
           />
         </Col>
-        <Col span={24}>
+        <Col xs={12}>
           <Field
             placeHolderText="Description"
             pathToState={`rules[${index}].description`}
@@ -120,7 +120,7 @@ export const RulesForm = ({
           />
         </Col>
 
-        <Col span={24}>
+        <Col xs={12}>
           <Selector
             title="Steps"
             pathToState={`rules[${index}].steps`}
@@ -131,7 +131,7 @@ export const RulesForm = ({
             isNumber={true}
           />
         </Col>
-        <Col span={24}>
+        <Col xs={12}>
           <Checkbox
             title="Required"
             pathToState={`rules[${index}].required`}
@@ -140,7 +140,7 @@ export const RulesForm = ({
             readOnly={readOnly}
           />
         </Col>
-        <Col span={24}>
+        <Col xs={12}>
           <Selector
             title="Input Type"
             pathToState={`rules[${index}].inputType`}
@@ -150,7 +150,7 @@ export const RulesForm = ({
             readOnly={readOnly}
           />
         </Col>
-        <Col span={24}>
+        <Col xs={12}>
           <Selector
             title="Value Type"
             pathToState={`rules[${index}].valueType`}
@@ -161,7 +161,7 @@ export const RulesForm = ({
           />
         </Col>
 
-        <Col span={24} hidden={readOnly}>
+        <Col xs={12} hidden={readOnly}>
           <Header text="Pre-filled Prompts:" size="sm" />
           {Object.entries(promptsByType).map(([key, value]) => {
             return (
@@ -174,7 +174,7 @@ export const RulesForm = ({
           })}
         </Col>
 
-        <Col span={24}>
+        <Col xs={12}>
           <Repeater
             title="Prompts"
             items={rule.options || []}

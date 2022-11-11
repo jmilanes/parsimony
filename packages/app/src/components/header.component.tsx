@@ -1,5 +1,6 @@
 import { PageHeader } from "antd";
 import React from "react";
+import Typography from "@mui/material/Typography";
 
 export type IHeaderSizes = "sm" | "md" | "lg" | "page";
 export type IHeaderProps = {
@@ -13,9 +14,21 @@ export type IHeaderProps = {
 export const Header = ({ text, action, hidden, size, extra }: IHeaderProps) => {
   if (hidden) return <></>;
   const headers: Record<IHeaderSizes, JSX.Element> = {
-    sm: <h5 onClick={action}>{text}</h5>,
-    md: <h3 onClick={action}>{text}</h3>,
-    lg: <h1 onClick={action}>{text}</h1>,
+    sm: (
+      <Typography variant="h6" onClick={action}>
+        {text}
+      </Typography>
+    ),
+    md: (
+      <Typography variant="h5" onClick={action}>
+        {text}
+      </Typography>
+    ),
+    lg: (
+      <Typography variant="h3" onClick={action}>
+        {text}
+      </Typography>
+    ),
     page: (
       <PageHeader
         title={text}

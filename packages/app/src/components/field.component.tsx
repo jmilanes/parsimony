@@ -1,8 +1,8 @@
-import { Input } from "antd";
 import React from "react";
 
 import { Container, Header } from "../components";
 import { Maybe } from "@parsimony/types";
+import TextField from "@mui/material/TextField";
 
 export type IFieldProps = {
   key?: string;
@@ -27,14 +27,14 @@ export const Field = ({
       <p>{value}</p>
     </Container>
   ) : (
-    <Container flexDirection="column" key={key}>
-      <Header text={`${placeHolderText}:`} size="sm" />
-      <Input
+    <Container flexDirection="column" key={key} margin={25}>
+      <TextField
         key={key}
+        label={placeHolderText}
         placeholder={placeHolderText}
         value={value || ""}
         onChange={(e) => updateState(pathToState, e.currentTarget.value)}
-      ></Input>
+      ></TextField>
     </Container>
   );
 };

@@ -1,9 +1,8 @@
-import { Select } from "antd";
 import React from "react";
 import { Container, Header } from "../components";
 import { createCommaSeparatedSting, formatFormHeader } from "../utils";
-
-const { Option } = Select;
+import MenuItem from "@mui/material/MenuItem";
+import MaterialSelect from "@mui/material/Select";
 
 export type IOptionMultiSelect = {
   name: string;
@@ -50,24 +49,22 @@ export const MultiSelect = ({
     return (
       <Container flexDirection="row">
         <FormHeder />
-        <Select
-          mode="multiple"
-          allowClear
-          style={{ width: "100%" }}
-          placeholder="Please select"
-          defaultValue={values as string[]}
-          onChange={(value) => updateSelectionsAndState(value)}
+        <MaterialSelect
+          multiple
+          value={values}
+          onChange={(e) => {
+            updateSelectionsAndState(e.target.value as string[]);
+          }}
         >
-          {options.map(({ value, name }) => (
-            <Option value={name} key={name}>
-              {name}
-            </Option>
+          {options.map((opt) => (
+            <MenuItem key={opt.name} value={opt.value}>
+              {opt.name}
+            </MenuItem>
           ))}
-        </Select>
+        </MaterialSelect>
       </Container>
     );
   };
-  Select;
 
   return readOnly ? <ReadOnlyOptions /> : <Options />;
 };

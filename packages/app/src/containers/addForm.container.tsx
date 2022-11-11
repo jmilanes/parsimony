@@ -23,12 +23,7 @@ export const AddForm = ({
       width={800}
       footer={[
         <Button key="modal-cancel" name="Cancel" action={onCancel} />,
-        <Button
-          key="modal-create"
-          type="primary"
-          name="Create"
-          action={onCreate}
-        />
+        <Button key="modal-create" name="Create" action={onCreate} />
       ]}
       onCancel={onCancel}
     >

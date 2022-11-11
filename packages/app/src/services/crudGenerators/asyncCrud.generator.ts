@@ -5,6 +5,7 @@ import {
   IId
 } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
+import { arrayToObj } from "../../utils";
 import Store from "../store";
 
 type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
@@ -75,7 +76,7 @@ export class AsyncCrudGenerator<
   getAll = async () => {
     try {
       const items = await this.requests.getAll();
-      this.store.getCollection$(this.collectionName).next(items);
+      this.store.getCollection$(this.collectionName).next(arrayToObj(items));
     } catch (error) {
       console.error(error);
     }

@@ -1,11 +1,10 @@
-import { Select } from "antd";
 import React from "react";
 import { Header, Container } from ".";
-import { formatFormHeader, generateKey } from "../utils";
+import { formatFormHeader } from "../utils";
 import { Row, Col } from ".";
 import { Maybe } from "@parsimony/types";
-
-const { Option } = Select;
+import MenuItem from "@mui/material/MenuItem";
+import MaterialSelect from "@mui/material/Select";
 
 export type IOption = { name: string; value: string | number };
 export type ISelectorProps = {
@@ -38,25 +37,25 @@ export const Selector = ({
 
   const Options = () => (
     <Row>
-      <Col span={24}>
+      <Col xs={12}>
         <Header text={formatFormHeader(title)} size="sm" />
       </Col>
 
-      <Select
+      <MaterialSelect
         value={value || "Please select an option"}
-        onChange={(val) =>
+        onChange={({ target: { value } }) =>
           updateState(
             pathToState,
-            isNumber && typeof val === "string" ? parseInt(val) : val
+            isNumber && typeof value === "string" ? parseInt(value) : value
           )
         }
       >
-        {options.map((option, i) => (
-          <Option key={generateKey("select-option", i)} value={option.value}>
-            {option.name}
-          </Option>
+        {options.map((opt) => (
+          <MenuItem key={opt.name} value={opt.value}>
+            {opt.name}
+          </MenuItem>
         ))}
-      </Select>
+      </MaterialSelect>
     </Row>
   );
 

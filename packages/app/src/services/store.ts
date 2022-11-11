@@ -115,7 +115,7 @@ export default class Store {
   };
 
   // Returns an array
-  getCurrentCollectionItems = (collectionName: Collections) => {
+  getCurrentCollectionItems = <T>(collectionName: Collections): T[] => {
     return Object.values(this.store$[collectionName].value);
   };
 

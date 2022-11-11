@@ -147,7 +147,7 @@ const User = () => {
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />
-      <Row justify="space-between" align="middle">
+      <Row>
         <Header text="Programs:" size="md" />
         <Button
           name="Add Programs"

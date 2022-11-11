@@ -41,7 +41,7 @@ const Programs = () => {
   }, []);
 
   const clientDataOptions = store
-    .getCurrentCollectionItems(Collections.User)
+    .getCurrentCollectionItems<User>(Collections.User)
     .map((client: User) => ({ name: getFullName(client), value: client.id }));
 
   const [showAddForm, setShowAddForm] = React.useState(false);

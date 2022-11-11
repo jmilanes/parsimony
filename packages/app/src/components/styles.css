@@ -54,3 +54,11 @@ input[type="checkbox"] {
 .nav-item {
   margin: 5px;
 }
+
+.input-container {
+  margin: 5px;
+}
+
+button {
+  margin: 5px;
+}

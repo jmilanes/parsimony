@@ -1,8 +1,8 @@
 import React from "react";
 
 import { flattenObject, generateKey } from "../utils";
-import { Table as AntTable, Button, Space } from "antd";
-import { Content } from "../components";
+import { Table as AntTable } from "antd";
+import { Content, Button } from "../components";
 import { useServices } from "../context";
 
 export type ITableAction = {
@@ -44,18 +44,16 @@ export const Table = <Data extends { id: string }>({
         render: (_: any, record: { source: Data }) => {
           return (
             <>
-              <Space />
               {actions.map((action) => {
                 return (
                   <Button
+                    name={action.name}
                     key={generateKey(
                       `table-action-${action.name}`,
                       record.source.id
                     )}
-                    onClick={() => action.method(record.source)}
-                  >
-                    {action.name}
-                  </Button>
+                    action={() => action.method(record.source)}
+                  />
                 );
               })}
             </>

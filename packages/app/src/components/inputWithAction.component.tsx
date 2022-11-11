@@ -1,13 +1,12 @@
-import { Input } from "antd";
-import React from "react";
-
-const { Search } = Input;
+import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import { Button } from "../components";
 
 export type IInputWithActionProps = {
   defaultValue?: string;
   placeholder: string;
   buttonText: string;
-  action: (value: string) => void;
+  action: (value: unknown) => void;
 };
 
 export const InputWithAction = ({
@@ -16,12 +15,15 @@ export const InputWithAction = ({
   placeholder,
   defaultValue
 }: IInputWithActionProps) => {
+  const [val, setVal] = useState(defaultValue || "");
   return (
-    <Search
-      defaultValue={defaultValue}
-      placeholder={placeholder}
-      onSearch={action}
-      enterButton={buttonText}
-    />
+    <div>
+      <TextField
+        defaultValue={defaultValue}
+        placeholder={placeholder}
+        onChange={(e) => setVal(e.target.value)}
+      />
+      <Button name={buttonText} action={() => action(val)} />
+    </div>
   );
 };

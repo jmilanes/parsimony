@@ -24,7 +24,6 @@ import {
 import { ProgramTypes, Routes } from "@parsimony/types";
 
 import { useServices } from "../context";
-import { update } from "ramda";
 
 const Program = () => {
   const { stateManager, dataAccess, store } = useServices();
@@ -50,7 +49,7 @@ const Program = () => {
 
   //TODO: Filter so only clients are this way
   const allClientOptions = store
-    .getCurrentCollectionItems(Collections.User)
+    .getCurrentCollectionItems<User>(Collections.User)
     .map((user: User) => ({
       name: getFullName(user),
       value: user.id
@@ -88,7 +87,6 @@ const Program = () => {
           <Button
             key="submit"
             name="Submit"
-            type="primary"
             action={submitForm}
             hidden={isReadOnlyMode(mode)}
           />
