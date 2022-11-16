@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Header } from "../components";
 import MaterialSwitch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 export type ICheckBoxProps = {
   key?: string;
@@ -21,12 +22,16 @@ export const Checkbox = ({
 }: ICheckBoxProps) => {
   return (
     <Container flexDirection="row" key={key}>
-      <Header text={`${title}: `} size="sm" />
-      <MaterialSwitch
+      <FormControlLabel
         disabled={readOnly}
-        checked={value}
-        onChange={() => updateState(pathToState, !value)}
-      />
+        control={
+          <MaterialSwitch
+            checked={value}
+            onChange={() => updateState(pathToState, !value)}
+          />
+        }
+        label={title}
+      ></FormControlLabel>
     </Container>
   );
 };

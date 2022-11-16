@@ -27,8 +27,9 @@ export const Field = ({
       <p>{value}</p>
     </Container>
   ) : (
-    <Container flexDirection="column" key={key} margin={25}>
+    <Container flexDirection="column" key={key} margin={10}>
       <TextField
+        size="small"
         key={key}
         label={placeHolderText}
         placeholder={placeHolderText}

@@ -1,6 +1,6 @@
 import React from "react";
 import { useServices } from "../context";
-import { Button } from "../components";
+import { Button, Icon } from "../components";
 
 export const OpenChatButton = () => {
   const { appControls } = useServices();
@@ -11,5 +11,5 @@ export const OpenChatButton = () => {
     });
   };
 
-  return <Button name="Show Chat" action={showDrawer} />;
+  return <Button name="Show Chat" action={showDrawer} icon={<Icon.Chat />} />;
 };

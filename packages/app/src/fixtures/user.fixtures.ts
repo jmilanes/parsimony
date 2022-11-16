@@ -12,6 +12,6 @@ export const initialUserData: Partial<User> = {
   schoolId: "School_01",
   roles: [UserRoles.Director],
   type: UserRoles.Director,
-  email: "joey@gmail.com",
-  password: "123456789"
+  email: "",
+  password: ""
 };

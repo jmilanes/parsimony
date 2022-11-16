@@ -5,6 +5,7 @@ import { useServices } from "../context";
 import { Collections } from "@parsimony/types/src";
 import { DrawerContentTypes } from "../services/appControls.service";
 import { Chat, CreateChat } from "../containers";
+import { Button, Icon } from "../components";
 
 export const Drawer = ({ content }: { content?: React.FC }) => {
   const [extended, updateExtended] = useState(false);
@@ -33,8 +34,14 @@ export const Drawer = ({ content }: { content?: React.FC }) => {
       width={controls.width || "500"}
       onClose={onClose}
       open={controls.active}
+      extra={
+        <Button
+          action={onExtend}
+          name={extended ? "collapse" : "extend"}
+          icon={extended ? <Icon.Collapse /> : <Icon.Expand />}
+        />
+      }
     >
-      <button onClick={onExtend}>{extended ? "collapse" : "extend"}</button>
       {controls.content === DrawerContentTypes.Chat && <Chat />}
       {controls.content === DrawerContentTypes.CreateChat && <CreateChat />}
     </ADrawer>

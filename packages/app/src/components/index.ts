@@ -13,3 +13,6 @@ export * from "./content.component";
 export * from "./col.component";
 export * from "./row.component";
 export * from "./inputWithAction.component";
+export * from "./autocomplete.component";
+export * from "./list.component";
+export * from "./icons.component";

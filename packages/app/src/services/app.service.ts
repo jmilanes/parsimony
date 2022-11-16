@@ -109,7 +109,7 @@ export default class AppController {
 
   loadCollections = async () => {
     this.services.dataAccess.thread$.init();
-    this._initAuthService(this.services.dataAccess.user);
+    this._initAuthService();
     this._isLoading(false);
     console.log("All Data Loaded");
   };
@@ -152,14 +152,10 @@ export default class AppController {
     );
   };
 
-  private _initAuthService = (userDataAccess: any) => {
-    const currentUserId = userDataAccess.get(
-      localStorage.getItem("currentUserId") || ""
-    );
-    this.services[ServiceTypes.AuthService] = new AuthService(
-      userDataAccess.subscribe,
-      currentUserId
-    );
+  private _initAuthService = async () => {
+    const authService = new AuthService();
+    authService.init();
+    this.services[ServiceTypes.AuthService] = authService;
   };
 }
 

@@ -10,7 +10,7 @@ import { ThreadCollection } from "../services/chat.service";
 import { Message, Thread } from "@parsimony/types";
 import { useServices } from "../context";
 import { DrawerContentTypes } from "../services/appControls.service";
-import { Button, InputWithAction } from "../components";
+import { Button, InputWithAction, List, Icon, Row, Col } from "../components";
 import { ChatMessage } from "../containers";
 
 export const Chat = () => {
@@ -48,18 +48,18 @@ export const Chat = () => {
     });
   };
 
-  const ThreadList = ({ threads }: { threads: Thread[] }) => {
-    return (
-      <ul>
-        {threads.map((thread: Thread) => (
-          <li key={thread.id} onClick={() => setCurrentThread(thread.id)}>
-            <h4>{thread.name}</h4>
-            <button onClick={() => onDelete(thread.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    );
+  const ChatList = ({ threads }: { threads: Thread[] }) => {
+    const threadListItems = threads.map((thread) => {
+      return {
+        value: thread.name,
+        action: () => setCurrentThread(thread.id)
+      };
+    });
+
+    return <List listItems={threadListItems} />;
   };
+
+  // TODO: dot selection menu thread (delete), Message (edit, delete), message sides/color/avatar, fix typing bar on bottom, and get the  effect correct, limit how many chat per set of subscribers if someone tries put them in the current char
 
   const SelectedThread = ({ thread }: { thread?: Thread }) => {
     if (!thread) return <h1>No Thread Selected</h1>;
@@ -67,7 +67,11 @@ export const Chat = () => {
     return (
       <div>
         <h2>{thread.name}</h2>
-        <button onClick={() => onDelete(thread.id)}>Delete</button>
+        <Button
+          name="Delete Thread"
+          action={() => onDelete(thread.id)}
+          icon={<Icon.Delete />}
+        />
         {thread.messages.map((message) => (
           <ChatMessage
             key={message?.id}
@@ -85,13 +89,23 @@ export const Chat = () => {
     );
   };
 
+  console.log(
+    "🚀 ~ file: chat.container.tsx ~ line 100 ~ Chat ~ currentThread",
+    currentThread
+  );
   return (
     <div>
       <Button name="Create Chat" action={showCreateChat}></Button>
-      <ThreadList threads={Object.values(threads)} />
-      <SelectedThread
-        thread={currentThread ? threads[currentThread] : undefined}
-      />
+      <Row>
+        <Col xs={4}>
+          <ChatList threads={Object.values(threads)} />
+        </Col>
+        <Col xs={8}>
+          <SelectedThread
+            thread={currentThread ? threads[currentThread] : undefined}
+          />
+        </Col>
+      </Row>
     </div>
   );
 };

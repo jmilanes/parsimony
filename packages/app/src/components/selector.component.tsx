@@ -1,7 +1,8 @@
 import React from "react";
-import { Header, Container } from ".";
+import { Header, Container } from "../components";
 import { formatFormHeader } from "../utils";
-import { Row, Col } from ".";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 import { Maybe } from "@parsimony/types";
 import MenuItem from "@mui/material/MenuItem";
 import MaterialSelect from "@mui/material/Select";
@@ -36,12 +37,10 @@ export const Selector = ({
   );
 
   const Options = () => (
-    <Row>
-      <Col xs={12}>
-        <Header text={formatFormHeader(title)} size="sm" />
-      </Col>
-
+    <FormControl fullWidth>
+      <InputLabel>{title}</InputLabel>
       <MaterialSelect
+        label={title}
         value={value || "Please select an option"}
         onChange={({ target: { value } }) =>
           updateState(
@@ -56,11 +55,11 @@ export const Selector = ({
           </MenuItem>
         ))}
       </MaterialSelect>
-    </Row>
+    </FormControl>
   );
 
   return (
-    <Container flexDirection="row" key={key}>
+    <Container flexDirection="row" key={key} margin={25}>
       {readOnly ? <ReadOnlyOption /> : <Options />}
     </Container>
   );

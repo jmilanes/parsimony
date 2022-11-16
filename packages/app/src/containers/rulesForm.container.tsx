@@ -7,7 +7,8 @@ import {
   Repeater,
   Button,
   Row,
-  Col
+  Col,
+  Container
 } from "../components";
 import {
   initialRuleData,
@@ -50,44 +51,39 @@ export const RulesForm = ({
     if (!rule.options) return null;
     const option = rule.options[index] as RuleOption;
     return (
-      <Col xs={12} key={generateKey("option", index)}>
-        <Row gutter={8}>
-          <Col xs={12}>
-            <Field
-              placeHolderText="Prompt Name"
-              pathToState={`rules[${ruleIndex}].options[${index}].name`}
-              value={option.name}
-              updateState={updateState}
-              readOnly={readOnly}
-            />
-          </Col>
-          <Col xs={6}>
-            <Button
-              name="Delete Prompt"
-              action={() =>
-                deleteItem(
-                  rule.options || [],
-                  index,
-                  `rules[${ruleIndex}].options`
-                )
-              }
-            />
-            <Button
-              name="Set to Target"
-              action={() =>
-                updateState(
-                  `rules[${ruleIndex}].options`,
-                  setTargetOption(
-                    rule.options as RuleOption[],
-                    option.name || ""
-                  )
-                )
-              }
-            />
-            {option.target ? <p>Target Prompt</p> : null}
-          </Col>
-        </Row>
-      </Col>
+      <Row key={generateKey("option", index)}>
+        <Col xs={4}>
+          <Field
+            placeHolderText="Prompt Name"
+            pathToState={`rules[${ruleIndex}].options[${index}].name`}
+            value={option.name}
+            updateState={updateState}
+            readOnly={readOnly}
+          />
+        </Col>
+        <Col xs={6}>
+          <Button
+            name="Delete Prompt"
+            action={() =>
+              deleteItem(
+                rule.options || [],
+                index,
+                `rules[${ruleIndex}].options`
+              )
+            }
+          />
+          <Button
+            name="Set to Target"
+            action={() =>
+              updateState(
+                `rules[${ruleIndex}].options`,
+                setTargetOption(rule.options as RuleOption[], option.name || "")
+              )
+            }
+          />
+        </Col>
+        <Col xs={2}>{option.target ? <p>Target Prompt</p> : null}</Col>
+      </Row>
     );
   };
 

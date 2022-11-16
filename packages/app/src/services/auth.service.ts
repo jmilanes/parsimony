@@ -1,17 +1,31 @@
 import { User } from "@parsimony/types";
 import { message } from "antd";
+import { userRequests } from "../bal";
 
 export default class AuthService {
   isLoggedIn: boolean;
   previousPage: string;
   currentUser?: User;
   users: User[];
-  constructor(subscribeToUserStore: (t: any) => void, currentUser: User) {
+  constructor() {
     this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     this.users = [];
-    subscribeToUserStore(this);
-    this.currentUser = currentUser;
     this.previousPage = "";
+  }
+
+  init() {
+    // TODO Replace with server side auth
+    userRequests
+      .get({
+        id: localStorage.getItem("currentUserId") || ""
+      })
+      .then((currentUser) => {
+        this.currentUser = currentUser;
+      });
+
+    userRequests.getAll().then((currentUser) => {
+      this.users = currentUser;
+    });
   }
 
   set = (users: User[]) => {
@@ -24,8 +38,9 @@ export default class AuthService {
       window.location.reload();
       return;
     }
-
-    const user = this.users.find((user) => user.email === email);
+    const user = this.users.find((user) => {
+      return user.email === email;
+    });
     if (!user) {
       message.error("Email not found");
       return false;

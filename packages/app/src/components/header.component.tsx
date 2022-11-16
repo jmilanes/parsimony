@@ -15,7 +15,7 @@ export const Header = ({ text, action, hidden, size, extra }: IHeaderProps) => {
   if (hidden) return <></>;
   const headers: Record<IHeaderSizes, JSX.Element> = {
     sm: (
-      <Typography variant="h6" onClick={action}>
+      <Typography variant="subtitle1" onClick={action}>
         {text}
       </Typography>
     ),

@@ -1,7 +1,9 @@
 import React from "react";
-import { Container, Header } from "../components";
+import { Container, Header, Col } from "../components";
 import { createCommaSeparatedSting, formatFormHeader } from "../utils";
+import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 import MaterialSelect from "@mui/material/Select";
 
 export type IOptionMultiSelect = {
@@ -30,12 +32,22 @@ export const MultiSelect = ({
   const updateSelectionsAndState = (values: unknown[]) =>
     updateState(pathToState, values);
 
-  const FormHeder = () => <Header text={formatFormHeader(title)} size="sm" />;
+  const FormHeader = () => {
+    console.log(
+      "🚀 ~ file: multiSelect.component.tsx ~ line 36 ~ title",
+      title
+    );
+    return (
+      <Col xs={12}>
+        <Header text={formatFormHeader(title)} size="sm" />
+      </Col>
+    );
+  };
 
   const ReadOnlyOptions = () => {
     return (
       <Container flexDirection="row">
-        <FormHeder />
+        <FormHeader />
         <p>
           {values?.map((value: string, i: number) =>
             createCommaSeparatedSting(value, i)
@@ -47,9 +59,10 @@ export const MultiSelect = ({
 
   const Options = () => {
     return (
-      <Container flexDirection="row">
-        <FormHeder />
+      <FormControl fullWidth>
+        <InputLabel>{title}</InputLabel>
         <MaterialSelect
+          label={title}
           multiple
           value={values}
           onChange={(e) => {
@@ -62,9 +75,13 @@ export const MultiSelect = ({
             </MenuItem>
           ))}
         </MaterialSelect>
-      </Container>
+      </FormControl>
     );
   };
 
-  return readOnly ? <ReadOnlyOptions /> : <Options />;
+  return (
+    <Container flexDirection="row" margin={25}>
+      {readOnly ? <ReadOnlyOptions /> : <Options />}
+    </Container>
+  );
 };

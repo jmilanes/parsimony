@@ -1,18 +1,36 @@
-import { Collections } from "@parsimony/types/src";
-import React from "react";
+import { Collections, User } from "@parsimony/types/src";
+import React, { useEffect, useState } from "react";
 
 import { createThread } from "../bal";
+import { Header, Field, Autocomplete, Button } from "../components";
 
 import { useServices } from "../context";
 import { DrawerContentTypes } from "../services/appControls.service";
+import { getFullName } from "../utils";
 
 export const CreateChat = () => {
-  const { appControls } = useServices();
+  const { appControls, dataAccess, store, authService } = useServices();
+  const currentUser = authService.currentUser?.id as string;
+  const currentNAme = authService.currentUser?.firstName as string;
+  const [subscribers, updateSubscribers] = useState<string[]>([currentUser]);
+  const [name, updateName] = useState("");
+
+  useEffect(() => {
+    dataAccess.user.getAll();
+  }, []);
+
+  const autoCompleteOptions = store
+    .getCurrentCollectionItems<User>(Collections.User)
+    .filter((user: User) => user.id !== currentUser)
+    .map((user: User) => ({
+      label: getFullName(user),
+      value: user.id
+    }));
 
   const onCreateThread = () => {
     createThread({
-      name: "New Thread Joey and Molly User ID",
-      subscribers: ["62e9ee2370d1d288df4c8e8b", "630ab6b82e68791506f3ec5e"]
+      name,
+      subscribers
     });
 
     appControls.updateControls("drawer", {
@@ -20,10 +38,32 @@ export const CreateChat = () => {
     });
   };
 
+  const onUpdateSubscribers = (
+    selectedUsers: { label: string; value: string }[]
+  ) => {
+    updateName(
+      `${currentNAme} ${selectedUsers.map((su) => su.label).join(", ")}`
+    );
+    updateSubscribers(selectedUsers.map((selectedUser) => selectedUser.value));
+  };
+
   return (
     <div>
-      <h1>Create Chat</h1>
-      <button onClick={onCreateThread}>create</button>
+      <Header text="Create Chat" size="md" />
+      <Field
+        value={name}
+        // TODO This should be easier lol but fine
+        updateState={(path, value) => updateName(value)}
+        pathToState=""
+        placeHolderText="Chat name"
+      />
+      <Autocomplete
+        label="Search User"
+        options={autoCompleteOptions}
+        multiSelect={true}
+        updateState={onUpdateSubscribers}
+      />
+      <Button name="Create" action={onCreateThread} />
     </div>
   );
 };
