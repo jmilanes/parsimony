@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 
 const Message = {
+  userId: { type: ObjectId, ref: "User" },
   dataType: String,
   value: String,
   timeStamp: Date

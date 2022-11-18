@@ -63,3 +63,19 @@ input[type="checkbox"] {
 .parsimony-btn {
   margin: 0 5px !important;
 }
+
+.message {
+  border-radius: 5px;
+  background-color: grey;
+  max-width: 80%;
+  margin: 8px 0;
+  color: #eee;
+}
+
+.message.sent-by-current-user {
+  background-color: blue;
+}
+
+.message p {
+  margin: 10px;
+}

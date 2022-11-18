@@ -1,6 +1,6 @@
 import React from "react";
-import { createLink, filterByProp } from "../utils";
-import { IRoute } from "@parsimony/types";
+import { createLink, filterByProp, getFullName } from "../utils";
+import { IRoute, User } from "@parsimony/types";
 
 import { Button } from "../components";
 import { useServices } from "../context";
@@ -24,6 +24,11 @@ export const Nav = ({ routes }: INavProps) => {
       <a className="nav-item">
         <OpenChatButton />
       </a>
+      <p>
+        {authService.getCurrentUser() &&
+          getFullName(authService.getCurrentUser() as User)}{" "}
+        is logged in
+      </p>
     </ul>
   );
 };

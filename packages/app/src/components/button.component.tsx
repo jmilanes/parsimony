@@ -7,6 +7,7 @@ export type IButtonProps = {
   name: string;
   action?: (payload: unknown | undefined) => void;
   hidden?: boolean;
+  disabled?: boolean;
   type?: "outlined" | "contained" | "text";
   icon?: React.ReactNode;
 };
@@ -15,6 +16,7 @@ export const Button = ({
   name,
   action,
   hidden,
+  disabled,
   type = "outlined",
   icon
 }: IButtonProps) => {
@@ -27,7 +29,12 @@ export const Button = ({
     );
   }
   return (
-    <MaterialButton className="parsimony-btn" variant={type} onClick={action}>
+    <MaterialButton
+      disabled={disabled}
+      className="parsimony-btn"
+      variant={type}
+      onClick={action}
+    >
       {name}
     </MaterialButton>
   );

@@ -4,6 +4,7 @@ const fullSchema = `
   subscribers
   messages {
     timeStamp
+    userId
     value
     dataType
     id

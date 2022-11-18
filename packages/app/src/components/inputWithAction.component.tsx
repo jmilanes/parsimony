@@ -4,9 +4,9 @@ import { Button } from "../components";
 
 export type IInputWithActionProps = {
   defaultValue?: string;
-  placeholder: string;
+  placeholder?: string;
   buttonText: string;
-  action: (value: unknown) => void;
+  action: (value: string) => void;
 };
 
 export const InputWithAction = ({
@@ -23,7 +23,11 @@ export const InputWithAction = ({
         placeholder={placeholder}
         onChange={(e) => setVal(e.target.value)}
       />
-      <Button name={buttonText} action={() => action(val)} />
+      <Button
+        disabled={val.length === 0}
+        name={buttonText}
+        action={() => action(val)}
+      />
     </div>
   );
 };

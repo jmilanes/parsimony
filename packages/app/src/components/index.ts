@@ -16,3 +16,4 @@ export * from "./inputWithAction.component";
 export * from "./autocomplete.component";
 export * from "./list.component";
 export * from "./icons.component";
+export * from "./menu.component";
