@@ -1,5 +1,5 @@
 import { clone } from ".";
-import { IObject, IObjectValues, User } from "@parsimony/types";
+import { IObject, IObjectValues, Thread, User } from "@parsimony/types";
 import { Modes } from "@parsimony/types";
 import { IModes } from "@parsimony/types";
 import { getDataWithPath } from "./abstractions.util";
@@ -37,7 +37,8 @@ export const flattenObject = <IObj>(obj: IObj) => {
 export const generateKey = (type: string, key: string | number) =>
   `${type}-${key}`;
 
-export const getFullName = (user: User) => `${user.firstName} ${user.lastName}`;
+export const getFullName = (user?: User) =>
+  user ? `${user.firstName} ${user.lastName}` : "";
 
 export const createList = (arr: any[]) => arr.join(" | ");
 export const getLength = (arr: any[]) => arr?.length;
@@ -127,3 +128,10 @@ export const envIs = (env: "prod" | "test" | "dev"): boolean => {
 
   return map[env];
 };
+
+export const getThreadName = (thread: Thread, currentUser?: User): string =>
+  thread.subscribers.length > 2
+    ? thread.name
+    : thread.subscribers.find(
+        (subscriber) => subscriber?.id !== currentUser?.id
+      )?.displayName || thread.name;

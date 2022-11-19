@@ -6,7 +6,7 @@ export default gql`
   type Thread {
     id: ID!
     name: String!
-    subscribers: [String]!
+    subscribers: [Subscriber]!
     messages: [Message]!
     isTyping: [String]!
   }
@@ -19,13 +19,18 @@ export default gql`
     userId: String!
   }
 
+  type Subscriber {
+    id: ID!
+    displayName: String
+  }
+
   input GetThreadByUserIdPayload {
     id: ID!
   }
 
   input CreateThreadPayload {
     name: String!
-    subscribers: [String]!
+    subscribers: [SubscriberInput]!
   }
 
   input DeleteThreadPayload {
@@ -34,8 +39,13 @@ export default gql`
 
   input UpdateThreadPayload {
     id: ID!
-    subscribers: [String]!
+    subscribers: [SubscriberInput]!
     name: String!
+  }
+
+  input SubscriberInput {
+    id: ID!
+    displayName: String
   }
 
   input MessagePayload {

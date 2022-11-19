@@ -23,8 +23,8 @@ export default class AuthService {
         this.currentUser = currentUser;
       });
 
-    userRequests.getAll().then((currentUser) => {
-      this.users = currentUser;
+    userRequests.getAll().then((users) => {
+      this.users = users;
     });
   }
 
@@ -38,6 +38,7 @@ export default class AuthService {
       window.location.reload();
       return;
     }
+
     const user = this.users.find((user) => {
       return user.email === email;
     });
@@ -49,6 +50,7 @@ export default class AuthService {
       message.error("Wrong Password");
       return false;
     }
+
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("currentUserId", user.id);
     window.location.reload();

@@ -6,3 +6,5 @@ export * from "./openChatButton.container";
 export * from "./chat.container";
 export * from "./createChat.container";
 export * from "./chatMessage.container";
+export * from "./chatMessager.container";
+export * from "./chatMessageInput.container";

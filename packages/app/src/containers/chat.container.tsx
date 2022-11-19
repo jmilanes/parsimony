@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { addMessage, deleteMessage, deleteThread, editMessage } from "../bal";
 import { ThreadCollection } from "../services/chat.service";
-import { Message, Thread } from "@parsimony/types";
+import { Thread } from "@parsimony/types";
 import { useServices } from "../context";
 import { DrawerContentTypes } from "../services/appControls.service";
-import {
-  Button,
-  InputWithAction,
-  List,
-  Icon,
-  Row,
-  Col,
-  Menu,
-  Header
-} from "../components";
-import { ChatMessage } from "../containers";
+import { Button, List, Row, Col } from "../components";
+import { ChatMessager } from "../containers";
+import { getThreadName } from "../utils";
 
 export const Chat = () => {
   const { dataAccess, authService, appControls } = useServices();
@@ -53,8 +45,9 @@ export const Chat = () => {
 
   const ChatList = ({ threads }: { threads: Thread[] }) => {
     const threadListItems = threads.map((thread) => {
+      const value = getThreadName(thread, authService.currentUser);
       return {
-        value: thread.name,
+        value,
         action: () => setCurrentThread(thread.id)
       };
     });
@@ -62,53 +55,17 @@ export const Chat = () => {
     return <List listItems={threadListItems} />;
   };
 
-  // TODO: dot selection menu thread (delete), Message (edit, delete), message sides/color/avatar, fix typing bar on bottom, and get the  effect correct, limit how many chat per set of subscribers if someone tries put them in the current char, should be a text area...
-
-  const SelectedThread = ({ thread }: { thread?: Thread }) => {
-    if (!thread) return <h1>No Thread Selected</h1>;
-    const sendMessage = onAddMessage(thread?.id);
-    const menuOptions = [
-      {
-        label: "Delete",
-        icon: <Icon.Delete />,
-        action: () => onDelete(thread.id)
-      }
-    ];
-    return (
-      <div>
-        <Row>
-          <Col xs={10}>
-            <Header text={thread.name} size="md" />
-          </Col>
-          <Col xs={2}>
-            <Menu options={menuOptions}></Menu>
-          </Col>
-        </Row>
-        {thread.messages.map((message) => (
-          <ChatMessage
-            key={message?.id}
-            threadId={thread.id}
-            message={message as Message}
-          />
-        ))}
-        <InputWithAction
-          action={(value: string) => sendMessage(value)}
-          placeholder={`Message ${thread.name}`}
-          buttonText="Send"
-        />
-      </div>
-    );
-  };
+  // TODO: edit should be done by bottom bar, message sides/color/avatar, fix typing bar on bottom, and get the  effect correct, limit how many chat per set of subscribers if someone tries put them in the current char, should be a text area...
 
   return (
-    <div>
-      <Button name="Create Chat" action={showCreateChat}></Button>
-      <Row>
+    <div className="chat-container">
+      <Row className="full-height">
         <Col xs={4}>
+          <Button name="Create Chat" action={showCreateChat}></Button>
           <ChatList threads={Object.values(threads)} />
         </Col>
         <Col xs={8}>
-          <SelectedThread
+          <ChatMessager
             thread={currentThread ? threads[currentThread] : undefined}
           />
         </Col>

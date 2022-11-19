@@ -22,6 +22,9 @@ export default gql`
     clients: [ID]
     programs: [ID]
     actionItems: [ID]
+    threadDisplayNameName: String
+    avatar: String
+    color: String
   }
 
   input CreateUserPayload {
@@ -40,6 +43,9 @@ export default gql`
     clients: [ID]
     programs: [ID]
     actionItems: [ID]
+    threadDisplayNameName: String
+    avatar: String
+    color: String
   }
 
   input DeleteUserPayload {
@@ -67,6 +73,9 @@ export default gql`
     clients: [ID]
     programs: [ID]
     actionItems: [ID]
+    threadDisplayNameName: String
+    avatar: String
+    color: String
   }
 
   input GetAllUsersByRelationshipPayload {

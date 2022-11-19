@@ -19,6 +19,7 @@ export const ChatMessage = ({ message, threadId }: IChatMessageProps) => {
   const onDeleteMessage = (threadId: string, messageId: string) =>
     deleteMessage({ threadId, messageId });
 
+  // TODO: Should be handled in the the messager
   const onEditMessage = (
     value: string,
     threadId: string,
@@ -41,12 +42,12 @@ export const ChatMessage = ({ message, threadId }: IChatMessageProps) => {
 
   return (
     <div
-      className={`message ${
+      className={`message-container ${
         currentUserId === message.userId ? "sent-by-current-user" : ""
       }`}
     >
-      <Row>
-        <Col xs={10}>
+      <div className="message-bubble">
+        <div className="message">
           {!editMode ? (
             <p>{message?.value}</p>
           ) : (
@@ -58,11 +59,11 @@ export const ChatMessage = ({ message, threadId }: IChatMessageProps) => {
               buttonText="Confirm Edit"
             />
           )}
-        </Col>
-        <Col xs={2}>
+        </div>
+        <div className="menu">
           <Menu options={menuOptions} />
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 };

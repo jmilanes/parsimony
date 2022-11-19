@@ -118,6 +118,6 @@ export const getThreadsByUserId =
   ({ db }: ICreateResolverParams) =>
   async (_: any, { payload }: any) => {
     return await db.findEntries(modelTypes.thread, {
-      subscribers: payload.id
+      subscribers: { $elemMatch: { id: payload.id } }
     });
   };

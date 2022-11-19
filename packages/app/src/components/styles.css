@@ -64,18 +64,74 @@ input[type="checkbox"] {
   margin: 0 5px !important;
 }
 
-.message {
-  border-radius: 5px;
-  background-color: grey;
-  max-width: 80%;
-  margin: 8px 0;
-  color: #eee;
+.full-height {
+  min-height: 100%;
 }
 
-.message.sent-by-current-user {
-  background-color: blue;
+.chat-container {
+  min-height: 100%;
+}
+
+.message-container {
+  width: auto;
+  color: #eee;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: space-between;
+}
+
+.messager {
+  position: relative;
+  min-height: 100%;
+}
+.message-container.sent-by-current-user .message-bubble {
+  background-color: #1976d2;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.message-bubble {
+  border-radius: 20px;
+  max-width: 85%;
+  background-color: grey;
+  display: flex;
+  margin: 8px 0;
+}
+
+.message {
+  width: 80%;
+  align-self: flex-end;
 }
 
 .message p {
   margin: 10px;
+  word-wrap: break-word;
+}
+
+hr {
+  background: "black";
+}
+
+.chatMessageInput-container {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  width: 100%;
+}
+
+.chatMessageInput {
+  width: 100%;
+  resize: none;
+}
+
+.messages-container {
+  max-height: 600px;
+  min-height: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.overflow-container {
+  overflow: auto;
 }

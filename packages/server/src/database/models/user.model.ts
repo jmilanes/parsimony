@@ -28,5 +28,9 @@ export default {
   programs: [{ type: ObjectId, ref: "User" }],
 
   // Only of BAs
-  clients: [{ type: ObjectId, ref: "User" }] // Only for BAs
+  clients: [{ type: ObjectId, ref: "User" }], // Only for BAs
+
+  threadDisplayNameName: String,
+  avatar: String,
+  color: String
 };

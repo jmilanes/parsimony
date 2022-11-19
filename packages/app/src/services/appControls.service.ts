@@ -19,7 +19,7 @@ export enum DrawerContentTypes {
 
 type DrawerControls = {
   active: boolean;
-  width: number;
+  width: number | string;
   placement: "left" | "right";
   content: DrawerContentTypes;
 };

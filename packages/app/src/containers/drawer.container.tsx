@@ -23,7 +23,7 @@ export const Drawer = ({ content }: { content?: React.FC }) => {
 
   const onExtend = () => {
     appControls.updateControls("drawer", {
-      width: extended ? 500 : 1000
+      width: extended ? "50%" : "90%"
     });
     updateExtended(!extended);
   };
@@ -31,7 +31,7 @@ export const Drawer = ({ content }: { content?: React.FC }) => {
   return (
     <ADrawer
       placement={controls.placement || "left"}
-      width={controls.width || "500"}
+      width={controls.width || "50%"}
       onClose={onClose}
       open={controls.active}
       extra={

@@ -7,8 +7,14 @@ const Message = {
   timeStamp: Date
 };
 
+const Subscriber = {
+  //TODO Change to userId
+  id: { type: ObjectId, ref: "User" },
+  displayName: String
+};
+
 export default {
-  subscribers: [{ type: ObjectId, ref: "User" }],
+  subscribers: [Subscriber],
   messages: [Message],
   isTyping: [String],
   name: String

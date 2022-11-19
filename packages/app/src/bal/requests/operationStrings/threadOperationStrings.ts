@@ -1,7 +1,10 @@
 const fullSchema = `
   id
   name
-  subscribers
+  subscribers {
+    id
+    displayName
+  }
   messages {
     timeStamp
     userId

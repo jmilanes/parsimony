@@ -1,8 +1,8 @@
-import { Collections, User } from "@parsimony/types/src";
+import { Collections, User, Subscriber } from "@parsimony/types/src";
 import React, { useEffect, useState } from "react";
 
 import { createThread } from "../bal";
-import { Header, Field, Autocomplete, Button } from "../components";
+import { Header, Field, Autocomplete, Button, Row, Col } from "../components";
 
 import { useServices } from "../context";
 import { DrawerContentTypes } from "../services/appControls.service";
@@ -10,9 +10,14 @@ import { getFullName } from "../utils";
 
 export const CreateChat = () => {
   const { appControls, dataAccess, store, authService } = useServices();
-  const currentUser = authService.currentUser?.id as string;
-  const currentNAme = authService.currentUser?.firstName as string;
-  const [subscribers, updateSubscribers] = useState<string[]>([currentUser]);
+  const currentUserId = authService.currentUser?.id as string;
+  // TODO Change to display name once those are added to USER
+  const currentName = getFullName(authService.currentUser);
+
+  const currentUserSubscriber = { id: currentUserId, displayName: currentName };
+  const [subscribers, updateSubscribers] = useState<Subscriber[]>([
+    currentUserSubscriber
+  ]);
   const [name, updateName] = useState("");
 
   useEffect(() => {
@@ -21,35 +26,51 @@ export const CreateChat = () => {
 
   const autoCompleteOptions = store
     .getCurrentCollectionItems<User>(Collections.User)
-    .filter((user: User) => user.id !== currentUser)
+    .filter((user: User) => user.id !== currentUserId)
     .map((user: User) => ({
+      // TODO Change to display name once those are added to USER
       label: getFullName(user),
       value: user.id
     }));
+
+  const setToChatDrawer = () =>
+    appControls.updateControls("drawer", {
+      content: DrawerContentTypes.Chat
+    });
 
   const onCreateThread = () => {
     createThread({
       name,
       subscribers
     });
-
-    appControls.updateControls("drawer", {
-      content: DrawerContentTypes.Chat
-    });
+    setToChatDrawer();
   };
 
   const onUpdateSubscribers = (
     selectedUsers: { label: string; value: string }[]
   ) => {
     updateName(
-      `${currentNAme} ${selectedUsers.map((su) => su.label).join(", ")}`
+      `${currentName}, ${selectedUsers.map((su) => su.label).join(", ")}`
     );
-    updateSubscribers(selectedUsers.map((selectedUser) => selectedUser.value));
+    updateSubscribers([
+      currentUserSubscriber,
+      ...selectedUsers.map((selectedUser) => ({
+        id: selectedUser.value,
+        displayName: selectedUser.label
+      }))
+    ]);
   };
 
   return (
     <div>
-      <Header text="Create Chat" size="md" />
+      <Row>
+        <Col xs={10}>
+          <Header text="Create Chat" size="md" />
+        </Col>
+        <Col xs={2}>
+          <Button name="Cancel" action={setToChatDrawer} />
+        </Col>
+      </Row>
       <Field
         value={name}
         // TODO This should be easier lol but fine

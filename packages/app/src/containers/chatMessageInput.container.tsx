@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
 import { Button } from "../components";
 
 export type IInputWithActionProps = {
@@ -9,7 +8,7 @@ export type IInputWithActionProps = {
   action: (value: string) => void;
 };
 
-export const InputWithAction = ({
+export const ChatMessageInput = ({
   buttonText,
   action,
   placeholder,
@@ -17,13 +16,14 @@ export const InputWithAction = ({
 }: IInputWithActionProps) => {
   const [val, setVal] = useState(defaultValue || "");
   return (
-    <div>
-      <TextField
+    <div className="chatMessageInput-container">
+      <textarea
+        className="chatMessageInput"
         value={val}
         defaultValue={defaultValue}
         placeholder={placeholder}
         onChange={(e) => setVal(e.target.value)}
-      />
+      ></textarea>
       <Button
         disabled={val.length === 0}
         name={buttonText}
