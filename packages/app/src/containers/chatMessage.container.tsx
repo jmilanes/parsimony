@@ -9,14 +9,14 @@ import { useServices } from "../context";
 type IChatMessageProps = {
   message: Message;
   threadId: string;
-  setEditMode: (value: boolean) => void;
+
   setSelectedMessage: (message: Message) => void;
 };
 
 export const ChatMessage = ({
   message,
   threadId,
-  setEditMode,
+
   setSelectedMessage
 }: IChatMessageProps) => {
   const { authService } = useServices();
@@ -33,7 +33,6 @@ export const ChatMessage = ({
       label: "Edit Message",
       action: () => {
         setSelectedMessage(message);
-        setEditMode(true);
       }
     }
   ];

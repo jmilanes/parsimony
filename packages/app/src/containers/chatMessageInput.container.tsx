@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Button } from "../components";
 
 export type IInputWithActionProps = {
@@ -6,32 +6,67 @@ export type IInputWithActionProps = {
   placeholder?: string;
   buttonText: string;
   action: (value: string) => void;
+  onCancel?: () => void;
 };
 
 export const ChatMessageInput = ({
   buttonText,
   action,
   placeholder,
-  defaultValue
+  defaultValue,
+  onCancel
 }: IInputWithActionProps) => {
   const [val, setVal] = useState(defaultValue || "");
+  const textAreaRef = useRef<HTMLInputElement>();
+
+  const handleAction = () => {
+    if (val.length === 0) return;
+    action(val);
+    setVal("");
+  };
+
+  const handleCancel = () => {
+    onCancel && onCancel();
+    setVal("");
+  };
+
+  useEffect(() => {
+    if (val === "" || val === defaultValue) {
+      const end = val.length;
+      textAreaRef.current?.setSelectionRange(end, end);
+      textAreaRef.current?.focus();
+    }
+  }, [val]);
+
+  const handleOnEnter = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleAction();
+    }
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      handleCancel();
+      setVal("");
+    }
+  };
+
   return (
     <div className="chatMessageInput-container">
       <textarea
+        ref={textAreaRef}
+        onKeyDown={handleOnEnter}
         className="chatMessageInput"
         value={val}
-        defaultValue={defaultValue}
         placeholder={placeholder}
         onChange={(e) => setVal(e.target.value)}
       ></textarea>
       <Button
         disabled={val.length === 0}
         name={buttonText}
-        action={() => {
-          action(val);
-          setVal("");
-        }}
+        action={handleAction}
       />
+      {onCancel && <Button name="Cancel" action={handleCancel} />}
     </div>
   );
 };

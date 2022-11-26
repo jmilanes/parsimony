@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { debounceTime, fromEvent } from "rxjs";
+import React, { KeyboardEvent, useEffect, useState } from "react";
+
 import { Header } from "../components";
 import { useServices } from "../context";
-
-const createShortCut = (key: string, handler: () => void) => {
-  const event$ = fromEvent(document, "keydown").pipe(debounceTime(250));
-  event$.subscribe((e) => e.code === key && handler());
-};
+import { createShortCut } from "../utils";
 
 const Login = ({ from }: { from: string }) => {
   const { authService } = useServices();

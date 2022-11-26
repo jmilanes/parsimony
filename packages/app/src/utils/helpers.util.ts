@@ -4,6 +4,7 @@ import { Modes } from "@parsimony/types";
 import { IModes } from "@parsimony/types";
 import { getDataWithPath } from "./abstractions.util";
 import { omit } from "ramda";
+import { debounceTime, distinctUntilChanged, fromEvent } from "rxjs";
 
 export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>
   collection.filter((c: T) => c[prop]);
@@ -135,3 +136,13 @@ export const getThreadName = (thread: Thread, currentUser?: User): string =>
     : thread.subscribers.find(
         (subscriber) => subscriber?.id !== currentUser?.id
       )?.displayName || thread.name;
+
+export const createShortCut = (key: string, handler: () => void) => {
+  // TODO Add a way to register and unregister keyboard short cuts when you
+  const event$ = fromEvent<KeyboardEvent>(document, "keyup").pipe(
+    distinctUntilChanged()
+  );
+  event$.subscribe((e) => {
+    e.code === key && handler();
+  });
+};

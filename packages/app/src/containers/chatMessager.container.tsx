@@ -25,8 +25,9 @@ const scrollToBottomOfRef = (
 export const ChatMessager = ({ thread }: IChatMessageRProps) => {
   const messageContainer = useRef<HTMLInputElement>(null);
   const [initialLoad, setInitialLoad] = useState(false);
-  const [editMessageMode, setEditMessageMode] = useState(false);
-  const [selectedMessage, setSelectedMessage] = useState<Message>();
+
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>();
+
   const { authService } = useServices();
 
   const onEditMessage = (value: string) => {
@@ -36,7 +37,7 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
       threadId: thread?.id,
       messageId: selectedMessage?.id
     });
-    setEditMessageMode(false);
+    setSelectedMessage(null);
   };
 
   const currentUser = authService.currentUser;
@@ -52,6 +53,10 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
       },
       threadId
     });
+  };
+
+  const onCancel = () => {
+    setSelectedMessage(null);
   };
 
   useEffect(() => {
@@ -71,6 +76,25 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
     }
   ];
   const threadName = getThreadName(thread, currentUser);
+
+  const SendMessageInput = () => (
+    <ChatMessageInput
+      action={(value: string) => sendMessage(value)}
+      placeholder={`Message ${threadName}`}
+      buttonText="Send"
+    />
+  );
+
+  const EditMessageInput = () => (
+    <ChatMessageInput
+      action={(value: string) => onEditMessage(value)}
+      placeholder={`Message ${threadName}`}
+      defaultValue={selectedMessage?.value}
+      buttonText="Edit"
+      onCancel={onCancel}
+    />
+  );
+
   return (
     <div className="messager">
       <Row>
@@ -89,20 +113,12 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
               key={message?.id}
               threadId={thread.id}
               message={message as Message}
-              setEditMode={setEditMessageMode}
               setSelectedMessage={setSelectedMessage}
             />
           ))}
         </div>
       </div>
-      <ChatMessageInput
-        action={(value: string) =>
-          editMessageMode ? onEditMessage(value) : sendMessage(value)
-        }
-        placeholder={`Message ${threadName}`}
-        defaultValue={editMessageMode ? selectedMessage?.value : undefined}
-        buttonText={editMessageMode ? "Edit" : "Send"}
-      />
+      {selectedMessage ? <EditMessageInput /> : <SendMessageInput />}
     </div>
   );
 };

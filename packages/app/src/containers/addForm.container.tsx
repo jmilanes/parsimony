@@ -19,7 +19,7 @@ export const AddForm = ({
   return (
     <Modal
       title={title}
-      visible={showForm}
+      open={showForm}
       width={800}
       footer={[
         <Button key="modal-cancel" name="Cancel" action={onCancel} />,
