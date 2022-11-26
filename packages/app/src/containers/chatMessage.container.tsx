@@ -1,34 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 
 // TODO: THis is what is breaking the pattern. This is the next thing to be fixed
-import { deleteMessage, editMessage } from "../bal";
-import { Menu, Row, Col, InputWithAction } from "../components";
+import { deleteMessage } from "../bal";
+import { Menu } from "../components";
 import { Message } from "@parsimony/types";
 import { useServices } from "../context";
 
 type IChatMessageProps = {
   message: Message;
   threadId: string;
+  setEditMode: (value: boolean) => void;
+  setSelectedMessage: (message: Message) => void;
 };
 
-export const ChatMessage = ({ message, threadId }: IChatMessageProps) => {
-  const [editMode, setEditMode] = useState(false);
+export const ChatMessage = ({
+  message,
+  threadId,
+  setEditMode,
+  setSelectedMessage
+}: IChatMessageProps) => {
   const { authService } = useServices();
 
   const currentUserId = authService.getCurrentUser()?.id;
   const onDeleteMessage = (threadId: string, messageId: string) =>
     deleteMessage({ threadId, messageId });
-
-  // TODO: Should be handled in the the messager
-  const onEditMessage = (
-    value: string,
-    threadId: string,
-    messageId: string
-  ) => {
-    editMessage({ value, threadId, messageId });
-    setEditMode(false);
-  };
-
   const menuOptions = [
     {
       label: "Delete",
@@ -36,7 +31,10 @@ export const ChatMessage = ({ message, threadId }: IChatMessageProps) => {
     },
     {
       label: "Edit Message",
-      action: () => setEditMode(true)
+      action: () => {
+        setSelectedMessage(message);
+        setEditMode(true);
+      }
     }
   ];
 
@@ -48,17 +46,7 @@ export const ChatMessage = ({ message, threadId }: IChatMessageProps) => {
     >
       <div className="message-bubble">
         <div className="message">
-          {!editMode ? (
-            <p>{message?.value}</p>
-          ) : (
-            <InputWithAction
-              action={(value: string) => {
-                onEditMessage(value, threadId, message?.id || "");
-              }}
-              defaultValue={message.value}
-              buttonText="Confirm Edit"
-            />
-          )}
+          <p>{message?.value}</p>
         </div>
         <div className="menu">
           <Menu options={menuOptions} />

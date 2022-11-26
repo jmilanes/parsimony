@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // TODO: THis is what is breaking the pattern. This is the next thing to be fixed
-import { addMessage, deleteThread } from "../bal";
+import { addMessage, deleteThread, editMessage } from "../bal";
 import { Menu, Row, Col, InputWithAction, Header, Icon } from "../components";
 import { ChatMessage, ChatMessageInput } from "../containers";
 import { Message, Thread } from "@parsimony/types";
@@ -12,8 +12,32 @@ type IChatMessageRProps = {
   thread?: Thread;
 };
 
+const scrollToBottomOfRef = (
+  elm: HTMLInputElement | null,
+  smooth?: boolean
+) => {
+  elm?.scroll({
+    top: elm.scrollHeight,
+    behavior: smooth ? "smooth" : undefined
+  });
+};
+
 export const ChatMessager = ({ thread }: IChatMessageRProps) => {
+  const messageContainer = useRef<HTMLInputElement>(null);
+  const [initialLoad, setInitialLoad] = useState(false);
+  const [editMessageMode, setEditMessageMode] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<Message>();
   const { authService } = useServices();
+
+  const onEditMessage = (value: string) => {
+    if (!selectedMessage || !thread) return;
+    editMessage({
+      value,
+      threadId: thread?.id,
+      messageId: selectedMessage?.id
+    });
+    setEditMessageMode(false);
+  };
 
   const currentUser = authService.currentUser;
 
@@ -29,6 +53,13 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
       threadId
     });
   };
+
+  useEffect(() => {
+    scrollToBottomOfRef(messageContainer.current, initialLoad);
+    if (!initialLoad && thread) {
+      setInitialLoad(true);
+    }
+  }, [thread?.messages]);
 
   if (!thread) return <Header text="No Thread Selected" size="md" />;
   const sendMessage = onAddMessage(thread?.id);
@@ -52,20 +83,25 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
       </Row>
       <hr />
       <div className="messages-container">
-        <div className="overflow-container">
+        <div ref={messageContainer} className="overflow-container">
           {thread.messages.map((message) => (
             <ChatMessage
               key={message?.id}
               threadId={thread.id}
               message={message as Message}
+              setEditMode={setEditMessageMode}
+              setSelectedMessage={setSelectedMessage}
             />
           ))}
         </div>
       </div>
       <ChatMessageInput
-        action={(value: string) => sendMessage(value)}
+        action={(value: string) =>
+          editMessageMode ? onEditMessage(value) : sendMessage(value)
+        }
         placeholder={`Message ${threadName}`}
-        buttonText="Send"
+        defaultValue={editMessageMode ? selectedMessage?.value : undefined}
+        buttonText={editMessageMode ? "Edit" : "Send"}
       />
     </div>
   );
