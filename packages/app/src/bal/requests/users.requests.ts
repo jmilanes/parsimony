@@ -10,7 +10,7 @@ import {
 import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
 
-const fullSchema = `
+export const fullSchema = `
   id
   updated_at
   created_at

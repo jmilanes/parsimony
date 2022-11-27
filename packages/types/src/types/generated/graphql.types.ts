@@ -19,6 +19,10 @@ export type AddMessagePayload = {
   threadId: Scalars['ID'];
 };
 
+export type AuthPayload = {
+  authToken: Scalars['String'];
+};
+
 export type CreateDocumentPayload = {
   clientId: Scalars['ID'];
   completed?: InputMaybe<Scalars['Boolean']>;
@@ -251,6 +255,30 @@ export enum InputTypes {
   Radio = 'RADIO',
   Text = 'TEXT'
 }
+
+export type LogOutResponse = {
+  __typename?: 'LogOutResponse';
+  isLoggedIn?: Maybe<Scalars['Boolean']>;
+};
+
+export type LoginPayload = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type LoginResponse = {
+  __typename?: 'LoginResponse';
+  authToken?: Maybe<Scalars['String']>;
+  isLoggedIn?: Maybe<Scalars['Boolean']>;
+};
+
+export type LogoutPayload = {
+  authToken: Scalars['String'];
+};
+
+export type MePayload = {
+  authToken: Scalars['String'];
+};
 
 export type Message = {
   __typename?: 'Message';
@@ -491,6 +519,9 @@ export type Query = {
   getSchool?: Maybe<School>;
   getThreadsByUserId?: Maybe<Array<Maybe<Thread>>>;
   getUser?: Maybe<User>;
+  login?: Maybe<LoginResponse>;
+  logout?: Maybe<LogOutResponse>;
+  me?: Maybe<User>;
   threads?: Maybe<Array<Maybe<Thread>>>;
 };
 
@@ -567,6 +598,21 @@ export type QueryGetThreadsByUserIdArgs = {
 
 export type QueryGetUserArgs = {
   payload?: InputMaybe<GetUserPayload>;
+};
+
+
+export type QueryLoginArgs = {
+  payload?: InputMaybe<LoginPayload>;
+};
+
+
+export type QueryLogoutArgs = {
+  payload?: InputMaybe<LogoutPayload>;
+};
+
+
+export type QueryMeArgs = {
+  payload?: InputMaybe<MePayload>;
 };
 
 export type Result = {
@@ -888,6 +934,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AddMessagePayload: AddMessagePayload;
+  AuthPayload: AuthPayload;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateDocumentPayload: CreateDocumentPayload;
   CreateEventPayload: CreateEventPayload;
@@ -930,6 +977,11 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   InputTypes: InputTypes;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  LogOutResponse: ResolverTypeWrapper<LogOutResponse>;
+  LoginPayload: LoginPayload;
+  LoginResponse: ResolverTypeWrapper<LoginResponse>;
+  LogoutPayload: LogoutPayload;
+  MePayload: MePayload;
   Message: ResolverTypeWrapper<Message>;
   MessagePayload: MessagePayload;
   Mutation: ResolverTypeWrapper<{}>;
@@ -969,6 +1021,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   AddMessagePayload: AddMessagePayload;
+  AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean'];
   CreateDocumentPayload: CreateDocumentPayload;
   CreateEventPayload: CreateEventPayload;
@@ -1010,6 +1063,11 @@ export type ResolversParentTypes = {
   GetUserPayload: GetUserPayload;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
+  LogOutResponse: LogOutResponse;
+  LoginPayload: LoginPayload;
+  LoginResponse: LoginResponse;
+  LogoutPayload: LogoutPayload;
+  MePayload: MePayload;
   Message: Message;
   MessagePayload: MessagePayload;
   Mutation: {};
@@ -1077,6 +1135,17 @@ export type FileResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   uploadedBy?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type LogOutResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['LogOutResponse'] = ResolversParentTypes['LogOutResponse']> = {
+  isLoggedIn?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type LoginResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = {
+  authToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  isLoggedIn?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1162,6 +1231,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getSchool?: Resolver<Maybe<ResolversTypes['School']>, ParentType, ContextType, Partial<QueryGetSchoolArgs>>;
   getThreadsByUserId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Thread']>>>, ParentType, ContextType, Partial<QueryGetThreadsByUserIdArgs>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserArgs>>;
+  login?: Resolver<Maybe<ResolversTypes['LoginResponse']>, ParentType, ContextType, Partial<QueryLoginArgs>>;
+  logout?: Resolver<Maybe<ResolversTypes['LogOutResponse']>, ParentType, ContextType, Partial<QueryLogoutArgs>>;
+  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryMeArgs>>;
   threads?: Resolver<Maybe<Array<Maybe<ResolversTypes['Thread']>>>, ParentType, ContextType>;
 };
 
@@ -1273,6 +1345,8 @@ export type Resolvers<ContextType = any> = {
   Document?: DocumentResolvers<ContextType>;
   Event?: EventResolvers<ContextType>;
   File?: FileResolvers<ContextType>;
+  LogOutResponse?: LogOutResponseResolvers<ContextType>;
+  LoginResponse?: LoginResponseResolvers<ContextType>;
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Program?: ProgramResolvers<ContextType>;

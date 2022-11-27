@@ -7,6 +7,8 @@ import { schoolTypeDefs, schoolResolvers } from "./schools";
 import { documentTypeDefs, documentResolvers } from "./documents";
 import { eventTypeDefs, eventResolvers } from "./events";
 import { fileTypeDefs, fileResolvers } from "./files";
+import { authTypeDefs, authResolvers } from "./auth";
+import sharedTypeDefs from "./shredTypeDefs";
 
 export type ICreateResolverParams = {
   db: DataBaseService;
@@ -15,6 +17,7 @@ export type ICreateResolverParams = {
 
 const createResolvers = (params: ICreateResolverParams) => {
   const resolvers = [
+    authResolvers,
     threadResolvers,
     userResolvers.getResolver(),
     programResolvers.getResolver(),
@@ -29,6 +32,7 @@ const createResolvers = (params: ICreateResolverParams) => {
 
 const graphQlConfig = {
   typeDefs: [
+    authTypeDefs,
     threadTypeDefs,
     userTypeDefs,
     programTypeDefs,
@@ -36,7 +40,8 @@ const graphQlConfig = {
     schoolTypeDefs,
     documentTypeDefs,
     eventTypeDefs,
-    fileTypeDefs
+    fileTypeDefs,
+    ...sharedTypeDefs
   ],
   createResolvers
 };

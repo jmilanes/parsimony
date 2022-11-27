@@ -1,65 +1,45 @@
-import { User } from "@parsimony/types";
-import { message } from "antd";
-import { userRequests } from "../bal";
+import { LoginResponse, LogOutResponse, User } from "@parsimony/types";
+import { me, login, logout } from "../bal";
 
 export default class AuthService {
   isLoggedIn: boolean;
+  authToken: string;
   previousPage: string;
   currentUser?: User;
-  users: User[];
   constructor() {
+    this.authToken = localStorage.getItem("authToken") || "";
     this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    this.users = [];
     this.previousPage = "";
   }
 
   init() {
-    // TODO Replace with server side auth
-    userRequests
-      .get({
-        id: localStorage.getItem("currentUserId") || ""
-      })
-      .then((currentUser) => {
-        this.currentUser = currentUser;
-      });
+    if (!this.authToken) {
+      localStorage.setItem("isLoggedIn", "false");
+    }
 
-    userRequests.getAll().then((users) => {
-      this.users = users;
+    me({ authToken: this.authToken }).then((currentUser) => {
+      console.log(
+        "🚀 ~ file: auth.service.ts ~ line 21 ~ AuthService ~ me ~ currentUser",
+        currentUser
+      );
+      this.currentUser = currentUser;
     });
   }
 
-  set = (users: User[]) => {
-    this.users = users;
-  };
-
   logIn = (email: string, password: string) => {
-    if (email === "admin" && password === "123456789") {
+    login({ email, password }).then((response: LoginResponse) => {
       localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("authToken", response.authToken as string);
       window.location.reload();
-      return;
-    }
-
-    const user = this.users.find((user) => {
-      return user.email === email;
     });
-    if (!user) {
-      message.error("Email not found");
-      return false;
-    }
-    if (user?.password !== password) {
-      message.error("Wrong Password");
-      return false;
-    }
-
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("currentUserId", user.id);
-    window.location.reload();
   };
 
   logOut = () => {
-    localStorage.setItem("isLoggedIn", "false");
-    localStorage.setItem("currentUser", "{}");
-    window.location.reload();
+    logout({ authToken: this.authToken }).then((response: LogOutResponse) => {
+      localStorage.setItem("isLoggedIn", "false");
+      this.currentUser = undefined;
+      window.location.reload();
+    });
   };
 
   setPreviousPage = (page: string) => (this.previousPage = page);
