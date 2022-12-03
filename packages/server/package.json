@@ -6,6 +6,7 @@
   "scripts": {
     "mongo:start": "sudo mongod && sudo brew services start mongodb-community@5.0",
     "start": "nodemon src/index.ts",
+    "start:prd": "nodemon src/index.ts",
     "build:types": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
