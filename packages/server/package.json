@@ -14,6 +14,7 @@
     "@types/ws": "^8.5.3",
     "apollo-server": "^3.7.0",
     "graphql": "^16.5.0",
+    "graphql-upload": "^16.0.2",
     "mongodb": "^4.6.0",
     "mongoose": "^6.3.3",
     "ts-node": "^10.8.0",

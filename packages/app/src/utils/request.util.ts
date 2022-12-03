@@ -26,7 +26,8 @@ export const createRequest = <P, R>(mutation: string) => {
   return async (payload?: P): Promise<R> => {
     const response = await fetch(SERVER_URL, {
       ...requestParams,
-      body: createBody(mutation, { payload })
+      body: createBody(mutation, { payload }),
+      mode: "no-cors"
     });
 
     return parseResponseJson<R>(await response.json());
