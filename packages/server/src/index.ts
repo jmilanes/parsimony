@@ -16,6 +16,10 @@ const CONNECTION_STRING = envIs("prod")
   ? PROD_CONNECTION_STRING
   : DEV_CONNECTION_STRING;
 
+console.log(
+  "🚀 ~ file: index.ts ~ line 16 ~ CONNECTION_STRING",
+  CONNECTION_STRING
+);
 mongoose.Promise = global.Promise;
 const db = new DataBaseService(mongoose);
 db.connectDataBase(CONNECTION_STRING);
