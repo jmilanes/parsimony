@@ -1,5 +1,5 @@
 import { IObject } from "@parsimony/types/src";
-import { envIs } from "./helpers.util";
+import { envIs } from "@parsimony/utilities";
 
 const LOCAL_URL = "http://localhost:4000";
 const PRODUCTION_URL = "https://api.parsimony.app/";
@@ -9,7 +9,8 @@ const SERVER_URL = envIs("prod") ? PRODUCTION_URL : LOCAL_URL;
 export const requestParams = {
   method: "POST",
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    mode: "no-cors"
   }
 };
 
@@ -23,11 +24,11 @@ export const createBody = (query: string, variables?: IObject) => {
 
 // TODO 2 one void one return type or one with an optional return type
 export const createRequest = <P, R>(mutation: string) => {
+  console.log(requestParams);
   return async (payload?: P): Promise<R> => {
     const response = await fetch(SERVER_URL, {
       ...requestParams,
-      body: createBody(mutation, { payload }),
-      mode: "no-cors"
+      body: createBody(mutation, { payload })
     });
 
     return parseResponseJson<R>(await response.json());

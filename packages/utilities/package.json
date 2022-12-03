@@ -1,0 +1,12 @@
+{
+  "name": "@parsimony/utilities",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src",
+  "dependencies": {
+    "typescript": "^4.6.4"
+  },
+  "devDependencies": {},
+  "resolutions": {},
+  "keywords": []
+}

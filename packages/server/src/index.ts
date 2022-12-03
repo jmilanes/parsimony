@@ -1,3 +1,4 @@
+import { envIs } from "@parsimony/utilities";
 const mongoose = require("mongoose");
 
 import { BroadcastService, DataBaseService, models } from "./database";
@@ -8,7 +9,13 @@ broadcastService.init();
 
 const { ApolloServer } = require("apollo-server");
 
-const CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
+const DEV_CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
+const PROD_CONNECTION_STRING = "mongodb://192.169.0.5:9999/parsimony-02";
+
+const CONNECTION_STRING = envIs("prod")
+  ? PROD_CONNECTION_STRING
+  : DEV_CONNECTION_STRING;
+
 mongoose.Promise = global.Promise;
 const db = new DataBaseService(mongoose);
 db.connectDataBase(CONNECTION_STRING);
