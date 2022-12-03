@@ -6,7 +6,7 @@ export const envIs = (env: "prod" | "test" | "dev"): boolean => {
   };
   console.log(
     "🚀 ~ file: env.utilities.ts ~ line 6 ~ envIs ~ process.env.NODE_ENV",
-    process
+    process.env
   );
 
   return map[env];
