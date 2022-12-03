@@ -105,6 +105,7 @@ export const omitMongoKeys = <R>(obj: any): R =>
   omit(["updated_at", "created_at"], obj) as R;
 
 export const removeMongoIds = (obj: any) => {
+  if (typeof obj !== "object") return obj;
   delete obj.id;
   Object.values(obj).forEach((value) => {
     if (Array.isArray(value)) value.forEach(removeMongoIds);
