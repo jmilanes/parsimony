@@ -1,4 +1,3 @@
-import { envIs } from "@parsimony/utilities";
 const mongoose = require("mongoose");
 
 import { BroadcastService, DataBaseService, models } from "./database";
@@ -9,10 +8,15 @@ broadcastService.init();
 
 const { ApolloServer } = require("apollo-server");
 
+const isServer =
+  process.env.INIT_CWD === "/home/jmilanes/parsimony/packages/server";
+
+console.log("🚀 ~ file: index.ts ~ line 13 ~ isServer", isServer);
+
 const DEV_CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
 const PROD_CONNECTION_STRING = "mongodb://192.169.0.5:9999/parsimony-02";
 
-const CONNECTION_STRING = envIs("prod")
+const CONNECTION_STRING = isServer
   ? PROD_CONNECTION_STRING
   : DEV_CONNECTION_STRING;
 
