@@ -14,7 +14,7 @@ const isServer =
 console.log("🚀 ~ file: index.ts ~ line 13 ~ isServer", isServer);
 
 const DEV_CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
-const PROD_CONNECTION_STRING = "mongodb://192.169.0.5:9999/parsimony-02";
+const PROD_CONNECTION_STRING = "mongodb://localhost:27017/parsimony-02";
 
 const CONNECTION_STRING = isServer
   ? PROD_CONNECTION_STRING
