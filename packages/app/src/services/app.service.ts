@@ -61,6 +61,7 @@ import {
 import { AsyncCrudGenerator } from "./crudGenerators/asyncCrud.generator";
 import AuthService from "./auth.service";
 import AppControlsService from "./appControls.service";
+import { envIs } from "@parsimony/utilities/src";
 
 export type Services = {
   [ServiceTypes.App]: {
@@ -120,7 +121,10 @@ export default class AppController {
   };
 
   private _initWebSocket = () => {
-    const webSocket = new WebSocket("ws://localhost:8080");
+    const SOCKET_URL = envIs("prod")
+      ? "wss://api.parsimony.app:8080"
+      : "ws://localhost:8080";
+    const webSocket = new WebSocket(SOCKET_URL);
     webSocket.onopen = () => console.log("User connection opened!");
     this.socket$ = new Observable((subscriber) => {
       webSocket.onmessage = (message: any) => {

@@ -18,11 +18,9 @@ export default class AuthService {
     }
 
     me({ authToken: this.authToken }).then((currentUser) => {
-      console.log(
-        "🚀 ~ file: auth.service.ts ~ line 21 ~ AuthService ~ me ~ currentUser",
-        currentUser
-      );
       this.currentUser = currentUser;
+      // TODO: ACCESS TO THIS NEEDS TO BE EASIER
+      id: localStorage.setItem("currentUserId", currentUser.id);
     });
   }
 
