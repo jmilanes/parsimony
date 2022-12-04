@@ -24,7 +24,8 @@ export class BroadcastService {
       socket.on("close", () => console.log(`Connection Closed.`));
     });
 
-    this.webSocket = new WS(`ws://localhost:${this.port}`);
+    // this.webSocket = new WS(`ws://localhost:${this.port}`);
+    this.webSocket = new WS(`wss://api.parsimony.com:${this.port}`);
   };
 
   private _broadcastPayloadToClients = (clients: any[], payload: any) =>
