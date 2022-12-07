@@ -23,8 +23,7 @@ export class BroadcastService {
       );
       socket.on("close", () => console.log(`Connection Closed.`));
     });
-    console.log("NODDDEE", process.env);
-    this.webSocket = new WS(`wss://api.parsimony.app:${this.port}`);
+    this.webSocket = new WS(`ws://api.parsimony.app:${this.port}`);
   };
 
   private _broadcastPayloadToClients = (clients: any[], payload: any) =>
