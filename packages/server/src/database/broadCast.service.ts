@@ -10,7 +10,7 @@ export class BroadcastService {
   webSocketServer: Record<string, any>;
   constructor() {
     this.webSocket = {};
-    this.webSocketServer = new WS.server({ port: 8080 });
+    this.webSocketServer = new WS.Server({ port: 8080 });
   }
 
   public init = (isServer?: boolean) => {
