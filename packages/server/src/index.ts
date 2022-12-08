@@ -1,17 +1,14 @@
 const mongoose = require("mongoose");
+const { ApolloServer } = require("apollo-server");
 
 import { BroadcastService, DataBaseService, models } from "./database";
 import graphQlConfig, { ICreateResolverParams } from "./collections";
 
-const broadcastService = new BroadcastService(8080);
-broadcastService.init();
-
-const { ApolloServer } = require("apollo-server");
-
 const isServer =
   process.env.INIT_CWD === "/home/jmilanes/parsimony/packages/server";
 
-console.log("🚀 ~ file: index.ts ~ line 13 ~ isServer", isServer);
+const broadcastService = new BroadcastService();
+broadcastService.init();
 
 const DEV_CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
 const PROD_CONNECTION_STRING = "mongodb://localhost:27017/parsimony-02";
@@ -20,10 +17,6 @@ const CONNECTION_STRING = isServer
   ? PROD_CONNECTION_STRING
   : DEV_CONNECTION_STRING;
 
-console.log(
-  "🚀 ~ file: index.ts ~ line 16 ~ CONNECTION_STRING",
-  CONNECTION_STRING
-);
 mongoose.Promise = global.Promise;
 const db = new DataBaseService(mongoose);
 db.connectDataBase(CONNECTION_STRING);

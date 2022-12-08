@@ -6,16 +6,14 @@ const WS = require("ws");
 // };
 
 export class BroadcastService {
-  port: number;
   webSocket: Record<string, any>;
   webSocketServer: Record<string, any>;
-  constructor(port: number) {
-    this.port = port;
+  constructor() {
     this.webSocket = {};
-    this.webSocketServer = new WS.Server({ port: port });
+    this.webSocketServer = new WS.server({ port: 8080 });
   }
 
-  public init = () => {
+  public init = (isServer?: boolean) => {
     this.webSocketServer.on("connection", (socket: any) => {
       console.log(`${new Date()} Connection accepted.`);
       socket.on("message", (payload: string) =>
@@ -23,7 +21,9 @@ export class BroadcastService {
       );
       socket.on("close", () => console.log(`Connection Closed.`));
     });
-    this.webSocket = new WS(`ws://api.parsimony.app:${this.port}`);
+    this.webSocket = isServer
+      ? new WS(`ws://localhost:8080`)
+      : new WS(`ws://localhost:8080`);
   };
 
   private _broadcastPayloadToClients = (clients: any[], payload: any) =>

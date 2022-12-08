@@ -122,8 +122,8 @@ export default class AppController {
 
   private _initWebSocket = () => {
     const SOCKET_URL = envIs("prod")
-      ? "wss://api.parsimony.app:8080"
-      : "ws://api.parsimony.app:8080";
+      ? "wss://broadcast.parsimony.app"
+      : "ws://localhost:8080";
     const webSocket = new WebSocket(SOCKET_URL);
     webSocket.onopen = () => console.log("User connection opened!");
     this.socket$ = new Observable((subscriber) => {
