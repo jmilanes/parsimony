@@ -40,7 +40,7 @@ export const ChatMessage = ({
   return (
     <div
       className={`message-container ${
-        currentUserId === message.userId ? "sent-by-current-user" : ""
+        currentUserId === message?.userId ? "sent-by-current-user" : ""
       }`}
     >
       <div className="message-bubble">
