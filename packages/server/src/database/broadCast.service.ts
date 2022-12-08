@@ -22,7 +22,7 @@ export class BroadcastService {
       socket.on("close", () => console.log(`Connection Closed.`));
     });
     this.webSocket = isServer
-      ? new WS(`wss://broadcast.parsimony.app:8080`)
+      ? new WS(`wss://broadcast.parsimony.app`)
       : new WS(`ws://localhost:8080`);
   };
 
