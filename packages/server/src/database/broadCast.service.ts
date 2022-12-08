@@ -2,7 +2,7 @@ const WS = require("ws");
 
 // type INotifyUsersPayLoad = {
 //   subscribers: string[];
-//   type: "THREAD" | "CALENDAR";
+//   type: "THREAD" | "CALENDAR";/
 // };
 
 export class BroadcastService {
