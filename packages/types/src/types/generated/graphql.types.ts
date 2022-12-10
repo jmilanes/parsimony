@@ -318,6 +318,7 @@ export type Mutation = {
   deleteThread?: Maybe<Scalars['ID']>;
   deleteUser?: Maybe<Scalars['ID']>;
   editMessage?: Maybe<Scalars['ID']>;
+  resetPassword?: Maybe<ResetPasswordResponse>;
   updateDocument?: Maybe<Document>;
   updateEvent?: Maybe<Event>;
   updateFile?: Maybe<File>;
@@ -421,6 +422,11 @@ export type MutationDeleteUserArgs = {
 
 export type MutationEditMessageArgs = {
   payload?: InputMaybe<EditMessagePayload>;
+};
+
+
+export type MutationResetPasswordArgs = {
+  payload?: InputMaybe<ResetPasswordPayload>;
 };
 
 
@@ -613,6 +619,16 @@ export type QueryLogoutArgs = {
 
 export type QueryMeArgs = {
   payload?: InputMaybe<MePayload>;
+};
+
+export type ResetPasswordPayload = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type ResetPasswordResponse = {
+  __typename?: 'ResetPasswordResponse';
+  passwordReset?: Maybe<Scalars['Boolean']>;
 };
 
 export type Result = {
@@ -989,6 +1005,8 @@ export type ResolversTypes = {
   ProgramTypes: ProgramTypes;
   ProgramValueTypes: ProgramValueTypes;
   Query: ResolverTypeWrapper<{}>;
+  ResetPasswordPayload: ResetPasswordPayload;
+  ResetPasswordResponse: ResolverTypeWrapper<ResetPasswordResponse>;
   Result: ResolverTypeWrapper<Result>;
   ResultData: ResolverTypeWrapper<ResultData>;
   ResultDataInput: ResultDataInput;
@@ -1073,6 +1091,8 @@ export type ResolversParentTypes = {
   Mutation: {};
   Program: Program;
   Query: {};
+  ResetPasswordPayload: ResetPasswordPayload;
+  ResetPasswordResponse: ResetPasswordResponse;
   Result: Result;
   ResultData: ResultData;
   ResultDataInput: ResultDataInput;
@@ -1178,6 +1198,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteThread?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, Partial<MutationDeleteThreadArgs>>;
   deleteUser?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, Partial<MutationDeleteUserArgs>>;
   editMessage?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, Partial<MutationEditMessageArgs>>;
+  resetPassword?: Resolver<Maybe<ResolversTypes['ResetPasswordResponse']>, ParentType, ContextType, Partial<MutationResetPasswordArgs>>;
   updateDocument?: Resolver<Maybe<ResolversTypes['Document']>, ParentType, ContextType, Partial<MutationUpdateDocumentArgs>>;
   updateEvent?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType, Partial<MutationUpdateEventArgs>>;
   updateFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, Partial<MutationUpdateFileArgs>>;
@@ -1235,6 +1256,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   logout?: Resolver<Maybe<ResolversTypes['LogOutResponse']>, ParentType, ContextType, Partial<QueryLogoutArgs>>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryMeArgs>>;
   threads?: Resolver<Maybe<Array<Maybe<ResolversTypes['Thread']>>>, ParentType, ContextType>;
+};
+
+export type ResetPasswordResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResetPasswordResponse'] = ResolversParentTypes['ResetPasswordResponse']> = {
+  passwordReset?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['Result'] = ResolversParentTypes['Result']> = {
@@ -1351,6 +1377,7 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Program?: ProgramResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
   Result?: ResultResolvers<ContextType>;
   ResultData?: ResultDataResolvers<ContextType>;
   Rule?: RuleResolvers<ContextType>;

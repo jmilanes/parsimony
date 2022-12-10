@@ -29,7 +29,6 @@ it("returns hello with the provided name", async () => {
       }
     }`
   });
-  console.log("🚀 ~ file: treads.test.ts ~ line 34 ~ it ~ result", result);
 
   // expect(result.errors).toBeUndefined();
   expect(result.data?.hello).toBe("Hello world!");

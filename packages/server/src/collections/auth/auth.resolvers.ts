@@ -33,15 +33,6 @@ class TokenService {
 
 const tokenService = new TokenService();
 
-export default (ICreateResolverParams: ICreateResolverParams) => ({
-  Mutation: {},
-  Query: {
-    me: me(ICreateResolverParams),
-    login: login(ICreateResolverParams),
-    logout: login(ICreateResolverParams)
-  }
-});
-
 // Retrieve user data based on auth token
 export const me =
   ({ db, broadcast }: ICreateResolverParams) =>
@@ -85,6 +76,27 @@ export const login =
     };
   };
 
+export const resetPassword =
+  ({ db, broadcast }: ICreateResolverParams) =>
+  async (
+    _: any,
+    {
+      payload: { email, password }
+    }: { payload: { email: string; password: string } }
+  ) => {
+    const user = await db.findEntry(modelTypes.user, { email });
+
+    if (!user) {
+      throw Error("Invalid Email");
+    }
+
+    await db.updateEntry(user, { password: password });
+
+    return {
+      passwordReset: true
+    };
+  };
+
 // unregister auth token logs out user
 export const logout =
   ({ db, broadcast }: ICreateResolverParams) =>
@@ -94,3 +106,14 @@ export const logout =
       isLoggedIn: false
     };
   };
+
+export default (ICreateResolverParams: ICreateResolverParams) => ({
+  Mutation: {
+    resetPassword: resetPassword(ICreateResolverParams)
+  },
+  Query: {
+    me: me(ICreateResolverParams),
+    login: login(ICreateResolverParams),
+    logout: logout(ICreateResolverParams)
+  }
+});

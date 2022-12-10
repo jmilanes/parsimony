@@ -25,8 +25,17 @@ query logout($payload: LogoutPayload) {
 }
   `;
 
+const resetPassword = `
+mutation resetPassword($payload: ResetPasswordPayload) {
+  resetPassword(payload: $payload) {
+    passwordReset
+  }
+}
+  `;
+
 export default {
   me,
   login,
-  logout
+  logout,
+  resetPassword
 };

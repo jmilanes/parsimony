@@ -103,7 +103,6 @@ const User = () => {
           />,
           <Button
             key="submit"
-            type="primary"
             name="Submit"
             action={submitForm}
             hidden={isReadOnlyMode(mode)}
@@ -128,6 +127,21 @@ const User = () => {
         placeHolderText="Phone Number"
         pathToState="phone"
         value={localState.phone}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+      />
+      <Field
+        placeHolderText="Email"
+        pathToState="email"
+        value={localState.email}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+      />
+      {/* We shouldn't need the password and more in the return if you need to reset you should hit a button on the login to do should prob have its own end point  */}
+      <Field
+        placeHolderText="Password"
+        pathToState="password"
+        value={localState.password}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
       />

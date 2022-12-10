@@ -10,6 +10,11 @@ export default gql`
     password: String!
   }
 
+  input ResetPasswordPayload {
+    email: String!
+    password: String!
+  }
+
   input LogoutPayload {
     authToken: String!
   }
@@ -27,9 +32,16 @@ export default gql`
     isLoggedIn: Boolean
   }
 
+  type ResetPasswordResponse {
+    passwordReset: Boolean
+  }
+
   type Query {
     me(payload: MePayload): User
     login(payload: LoginPayload): LoginResponse
     logout(payload: LogoutPayload): LogOutResponse
+  }
+  type Mutation {
+    resetPassword(payload: ResetPasswordPayload): ResetPasswordResponse
   }
 `;

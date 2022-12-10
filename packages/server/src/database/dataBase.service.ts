@@ -59,6 +59,7 @@ export class DataBaseService {
 
   async updateEntry(entry: any, update: Record<string, any>) {
     await entry.updateOne(update);
+    this.saveEntry(entry);
   }
   async saveEntry(entry: any) {
     await entry.save();

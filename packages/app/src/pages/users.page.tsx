@@ -20,6 +20,7 @@ import { IColumns, ITableAction } from "../components/table.component";
 import { Pages } from "@parsimony/types";
 
 import { useServices } from "../context";
+import { encrypt } from "@parsimony/utilities";
 
 const Users = () => {
   const { stateManager, dataAccess, store } = useServices();
@@ -40,6 +41,11 @@ const Users = () => {
   });
 
   const submitAddForm = () => {
+    if (!localState.password) {
+      console.error("YOU NEED A PASSWORD");
+      return;
+    }
+    localState.password = encrypt(localState.password);
     dataAccess.user.create(localState);
     setShowAddForm(false);
     updateLocalState(initialUserData);

@@ -33,10 +33,6 @@ export const MultiSelect = ({
     updateState(pathToState, values);
 
   const FormHeader = () => {
-    console.log(
-      "🚀 ~ file: multiSelect.component.tsx ~ line 36 ~ title",
-      title
-    );
     return (
       <Col xs={12}>
         <Header text={formatFormHeader(title)} size="sm" />

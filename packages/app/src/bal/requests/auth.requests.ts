@@ -4,7 +4,9 @@ import {
   LogoutPayload,
   User,
   LoginResponse,
-  LogOutResponse
+  LogOutResponse,
+  ResetPasswordPayload,
+  ResetPasswordResponse
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 
@@ -19,3 +21,7 @@ export const login = createRequest<LoginPayload, LoginResponse>(
 export const logout = createRequest<LogoutPayload, LogOutResponse>(
   authOperationStrings.logout
 );
+export const resetPassword = createRequest<
+  ResetPasswordPayload,
+  ResetPasswordResponse
+>(authOperationStrings.resetPassword);

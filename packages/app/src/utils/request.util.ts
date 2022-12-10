@@ -24,7 +24,6 @@ export const createBody = (query: string, variables?: IObject) => {
 
 // TODO 2 one void one return type or one with an optional return type
 export const createRequest = <P, R>(mutation: string) => {
-  console.log(requestParams);
   return async (payload?: P): Promise<R> => {
     const response = await fetch(SERVER_URL, {
       ...requestParams,
