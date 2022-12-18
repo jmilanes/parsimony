@@ -3,7 +3,10 @@ import { fullSchema } from "../users.requests";
 const me = `
 query me($payload: MePayload) {
   me(payload: $payload) {
-    ${fullSchema}
+    user {
+      ${fullSchema}
+    }
+    accessToken
   }
 }
 `;
@@ -12,7 +15,8 @@ const login = `
 query login($payload: LoginPayload) {
   login(payload: $payload) {
     isLoggedIn
-    authToken
+    accessToken
+    refreshToken
   }
 }
 `;

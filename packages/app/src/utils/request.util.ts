@@ -9,6 +9,8 @@ const SERVER_URL = envIs("prod") ? PRODUCTION_URL : LOCAL_URL;
 export const requestParams = {
   method: "POST",
   headers: {
+    // TODO Think though how all this local storage stuff should be accessed and the order of operations of init/async work
+    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     "Content-Type": "application/json",
     mode: "no-cors"
   }

@@ -109,8 +109,8 @@ export default class AppController {
   };
 
   loadCollections = async () => {
+    await this._initAuthService();
     this.services.dataAccess.thread$.init();
-    this._initAuthService();
     this._isLoading(false);
     console.log("All Data Loaded");
   };
@@ -158,7 +158,7 @@ export default class AppController {
 
   private _initAuthService = async () => {
     const authService = new AuthService();
-    authService.init();
+    await authService.init();
     this.services[ServiceTypes.AuthService] = authService;
   };
 }

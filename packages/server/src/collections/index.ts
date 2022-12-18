@@ -9,10 +9,12 @@ import { eventTypeDefs, eventResolvers } from "./events";
 import { fileTypeDefs, fileResolvers } from "./files";
 import { authTypeDefs, authResolvers } from "./auth";
 import sharedTypeDefs from "./shredTypeDefs";
+import TokensService from "../database/token.service";
 
 export type ICreateResolverParams = {
   db: DataBaseService;
   broadcast: (payload: Record<string, any>) => void;
+  tokenService: TokensService;
 };
 
 const createResolvers = (params: ICreateResolverParams) => {

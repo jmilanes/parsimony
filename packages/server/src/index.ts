@@ -1,19 +1,22 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const { ApolloServer } = require("apollo-server");
 
 import { BroadcastService, DataBaseService, models } from "./database";
 import graphQlConfig, { ICreateResolverParams } from "./collections";
+import { envIs } from "@parsimony/utilities/src";
+import TokensService from "./database/token.service";
 
-const isServer =
-  process.env.INIT_CWD === "/home/jmilanes/parsimony/packages/server";
+const isProduction = envIs("prod");
 
 const broadcastService = new BroadcastService();
+
 broadcastService.init();
 
 const DEV_CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
 const PROD_CONNECTION_STRING = "mongodb://localhost:27017/parsimony-02";
 
-const CONNECTION_STRING = isServer
+const CONNECTION_STRING = isProduction
   ? PROD_CONNECTION_STRING
   : DEV_CONNECTION_STRING;
 
@@ -22,9 +25,12 @@ const db = new DataBaseService(mongoose);
 db.connectDataBase(CONNECTION_STRING);
 db.createModels(models);
 
+const tokenService = new TokensService(db);
+
 const resolverUtils: ICreateResolverParams = {
   db,
-  broadcast: broadcastService.broadcast
+  broadcast: broadcastService.broadcast,
+  tokenService
 };
 
 //***** TESTING *****/
@@ -39,10 +45,24 @@ const resolverUtils: ICreateResolverParams = {
 
 // * IDK How to test sockets but sure the is a way...
 
+const ignoredAuthorizationQueries = ["me", "login", "logout"];
+
 const server = new ApolloServer({
   namespace: "Parsimony",
   typeDefs: graphQlConfig.typeDefs,
-  resolvers: graphQlConfig.createResolvers(resolverUtils)
+  resolvers: graphQlConfig.createResolvers(resolverUtils),
+  async context({ req }: { req: any }) {
+    const isIgnoredAuthorizationQuery = ignoredAuthorizationQueries.some(
+      (ignoredQuery) => req.body.query.includes(ignoredQuery)
+    );
+
+    if (isIgnoredAuthorizationQuery) {
+      return {};
+    }
+    const accessToken = req.headers.authorization.split(" ")[1];
+    const currentUser = await tokenService.verifyAccessToken(accessToken);
+    return { currentUser };
+  }
 });
 
 server.listen().then(({ url }: { url: string }) => {

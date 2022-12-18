@@ -2303,7 +2303,7 @@
         "description": null,
         "fields": [
           {
-            "name": "authToken",
+            "name": "accessToken",
             "description": null,
             "args": [],
             "type": {
@@ -2325,6 +2325,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "refreshToken",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -2339,7 +2351,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "authToken",
+            "name": "refreshToken",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -2366,7 +2378,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "authToken",
+            "name": "refreshToken",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -2383,6 +2395,41 @@
           }
         ],
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MeResponse",
+        "description": null,
+        "fields": [
+          {
+            "name": "accessToken",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -4133,7 +4180,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "User",
+              "name": "MeResponse",
               "ofType": null
             },
             "isDeprecated": false,

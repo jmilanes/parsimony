@@ -2,7 +2,7 @@ const { gql } = require("apollo-server");
 
 export default gql`
   input MePayload {
-    authToken: String!
+    refreshToken: String!
   }
 
   input LoginPayload {
@@ -16,16 +16,17 @@ export default gql`
   }
 
   input LogoutPayload {
-    authToken: String!
+    refreshToken: String!
   }
 
   input AuthPayload {
-    authToken: String!
+    accessToken: String!
   }
 
   type LoginResponse {
     isLoggedIn: Boolean
-    authToken: String
+    accessToken: String
+    refreshToken: String
   }
 
   type LogOutResponse {
@@ -36,8 +37,13 @@ export default gql`
     passwordReset: Boolean
   }
 
+  type MeResponse {
+    accessToken: String
+    user: User
+  }
+
   type Query {
-    me(payload: MePayload): User
+    me(payload: MePayload): MeResponse
     login(payload: LoginPayload): LoginResponse
     logout(payload: LogoutPayload): LogOutResponse
   }

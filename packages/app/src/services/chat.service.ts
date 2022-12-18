@@ -31,6 +31,7 @@ export default class ChatService {
   }
 
   init = () => {
+    if (localStorage.getItem("currentUserId")) return;
     // TODO: Create better way to get current user data (auth shouldn't need to be reliant on client side user data and there should be a service to access the auth data)
     getThreadsByUserId({
       id: localStorage.getItem("currentUserId") || ""

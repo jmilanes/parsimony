@@ -1,57 +1,22 @@
 import { ICreateResolverParams } from "../../collections";
 import { modelTypes } from "../../database/models";
-
-class TokenService {
-  activeTokens: Record<string, string>;
-  constructor() {
-    this.activeTokens = {};
-  }
-
-  public addToken(userId: string) {
-    const token = this.generateToken();
-    this.activeTokens[token] = userId;
-    return token;
-  }
-
-  public deleteToken(token: string) {
-    delete this.activeTokens[token];
-  }
-
-  public getUserIdByToken(token: string) {
-    const user = this.activeTokens[token];
-    if (!user) {
-      throw Error("Invalid Access Token");
-    }
-    return user;
-  }
-
-  private generateToken() {
-    let rand = () => Math.random().toString(36);
-    return rand() + rand();
-  }
-}
-
-const tokenService = new TokenService();
+import TokensService from "../../database/token.service";
 
 // Retrieve user data based on auth token
 export const me =
-  ({ db, broadcast }: ICreateResolverParams) =>
+  ({ db, tokenService }: ICreateResolverParams) =>
   async (
     _: any,
-    { payload: { authToken } }: { payload: { authToken: string } }
+    { payload: { refreshToken } }: { payload: { refreshToken: string } }
   ) => {
-    const userId = tokenService.getUserIdByToken(authToken);
-    if (!userId) {
-      throw Error("Invalid AuthToken");
-    }
+    const response = await tokenService.verifyRefreshToken(refreshToken);
 
-    const user = await db.findEntry(modelTypes.user, { _id: userId });
-    return user;
+    return response;
   };
 
 // logs in user registers new auth token and returns
 export const login =
-  ({ db, broadcast }: ICreateResolverParams) =>
+  ({ db, tokenService }: ICreateResolverParams) =>
   async (
     _: any,
     {
@@ -68,16 +33,19 @@ export const login =
       throw Error("Invalid Password");
     }
 
-    const authToken = tokenService.addToken(user.id);
+    const userObj = user.toObject();
+    const accessToken = tokenService.generateAccessToken(userObj);
+    const refreshToken = tokenService.generateRefreshToke(userObj);
 
     return {
       isLoggedIn: true,
-      authToken
+      accessToken,
+      refreshToken
     };
   };
 
 export const resetPassword =
-  ({ db, broadcast }: ICreateResolverParams) =>
+  ({ db }: ICreateResolverParams) =>
   async (
     _: any,
     {
@@ -99,9 +67,9 @@ export const resetPassword =
 
 // unregister auth token logs out user
 export const logout =
-  ({ db, broadcast }: ICreateResolverParams) =>
+  ({ tokenService }: ICreateResolverParams) =>
   async (_: any, { payload: { token } }: { payload: { token: string } }) => {
-    tokenService.deleteToken(token);
+    tokenService.deleteRefreshToken(token);
     return {
       isLoggedIn: false
     };
