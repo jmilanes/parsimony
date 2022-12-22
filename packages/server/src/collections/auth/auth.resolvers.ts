@@ -68,8 +68,11 @@ export const resetPassword =
 // unregister auth token logs out user
 export const logout =
   ({ tokenService }: ICreateResolverParams) =>
-  async (_: any, { payload: { token } }: { payload: { token: string } }) => {
-    tokenService.deleteRefreshToken(token);
+  async (
+    _: any,
+    { payload: { refreshToken } }: { payload: { refreshToken: string } }
+  ) => {
+    await tokenService.deleteRefreshToken(refreshToken);
     return {
       isLoggedIn: false
     };

@@ -6,7 +6,8 @@ import user from "./user.model";
 import actionItem from "./actionItem.model";
 import document from "./document.model";
 import event from "./event.model";
-import file from "./event.model";
+import file from "./file.model";
+import refreshToken from "./refreshTokens.model";
 
 export enum modelTypes {
   thread = "thread",
@@ -17,7 +18,8 @@ export enum modelTypes {
   actionItem = "actionItem",
   document = "document",
   event = "event",
-  file = "file"
+  file = "file",
+  refreshToken = "refreshToken"
 }
 
 export const models = {
@@ -29,5 +31,6 @@ export const models = {
   [modelTypes.actionItem]: actionItem,
   [modelTypes.document]: document,
   [modelTypes.event]: event,
-  [modelTypes.file]: file
+  [modelTypes.file]: file,
+  [modelTypes.refreshToken]: refreshToken
 };

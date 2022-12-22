@@ -6,11 +6,11 @@ import { modelTypes } from "./models";
 
 export default class TokensService {
   refreshTokens: string[];
-  db: DataBaseService;
+  private _db: DataBaseService;
   constructor(db: DataBaseService) {
     // This will be DB
     this.refreshTokens = [];
-    this.db = db;
+    this._db = db;
   }
 
   /**
@@ -38,7 +38,7 @@ export default class TokensService {
       user,
       process.env.REFRESH_TOKEN_SECRET as string
     );
-    this.saveRefreshToken(refreshToken);
+    this.saveRefreshToken(refreshToken, user.id);
     return refreshToken;
   }
 
@@ -77,8 +77,7 @@ export default class TokensService {
    * @param {(error: any, payload: any) => void} cb
    */
   public async verifyRefreshToken(token: string) {
-    const isRefreshTokenValid = this.isRefreshTokenValid(token);
-
+    const isRefreshTokenValid = await this.isRefreshTokenValid(token);
     if (!isRefreshTokenValid) {
       throw new Error("Invalid Refresh Token");
     }
@@ -97,7 +96,7 @@ export default class TokensService {
       }
     );
 
-    const user = await this.db.findEntry(modelTypes.user, { _id: userId });
+    const user = await this._db.findEntry(modelTypes.user, { _id: userId });
 
     return { accessToken, user };
   }
@@ -126,8 +125,8 @@ export default class TokensService {
    *
    * @param {String} token
    */
-  public saveRefreshToken(token: string) {
-    this.refreshTokens = [...this.refreshTokens, token];
+  public async saveRefreshToken(token: string, userId: string) {
+    await this._db.createEntry(modelTypes.refreshToken, { token, userId });
   }
 
   /**
@@ -136,10 +135,11 @@ export default class TokensService {
    *
    * @param {String} token
    */
-  public deleteRefreshToken(token: string) {
-    this.refreshTokens = this.refreshTokens.filter(
-      (refreshToken) => refreshToken !== token
-    );
+  public async deleteRefreshToken(token: string) {
+    const foundToken = await this._db.findEntry(modelTypes.refreshToken, {
+      token
+    });
+    await this._db.deleteEntry(modelTypes.refreshToken, foundToken._id);
   }
 
   /**
@@ -149,7 +149,9 @@ export default class TokensService {
    * @param {String} token
    * @returns {Boolean}
    */
-  public isRefreshTokenValid(token: string): Boolean {
-    return this.refreshTokens.includes(token);
+  public async isRefreshTokenValid(token: string): Promise<boolean> {
+    return await this._db.findEntry(modelTypes.refreshToken, {
+      token
+    });
   }
 }
