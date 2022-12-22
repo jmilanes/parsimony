@@ -31,11 +31,16 @@ export default class ChatService {
   }
 
   init = () => {
-    if (localStorage.getItem("currentUserId")) return;
     // TODO: Create better way to get current user data (auth shouldn't need to be reliant on client side user data and there should be a service to access the auth data)
+    const id = localStorage.getItem("currentUserId");
+    if (!id) return;
     getThreadsByUserId({
-      id: localStorage.getItem("currentUserId") || ""
+      id: id
     }).then((threads) => {
+      console.log(
+        "🚀 ~ file: chat.service.ts:43 ~ ChatService ~ threads",
+        threads
+      );
       const formattedData = threads.reduce(
         (acc: ThreadCollection, curr: Thread) => {
           acc[curr.id] = curr;
