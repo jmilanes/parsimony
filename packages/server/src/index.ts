@@ -45,7 +45,7 @@ const resolverUtils: ICreateResolverParams = {
 
 // * IDK How to test sockets but sure the is a way...
 
-const ignoredAuthorizationQueries = ["me", "login", "logout"];
+const ignoredAuthorizationQueries = ["me", "login", "logout", "resetPassword"];
 
 const server = new ApolloServer({
   namespace: "Parsimony",
