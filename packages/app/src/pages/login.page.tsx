@@ -1,8 +1,8 @@
-import React, { KeyboardEvent, useEffect, useState } from "react";
+import { AuthPageDataIds } from "@parsimony/types";
+import React, { useEffect, useState } from "react";
 
-import { Header } from "../components";
+import { Header, Button, Field } from "../components";
 import { useServices } from "../context";
-import { createShortCut } from "../utils";
 
 const Login = ({ from }: { from: string }) => {
   const { authService } = useServices();
@@ -29,32 +29,46 @@ const Login = ({ from }: { from: string }) => {
 
   return (
     <div>
-      <Header text="Login" size="lg" />
-      <div>
-        <input
-          type="text"
-          onChange={(e) => setUserName(e.target.value)}
-          placeholder="Email"
-          value={userName}
-          id=""
+      <Header text="Parsimony | Login" size="lg" />
+      <Field
+        updateState={(_, value) => setUserName(value)}
+        placeHolderText="Email"
+        value={userName}
+        dataTestId={AuthPageDataIds.emailField}
+      />
+      <Field
+        placeHolderText="password"
+        value={password}
+        updateState={(_, value) => setPassword(value)}
+        dataTestId={AuthPageDataIds.passwordField}
+      />
+      {resetPasswordMode ? (
+        <Button
+          name="Reset"
+          action={onResetPassword}
+          dataTestId={AuthPageDataIds.resetBtn}
         />
-        <input
-          type="password"
-          placeholder="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          id=""
+      ) : (
+        <Button
+          name="Login"
+          action={onLogin}
+          dataTestId={AuthPageDataIds.loginBtn}
         />
-        {resetPasswordMode ? (
-          <button onClick={onResetPassword}>Reset</button>
-        ) : (
-          <button onClick={onLogin}>Login</button>
-        )}
-        {!resetPasswordMode && (
-          <a onClick={toggleRestPassword(true)}>Reset Password</a>
-        )}
-        {resetPasswordMode && <a onClick={toggleRestPassword(false)}>Cancel</a>}
-      </div>
+      )}
+      {!resetPasswordMode && (
+        <Button
+          name="Reset Password"
+          action={toggleRestPassword(true)}
+          dataTestId={AuthPageDataIds.resetPasswordBtn}
+        />
+      )}
+      {resetPasswordMode && (
+        <Button
+          name="Cancel"
+          action={toggleRestPassword(false)}
+          dataTestId={AuthPageDataIds.cancelBtn}
+        />
+      )}
     </div>
   );
 };

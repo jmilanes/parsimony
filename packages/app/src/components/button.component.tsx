@@ -1,6 +1,8 @@
 import React from "react";
 import MaterialButton from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
+import { generateDataTestId } from "../utils";
+import { UIDataTargetTypes } from "@parsimony/types/src";
 
 export type IButtonProps = {
   key?: string;
@@ -10,6 +12,7 @@ export type IButtonProps = {
   disabled?: boolean;
   type?: "outlined" | "contained" | "text";
   icon?: React.ReactNode;
+  dataTestId?: string;
 };
 
 export const Button = ({
@@ -18,7 +21,8 @@ export const Button = ({
   hidden,
   disabled,
   type = "outlined",
-  icon
+  icon,
+  dataTestId
 }: IButtonProps) => {
   if (hidden) return <></>;
   if (icon) {
@@ -30,6 +34,7 @@ export const Button = ({
   }
   return (
     <MaterialButton
+      data-cy={generateDataTestId(UIDataTargetTypes.Button, dataTestId || "")}
       disabled={disabled}
       className="parsimony-btn"
       variant={type}

@@ -12,7 +12,8 @@
     "start:server": "cd packages/server/ && yarn start",
     "start:app": "cd packages/app/ && yarn start",
     "build:types": "cd packages/server/ && yarn build:types",
-    "start": "concurrently \"yarn start:server\" \"yarn start:app\""
+    "start": "concurrently \"yarn start:server\" \"yarn start:app\"",
+    "cypress:open": "cd packages/e2e/ && yarn cypress:open"
   },
   "dependencies": {},
   "devDependencies": {

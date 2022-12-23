@@ -1,16 +1,19 @@
 import React from "react";
 
 import { Container, Header } from "../components";
-import { Maybe } from "@parsimony/types";
+import { Maybe, UIDataTargetTypes } from "@parsimony/types";
 import TextField from "@mui/material/TextField";
+import { generateDataTestId } from "../utils";
 
 export type IFieldProps = {
   key?: string;
   readOnly?: boolean;
   value?: Maybe<string>;
-  pathToState: string;
+  pathToState?: string;
   placeHolderText: string;
+  //TODO: This should prob be better
   updateState: (path: string, value: string) => void;
+  dataTestId?: string;
 };
 
 export const Field = ({
@@ -19,7 +22,8 @@ export const Field = ({
   updateState,
   pathToState,
   placeHolderText,
-  key
+  key,
+  dataTestId
 }: IFieldProps) => {
   return readOnly ? (
     <Container flexDirection="row" key={key}>
@@ -29,12 +33,13 @@ export const Field = ({
   ) : (
     <Container flexDirection="column" key={key} margin={10}>
       <TextField
+        data-cy={generateDataTestId(UIDataTargetTypes.Field, dataTestId || "")}
         size="small"
         key={key}
         label={placeHolderText}
         placeholder={placeHolderText}
         value={value || ""}
-        onChange={(e) => updateState(pathToState, e.currentTarget.value)}
+        onChange={(e) => updateState(pathToState || "", e.currentTarget.value)}
       ></TextField>
     </Container>
   );
