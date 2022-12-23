@@ -1,4 +1,4 @@
-import { Routes, NavTitles } from "@parsimony/types";
+import { Routes, NavTitles, NavDataIds } from "@parsimony/types";
 
 import {
   Home,
@@ -17,12 +17,14 @@ const routes: IRoute[] = [
   {
     path: Routes.Home,
     element: Home,
-    name: NavTitles.Home
+    name: NavTitles.Home,
+    dataTestId: NavDataIds.homeBtn
   },
   {
     path: Routes.Programs,
     element: Programs,
-    name: NavTitles.Programs
+    name: NavTitles.Programs,
+    dataTestId: NavDataIds.programBtn
   },
   {
     path: Routes.Program,
@@ -31,7 +33,8 @@ const routes: IRoute[] = [
   {
     path: Routes.Users,
     element: Users,
-    name: NavTitles.Users
+    name: NavTitles.Users,
+    dataTestId: NavDataIds.directoryBtn
   },
   {
     path: Routes.User,
@@ -52,7 +55,8 @@ const routes: IRoute[] = [
   {
     path: Routes.School,
     element: School,
-    name: NavTitles.School
+    name: NavTitles.School,
+    dataTestId: NavDataIds.schoolBtn
   }
 ];
 

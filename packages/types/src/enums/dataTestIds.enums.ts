@@ -8,6 +8,15 @@ export enum UIDataTargetTypes {
   Field = "FIELD"
 }
 
+export enum NavDataIds {
+  logoutBtn = "logout-nav-button",
+  programBtn = "program-nav-button",
+  directoryBtn = "directory-nav-button",
+  schoolBtn = "school-nav-button",
+  chatBtn = "chat-nav-button",
+  homeBtn = "home-nav-button"
+}
+
 export enum AuthPageDataIds {
   loginBtn = "login",
   resetBtn = "reset",
@@ -15,4 +24,8 @@ export enum AuthPageDataIds {
   resetPasswordBtn = "reset-password",
   emailField = "email",
   passwordField = "password"
+}
+
+export enum ChatDataIds {
+  createChatBtn = "create-chat-btn"
 }

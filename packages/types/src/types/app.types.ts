@@ -4,6 +4,7 @@ export type IRoute = {
   path: string;
   element: IComponent<any>;
   name?: string;
+  dataTestId?: string;
 };
 
 export type IComponent<props> = FunctionComponent<props>;

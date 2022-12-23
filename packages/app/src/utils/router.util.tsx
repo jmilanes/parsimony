@@ -50,7 +50,11 @@ export const createLink = (link: IRoute) => {
       onClick={() => filterService?.clear()}
       className="nav-item"
     >
-      <Button name={link.name || ""} action={() => null} />
+      <Button
+        name={link.name || ""}
+        action={() => null}
+        dataTestId={link.dataTestId}
+      />
     </Link>
   );
 };

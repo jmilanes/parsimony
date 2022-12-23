@@ -3,5 +3,5 @@ import { UIDataTargetTypes } from "@parsimony/types";
 export const getButton = (id: string) =>
   cy.get(`[data-cy="${UIDataTargetTypes.Button}:${id}`);
 
-export const getTextField = (id: string) =>
+export const getField = (id: string) =>
   cy.get(`[data-cy="${UIDataTargetTypes.Field}:${id}`);

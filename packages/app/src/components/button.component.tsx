@@ -25,16 +25,22 @@ export const Button = ({
   dataTestId
 }: IButtonProps) => {
   if (hidden) return <></>;
+  const dataId = generateDataTestId(UIDataTargetTypes.Button, dataTestId || "");
   if (icon) {
     return (
-      <IconButton onClick={action} edge="end" aria-label={name}>
+      <IconButton
+        onClick={action}
+        edge="end"
+        aria-label={name}
+        data-cy={dataId}
+      >
         {icon}
       </IconButton>
     );
   }
   return (
     <MaterialButton
-      data-cy={generateDataTestId(UIDataTargetTypes.Button, dataTestId || "")}
+      data-cy={dataId}
       disabled={disabled}
       className="parsimony-btn"
       variant={type}
