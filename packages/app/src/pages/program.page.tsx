@@ -10,7 +10,13 @@ import {
   MultiSelect,
   Row
 } from "../components";
-import { Program, IModes, User, Collections } from "@parsimony/types";
+import {
+  Program,
+  IModes,
+  User,
+  Collections,
+  ProgramPageDataIds
+} from "@parsimony/types";
 
 import {
   getFullName,
@@ -77,18 +83,21 @@ const Program = () => {
             name="Edit"
             action={() => updateMode("edit")}
             hidden={isEditMode(mode)}
+            dataTestId={ProgramPageDataIds.editBtn}
           />,
           <Button
             key="cancel"
             name="Cancel"
             action={() => updateMode("readOnly")}
             hidden={isReadOnlyMode(mode)}
+            dataTestId={ProgramPageDataIds.cancelEditBtn}
           />,
           <Button
             key="submit"
             name="Submit"
             action={submitForm}
             hidden={isReadOnlyMode(mode)}
+            dataTestId={ProgramPageDataIds.submitEditBtn}
           />
         ]}
       />
@@ -102,6 +111,7 @@ const Program = () => {
         value={localState.title}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={ProgramPageDataIds.titleField}
       />
       <Field
         placeHolderText="Description"
@@ -109,6 +119,7 @@ const Program = () => {
         value={localState.description}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={ProgramPageDataIds.descriptionField}
       />
       <Selector
         title="Type"
@@ -117,7 +128,10 @@ const Program = () => {
         options={programTypes}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={ProgramPageDataIds.typeSelector}
       />
+
+      {/* This prob shouldn't exist but might need for now  */}
       {mode === "edit" && (
         <Selector
           title="Client"
@@ -125,6 +139,7 @@ const Program = () => {
           value={localState.clientId}
           options={allClientOptions}
           updateState={updateState}
+          dataTestId={ProgramPageDataIds.clientSelector}
         />
       )}
       <Selector
@@ -134,6 +149,7 @@ const Program = () => {
         options={ruleStyles}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={ProgramPageDataIds.ruleStyleSelector}
       />
       <MultiSelect
         title="Read Access"
@@ -142,6 +158,7 @@ const Program = () => {
         values={localState.readAccess as string[]}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={ProgramPageDataIds.readAccessMultiSelector}
       />
       <MultiSelect
         title="Write Access"
@@ -150,6 +167,7 @@ const Program = () => {
         values={localState.writeAccess as string[]}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={ProgramPageDataIds.writeAccessMultiSelector}
       />
 
       {program.type === ProgramTypes.Client && client && (
@@ -158,16 +176,19 @@ const Program = () => {
             name="View Client"
             action={() => navigate(`${Routes.Users}/${program.clientId}`)}
             hidden={isEditMode(mode)}
+            dataTestId={ProgramPageDataIds.clientProgramActionViewClient}
           />
           <Button
             name="Start Observation"
             action={() => navigate(`${Routes.Programs}/${program.id}/observe`)}
             hidden={isEditMode(mode)}
+            dataTestId={ProgramPageDataIds.clientProgramActionStartObservation}
           />
           <Button
             name="View Data"
             action={() => navigate(`/results/${program.clientId}`)}
             hidden={isEditMode(mode)}
+            dataTestId={ProgramPageDataIds.clientProgramActionViewProgramData}
           />
         </Row>
       )}

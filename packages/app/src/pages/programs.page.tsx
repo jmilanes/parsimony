@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import { IColumns, ITableAction } from "../components/table.component";
 import { AddForm, RulesForm } from "../containers";
-import { Collections, Pages, User } from "@parsimony/types";
+import {
+  Collections,
+  Pages,
+  ProgramsPageDataIds,
+  User
+} from "@parsimony/types";
 import {
   initialProgramData,
   programTypes,
@@ -83,12 +88,14 @@ const Programs = () => {
   const actions: ITableAction[] = [
     {
       name: "View",
-      method: (program: Program) => navigate(`/programs/${program.id}`)
+      method: (program: Program) => navigate(`/programs/${program.id}`),
+      dataId: ProgramsPageDataIds.tableActionView
     },
     {
       name: "Delete",
       method: (program: Required<Program>) =>
-        dataAccess.program.delete({ id: program.id })
+        dataAccess.program.delete({ id: program.id }),
+      dataId: ProgramsPageDataIds.tableActionDelete
     },
     {
       name: "Copy",
@@ -105,7 +112,8 @@ const Programs = () => {
         );
         const createdProgram = await dataAccess.program.create(payload);
         navigate(`/programs/${createdProgram.id}?mode=edit`);
-      }
+      },
+      dataId: ProgramsPageDataIds.tableActionCopy
     }
   ];
 
@@ -120,6 +128,7 @@ const Programs = () => {
             name="Add"
             action={() => setShowAddForm(true)}
             hidden={showAddForm}
+            dataTestId={ProgramsPageDataIds.addBtn}
           />
         ]}
       />
@@ -135,12 +144,14 @@ const Programs = () => {
           pathToState="title"
           value={localState.title}
           updateState={updateState}
+          dataTestId={ProgramsPageDataIds.titleField}
         />
         <Field
           placeHolderText="Description"
           pathToState="description"
           value={localState.description}
           updateState={updateState}
+          dataTestId={ProgramsPageDataIds.descriptionField}
         />
         <Selector
           title="Type"
@@ -148,6 +159,7 @@ const Programs = () => {
           value={localState.type}
           options={programTypes}
           updateState={updateState}
+          dataTestId={ProgramsPageDataIds.typeSelector}
         />
         {localState.type === ProgramTypes.Client && (
           <Selector
@@ -156,6 +168,7 @@ const Programs = () => {
             value={localState.clientId}
             options={clientDataOptions}
             updateState={updateState}
+            dataTestId={ProgramsPageDataIds.clientSelector}
           />
         )}
 
@@ -165,6 +178,7 @@ const Programs = () => {
           value={localState.ruleStyle}
           options={ruleStyles}
           updateState={updateState}
+          dataTestId={ProgramsPageDataIds.ruleStyleSelector}
         />
         <MultiSelect
           title="Read Access"
@@ -172,6 +186,7 @@ const Programs = () => {
           options={userRoleOptions}
           values={localState.readAccess as string[]}
           updateState={updateState}
+          dataTestId={ProgramsPageDataIds.readAccessMultiSelector}
         />
         <MultiSelect
           title="Write Access"
@@ -179,6 +194,7 @@ const Programs = () => {
           options={userRoleOptions}
           values={localState.writeAccess as string[]}
           updateState={updateState}
+          dataTestId={ProgramsPageDataIds.writeAccessMultiSelector}
         />
         <RulesForm localState={localState} updateState={updateState} />
       </AddForm>

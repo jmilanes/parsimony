@@ -1,3 +1,4 @@
+import { AddModalControls } from "@parsimony/types/src";
 import { Modal } from "antd";
 import React from "react";
 import { Button } from "../components";
@@ -22,8 +23,18 @@ export const AddForm = ({
       open={showForm}
       width={800}
       footer={[
-        <Button key="modal-cancel" name="Cancel" action={onCancel} />,
-        <Button key="modal-create" name="Create" action={onCreate} />
+        <Button
+          dataTestId={AddModalControls.cancelBtn}
+          key="modal-cancel"
+          name="Cancel"
+          action={onCancel}
+        />,
+        <Button
+          dataTestId={AddModalControls.createBtn}
+          key="modal-create"
+          name="Create"
+          action={onCreate}
+        />
       ]}
       onCancel={onCancel}
     >

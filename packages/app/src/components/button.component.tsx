@@ -2,7 +2,7 @@ import React from "react";
 import MaterialButton from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import { generateDataTestId } from "../utils";
-import { UIDataTargetTypes } from "@parsimony/types/src";
+import { DataTestIds, UIDataTargetTypes } from "@parsimony/types/src";
 
 export type IButtonProps = {
   key?: string;
@@ -12,7 +12,8 @@ export type IButtonProps = {
   disabled?: boolean;
   type?: "outlined" | "contained" | "text";
   icon?: React.ReactNode;
-  dataTestId?: string;
+  dataTestId: DataTestIds;
+  dataTestQualifier?: string;
 };
 
 export const Button = ({
@@ -22,10 +23,13 @@ export const Button = ({
   disabled,
   type = "outlined",
   icon,
-  dataTestId
+  dataTestId,
+  dataTestQualifier
 }: IButtonProps) => {
   if (hidden) return <></>;
-  const dataId = generateDataTestId(UIDataTargetTypes.Button, dataTestId || "");
+  const dataId = `${generateDataTestId(UIDataTargetTypes.Button, dataTestId)}${
+    dataTestQualifier ? `-${dataTestQualifier}` : ""
+  }`;
   if (icon) {
     return (
       <IconButton

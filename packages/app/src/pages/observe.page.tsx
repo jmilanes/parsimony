@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Header, Button } from "../components";
 import { generateKey, getRouterParams, navigateToRoute } from "../utils";
 import { ObserveRule } from "../containers";
-import { Collections, Program } from "@parsimony/types";
+import { Collections, ObservationDataIds, Program } from "@parsimony/types";
 import { RuleStyle } from "@parsimony/types";
 import { useServices } from "../context";
 import ObservationService from "../services/observation.service";
@@ -52,11 +52,16 @@ const Observe = () => {
             )
         )
       )}
-      <Button name="Submit Observation" action={onSubmit}></Button>
+      <Button
+        name="Submit Observation"
+        action={onSubmit}
+        dataTestId={ObservationDataIds.submitObservation}
+      />
       <Button
         name="View Results"
         action={() => navigate(`/results/${program.id}`)}
-      ></Button>
+        dataTestId={ObservationDataIds.viewResultsBtn}
+      />
     </>
   );
 };

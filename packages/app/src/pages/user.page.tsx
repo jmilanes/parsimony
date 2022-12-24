@@ -18,7 +18,8 @@ import {
   IModes,
   Program,
   UpdateUserPayload,
-  User
+  User,
+  UserPageDataIds
 } from "@parsimony/types";
 
 import {
@@ -74,11 +75,13 @@ const User = () => {
   const actions: ITableAction[] = [
     {
       name: "Start Observing",
-      method: (program: Program) => navigate(`/programs/${program.id}/observe`)
+      method: (program: Program) => navigate(`/programs/${program.id}/observe`),
+      dataId: UserPageDataIds.programTableActionStartObserving
     },
     {
       name: "View Data",
-      method: (program: Program) => navigate(`/results/${program.id}`)
+      method: (program: Program) => navigate(`/results/${program.id}`),
+      dataId: UserPageDataIds.programTableActionViewData
     }
   ];
 
@@ -94,18 +97,21 @@ const User = () => {
             name="Edit"
             action={() => updateMode("edit")}
             hidden={isEditMode(mode)}
+            dataTestId={UserPageDataIds.edit}
           />,
           <Button
             key="cancel"
             name="Cancel"
             action={() => updateMode("readOnly")}
             hidden={isReadOnlyMode(mode)}
+            dataTestId={UserPageDataIds.cancelEdit}
           />,
           <Button
             key="submit"
             name="Submit"
             action={submitForm}
             hidden={isReadOnlyMode(mode)}
+            dataTestId={UserPageDataIds.submitEdit}
           />
         ]}
       />
@@ -115,6 +121,7 @@ const User = () => {
         value={localState.firstName}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={UserPageDataIds.firstNameField}
       />
       <Field
         placeHolderText="Last Name"
@@ -122,6 +129,7 @@ const User = () => {
         value={localState.lastName}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={UserPageDataIds.lastNameField}
       />
       <Field
         placeHolderText="Phone Number"
@@ -129,6 +137,7 @@ const User = () => {
         value={localState.phone}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={UserPageDataIds.phoneNumberField}
       />
       <Field
         placeHolderText="Email"
@@ -136,14 +145,7 @@ const User = () => {
         value={localState.email}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-      />
-      {/* We shouldn't need the password and more in the return if you need to reset you should hit a button on the login to do should prob have its own end point  */}
-      <Field
-        placeHolderText="Password"
-        pathToState="password"
-        value={localState.password}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
+        dataTestId={UserPageDataIds.emailField}
       />
       <Selector
         title="Type"
@@ -152,6 +154,7 @@ const User = () => {
         value={localState.type}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={UserPageDataIds.typeSelector}
       />
       <MultiSelect
         title="Type"
@@ -160,6 +163,7 @@ const User = () => {
         values={localState.roles as string[]}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
+        dataTestId={UserPageDataIds.roleMultiSelector}
       />
       <Row>
         <Header text="Programs:" size="md" />
@@ -183,7 +187,7 @@ const User = () => {
       ></Table>
       <Header text="Client Files" size="sm" />
       <p>Upload your client files here:</p>
-      //TODO FIX FILE UPLOAD
+      {/* //TODO FIX FILE UPLOAD */}
       {/* <FileUpload></FileUpload> */}
     </Container>
   );

@@ -19,7 +19,13 @@ import {
   promptsByType
 } from "../fixtures";
 
-import { Program, Rule, RuleOption } from "@parsimony/types";
+import {
+  Program,
+  PromptTypes,
+  Rule,
+  RuleOption,
+  RulesFormDataIds
+} from "@parsimony/types";
 import { generateKey, removeItemByIndex } from "../utils";
 import "./styles.css";
 
@@ -27,6 +33,12 @@ type RuleFormProps = {
   localState: Program;
   readOnly?: boolean;
   updateState: (path: string, value: unknown) => void;
+};
+
+const prefilledPromptBtnDataIds = {
+  [PromptTypes.Verbal]: RulesFormDataIds.preSelectedVerbalPromptsBtn,
+  [PromptTypes.Physical]: RulesFormDataIds.preSelectedPhysicalPromptsBtn,
+  [PromptTypes.Time]: RulesFormDataIds.preSelectedTimePromptsBtn
 };
 
 export const RulesForm = ({
@@ -59,6 +71,7 @@ export const RulesForm = ({
             value={option.name}
             updateState={updateState}
             readOnly={readOnly}
+            dataTestId={RulesFormDataIds.promptNameField}
           />
         </Col>
         <Col xs={6}>
@@ -71,6 +84,7 @@ export const RulesForm = ({
                 `rules[${ruleIndex}].options`
               )
             }
+            dataTestId={RulesFormDataIds.deletePromptBtn}
           />
           <Button
             name="Set to Target"
@@ -80,6 +94,7 @@ export const RulesForm = ({
                 setTargetOption(rule.options as RuleOption[], option.name || "")
               )
             }
+            dataTestId={RulesFormDataIds.setToTargetBtn}
           />
         </Col>
         <Col xs={2}>{option.target ? <p>Target Prompt</p> : null}</Col>
@@ -96,6 +111,7 @@ export const RulesForm = ({
         <Button
           name="Delete Rule"
           action={() => deleteItem(localState.rules || [], index, "rules")}
+          dataTestId={RulesFormDataIds.deleteRuleBtn}
         />
         <Col xs={12}>
           <Field
@@ -104,6 +120,7 @@ export const RulesForm = ({
             value={rule.question}
             updateState={updateState}
             readOnly={readOnly}
+            dataTestId={RulesFormDataIds.questionField}
           />
         </Col>
         <Col xs={12}>
@@ -113,6 +130,7 @@ export const RulesForm = ({
             value={rule.description}
             updateState={updateState}
             readOnly={readOnly}
+            dataTestId={RulesFormDataIds.descriptionField}
           />
         </Col>
 
@@ -125,6 +143,7 @@ export const RulesForm = ({
             updateState={updateState}
             readOnly={readOnly}
             isNumber={true}
+            dataTestId={RulesFormDataIds.stepsSelector}
           />
         </Col>
         <Col xs={12}>
@@ -134,6 +153,7 @@ export const RulesForm = ({
             value={!!rule.required}
             updateState={updateState}
             readOnly={readOnly}
+            dataTestId={RulesFormDataIds.requiredCheckbox}
           />
         </Col>
         <Col xs={12}>
@@ -144,6 +164,7 @@ export const RulesForm = ({
             options={inputTypes}
             updateState={updateState}
             readOnly={readOnly}
+            dataTestId={RulesFormDataIds.inputTypeSelector}
           />
         </Col>
         <Col xs={12}>
@@ -154,6 +175,7 @@ export const RulesForm = ({
             options={programValueTypes}
             updateState={updateState}
             readOnly={readOnly}
+            dataTestId={RulesFormDataIds.valueTypeSelector}
           />
         </Col>
 
@@ -165,6 +187,7 @@ export const RulesForm = ({
                 key={generateKey("pre-filled-prompt-button", key)}
                 name={key}
                 action={() => updateState(`rules[${index}].options`, value)}
+                dataTestId={prefilledPromptBtnDataIds[key as PromptTypes]}
               />
             );
           })}

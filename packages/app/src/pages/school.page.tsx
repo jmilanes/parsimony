@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Button, Table, Field, Header } from "../components";
-import { Collections, School } from "@parsimony/types";
+import { Collections, School, SchoolPageDataIds } from "@parsimony/types";
 import { AddForm } from "../containers";
 import { initialSchoolData } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table.component";
@@ -41,7 +41,8 @@ const Schools = () => {
     {
       name: "Delete",
       method: (school: Required<School>) =>
-        dataAccess.school.delete({ id: school.id })
+        dataAccess.school.delete({ id: school.id }),
+      dataId: SchoolPageDataIds.tableActionDelete
     }
   ];
 
@@ -57,6 +58,7 @@ const Schools = () => {
             name="Add"
             action={() => setShowAddForm(true)}
             hidden={showAddForm}
+            dataTestId={SchoolPageDataIds.addBtn}
           />
         ]}
       />
@@ -72,6 +74,7 @@ const Schools = () => {
           pathToState="name"
           value={localState.name}
           updateState={updateState}
+          dataTestId={SchoolPageDataIds.nameField}
         />
       </AddForm>
     </>

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Container, Header } from "../components";
-import { Maybe, UIDataTargetTypes } from "@parsimony/types";
+import { DataTestIds, Maybe, UIDataTargetTypes } from "@parsimony/types";
 import TextField from "@mui/material/TextField";
 import { generateDataTestId } from "../utils";
 
@@ -13,7 +13,7 @@ export type IFieldProps = {
   placeHolderText: string;
   //TODO: This should prob be better
   updateState: (path: string, value: string) => void;
-  dataTestId?: string;
+  dataTestId: DataTestIds;
 };
 
 export const Field = ({
@@ -33,7 +33,7 @@ export const Field = ({
   ) : (
     <Container flexDirection="column" key={key} margin={10}>
       <TextField
-        data-cy={generateDataTestId(UIDataTargetTypes.Field, dataTestId || "")}
+        data-cy={generateDataTestId(UIDataTargetTypes.Field, dataTestId)}
         size="small"
         key={key}
         label={placeHolderText}

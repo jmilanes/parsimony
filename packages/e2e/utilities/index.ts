@@ -1,1 +1,2 @@
-export * from "./locators";
+export * from "./locators.utils";
+export * from "./helpers.utils";

@@ -6,7 +6,8 @@ import {
   IResultsState,
   ICompletenessState,
   IResultData,
-  RuleResultOption
+  RuleResultOption,
+  ObservationDataIds
 } from "@parsimony/types";
 import {
   increment,
@@ -128,7 +129,11 @@ export const ObserveRule = ({
       <div className={classes}>
         <p>{rule.question}</p>
         {!isGroup && (
-          <Button name="Observe" action={() => setActive(true)}></Button>
+          <Button
+            name="Observe"
+            action={() => setActive(true)}
+            dataTestId={ObservationDataIds.selectRuleBtn}
+          />
         )}
       </div>
     );
@@ -140,10 +145,20 @@ export const ObserveRule = ({
         <p>{rule.question}</p>
         <p>Individual Completeness: {completeness[rule.id as string] || 0}%</p>
         {!isGroup && (
-          <Button name="Close" action={() => setActive(false)}></Button>
+          <Button
+            name="Close"
+            action={() => setActive(false)}
+            dataTestId={ObservationDataIds.closeRuleBtn}
+          />
         )}
         <Container>
-          {step > 1 && <Button name="Back" action={decrementStep}></Button>}
+          {step > 1 && (
+            <Button
+              name="Back"
+              action={decrementStep}
+              dataTestId={ObservationDataIds.revertStepBtn}
+            />
+          )}
           {!isGroup && <h1>{step}</h1>}
           {rule?.options?.map((option, i) => (
             <Button
@@ -158,6 +173,9 @@ export const ObserveRule = ({
                   getTargetId(rule)
                 )
               }
+              // TODO: Test id with option name
+              dataTestId={ObservationDataIds.ruleOptionSelectBtn}
+              dataTestQualifier={option?.name || ""}
             />
           ))}
         </Container>
@@ -172,12 +190,23 @@ export const ObserveRule = ({
     return (
       <>
         <h1>{step}</h1>
-        <Button name="Close" action={() => setActive(false)}></Button>
+        <Button
+          name="Close"
+          action={() => setActive(false)}
+          dataTestId={ObservationDataIds.closeGroupedRuleBtn}
+        />
         <Button
           name="Next Step"
           action={() => incrementStep(firstRule)}
-        ></Button>
-        {step > 1 && <Button name="Back" action={decrementStep}></Button>}
+          dataTestId={ObservationDataIds.nextRuleBtn}
+        />
+        {step > 1 && (
+          <Button
+            name="Back"
+            action={decrementStep}
+            dataTestId={ObservationDataIds.revertRuleBtn}
+          />
+        )}
       </>
     );
   };
@@ -189,7 +218,11 @@ export const ObserveRule = ({
         {rule.map((rule, i) => (
           <SingleRule key={i} {...rule} />
         ))}
-        <Button name="Observe" action={() => setActive(true)}></Button>
+        <Button
+          name="Observe"
+          action={() => setActive(true)}
+          dataTestId={ObservationDataIds.selectGroupedRuleBtn}
+        />
       </div>
     ) : null;
   };

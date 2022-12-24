@@ -1,13 +1,14 @@
 import React from "react";
 import { Header, Container } from "../components";
-import { formatFormHeader } from "../utils";
+import { formatFormHeader, generateDataTestId } from "../utils";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { Maybe } from "@parsimony/types";
+import { DataTestIds, Maybe, UIDataTargetTypes } from "@parsimony/types";
 import MenuItem from "@mui/material/MenuItem";
 import MaterialSelect from "@mui/material/Select";
 
 export type IOption = { name: string; value: string | number };
+
 export type ISelectorProps = {
   title: string;
   options: IOption[];
@@ -17,6 +18,7 @@ export type ISelectorProps = {
   value?: Maybe<string | number>;
   isNumber?: boolean;
   key?: string;
+  dataTestId: DataTestIds;
 };
 
 export const Selector = ({
@@ -27,12 +29,15 @@ export const Selector = ({
   readOnly,
   title,
   key,
-  isNumber
+  isNumber,
+  dataTestId
 }: ISelectorProps) => {
+  const testId = generateDataTestId(UIDataTargetTypes.Selector, dataTestId);
+
   const ReadOnlyOption = () => (
     <>
       <Header text={formatFormHeader(title)} size="sm" />
-      <p>{value}</p>
+      <p data-cy={`${testId}-read-only`}>{value}</p>
     </>
   );
 
@@ -40,6 +45,7 @@ export const Selector = ({
     <FormControl fullWidth>
       <InputLabel>{title}</InputLabel>
       <MaterialSelect
+        data-cy={testId}
         label={title}
         value={value || "Please select an option"}
         onChange={({ target: { value } }) =>

@@ -18,7 +18,6 @@ const AppContent = () => {
 
   React.useEffect(() => {
     stateManager.registerUpdateState(() => {
-      console.log("UPDATED STATE");
       updateState({});
     });
   }, [updateState]);

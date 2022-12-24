@@ -1,5 +1,6 @@
-export const parseDataTestId = (id: string) =>
-  id.toLowerCase().replace(new RegExp(" ", "g"), "-");
+import { DataTestIds, UIDataTargetTypes } from "@parsimony/types/src";
 
-export const generateDataTestId = (type: string, id: string) =>
-  `${type.toUpperCase()}:${parseDataTestId(id)}`;
+export const generateDataTestId = (
+  type: UIDataTargetTypes,
+  dataTestId: DataTestIds
+) => `${type.toUpperCase()}:${dataTestId}`;

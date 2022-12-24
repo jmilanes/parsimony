@@ -9,7 +9,7 @@ import {
   Header
 } from "../components";
 import { navigateToRoute } from "../utils";
-import { Collections, User } from "@parsimony/types";
+import { Collections, DirectoryPageDataIds, User } from "@parsimony/types";
 import { AddForm } from "../containers";
 import {
   initialUserData,
@@ -60,11 +60,13 @@ const Users = () => {
   const actions: ITableAction[] = [
     {
       name: "View",
-      method: (user: User) => navigate(`/directory/${user.id}`)
+      method: (user: User) => navigate(`/directory/${user.id}`),
+      dataId: DirectoryPageDataIds.tableActionView
     },
     {
       name: "Delete",
-      method: (user: Required<User>) => dataAccess.user.delete({ id: user.id })
+      method: (user: Required<User>) => dataAccess.user.delete({ id: user.id }),
+      dataId: DirectoryPageDataIds.tableActionDelete
     }
   ];
 
@@ -75,6 +77,7 @@ const Users = () => {
         size="page"
         extra={[
           <Button
+            dataTestId={DirectoryPageDataIds.addUserBtn}
             key="add"
             name="Add"
             action={() => setShowAddForm(true)}
@@ -94,30 +97,35 @@ const Users = () => {
           pathToState="firstName"
           value={localState.firstName}
           updateState={updateState}
+          dataTestId={DirectoryPageDataIds.firstNameField}
         />
         <Field
           placeHolderText="Last Name"
           pathToState="lastName"
           value={localState.lastName}
           updateState={updateState}
+          dataTestId={DirectoryPageDataIds.lastNameField}
         />
         <Field
           placeHolderText="Phone Number"
           pathToState="phone"
           value={localState.phone}
           updateState={updateState}
+          dataTestId={DirectoryPageDataIds.phoneNumberField}
         />
         <Field
           placeHolderText="Email"
           pathToState="email"
           value={localState.email}
           updateState={updateState}
+          dataTestId={DirectoryPageDataIds.emailField}
         />
         <Field
           placeHolderText="Password"
           pathToState="password"
           value={localState.password}
           updateState={updateState}
+          dataTestId={DirectoryPageDataIds.passwordField}
         />
         <Selector
           title="Type"
@@ -125,6 +133,7 @@ const Users = () => {
           pathToState="type"
           value={localState.type}
           updateState={updateState}
+          dataTestId={DirectoryPageDataIds.typeSelector}
         />
         <MultiSelect
           title="Roles"
@@ -132,6 +141,7 @@ const Users = () => {
           pathToState="roles"
           values={localState.roles as string[]}
           updateState={updateState}
+          dataTestId={DirectoryPageDataIds.roleMultiSelector}
         />
       </AddForm>
     </>
