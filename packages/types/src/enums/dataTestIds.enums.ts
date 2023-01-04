@@ -8,7 +8,8 @@ export enum UIDataTargetTypes {
   Field = "FIELD",
   Selector = "SELECTOR",
   MultiSelector = "MULTI_SELECTOR",
-  Checkbox = "CHECK_BOX"
+  Checkbox = "CHECK_BOX",
+  ListItem = "LIST_ITEM"
 }
 
 // Globals
@@ -26,8 +27,9 @@ export enum AddModalControls {
   createBtn = "add-form-create"
 }
 
-export enum TableDataIds {
-  tableAction = "table-action"
+export enum RepeatableDataIds {
+  tableAction = "table-action",
+  listItem = "list-item"
 }
 
 // Pages
@@ -66,6 +68,10 @@ export enum UserPageDataIds {
   submitEdit = "submit-edit-user",
   programTableActionStartObserving = "start-observing-program",
   programTableActionViewData = "view-program-data"
+}
+
+export enum DrawerDataIds {
+  extendBtn = "extend-btn"
 }
 
 export enum SchoolPageDataIds {
@@ -136,7 +142,19 @@ export enum RulesFormDataIds {
 
 // Features
 export enum ChatDataIds {
-  createChatBtn = "create-chat-btn"
+  createChatBtn = "create-chat-btn",
+  cancelCreateChatBtn = "create-chat-cancel-btn",
+  createChatNameField = "create-chat-name-field",
+  createChatUserSelector = "create-chat-user-selector",
+  createChatSubmitBtn = "create-chat-submit-btn",
+  chatMessageBarField = "chat-message-bat-field",
+  chatMessageBarSubmit = "chat-message-bar-submit",
+  chatMessageBarCancel = "chat-message-bar-cancel",
+  messageOptionsBtn = "message-options-btn",
+  deleteMessageBtn = "delete-message-btn",
+  editMessageBtn = "edit-message-btn",
+  chatOptionsBtn = "chat-options-btn",
+  chatDeleteBtn = "chat-delete-btn"
 }
 
 export type DataTestIds =
@@ -151,4 +169,6 @@ export type DataTestIds =
   | RulesFormDataIds
   | ProgramPageDataIds
   | ObservationDataIds
-  | TableDataIds;
+  | RepeatableDataIds
+  | ChatDataIds
+  | DrawerDataIds;

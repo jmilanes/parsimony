@@ -3,6 +3,12 @@ import IconButton from "@mui/material/IconButton";
 import MaterialMenu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {
+  ChatDataIds,
+  DataTestIds,
+  UIDataTargetTypes
+} from "@parsimony/types/src";
+import { generateDataTestId } from "../utils";
 
 const ITEM_HEIGHT = 48;
 
@@ -10,13 +16,15 @@ export type IMenuOption = {
   label: string;
   icon?: React.ReactNode;
   action: () => void;
+  dataTestId: DataTestIds;
 };
 
 export type IMenuProps = {
   options: IMenuOption[];
+  dataTestId: DataTestIds;
 };
 
-export const Menu = ({ options }: IMenuProps) => {
+export const Menu = ({ options, dataTestId }: IMenuProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -35,6 +43,7 @@ export const Menu = ({ options }: IMenuProps) => {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleClick}
+        data-cy={generateDataTestId(UIDataTargetTypes.Button, dataTestId)}
       >
         <MoreVertIcon />
       </IconButton>
@@ -60,6 +69,10 @@ export const Menu = ({ options }: IMenuProps) => {
               option.action();
               handleClose();
             }}
+            data-cy={generateDataTestId(
+              UIDataTargetTypes.Button,
+              option.dataTestId
+            )}
           >
             {option.icon}
             {option.label}

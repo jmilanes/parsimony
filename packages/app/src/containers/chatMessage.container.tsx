@@ -3,7 +3,7 @@ import React from "react";
 // TODO: THis is what is breaking the pattern. This is the next thing to be fixed
 import { deleteMessage } from "../bal";
 import { Menu } from "../components";
-import { Message } from "@parsimony/types";
+import { ChatDataIds, Message } from "@parsimony/types";
 import { useServices } from "../context";
 
 type IChatMessageProps = {
@@ -24,16 +24,19 @@ export const ChatMessage = ({
   const currentUserId = authService.getCurrentUser()?.id;
   const onDeleteMessage = (threadId: string, messageId: string) =>
     deleteMessage({ threadId, messageId });
+
   const menuOptions = [
     {
       label: "Delete",
-      action: () => onDeleteMessage(threadId, message?.id || "")
+      action: () => onDeleteMessage(threadId, message?.id || ""),
+      dataTestId: ChatDataIds.deleteMessageBtn
     },
     {
       label: "Edit Message",
       action: () => {
         setSelectedMessage(message);
-      }
+      },
+      dataTestId: ChatDataIds.editMessageBtn
     }
   ];
 
@@ -48,7 +51,10 @@ export const ChatMessage = ({
           <p>{message?.value}</p>
         </div>
         <div className="menu">
-          <Menu options={menuOptions} />
+          <Menu
+            options={menuOptions}
+            dataTestId={ChatDataIds.messageOptionsBtn}
+          />
         </div>
       </div>
     </div>

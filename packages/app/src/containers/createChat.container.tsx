@@ -1,4 +1,9 @@
-import { Collections, User, Subscriber } from "@parsimony/types/src";
+import {
+  Collections,
+  User,
+  Subscriber,
+  ChatDataIds
+} from "@parsimony/types/src";
 import React, { useEffect, useState } from "react";
 
 import { createThread } from "../bal";
@@ -68,7 +73,11 @@ export const CreateChat = () => {
           <Header text="Create Chat" size="md" />
         </Col>
         <Col xs={2}>
-          <Button name="Cancel" action={setToChatDrawer} />
+          <Button
+            name="Cancel"
+            action={setToChatDrawer}
+            dataTestId={ChatDataIds.cancelCreateChatBtn}
+          />
         </Col>
       </Row>
       <Field
@@ -77,14 +86,20 @@ export const CreateChat = () => {
         updateState={(path, value) => updateName(value)}
         pathToState=""
         placeHolderText="Chat name"
+        dataTestId={ChatDataIds.createChatNameField}
       />
       <Autocomplete
         label="Search User"
         options={autoCompleteOptions}
         multiSelect={true}
         updateState={onUpdateSubscribers}
+        dataTestId={ChatDataIds.createChatNameField}
       />
-      <Button name="Create" action={onCreateThread} />
+      <Button
+        name="Create"
+        action={onCreateThread}
+        dataTestId={ChatDataIds.createChatSubmitBtn}
+      />
     </div>
   );
 };

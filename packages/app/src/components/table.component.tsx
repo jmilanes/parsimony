@@ -4,7 +4,7 @@ import { flattenObject, generateKey } from "../utils";
 import { Table as AntTable } from "antd";
 import { Content, Button } from "../components";
 import { useServices } from "../context";
-import { TableDataIds } from "@parsimony/types/src";
+import { RepeatableDataIds } from "@parsimony/types/src";
 
 export type ITableAction = {
   name: string;
@@ -55,7 +55,7 @@ export const Table = <Data extends { id: string }>({
                       record.source.id
                     )}
                     action={() => action.method(record.source)}
-                    dataTestId={TableDataIds.tableAction}
+                    dataTestId={RepeatableDataIds.tableAction}
                     dataTestQualifier={`${action.dataId}-${record.source.id}`}
                   />
                 );

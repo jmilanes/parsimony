@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { addMessage, deleteThread, editMessage } from "../bal";
 import { Menu, Row, Col, InputWithAction, Header, Icon } from "../components";
 import { ChatMessage, ChatMessageInput } from "../containers";
-import { Message, Thread } from "@parsimony/types";
+import { ChatDataIds, Message, Thread } from "@parsimony/types";
 import { useServices } from "../context";
 import { getThreadName } from "../utils";
 
@@ -72,7 +72,8 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
     {
       label: "Delete",
       icon: <Icon.Delete />,
-      action: () => onDelete(thread.id)
+      action: () => onDelete(thread.id),
+      dataTestId: ChatDataIds.chatDeleteBtn
     }
   ];
   const threadName = getThreadName(thread, currentUser);
@@ -102,7 +103,10 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
           <Header text={threadName} size="md" />
         </Col>
         <Col xs={2}>
-          <Menu options={menuOptions}></Menu>
+          <Menu
+            options={menuOptions}
+            dataTestId={ChatDataIds.chatOptionsBtn}
+          ></Menu>
         </Col>
       </Row>
       <hr />

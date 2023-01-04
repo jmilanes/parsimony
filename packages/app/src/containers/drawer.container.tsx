@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Drawer as ADrawer } from "antd";
 
 import { useServices } from "../context";
-import { Collections } from "@parsimony/types/src";
+import { Collections, DrawerDataIds } from "@parsimony/types/src";
 import { DrawerContentTypes } from "../services/appControls.service";
 import { Chat, CreateChat } from "../containers";
 import { Button, Icon } from "../components";
@@ -36,6 +36,7 @@ export const Drawer = ({ content }: { content?: React.FC }) => {
       open={controls.active}
       extra={
         <Button
+          dataTestId={DrawerDataIds.extendBtn}
           action={onExtend}
           name={extended ? "collapse" : "extend"}
           icon={extended ? <Icon.Collapse /> : <Icon.Expand />}

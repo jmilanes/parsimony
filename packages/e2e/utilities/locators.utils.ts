@@ -16,3 +16,6 @@ export const getMultiSelect = (id: string) =>
 
 export const getTableAction = (id: string, itemId: string) =>
   cy.get(`[data-cy="${UIDataTargetTypes.Button}:table-action-${id}-${itemId}`);
+
+export const getListItem = (id: string, itemId: string) =>
+  cy.get(`[data-cy="${UIDataTargetTypes.ListItem}:list-item-${id}-${itemId}`);
