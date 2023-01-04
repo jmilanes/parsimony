@@ -3,13 +3,13 @@ import { Container, Header, Col } from "../components";
 import {
   createCommaSeparatedSting,
   formatFormHeader,
-  generateDataTestId
+  generateMetaTestId
 } from "../utils";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import MaterialSelect from "@mui/material/Select";
-import { DataTestIds, UIDataTargetTypes } from "@parsimony/types/src";
+import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
 
 export type IOptionMultiSelect = {
   name: string;
@@ -24,7 +24,7 @@ export type IMultiSelectProps = {
   pathToState: string;
   title: string;
   updateState: (path: string, value: unknown) => void;
-  dataTestId: DataTestIds;
+  metaTestId: MetaTestIds;
 };
 
 export const MultiSelect = ({
@@ -34,11 +34,11 @@ export const MultiSelect = ({
   pathToState,
   values,
   title,
-  dataTestId
+  metaTestId
 }: IMultiSelectProps) => {
-  const testId = generateDataTestId(
-    UIDataTargetTypes.MultiSelector,
-    dataTestId || ""
+  const metaId = generateMetaTestId(
+    UIMetaTargetTypes.MultiSelector,
+    metaTestId || ""
   );
   const updateSelectionsAndState = (values: unknown[]) =>
     updateState(pathToState, values);
@@ -56,7 +56,7 @@ export const MultiSelect = ({
       <Container flexDirection="row">
         <FormHeader />
         {values?.map((value: string, i: number) => (
-          <p data-cy={`${testId}-multi-read-only-${i}`}>
+          <p data-cy={`${metaId}-multi-read-only-${i}`}>
             {createCommaSeparatedSting(value, i)}
           </p>
         ))}
@@ -69,7 +69,7 @@ export const MultiSelect = ({
       <FormControl fullWidth>
         <InputLabel>{title}</InputLabel>
         <MaterialSelect
-          data-cy={testId}
+          data-cy={metaId}
           label={title}
           multiple
           value={values}

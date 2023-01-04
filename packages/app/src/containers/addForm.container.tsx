@@ -24,13 +24,13 @@ export const AddForm = ({
       width={800}
       footer={[
         <Button
-          dataTestId={AddModalControls.cancelBtn}
+          metaTestId={AddModalControls.cancelBtn}
           key="modal-cancel"
           name="Cancel"
           action={onCancel}
         />,
         <Button
-          dataTestId={AddModalControls.createBtn}
+          metaTestId={AddModalControls.createBtn}
           key="modal-create"
           name="Create"
           action={onCreate}

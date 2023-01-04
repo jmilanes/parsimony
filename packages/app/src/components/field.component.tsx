@@ -1,9 +1,9 @@
 import React from "react";
 
 import { Container, Header } from "../components";
-import { DataTestIds, Maybe, UIDataTargetTypes } from "@parsimony/types";
+import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types";
 import TextField from "@mui/material/TextField";
-import { generateDataTestId } from "../utils";
+import { generateMetaTestId } from "../utils";
 
 export type IFieldProps = {
   key?: string;
@@ -13,7 +13,7 @@ export type IFieldProps = {
   placeHolderText: string;
   //TODO: This should prob be better
   updateState: (path: string, value: string) => void;
-  dataTestId: DataTestIds;
+  metaTestId: MetaTestIds;
 };
 
 export const Field = ({
@@ -23,7 +23,7 @@ export const Field = ({
   pathToState,
   placeHolderText,
   key,
-  dataTestId
+  metaTestId
 }: IFieldProps) => {
   return readOnly ? (
     <Container flexDirection="row" key={key}>
@@ -33,7 +33,7 @@ export const Field = ({
   ) : (
     <Container flexDirection="column" key={key} margin={10}>
       <TextField
-        data-cy={generateDataTestId(UIDataTargetTypes.Field, dataTestId)}
+        data-cy={generateMetaTestId(UIMetaTargetTypes.Field, metaTestId)}
         size="small"
         key={key}
         label={placeHolderText}

@@ -4,13 +4,13 @@ import { flattenObject, generateKey } from "../utils";
 import { Table as AntTable } from "antd";
 import { Content, Button } from "../components";
 import { useServices } from "../context";
-import { RepeatableDataIds } from "@parsimony/types/src";
+import { RepeatableMetaTestIds } from "@parsimony/types/src";
 
 export type ITableAction = {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   method: (item: any) => void;
-  dataId: string;
+  metaTestId: string;
 };
 
 export type IColumns = {
@@ -55,8 +55,8 @@ export const Table = <Data extends { id: string }>({
                       record.source.id
                     )}
                     action={() => action.method(record.source)}
-                    dataTestId={RepeatableDataIds.tableAction}
-                    dataTestQualifier={`${action.dataId}-${record.source.id}`}
+                    metaTestId={RepeatableMetaTestIds.tableAction}
+                    metaTestQualifier={`${action.metaTestId}-${record.source.id}`}
                   />
                 );
               })}

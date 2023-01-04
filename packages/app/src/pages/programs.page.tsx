@@ -4,7 +4,7 @@ import { AddForm, RulesForm } from "../containers";
 import {
   Collections,
   Pages,
-  ProgramsPageDataIds,
+  ProgramsPageMetaTestIds,
   User
 } from "@parsimony/types";
 import {
@@ -89,13 +89,13 @@ const Programs = () => {
     {
       name: "View",
       method: (program: Program) => navigate(`/programs/${program.id}`),
-      dataId: ProgramsPageDataIds.tableActionView
+      metaTestId: ProgramsPageMetaTestIds.tableActionView
     },
     {
       name: "Delete",
       method: (program: Required<Program>) =>
         dataAccess.program.delete({ id: program.id }),
-      dataId: ProgramsPageDataIds.tableActionDelete
+      metaTestId: ProgramsPageMetaTestIds.tableActionDelete
     },
     {
       name: "Copy",
@@ -113,7 +113,7 @@ const Programs = () => {
         const createdProgram = await dataAccess.program.create(payload);
         navigate(`/programs/${createdProgram.id}?mode=edit`);
       },
-      dataId: ProgramsPageDataIds.tableActionCopy
+      metaTestId: ProgramsPageMetaTestIds.tableActionCopy
     }
   ];
 
@@ -128,7 +128,7 @@ const Programs = () => {
             name="Add"
             action={() => setShowAddForm(true)}
             hidden={showAddForm}
-            dataTestId={ProgramsPageDataIds.addBtn}
+            metaTestId={ProgramsPageMetaTestIds.addBtn}
           />
         ]}
       />
@@ -144,14 +144,14 @@ const Programs = () => {
           pathToState="title"
           value={localState.title}
           updateState={updateState}
-          dataTestId={ProgramsPageDataIds.titleField}
+          metaTestId={ProgramsPageMetaTestIds.titleField}
         />
         <Field
           placeHolderText="Description"
           pathToState="description"
           value={localState.description}
           updateState={updateState}
-          dataTestId={ProgramsPageDataIds.descriptionField}
+          metaTestId={ProgramsPageMetaTestIds.descriptionField}
         />
         <Selector
           title="Type"
@@ -159,7 +159,7 @@ const Programs = () => {
           value={localState.type}
           options={programTypes}
           updateState={updateState}
-          dataTestId={ProgramsPageDataIds.typeSelector}
+          metaTestId={ProgramsPageMetaTestIds.typeSelector}
         />
         {localState.type === ProgramTypes.Client && (
           <Selector
@@ -168,7 +168,7 @@ const Programs = () => {
             value={localState.clientId}
             options={clientDataOptions}
             updateState={updateState}
-            dataTestId={ProgramsPageDataIds.clientSelector}
+            metaTestId={ProgramsPageMetaTestIds.clientSelector}
           />
         )}
 
@@ -178,7 +178,7 @@ const Programs = () => {
           value={localState.ruleStyle}
           options={ruleStyles}
           updateState={updateState}
-          dataTestId={ProgramsPageDataIds.ruleStyleSelector}
+          metaTestId={ProgramsPageMetaTestIds.ruleStyleSelector}
         />
         <MultiSelect
           title="Read Access"
@@ -186,7 +186,7 @@ const Programs = () => {
           options={userRoleOptions}
           values={localState.readAccess as string[]}
           updateState={updateState}
-          dataTestId={ProgramsPageDataIds.readAccessMultiSelector}
+          metaTestId={ProgramsPageMetaTestIds.readAccessMultiSelector}
         />
         <MultiSelect
           title="Write Access"
@@ -194,7 +194,7 @@ const Programs = () => {
           options={userRoleOptions}
           values={localState.writeAccess as string[]}
           updateState={updateState}
-          dataTestId={ProgramsPageDataIds.writeAccessMultiSelector}
+          metaTestId={ProgramsPageMetaTestIds.writeAccessMultiSelector}
         />
         <RulesForm localState={localState} updateState={updateState} />
       </AddForm>

@@ -1,9 +1,9 @@
 import React from "react";
 import { Header, Container } from "../components";
-import { formatFormHeader, generateDataTestId } from "../utils";
+import { formatFormHeader, generateMetaTestId } from "../utils";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { DataTestIds, Maybe, UIDataTargetTypes } from "@parsimony/types";
+import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types";
 import MenuItem from "@mui/material/MenuItem";
 import MaterialSelect from "@mui/material/Select";
 
@@ -18,7 +18,7 @@ export type ISelectorProps = {
   value?: Maybe<string | number>;
   isNumber?: boolean;
   key?: string;
-  dataTestId: DataTestIds;
+  metaTestId: MetaTestIds;
 };
 
 export const Selector = ({
@@ -30,9 +30,9 @@ export const Selector = ({
   title,
   key,
   isNumber,
-  dataTestId
+  metaTestId
 }: ISelectorProps) => {
-  const testId = generateDataTestId(UIDataTargetTypes.Selector, dataTestId);
+  const testId = generateMetaTestId(UIMetaTargetTypes.Selector, metaTestId);
 
   const ReadOnlyOption = () => (
     <>

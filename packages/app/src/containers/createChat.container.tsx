@@ -2,7 +2,7 @@ import {
   Collections,
   User,
   Subscriber,
-  ChatDataIds
+  ChatMetaTestIds
 } from "@parsimony/types/src";
 import React, { useEffect, useState } from "react";
 
@@ -76,7 +76,7 @@ export const CreateChat = () => {
           <Button
             name="Cancel"
             action={setToChatDrawer}
-            dataTestId={ChatDataIds.cancelCreateChatBtn}
+            metaTestId={ChatMetaTestIds.cancelCreateChatBtn}
           />
         </Col>
       </Row>
@@ -86,19 +86,19 @@ export const CreateChat = () => {
         updateState={(path, value) => updateName(value)}
         pathToState=""
         placeHolderText="Chat name"
-        dataTestId={ChatDataIds.createChatNameField}
+        metaTestId={ChatMetaTestIds.createChatNameField}
       />
       <Autocomplete
         label="Search User"
         options={autoCompleteOptions}
         multiSelect={true}
         updateState={onUpdateSubscribers}
-        dataTestId={ChatDataIds.createChatNameField}
+        metaTestId={ChatMetaTestIds.createChatNameField}
       />
       <Button
         name="Create"
         action={onCreateThread}
-        dataTestId={ChatDataIds.createChatSubmitBtn}
+        metaTestId={ChatMetaTestIds.createChatSubmitBtn}
       />
     </div>
   );

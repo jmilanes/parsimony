@@ -1,6 +1,6 @@
-import { DataTestIds, UIDataTargetTypes } from "@parsimony/types/src";
+import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
 
-export const generateDataTestId = (
-  type: UIDataTargetTypes,
-  dataTestId: DataTestIds
-) => `${type.toUpperCase()}:${dataTestId}`;
+export const generateMetaTestId = (
+  type: UIMetaTargetTypes,
+  metaTestId: MetaTestIds
+) => `${type.toUpperCase()}:${metaTestId}`;

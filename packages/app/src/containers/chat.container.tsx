@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { addMessage, deleteMessage, deleteThread, editMessage } from "../bal";
 import { ThreadCollection } from "../services/chat.service";
-import { ChatDataIds, Thread } from "@parsimony/types";
+import { ChatMetaTestIds, Thread } from "@parsimony/types";
 import { useServices } from "../context";
 import { DrawerContentTypes } from "../services/appControls.service";
 import { Button, List, Row, Col } from "../components";
@@ -64,7 +64,7 @@ export const Chat = () => {
           <Button
             name="Create Chat"
             action={showCreateChat}
-            dataTestId={ChatDataIds.createChatBtn}
+            metaTestId={ChatMetaTestIds.createChatBtn}
           />
           <ChatList threads={Object.values(threads)} />
         </Col>

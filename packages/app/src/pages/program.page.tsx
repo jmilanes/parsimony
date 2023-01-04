@@ -15,7 +15,7 @@ import {
   IModes,
   User,
   Collections,
-  ProgramPageDataIds
+  ProgramPageMetaTestIds
 } from "@parsimony/types";
 
 import {
@@ -83,21 +83,21 @@ const Program = () => {
             name="Edit"
             action={() => updateMode("edit")}
             hidden={isEditMode(mode)}
-            dataTestId={ProgramPageDataIds.editBtn}
+            metaTestId={ProgramPageMetaTestIds.editBtn}
           />,
           <Button
             key="cancel"
             name="Cancel"
             action={() => updateMode("readOnly")}
             hidden={isReadOnlyMode(mode)}
-            dataTestId={ProgramPageDataIds.cancelEditBtn}
+            metaTestId={ProgramPageMetaTestIds.cancelEditBtn}
           />,
           <Button
             key="submit"
             name="Submit"
             action={submitForm}
             hidden={isReadOnlyMode(mode)}
-            dataTestId={ProgramPageDataIds.submitEditBtn}
+            metaTestId={ProgramPageMetaTestIds.submitEditBtn}
           />
         ]}
       />
@@ -111,7 +111,7 @@ const Program = () => {
         value={localState.title}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={ProgramPageDataIds.titleField}
+        metaTestId={ProgramPageMetaTestIds.titleField}
       />
       <Field
         placeHolderText="Description"
@@ -119,7 +119,7 @@ const Program = () => {
         value={localState.description}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={ProgramPageDataIds.descriptionField}
+        metaTestId={ProgramPageMetaTestIds.descriptionField}
       />
       <Selector
         title="Type"
@@ -128,7 +128,7 @@ const Program = () => {
         options={programTypes}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={ProgramPageDataIds.typeSelector}
+        metaTestId={ProgramPageMetaTestIds.typeSelector}
       />
 
       {/* This prob shouldn't exist but might need for now  */}
@@ -139,7 +139,7 @@ const Program = () => {
           value={localState.clientId}
           options={allClientOptions}
           updateState={updateState}
-          dataTestId={ProgramPageDataIds.clientSelector}
+          metaTestId={ProgramPageMetaTestIds.clientSelector}
         />
       )}
       <Selector
@@ -149,7 +149,7 @@ const Program = () => {
         options={ruleStyles}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={ProgramPageDataIds.ruleStyleSelector}
+        metaTestId={ProgramPageMetaTestIds.ruleStyleSelector}
       />
       <MultiSelect
         title="Read Access"
@@ -158,7 +158,7 @@ const Program = () => {
         values={localState.readAccess as string[]}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={ProgramPageDataIds.readAccessMultiSelector}
+        metaTestId={ProgramPageMetaTestIds.readAccessMultiSelector}
       />
       <MultiSelect
         title="Write Access"
@@ -167,7 +167,7 @@ const Program = () => {
         values={localState.writeAccess as string[]}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={ProgramPageDataIds.writeAccessMultiSelector}
+        metaTestId={ProgramPageMetaTestIds.writeAccessMultiSelector}
       />
 
       {program.type === ProgramTypes.Client && client && (
@@ -176,19 +176,23 @@ const Program = () => {
             name="View Client"
             action={() => navigate(`${Routes.Users}/${program.clientId}`)}
             hidden={isEditMode(mode)}
-            dataTestId={ProgramPageDataIds.clientProgramActionViewClient}
+            metaTestId={ProgramPageMetaTestIds.clientProgramActionViewClient}
           />
           <Button
             name="Start Observation"
             action={() => navigate(`${Routes.Programs}/${program.id}/observe`)}
             hidden={isEditMode(mode)}
-            dataTestId={ProgramPageDataIds.clientProgramActionStartObservation}
+            metaTestId={
+              ProgramPageMetaTestIds.clientProgramActionStartObservation
+            }
           />
           <Button
             name="View Data"
             action={() => navigate(`/results/${program.clientId}`)}
             hidden={isEditMode(mode)}
-            dataTestId={ProgramPageDataIds.clientProgramActionViewProgramData}
+            metaTestId={
+              ProgramPageMetaTestIds.clientProgramActionViewProgramData
+            }
           />
         </Row>
       )}

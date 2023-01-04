@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "../components";
-import { DataTestIds } from "@parsimony/types/src";
+import { MetaTestIds } from "@parsimony/types/src";
 
 export type IInputWithActionProps = {
   defaultValue?: string;
   placeholder?: string;
   buttonText: string;
   action: (value: string) => void;
-  buttonDataTestId: DataTestIds;
+  buttonMetaTestId: MetaTestIds;
 };
 
 export const InputWithAction = ({
@@ -16,7 +16,7 @@ export const InputWithAction = ({
   action,
   placeholder,
   defaultValue,
-  buttonDataTestId
+  buttonMetaTestId
 }: IInputWithActionProps) => {
   const [val, setVal] = useState(defaultValue || "");
   return (
@@ -34,7 +34,7 @@ export const InputWithAction = ({
           action(val);
           setVal("");
         }}
-        dataTestId={buttonDataTestId}
+        metaTestId={buttonMetaTestId}
       />
     </div>
   );

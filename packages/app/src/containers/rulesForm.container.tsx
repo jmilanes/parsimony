@@ -7,8 +7,7 @@ import {
   Repeater,
   Button,
   Row,
-  Col,
-  Container
+  Col
 } from "../components";
 import {
   initialRuleData,
@@ -24,7 +23,7 @@ import {
   PromptTypes,
   Rule,
   RuleOption,
-  RulesFormDataIds
+  RulesFormMetaTestIds
 } from "@parsimony/types";
 import { generateKey, removeItemByIndex } from "../utils";
 import "./styles.css";
@@ -35,10 +34,10 @@ type RuleFormProps = {
   updateState: (path: string, value: unknown) => void;
 };
 
-const prefilledPromptBtnDataIds = {
-  [PromptTypes.Verbal]: RulesFormDataIds.preSelectedVerbalPromptsBtn,
-  [PromptTypes.Physical]: RulesFormDataIds.preSelectedPhysicalPromptsBtn,
-  [PromptTypes.Time]: RulesFormDataIds.preSelectedTimePromptsBtn
+const prefilledPromptBtnMetaTestIds = {
+  [PromptTypes.Verbal]: RulesFormMetaTestIds.preSelectedVerbalPromptsBtn,
+  [PromptTypes.Physical]: RulesFormMetaTestIds.preSelectedPhysicalPromptsBtn,
+  [PromptTypes.Time]: RulesFormMetaTestIds.preSelectedTimePromptsBtn
 };
 
 export const RulesForm = ({
@@ -71,7 +70,7 @@ export const RulesForm = ({
             value={option.name}
             updateState={updateState}
             readOnly={readOnly}
-            dataTestId={RulesFormDataIds.promptNameField}
+            metaTestId={RulesFormMetaTestIds.promptNameField}
           />
         </Col>
         <Col xs={6}>
@@ -84,7 +83,7 @@ export const RulesForm = ({
                 `rules[${ruleIndex}].options`
               )
             }
-            dataTestId={RulesFormDataIds.deletePromptBtn}
+            metaTestId={RulesFormMetaTestIds.deletePromptBtn}
           />
           <Button
             name="Set to Target"
@@ -94,7 +93,7 @@ export const RulesForm = ({
                 setTargetOption(rule.options as RuleOption[], option.name || "")
               )
             }
-            dataTestId={RulesFormDataIds.setToTargetBtn}
+            metaTestId={RulesFormMetaTestIds.setToTargetBtn}
           />
         </Col>
         <Col xs={2}>{option.target ? <p>Target Prompt</p> : null}</Col>
@@ -111,7 +110,7 @@ export const RulesForm = ({
         <Button
           name="Delete Rule"
           action={() => deleteItem(localState.rules || [], index, "rules")}
-          dataTestId={RulesFormDataIds.deleteRuleBtn}
+          metaTestId={RulesFormMetaTestIds.deleteRuleBtn}
         />
         <Col xs={12}>
           <Field
@@ -120,7 +119,7 @@ export const RulesForm = ({
             value={rule.question}
             updateState={updateState}
             readOnly={readOnly}
-            dataTestId={RulesFormDataIds.questionField}
+            metaTestId={RulesFormMetaTestIds.questionField}
           />
         </Col>
         <Col xs={12}>
@@ -130,7 +129,7 @@ export const RulesForm = ({
             value={rule.description}
             updateState={updateState}
             readOnly={readOnly}
-            dataTestId={RulesFormDataIds.descriptionField}
+            metaTestId={RulesFormMetaTestIds.descriptionField}
           />
         </Col>
 
@@ -143,7 +142,7 @@ export const RulesForm = ({
             updateState={updateState}
             readOnly={readOnly}
             isNumber={true}
-            dataTestId={RulesFormDataIds.stepsSelector}
+            metaTestId={RulesFormMetaTestIds.stepsSelector}
           />
         </Col>
         <Col xs={12}>
@@ -153,7 +152,7 @@ export const RulesForm = ({
             value={!!rule.required}
             updateState={updateState}
             readOnly={readOnly}
-            dataTestId={RulesFormDataIds.requiredCheckbox}
+            metaTestId={RulesFormMetaTestIds.requiredCheckbox}
           />
         </Col>
         <Col xs={12}>
@@ -164,7 +163,7 @@ export const RulesForm = ({
             options={inputTypes}
             updateState={updateState}
             readOnly={readOnly}
-            dataTestId={RulesFormDataIds.inputTypeSelector}
+            metaTestId={RulesFormMetaTestIds.inputTypeSelector}
           />
         </Col>
         <Col xs={12}>
@@ -175,7 +174,7 @@ export const RulesForm = ({
             options={programValueTypes}
             updateState={updateState}
             readOnly={readOnly}
-            dataTestId={RulesFormDataIds.valueTypeSelector}
+            metaTestId={RulesFormMetaTestIds.valueTypeSelector}
           />
         </Col>
 
@@ -187,7 +186,7 @@ export const RulesForm = ({
                 key={generateKey("pre-filled-prompt-button", key)}
                 name={key}
                 action={() => updateState(`rules[${index}].options`, value)}
-                dataTestId={prefilledPromptBtnDataIds[key as PromptTypes]}
+                metaTestId={prefilledPromptBtnMetaTestIds[key as PromptTypes]}
               />
             );
           })}
@@ -202,6 +201,7 @@ export const RulesForm = ({
             generateRow={generateOption}
             initialData={initialOptionData}
             readOnly={readOnly}
+            addButtonMetaTestId={RulesFormMetaTestIds.addPromptBtn}
           />
         </Col>
       </Row>
@@ -217,6 +217,7 @@ export const RulesForm = ({
       generateRow={rule}
       initialData={initialRuleData}
       readOnly={readOnly}
+      addButtonMetaTestId={RulesFormMetaTestIds.addRuleBtn}
     />
   );
 };

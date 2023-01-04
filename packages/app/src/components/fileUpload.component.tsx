@@ -1,10 +1,10 @@
-import { DataTestIds } from "@parsimony/types/src";
+import { MetaTestIds } from "@parsimony/types/src";
 import { message, Upload } from "antd";
 import React from "react";
 
 import { Button } from "../components";
 
-export const FileUpload = ({ buttonTestId }: { buttonTestId: DataTestIds }) => {
+export const FileUpload = ({ metaTestId }: { metaTestId: MetaTestIds }) => {
   const props = {
     name: "file",
     action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
@@ -25,7 +25,7 @@ export const FileUpload = ({ buttonTestId }: { buttonTestId: DataTestIds }) => {
 
   return (
     <Upload {...props}>
-      <Button name="click upload" dataTestId={buttonTestId} />
+      <Button name="click upload" metaTestId={metaTestId} />
     </Upload>
   );
 };

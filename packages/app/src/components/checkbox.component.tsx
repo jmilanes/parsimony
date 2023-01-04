@@ -2,8 +2,8 @@ import React from "react";
 import { Container, Header } from "../components";
 import MaterialSwitch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { generateDataTestId } from "../utils";
-import { DataTestIds, UIDataTargetTypes } from "@parsimony/types/src";
+import { generateMetaTestId } from "../utils";
+import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
 
 export type ICheckBoxProps = {
   key?: string;
@@ -12,7 +12,7 @@ export type ICheckBoxProps = {
   pathToState: string;
   title: string;
   updateState: (path: string, value: boolean) => void;
-  dataTestId: DataTestIds;
+  metaTestId: MetaTestIds;
 };
 
 export const Checkbox = ({
@@ -22,7 +22,7 @@ export const Checkbox = ({
   pathToState,
   title,
   key,
-  dataTestId
+  metaTestId
 }: ICheckBoxProps) => {
   return (
     <Container flexDirection="row" key={key}>
@@ -31,7 +31,7 @@ export const Checkbox = ({
         control={
           <MaterialSwitch
             checked={value}
-            data-cy={generateDataTestId(UIDataTargetTypes.Checkbox, dataTestId)}
+            data-cy={generateMetaTestId(UIMetaTargetTypes.Checkbox, metaTestId)}
             onChange={() => updateState(pathToState, !value)}
           />
         }

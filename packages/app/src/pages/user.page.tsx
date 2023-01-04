@@ -19,7 +19,7 @@ import {
   Program,
   UpdateUserPayload,
   User,
-  UserPageDataIds
+  UserPageMetaTestIds
 } from "@parsimony/types";
 
 import {
@@ -76,12 +76,12 @@ const User = () => {
     {
       name: "Start Observing",
       method: (program: Program) => navigate(`/programs/${program.id}/observe`),
-      dataId: UserPageDataIds.programTableActionStartObserving
+      metaTestId: UserPageMetaTestIds.programTableActionStartObserving
     },
     {
       name: "View Data",
       method: (program: Program) => navigate(`/results/${program.id}`),
-      dataId: UserPageDataIds.programTableActionViewData
+      metaTestId: UserPageMetaTestIds.programTableActionViewData
     }
   ];
 
@@ -97,21 +97,21 @@ const User = () => {
             name="Edit"
             action={() => updateMode("edit")}
             hidden={isEditMode(mode)}
-            dataTestId={UserPageDataIds.edit}
+            metaTestId={UserPageMetaTestIds.edit}
           />,
           <Button
             key="cancel"
             name="Cancel"
             action={() => updateMode("readOnly")}
             hidden={isReadOnlyMode(mode)}
-            dataTestId={UserPageDataIds.cancelEdit}
+            metaTestId={UserPageMetaTestIds.cancelEdit}
           />,
           <Button
             key="submit"
             name="Submit"
             action={submitForm}
             hidden={isReadOnlyMode(mode)}
-            dataTestId={UserPageDataIds.submitEdit}
+            metaTestId={UserPageMetaTestIds.submitEdit}
           />
         ]}
       />
@@ -121,7 +121,7 @@ const User = () => {
         value={localState.firstName}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={UserPageDataIds.firstNameField}
+        metaTestId={UserPageMetaTestIds.firstNameField}
       />
       <Field
         placeHolderText="Last Name"
@@ -129,7 +129,7 @@ const User = () => {
         value={localState.lastName}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={UserPageDataIds.lastNameField}
+        metaTestId={UserPageMetaTestIds.lastNameField}
       />
       <Field
         placeHolderText="Phone Number"
@@ -137,7 +137,7 @@ const User = () => {
         value={localState.phone}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={UserPageDataIds.phoneNumberField}
+        metaTestId={UserPageMetaTestIds.phoneNumberField}
       />
       <Field
         placeHolderText="Email"
@@ -145,7 +145,7 @@ const User = () => {
         value={localState.email}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={UserPageDataIds.emailField}
+        metaTestId={UserPageMetaTestIds.emailField}
       />
       <Selector
         title="Type"
@@ -154,7 +154,7 @@ const User = () => {
         value={localState.type}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={UserPageDataIds.typeSelector}
+        metaTestId={UserPageMetaTestIds.typeSelector}
       />
       <MultiSelect
         title="Type"
@@ -163,7 +163,7 @@ const User = () => {
         values={localState.roles as string[]}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
-        dataTestId={UserPageDataIds.roleMultiSelector}
+        metaTestId={UserPageMetaTestIds.roleMultiSelector}
       />
       <Row>
         <Header text="Programs:" size="md" />
@@ -177,6 +177,7 @@ const User = () => {
             );
             navigate(`${Routes.Programs}?userId=${user.id}`);
           }}
+          metaTestId={UserPageMetaTestIds.addProgram}
         />
       </Row>
       <Table<Program>

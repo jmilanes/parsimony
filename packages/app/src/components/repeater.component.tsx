@@ -1,4 +1,4 @@
-import { DataTestIds } from "@parsimony/types/src";
+import { MetaTestIds } from "@parsimony/types/src";
 import React from "react";
 import { Header, Button, Row, Col } from "../components";
 import { clone } from "../utils";
@@ -12,7 +12,7 @@ export type IRepeaterProps = {
   generateRow: (index: number) => JSX.Element | null;
   initialData: Record<string, unknown>;
   readOnly: boolean;
-  addButtonDataId: DataTestIds;
+  addButtonMetaTestId: MetaTestIds;
 };
 
 export const Repeater = ({
@@ -23,7 +23,7 @@ export const Repeater = ({
   pathToState,
   initialData,
   readOnly,
-  addButtonDataId
+  addButtonMetaTestId
 }: IRepeaterProps) => {
   const addRow = () => updateState(pathToState, [...items, clone(initialData)]);
 
@@ -34,7 +34,7 @@ export const Repeater = ({
       <Col xs={12}>
         <Row>
           <Header text={title} size="md" />
-          <Button name="Add" action={addRow} dataTestId={addButtonDataId} />
+          <Button name="Add" action={addRow} metaTestId={addButtonMetaTestId} />
         </Row>
       </Col>
 

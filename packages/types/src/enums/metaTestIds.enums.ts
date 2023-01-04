@@ -3,7 +3,7 @@ export enum TEST_USER {
   password = "123456789"
 }
 
-export enum UIDataTargetTypes {
+export enum UIMetaTargetTypes {
   Button = "BUTTON",
   Field = "FIELD",
   Selector = "SELECTOR",
@@ -13,7 +13,7 @@ export enum UIDataTargetTypes {
 }
 
 // Globals
-export enum NavDataIds {
+export enum NavMetaTestIds {
   logoutBtn = "logout-nav-button",
   programBtn = "program-nav-button",
   directoryBtn = "directory-nav-button",
@@ -27,13 +27,13 @@ export enum AddModalControls {
   createBtn = "add-form-create"
 }
 
-export enum RepeatableDataIds {
+export enum RepeatableMetaTestIds {
   tableAction = "table-action",
   listItem = "list-item"
 }
 
 // Pages
-export enum AuthPageDataIds {
+export enum AuthPageMetaTestIds {
   loginBtn = "login",
   resetBtn = "reset",
   cancelBtn = "cancel",
@@ -42,7 +42,7 @@ export enum AuthPageDataIds {
   passwordField = "password"
 }
 
-export enum DirectoryPageDataIds {
+export enum DirectoryPageMetaTestIds {
   firstNameField = "add-user-first-name-field",
   lastNameField = "add-user-last-name-field",
   phoneNumberField = "add-user-phone-number-field",
@@ -55,7 +55,7 @@ export enum DirectoryPageDataIds {
   tableActionDelete = "delete-user"
 }
 
-export enum UserPageDataIds {
+export enum UserPageMetaTestIds {
   firstNameField = "update-user-first-name-field",
   lastNameField = "update-user-last-name-field",
   phoneNumberField = "update-user-phone-number-field",
@@ -67,20 +67,21 @@ export enum UserPageDataIds {
   cancelEdit = "cancel-edit-user",
   submitEdit = "submit-edit-user",
   programTableActionStartObserving = "start-observing-program",
-  programTableActionViewData = "view-program-data"
+  programTableActionViewData = "view-program-data",
+  addProgram = "user-add-program"
 }
 
-export enum DrawerDataIds {
+export enum DrawerMetaTestIds {
   extendBtn = "extend-btn"
 }
 
-export enum SchoolPageDataIds {
+export enum SchoolPageMetaTestIds {
   nameField = "school-name",
   tableActionDelete = "delete-school",
   addBtn = "add-school"
 }
 
-export enum ProgramsPageDataIds {
+export enum ProgramsPageMetaTestIds {
   addBtn = "add-program",
   titleField = "add-program-title-field",
   descriptionField = "add-program-description-field",
@@ -94,7 +95,7 @@ export enum ProgramsPageDataIds {
   tableActionCopy = "copy-program"
 }
 
-export enum ProgramPageDataIds {
+export enum ProgramPageMetaTestIds {
   editBtn = "edit-program-btn",
   cancelEditBtn = "cancel-edit-program",
   submitEditBtn = "submit-edit-program",
@@ -110,7 +111,7 @@ export enum ProgramPageDataIds {
   clientProgramActionViewProgramData = "view-program-data"
 }
 
-export enum ObservationDataIds {
+export enum ObservationMetaTestIds {
   viewResultsBtn = "view-results-btn",
   submitObservation = "submit-observation-btn",
   selectRuleBtn = "select-rule-btn",
@@ -124,7 +125,7 @@ export enum ObservationDataIds {
 }
 
 // TODO: will need to have a way to get prompts by each and prompts
-export enum RulesFormDataIds {
+export enum RulesFormMetaTestIds {
   deleteRuleBtn = "delete-rule-btn",
   questionField = "add-rule-question-field",
   descriptionField = "add-rule-description-field",
@@ -137,11 +138,13 @@ export enum RulesFormDataIds {
   preSelectedTimePromptsBtn = "add-rule-time-prompts-btn",
   promptNameField = "add-prompt-name-field",
   deletePromptBtn = "delete-prompt-btn",
-  setToTargetBtn = "set-to-target-prompt-btn"
+  setToTargetBtn = "set-to-target-prompt-btn",
+  addRuleBtn = "add-rule-btn",
+  addPromptBtn = "addPromptBtn"
 }
 
 // Features
-export enum ChatDataIds {
+export enum ChatMetaTestIds {
   createChatBtn = "create-chat-btn",
   cancelCreateChatBtn = "create-chat-cancel-btn",
   createChatNameField = "create-chat-name-field",
@@ -157,18 +160,18 @@ export enum ChatDataIds {
   chatDeleteBtn = "chat-delete-btn"
 }
 
-export type DataTestIds =
-  | ChatDataIds
-  | ProgramsPageDataIds
-  | SchoolPageDataIds
-  | UserPageDataIds
-  | DirectoryPageDataIds
-  | NavDataIds
+export type MetaTestIds =
+  | ChatMetaTestIds
+  | ProgramsPageMetaTestIds
+  | SchoolPageMetaTestIds
+  | UserPageMetaTestIds
+  | DirectoryPageMetaTestIds
+  | NavMetaTestIds
   | AddModalControls
-  | AuthPageDataIds
-  | RulesFormDataIds
-  | ProgramPageDataIds
-  | ObservationDataIds
-  | RepeatableDataIds
-  | ChatDataIds
-  | DrawerDataIds;
+  | AuthPageMetaTestIds
+  | RulesFormMetaTestIds
+  | ProgramPageMetaTestIds
+  | ObservationMetaTestIds
+  | RepeatableMetaTestIds
+  | ChatMetaTestIds
+  | DrawerMetaTestIds;

@@ -1,11 +1,7 @@
-import {
-  ChatDataIds,
-  DataTestIds,
-  UIDataTargetTypes
-} from "@parsimony/types/src";
+import { ChatMetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Button } from "../components";
-import { generateDataTestId } from "../utils";
+import { generateMetaTestId } from "../utils";
 
 export type IInputWithActionProps = {
   defaultValue?: string;
@@ -66,22 +62,22 @@ export const ChatMessageInput = ({
         value={val}
         placeholder={placeholder}
         onChange={(e) => setVal(e.target.value)}
-        data-cy={generateDataTestId(
-          UIDataTargetTypes.Field,
-          ChatDataIds.chatMessageBarField
+        data-cy={generateMetaTestId(
+          UIMetaTargetTypes.Field,
+          ChatMetaTestIds.chatMessageBarField
         )}
       ></textarea>
       <Button
         disabled={val.length === 0}
         name={buttonText}
         action={handleAction}
-        dataTestId={ChatDataIds.chatMessageBarSubmit}
+        metaTestId={ChatMetaTestIds.chatMessageBarSubmit}
       />
       {onCancel && (
         <Button
           name="Cancel"
           action={handleCancel}
-          dataTestId={ChatDataIds.chatMessageBarCancel}
+          metaTestId={ChatMetaTestIds.chatMessageBarCancel}
         />
       )}
     </div>

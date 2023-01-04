@@ -1,6 +1,6 @@
 import React from "react";
 import { createLink, filterByProp, getFullName } from "../utils";
-import { IRoute, NavDataIds, User } from "@parsimony/types";
+import { IRoute, NavMetaTestIds, User } from "@parsimony/types";
 
 import { Button } from "../components";
 import { useServices } from "../context";
@@ -22,7 +22,7 @@ export const Nav = ({ routes }: INavProps) => {
         <Button
           name="Log Out"
           action={() => authService.logOut()}
-          dataTestId={NavDataIds.logoutBtn}
+          metaTestId={NavMetaTestIds.logoutBtn}
         />
       </a>
       <a className="nav-item">

@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 
 // TODO: THis is what is breaking the pattern. This is the next thing to be fixed
 import { addMessage, deleteThread, editMessage } from "../bal";
-import { Menu, Row, Col, InputWithAction, Header, Icon } from "../components";
+import { Menu, Row, Col, Header, Icon } from "../components";
 import { ChatMessage, ChatMessageInput } from "../containers";
-import { ChatDataIds, Message, Thread } from "@parsimony/types";
+import { ChatMetaTestIds, Message, Thread } from "@parsimony/types";
 import { useServices } from "../context";
 import { getThreadName } from "../utils";
 
@@ -73,7 +73,7 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
       label: "Delete",
       icon: <Icon.Delete />,
       action: () => onDelete(thread.id),
-      dataTestId: ChatDataIds.chatDeleteBtn
+      metaTestId: ChatMetaTestIds.chatDeleteBtn
     }
   ];
   const threadName = getThreadName(thread, currentUser);
@@ -105,7 +105,7 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
         <Col xs={2}>
           <Menu
             options={menuOptions}
-            dataTestId={ChatDataIds.chatOptionsBtn}
+            metaTestId={ChatMetaTestIds.chatOptionsBtn}
           ></Menu>
         </Col>
       </Row>

@@ -1,4 +1,4 @@
-import { AuthPageDataIds } from "@parsimony/types";
+import { AuthPageMetaTestIds } from "@parsimony/types";
 import React, { useEffect, useState } from "react";
 
 import { Header, Button, Field } from "../components";
@@ -34,39 +34,39 @@ const Login = ({ from }: { from: string }) => {
         updateState={(_, value) => setUserName(value)}
         placeHolderText="Email"
         value={userName}
-        dataTestId={AuthPageDataIds.emailField}
+        metaTestId={AuthPageMetaTestIds.emailField}
       />
       <Field
         placeHolderText="password"
         value={password}
         updateState={(_, value) => setPassword(value)}
-        dataTestId={AuthPageDataIds.passwordField}
+        metaTestId={AuthPageMetaTestIds.passwordField}
       />
       {resetPasswordMode ? (
         <Button
           name="Reset"
           action={onResetPassword}
-          dataTestId={AuthPageDataIds.resetBtn}
+          metaTestId={AuthPageMetaTestIds.resetBtn}
         />
       ) : (
         <Button
           name="Login"
           action={onLogin}
-          dataTestId={AuthPageDataIds.loginBtn}
+          metaTestId={AuthPageMetaTestIds.loginBtn}
         />
       )}
       {!resetPasswordMode && (
         <Button
           name="Reset Password"
           action={toggleRestPassword(true)}
-          dataTestId={AuthPageDataIds.resetPasswordBtn}
+          metaTestId={AuthPageMetaTestIds.resetPasswordBtn}
         />
       )}
       {resetPasswordMode && (
         <Button
           name="Cancel"
           action={toggleRestPassword(false)}
-          dataTestId={AuthPageDataIds.cancelBtn}
+          metaTestId={AuthPageMetaTestIds.cancelBtn}
         />
       )}
     </div>

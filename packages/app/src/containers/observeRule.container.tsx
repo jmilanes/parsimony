@@ -7,7 +7,7 @@ import {
   ICompletenessState,
   IResultData,
   RuleResultOption,
-  ObservationDataIds
+  ObservationMetaTestIds
 } from "@parsimony/types";
 import {
   increment,
@@ -132,7 +132,7 @@ export const ObserveRule = ({
           <Button
             name="Observe"
             action={() => setActive(true)}
-            dataTestId={ObservationDataIds.selectRuleBtn}
+            metaTestId={ObservationMetaTestIds.selectRuleBtn}
           />
         )}
       </div>
@@ -148,7 +148,7 @@ export const ObserveRule = ({
           <Button
             name="Close"
             action={() => setActive(false)}
-            dataTestId={ObservationDataIds.closeRuleBtn}
+            metaTestId={ObservationMetaTestIds.closeRuleBtn}
           />
         )}
         <Container>
@@ -156,7 +156,7 @@ export const ObserveRule = ({
             <Button
               name="Back"
               action={decrementStep}
-              dataTestId={ObservationDataIds.revertStepBtn}
+              metaTestId={ObservationMetaTestIds.revertStepBtn}
             />
           )}
           {!isGroup && <h1>{step}</h1>}
@@ -174,8 +174,8 @@ export const ObserveRule = ({
                 )
               }
               // TODO: Test id with option name
-              dataTestId={ObservationDataIds.ruleOptionSelectBtn}
-              dataTestQualifier={option?.name || ""}
+              metaTestId={ObservationMetaTestIds.ruleOptionSelectBtn}
+              metaTestQualifier={option?.name || ""}
             />
           ))}
         </Container>
@@ -193,18 +193,18 @@ export const ObserveRule = ({
         <Button
           name="Close"
           action={() => setActive(false)}
-          dataTestId={ObservationDataIds.closeGroupedRuleBtn}
+          metaTestId={ObservationMetaTestIds.closeGroupedRuleBtn}
         />
         <Button
           name="Next Step"
           action={() => incrementStep(firstRule)}
-          dataTestId={ObservationDataIds.nextRuleBtn}
+          metaTestId={ObservationMetaTestIds.nextRuleBtn}
         />
         {step > 1 && (
           <Button
             name="Back"
             action={decrementStep}
-            dataTestId={ObservationDataIds.revertRuleBtn}
+            metaTestId={ObservationMetaTestIds.revertRuleBtn}
           />
         )}
       </>
@@ -221,7 +221,7 @@ export const ObserveRule = ({
         <Button
           name="Observe"
           action={() => setActive(true)}
-          dataTestId={ObservationDataIds.selectGroupedRuleBtn}
+          metaTestId={ObservationMetaTestIds.selectGroupedRuleBtn}
         />
       </div>
     ) : null;

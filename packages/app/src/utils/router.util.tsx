@@ -53,7 +53,7 @@ export const createLink = (link: IRoute) => {
       <Button
         name={link.name || ""}
         action={() => null}
-        dataTestId={link.dataTestId}
+        metaTestId={link.metaTestId}
       />
     </Link>
   );
