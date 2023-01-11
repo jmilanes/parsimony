@@ -1,7 +1,6 @@
 import React from "react";
 
 import { flattenObject, generateKey } from "../utils";
-import { Table as AntTable } from "antd";
 import { Content, Button } from "../components";
 import { useServices } from "../context";
 import { RepeatableMetaTestIds } from "@parsimony/types/src";
@@ -36,55 +35,60 @@ export const Table = <Data extends { id: string }>({
 }: ITableProps<Data>) => {
   const { filterService } = useServices();
 
-  if (actions) {
-    columns = [
-      ...columns,
-      {
-        title: "Actions",
-        key: "actions",
-        dataIndex: "actions",
-        render: (_: any, record: { source: Data }) => {
-          return (
-            <>
-              {actions.map((action) => {
-                return (
-                  <Button
-                    name={action.name}
-                    key={generateKey(
-                      `table-action-${action.name}`,
-                      record.source.id
-                    )}
-                    action={() => action.method(record.source)}
-                    metaTestId={RepeatableMetaTestIds.tableAction}
-                    metaTestQualifier={`${action.metaTestId}-${record.source.id}`}
-                  />
-                );
-              })}
-            </>
-          );
-        }
-      }
-    ];
-  }
-
-  const dataSource = filterService.filter(data).map((item: Data) => {
+  const processedData = filterService.filter(data).map((item: Data) => {
     const flatItem = flattenObject<Data>(item);
-    const dataSourceObj: any = { key: item.id, source: flatItem };
-
     Object.values(columns).forEach(
       (column) =>
-        (dataSourceObj[column.key] = column.displayFn
+        (flatItem[column.key] = column.displayFn
           ? column.displayFn(flatItem[column.key])
           : flatItem[column.key])
     );
-
-    return dataSourceObj;
+    return flatItem as Data;
   });
 
-  console.log("🚀 ~ file: table.component.tsx:87 ~ dataSource", dataSource);
+  const TableRow = ({ source, index }: { source: any; index: number }) => {
+    const cols = Object.keys(source).filter((k) =>
+      columns.find((col) => col.key === k)
+    );
+    return (
+      <tr className="table-row">
+        {cols.map((col) => {
+          return <td key={`row-${index}-col-${col}`}>{source[col]}</td>;
+        })}
+        <td>
+          {actions?.map((action) => {
+            return (
+              <Button
+                name={action.name}
+                key={generateKey(`table-action-${action.name}`, source.id)}
+                action={() => action.method(source)}
+                metaTestId={RepeatableMetaTestIds.tableAction}
+                metaTestQualifier={`${action.metaTestId}-${source.id}`}
+              />
+            );
+          })}
+        </td>
+      </tr>
+    );
+  };
+
   return (
     <Content>
-      <AntTable dataSource={dataSource} columns={columns} />
+      <table className="styled-table">
+        <thead>
+          <tr>
+            {columns.map((column) => (
+              <th key={column.key}>{column.title}</th>
+            ))}
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {processedData.map((source, i) => (
+            <TableRow key={source.id} source={source} index={i}></TableRow>
+          ))}
+        </tbody>
+      </table>
     </Content>
   );
 };

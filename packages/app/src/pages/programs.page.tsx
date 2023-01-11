@@ -39,7 +39,7 @@ const Programs = () => {
   const navigate = navigateToRoute();
   let [searchParams] = getSearchParams();
 
-  const data = store.getCurrentCollectionItems(Collections.Program);
+  const data = store.getCurrentCollectionItems<Program>(Collections.Program);
 
   useEffect(() => {
     dataAccess.program.getAll();

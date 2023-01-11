@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.css";
-import MAterialContainer from "@mui/material/Container";
+import MaterialContainer from "@mui/material/Container";
 
 export type IContentProps = {
   hidden?: boolean;
@@ -10,8 +10,8 @@ export type IContentProps = {
 export const Content = ({ children, hidden }: IContentProps) => {
   if (hidden) return <></>;
   return (
-    <MAterialContainer className="site-layout-background">
+    <MaterialContainer className="site-layout-background">
       {children}
-    </MAterialContainer>
+    </MaterialContainer>
   );
 };

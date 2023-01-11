@@ -25,7 +25,7 @@ import { encrypt } from "@parsimony/utilities";
 const Users = () => {
   const { stateManager, dataAccess, store } = useServices();
   const navigate = navigateToRoute();
-  const data = store.getCurrentCollectionItems(Collections.User);
+  const data = store.getCurrentCollectionItems<User>(Collections.User);
 
   useEffect(() => {
     dataAccess.user.getAll();
@@ -52,9 +52,9 @@ const Users = () => {
   };
 
   const columns: IColumns[] = [
-    { key: "firstName", dataIndex: "firstName", title: "firstName" },
-    { key: "lastName", dataIndex: "lastName", title: "lastName" },
-    { key: "type", dataIndex: "type", title: "type" }
+    { key: "firstName", dataIndex: "firstName", title: "First Name" },
+    { key: "lastName", dataIndex: "lastName", title: "Last Name" },
+    { key: "type", dataIndex: "type", title: "Type" }
   ];
 
   const actions: ITableAction[] = [
