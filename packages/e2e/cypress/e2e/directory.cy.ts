@@ -1,8 +1,10 @@
 import {
   AddModalControls,
   DirectoryPageMetaTestIds,
-  NavMetaTestIds
+  NavMetaTestIds,
+  User
 } from "@parsimony/types";
+import { use } from "chai";
 
 import {
   findText,

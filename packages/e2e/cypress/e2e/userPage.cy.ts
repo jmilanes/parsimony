@@ -54,6 +54,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  cy.visit("http://localhost:1234/#/directory");
   cleanUpFunctions.forEach((fn) => fn());
   getButton(NavMetaTestIds.logoutBtn).click();
   cleanUpFunctions = [];

@@ -81,6 +81,7 @@ export const Table = <Data extends { id: string }>({
     return dataSourceObj;
   });
 
+  console.log("🚀 ~ file: table.component.tsx:87 ~ dataSource", dataSource);
   return (
     <Content>
       <AntTable dataSource={dataSource} columns={columns} />
