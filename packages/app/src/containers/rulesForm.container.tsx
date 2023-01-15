@@ -61,6 +61,7 @@ export const RulesForm = ({
     const rule = localState.rules[ruleIndex] as Rule;
     if (!rule.options) return null;
     const option = rule.options[index] as RuleOption;
+    const metaTestQualifier = `rule-${ruleIndex}-prompt-${index}`;
     return (
       <Row key={generateKey("option", index)}>
         <Col xs={4}>
@@ -71,6 +72,7 @@ export const RulesForm = ({
             updateState={updateState}
             readOnly={readOnly}
             metaTestId={RulesFormMetaTestIds.promptNameField}
+            metaTestQualifier={metaTestQualifier}
           />
         </Col>
         <Col xs={6}>
@@ -84,6 +86,7 @@ export const RulesForm = ({
               )
             }
             metaTestId={RulesFormMetaTestIds.deletePromptBtn}
+            metaTestQualifier={metaTestQualifier}
           />
           <Button
             name="Set to Target"
@@ -94,6 +97,7 @@ export const RulesForm = ({
               )
             }
             metaTestId={RulesFormMetaTestIds.setToTargetBtn}
+            metaTestQualifier={metaTestQualifier}
           />
         </Col>
         <Col xs={2}>{option.target ? <p>Target Prompt</p> : null}</Col>
@@ -105,12 +109,14 @@ export const RulesForm = ({
     const generateOption = option(index);
     if (!localState.rules) return null;
     const rule = localState.rules[index] as Rule;
+    const metaQualifier = index.toString();
     return (
       <Row className="add-rule-row" key={generateKey("rule", index)}>
         <Button
           name="Delete Rule"
           action={() => deleteItem(localState.rules || [], index, "rules")}
           metaTestId={RulesFormMetaTestIds.deleteRuleBtn}
+          metaTestQualifier={metaQualifier}
         />
         <Col xs={12}>
           <Field
@@ -120,6 +126,7 @@ export const RulesForm = ({
             updateState={updateState}
             readOnly={readOnly}
             metaTestId={RulesFormMetaTestIds.questionField}
+            metaTestQualifier={metaQualifier}
           />
         </Col>
         <Col xs={12}>
@@ -130,6 +137,7 @@ export const RulesForm = ({
             updateState={updateState}
             readOnly={readOnly}
             metaTestId={RulesFormMetaTestIds.descriptionField}
+            metaTestQualifier={metaQualifier}
           />
         </Col>
 
@@ -143,6 +151,7 @@ export const RulesForm = ({
             readOnly={readOnly}
             isNumber={true}
             metaTestId={RulesFormMetaTestIds.stepsSelector}
+            metaTestQualifier={metaQualifier}
           />
         </Col>
         <Col xs={12}>
@@ -153,6 +162,7 @@ export const RulesForm = ({
             updateState={updateState}
             readOnly={readOnly}
             metaTestId={RulesFormMetaTestIds.requiredCheckbox}
+            metaTestQualifier={metaQualifier}
           />
         </Col>
         <Col xs={12}>
@@ -164,6 +174,7 @@ export const RulesForm = ({
             updateState={updateState}
             readOnly={readOnly}
             metaTestId={RulesFormMetaTestIds.inputTypeSelector}
+            metaTestQualifier={metaQualifier}
           />
         </Col>
         <Col xs={12}>
@@ -175,6 +186,7 @@ export const RulesForm = ({
             updateState={updateState}
             readOnly={readOnly}
             metaTestId={RulesFormMetaTestIds.valueTypeSelector}
+            metaTestQualifier={index.toString()}
           />
         </Col>
 
@@ -187,11 +199,13 @@ export const RulesForm = ({
                 name={key}
                 action={() => updateState(`rules[${index}].options`, value)}
                 metaTestId={prefilledPromptBtnMetaTestIds[key as PromptTypes]}
+                metaTestQualifier={metaQualifier}
               />
             );
           })}
         </Col>
 
+        {/* TODO Prob would be better to pass button it self in to the repeater*/}
         <Col xs={12}>
           <Repeater
             title="Prompts"
@@ -201,7 +215,16 @@ export const RulesForm = ({
             generateRow={generateOption}
             initialData={initialOptionData}
             readOnly={readOnly}
-            addButtonMetaTestId={RulesFormMetaTestIds.addPromptBtn}
+            renderAddButton={(addFn) => {
+              return (
+                <Button
+                  name="Add Prompt"
+                  action={addFn}
+                  metaTestId={RulesFormMetaTestIds.addPromptBtn}
+                  metaTestQualifier={metaQualifier}
+                />
+              );
+            }}
           />
         </Col>
       </Row>
@@ -217,7 +240,15 @@ export const RulesForm = ({
       generateRow={rule}
       initialData={initialRuleData}
       readOnly={readOnly}
-      addButtonMetaTestId={RulesFormMetaTestIds.addRuleBtn}
+      renderAddButton={(addFn) => {
+        return (
+          <Button
+            name="Add Rule"
+            action={addFn}
+            metaTestId={RulesFormMetaTestIds.addRuleBtn}
+          />
+        );
+      }}
     />
   );
 };

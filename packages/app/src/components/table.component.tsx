@@ -46,14 +46,13 @@ export const Table = <Data extends { id: string }>({
     return flatItem as Data;
   });
 
-  const TableRow = ({ source, index }: { source: any; index: number }) => {
-    const cols = Object.keys(source).filter((k) =>
-      columns.find((col) => col.key === k)
-    );
+  const TableRow = ({ source }: { source: any }) => {
     return (
-      <tr className="table-row">
-        {cols.map((col) => {
-          return <td key={`row-${index}-col-${col}`}>{source[col]}</td>;
+      <tr>
+        {columns.map((col) => {
+          return (
+            <td key={`row-${source.id}-col-${col.key}`}>{source[col.key]}</td>
+          );
         })}
         <td>
           {actions?.map((action) => {
@@ -76,16 +75,21 @@ export const Table = <Data extends { id: string }>({
     <Content>
       <table className="styled-table">
         <thead>
-          <tr>
+          <tr data-cy={RepeatableMetaTestIds.tableHeader}>
             {columns.map((column) => (
-              <th key={column.key}>{column.title}</th>
+              <th
+                data-cy={`${RepeatableMetaTestIds.tableHeader}-col-${column.key}`}
+                key={column.key}
+              >
+                {column.title}
+              </th>
             ))}
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {processedData.map((source, i) => (
-            <TableRow key={source.id} source={source} index={i}></TableRow>
+            <TableRow key={source.id} source={source} />
           ))}
         </tbody>
       </table>

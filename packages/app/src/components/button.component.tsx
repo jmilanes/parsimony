@@ -27,9 +27,11 @@ export const Button = ({
   metaTestQualifier
 }: IButtonProps) => {
   if (hidden) return <></>;
-  const metaId = `${generateMetaTestId(UIMetaTargetTypes.Button, metaTestId)}${
-    metaTestQualifier ? `-${metaTestQualifier}` : ""
-  }`;
+  const metaId = `${generateMetaTestId(
+    UIMetaTargetTypes.Button,
+    metaTestId,
+    metaTestQualifier
+  )}`;
   if (icon) {
     return (
       <IconButton

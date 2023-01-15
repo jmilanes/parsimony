@@ -12,7 +12,7 @@ export type IRepeaterProps = {
   generateRow: (index: number) => JSX.Element | null;
   initialData: Record<string, unknown>;
   readOnly: boolean;
-  addButtonMetaTestId: MetaTestIds;
+  renderAddButton: (addFn: () => void) => React.ReactElement;
 };
 
 export const Repeater = ({
@@ -23,7 +23,7 @@ export const Repeater = ({
   pathToState,
   initialData,
   readOnly,
-  addButtonMetaTestId
+  renderAddButton
 }: IRepeaterProps) => {
   const addRow = () => updateState(pathToState, [...items, clone(initialData)]);
 
@@ -34,7 +34,7 @@ export const Repeater = ({
       <Col xs={12}>
         <Row>
           <Header text={title} size="md" />
-          <Button name="Add" action={addRow} metaTestId={addButtonMetaTestId} />
+          {renderAddButton(addRow)}
         </Row>
       </Col>
 

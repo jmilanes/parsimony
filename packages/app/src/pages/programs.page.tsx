@@ -66,23 +66,23 @@ const Programs = () => {
 
   const columns: IColumns[] = [
     { key: "title", title: "title", dataIndex: "title" },
-    { key: "clientId", title: "clientId", dataIndex: "clientId" },
-    { key: "type", title: "type", dataIndex: "type" },
-    { key: "description", title: "description", dataIndex: "description" },
+    { key: "clientId", title: "Client Id", dataIndex: "clientId" },
+    { key: "type", title: "Type", dataIndex: "type" },
+    { key: "description", title: "Description", dataIndex: "description" },
     {
       key: "writeAccess",
-      title: "writeAccess",
-      dataIndex: "writeAccess",
+      title: "Write Access",
+      dataIndex: "Write Access",
       displayFn: createList
     },
     {
       key: "readAccess",
-      title: "readAccess",
+      title: "Read Access",
       dataIndex: "readAccess",
       displayFn: createList
     },
-    { key: "createBy", title: "createBy", dataIndex: "createBy" },
-    { key: "rules", title: "rules", dataIndex: "rules", displayFn: getLength }
+    { key: "createBy", title: "Created By", dataIndex: "createBy" },
+    { key: "rules", title: "Rules", dataIndex: "rules", displayFn: getLength }
   ];
 
   const actions: ITableAction[] = [

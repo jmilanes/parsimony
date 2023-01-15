@@ -7,7 +7,6 @@ export enum UIMetaTargetTypes {
   Button = "BUTTON",
   Field = "FIELD",
   Selector = "SELECTOR",
-  MultiSelector = "MULTI_SELECTOR",
   Checkbox = "CHECK_BOX",
   ListItem = "LIST_ITEM"
 }
@@ -29,6 +28,8 @@ export enum AddModalControls {
 
 export enum RepeatableMetaTestIds {
   tableAction = "table-action",
+  tableHeader = "table-header",
+  row = "row",
   listItem = "list-item"
 }
 
@@ -158,6 +159,12 @@ export enum ChatMetaTestIds {
   editMessageBtn = "edit-message-btn",
   chatOptionsBtn = "chat-options-btn",
   chatDeleteBtn = "chat-delete-btn"
+}
+
+export enum CleanFnTypes {
+  DIRECTORY = "directory",
+  PROGRAM = "program",
+  CHAT = "chat"
 }
 
 export type MetaTestIds =

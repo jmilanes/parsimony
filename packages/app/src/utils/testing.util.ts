@@ -2,5 +2,10 @@ import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
 
 export const generateMetaTestId = (
   type: UIMetaTargetTypes,
-  metaTestId: MetaTestIds
-) => `${type.toUpperCase()}:${metaTestId}`;
+  metaTestId: MetaTestIds,
+  metaTestQualifier?: string
+) => {
+  return `${type.toUpperCase()}:${metaTestId}${
+    metaTestQualifier ? `-${metaTestQualifier}` : ""
+  }`;
+};

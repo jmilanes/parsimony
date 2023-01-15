@@ -19,6 +19,7 @@ export type ISelectorProps = {
   isNumber?: boolean;
   key?: string;
   metaTestId: MetaTestIds;
+  metaTestQualifier?: string;
 };
 
 export const Selector = ({
@@ -30,14 +31,19 @@ export const Selector = ({
   title,
   key,
   isNumber,
-  metaTestId
+  metaTestId,
+  metaTestQualifier
 }: ISelectorProps) => {
-  const testId = generateMetaTestId(UIMetaTargetTypes.Selector, metaTestId);
+  const metaId = generateMetaTestId(
+    UIMetaTargetTypes.Selector,
+    metaTestId,
+    metaTestQualifier
+  );
 
   const ReadOnlyOption = () => (
     <>
       <Header text={formatFormHeader(title)} size="sm" />
-      <p data-cy={`${testId}-read-only`}>{value}</p>
+      <p data-cy={`${metaId}-read-only`}>{value}</p>
     </>
   );
 
@@ -45,7 +51,7 @@ export const Selector = ({
     <FormControl fullWidth>
       <InputLabel>{title}</InputLabel>
       <MaterialSelect
-        data-cy={testId}
+        data-cy={metaId}
         label={title}
         value={value || "Please select an option"}
         onChange={({ target: { value } }) =>
@@ -56,7 +62,11 @@ export const Selector = ({
         }
       >
         {options.map((opt) => (
-          <MenuItem key={opt.name} value={opt.value}>
+          <MenuItem
+            key={opt.name}
+            value={opt.value}
+            data-cy={`${metaId}-option-${opt.value}`}
+          >
             {opt.name}
           </MenuItem>
         ))}

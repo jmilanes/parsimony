@@ -25,6 +25,7 @@ export type IMultiSelectProps = {
   title: string;
   updateState: (path: string, value: unknown) => void;
   metaTestId: MetaTestIds;
+  metaTestQualifier?: string;
 };
 
 export const MultiSelect = ({
@@ -34,11 +35,13 @@ export const MultiSelect = ({
   pathToState,
   values,
   title,
-  metaTestId
+  metaTestId,
+  metaTestQualifier
 }: IMultiSelectProps) => {
   const metaId = generateMetaTestId(
-    UIMetaTargetTypes.MultiSelector,
-    metaTestId || ""
+    UIMetaTargetTypes.Selector,
+    metaTestId,
+    metaTestQualifier
   );
   const updateSelectionsAndState = (values: unknown[]) =>
     updateState(pathToState, values);
@@ -78,7 +81,11 @@ export const MultiSelect = ({
           }}
         >
           {options.map((opt) => (
-            <MenuItem key={opt.name} value={opt.value}>
+            <MenuItem
+              key={opt.name}
+              value={opt.value}
+              data-cy={`${metaId}-option-${opt.value}`}
+            >
               {opt.name}
             </MenuItem>
           ))}

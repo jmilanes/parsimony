@@ -11,11 +11,31 @@ export const getField = (id: string) =>
 export const getSelect = (id: string) =>
   cy.get(`[data-cy="${UIMetaTargetTypes.Selector}:${id}`);
 
-export const getMultiSelect = (id: string) =>
-  cy.get(`[data-cy="${UIMetaTargetTypes.MultiSelector}:${id}`);
+export const getSelectOption = (id: string, option: string) =>
+  cy.get(`[data-cy="${UIMetaTargetTypes.Selector}:${id}-option-${option}`);
+
+export const selectOption = (id: string, option: string) => {
+  getSelect(id).click();
+  getSelectOption(id, option).click();
+};
+
+export const selectMultipleOptions = (id: string, options: string[]) => {
+  options.forEach((option) => {
+    getSelect(id).click();
+    getSelectOption(id, option).click();
+  });
+};
+
+export const getCheckBox = (id: string) =>
+  cy.get(`[data-cy="${UIMetaTargetTypes.Checkbox}:${id}`);
 
 export const getTableAction = (id: string, itemId: string) =>
   cy.get(`[data-cy="${UIMetaTargetTypes.Button}:table-action-${id}-${itemId}`);
 
 export const getListItem = (id: string, itemId: string) =>
   cy.get(`[data-cy="${UIMetaTargetTypes.ListItem}:list-item-${id}-${itemId}`);
+
+//IDEAs
+// FAVOR INDEX OVER ID ROWS
+// Build a CleanUpDB Class that can stor a {type, id} after each test clean
+// this should probably be a direct call to the API which should be simple but maybe after everything is tested simply pull BAL and Request Utils out

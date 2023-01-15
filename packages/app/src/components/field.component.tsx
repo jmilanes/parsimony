@@ -14,6 +14,7 @@ export type IFieldProps = {
   //TODO: This should prob be better
   updateState: (path: string, value: string) => void;
   metaTestId: MetaTestIds;
+  metaTestQualifier?: string;
 };
 
 export const Field = ({
@@ -23,17 +24,24 @@ export const Field = ({
   pathToState,
   placeHolderText,
   key,
-  metaTestId
+  metaTestId,
+  metaTestQualifier
 }: IFieldProps) => {
+  const metaId = generateMetaTestId(
+    UIMetaTargetTypes.Field,
+    metaTestId,
+    metaTestQualifier
+  );
+  console.log("🚀 ~ file: field.component.tsx:35 ~ metaId", metaId);
   return readOnly ? (
     <Container flexDirection="row" key={key}>
       <Header text={`${placeHolderText}:`} size="sm" />
-      <p>{value}</p>
+      <p data-onCopy={`${metaId}-read-only`}>{value}</p>
     </Container>
   ) : (
     <Container flexDirection="column" key={key} margin={10}>
       <TextField
-        data-cy={generateMetaTestId(UIMetaTargetTypes.Field, metaTestId)}
+        data-cy={metaId}
         size="small"
         key={key}
         label={placeHolderText}

@@ -1,10 +1,10 @@
 import {
   AddModalControls,
+  CleanFnTypes,
   DirectoryPageMetaTestIds,
   NavMetaTestIds,
   User
 } from "@parsimony/types";
-import { use } from "chai";
 
 import {
   findText,
@@ -13,141 +13,71 @@ import {
   getTableAction,
   login
 } from "../../utilities";
-
-const removeTableItem = (id) => {
-  getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).click();
-  getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).should(
-    "not.exist"
-  );
-  getTableAction(DirectoryPageMetaTestIds.tableActionView, id).should(
-    "not.exist"
-  );
-};
-
-let cleanUpFunctions = [];
+import { DB_ACTIONS } from "../../utilities/db.utils";
+import { user1, user2 } from "../fixtures/users";
 
 beforeEach(() => {
   login();
 });
 
 afterEach(() => {
-  cleanUpFunctions.forEach((fn) => fn());
-  getButton(NavMetaTestIds.logoutBtn).click();
-  cleanUpFunctions = [];
+  DB_ACTIONS.cleanDb();
 });
 
 describe("Directory Page Tests", () => {
   it("should add user to directory", () => {
-    cy.visit("http://localhost:1234/#/directory");
-    getButton(DirectoryPageMetaTestIds.addUserBtn).click();
-    getField(DirectoryPageMetaTestIds.firstNameField).type("Paul");
-    getField(DirectoryPageMetaTestIds.lastNameField).type("Pierce");
-    getField(DirectoryPageMetaTestIds.phoneNumberField).type("1111111111");
-    getField(DirectoryPageMetaTestIds.emailField).type("paul@parsimony.com");
-    getField(DirectoryPageMetaTestIds.passwordField).type("password01");
-
-    cy.intercept("http://localhost:4000/").as("apiRequest");
-    getButton(AddModalControls.createBtn).click();
-    cy.wait("@apiRequest").then((interception) => {
-      let createdId = interception.response.body.data.createUser.id;
-      getTableAction(
-        DirectoryPageMetaTestIds.tableActionDelete,
-        createdId
-      ).should("exist");
-      getTableAction(
-        DirectoryPageMetaTestIds.tableActionView,
-        createdId
-      ).should("exist");
+    DB_ACTIONS.createUser(user1).then((id) => {
+      getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).should(
+        "exist"
+      );
+      getTableAction(DirectoryPageMetaTestIds.tableActionView, id).should(
+        "exist"
+      );
       findText("Paul").should("exist");
       findText("Pierce").should("exist");
-      cleanUpFunctions.push(() => removeTableItem(createdId));
     });
   });
 
   it("should add multiple user to directory", () => {
-    cy.visit("http://localhost:1234/#/directory");
-    getButton(DirectoryPageMetaTestIds.addUserBtn).click();
-    getField(DirectoryPageMetaTestIds.firstNameField).type("Paul");
-    getField(DirectoryPageMetaTestIds.lastNameField).type("Pierce");
-    getField(DirectoryPageMetaTestIds.phoneNumberField).type("1111111111");
-    getField(DirectoryPageMetaTestIds.emailField).type("paul@parsimony.com");
-    getField(DirectoryPageMetaTestIds.passwordField).type("password01");
-
-    cy.intercept("http://localhost:4000/").as("apiRequest");
-    getButton(AddModalControls.createBtn).click();
-    cy.wait("@apiRequest").then((interception) => {
-      let createdId = interception.response.body.data.createUser.id;
-      getTableAction(
-        DirectoryPageMetaTestIds.tableActionDelete,
-        createdId
-      ).should("exist");
-      getTableAction(
-        DirectoryPageMetaTestIds.tableActionView,
-        createdId
-      ).should("exist");
+    DB_ACTIONS.createUser(user1).then((id) => {
+      getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).should(
+        "exist"
+      );
+      getTableAction(DirectoryPageMetaTestIds.tableActionView, id).should(
+        "exist"
+      );
       findText("Paul").should("exist");
       findText("Pierce").should("exist");
-      cleanUpFunctions.push(() => removeTableItem(createdId));
     });
 
-    // Add Another User
-    getButton(DirectoryPageMetaTestIds.addUserBtn).click();
-    getField(DirectoryPageMetaTestIds.firstNameField).type("Kevin");
-    getField(DirectoryPageMetaTestIds.lastNameField).type("Garnett");
-    getField(DirectoryPageMetaTestIds.phoneNumberField).type("1111111111");
-    getField(DirectoryPageMetaTestIds.emailField).type("kg@parsimony.com");
-    getField(DirectoryPageMetaTestIds.passwordField).type("password02");
-
-    getButton(AddModalControls.createBtn).click();
-    cy.wait("@apiRequest").then((interception) => {
-      let createdId = interception.response.body.data.createUser.id;
-      getTableAction(
-        DirectoryPageMetaTestIds.tableActionDelete,
-        createdId
-      ).should("exist");
-      getTableAction(
-        DirectoryPageMetaTestIds.tableActionView,
-        createdId
-      ).should("exist");
+    DB_ACTIONS.createUser(user2).then((id) => {
+      getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).should(
+        "exist"
+      );
+      getTableAction(DirectoryPageMetaTestIds.tableActionView, id).should(
+        "exist"
+      );
       findText("Kevin").should("exist");
       findText("Garnett").should("exist");
-      cleanUpFunctions.push(() => removeTableItem(createdId));
     });
   });
 
-  it("should got to user if view table action is clicked", () => {
-    cy.visit("http://localhost:1234/#/directory");
-    getButton(DirectoryPageMetaTestIds.addUserBtn).click();
-    getField(DirectoryPageMetaTestIds.firstNameField).type("Paul");
-    getField(DirectoryPageMetaTestIds.lastNameField).type("Pierce");
-    getField(DirectoryPageMetaTestIds.phoneNumberField).type("1111111111");
-    getField(DirectoryPageMetaTestIds.emailField).type("paul@parsimony.com");
-    getField(DirectoryPageMetaTestIds.passwordField).type("password01");
-
-    cy.intercept("http://localhost:4000/").as("apiRequest");
-    getButton(AddModalControls.createBtn).click();
-    cy.wait("@apiRequest").then((interception) => {
-      let createdId = interception.response.body.data.createUser.id;
-      getTableAction(
-        DirectoryPageMetaTestIds.tableActionDelete,
-        createdId
-      ).should("exist");
-      getTableAction(
-        DirectoryPageMetaTestIds.tableActionView,
-        createdId
-      ).should("exist");
+  it("should go to user if view table action is clicked", () => {
+    DB_ACTIONS.createUser(user1).then((id) => {
+      getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).should(
+        "exist"
+      );
+      getTableAction(DirectoryPageMetaTestIds.tableActionView, id).should(
+        "exist"
+      );
       findText("Paul").should("exist");
       findText("Pierce").should("exist");
-      getTableAction(
-        DirectoryPageMetaTestIds.tableActionView,
-        createdId
-      ).click();
-      cy.url().should("eq", `http://localhost:1234/#/directory/${createdId}`);
+      getTableAction(DirectoryPageMetaTestIds.tableActionView, id).click();
+
+      cy.url().should("eq", `http://localhost:1234/#/directory/${id}`);
       findText("Paul").should("exist");
       findText("Pierce").should("exist");
       findText("First Name").should("exist");
-      cy.visit("http://localhost:1234/#/directory");
-      cleanUpFunctions.push(() => removeTableItem(createdId));
     });
   });
 });

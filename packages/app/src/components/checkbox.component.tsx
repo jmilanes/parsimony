@@ -13,6 +13,7 @@ export type ICheckBoxProps = {
   title: string;
   updateState: (path: string, value: boolean) => void;
   metaTestId: MetaTestIds;
+  metaTestQualifier?: string;
 };
 
 export const Checkbox = ({
@@ -22,7 +23,8 @@ export const Checkbox = ({
   pathToState,
   title,
   key,
-  metaTestId
+  metaTestId,
+  metaTestQualifier
 }: ICheckBoxProps) => {
   return (
     <Container flexDirection="row" key={key}>
@@ -31,7 +33,11 @@ export const Checkbox = ({
         control={
           <MaterialSwitch
             checked={value}
-            data-cy={generateMetaTestId(UIMetaTargetTypes.Checkbox, metaTestId)}
+            data-cy={generateMetaTestId(
+              UIMetaTargetTypes.Checkbox,
+              metaTestId,
+              metaTestQualifier
+            )}
             onChange={() => updateState(pathToState, !value)}
           />
         }
