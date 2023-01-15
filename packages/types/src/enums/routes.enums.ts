@@ -7,7 +7,7 @@ export enum Routes {
   User = "/directory/:userId",
   Results = "/results/:programId",
   Login = "/login",
-  School = "/school"
+  School = "/schools"
 }
 
 export enum Pages {

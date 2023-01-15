@@ -36,6 +36,5 @@ export const getListItem = (id: string, itemId: string) =>
   cy.get(`[data-cy="${UIMetaTargetTypes.ListItem}:list-item-${id}-${itemId}`);
 
 //IDEAs
-// FAVOR INDEX OVER ID ROWS
-// Build a CleanUpDB Class that can stor a {type, id} after each test clean
+// Better targeting for rows
 // this should probably be a direct call to the API which should be simple but maybe after everything is tested simply pull BAL and Request Utils out

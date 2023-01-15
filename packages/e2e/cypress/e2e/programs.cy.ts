@@ -1,12 +1,8 @@
-import {
-  DirectoryPageMetaTestIds,
-  ProgramPageMetaTestIds,
-  ProgramsPageMetaTestIds
-} from "@parsimony/types";
+import { ProgramsPageMetaTestIds } from "@parsimony/types";
 
 import { findText, getTableAction, login } from "../../utilities";
 import { DB_ACTIONS } from "../../utilities/db.utils";
-import { program1 } from "../fixtures/programs";
+import { program1 } from "../fixtures";
 
 beforeEach(() => {
   login();
@@ -16,8 +12,8 @@ afterEach(() => {
   DB_ACTIONS.cleanDb();
 });
 
-describe("Directory Page Tests", () => {
-  it("should add user to directory", () => {
+describe("Programs Page Tests", () => {
+  it("should add program to programs", () => {
     DB_ACTIONS.createProgram(program1).then((id) => {
       getTableAction(ProgramsPageMetaTestIds.tableActionDelete, id).should(
         "exist"

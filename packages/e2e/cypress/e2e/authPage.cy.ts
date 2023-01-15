@@ -1,14 +1,10 @@
-import {
-  AuthPageMetaTestIds,
-  NavMetaTestIds,
-  TEST_USER
-} from "@parsimony/types";
+import { AuthPageMetaTestIds, NavMetaTestIds } from "@parsimony/types";
 import { getButton, getField } from "../../utilities";
+import { ROUTES, TEST_USER } from "../fixtures";
 
 describe("Auth Page Tests", () => {
   it("should toggling reset password button", () => {
-    cy.visit("http://localhost:1234/#/");
-
+    cy.visit(ROUTES.home);
     getButton(AuthPageMetaTestIds.loginBtn).should("exist");
     getButton(AuthPageMetaTestIds.resetBtn).should("not.exist");
     getButton(AuthPageMetaTestIds.cancelBtn).should("not.exist");
@@ -30,7 +26,7 @@ describe("Auth Page Tests", () => {
   });
 
   it("should login", () => {
-    cy.visit("http://localhost:1234/#/");
+    cy.visit(ROUTES.home);
     getField(AuthPageMetaTestIds.emailField).type(TEST_USER.email);
     getField(AuthPageMetaTestIds.passwordField).type(TEST_USER.password);
     getButton(AuthPageMetaTestIds.loginBtn).click();
@@ -38,16 +34,16 @@ describe("Auth Page Tests", () => {
   });
 
   it("should login from program page", () => {
-    cy.visit("http://localhost:1234/#/programs");
+    cy.visit(ROUTES.programs);
     getField(AuthPageMetaTestIds.emailField).type(TEST_USER.email);
     getField(AuthPageMetaTestIds.passwordField).type(TEST_USER.password);
     getButton(AuthPageMetaTestIds.loginBtn).click();
     getButton(NavMetaTestIds.programBtn).should("exist");
-    cy.url().should("eq", "http://localhost:1234/#/programs");
+    cy.url().should("eq", ROUTES.programs);
   });
 
   it("should login and then logout", () => {
-    cy.visit("http://localhost:1234/#/programs");
+    cy.visit(ROUTES.programs);
     getField(AuthPageMetaTestIds.emailField).type(TEST_USER.email);
     getField(AuthPageMetaTestIds.passwordField).type(TEST_USER.password);
     getButton(AuthPageMetaTestIds.loginBtn).click();

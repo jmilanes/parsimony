@@ -7,6 +7,7 @@ import {
   RulesFormMetaTestIds,
   User
 } from "@parsimony/types/src";
+import { API_URL, ROUTES } from "../cypress/fixtures";
 import {
   getButton,
   getCheckBox,
@@ -17,7 +18,7 @@ import {
 } from "./locators.utils";
 
 const cleanDirectory = (id) => () => {
-  cy.visit("http://localhost:1234/#/directory");
+  cy.visit(ROUTES.directory);
   getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).click();
   getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).should(
     "not.exist"
@@ -28,7 +29,7 @@ const cleanDirectory = (id) => () => {
 };
 
 const cleanProgram = (id) => () => {
-  cy.visit("http://localhost:1234/#/programs");
+  cy.visit(ROUTES.programs);
   getTableAction(ProgramsPageMetaTestIds.tableActionDelete, id).click();
   getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).should(
     "not.exist"
@@ -59,14 +60,15 @@ class DBManager {
   }
 
   public createUser(user: Partial<User>) {
-    cy.visit("http://localhost:1234/#/directory");
+    cy.visit(ROUTES.directory);
     getButton(DirectoryPageMetaTestIds.addUserBtn).click();
     getField(DirectoryPageMetaTestIds.firstNameField).type(user.firstName);
     getField(DirectoryPageMetaTestIds.lastNameField).type(user.lastName);
     getField(DirectoryPageMetaTestIds.phoneNumberField).type(user.phone);
     getField(DirectoryPageMetaTestIds.emailField).type(user.email);
     getField(DirectoryPageMetaTestIds.passwordField).type(user.password);
-    cy.intercept("http://localhost:4000/").as("apiRequest");
+
+    cy.intercept(API_URL).as("apiRequest");
     getButton(AddModalControls.createBtn).click();
     return cy.wait("@apiRequest").then((interception) => {
       let id = interception.response.body.data.createUser.id;
@@ -76,7 +78,7 @@ class DBManager {
   }
 
   public createProgram(program: Partial<Program>) {
-    cy.visit("http://localhost:1234/#/programs");
+    cy.visit(ROUTES.programs);
     getButton(ProgramsPageMetaTestIds.addBtn).click();
     getField(ProgramsPageMetaTestIds.titleField).type(program.title);
     getField(ProgramsPageMetaTestIds.descriptionField).type(
@@ -131,7 +133,7 @@ class DBManager {
       });
     });
 
-    cy.intercept("http://localhost:4000/").as("apiRequest");
+    cy.intercept(API_URL).as("apiRequest");
     getButton(AddModalControls.createBtn).click();
     return cy.wait("@apiRequest").then((interception) => {
       let id = interception.response.body.data.createProgram.id;

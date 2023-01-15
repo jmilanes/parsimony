@@ -1,20 +1,8 @@
-import {
-  AddModalControls,
-  CleanFnTypes,
-  DirectoryPageMetaTestIds,
-  NavMetaTestIds,
-  User
-} from "@parsimony/types";
+import { DirectoryPageMetaTestIds } from "@parsimony/types";
 
-import {
-  findText,
-  getButton,
-  getField,
-  getTableAction,
-  login
-} from "../../utilities";
+import { findText, getTableAction, login } from "../../utilities";
 import { DB_ACTIONS } from "../../utilities/db.utils";
-import { user1, user2 } from "../fixtures/users";
+import { ROUTES, user1, user2 } from "../fixtures";
 
 beforeEach(() => {
   login();
@@ -74,7 +62,7 @@ describe("Directory Page Tests", () => {
       findText("Pierce").should("exist");
       getTableAction(DirectoryPageMetaTestIds.tableActionView, id).click();
 
-      cy.url().should("eq", `http://localhost:1234/#/directory/${id}`);
+      cy.url().should("eq", `${ROUTES.directory}/${id}`);
       findText("Paul").should("exist");
       findText("Pierce").should("exist");
       findText("First Name").should("exist");

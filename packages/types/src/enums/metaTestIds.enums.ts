@@ -1,8 +1,3 @@
-export enum TEST_USER {
-  email = "test@parsimony.com",
-  password = "123456789"
-}
-
 export enum UIMetaTargetTypes {
   Button = "BUTTON",
   Field = "FIELD",

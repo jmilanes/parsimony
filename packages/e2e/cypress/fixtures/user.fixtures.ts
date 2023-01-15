@@ -13,3 +13,11 @@ export const user2 = {
   email: "kevin@parsimony.com",
   password: "password02"
 };
+
+export const TEST_USER = {
+  firstName: "Parsimony",
+  lastName: "User",
+  phone: "1111111111",
+  email: "test@parsimony.com",
+  password: "123456789"
+};
