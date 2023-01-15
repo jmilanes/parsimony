@@ -60,13 +60,11 @@ const Users = () => {
   const actions: ITableAction[] = [
     {
       name: "View",
-      method: (user: User) => navigate(`/directory/${user.id}`),
-      metaTestId: DirectoryPageMetaTestIds.tableActionView
+      method: (user: User) => navigate(`/directory/${user.id}`)
     },
     {
       name: "Delete",
-      method: (user: Required<User>) => dataAccess.user.delete({ id: user.id }),
-      metaTestId: DirectoryPageMetaTestIds.tableActionDelete
+      method: (user: Required<User>) => dataAccess.user.delete({ id: user.id })
     }
   ];
 
@@ -85,7 +83,13 @@ const Users = () => {
           />
         ]}
       />
-      <Table data={data} columns={columns} actions={actions} />
+      <Table
+        data={data}
+        columns={columns}
+        actions={actions}
+        name="Directory"
+        metaTestId={DirectoryPageMetaTestIds.table}
+      />
       <AddForm
         showForm={showAddForm}
         onCreate={submitAddForm}

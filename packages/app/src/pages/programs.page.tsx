@@ -88,14 +88,12 @@ const Programs = () => {
   const actions: ITableAction[] = [
     {
       name: "View",
-      method: (program: Program) => navigate(`/programs/${program.id}`),
-      metaTestId: ProgramsPageMetaTestIds.tableActionView
+      method: (program: Program) => navigate(`/programs/${program.id}`)
     },
     {
       name: "Delete",
       method: (program: Required<Program>) =>
-        dataAccess.program.delete({ id: program.id }),
-      metaTestId: ProgramsPageMetaTestIds.tableActionDelete
+        dataAccess.program.delete({ id: program.id })
     },
     {
       name: "Copy",
@@ -132,7 +130,13 @@ const Programs = () => {
           />
         ]}
       />
-      <Table<Program> data={data} columns={columns} actions={actions}></Table>
+      <Table<Program>
+        data={data}
+        columns={columns}
+        actions={actions}
+        name="Programs"
+        metaTestId={ProgramsPageMetaTestIds.table}
+      />
       <AddForm
         showForm={showAddForm}
         onCreate={submitAddForm}

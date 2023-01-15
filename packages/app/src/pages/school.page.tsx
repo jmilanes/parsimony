@@ -41,8 +41,7 @@ const Schools = () => {
     {
       name: "Delete",
       method: (school: Required<School>) =>
-        dataAccess.school.delete({ id: school.id }),
-      metaTestId: SchoolPageMetaTestIds.tableActionDelete
+        dataAccess.school.delete({ id: school.id })
     }
   ];
 
@@ -62,7 +61,13 @@ const Schools = () => {
           />
         ]}
       />
-      <Table data={data} columns={columns} actions={actions} />
+      <Table
+        data={data}
+        columns={columns}
+        actions={actions}
+        name="Schools"
+        metaTestId={SchoolPageMetaTestIds.table}
+      />
       <AddForm
         showForm={showAddForm}
         onCreate={submitAddForm}

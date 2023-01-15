@@ -1,6 +1,11 @@
 import { ProgramsPageMetaTestIds } from "@parsimony/types";
 
-import { findText, getTableAction, login } from "../../utilities";
+import {
+  findText,
+  getTableRowAction,
+  getTableRowItem,
+  login
+} from "../../utilities";
 import { DB_ACTIONS } from "../../utilities/db.utils";
 import { program1 } from "../fixtures";
 
@@ -15,14 +20,28 @@ afterEach(() => {
 describe("Programs Page Tests", () => {
   it("should add program to programs", () => {
     DB_ACTIONS.createProgram(program1).then((id) => {
-      getTableAction(ProgramsPageMetaTestIds.tableActionDelete, id).should(
+      getTableRowAction(ProgramsPageMetaTestIds.table, id, "view").should(
         "exist"
       );
-      getTableAction(ProgramsPageMetaTestIds.tableActionView, id).should(
+      getTableRowAction(ProgramsPageMetaTestIds.table, id, "delete").should(
         "exist"
       );
-      findText("Brushing teeth").should("exist");
-      findText("MAIN").should("exist");
+      getTableRowItem(ProgramsPageMetaTestIds.table, id, "title").should(
+        "have.text",
+        "Brushing Teeth"
+      );
+      getTableRowItem(ProgramsPageMetaTestIds.table, id, "type").should(
+        "have.text",
+        "MAIN"
+      );
+      getTableRowItem(ProgramsPageMetaTestIds.table, id, "description").should(
+        "have.text",
+        "Client needs to brush their teeth"
+      );
+      getTableRowItem(ProgramsPageMetaTestIds.table, id, "rules").should(
+        "have.text",
+        "1"
+      );
     });
   });
 });

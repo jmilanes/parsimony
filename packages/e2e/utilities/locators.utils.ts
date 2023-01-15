@@ -29,12 +29,22 @@ export const selectMultipleOptions = (id: string, options: string[]) => {
 export const getCheckBox = (id: string) =>
   cy.get(`[data-cy="${UIMetaTargetTypes.Checkbox}:${id}`);
 
-export const getTableAction = (id: string, itemId: string) =>
-  cy.get(`[data-cy="${UIMetaTargetTypes.Button}:table-action-${id}-${itemId}`);
-
 export const getListItem = (id: string, itemId: string) =>
   cy.get(`[data-cy="${UIMetaTargetTypes.ListItem}:list-item-${id}-${itemId}`);
 
-//IDEAs
-// Better targeting for rows
-// this should probably be a direct call to the API which should be simple but maybe after everything is tested simply pull BAL and Request Utils out
+export const getTableRowItem = (
+  tableId: string,
+  rowId: string,
+  colName: string
+) => cy.get(`[data-cy="${tableId}-row-${rowId}-col-${colName}"`);
+
+export const getTableRowAction = (
+  tableId: string,
+  rowId: string,
+  action: string
+) =>
+  getTableRowItem(
+    `${UIMetaTargetTypes.Button}:${tableId}`,
+    rowId,
+    `${action}-table-action`
+  );

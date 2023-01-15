@@ -3,35 +3,81 @@ import React from "react";
 import { flattenObject, generateKey } from "../utils";
 import { Content, Button } from "../components";
 import { useServices } from "../context";
-import { RepeatableMetaTestIds } from "@parsimony/types/src";
+import { MetaTestIds, RepeatableMetaTestIds } from "@parsimony/types/src";
 
 export type ITableAction = {
   name: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   method: (item: any) => void;
-  metaTestId: string;
 };
 
 export type IColumns = {
   title: string;
   dataIndex: string;
   key: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   displayFn?: (data: any) => any;
   render?: any;
 };
 
 export type ITableProps<Data> = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Data[];
   columns: IColumns[];
+  name: string;
+  metaTestId: MetaTestIds;
   actions?: ITableAction[];
+};
+
+export type ITableRowProps = {
+  source: any;
+  tableName: string;
+  metaTestId: MetaTestIds;
+  columns: IColumns[];
+  actions: ITableAction[];
+};
+
+const TableRow = ({
+  source,
+  tableName,
+  metaTestId,
+  columns,
+  actions
+}: ITableRowProps) => {
+  return (
+    <tr>
+      {columns.map((col) => {
+        return (
+          <td
+            key={`${tableName}-row-${source.id}-col-${col.key}`}
+            data-cy={`${metaTestId}-row-${source.id}-col-${col.key}`}
+          >
+            {source[col.key]}
+          </td>
+        );
+      })}
+      <td>
+        {actions?.map((action) => {
+          return (
+            <Button
+              name={action.name}
+              key={generateKey(`table-action-${action.name}`, source.id)}
+              action={() => action.method(source)}
+              metaTestId={metaTestId}
+              metaTestQualifier={`row-${source.id}-col-${action.name
+                .toLowerCase()
+                .replaceAll(" ", "")}-table-action`}
+            />
+          );
+        })}
+      </td>
+    </tr>
+  );
 };
 
 export const Table = <Data extends { id: string }>({
   data,
   actions,
-  columns
+  columns,
+  name,
+  metaTestId
 }: ITableProps<Data>) => {
   const { filterService } = useServices();
 
@@ -45,31 +91,6 @@ export const Table = <Data extends { id: string }>({
     );
     return flatItem as Data;
   });
-
-  const TableRow = ({ source }: { source: any }) => {
-    return (
-      <tr>
-        {columns.map((col) => {
-          return (
-            <td key={`row-${source.id}-col-${col.key}`}>{source[col.key]}</td>
-          );
-        })}
-        <td>
-          {actions?.map((action) => {
-            return (
-              <Button
-                name={action.name}
-                key={generateKey(`table-action-${action.name}`, source.id)}
-                action={() => action.method(source)}
-                metaTestId={RepeatableMetaTestIds.tableAction}
-                metaTestQualifier={`${action.metaTestId}-${source.id}`}
-              />
-            );
-          })}
-        </td>
-      </tr>
-    );
-  };
 
   return (
     <Content>
@@ -89,7 +110,14 @@ export const Table = <Data extends { id: string }>({
         </thead>
         <tbody>
           {processedData.map((source, i) => (
-            <TableRow key={source.id} source={source} />
+            <TableRow
+              key={source.id}
+              source={source}
+              tableName={name}
+              metaTestId={metaTestId}
+              actions={actions || []}
+              columns={columns}
+            />
           ))}
         </tbody>
       </table>

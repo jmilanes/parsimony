@@ -48,7 +48,7 @@ export enum DirectoryPageMetaTestIds {
   roleMultiSelector = "add-user-role-multi-selector",
   addUserBtn = "add-user",
   tableActionView = "view-user",
-  tableActionDelete = "delete-user"
+  table = "directory-table"
 }
 
 export enum UserPageMetaTestIds {
@@ -64,7 +64,8 @@ export enum UserPageMetaTestIds {
   submitEdit = "submit-edit-user",
   programTableActionStartObserving = "start-observing-program",
   programTableActionViewData = "view-program-data",
-  addProgram = "user-add-program"
+  addProgram = "user-add-program",
+  programsTable = "user-programs-table"
 }
 
 export enum DrawerMetaTestIds {
@@ -73,8 +74,8 @@ export enum DrawerMetaTestIds {
 
 export enum SchoolPageMetaTestIds {
   nameField = "school-name",
-  tableActionDelete = "delete-school",
-  addBtn = "add-school"
+  addBtn = "add-school",
+  table = "schools-table"
 }
 
 export enum ProgramsPageMetaTestIds {
@@ -86,9 +87,9 @@ export enum ProgramsPageMetaTestIds {
   ruleStyleSelector = "add-program-rule-style-selector",
   writeAccessMultiSelector = "add-program-write-access-selector",
   readAccessMultiSelector = "add-program-read-access-selector",
-  tableActionDelete = "delete-program",
   tableActionView = "view-program",
-  tableActionCopy = "copy-program"
+  tableActionCopy = "copy-program",
+  table = "programs-table"
 }
 
 export enum ProgramPageMetaTestIds {

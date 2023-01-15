@@ -185,6 +185,8 @@ const User = () => {
         data={associatedPrograms as Program[]}
         columns={columns}
         actions={actions}
+        name="user-program-table"
+        metaTestId={UserPageMetaTestIds.programsTable}
       ></Table>
       <Header text="Client Files" size="sm" />
       <p>Upload your client files here:</p>

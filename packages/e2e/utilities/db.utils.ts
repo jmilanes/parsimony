@@ -12,31 +12,38 @@ import {
   getButton,
   getCheckBox,
   getField,
-  getTableAction,
+  getTableRowAction,
+  getTableRowItem,
   selectMultipleOptions,
   selectOption
 } from "./locators.utils";
 
 const cleanDirectory = (id) => () => {
   cy.visit(ROUTES.directory);
-  getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).click();
-  getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).should(
+  getTableRowAction(DirectoryPageMetaTestIds.table, id, "delete").click();
+
+  getTableRowAction(DirectoryPageMetaTestIds.table, id, "view").should(
     "not.exist"
   );
-  getTableAction(DirectoryPageMetaTestIds.tableActionView, id).should(
-    "not.exist"
-  );
+
+  getTableRowAction(
+    DirectoryPageMetaTestIds.tableActionView,
+    id,
+    "delete"
+  ).should("not.exist");
 };
 
 const cleanProgram = (id) => () => {
   cy.visit(ROUTES.programs);
-  getTableAction(ProgramsPageMetaTestIds.tableActionDelete, id).click();
-  getTableAction(DirectoryPageMetaTestIds.tableActionDelete, id).should(
+  getTableRowAction(ProgramsPageMetaTestIds.table, id, "delete").click();
+  getTableRowAction(DirectoryPageMetaTestIds.table, id, "view").should(
     "not.exist"
   );
-  getTableAction(DirectoryPageMetaTestIds.tableActionView, id).should(
-    "not.exist"
-  );
+  getTableRowAction(
+    DirectoryPageMetaTestIds.tableActionView,
+    id,
+    "delete"
+  ).should("not.exist");
 };
 
 const cleanFns = {
