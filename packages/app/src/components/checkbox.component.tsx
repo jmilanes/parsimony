@@ -33,7 +33,7 @@ export const Checkbox = ({
         control={
           <MaterialSwitch
             checked={value}
-            data-cy={generateMetaTestId(
+            data-test-id={generateMetaTestId(
               UIMetaTargetTypes.Checkbox,
               metaTestId,
               metaTestQualifier

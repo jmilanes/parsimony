@@ -59,7 +59,7 @@ export const MultiSelect = ({
       <Container flexDirection="row">
         <FormHeader />
         {values?.map((value: string, i: number) => (
-          <p data-cy={`${metaId}-multi-read-only-${i}`}>
+          <p data-test-id={`${metaId}-multi-read-only-${i}`}>
             {createCommaSeparatedSting(value, i)}
           </p>
         ))}
@@ -72,7 +72,7 @@ export const MultiSelect = ({
       <FormControl fullWidth>
         <InputLabel>{title}</InputLabel>
         <MaterialSelect
-          data-cy={metaId}
+          data-test-id={metaId}
           label={title}
           multiple
           value={values}
@@ -84,7 +84,7 @@ export const MultiSelect = ({
             <MenuItem
               key={opt.name}
               value={opt.value}
-              data-cy={`${metaId}-option-${opt.value}`}
+              data-test-id={`${metaId}-option-${opt.value}`}
             >
               {opt.name}
             </MenuItem>

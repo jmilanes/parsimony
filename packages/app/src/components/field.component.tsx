@@ -41,7 +41,7 @@ export const Field = ({
   ) : (
     <Container flexDirection="column" key={key} margin={10}>
       <TextField
-        data-cy={metaId}
+        data-test-id={metaId}
         size="small"
         key={key}
         label={placeHolderText}

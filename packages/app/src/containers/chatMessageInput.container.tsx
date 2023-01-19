@@ -62,7 +62,7 @@ export const ChatMessageInput = ({
         value={val}
         placeholder={placeholder}
         onChange={(e) => setVal(e.target.value)}
-        data-cy={generateMetaTestId(
+        data-test-id={generateMetaTestId(
           UIMetaTargetTypes.Field,
           ChatMetaTestIds.chatMessageBarField
         )}

@@ -43,7 +43,7 @@ export const Selector = ({
   const ReadOnlyOption = () => (
     <>
       <Header text={formatFormHeader(title)} size="sm" />
-      <p data-cy={`${metaId}-read-only`}>{value}</p>
+      <p data-test-id={`${metaId}-read-only`}>{value}</p>
     </>
   );
 
@@ -51,7 +51,7 @@ export const Selector = ({
     <FormControl fullWidth>
       <InputLabel>{title}</InputLabel>
       <MaterialSelect
-        data-cy={metaId}
+        data-test-id={metaId}
         label={title}
         value={value || "Please select an option"}
         onChange={({ target: { value } }) =>
@@ -65,7 +65,7 @@ export const Selector = ({
           <MenuItem
             key={opt.name}
             value={opt.value}
-            data-cy={`${metaId}-option-${opt.value}`}
+            data-test-id={`${metaId}-option-${opt.value}`}
           >
             {opt.name}
           </MenuItem>

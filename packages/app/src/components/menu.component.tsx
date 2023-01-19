@@ -43,7 +43,7 @@ export const Menu = ({ options, metaTestId }: IMenuProps) => {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleClick}
-        data-cy={generateMetaTestId(UIMetaTargetTypes.Button, metaTestId)}
+        data-test-id={generateMetaTestId(UIMetaTargetTypes.Button, metaTestId)}
       >
         <MoreVertIcon />
       </IconButton>
@@ -69,7 +69,7 @@ export const Menu = ({ options, metaTestId }: IMenuProps) => {
               option.action();
               handleClose();
             }}
-            data-cy={generateMetaTestId(
+            data-test-id={generateMetaTestId(
               UIMetaTargetTypes.Button,
               option.metaTestId
             )}

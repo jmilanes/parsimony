@@ -38,7 +38,7 @@ export const Button = ({
         onClick={action}
         edge="end"
         aria-label={name}
-        data-cy={metaId}
+        data-test-id={metaId}
       >
         {icon}
       </IconButton>
@@ -46,7 +46,7 @@ export const Button = ({
   }
   return (
     <MaterialButton
-      data-cy={metaId}
+      data-test-id={metaId}
       disabled={disabled}
       className="parsimony-btn"
       variant={type}

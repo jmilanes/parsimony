@@ -47,7 +47,7 @@ const TableRow = ({
         return (
           <td
             key={`${tableName}-row-${source.id}-col-${col.key}`}
-            data-cy={`${metaTestId}-row-${source.id}-col-${col.key}`}
+            data-test-id={`${metaTestId}-row-${source.id}-col-${col.key}`}
           >
             {source[col.key]}
           </td>
@@ -96,10 +96,10 @@ export const Table = <Data extends { id: string }>({
     <Content>
       <table className="styled-table">
         <thead>
-          <tr data-cy={RepeatableMetaTestIds.tableHeader}>
+          <tr data-test-id={RepeatableMetaTestIds.tableHeader}>
             {columns.map((column) => (
               <th
-                data-cy={`${RepeatableMetaTestIds.tableHeader}-col-${column.key}`}
+                data-test-id={`${RepeatableMetaTestIds.tableHeader}-col-${column.key}`}
                 key={column.key}
               >
                 {column.title}

@@ -35,8 +35,8 @@ export function Autocomplete({
         onChange={(event: any, newValue: any) => {
           updateState(newValue);
         }}
-        data-cy={generateMetaTestId(
-          UIMetaTargetTypes.MultiSelector,
+        data-test-id={generateMetaTestId(
+          UIMetaTargetTypes.Selector,
           metaTestId
         )}
         renderInput={(params) => <TextField {...params} label={label} />}

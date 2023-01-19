@@ -3,16 +3,16 @@ import { UIMetaTargetTypes } from "@parsimony/types";
 export const findText = (text: string) => cy.contains(text);
 
 export const getButton = (id: string) =>
-  cy.get(`[data-cy="${UIMetaTargetTypes.Button}:${id}`);
+  cy.get(`[data-test-id="${UIMetaTargetTypes.Button}:${id}`);
 
 export const getField = (id: string) =>
-  cy.get(`[data-cy="${UIMetaTargetTypes.Field}:${id}`);
+  cy.get(`[data-test-id="${UIMetaTargetTypes.Field}:${id}`);
 
 export const getSelect = (id: string) =>
-  cy.get(`[data-cy="${UIMetaTargetTypes.Selector}:${id}`);
+  cy.get(`[data-test-id="${UIMetaTargetTypes.Selector}:${id}`);
 
 export const getSelectOption = (id: string, option: string) =>
-  cy.get(`[data-cy="${UIMetaTargetTypes.Selector}:${id}-option-${option}`);
+  cy.get(`[data-test-id="${UIMetaTargetTypes.Selector}:${id}-option-${option}`);
 
 export const selectOption = (id: string, option: string) => {
   getSelect(id).click();
@@ -27,16 +27,18 @@ export const selectMultipleOptions = (id: string, options: string[]) => {
 };
 
 export const getCheckBox = (id: string) =>
-  cy.get(`[data-cy="${UIMetaTargetTypes.Checkbox}:${id}`);
+  cy.get(`[data-test-id="${UIMetaTargetTypes.Checkbox}:${id}`);
 
 export const getListItem = (id: string, itemId: string) =>
-  cy.get(`[data-cy="${UIMetaTargetTypes.ListItem}:list-item-${id}-${itemId}`);
+  cy.get(
+    `[data-test-id="${UIMetaTargetTypes.ListItem}:list-item-${id}-${itemId}`
+  );
 
 export const getTableRowItem = (
   tableId: string,
   rowId: string,
   colName: string
-) => cy.get(`[data-cy="${tableId}-row-${rowId}-col-${colName}"`);
+) => cy.get(`[data-test-id="${tableId}-row-${rowId}-col-${colName}"`);
 
 export const getTableRowAction = (
   tableId: string,
