@@ -50,6 +50,7 @@ export default class AuthService {
     //  also convert here
     login({ email, password: hashedPassword }).then(
       (response: LoginResponse) => {
+        if (!response) return;
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("accessToken", response.accessToken as string);
         localStorage.setItem("refreshToken", response.refreshToken as string);

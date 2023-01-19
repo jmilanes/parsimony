@@ -1,4 +1,4 @@
-import { UIMetaTargetTypes } from "@parsimony/types";
+import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 
 export const findText = (text: string) => cy.contains(text);
 
@@ -50,3 +50,6 @@ export const getTableRowAction = (
     rowId,
     `${action}-table-action`
   );
+
+export const readOnlyLocator = (metaTestId: string) =>
+  `${metaTestId}-read-only`;

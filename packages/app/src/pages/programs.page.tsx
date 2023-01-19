@@ -43,11 +43,18 @@ const Programs = () => {
 
   useEffect(() => {
     dataAccess.program.getAll();
+    dataAccess.user.getAll();
   }, []);
 
-  const clientDataOptions = store
-    .getCurrentCollectionItems<User>(Collections.User)
-    .map((client: User) => ({ name: getFullName(client), value: client.id }));
+  const clients = store.getCurrentCollectionItems<User>(Collections.User);
+
+  const clientDataOptions = clients.map((client: User) => ({
+    name: getFullName(client),
+    value: client.id
+  }));
+
+  const getClientFullName = (clients: User[]) => (id: string) =>
+    getFullName(clients.find((client: User) => client.id === id));
 
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
@@ -66,7 +73,12 @@ const Programs = () => {
 
   const columns: IColumns[] = [
     { key: "title", title: "title", dataIndex: "title" },
-    { key: "clientId", title: "Client Id", dataIndex: "clientId" },
+    {
+      key: "clientId",
+      title: "Client Id",
+      dataIndex: "clientId",
+      displayFn: getClientFullName(clients)
+    },
     { key: "type", title: "Type", dataIndex: "type" },
     { key: "description", title: "Description", dataIndex: "description" },
     {
@@ -110,8 +122,7 @@ const Programs = () => {
         );
         const createdProgram = await dataAccess.program.create(payload);
         navigate(`/programs/${createdProgram.id}?mode=edit`);
-      },
-      metaTestId: ProgramsPageMetaTestIds.tableActionCopy
+      }
     }
   ];
 

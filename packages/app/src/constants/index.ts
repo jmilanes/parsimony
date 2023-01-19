@@ -1,0 +1,1 @@
+export const CONTAINER_INPUT_MARGIN = 15;

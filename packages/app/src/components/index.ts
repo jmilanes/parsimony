@@ -17,3 +17,4 @@ export * from "./autocomplete.component";
 export * from "./list.component";
 export * from "./icons.component";
 export * from "./menu.component";
+export * from "./readOnly.component";

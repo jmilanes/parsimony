@@ -19,6 +19,7 @@ import {
 } from "@parsimony/types";
 
 import {
+  clone,
   getFullName,
   getRouterParams,
   getSearchParams,
@@ -47,7 +48,7 @@ const Program = () => {
   useEffect(() => {
     //TODO Eventually get all by
     if (!program) dataAccess.program.get(programId);
-    if (!localState) updateLocalState(program);
+    if (!localState) updateLocalState(clone(program) as Program);
     dataAccess.user.getAll();
   }, [program]);
 
@@ -88,7 +89,10 @@ const Program = () => {
           <Button
             key="cancel"
             name="Cancel"
-            action={() => updateMode("readOnly")}
+            action={() => {
+              updateMode("readOnly");
+              updateLocalState(program);
+            }}
             hidden={isReadOnlyMode(mode)}
             metaTestId={ProgramPageMetaTestIds.cancelEditBtn}
           />,

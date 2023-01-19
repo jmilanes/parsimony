@@ -1,11 +1,12 @@
 import React from "react";
-import { Header, Container } from "../components";
+import { Container, ReadOnly } from "../components";
 import { formatFormHeader, generateMetaTestId } from "../utils";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types";
 import MenuItem from "@mui/material/MenuItem";
 import MaterialSelect from "@mui/material/Select";
+import { CONTAINER_INPUT_MARGIN } from "../constants";
 
 export type IOption = { name: string; value: string | number };
 
@@ -40,13 +41,6 @@ export const Selector = ({
     metaTestQualifier
   );
 
-  const ReadOnlyOption = () => (
-    <>
-      <Header text={formatFormHeader(title)} size="sm" />
-      <p data-test-id={`${metaId}-read-only`}>{value}</p>
-    </>
-  );
-
   const Options = () => (
     <FormControl fullWidth>
       <InputLabel>{title}</InputLabel>
@@ -75,8 +69,20 @@ export const Selector = ({
   );
 
   return (
-    <Container flexDirection="row" key={key} margin={25}>
-      {readOnly ? <ReadOnlyOption /> : <Options />}
+    <Container
+      flexDirection="row"
+      key={key}
+      margin={readOnly ? 0 : CONTAINER_INPUT_MARGIN}
+    >
+      {readOnly ? (
+        <ReadOnly
+          metaTestId={metaId}
+          value={value}
+          title={formatFormHeader(title)}
+        />
+      ) : (
+        <Options />
+      )}
     </Container>
   );
 };

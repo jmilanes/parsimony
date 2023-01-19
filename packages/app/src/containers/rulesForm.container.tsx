@@ -77,6 +77,7 @@ export const RulesForm = ({
         </Col>
         <Col xs={6}>
           <Button
+            disabled={readOnly}
             name="Delete Prompt"
             action={() =>
               deleteItem(
@@ -89,6 +90,7 @@ export const RulesForm = ({
             metaTestQualifier={metaTestQualifier}
           />
           <Button
+            disabled={readOnly}
             name="Set to Target"
             action={() =>
               updateState(
@@ -114,6 +116,7 @@ export const RulesForm = ({
       <Row className="add-rule-row" key={generateKey("rule", index)}>
         <Button
           name="Delete Rule"
+          disabled={readOnly}
           action={() => deleteItem(localState.rules || [], index, "rules")}
           metaTestId={RulesFormMetaTestIds.deleteRuleBtn}
           metaTestQualifier={metaQualifier}

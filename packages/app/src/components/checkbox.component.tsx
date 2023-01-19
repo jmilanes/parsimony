@@ -4,6 +4,7 @@ import MaterialSwitch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { generateMetaTestId } from "../utils";
 import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
+import { CONTAINER_INPUT_MARGIN } from "../constants";
 
 export type ICheckBoxProps = {
   key?: string;
@@ -27,7 +28,7 @@ export const Checkbox = ({
   metaTestQualifier
 }: ICheckBoxProps) => {
   return (
-    <Container flexDirection="row" key={key}>
+    <Container flexDirection="row" key={key} margin={CONTAINER_INPUT_MARGIN}>
       <FormControlLabel
         disabled={readOnly}
         control={

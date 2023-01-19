@@ -36,6 +36,27 @@ export const program1 = {
   ]
 };
 
+export const programWithoutPrompts = {
+  title: "Brushing Teeth",
+  description: "Client needs to brush their teeth",
+  writeAccess: [UserRoles.Director],
+  readAccess: [UserRoles.Director],
+  type: ProgramTypes.Main,
+  mastered: false,
+  ruleStyle: RuleStyle.Separate,
+  rules: [
+    {
+      question: "Has Client brushed their teeth",
+      description: "This is a description",
+      steps: 4,
+      options: [],
+      required: true,
+      inputType: InputTypes.Radio,
+      valueType: ProgramValueTypes.Number
+    }
+  ]
+};
+
 export const program2 = {
   title: "Eat Breakfast",
   description: "Client needs to eat breakfast",

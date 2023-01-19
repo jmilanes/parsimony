@@ -51,4 +51,25 @@ describe("Auth Page Tests", () => {
     getButton(NavMetaTestIds.logoutBtn).click();
     getButton(AuthPageMetaTestIds.loginBtn).should("exist");
   });
+
+  it("should login should fail with no input", () => {
+    cy.visit(ROUTES.home);
+    getButton(AuthPageMetaTestIds.loginBtn).click();
+    getButton(AuthPageMetaTestIds.loginBtn).should("exist");
+  });
+
+  it("should login should fail with wrong email", () => {
+    cy.visit(ROUTES.home);
+    getField(AuthPageMetaTestIds.emailField).type("not@email");
+    getField(AuthPageMetaTestIds.passwordField).type(TEST_USER.password);
+    getButton(AuthPageMetaTestIds.loginBtn).click();
+    getButton(AuthPageMetaTestIds.loginBtn).should("exist");
+  });
+  it("should login should fail with wrong password", () => {
+    cy.visit(ROUTES.home);
+    getField(AuthPageMetaTestIds.emailField).type(TEST_USER.email);
+    getField(AuthPageMetaTestIds.passwordField).type("notPAssword");
+    getButton(AuthPageMetaTestIds.loginBtn).click();
+    getButton(AuthPageMetaTestIds.loginBtn).should("exist");
+  });
 });

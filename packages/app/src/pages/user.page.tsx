@@ -10,7 +10,8 @@ import {
   Button,
   Table,
   Row,
-  FileUpload
+  FileUpload,
+  ReadOnly
 } from "../components";
 
 import {
@@ -23,6 +24,7 @@ import {
 } from "@parsimony/types";
 
 import {
+  clone,
   getFullName,
   getRouterParams,
   isEditMode,
@@ -50,7 +52,7 @@ const User = () => {
   useEffect(() => {
     dataAccess.program.getAllByRelationship("clientId", userId);
     if (!user) dataAccess.user.get(userId);
-    if (!localState) updateLocalState(user);
+    if (!localState) updateLocalState(clone(user) as User);
   }, [user]);
 
   const associatedPrograms = store.getCurrentCollectionItems(
@@ -75,13 +77,11 @@ const User = () => {
   const actions: ITableAction[] = [
     {
       name: "Start Observing",
-      method: (program: Program) => navigate(`/programs/${program.id}/observe`),
-      metaTestId: UserPageMetaTestIds.programTableActionStartObserving
+      method: (program: Program) => navigate(`/programs/${program.id}/observe`)
     },
     {
       name: "View Data",
-      method: (program: Program) => navigate(`/results/${program.id}`),
-      metaTestId: UserPageMetaTestIds.programTableActionViewData
+      method: (program: Program) => navigate(`/results/${program.id}`)
     }
   ];
 
@@ -102,7 +102,10 @@ const User = () => {
           <Button
             key="cancel"
             name="Cancel"
-            action={() => updateMode("readOnly")}
+            action={() => {
+              updateMode("readOnly");
+              updateLocalState(user);
+            }}
             hidden={isReadOnlyMode(mode)}
             metaTestId={UserPageMetaTestIds.cancelEdit}
           />,
@@ -157,7 +160,7 @@ const User = () => {
         metaTestId={UserPageMetaTestIds.typeSelector}
       />
       <MultiSelect
-        title="Type"
+        title="Role"
         options={userRoleOptions}
         pathToState="roles"
         values={localState.roles as string[]}

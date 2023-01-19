@@ -10,7 +10,9 @@ const Login = ({ from }: { from: string }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const onLogin = () => authService.logIn(userName, password);
+  const onLogin = () => {
+    authService.logIn(userName, password);
+  };
   // createShortCut("Enter", login);
 
   const onResetPassword = () => {

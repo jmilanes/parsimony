@@ -1,15 +1,12 @@
 import React from "react";
-import { Container, Header, Col } from "../components";
-import {
-  createCommaSeparatedSting,
-  formatFormHeader,
-  generateMetaTestId
-} from "../utils";
+import { Container, ReadOnly } from "../components";
+import { formatFormHeader, generateMetaTestId } from "../utils";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import MaterialSelect from "@mui/material/Select";
 import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
+import { CONTAINER_INPUT_MARGIN } from "../constants";
 
 export type IOptionMultiSelect = {
   name: string;
@@ -46,27 +43,6 @@ export const MultiSelect = ({
   const updateSelectionsAndState = (values: unknown[]) =>
     updateState(pathToState, values);
 
-  const FormHeader = () => {
-    return (
-      <Col xs={12}>
-        <Header text={formatFormHeader(title)} size="sm" />
-      </Col>
-    );
-  };
-
-  const ReadOnlyOptions = () => {
-    return (
-      <Container flexDirection="row">
-        <FormHeader />
-        {values?.map((value: string, i: number) => (
-          <p data-test-id={`${metaId}-multi-read-only-${i}`}>
-            {createCommaSeparatedSting(value, i)}
-          </p>
-        ))}
-      </Container>
-    );
-  };
-
   const Options = () => {
     return (
       <FormControl fullWidth>
@@ -95,8 +71,19 @@ export const MultiSelect = ({
   };
 
   return (
-    <Container flexDirection="row" margin={25}>
-      {readOnly ? <ReadOnlyOptions /> : <Options />}
+    <Container
+      flexDirection="row"
+      margin={readOnly ? 0 : CONTAINER_INPUT_MARGIN}
+    >
+      {readOnly ? (
+        <ReadOnly
+          metaTestId={metaId}
+          value={values?.join(", ")}
+          title={formatFormHeader(title)}
+        />
+      ) : (
+        <Options />
+      )}
     </Container>
   );
 };
