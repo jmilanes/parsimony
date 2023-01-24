@@ -6,7 +6,7 @@ import {
 } from "@parsimony/types/src";
 import React, { useEffect, useState } from "react";
 
-import { createThread } from "../bal";
+import { createThread } from "@parsimony/bal";
 import { Header, Field, Autocomplete, Button, Row, Col } from "../components";
 
 import { useServices } from "../context";

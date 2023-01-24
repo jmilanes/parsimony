@@ -42,7 +42,8 @@
     "react-router-dom": "6.2.1",
     "rxjs": "^7.5.5",
     "uuid": "8.3.2",
-    "@parsimony/utilities": "1.0.0"
+    "@parsimony/utilities": "1.0.0",
+    "@parsimony/bal": "1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",

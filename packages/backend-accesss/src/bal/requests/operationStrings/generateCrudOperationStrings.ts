@@ -1,5 +1,5 @@
-import { Collections } from "@parsimony/types/src";
-import { capitalize } from "../../../utils";
+import { Collections } from "@parsimony/types";
+import { capitalize } from "@parsimony/utilities";
 
 const generateCrudOperationStrings = (
   collection: Collections,

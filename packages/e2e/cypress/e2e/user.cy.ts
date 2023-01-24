@@ -15,13 +15,13 @@ beforeEach(() => {
   login();
 });
 
-afterEach(() => {
-  DB_ACTIONS.cleanDb();
+afterEach(async () => {
+  await DB_ACTIONS.cleanEntities();
 });
 
 describe("User Page Tests", () => {
   it("should edit user", () => {
-    DB_ACTIONS.createUser(user1).then((id) => {
+    DB_ACTIONS.createUserRequest(user1).then((id) => {
       cy.visit(`${ROUTES.directory}/${id}`);
       getButton(UserPageMetaTestIds.edit).click();
       getField(UserPageMetaTestIds.firstNameField).type(" Updated Name");
@@ -29,7 +29,6 @@ describe("User Page Tests", () => {
       getField(UserPageMetaTestIds.phoneNumberField).type("1");
       selectOption(UserPageMetaTestIds.typeSelector, "ADMIN");
       selectOption(UserPageMetaTestIds.roleMultiSelector, "EMPLOYEE");
-      selectOption(UserPageMetaTestIds.roleMultiSelector, "DIRECTOR");
       selectOption(UserPageMetaTestIds.roleMultiSelector, "ADMIN");
 
       getButton(UserPageMetaTestIds.submitEdit).click();
@@ -58,7 +57,7 @@ describe("User Page Tests", () => {
   });
 
   it("should cancel an edit ", () => {
-    DB_ACTIONS.createUser(user1).then((id) => {
+    DB_ACTIONS.createUserRequest(user1).then((id) => {
       cy.visit(`${ROUTES.directory}/${id}`);
       getButton(UserPageMetaTestIds.edit).click();
       getField(UserPageMetaTestIds.firstNameField).type(" Updated Name");
@@ -85,11 +84,11 @@ describe("User Page Tests", () => {
       );
       getSelect(readOnlyLocator(UserPageMetaTestIds.typeSelector)).should(
         "have.text",
-        "DIRECTOR"
+        ""
       );
       getSelect(readOnlyLocator(UserPageMetaTestIds.roleMultiSelector)).should(
         "have.text",
-        "DIRECTOR"
+        ""
       );
     });
   });

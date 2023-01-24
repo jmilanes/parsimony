@@ -19,13 +19,13 @@ beforeEach(() => {
   login();
 });
 
-afterEach(() => {
-  DB_ACTIONS.cleanDb();
+afterEach(async () => {
+  await DB_ACTIONS.cleanEntities();
 });
 
 describe("Program Page Tests", () => {
   it("should basic program editing should work", () => {
-    DB_ACTIONS.createProgram(programWithoutPrompts).then((id) => {
+    DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getField(ProgramPageMetaTestIds.titleField).type("!!");
@@ -53,7 +53,7 @@ describe("Program Page Tests", () => {
   });
 
   it("should basic program editing cancel should work", () => {
-    DB_ACTIONS.createProgram(programWithoutPrompts).then((id) => {
+    DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getField(ProgramPageMetaTestIds.titleField).type("!!");
@@ -81,7 +81,7 @@ describe("Program Page Tests", () => {
   });
 
   it("should basic program physical prompt toggles should work", () => {
-    DB_ACTIONS.createProgram(programWithoutPrompts).then((id) => {
+    DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getButton(
@@ -117,7 +117,7 @@ describe("Program Page Tests", () => {
   });
 
   it("should basic program physical verbal toggles should work", () => {
-    DB_ACTIONS.createProgram(programWithoutPrompts).then((id) => {
+    DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getButton(
@@ -153,7 +153,7 @@ describe("Program Page Tests", () => {
   });
 
   it("should basic program physical time toggles should work", () => {
-    DB_ACTIONS.createProgram(programWithoutPrompts).then((id) => {
+    DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getButton(`${RulesFormMetaTestIds.preSelectedTimePromptsBtn}-0`).click();

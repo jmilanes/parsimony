@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 // TODO: THis is what is breaking the pattern. This is the next thing to be fixed
-import { addMessage, deleteThread, editMessage } from "../bal";
+import { addMessage, deleteThread, editMessage } from "@parsimony/bal";
 import { Menu, Row, Col, Header, Icon } from "../components";
 import { ChatMessage, ChatMessageInput } from "../containers";
 import { ChatMetaTestIds, Message, Thread } from "@parsimony/types";

@@ -1,20 +1,98 @@
-import { ProgramsPageMetaTestIds } from "@parsimony/types";
+import {
+  AddModalControls,
+  TestEntryTypes,
+  Program,
+  ProgramsPageMetaTestIds,
+  RulesFormMetaTestIds
+} from "@parsimony/types";
 
-import { getTableRowAction, getTableRowItem, login } from "../../utilities";
+import {
+  getButton,
+  getCheckBox,
+  getField,
+  getTableRowAction,
+  getTableRowItem,
+  login,
+  selectMultipleOptions,
+  selectOption
+} from "../../utilities";
 import { DB_ACTIONS } from "../../utilities/db.utils";
-import { program1, program2 } from "../fixtures";
+import { API_URL, program1, program2, ROUTES } from "../fixtures";
+
+const createProgramHelper = (program: Partial<Program>) => {
+  cy.visit(ROUTES.programs);
+  getButton(ProgramsPageMetaTestIds.addBtn).click();
+  getField(ProgramsPageMetaTestIds.titleField).type(program.title);
+  getField(ProgramsPageMetaTestIds.descriptionField).type(program.description);
+
+  selectOption(ProgramsPageMetaTestIds.typeSelector, program.type);
+  selectOption(ProgramsPageMetaTestIds.ruleStyleSelector, program.ruleStyle);
+  selectMultipleOptions(
+    ProgramsPageMetaTestIds.readAccessMultiSelector,
+    program.readAccess
+  );
+  selectMultipleOptions(
+    ProgramsPageMetaTestIds.writeAccessMultiSelector,
+    program.writeAccess
+  );
+
+  program.rules.forEach((rule, ruleIndex) => {
+    getButton(`${RulesFormMetaTestIds.addRuleBtn}`).click();
+    getField(`${RulesFormMetaTestIds.questionField}-${ruleIndex}`).type(
+      rule.question
+    );
+
+    getField(`${RulesFormMetaTestIds.descriptionField}-${ruleIndex}`).type(
+      rule.description
+    );
+    selectOption(
+      `${RulesFormMetaTestIds.stepsSelector}-${ruleIndex}`,
+      rule.steps.toString()
+    );
+    getCheckBox(
+      `${RulesFormMetaTestIds.requiredCheckbox}-${ruleIndex}`
+    ).click();
+    selectOption(
+      `${RulesFormMetaTestIds.inputTypeSelector}-${ruleIndex}`,
+      rule.inputType
+    );
+    selectOption(
+      `${RulesFormMetaTestIds.valueTypeSelector}-${ruleIndex}`,
+      rule.valueType
+    );
+    rule.options.forEach((option, optionIndex) => {
+      getButton(`${RulesFormMetaTestIds.addPromptBtn}-${ruleIndex}`).click();
+      getField(
+        `${RulesFormMetaTestIds.promptNameField}-rule-${ruleIndex}-prompt-${optionIndex}`
+      ).type(option.name);
+      if (option.target) {
+        getButton(
+          `${RulesFormMetaTestIds.setToTargetBtn}-rule-${ruleIndex}-prompt-${optionIndex}`
+        ).click();
+      }
+    });
+  });
+
+  cy.intercept(API_URL).as("apiRequest");
+  getButton(AddModalControls.createBtn).click();
+  return cy.wait("@apiRequest").then((interception) => {
+    let id = interception.response.body.data.createProgram.id;
+    DB_ACTIONS.addEntity(id, TestEntryTypes.PROGRAM);
+    return id;
+  });
+};
 
 beforeEach(() => {
   login();
 });
 
-afterEach(() => {
-  DB_ACTIONS.cleanDb();
+afterEach(async () => {
+  await DB_ACTIONS.cleanEntities();
 });
 
 describe("Programs Page Tests", () => {
   it("should add program to programs", () => {
-    DB_ACTIONS.createProgram(program1).then((id) => {
+    createProgramHelper(program1).then((id) => {
       getTableRowAction(ProgramsPageMetaTestIds.table, id, "view").should(
         "exist"
       );
@@ -40,7 +118,7 @@ describe("Programs Page Tests", () => {
     });
   });
   it("should add multiple program to programs", () => {
-    DB_ACTIONS.createProgram(program1).then((id) => {
+    createProgramHelper(program1).then((id) => {
       getTableRowAction(ProgramsPageMetaTestIds.table, id, "view").should(
         "exist"
       );
@@ -65,7 +143,7 @@ describe("Programs Page Tests", () => {
       );
     });
 
-    DB_ACTIONS.createProgram(program2).then((id) => {
+    createProgramHelper(program2).then((id) => {
       getTableRowAction(ProgramsPageMetaTestIds.table, id, "view").should(
         "exist"
       );

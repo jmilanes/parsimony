@@ -1,4 +1,4 @@
-import { IObject } from "@parsimony/types/src";
+import { IObject } from "@parsimony/types";
 import { envIs } from "@parsimony/utilities";
 
 const LOCAL_URL = "http://localhost:4000";
@@ -10,7 +10,7 @@ export const requestParams = {
   method: "POST",
   headers: {
     // TODO Think though how all this local storage stuff should be accessed and the order of operations of init/async work
-    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    Authorization: `Bearer ${localStorage?.getItem("accessToken")}`,
     "Content-Type": "application/json",
     mode: "no-cors"
   }
@@ -36,5 +36,8 @@ export const createRequest = <P, R>(mutation: string) => {
   };
 };
 
-const parseResponseJson = <R>(response: { data: Record<string, unknown> }): R =>
-  Object.values(response.data)[0] as R;
+const parseResponseJson = <R>(response: {
+  data: Record<string, unknown>;
+}): R => {
+  return Object.values(response.data)[0] as R;
+};

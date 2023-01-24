@@ -56,7 +56,7 @@ import {
   documentRequests,
   eventRequests,
   fileRequests
-} from "../bal/requests";
+} from "@parsimony/bal";
 
 import { AsyncCrudGenerator } from "./crudGenerators/asyncCrud.generator";
 import AuthService from "./auth.service";

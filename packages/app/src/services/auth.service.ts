@@ -5,7 +5,7 @@ import {
   User
 } from "@parsimony/types";
 import { encrypt } from "@parsimony/utilities/src";
-import { me, login, logout, resetPassword } from "../bal";
+import { me, login, logout, resetPassword } from "@parsimony/bal";
 
 export default class AuthService {
   isLoggedIn: boolean;

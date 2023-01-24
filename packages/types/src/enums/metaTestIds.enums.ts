@@ -157,7 +157,7 @@ export enum ChatMetaTestIds {
   chatDeleteBtn = "chat-delete-btn"
 }
 
-export enum CleanFnTypes {
+export enum TestEntryTypes {
   DIRECTORY = "directory",
   PROGRAM = "program",
   CHAT = "chat"

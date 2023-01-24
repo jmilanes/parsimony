@@ -1,25 +1,50 @@
-import { DirectoryPageMetaTestIds } from "@parsimony/types";
+import {
+  AddModalControls,
+  TestEntryTypes,
+  DirectoryPageMetaTestIds,
+  User
+} from "@parsimony/types";
 
 import {
   getTableRowAction,
   getTableRowItem,
   login,
-  findText
+  findText,
+  getButton,
+  getField
 } from "../../utilities";
 import { DB_ACTIONS } from "../../utilities/db.utils";
-import { ROUTES, user1, user2 } from "../fixtures";
+import { API_URL, ROUTES, user1, user2 } from "../fixtures";
+
+const createUserHelper = (user: Partial<User>) => {
+  cy.visit(ROUTES.directory);
+  getButton(DirectoryPageMetaTestIds.addUserBtn).click();
+  getField(DirectoryPageMetaTestIds.firstNameField).type(user.firstName);
+  getField(DirectoryPageMetaTestIds.lastNameField).type(user.lastName);
+  getField(DirectoryPageMetaTestIds.phoneNumberField).type(user.phone);
+  getField(DirectoryPageMetaTestIds.emailField).type(user.email);
+  getField(DirectoryPageMetaTestIds.passwordField).type(user.password);
+
+  cy.intercept(API_URL).as("apiRequest");
+  getButton(AddModalControls.createBtn).click();
+  return cy.wait("@apiRequest").then((interception) => {
+    let id = interception.response.body.data.createUser.id;
+    DB_ACTIONS.addEntity(id, TestEntryTypes.DIRECTORY);
+    return id;
+  });
+};
 
 beforeEach(() => {
   login();
 });
 
-afterEach(() => {
-  DB_ACTIONS.cleanDb();
+afterEach(async () => {
+  await DB_ACTIONS.cleanEntities();
 });
 
 describe("Directory Page Tests", () => {
   it("should add user to directory", () => {
-    DB_ACTIONS.createUser(user1).then((id) => {
+    createUserHelper(user1).then((id) => {
       getTableRowAction(DirectoryPageMetaTestIds.table, id, "view").should(
         "exist"
       );
@@ -43,7 +68,7 @@ describe("Directory Page Tests", () => {
   });
 
   it("should add multiple user to directory", () => {
-    DB_ACTIONS.createUser(user1).then((id) => {
+    createUserHelper(user1).then((id) => {
       getTableRowAction(DirectoryPageMetaTestIds.table, id, "view").should(
         "exist"
       );
@@ -64,7 +89,7 @@ describe("Directory Page Tests", () => {
       );
     });
 
-    DB_ACTIONS.createUser(user2).then((id) => {
+    createUserHelper(user2).then((id) => {
       getTableRowAction(DirectoryPageMetaTestIds.table, id, "view").should(
         "exist"
       );
@@ -87,7 +112,7 @@ describe("Directory Page Tests", () => {
   });
 
   it("should go to user if view table action is clicked", () => {
-    DB_ACTIONS.createUser(user1).then((id) => {
+    createUserHelper(user1).then((id) => {
       getTableRowAction(DirectoryPageMetaTestIds.table, id, "view").should(
         "exist"
       );

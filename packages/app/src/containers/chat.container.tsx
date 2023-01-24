@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { addMessage, deleteMessage, deleteThread, editMessage } from "../bal";
+import {
+  addMessage,
+  deleteMessage,
+  deleteThread,
+  editMessage
+} from "@parsimony/bal";
 import { ThreadCollection } from "../services/chat.service";
 import { ChatMetaTestIds, Thread } from "@parsimony/types";
 import { useServices } from "../context";

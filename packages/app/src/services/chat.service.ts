@@ -14,7 +14,7 @@ import {
 } from "@parsimony/types";
 import { clone } from "../utils";
 import { BehaviorSubject } from "rxjs";
-import { getThreadsByUserId } from "../bal";
+import { getThreadsByUserId } from "@parsimony/bal";
 import { ISocket$ } from "./app.service";
 import Store from "./store";
 import AuthService from "./auth.service";
