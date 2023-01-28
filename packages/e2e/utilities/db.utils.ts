@@ -1,15 +1,37 @@
+require("dotenv").config();
 import {
   createUser,
-  deleteUser,
   createProgram,
-  deleteProgram
+  createRequestOptions,
+  userOperationStrings,
+  programOperationStrings
 } from "@parsimony/bal";
 import { TestEntryTypes, Program, User } from "@parsimony/types";
 import { API_URL } from "../cypress/fixtures";
 
+const deleteEntityRequest =
+  (mutation: string) => (id: string, accessToken: string) => {
+    const options = createRequestOptions(mutation, {
+      id
+    });
+
+    cy.request({
+      url: API_URL,
+      ...options,
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+  };
+
 const deleteEntity = {
-  [TestEntryTypes.DIRECTORY]: (id: string) => deleteUser({ id }),
-  [TestEntryTypes.PROGRAM]: (id: string) => deleteProgram({ id })
+  [TestEntryTypes.DIRECTORY]: deleteEntityRequest(
+    userOperationStrings.deleteItem
+  ),
+  [TestEntryTypes.PROGRAM]: deleteEntityRequest(
+    programOperationStrings.deleteItem
+  )
 };
 
 type ITestEntry = {
@@ -19,19 +41,26 @@ type ITestEntry = {
 
 class DBManager {
   entities: ITestEntry[];
+  accessToken: string;
   constructor() {
     this.entities = [];
+    this.accessToken = null;
   }
 
   public addEntity(id: string, type: TestEntryTypes) {
     this.entities.push({ id, type });
   }
 
+  public setAccessToken(accessToken: string) {
+    this.accessToken = accessToken;
+  }
+
   public async cleanEntities() {
-    await Promise.all(
-      this.entities.map(({ type, id }: ITestEntry) => deleteEntity[type](id))
+    this.entities.map(({ type, id }: ITestEntry) =>
+      deleteEntity[type](id, this.accessToken)
     );
     this.entities = [];
+    this.accessToken = null;
   }
 
   public createUserRequest(user: Partial<User>) {

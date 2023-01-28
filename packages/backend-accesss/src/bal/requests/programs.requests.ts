@@ -42,7 +42,7 @@ const fullSchema = `
   created_at
 `;
 
-const programOperationStrings = generateCrudOperationStrings(
+export const programOperationStrings = generateCrudOperationStrings(
   Collections.Program,
   fullSchema
 );

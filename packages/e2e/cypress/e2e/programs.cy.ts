@@ -86,8 +86,8 @@ beforeEach(() => {
   login();
 });
 
-afterEach(async () => {
-  await DB_ACTIONS.cleanEntities();
+afterEach(() => {
+  DB_ACTIONS.cleanEntities();
 });
 
 describe("Programs Page Tests", () => {

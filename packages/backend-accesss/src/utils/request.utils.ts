@@ -24,13 +24,20 @@ export const createBody = (query: string, variables?: IObject) => {
   return JSON.stringify(body);
 };
 
+export const createRequestOptions = <P>(mutation: string, payload?: P) => {
+  return {
+    ...requestParams,
+    body: createBody(mutation, { payload })
+  };
+};
+
 // TODO 2 one void one return type or one with an optional return type
 export const createRequest = <P, R>(mutation: string) => {
   return async (payload?: P): Promise<R> => {
-    const response = await fetch(SERVER_URL, {
-      ...requestParams,
-      body: createBody(mutation, { payload })
-    });
+    const response = await fetch(
+      SERVER_URL,
+      createRequestOptions<P>(mutation, payload)
+    );
 
     return parseResponseJson<R>(await response.json());
   };

@@ -31,7 +31,7 @@ export const fullSchema = `
   actionItems
 `;
 
-const userOperationStrings = generateCrudOperationStrings(
+export const userOperationStrings = generateCrudOperationStrings(
   Collections.User,
   fullSchema
 );

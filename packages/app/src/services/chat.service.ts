@@ -37,10 +37,6 @@ export default class ChatService {
     getThreadsByUserId({
       id: id
     }).then((threads) => {
-      console.log(
-        "🚀 ~ file: chat.service.ts:43 ~ ChatService ~ threads",
-        threads
-      );
       const formattedData = threads.reduce(
         (acc: ThreadCollection, curr: Thread) => {
           acc[curr.id] = curr;

@@ -1,5 +1,6 @@
 import { AuthPageMetaTestIds, NavMetaTestIds } from "@parsimony/types";
 import { getButton, getField } from "../../utilities";
+
 import { ROUTES, TEST_USER } from "../fixtures";
 
 describe("Auth Page Tests", () => {
