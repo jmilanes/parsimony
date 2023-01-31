@@ -1,6 +1,5 @@
 import { ICreateResolverParams } from "../../collections";
 import { modelTypes } from "../../database/models";
-import TokensService from "../../database/token.service";
 
 // Retrieve user data based on auth token
 export const me =

@@ -64,12 +64,17 @@ class DBManager {
   }
 
   public createUserRequest(user: Partial<User>) {
-    cy.intercept(API_URL).as("apiRequest");
-    createUser(user);
-    return cy.wait("@apiRequest").then((interception) => {
-      let id = interception.response.body.data.createUser.id;
-      this.addEntity(id, TestEntryTypes.DIRECTORY);
-      return id;
+    const requestKey = `apiRequest-for-${user.email}`;
+    cy.intercept(API_URL).as(requestKey);
+    return cy.window().then((win) => {
+      //@ts-ignore
+      createUser({ ...user, password: win.testEncrypt(user.password) });
+      return cy.wait(`@${requestKey}`).then((interception) => {
+        let id = interception.response.body.data.createUser.id;
+
+        this.addEntity(id, TestEntryTypes.DIRECTORY);
+        return id;
+      });
     });
   }
 

@@ -4,8 +4,13 @@ import {
   MeResponse,
   User
 } from "@parsimony/types";
-import { encrypt } from "@parsimony/utilities/src";
+import { encrypt, envIs } from "@parsimony/utilities/src";
 import { me, login, logout, resetPassword } from "@parsimony/bal";
+
+// This is needed for encrypt to work for creating users in cypress with requests
+const applyEncryptionToCypressWindow = () =>
+  //@ts-ignore
+  !envIs("prod") && (window.testEncrypt = (val: string) => encrypt(val));
 
 export default class AuthService {
   isLoggedIn: boolean;
@@ -18,6 +23,7 @@ export default class AuthService {
 
   // Address your async concerns with this. Understand the order and fix it then write tests
   async init() {
+    applyEncryptionToCypressWindow();
     if (
       !this.getAccessToken() &&
       localStorage.getItem("isLoggedIn") === "true"

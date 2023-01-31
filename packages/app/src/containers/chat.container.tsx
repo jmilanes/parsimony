@@ -23,14 +23,6 @@ export const Chat = () => {
 
   useEffect(() => dataAccess.thread$.subscribe(setThreads), []);
 
-  const onDelete = (id: string) => deleteThread({ id });
-
-  const onDeleteMessage = (threadId: string, messageId: string) =>
-    deleteMessage({ threadId, messageId });
-
-  const onEditMessage = (e: any, threadId: string, messageId: string) =>
-    editMessage({ value: e.target.value, threadId, messageId });
-
   const onAddMessage = (threadId: string) => (value: string) => {
     addMessage({
       message: {
