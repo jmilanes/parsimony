@@ -1,4 +1,4 @@
-import { IId } from ".";
+import { IId } from "./index";
 
 export interface ICrudGenerator<Schema> {
   collection?: Record<string, Schema>;

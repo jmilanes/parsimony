@@ -5,7 +5,7 @@ import {
   School,
   RuleResult,
   ResultData
-} from "@parsimony/types";
+} from "./generated/graphql.types";
 
 export type IId = string;
 export type IDate = Date;
