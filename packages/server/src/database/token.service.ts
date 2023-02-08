@@ -1,5 +1,5 @@
 require("dotenv").config();
-import { User } from "@parsimony/types/src";
+import { User } from "@parsimony/types";
 import jwt from "jsonwebtoken";
 import { DataBaseService } from "./dataBase.service";
 import { modelTypes } from "./models";

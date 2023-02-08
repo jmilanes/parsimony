@@ -1,4 +1,4 @@
-import { WithEmptyObj } from "@parsimony/types/src";
+import { WithEmptyObj } from "@parsimony/types";
 import { modelTypes } from "./models";
 
 export class DataBaseService {

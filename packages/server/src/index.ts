@@ -4,7 +4,7 @@ const { ApolloServer } = require("apollo-server");
 
 import { BroadcastService, DataBaseService, models } from "./database";
 import graphQlConfig, { ICreateResolverParams } from "./collections";
-import { envIs } from "@parsimony/utilities/src";
+import { envIs } from "@parsimony/utilities";
 import TokensService from "./database/token.service";
 
 const isProduction = envIs("prod");

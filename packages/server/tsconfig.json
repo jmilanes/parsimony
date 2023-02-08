@@ -1,18 +1,15 @@
 {
   "compilerOptions": {
-    "strict": true,
+    "target": "es5",
     "module": "commonjs",
-    "jsx": "react",
-    "esModuleInterop": true,
-    "sourceMap": true,
+    "lib": ["es6", "ES2021", "ES2017", "dom"],
     "allowJs": true,
-    "lib": [
-      "ES2021",
-      "ES2017",
-      "dom"
-    ],
+    "outDir": "dist",
     "rootDir": "src",
-    "moduleResolution": "node",
-    "types": ["node", "jest"],
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   }
 }

@@ -1,5 +1,5 @@
 import { ChatActionTypes } from "@parsimony/types";
-import { ICreateResolverParams } from "..";
+import { ICreateResolverParams } from "../index";
 import { DataBaseService } from "../../database";
 import { modelTypes } from "../../database/models";
 
