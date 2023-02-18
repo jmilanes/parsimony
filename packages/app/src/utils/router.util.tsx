@@ -53,6 +53,7 @@ export const createLink = (link: IRoute) => {
       <Button
         name={link.name || ""}
         action={() => null}
+        //@ts-expect-error
         metaTestId={link.metaTestId}
       />
     </Link>

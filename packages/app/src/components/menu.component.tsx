@@ -7,7 +7,7 @@ import {
   ChatMetaTestIds,
   MetaTestIds,
   UIMetaTargetTypes
-} from "@parsimony/types/src";
+} from "@parsimony/types";
 import { generateMetaTestId } from "../utils";
 
 const ITEM_HEIGHT = 48;

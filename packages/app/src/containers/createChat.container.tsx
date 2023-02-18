@@ -3,7 +3,7 @@ import {
   User,
   Subscriber,
   ChatMetaTestIds
-} from "@parsimony/types/src";
+} from "@parsimony/types";
 import React, { useEffect, useState } from "react";
 
 import { createThread } from "@parsimony/bal";

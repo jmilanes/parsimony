@@ -1,4 +1,4 @@
-import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
+import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 
 export const generateMetaTestId = (
   type: UIMetaTargetTypes,

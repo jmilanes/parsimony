@@ -3,6 +3,8 @@ dist
 node_modules
 .cache
 /deploy-scripts
+/packages/e2e/cypress/videos/
 .env
+.env.production
 .mp4
 .png

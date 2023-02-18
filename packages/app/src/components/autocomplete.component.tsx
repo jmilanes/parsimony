@@ -3,7 +3,7 @@ import React from "react";
 import { Container } from "../components";
 import TextField from "@mui/material/TextField";
 import MaterialAutocomplete from "@mui/material/Autocomplete";
-import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
+import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 import { generateMetaTestId } from "../utils";
 
 export type IAutoCompleteProps = {

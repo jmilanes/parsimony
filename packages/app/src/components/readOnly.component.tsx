@@ -3,8 +3,6 @@ import { Container } from "../components";
 import { formatFormHeader } from "../utils";
 import { Maybe } from "@parsimony/types";
 
-export type IOption = { name: string; value: string | number };
-
 export type IReadOnlyProps = {
   title?: string;
   value?: Maybe<string | number> | string;

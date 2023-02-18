@@ -3,7 +3,7 @@ import { Container, Header } from "../components";
 import MaterialSwitch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { generateMetaTestId } from "../utils";
-import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
+import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 import { CONTAINER_INPUT_MARGIN } from "../constants";
 
 export type ICheckBoxProps = {

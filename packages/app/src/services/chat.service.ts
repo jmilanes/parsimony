@@ -17,7 +17,6 @@ import { BehaviorSubject } from "rxjs";
 import { getThreadsByUserId } from "@parsimony/bal";
 import { ISocket$ } from "./app.service";
 import Store from "./store";
-import AuthService from "./auth.service";
 
 export type ThreadCollection = Record<string, Thread>;
 

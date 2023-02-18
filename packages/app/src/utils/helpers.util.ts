@@ -18,7 +18,7 @@ export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>
  *   { a: 1, c: 2}
  */
 
-export const flattenObject = <IObj>(obj: IObj) => {
+export const flattenObject = <IObj>(obj: Record<string, any>) => {
   type ICurrentObject = IObjectValues<IObj>;
   const flattened: IObject = {};
   const currentObject: ICurrentObject = clone<any>(obj);

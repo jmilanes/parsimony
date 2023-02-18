@@ -61,7 +61,7 @@ import {
 import { AsyncCrudGenerator } from "./crudGenerators/asyncCrud.generator";
 import AuthService from "./auth.service";
 import AppControlsService from "./appControls.service";
-import { envIs } from "@parsimony/utilities/src";
+import { envIs } from "@parsimony/utilities";
 
 export type Services = {
   [ServiceTypes.App]: {

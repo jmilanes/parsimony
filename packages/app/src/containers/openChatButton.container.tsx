@@ -1,7 +1,7 @@
 import React from "react";
 import { useServices } from "../context";
 import { Button, Icon } from "../components";
-import { NavMetaTestIds } from "@parsimony/types/src";
+import { NavMetaTestIds } from "@parsimony/types";
 
 export const OpenChatButton = () => {
   const { appControls } = useServices();

@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Header, Button } from "../components";
 import { generateKey, getRouterParams, navigateToRoute } from "../utils";
 import { ObserveRule } from "../containers";
-import { Collections, ObservationMetaTestIds, Program } from "@parsimony/types";
+import {
+  Collections,
+  ObservationMetaTestIds,
+  Program,
+  Rule
+} from "@parsimony/types";
 import { RuleStyle } from "@parsimony/types";
 import { useServices } from "../context";
 import ObservationService from "../services/observation.service";
@@ -34,7 +39,10 @@ const Observe = () => {
   return (
     <>
       <Header text={program?.title || ""} size="page" />
-      <p>Completeness: {observation.programCompleteness}%</p>
+      <Header
+        text={`Completeness: ${observation.programCompleteness}%`}
+        size="sm"
+      />
       {isGroup ? (
         <ObserveRule
           rule={program.rules as []}
@@ -42,7 +50,7 @@ const Observe = () => {
         />
       ) : (
         program.rules?.map(
-          (rule, i) =>
+          (rule: Rule, i: any) =>
             rule && (
               <ObserveRule
                 key={generateKey("observeRule", i)}

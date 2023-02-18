@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:18 as react_build 
 
 # Working dir
 WORKDIR /usr/app
@@ -9,7 +9,7 @@ RUN apt-get update
 
 RUN apt-get install -y yarn
 
-RUN echo "//registry.npmjs.org/:_authToken=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" > ~/.npmrc
+RUN echo "//registry.npmjs.org/:_authToken=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" > ~/.npmrc
 
 COPY package*.json ./
 
@@ -18,13 +18,20 @@ RUN yarn
 # Copy SRC
 COPY . .
 
-# RUN yarn build
+RUN yarn build
+
+# prepare nginx
+FROM nginx:latest
+
+COPY --from=react_build /usr/app/dist /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/conf.d /etc/nginx/conf.d
 
 # Open Port
-EXPOSE 1234
+EXPOSE 80
 
 # Docker Command to Start Service
-CMD [ "yarn", "start"]
+CMD ["nginx","-g","daemon off;"]
 
 
 

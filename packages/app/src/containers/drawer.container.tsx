@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Drawer as ADrawer } from "antd";
 
 import { useServices } from "../context";
-import { Collections, DrawerMetaTestIds } from "@parsimony/types/src";
+import { Collections, DrawerMetaTestIds } from "@parsimony/types";
 import { DrawerContentTypes } from "../services/appControls.service";
 import { Chat, CreateChat } from "../containers";
 import { Button, Icon } from "../components";

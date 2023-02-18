@@ -1,4 +1,3 @@
-import { IObject } from "@parsimony/types/src";
 import React, { ReactNode } from "react";
 import { Services } from "../services/app.service";
 

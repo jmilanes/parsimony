@@ -4,7 +4,7 @@ import {
   MeResponse,
   User
 } from "@parsimony/types";
-import { encrypt, envIs } from "@parsimony/utilities/src";
+import { encrypt, envIs } from "@parsimony/utilities";
 import { me, login, logout, resetPassword } from "@parsimony/bal";
 
 // This is needed for encrypt to work for creating users in cypress with requests

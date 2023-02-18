@@ -5,7 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import MaterialSelect from "@mui/material/Select";
-import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
+import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 import { CONTAINER_INPUT_MARGIN } from "../constants";
 
 export type IOptionMultiSelect = {

@@ -85,7 +85,7 @@ export class AsyncCrudGenerator<
   get = async (id: IId) => {
     const item = (await this.requests.get({
       id
-    } as GetPayload)) as AwaitedSchemaWithId<Schema>;
+    } as unknown as GetPayload)) as AwaitedSchemaWithId<Schema>;
     this.store.addItemToCollection(this.collectionName, item);
   };
 
@@ -97,7 +97,7 @@ export class AsyncCrudGenerator<
       const items = await this.requests.getAllByRelationship({
         relationshipProperty,
         id
-      } as GetAllByRelationshipPayload);
+      } as unknown as GetAllByRelationshipPayload);
       this.store.getCollection$(this.collectionName).next(items);
     } catch (error) {
       console.error(error);

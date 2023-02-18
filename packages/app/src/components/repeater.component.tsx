@@ -1,4 +1,3 @@
-import { MetaTestIds } from "@parsimony/types/src";
 import React from "react";
 import { Header, Button, Row, Col } from "../components";
 import { clone } from "../utils";

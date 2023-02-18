@@ -1,4 +1,4 @@
-FROM node:18
+FROM --platform=linux/amd64  node:18
 
 # Working dir
 WORKDIR /usr/app
@@ -15,8 +15,11 @@ COPY package*.json ./
 
 RUN yarn
 
+
 # Copy SRC
 COPY . .
+
+COPY .env.production ./.env
 
 RUN yarn build
 

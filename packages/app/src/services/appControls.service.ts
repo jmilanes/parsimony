@@ -1,4 +1,4 @@
-import { Collections } from "@parsimony/types/src";
+import { Collections } from "@parsimony/types";
 import { clone } from "../utils";
 import Store from "./store";
 

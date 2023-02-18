@@ -3,7 +3,7 @@ import React from "react";
 import { flattenObject, generateKey } from "../utils";
 import { Content, Button } from "../components";
 import { useServices } from "../context";
-import { MetaTestIds, RepeatableMetaTestIds } from "@parsimony/types/src";
+import { MetaTestIds, RepeatableMetaTestIds } from "@parsimony/types";
 
 export type ITableAction = {
   name: string;

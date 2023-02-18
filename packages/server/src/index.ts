@@ -14,7 +14,7 @@ const broadcastService = new BroadcastService();
 broadcastService.init();
 
 const DEV_CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
-const PROD_CONNECTION_STRING = "mongodb://localhost:27017/parsimony-02";
+const PROD_CONNECTION_STRING = `mongodb+srv://jmilanes:${process.env.MONGO_PW}@parsimonyapp01.xmune.mongodb.net/parsimony?retryWrites=true&w=majority`;
 
 const CONNECTION_STRING = isProduction
   ? PROD_CONNECTION_STRING

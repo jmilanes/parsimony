@@ -1,4 +1,4 @@
-import { ChatMetaTestIds, UIMetaTargetTypes } from "@parsimony/types/src";
+import { ChatMetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Button } from "../components";
 import { generateMetaTestId } from "../utils";
@@ -56,6 +56,7 @@ export const ChatMessageInput = ({
   return (
     <div className="chatMessageInput-container">
       <textarea
+        //@ts-ignore
         ref={textAreaRef}
         onKeyDown={handleOnEnter}
         className="chatMessageInput"

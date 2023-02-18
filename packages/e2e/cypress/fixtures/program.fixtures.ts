@@ -4,7 +4,7 @@ import {
   ProgramValueTypes,
   RuleStyle,
   UserRoles
-} from "@parsimony/types/src";
+} from "@parsimony/types";
 
 export const program1 = {
   title: "Brushing Teeth",
