@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: "18"
           cache: "yarn"
-      - name: Start App
-        run: yarn start
-      - name: Run Tests
-        run: cypress:run
+      - name: Cypress run
+        uses: cypress-io/github-action@v5.1.0 # use the explicit version number
+        with:
+          start: yarn start
