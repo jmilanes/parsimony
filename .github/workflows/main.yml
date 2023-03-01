@@ -19,6 +19,8 @@ jobs:
         with:
           node-version: "18"
           cache: "yarn"
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Cypress run
         uses: cypress-io/github-action@v5.1.0 # use the explicit version number
         with:
