@@ -1,9 +1,9 @@
 name: "Build and push to Parsimony Image to ERC"
 on:
   push:
-    branches:
-      - master
   pull_request:
+    branches:
+      - main
 jobs:
   BuildAndPushImageToECR:
     name: "Build and Push to ECR"
