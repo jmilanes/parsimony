@@ -1,6 +1,9 @@
 name: "Build and push to Parsimony Image to ERC"
+
 on:
   push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
