@@ -17,6 +17,10 @@ env:
   ECS_TASK_DEFINITION: "./aws/ParsimonyWebDefinition.json"
   CONTAINER_NAME: "ParsimonyWebContainer"
   PACKAGE: "./packages/app"
+  NODE_ENV: "production"
+  ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+  REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
+  MONGO_PW: ${{ secrets.MONGO_PW }}
 
 jobs:
   BuildAndPushImageToECR:
