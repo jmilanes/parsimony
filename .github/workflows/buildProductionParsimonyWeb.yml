@@ -15,7 +15,7 @@ env:
   ECS_SERVICE: "ParsimonyWebServiceHTTPS"
   ECS_CLUSTER: "ParsimonyWebCluster"
   ECS_TASK_DEFINITION: "./ParsimonyWebDefinition.json"
-  CONTAINER_NAME: "parsimony-web"
+  CONTAINER_NAME: "ParsimonyWebContainer"
 
 jobs:
   BuildAndPushImageToECR:
