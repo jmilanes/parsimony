@@ -14,7 +14,7 @@ env:
   IMAGE_TAG: latest
   ECS_SERVICE: "ParsimonyWebServiceHTTPS"
   ECS_CLUSTER: "ParsimonyWebCluster"
-  ECS_TASK_DEFINITION: "ParsimonyWebDefinition"
+  ECS_TASK_DEFINITION: "/ecs/ParsimonyWebDefinition"
   CONTAINER_NAME: "parsimony-web"
 
 jobs:
