@@ -1,4 +1,4 @@
-name: "Build and push to Parsimony WEB Image to ERC"
+name: "Build and push to Parsimony API Image to ERC"
 
 on:
   push:
@@ -10,12 +10,12 @@ on:
 
 env:
   AWS_REGION: "us-east-1"
-  ECR_REPOSITORY: "parsimony-web"
+  ECR_REPOSITORY: "parsimony-api"
   IMAGE_TAG: latest
-  ECS_SERVICE: "ParsimonyWebServiceHTTPS"
+  ECS_SERVICE: "Parsimony-API-Service"
   ECS_CLUSTER: "ParsimonyWebCluster"
-  ECS_TASK_DEFINITION: "./aws/ParsimonyWebDefinition.json"
-  CONTAINER_NAME: "ParsimonyWebContainer"
+  ECS_TASK_DEFINITION: "./aws/ParsimonyAPIDefinition.json"
+  CONTAINER_NAME: "parsimony-api-container-latest"
   PACKAGE: "./packages/server"
 
 jobs:
@@ -35,7 +35,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       - name: Build, tag, and push image to Amazon ECR
-        working-directory: ${{ env.PACKAGE }}
+
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}

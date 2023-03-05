@@ -1,10 +1,10 @@
 import React from "react";
-import { Header, Selector } from "../components";
+import { Header } from "../components";
 
 const Home = () => {
   return (
     <>
-      <Header text="Parsimony | The Best in Behavior Tracking!!!" size="lg" />
+      <Header text="Parsimony | The Best in Behavior Tracking!" size="md" />
       <p>Things usually behave in the simplest way.</p>
       <Header text="Principle of Parsimony:" size="md" />
       <p>

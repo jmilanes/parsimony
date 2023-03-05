@@ -24,7 +24,7 @@ COPY .env.production ./.env
 RUN yarn build
 
 # Open Port TODO: Breakbroadcast into its own service 
-EXPOSE 4000 8080
+EXPOSE 4000
 
 # Docker Command to Start Service
 CMD [ "yarn", "start:prd"]
