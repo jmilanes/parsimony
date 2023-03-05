@@ -16,7 +16,7 @@ env:
   ECS_CLUSTER: "ParsimonyWebCluster"
   ECS_TASK_DEFINITION: "./aws/ParsimonyWebDefinition.json"
   CONTAINER_NAME: "ParsimonyWebContainer"
-  PACKAGE: "./packages/server"
+  PACKAGE: "./packages/app"
 
 jobs:
   BuildAndPushImageToECR:
