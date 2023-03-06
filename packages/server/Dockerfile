@@ -23,12 +23,11 @@ RUN yarn
 # Copy SRC
 COPY . .
 
-# COPY .env.production ./.env
+COPY .env.production ./.env
 
 RUN yarn build
 
-RUN echo "NODE_ENV=$NODE_ENV\n\
-ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET\n\
+RUN echo "ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET\n\
 REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET\n\
 MONGO_PW=$MONGO_PW" > ./.env
 
