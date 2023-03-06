@@ -42,7 +42,6 @@ jobs:
         run: |
           docker build \
            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-          --build-arg NODE_ENV="production" \
           --build-arg ACCESS_TOKEN_SECRET="${{ secrets.ACCESS_TOKEN_SECRET }}" \
           --build-arg REFRESH_TOKEN_SECRET="${{ secrets.REFRESH_TOKEN_SECRET }}" \
           --build-arg MONGO_PW="${{ secrets.MONGO_PW }}" \
