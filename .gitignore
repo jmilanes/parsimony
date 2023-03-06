@@ -5,5 +5,6 @@ node_modules
 /deploy-scripts
 /packages/e2e/cypress/videos/
 .env
+.env.productio
 .mp4
 .png
