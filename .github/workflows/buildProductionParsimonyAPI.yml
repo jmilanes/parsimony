@@ -40,12 +40,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          docker build \
-          --build-arg "NODE_ENV=production" \
-          --build-arg "ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}" \
-          --build-arg "REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}" \
-          --build-arg "MONGO_PW=${{ secrets.MONGO_PW }}" \
-          -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build --build-arg "NODE_ENV=production" --build-arg "ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}" --build-arg "REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}" --build-arg "MONGO_PW=${{ secrets.MONGO_PW }}" -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
       - name: Fill in the new image ID in the Amazon ECS task definition
