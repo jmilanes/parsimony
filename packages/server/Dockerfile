@@ -32,7 +32,7 @@ REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET\n\
 MONGO_PW=$MONGO_PW" > ./.env
 
 # Open Port TODO: Breakbroadcast into its own service 
-EXPOSE 80
+EXPOSE 4000
 
 # Docker Command to Start Service
 CMD [ "yarn", "start:prd"]
