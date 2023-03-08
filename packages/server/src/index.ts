@@ -69,8 +69,7 @@ const server = new ApolloServer({
     const accessToken = req.headers.authorization.split(" ")[1];
     const currentUser = await tokenService.verifyAccessToken(accessToken);
     return { currentUser };
-  },
-  onHealthCheck: () => new Promise((resolve) => resolve(true))
+  }
 });
 
 server.listen().then(({ url }: { url: string }) => {
