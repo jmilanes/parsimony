@@ -33,6 +33,7 @@
     "@graphql-codegen/typescript-resolvers": "2.7.1",
     "@parsimony/types": "1.1.5",
     "@types/jest": "^28.1.2",
+    "@types/jsonwebtoken": "^9.0.1",
     "jest": "^28.1.1",
     "supertest": "^6.2.3",
     "ts-jest": "^28.0.5",
