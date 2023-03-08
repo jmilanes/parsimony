@@ -59,7 +59,6 @@ const server = new ApolloServer({
   typeDefs: graphQlConfig.typeDefs,
   resolvers: graphQlConfig.createResolvers(resolverUtils),
   async context({ req }: { req: any }) {
-    console.log("🚀 ~ GUESSING HEALTH CHECK:", req);
     const isIgnoredAuthorizationQuery = ignoredAuthorizationQueries.some(
       (ignoredQuery) => req.body.query.includes(ignoredQuery)
     );
@@ -70,7 +69,8 @@ const server = new ApolloServer({
     const accessToken = req.headers.authorization.split(" ")[1];
     const currentUser = await tokenService.verifyAccessToken(accessToken);
     return { currentUser };
-  }
+  },
+  onHealthCheck: () => new Promise((resolve) => resolve(true))
 });
 
 server.listen().then(({ url }: { url: string }) => {
