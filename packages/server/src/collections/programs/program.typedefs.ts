@@ -51,6 +51,7 @@ export default gql`
     lastEditedBy: ID
     editedBy: [ID]
     createdBy: ID
+    steps: Int
     ruleStyle: RuleStyle
     mastered: Boolean
   }

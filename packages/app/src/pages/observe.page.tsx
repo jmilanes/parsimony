@@ -47,6 +47,7 @@ const Observe = () => {
         <ObserveRule
           rule={program.rules as []}
           updateResultData={observation.updatedResultsData}
+          programSteps={program.steps}
         />
       ) : (
         program.rules?.map(
@@ -56,6 +57,7 @@ const Observe = () => {
                 key={generateKey("observeRule", i)}
                 rule={rule}
                 updateResultData={observation.updatedResultsData}
+                programSteps={program.steps}
               />
             )
         )

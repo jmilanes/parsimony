@@ -17,25 +17,26 @@ import {
   parseResultsWithCompleteness
 } from "../utils";
 import "./styles.css";
-import { curry } from "ramda";
 
 export type IObserverRuleProps = React.PropsWithChildren<{
   rule: Rule | Rule[];
   updateResultData: (result: IResultData) => void;
+  programSteps: number;
   patentActiveState?: boolean;
 }>;
 
 export const ObserveRule = ({
   rule,
   updateResultData,
-  patentActiveState
+  patentActiveState,
+  programSteps
 }: IObserverRuleProps) => {
   // TODO: Revisit this and latest results
   const [active, setActive] = useState(patentActiveState || false);
   const [complete, setComplete] = useState(false);
   const [completeness, setCompleteness] = useState<ICompletenessState>({});
   const [results, setResults] = useState<IResultsState>({});
-  const [step, setStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const isGroup = Array.isArray(rule);
 
@@ -56,18 +57,17 @@ export const ObserveRule = ({
     patentActiveState !== undefined && setActive(patentActiveState);
   }, [patentActiveState]);
 
-  // TODO: Make this cleaner
   const incrementStep = (rule: Rule) => {
-    if (rule.steps && step === rule.steps) {
+    if (currentStep === programSteps) {
       setComplete(true);
       setActive(false);
       return;
     }
-    increment(step, setStep);
+    increment(currentStep, setCurrentStep);
   };
 
   const decrementStep = () => {
-    decrement(step, setStep);
+    decrement(currentStep, setCurrentStep);
     // need to destroy the current result if it has been updated (be able to remove from the array)
   };
 
@@ -95,7 +95,7 @@ export const ObserveRule = ({
 
   const selectOption = (
     option: RuleResultOption,
-    step: number,
+    currentStep: number,
     rule: Rule,
     targetId: string
   ) => {
@@ -109,7 +109,7 @@ export const ObserveRule = ({
       }
     }
     const obj: RuleResult = {
-      step,
+      step: currentStep,
       option,
       targetId,
       completed
@@ -118,8 +118,6 @@ export const ObserveRule = ({
     updateResults(obj, rule);
     !isGroup && incrementStep(rule);
   };
-
-  // TODO --END--
 
   const InactiveRule = (rule: Rule) => {
     const classes = isGroup
@@ -152,14 +150,14 @@ export const ObserveRule = ({
           />
         )}
         <Container>
-          {step > 1 && (
+          {currentStep > 1 && (
             <Button
               name="Back"
               action={decrementStep}
               metaTestId={ObservationMetaTestIds.revertStepBtn}
             />
           )}
-          {!isGroup && <h1>{step}</h1>}
+          {!isGroup && <h1>{currentStep}</h1>}
           {rule?.options?.map((option, i) => (
             <Button
               key={generateKey("optionButton", i)}
@@ -168,7 +166,7 @@ export const ObserveRule = ({
               action={() =>
                 selectOption(
                   option as RuleResultOption,
-                  step,
+                  currentStep,
                   rule,
                   getTargetId(rule)
                 )
@@ -189,7 +187,7 @@ export const ObserveRule = ({
   const GroupControls = ({ firstRule }: { firstRule: Rule }) => {
     return (
       <>
-        <h1>{step}</h1>
+        <h1>{currentStep}</h1>
         <Button
           name="Close"
           action={() => setActive(false)}
@@ -200,7 +198,7 @@ export const ObserveRule = ({
           action={() => incrementStep(firstRule)}
           metaTestId={ObservationMetaTestIds.nextRuleBtn}
         />
-        {step > 1 && (
+        {currentStep > 1 && (
           <Button
             name="Back"
             action={decrementStep}

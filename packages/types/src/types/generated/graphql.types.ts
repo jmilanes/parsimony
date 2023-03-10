@@ -20,7 +20,7 @@ export type AddMessagePayload = {
 };
 
 export type AuthPayload = {
-  authToken: Scalars['String'];
+  accessToken: Scalars['String'];
 };
 
 export type CreateDocumentPayload = {
@@ -62,6 +62,7 @@ export type CreateProgramPayload = {
   readAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
   ruleStyle?: InputMaybe<RuleStyle>;
   rules?: InputMaybe<Array<InputMaybe<RuleInput>>>;
+  steps?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<ProgramTypes>;
   writeAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
@@ -490,6 +491,7 @@ export type Program = {
   readAccess?: Maybe<Array<Maybe<UserRoles>>>;
   ruleStyle?: Maybe<RuleStyle>;
   rules?: Maybe<Array<Maybe<Rule>>>;
+  steps?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
   type?: Maybe<ProgramTypes>;
   updated_at?: Maybe<Scalars['Date']>;
@@ -670,7 +672,6 @@ export type Rule = {
   options?: Maybe<Array<Maybe<RuleOption>>>;
   question?: Maybe<Scalars['String']>;
   required?: Maybe<Scalars['Boolean']>;
-  steps?: Maybe<Scalars['Int']>;
   valueType?: Maybe<ProgramValueTypes>;
 };
 
@@ -681,7 +682,6 @@ export type RuleInput = {
   options?: InputMaybe<Array<InputMaybe<RuleOptionInput>>>;
   question?: InputMaybe<Scalars['String']>;
   required?: InputMaybe<Scalars['Boolean']>;
-  steps?: InputMaybe<Scalars['Int']>;
   valueType?: InputMaybe<ProgramValueTypes>;
 };
 
@@ -805,6 +805,7 @@ export type UpdateProgramPayload = {
   readAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
   ruleStyle?: InputMaybe<RuleStyle>;
   rules?: InputMaybe<Array<InputMaybe<RuleInput>>>;
+  steps?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<ProgramTypes>;
   writeAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
@@ -1238,6 +1239,7 @@ export type ProgramResolvers<ContextType = any, ParentType extends ResolversPare
   readAccess?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserRoles']>>>, ParentType, ContextType>;
   ruleStyle?: Resolver<Maybe<ResolversTypes['RuleStyle']>, ParentType, ContextType>;
   rules?: Resolver<Maybe<Array<Maybe<ResolversTypes['Rule']>>>, ParentType, ContextType>;
+  steps?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['ProgramTypes']>, ParentType, ContextType>;
   updated_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
@@ -1304,7 +1306,6 @@ export type RuleResolvers<ContextType = any, ParentType extends ResolversParentT
   options?: Resolver<Maybe<Array<Maybe<ResolversTypes['RuleOption']>>>, ParentType, ContextType>;
   question?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   required?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  steps?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   valueType?: Resolver<Maybe<ResolversTypes['ProgramValueTypes']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

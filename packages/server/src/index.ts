@@ -51,7 +51,8 @@ const ignoredAuthorizationQueries = [
   "me(",
   "login(",
   "logout(",
-  "resetPassword("
+  "resetPassword(",
+  "query IntrospectionQuery"
 ];
 
 const server = new ApolloServer({

@@ -11,12 +11,11 @@ import {
 } from "../components";
 import {
   initialRuleData,
-  initialOptionData,
   inputTypes,
   programValueTypes,
-  stepsOptions,
   promptsByType
 } from "../fixtures";
+import { message } from "antd";
 
 import {
   Program,
@@ -60,8 +59,22 @@ export const RulesForm = ({
     if (!localState.rules) return null;
     const rule = localState.rules[ruleIndex] as Rule;
     if (!rule.options) return null;
+
     const option = rule.options[index] as RuleOption;
     const metaTestQualifier = `rule-${ruleIndex}-prompt-${index}`;
+    const setOptionToTarget = () =>
+      updateState(
+        `rules[${ruleIndex}].options`,
+        setTargetOption(rule.options as RuleOption[], option.name || "")
+      );
+    const removeOption = () => {
+      if (option.target) {
+        message.error("You can't delete the target program!");
+        return;
+      }
+      deleteItem(rule.options || [], index, `rules[${ruleIndex}].options`);
+    };
+
     return (
       <Row key={generateKey("option", index)}>
         <Col xs={4}>
@@ -79,25 +92,14 @@ export const RulesForm = ({
           <Button
             disabled={readOnly}
             name="Delete Prompt"
-            action={() =>
-              deleteItem(
-                rule.options || [],
-                index,
-                `rules[${ruleIndex}].options`
-              )
-            }
+            action={removeOption}
             metaTestId={RulesFormMetaTestIds.deletePromptBtn}
             metaTestQualifier={metaTestQualifier}
           />
           <Button
             disabled={readOnly}
             name="Set to Target"
-            action={() =>
-              updateState(
-                `rules[${ruleIndex}].options`,
-                setTargetOption(rule.options as RuleOption[], option.name || "")
-              )
-            }
+            action={setOptionToTarget}
             metaTestId={RulesFormMetaTestIds.setToTargetBtn}
             metaTestQualifier={metaTestQualifier}
           />
@@ -144,19 +146,6 @@ export const RulesForm = ({
           />
         </Col>
 
-        <Col xs={12}>
-          <Selector
-            title="Steps"
-            pathToState={`rules[${index}].steps`}
-            value={rule.steps}
-            options={stepsOptions}
-            updateState={updateState}
-            readOnly={readOnly}
-            isNumber={true}
-            metaTestId={RulesFormMetaTestIds.stepsSelector}
-            metaTestQualifier={metaQualifier}
-          />
-        </Col>
         <Col xs={12}>
           <Checkbox
             title="Required"
@@ -216,7 +205,7 @@ export const RulesForm = ({
             pathToState={`rules[${index}].options`}
             updateState={updateState}
             generateRow={generateOption}
-            initialData={initialOptionData}
+            initialData={{ name: "", target: rule.options?.length === 0 }}
             readOnly={readOnly}
             renderAddButton={(addFn) => {
               return (

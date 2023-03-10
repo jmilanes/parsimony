@@ -19,7 +19,6 @@ const fullSchema = `
     id
     question
     description
-    steps
     options {
       id
       name
@@ -34,6 +33,7 @@ const fullSchema = `
   readAccess
   type
   title
+  steps
   lastEditedBy
   editedBy
   createdBy

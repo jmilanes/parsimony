@@ -26,6 +26,7 @@ export const initialProgramData: Program = {
   lastEditedBy: currentUser,
   editedBy: [currentUser],
   createdBy: currentUser,
+  steps: 1,
   rules: [],
   mastered: false
 };
@@ -34,7 +35,6 @@ export const initialRuleData = {
   id: "",
   question: "",
   description: "",
-  steps: 0,
   options: [],
   required: true,
   inputType: InputTypes.Radio,
@@ -42,7 +42,8 @@ export const initialRuleData = {
 };
 
 export const initialOptionData = {
-  name: ""
+  name: "",
+  target: false
 };
 
 export const programTypes: IOption[] = [
@@ -68,7 +69,6 @@ export const programValueTypes: IOption[] = [
 ];
 
 export const stepsOptions: IOption[] = [
-  { name: "0", value: 0 },
   { name: "1", value: 1 },
   { name: "2", value: 2 },
   { name: "3", value: 3 },
@@ -98,27 +98,27 @@ export const userRoleOptionsWithStringValues: IOption[] = [
 ];
 
 export const physicalPrompts: RuleOption[] = [
-  { name: Prompts.FullPhysical },
-  { name: Prompts.PartialPhysical },
-  { name: Prompts.LightPhysical },
-  { name: Prompts.Gesture },
-  { name: Prompts.Independent }
+  { name: Prompts.FullPhysical, target: true },
+  { name: Prompts.PartialPhysical, target: false },
+  { name: Prompts.LightPhysical, target: false },
+  { name: Prompts.Gesture, target: false },
+  { name: Prompts.Independent, target: false }
 ];
 
 export const verbalPrompts: RuleOption[] = [
-  { name: Prompts.FullVerbalModel },
-  { name: Prompts.PartialVerbalModel },
-  { name: Prompts.InitialSoundCue },
-  { name: Prompts.Phonetic },
-  { name: Prompts.Independent }
+  { name: Prompts.FullVerbalModel, target: true },
+  { name: Prompts.PartialVerbalModel, target: false },
+  { name: Prompts.InitialSoundCue, target: false },
+  { name: Prompts.Phonetic, target: false },
+  { name: Prompts.Independent, target: false }
 ];
 export const timePrompts: RuleOption[] = [
-  { name: Prompts.Immediate },
-  { name: Prompts.TwoSecondDelay },
-  { name: Prompts.FourSecondDelay },
-  { name: Prompts.SixSecondDelay },
-  { name: Prompts.EightSecondDelay },
-  { name: Prompts.TenSecondDelay }
+  { name: Prompts.Immediate, target: true },
+  { name: Prompts.TwoSecondDelay, target: false },
+  { name: Prompts.FourSecondDelay, target: false },
+  { name: Prompts.SixSecondDelay, target: false },
+  { name: Prompts.EightSecondDelay, target: false },
+  { name: Prompts.TenSecondDelay, target: false }
 ];
 
 export const promptsByType: Record<PromptTypes, RuleOption[]> = {

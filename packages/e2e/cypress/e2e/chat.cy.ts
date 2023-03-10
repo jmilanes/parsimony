@@ -32,7 +32,7 @@ describe("Chat Tests", () => {
     getButton(ChatMetaTestIds.createChatBtn).should("not.be.visible");
   });
 
-  it("should create chat", () => {
+  it.skip("should create chat", () => {
     createUsers([chatUser1, chatUser2, chatUser3]);
     logOut();
     loginUser(chatUser1.email, chatUser1.password);

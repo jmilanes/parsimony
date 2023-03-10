@@ -11,9 +11,10 @@ import {
   initialProgramData,
   programTypes,
   ruleStyles,
+  stepsOptions,
   userRoleOptions
 } from "../fixtures";
-import { IId, Program } from "@parsimony/types";
+import { Program } from "@parsimony/types";
 import {
   createList,
   getFullName,
@@ -186,6 +187,16 @@ const Programs = () => {
             metaTestId={ProgramsPageMetaTestIds.clientSelector}
           />
         )}
+
+        <Selector
+          title="Steps"
+          pathToState="steps"
+          value={localState.steps}
+          options={stepsOptions}
+          updateState={updateState}
+          isNumber={true}
+          metaTestId={ProgramsPageMetaTestIds.stepsSelector}
+        />
 
         <Selector
           title="Rule Style"

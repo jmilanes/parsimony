@@ -3154,14 +3154,6 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@parsimony/types@1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@parsimony/types/-/types-1.1.5.tgz#09b493152177ec7c27ad580da62e616bf52d0921"
-  integrity sha512-srzALdM8rDOB2kGwqlO9bdZI3wl24J9a/aylNZgMhR+VIhI4i5WHxxoa5Nu+CEHXQTDBV+KmQczbJx3NG1ny/Q==
-  dependencies:
-    react "^18.2.0"
-    typescript "^4.6.4"
-
 "@peculiar/asn1-schema@^2.1.6", "@peculiar/asn1-schema@^2.3.0":
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/@peculiar/asn1-schema/-/asn1-schema-2.3.3.tgz#21418e1f3819e0b353ceff0c2dad8ccb61acd777"

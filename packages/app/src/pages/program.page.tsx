@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { programTypes, ruleStyles, userRoleOptions } from "../fixtures";
+import {
+  programTypes,
+  ruleStyles,
+  stepsOptions,
+  userRoleOptions
+} from "../fixtures";
 import { RulesForm } from "../containers";
 import {
   Container,
@@ -146,6 +151,18 @@ const Program = () => {
           metaTestId={ProgramPageMetaTestIds.clientSelector}
         />
       )}
+
+      <Selector
+        title="Steps"
+        pathToState="steps"
+        value={localState.steps}
+        options={stepsOptions}
+        updateState={updateState}
+        isNumber={true}
+        readOnly={isReadOnlyMode(mode)}
+        metaTestId={ProgramPageMetaTestIds.stepsSelector}
+      />
+
       <Selector
         title="Rule Style"
         pathToState="ruleStyle"

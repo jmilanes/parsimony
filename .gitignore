@@ -4,6 +4,7 @@ node_modules
 .cache
 /deploy-scripts
 /packages/e2e/cypress/videos/
+/packages/e2e/cypress/screenshots/
 .env
 .env.productio
 .mp4

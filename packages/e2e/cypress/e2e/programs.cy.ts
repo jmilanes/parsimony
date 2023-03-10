@@ -26,6 +26,10 @@ const createProgramHelper = (program: Partial<Program>) => {
   getField(ProgramsPageMetaTestIds.descriptionField).type(program.description);
 
   selectOption(ProgramsPageMetaTestIds.typeSelector, program.type);
+  selectOption(
+    `${ProgramsPageMetaTestIds.stepsSelector}`,
+    program.steps.toString()
+  );
   selectOption(ProgramsPageMetaTestIds.ruleStyleSelector, program.ruleStyle);
   selectMultipleOptions(
     ProgramsPageMetaTestIds.readAccessMultiSelector,
@@ -44,10 +48,6 @@ const createProgramHelper = (program: Partial<Program>) => {
 
     getField(`${RulesFormMetaTestIds.descriptionField}-${ruleIndex}`).type(
       rule.description
-    );
-    selectOption(
-      `${RulesFormMetaTestIds.stepsSelector}-${ruleIndex}`,
-      rule.steps.toString()
     );
     getCheckBox(
       `${RulesFormMetaTestIds.requiredCheckbox}-${ruleIndex}`
@@ -84,6 +84,7 @@ const createProgramHelper = (program: Partial<Program>) => {
 
 beforeEach(() => {
   login();
+  cy.wait(2000);
 });
 
 afterEach(() => {

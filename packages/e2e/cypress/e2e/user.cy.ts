@@ -13,6 +13,7 @@ import { ROUTES, user1 } from "../fixtures";
 
 beforeEach(() => {
   login();
+  cy.wait(2000);
 });
 
 afterEach(() => {

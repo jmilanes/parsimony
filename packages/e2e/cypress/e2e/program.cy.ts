@@ -10,10 +10,11 @@ import {
   getSelect,
   login,
   readOnlyLocator,
-  selectOption
+  selectOption,
+  findText
 } from "../../utilities";
 import { DB_ACTIONS } from "../../utilities/db.utils";
-import { program1, programWithoutPrompts, ROUTES } from "../fixtures";
+import { programWithoutPrompts, ROUTES } from "../fixtures";
 
 beforeEach(() => {
   login();
@@ -30,6 +31,7 @@ describe("Program Page Tests", () => {
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getField(ProgramPageMetaTestIds.titleField).type("!!");
       getField(ProgramPageMetaTestIds.descriptionField).type("!!");
+      selectOption(ProgramPageMetaTestIds.stepsSelector, "2");
       selectOption(ProgramPageMetaTestIds.readAccessMultiSelector, "CLIENT");
       selectOption(ProgramPageMetaTestIds.writeAccessMultiSelector, "CLIENT");
       getButton(`${RulesFormMetaTestIds.deleteRuleBtn}-0`).click();
@@ -48,6 +50,10 @@ describe("Program Page Tests", () => {
       getSelect(
         readOnlyLocator(ProgramPageMetaTestIds.writeAccessMultiSelector)
       ).should("have.text", "DIRECTOR, CLIENT");
+      getSelect(readOnlyLocator(ProgramPageMetaTestIds.stepsSelector)).should(
+        "have.text",
+        "2"
+      );
       getButton(`${RulesFormMetaTestIds.deleteRuleBtn}-0`).should("not.exist");
     });
   });
@@ -58,6 +64,7 @@ describe("Program Page Tests", () => {
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getField(ProgramPageMetaTestIds.titleField).type("!!");
       getField(ProgramPageMetaTestIds.descriptionField).type("!!");
+      selectOption(ProgramPageMetaTestIds.stepsSelector, "2");
       selectOption(ProgramPageMetaTestIds.readAccessMultiSelector, "CLIENT");
       selectOption(ProgramPageMetaTestIds.writeAccessMultiSelector, "CLIENT");
       getButton(`${RulesFormMetaTestIds.deleteRuleBtn}-0`);
@@ -76,6 +83,10 @@ describe("Program Page Tests", () => {
       getSelect(
         readOnlyLocator(ProgramPageMetaTestIds.writeAccessMultiSelector)
       ).should("have.text", "DIRECTOR");
+      getSelect(readOnlyLocator(ProgramPageMetaTestIds.stepsSelector)).should(
+        "have.text",
+        "4"
+      );
       getButton(`${RulesFormMetaTestIds.deleteRuleBtn}-0`).should("exist");
     });
   });
@@ -88,6 +99,7 @@ describe("Program Page Tests", () => {
         `${RulesFormMetaTestIds.preSelectedPhysicalPromptsBtn}-0`
       ).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
+      findText("Target Prompt");
       getField(
         readOnlyLocator(
           `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
@@ -124,6 +136,7 @@ describe("Program Page Tests", () => {
         `${RulesFormMetaTestIds.preSelectedVerbalPromptsBtn}-0`
       ).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
+      findText("Target Prompt");
       getField(
         readOnlyLocator(
           `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
@@ -158,6 +171,7 @@ describe("Program Page Tests", () => {
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getButton(`${RulesFormMetaTestIds.preSelectedTimePromptsBtn}-0`).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
+      findText("Target Prompt");
       getField(
         readOnlyLocator(
           `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
@@ -188,6 +202,105 @@ describe("Program Page Tests", () => {
           `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-5`
         )
       ).should("have.text", Prompts.TenSecondDelay);
+    });
+  });
+
+  it("should delete a prompt", () => {
+    DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
+      cy.visit(`${ROUTES.programs}/${id}`);
+      getButton(ProgramPageMetaTestIds.editBtn).click();
+      getButton(`${RulesFormMetaTestIds.preSelectedTimePromptsBtn}-0`).click();
+      findText("Target Prompt");
+      getButton(
+        `${RulesFormMetaTestIds.deletePromptBtn}-rule-0-prompt-1`
+      ).click();
+      getButton(ProgramPageMetaTestIds.submitEditBtn).click();
+      findText(Prompts.TwoSecondDelay).should("not.exist");
+      getField(
+        readOnlyLocator(
+          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
+        )
+      ).should("have.text", Prompts.Immediate);
+      getField(
+        readOnlyLocator(
+          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`
+        )
+      ).should("have.text", Prompts.FourSecondDelay);
+      getField(
+        readOnlyLocator(
+          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-2`
+        )
+      ).should("have.text", Prompts.SixSecondDelay);
+      getField(
+        readOnlyLocator(
+          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-3`
+        )
+      ).should("have.text", Prompts.EightSecondDelay);
+      getField(
+        readOnlyLocator(
+          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-4`
+        )
+      ).should("have.text", Prompts.TenSecondDelay);
+    });
+  });
+
+  it("should add first prompt with target key", () => {
+    DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
+      cy.visit(`${ROUTES.programs}/${id}`);
+      getButton(ProgramPageMetaTestIds.editBtn).click();
+      getButton(`${RulesFormMetaTestIds.addPromptBtn}-0`).click();
+      getField(`${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`).type(
+        "Prompt 1"
+      );
+      getButton(`${RulesFormMetaTestIds.addPromptBtn}-0`).click();
+      getField(`${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`).type(
+        "Prompt 2"
+      );
+      findText("Target Prompt");
+      getButton(ProgramPageMetaTestIds.submitEditBtn).click();
+      findText(Prompts.TwoSecondDelay).should("not.exist");
+      getField(
+        readOnlyLocator(
+          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
+        )
+      ).should("have.text", "Prompt 1");
+      getField(
+        readOnlyLocator(
+          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`
+        )
+      ).should("have.text", "Prompt 2");
+    });
+  });
+
+  it("should not allow you to delete the target prompt", () => {
+    DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
+      cy.visit(`${ROUTES.programs}/${id}`);
+      getButton(ProgramPageMetaTestIds.editBtn).click();
+      getButton(`${RulesFormMetaTestIds.addPromptBtn}-0`).click();
+      getField(`${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`).type(
+        "Prompt 1"
+      );
+      getButton(`${RulesFormMetaTestIds.addPromptBtn}-0`).click();
+      getField(`${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`).type(
+        "Prompt 2"
+      );
+      findText("Target Prompt");
+      getButton(
+        `${RulesFormMetaTestIds.deletePromptBtn}-rule-0-prompt-0`
+      ).click();
+      findText("You can't delete the target program!");
+      getButton(ProgramPageMetaTestIds.submitEditBtn).click();
+      findText(Prompts.TwoSecondDelay).should("not.exist");
+      getField(
+        readOnlyLocator(
+          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
+        )
+      ).should("have.text", "Prompt 1");
+      getField(
+        readOnlyLocator(
+          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`
+        )
+      ).should("have.text", "Prompt 2");
     });
   });
 });

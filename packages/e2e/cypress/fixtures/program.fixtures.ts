@@ -14,11 +14,11 @@ export const program1 = {
   type: ProgramTypes.Main,
   mastered: false,
   ruleStyle: RuleStyle.Separate,
+  steps: 4,
   rules: [
     {
       question: "Has Client brushed their teeth",
       description: "This is a description",
-      steps: 4,
       options: [
         { name: "Full Physical" },
         { name: "Partial physical" },
@@ -44,11 +44,11 @@ export const programWithoutPrompts = {
   type: ProgramTypes.Main,
   mastered: false,
   ruleStyle: RuleStyle.Separate,
+  steps: 4,
   rules: [
     {
       question: "Has Client brushed their teeth",
       description: "This is a description",
-      steps: 4,
       options: [],
       required: true,
       inputType: InputTypes.Radio,
@@ -65,11 +65,11 @@ export const program2 = {
   type: ProgramTypes.Main,
   mastered: false,
   ruleStyle: RuleStyle.Separate,
+  steps: 4,
   rules: [
     {
       question: "Eaten Oat Meal",
       description: "This is a description",
-      steps: 4,
       options: [
         { name: "Full Physical" },
         { name: "Partial physical" },
@@ -87,7 +87,6 @@ export const program2 = {
     {
       question: "Eaten Eggs",
       description: "This is a description",
-      steps: 4,
       options: [
         { name: "Full Physical" },
         { name: "Partial physical" },
@@ -105,7 +104,6 @@ export const program2 = {
     {
       question: "Eaten Toast",
       description: "This is a description",
-      steps: 4,
       options: [
         { name: "Full Physical" },
         { name: "Partial physical" },

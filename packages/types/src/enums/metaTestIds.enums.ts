@@ -84,6 +84,7 @@ export enum ProgramsPageMetaTestIds {
   descriptionField = "add-program-description-field",
   typeSelector = "add-program-type-selector",
   clientSelector = "add-program-client-selector",
+  stepsSelector = "add-steps-selector",
   ruleStyleSelector = "add-program-rule-style-selector",
   writeAccessMultiSelector = "add-program-write-access-selector",
   readAccessMultiSelector = "add-program-read-access-selector",
@@ -105,7 +106,8 @@ export enum ProgramPageMetaTestIds {
   readAccessMultiSelector = "update-program-read-access-selector",
   clientProgramActionViewClient = "view-client-btn",
   clientProgramActionStartObservation = "start-observation-btn",
-  clientProgramActionViewProgramData = "view-program-data"
+  clientProgramActionViewProgramData = "view-program-data",
+  stepsSelector = "update-steps-selector"
 }
 
 export enum ObservationMetaTestIds {
@@ -126,7 +128,6 @@ export enum RulesFormMetaTestIds {
   deleteRuleBtn = "delete-rule-btn",
   questionField = "add-rule-question-field",
   descriptionField = "add-rule-description-field",
-  stepsSelector = "add-rule-steps-selector",
   requiredCheckbox = "add-rule-required-checkbox",
   inputTypeSelector = "add-rule-input-type-selector",
   valueTypeSelector = "add-rule-value-type-selector",
