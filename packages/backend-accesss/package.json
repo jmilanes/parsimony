@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/bal",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Parsimony Backend Access Library",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
