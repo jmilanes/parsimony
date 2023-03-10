@@ -16,6 +16,7 @@ export default gql`
     lastEditedBy: ID
     editedBy: [ID]
     createdBy: ID
+    steps: Int
     ruleStyle: RuleStyle
     updated_at: Date
     created_at: Date
@@ -26,7 +27,6 @@ export default gql`
     id: ID
     question: String
     description: String
-    steps: Int
     options: [RuleOption]
     required: Boolean
     inputType: InputTypes
@@ -77,6 +77,7 @@ export default gql`
     editedBy: [ID]
     createdBy: ID
     ruleStyle: RuleStyle
+    steps: Int
     mastered: Boolean
   }
 
@@ -89,7 +90,6 @@ export default gql`
     id: ID
     question: String
     description: String
-    steps: Int
     options: [RuleOptionInput]
     required: Boolean
     inputType: InputTypes

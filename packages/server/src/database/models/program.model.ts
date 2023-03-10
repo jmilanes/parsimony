@@ -16,7 +16,6 @@ const RuleOption = {
 const Rule = {
   question: String,
   description: String,
-  steps: Number,
   options: [RuleOption],
   required: Boolean,
   inputType: { type: String, enum: InputTypes },
@@ -36,5 +35,6 @@ export default {
   editedBy: [ObjectId],
   createdBy: ObjectId,
   mastered: Boolean,
+  steps: Number,
   ruleStyle: { type: String, enum: RuleStyle }
 };
