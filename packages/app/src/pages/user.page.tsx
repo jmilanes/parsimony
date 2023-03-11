@@ -35,6 +35,8 @@ import { navigateToRoute } from "../utils";
 import { Routes } from "@parsimony/types";
 import { IColumns, ITableAction } from "../components/table.component";
 import { useServices } from "../context";
+import { emit } from "process";
+import { message } from "antd";
 
 const User = () => {
   const { filterService, stateManager, dataAccess, store } = useServices();
@@ -65,6 +67,9 @@ const User = () => {
   });
 
   const submitForm = () => {
+    if (!localState.email) message.error("Please provide email");
+    // TODO: MAke this better
+    localState.email = localState.email?.toLowerCase();
     dataAccess.user.update(omitMongoKeys(localState));
     updateMode("readOnly");
   };

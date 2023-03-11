@@ -21,6 +21,7 @@ import { Pages } from "@parsimony/types";
 
 import { useServices } from "../context";
 import { encrypt } from "@parsimony/utilities";
+import { message } from "antd";
 
 const Users = () => {
   const { stateManager, dataAccess, store } = useServices();
@@ -46,6 +47,9 @@ const Users = () => {
       return;
     }
     localState.password = encrypt(localState.password);
+    if (!localState.email) message.error("Please provide email");
+    // TODO: Make this better
+    localState.email = localState.email?.toLowerCase();
     dataAccess.user.create(localState);
     setShowAddForm(false);
     updateLocalState(initialUserData);

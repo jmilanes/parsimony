@@ -22,7 +22,9 @@ export const login =
       payload: { email, password }
     }: { payload: { email: string; password: string } }
   ) => {
-    const user = await db.findEntry(modelTypes.user, { email });
+    const user = await db.findEntry(modelTypes.user, {
+      email: email.toLowerCase()
+    });
 
     if (!user) {
       throw Error("Invalid Email");

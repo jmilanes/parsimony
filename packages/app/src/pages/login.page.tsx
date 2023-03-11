@@ -11,12 +11,12 @@ const Login = ({ from }: { from: string }) => {
   const [password, setPassword] = useState("");
 
   const onLogin = () => {
-    authService.logIn(userName, password);
+    authService.logIn(userName.toLowerCase(), password);
   };
   // createShortCut("Enter", login);
 
   const onResetPassword = () => {
-    authService.resetPassword(userName, password);
+    authService.resetPassword(userName.toLowerCase(), password);
     setResetPasswordMode(false);
   };
 
