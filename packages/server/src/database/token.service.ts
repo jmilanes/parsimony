@@ -21,7 +21,7 @@ export default class TokensService {
    */
   public generateAccessToken(user: User) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET as string, {
-      expiresIn: "10m"
+      expiresIn: "5h"
     });
   }
 
@@ -63,7 +63,6 @@ export default class TokensService {
         currentUser = user;
       }
     );
-
     return { currentUser };
   }
 
@@ -83,7 +82,6 @@ export default class TokensService {
     }
 
     let userId;
-    let accessToken;
     this._verifyToken(
       token,
       process.env.REFRESH_TOKEN_SECRET as string,
@@ -92,11 +90,11 @@ export default class TokensService {
           throw Error(err);
         }
         userId = user;
-        accessToken = this.generateAccessToken(user);
       }
     );
 
     const user = await this._db.findEntry(modelTypes.user, { _id: userId });
+    const accessToken = this.generateAccessToken(user.toObject());
 
     return { accessToken, user };
   }

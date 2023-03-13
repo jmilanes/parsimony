@@ -39,7 +39,7 @@ export default class AuthService {
           localStorage.setItem("currentUserId", this.currentUser.id);
         })
         .catch((e) => {
-          this._clearLogoOutData();
+          this._clearAuthData();
         });
     }
   }
@@ -67,11 +67,11 @@ export default class AuthService {
 
   logOut = () => {
     if (!this.getRefreshToken()) {
-      this._clearLogoOutData();
+      this._clearAuthData();
     }
     logout({ refreshToken: this.getRefreshToken() }).then(
       (response: LogOutResponse) => {
-        this._clearLogoOutData();
+        this._clearAuthData();
       }
     );
   };
@@ -95,7 +95,7 @@ export default class AuthService {
   setAccessToken = (accessToken: string) =>
     localStorage.setItem("accessToken", accessToken);
 
-  private _clearLogoOutData = () => {
+  private _clearAuthData = () => {
     this.currentUser = undefined;
     localStorage.setItem("isLoggedIn", "false");
     localStorage.removeItem("accessToken");

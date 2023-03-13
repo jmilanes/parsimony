@@ -6,16 +6,6 @@ const PRODUCTION_URL = "https://api.parsimony.app/";
 
 const SERVER_URL = envIs("prod") ? PRODUCTION_URL : LOCAL_URL;
 
-export const requestParams = {
-  method: "POST",
-  headers: {
-    // TODO Think though how all this local storage stuff should be accessed and the order of operations of init/async work
-    Authorization: `Bearer ${localStorage?.getItem("accessToken")}`,
-    "Content-Type": "application/json",
-    mode: "no-cors"
-  }
-};
-
 export const createBody = (query: string, variables?: IObject) => {
   const body = {
     query,
@@ -25,6 +15,14 @@ export const createBody = (query: string, variables?: IObject) => {
 };
 
 export const createRequestOptions = <P>(mutation: string, payload?: P) => {
+  const requestParams = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage?.getItem("accessToken")}`,
+      "Content-Type": "application/json",
+      mode: "no-cors"
+    }
+  };
   return {
     ...requestParams,
     body: createBody(mutation, { payload })
