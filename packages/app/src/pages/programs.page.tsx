@@ -5,7 +5,8 @@ import {
   Collections,
   Pages,
   ProgramsPageMetaTestIds,
-  User
+  User,
+  Routes
 } from "@parsimony/types";
 import {
   initialProgramData,
@@ -78,7 +79,11 @@ const Programs = () => {
       key: "clientId",
       title: "Client Id",
       dataIndex: "clientId",
-      displayFn: getClientFullName(clients)
+      displayFn: (id) => (
+        <a onClick={() => navigate(`${Routes.Users}/${id}`)}>
+          {getClientFullName(clients)(id)}
+        </a>
+      )
     },
     { key: "type", title: "Type", dataIndex: "type" },
     { key: "description", title: "Description", dataIndex: "description" },
@@ -109,14 +114,18 @@ const Programs = () => {
         dataAccess.program.delete({ id: program.id })
     },
     {
-      name: "Copy",
+      name: "Add to Client",
       method: async (program: Required<Program>) => {
-        program.mainProgramId = program.id;
+        const latestProgram = store.getCollectionItem(
+          Collections.Program,
+          program.id
+        );
+        latestProgram.mainProgramId = program.id;
         const userId = searchParams.get("userId");
         const payload = omitMongoKeys(
           removeMongoIds({
-            ...program,
-            title: `${program.title}_Copy`,
+            ...latestProgram,
+            title: `${latestProgram.title}_Copy`,
             clientId: userId || null,
             type: ProgramTypes.Client
           })

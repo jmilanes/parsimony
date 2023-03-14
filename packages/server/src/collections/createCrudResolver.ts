@@ -81,9 +81,10 @@ export class CrudResolvers {
     ({ db }: ICreateResolverParams) =>
     async (
       _: any,
-      { relationshipProperty, id }: { relationshipProperty: string; id: string }
-    ) =>
-      await db.findEntries(this.model, {
-        [relationshipProperty]: id
+      { payload }: { payload: { relationshipProperty: string; id: string } }
+    ) => {
+      return await db.findEntries(this.model, {
+        [payload.relationshipProperty]: payload.id
       });
+    };
 }

@@ -9,9 +9,7 @@ import {
   MultiSelect,
   Button,
   Table,
-  Row,
-  FileUpload,
-  ReadOnly
+  Row
 } from "../components";
 
 import {
@@ -20,7 +18,8 @@ import {
   Program,
   UpdateUserPayload,
   User,
-  UserPageMetaTestIds
+  UserPageMetaTestIds,
+  Routes
 } from "@parsimony/types";
 
 import {
@@ -32,10 +31,9 @@ import {
   omitMongoKeys
 } from "../utils";
 import { navigateToRoute } from "../utils";
-import { Routes } from "@parsimony/types";
+
 import { IColumns, ITableAction } from "../components/table.component";
 import { useServices } from "../context";
-import { emit } from "process";
 import { message } from "antd";
 
 const User = () => {
@@ -68,14 +66,18 @@ const User = () => {
 
   const submitForm = () => {
     if (!localState.email) message.error("Please provide email");
-    // TODO: MAke this better
+    // TODO: Make this better
     localState.email = localState.email?.toLowerCase();
     dataAccess.user.update(omitMongoKeys(localState));
     updateMode("readOnly");
   };
 
   const columns: IColumns[] = [
-    { key: "title", dataIndex: "title", title: "title" },
+    {
+      key: "title",
+      dataIndex: "title",
+      title: "title"
+    },
     { key: "description", dataIndex: "description", title: "description" }
   ];
 
@@ -87,6 +89,10 @@ const User = () => {
     {
       name: "View Data",
       method: (program: Program) => navigate(`/results/${program.id}`)
+    },
+    {
+      name: "View Program",
+      method: (program: Program) => navigate(`/programs/${program.id}`)
     }
   ];
 
