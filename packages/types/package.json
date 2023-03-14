@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/types",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "description": "Parsimony Types Library",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,7 +9,7 @@
     "clean": "tsc --build --clean"
   },
   "files": [
-    "dist"
+    "dist/types"
   ],
   "dependencies": {
     "react": "^18.2.0",
