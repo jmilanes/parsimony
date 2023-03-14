@@ -2,28 +2,28 @@ import React from "react";
 import { clone } from "../utils";
 import {
   ResultData,
-  Rule,
-  RuleResult,
   IResultsState,
   ICompletenessState,
-  IResultData
+  IResultData,
+  Target,
+  TargetResult
 } from "@parsimony/types";
 
-export type IObserverRuleProps = React.PropsWithChildren<{
-  rule: Rule | Rule[];
+export type IObserverTargetProps = React.PropsWithChildren<{
+  target: Target | Target[];
   onComplete: (result: IResultData) => void;
   patentActiveState?: boolean;
 }>;
 
 export const calculateCompleteness = (
-  rule: Rule,
-  results: RuleResult[],
+  target: Target,
+  results: TargetResult[],
   completenessObj: ICompletenessState
 ) => {
   const max = results.length;
   const resultSum = results.filter((result) => !!result.completed).length;
   const completenessTotal = (resultSum / max) * 100;
-  completenessObj[rule.id as string] = completenessTotal;
+  completenessObj[target.id as string] = completenessTotal;
   return completenessTotal;
 };
 
@@ -32,11 +32,11 @@ export const parseResultsWithCompleteness = (
   results: IResultsState,
   completeness: ICompletenessState,
   setCompleteness: (c: ICompletenessState) => void,
-  rule: Rule | Rule[]
+  target: Target | Target[]
 ) => {
   const cloneCompleteness = clone(completeness);
   const parsedResults = Object.entries(results).reduce(
-    createResult(cloneCompleteness, rule, results),
+    createResult(cloneCompleteness, target, results),
     {}
   );
   setCompleteness(cloneCompleteness);
@@ -46,25 +46,25 @@ export const parseResultsWithCompleteness = (
 export const createResult =
   (
     completeness: ICompletenessState,
-    rule: Rule | Rule[],
+    target: Target | Target[],
     results: IResultsState
   ) =>
-  (acc: IResultData, [key, value]: [string, RuleResult[]]) => {
-    const processedRule = Array.isArray(rule)
-      ? rule.find((rule) => rule.id === key)
-      : rule;
+  (acc: IResultData, [key, value]: [string, TargetResult[]]) => {
+    const processedTarget = Array.isArray(target)
+      ? target.find((target) => target.id === key)
+      : target;
 
-    const ruleCompleteness = processedRule
-      ? calculateCompleteness(processedRule, value, completeness)
+    const targetCompleteness = processedTarget
+      ? calculateCompleteness(processedTarget, value, completeness)
       : 0;
 
     acc[key] = {
-      ruleId: processedRule?.id,
-      ruleCompleteness,
-      ruleResults: results[key]
+      targetId: processedTarget?.id,
+      targetCompleteness,
+      targetResults: results[key]
     } as ResultData;
 
     return acc;
   };
 
-export default class HandleRuleService {}
+export default class HandleTargetService {}

@@ -10,7 +10,7 @@ import {
   Col
 } from "../components";
 import {
-  initialRuleData,
+  initialTargetData,
   inputTypes,
   programValueTypes,
   promptsByType
@@ -20,16 +20,17 @@ import { message } from "antd";
 import {
   Program,
   PromptTypes,
-  Rule,
-  RuleOption,
-  RulesFormMetaTestIds
+  RulesFormMetaTestIds,
+  Target,
+  TargetOption
 } from "@parsimony/types";
 import { generateKey, removeItemByIndex } from "../utils";
 import "./styles.css";
 
-type RuleFormProps = {
+type TargetFormProps = {
   localState: Program;
   readOnly?: boolean;
+  //TODO Name this better / just move to a better service
   updateState: (path: string, value: unknown) => void;
 };
 
@@ -39,15 +40,15 @@ const prefilledPromptBtnMetaTestIds = {
   [PromptTypes.Time]: RulesFormMetaTestIds.preSelectedTimePromptsBtn
 };
 
-export const RulesForm = ({
+export const TargetForm = ({
   localState,
   readOnly = false,
   updateState
-}: RuleFormProps) => {
+}: TargetFormProps) => {
   const deleteItem = (arr: any[], index: number, path: string) =>
     updateState(path, removeItemByIndex(arr, index));
 
-  const setTargetOption = (options: RuleOption[], targetName: string) =>
+  const setTargetOption = (options: TargetOption[], targetName: string) =>
     options?.map((option) => {
       option?.name === targetName
         ? (option.target = true)
@@ -55,32 +56,37 @@ export const RulesForm = ({
       return option;
     });
 
-  const option = (ruleIndex: number) => (index: number) => {
-    if (!localState.rules) return null;
-    const rule = localState.rules[ruleIndex] as Rule;
-    if (!rule.options) return null;
+  const option = (targetIndex: number) => (optionIndex: number) => {
+    if (!localState.targets) return null;
+    const target = localState.targets[targetIndex] as Target;
+    if (!target.options) return null;
 
-    const option = rule.options[index] as RuleOption;
-    const metaTestQualifier = `rule-${ruleIndex}-prompt-${index}`;
+    const option = target.options[optionIndex] as TargetOption;
+    // TODO Change when you change test ids
+    const metaTestQualifier = `rule-${targetIndex}-prompt-${optionIndex}`;
     const setOptionToTarget = () =>
       updateState(
-        `rules[${ruleIndex}].options`,
-        setTargetOption(rule.options as RuleOption[], option.name || "")
+        `targets[${targetIndex}].options`,
+        setTargetOption(target.options as TargetOption[], option.name || "")
       );
     const removeOption = () => {
       if (option.target) {
         message.error("You can't delete the target program!");
         return;
       }
-      deleteItem(rule.options || [], index, `rules[${ruleIndex}].options`);
+      deleteItem(
+        target.options || [],
+        optionIndex,
+        `targets[${targetIndex}].options`
+      );
     };
 
     return (
-      <Row key={generateKey("option", index)}>
+      <Row key={generateKey("option", optionIndex)}>
         <Col xs={4}>
           <Field
             placeHolderText="Prompt Name"
-            pathToState={`rules[${ruleIndex}].options[${index}].name`}
+            pathToState={`targets[${targetIndex}].options[${optionIndex}].name`}
             value={option.name}
             updateState={updateState}
             readOnly={readOnly}
@@ -109,25 +115,25 @@ export const RulesForm = ({
     );
   };
 
-  const rule = (index: number) => {
+  const target = (index: number) => {
     const generateOption = option(index);
-    if (!localState.rules) return null;
-    const rule = localState.rules[index] as Rule;
+    if (!localState.targets) return null;
+    const target = localState.targets[index] as Target;
     const metaQualifier = index.toString();
     return (
-      <Row className="add-rule-row" key={generateKey("rule", index)}>
+      <Row className="add-target-row" key={generateKey("target", index)}>
         <Button
-          name="Delete Rule"
+          name="Delete Target"
           disabled={readOnly}
-          action={() => deleteItem(localState.rules || [], index, "rules")}
+          action={() => deleteItem(localState.targets || [], index, "targets")}
           metaTestId={RulesFormMetaTestIds.deleteRuleBtn}
           metaTestQualifier={metaQualifier}
         />
         <Col xs={12}>
           <Field
-            placeHolderText="Question"
-            pathToState={`rules[${index}].question`}
-            value={rule.question}
+            placeHolderText="Title"
+            pathToState={`targets[${index}].title`}
+            value={target.title}
             updateState={updateState}
             readOnly={readOnly}
             metaTestId={RulesFormMetaTestIds.questionField}
@@ -137,8 +143,8 @@ export const RulesForm = ({
         <Col xs={12}>
           <Field
             placeHolderText="Description"
-            pathToState={`rules[${index}].description`}
-            value={rule.description}
+            pathToState={`targets[${index}].description`}
+            value={target.description}
             updateState={updateState}
             readOnly={readOnly}
             metaTestId={RulesFormMetaTestIds.descriptionField}
@@ -149,8 +155,8 @@ export const RulesForm = ({
         <Col xs={12}>
           <Checkbox
             title="Required"
-            pathToState={`rules[${index}].required`}
-            value={!!rule.required}
+            pathToState={`targets[${index}].required`}
+            value={!!target.required}
             updateState={updateState}
             readOnly={readOnly}
             metaTestId={RulesFormMetaTestIds.requiredCheckbox}
@@ -160,8 +166,8 @@ export const RulesForm = ({
         <Col xs={12}>
           <Selector
             title="Input Type"
-            pathToState={`rules[${index}].inputType`}
-            value={rule.inputType}
+            pathToState={`targets[${index}].inputType`}
+            value={target.inputType}
             options={inputTypes}
             updateState={updateState}
             readOnly={readOnly}
@@ -172,8 +178,8 @@ export const RulesForm = ({
         <Col xs={12}>
           <Selector
             title="Value Type"
-            pathToState={`rules[${index}].valueType`}
-            value={rule.valueType}
+            pathToState={`targets[${index}].valueType`}
+            value={target.valueType}
             options={programValueTypes}
             updateState={updateState}
             readOnly={readOnly}
@@ -189,7 +195,7 @@ export const RulesForm = ({
               <Button
                 key={generateKey("pre-filled-prompt-button", key)}
                 name={key}
-                action={() => updateState(`rules[${index}].options`, value)}
+                action={() => updateState(`targets[${index}].options`, value)}
                 metaTestId={prefilledPromptBtnMetaTestIds[key as PromptTypes]}
                 metaTestQualifier={metaQualifier}
               />
@@ -200,17 +206,17 @@ export const RulesForm = ({
         {/* TODO Prob would be better to pass button it self in to the repeater*/}
         <Col xs={12}>
           <Repeater
-            title="Prompts"
-            items={rule.options || []}
-            pathToState={`rules[${index}].options`}
+            title="Target Options"
+            items={target.options || []}
+            pathToState={`targets[${index}].options`}
             updateState={updateState}
             generateRow={generateOption}
-            initialData={{ name: "", target: rule.options?.length === 0 }}
+            initialData={{ name: "", target: target.options?.length === 0 }}
             readOnly={readOnly}
             renderAddButton={(addFn) => {
               return (
                 <Button
-                  name="Add Prompt"
+                  name="Add Target Option"
                   action={addFn}
                   metaTestId={RulesFormMetaTestIds.addPromptBtn}
                   metaTestQualifier={metaQualifier}
@@ -225,17 +231,17 @@ export const RulesForm = ({
 
   return (
     <Repeater
-      title="Rules"
-      items={localState.rules || []}
-      pathToState={`rules`}
+      title="Targets"
+      items={localState.targets || []}
+      pathToState={`targets`}
       updateState={updateState}
-      generateRow={rule}
-      initialData={initialRuleData}
+      generateRow={target}
+      initialData={initialTargetData}
       readOnly={readOnly}
       renderAddButton={(addFn) => {
         return (
           <Button
-            name="Add Rule"
+            name="Add Target"
             action={addFn}
             metaTestId={RulesFormMetaTestIds.addRuleBtn}
           />

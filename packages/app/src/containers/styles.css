@@ -1,7 +1,7 @@
-.observeRule {
+.observeTarget {
   border: 1px solid black;
 }
 
-.observeRule.complete {
+.observeTarget.complete {
   border: 1px solid green;
 }

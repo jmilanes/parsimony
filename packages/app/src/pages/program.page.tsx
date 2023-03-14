@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import {
   programTypes,
-  ruleStyles,
-  stepsOptions,
+  targetStyles,
+  trialOptions,
   userRoleOptions
 } from "../fixtures";
-import { RulesForm } from "../containers";
+import { TargetForm } from "../containers";
 import {
   Container,
   Header,
@@ -153,10 +153,10 @@ const Program = () => {
       )}
 
       <Selector
-        title="Steps"
-        pathToState="steps"
-        value={localState.steps}
-        options={stepsOptions}
+        title="Trials"
+        pathToState="trials"
+        value={localState.trials}
+        options={trialOptions}
         updateState={updateState}
         isNumber={true}
         readOnly={isReadOnlyMode(mode)}
@@ -164,10 +164,10 @@ const Program = () => {
       />
 
       <Selector
-        title="Rule Style"
-        pathToState="ruleStyle"
-        value={localState.ruleStyle}
-        options={ruleStyles}
+        title="Target Style"
+        pathToState="targetStyle"
+        value={localState.targetStyle}
+        options={targetStyles}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.ruleStyleSelector}
@@ -218,8 +218,8 @@ const Program = () => {
         </Row>
       )}
 
-      {Array.isArray(localState.rules) && (
-        <RulesForm
+      {Array.isArray(localState.targets) && (
+        <TargetForm
           localState={localState}
           updateState={updateState}
           readOnly={isReadOnlyMode(mode)}

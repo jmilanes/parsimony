@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Collections, Pages, ProgramTypes, Result } from "@parsimony/types";
+import React, { useEffect } from "react";
+import { Collections, Pages, Result } from "@parsimony/types";
 import { Header } from "../components";
 import { getRouterParams } from "../utils";
 

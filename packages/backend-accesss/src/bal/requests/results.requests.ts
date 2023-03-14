@@ -16,11 +16,11 @@ const fullSchema = `
   clientId
   programCompleteness
   data {
-    ruleId
-    ruleCompleteness
-    ruleResults {
-      step
-      targetId
+    targetId
+    targetCompleteness
+    targetResults {
+      trial
+      targetOptionId
       completed
       option {
           name

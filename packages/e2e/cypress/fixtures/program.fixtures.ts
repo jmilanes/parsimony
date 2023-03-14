@@ -1,8 +1,9 @@
 import {
   InputTypes,
+  Program,
   ProgramTypes,
   ProgramValueTypes,
-  RuleStyle,
+  TargetStyle,
   UserRoles
 } from "@parsimony/types";
 
@@ -13,11 +14,11 @@ export const program1 = {
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,
   mastered: false,
-  ruleStyle: RuleStyle.Separate,
-  steps: 4,
-  rules: [
+  targetStyle: TargetStyle.Separate,
+  trials: 4,
+  targets: [
     {
-      question: "Has Client brushed their teeth",
+      title: "Has Client brushed their teeth",
       description: "This is a description",
       options: [
         { name: "Full Physical" },
@@ -43,11 +44,11 @@ export const programWithoutPrompts = {
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,
   mastered: false,
-  ruleStyle: RuleStyle.Separate,
-  steps: 4,
-  rules: [
+  targetStyle: TargetStyle.Separate,
+  trials: 4,
+  targets: [
     {
-      question: "Has Client brushed their teeth",
+      title: "Has Client brushed their teeth",
       description: "This is a description",
       options: [],
       required: true,
@@ -64,11 +65,11 @@ export const program2 = {
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,
   mastered: false,
-  ruleStyle: RuleStyle.Separate,
-  steps: 4,
-  rules: [
+  targetStyle: TargetStyle.Separate,
+  trials: 4,
+  targets: [
     {
-      question: "Eaten Oat Meal",
+      title: "Eaten Oat Meal",
       description: "This is a description",
       options: [
         { name: "Full Physical" },
@@ -85,7 +86,7 @@ export const program2 = {
       valueType: ProgramValueTypes.Number
     },
     {
-      question: "Eaten Eggs",
+      title: "Eaten Eggs",
       description: "This is a description",
       options: [
         { name: "Full Physical" },
@@ -102,7 +103,7 @@ export const program2 = {
       valueType: ProgramValueTypes.Number
     },
     {
-      question: "Eaten Toast",
+      title: "Eaten Toast",
       description: "This is a description",
       options: [
         { name: "Full Physical" },

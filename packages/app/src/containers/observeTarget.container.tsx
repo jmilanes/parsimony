@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button } from "../components";
 import {
-  Rule,
-  RuleResult,
   IResultsState,
   ICompletenessState,
   IResultData,
-  RuleResultOption,
-  ObservationMetaTestIds
+  ObservationMetaTestIds,
+  Target,
+  TargetResult,
+  TargetResultOption
 } from "@parsimony/types";
 import {
   increment,
@@ -18,19 +18,19 @@ import {
 } from "../utils";
 import "./styles.css";
 
-export type IObserverRuleProps = React.PropsWithChildren<{
-  rule: Rule | Rule[];
+export type IObserverTargetProps = React.PropsWithChildren<{
+  target: Target | Target[];
   updateResultData: (result: IResultData) => void;
-  programSteps: number;
+  programTrials: number;
   patentActiveState?: boolean;
 }>;
 
-export const ObserveRule = ({
-  rule,
+export const ObserveTarget = ({
+  target,
   updateResultData,
   patentActiveState,
-  programSteps
-}: IObserverRuleProps) => {
+  programTrials
+}: IObserverTargetProps) => {
   // TODO: Revisit this and latest results
   const [active, setActive] = useState(patentActiveState || false);
   const [complete, setComplete] = useState(false);
@@ -38,7 +38,7 @@ export const ObserveRule = ({
   const [results, setResults] = useState<IResultsState>({});
   const [currentStep, setCurrentStep] = useState(1);
 
-  const isGroup = Array.isArray(rule);
+  const isGroup = Array.isArray(target);
 
   useEffect(() => {
     if (Object.keys(results).length) {
@@ -46,7 +46,7 @@ export const ObserveRule = ({
         results,
         completeness,
         setCompleteness,
-        rule
+        target
       );
 
       updateResultData(latestResult);
@@ -57,8 +57,8 @@ export const ObserveRule = ({
     patentActiveState !== undefined && setActive(patentActiveState);
   }, [patentActiveState]);
 
-  const incrementStep = (rule: Rule) => {
-    if (currentStep === programSteps) {
+  const incrementStep = (target: Target) => {
+    if (currentStep === programTrials) {
       setComplete(true);
       setActive(false);
       return;
@@ -71,17 +71,20 @@ export const ObserveRule = ({
     // need to destroy the current result if it has been updated (be able to remove from the array)
   };
 
-  const updateRuleResultAtStep = (results: RuleResult[], data: RuleResult) => {
+  const updateTargetResultAtStep = (
+    results: TargetResult[],
+    data: TargetResult
+  ) => {
     const update = [...results];
-    const zeroIndexStep = (data.step || 1) - 1;
+    const zeroIndexStep = (data.trial || 1) - 1;
     update[zeroIndexStep] = data;
     return update;
   };
 
-  const updateResults = (resultData: RuleResult, rule: Rule) => {
-    const id = rule.id as string;
+  const updateResults = (resultData: TargetResult, target: Target) => {
+    const id = target.id as string;
     const updatedResultArray = results[id]
-      ? updateRuleResultAtStep(results[id], resultData)
+      ? updateTargetResultAtStep(results[id], resultData)
       : [resultData];
 
     setResults({
@@ -90,42 +93,42 @@ export const ObserveRule = ({
     });
   };
 
-  const getTargetId = (rule: Rule) =>
-    rule.options?.find((option) => !!option?.target)?.id || "";
+  const getTargetId = (target: Target) =>
+    target.options?.find((option) => !!option?.target)?.id || "";
 
   const selectOption = (
-    option: RuleResultOption,
+    option: TargetResultOption,
     currentStep: number,
-    rule: Rule,
+    target: Target,
     targetId: string
   ) => {
     let completed = true;
     // If the selection is above the target option then you get a 100% completeness
-    for (const opt of rule.options || []) {
+    for (const opt of target.options || []) {
       if (opt?.target) break;
       if (opt?.id === option.id) {
         completed = false;
         break;
       }
     }
-    const obj: RuleResult = {
-      step: currentStep,
+    const obj: TargetResult = {
+      trial: currentStep,
       option,
-      targetId,
+      targetOptionId: targetId,
       completed
     };
 
-    updateResults(obj, rule);
-    !isGroup && incrementStep(rule);
+    updateResults(obj, target);
+    !isGroup && incrementStep(target);
   };
 
-  const InactiveRule = (rule: Rule) => {
+  const InactiveTarget = (target: Target) => {
     const classes = isGroup
       ? undefined
-      : compileStyles({ observeRule: true, complete });
+      : compileStyles({ observeTarget: true, complete });
     return (
       <div className={classes}>
-        <p>{rule.question}</p>
+        <p>{target.title}</p>
         {!isGroup && (
           <Button
             name="Observe"
@@ -137,11 +140,13 @@ export const ObserveRule = ({
     );
   };
 
-  const ActiveRule = (rule: Rule) => {
+  const ActiveTarget = (target: Target) => {
     return (
       <>
-        <p>{rule.question}</p>
-        <p>Individual Completeness: {completeness[rule.id as string] || 0}%</p>
+        <p>{target.title}</p>
+        <p>
+          Individual Completeness: {completeness[target.id as string] || 0}%
+        </p>
         {!isGroup && (
           <Button
             name="Close"
@@ -158,17 +163,16 @@ export const ObserveRule = ({
             />
           )}
           {!isGroup && <h1>{currentStep}</h1>}
-          {rule?.options?.map((option, i) => (
+          {target?.options?.map((option, i) => (
             <Button
               key={generateKey("optionButton", i)}
               name={option?.name as string}
-              //!! RuleResultOption and RuleOption are the same thing in type def need to share...
               action={() =>
                 selectOption(
-                  option as RuleResultOption,
+                  option as TargetResultOption,
                   currentStep,
-                  rule,
-                  getTargetId(rule)
+                  target,
+                  getTargetId(target)
                 )
               }
               // TODO: Test id with option name
@@ -181,10 +185,10 @@ export const ObserveRule = ({
     );
   };
 
-  const SingleRule = (rule: Rule) =>
-    active ? <ActiveRule {...rule} /> : <InactiveRule {...rule} />;
+  const SingleTarget = (target: Target) =>
+    active ? <ActiveTarget {...target} /> : <InactiveTarget {...target} />;
 
-  const GroupControls = ({ firstRule }: { firstRule: Rule }) => {
+  const GroupControls = ({ firstTarget }: { firstTarget: Target }) => {
     return (
       <>
         <h1>{currentStep}</h1>
@@ -195,7 +199,7 @@ export const ObserveRule = ({
         />
         <Button
           name="Next Step"
-          action={() => incrementStep(firstRule)}
+          action={() => incrementStep(firstTarget)}
           metaTestId={ObservationMetaTestIds.nextRuleBtn}
         />
         {currentStep > 1 && (
@@ -209,12 +213,12 @@ export const ObserveRule = ({
     );
   };
 
-  const GroupRule = () => {
+  const GroupTarget = () => {
     return isGroup ? (
-      <div className={compileStyles({ observeRule: true, complete })}>
-        {active && <GroupControls firstRule={rule[0]} />}
-        {rule.map((rule, i) => (
-          <SingleRule key={i} {...rule} />
+      <div className={compileStyles({ observeTarget: true, complete })}>
+        {active && <GroupControls firstTarget={target[0]} />}
+        {target.map((target, i) => (
+          <SingleTarget key={i} {...target} />
         ))}
         <Button
           name="Observe"
@@ -225,5 +229,5 @@ export const ObserveRule = ({
     ) : null;
   };
 
-  return isGroup ? <GroupRule /> : <SingleRule {...rule} />;
+  return isGroup ? <GroupTarget /> : <SingleTarget {...target} />;
 };

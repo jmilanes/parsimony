@@ -6,11 +6,12 @@ import {
   ProgramValueTypes,
   Prompts,
   PromptTypes,
-  RuleOption,
-  RuleStyle,
-  UserRoles
+  TargetOption,
+  TargetStyle,
+  UserRoles,
+  Program,
+  Target
 } from "@parsimony/types";
-import { Program } from "@parsimony/types";
 
 const currentUser = localStorage.getItem("currentUserId");
 
@@ -20,20 +21,21 @@ export const initialProgramData: Program = {
   id: "",
   title: "",
   description: "",
+  materials: "",
   writeAccess: [],
   readAccess: [],
   type: ProgramTypes.Main,
   lastEditedBy: currentUser,
   editedBy: [currentUser],
   createdBy: currentUser,
-  steps: 1,
-  rules: [],
+  trials: 1,
+  targets: [],
   mastered: false
 };
 
-export const initialRuleData = {
+export const initialTargetData: Target = {
   id: "",
-  question: "",
+  title: "",
   description: "",
   options: [],
   required: true,
@@ -51,9 +53,9 @@ export const programTypes: IOption[] = [
   { name: ProgramTypes.Client, value: ProgramTypes.Client }
 ];
 
-export const ruleStyles: IOption[] = [
-  { name: RuleStyle.Separate, value: RuleStyle.Separate },
-  { name: RuleStyle.Group, value: RuleStyle.Group }
+export const targetStyles: IOption[] = [
+  { name: TargetStyle.Separate, value: TargetStyle.Separate },
+  { name: TargetStyle.Group, value: TargetStyle.Group }
 ];
 
 export const inputTypes: IOption[] = [
@@ -68,7 +70,7 @@ export const programValueTypes: IOption[] = [
   { name: ProgramValueTypes.Date, value: ProgramValueTypes.Date }
 ];
 
-export const stepsOptions: IOption[] = [
+export const trialOptions: IOption[] = [
   { name: "1", value: 1 },
   { name: "2", value: 2 },
   { name: "3", value: 3 },
@@ -97,7 +99,7 @@ export const userRoleOptionsWithStringValues: IOption[] = [
   { name: UserRoles.Guardian, value: UserRoles.Guardian }
 ];
 
-export const physicalPrompts: RuleOption[] = [
+export const physicalPrompts: TargetOption[] = [
   { name: Prompts.FullPhysical, target: true },
   { name: Prompts.PartialPhysical, target: false },
   { name: Prompts.LightPhysical, target: false },
@@ -105,14 +107,14 @@ export const physicalPrompts: RuleOption[] = [
   { name: Prompts.Independent, target: false }
 ];
 
-export const verbalPrompts: RuleOption[] = [
+export const verbalPrompts: TargetOption[] = [
   { name: Prompts.FullVerbalModel, target: true },
   { name: Prompts.PartialVerbalModel, target: false },
   { name: Prompts.InitialSoundCue, target: false },
   { name: Prompts.Phonetic, target: false },
   { name: Prompts.Independent, target: false }
 ];
-export const timePrompts: RuleOption[] = [
+export const timePrompts: TargetOption[] = [
   { name: Prompts.Immediate, target: true },
   { name: Prompts.TwoSecondDelay, target: false },
   { name: Prompts.FourSecondDelay, target: false },
@@ -121,7 +123,7 @@ export const timePrompts: RuleOption[] = [
   { name: Prompts.TenSecondDelay, target: false }
 ];
 
-export const promptsByType: Record<PromptTypes, RuleOption[]> = {
+export const promptsByType: Record<PromptTypes, TargetOption[]> = {
   [PromptTypes.Physical]: physicalPrompts,
   [PromptTypes.Verbal]: verbalPrompts,
   [PromptTypes.Time]: timePrompts

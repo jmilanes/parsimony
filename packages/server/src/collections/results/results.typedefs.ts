@@ -14,41 +14,41 @@ export default gql`
   }
 
   type ResultData {
-    ruleId: ID
-    ruleCompleteness: Float
-    ruleResults: [RuleResult]
-  }
-
-  type RuleResult {
-    step: Int
     targetId: ID
-    completed: Boolean
-    option: RuleResultOption
+    targetCompleteness: Float
+    targetResults: [TargetResult]
   }
 
-  type RuleResultOption {
+  type TargetResult {
+    trial: Int
+    targetOptionId: ID
+    completed: Boolean
+    option: TargetResultOption
+  }
+
+  type TargetResultOption {
     id: ID
     name: String
     target: Boolean
   }
 
-  input RuleResultOptionInput {
+  input TargetResultOptionInput {
     id: ID
     name: String
     target: Boolean
   }
 
-  input RuleResultInput {
-    step: Int
-    option: RuleResultOptionInput
+  input TargetResultInput {
+    trial: Int
+    option: TargetResultOptionInput
     completed: Boolean
-    targetId: ID
+    targetOptionId: ID
   }
 
   input ResultDataInput {
-    ruleId: ID
-    ruleCompleteness: Float
-    ruleResults: [RuleResultInput]
+    targetId: ID
+    targetCompleteness: Float
+    targetResults: [TargetResultInput]
   }
 
   input CreateResultPayload {

@@ -1,6 +1,6 @@
 import {
   ProgramTypes,
-  RuleStyle,
+  TargetStyle,
   UserRoles,
   InputTypes,
   ProgramValueTypes
@@ -8,15 +8,15 @@ import {
 
 import { ObjectId } from "mongodb";
 
-const RuleOption = {
+const TargetOption = {
   name: String,
   target: Boolean
 };
 
-const Rule = {
-  question: String,
+const Target = {
+  title: String,
   description: String,
-  options: [RuleOption],
+  options: [TargetOption],
   required: Boolean,
   inputType: { type: String, enum: InputTypes },
   valueType: { type: String, enum: ProgramValueTypes }
@@ -26,8 +26,9 @@ export default {
   title: String,
   mainProgramId: ObjectId,
   clientId: ObjectId,
-  rules: [Rule],
+  targets: [Target],
   description: String,
+  materials: String,
   writeAccess: [{ type: String, enum: UserRoles }],
   readAccess: [{ type: String, enum: UserRoles }],
   type: { type: String, enum: ProgramTypes },
@@ -35,6 +36,6 @@ export default {
   editedBy: [ObjectId],
   createdBy: ObjectId,
   mastered: Boolean,
-  steps: Number,
-  ruleStyle: { type: String, enum: RuleStyle }
+  trials: Number,
+  targetStyle: { type: String, enum: TargetStyle }
 };

@@ -8,7 +8,7 @@ export default gql`
     mainProgramId: ID
     title: String
     clientId: ID
-    rules: [Rule]
+    targets: [Target]
     description: String
     writeAccess: [UserRoles]
     readAccess: [UserRoles]
@@ -16,24 +16,25 @@ export default gql`
     lastEditedBy: ID
     editedBy: [ID]
     createdBy: ID
-    steps: Int
-    ruleStyle: RuleStyle
+    trials: Int
+    materials: String
+    targetStyle: TargetStyle
     updated_at: Date
     created_at: Date
     mastered: Boolean
   }
 
-  type Rule {
+  type Target {
     id: ID
-    question: String
+    title: String
     description: String
-    options: [RuleOption]
+    options: [TargetOption]
     required: Boolean
     inputType: InputTypes
     valueType: ProgramValueTypes
   }
 
-  type RuleOption {
+  type TargetOption {
     id: ID
     name: String
     target: Boolean
@@ -43,7 +44,7 @@ export default gql`
     title: String
     mainProgramId: ID
     clientId: ID
-    rules: [RuleInput]
+    targets: [TargetInput]
     description: String
     writeAccess: [UserRoles]
     readAccess: [UserRoles]
@@ -51,8 +52,9 @@ export default gql`
     lastEditedBy: ID
     editedBy: [ID]
     createdBy: ID
-    steps: Int
-    ruleStyle: RuleStyle
+    materials: String
+    trials: Int
+    targetStyle: TargetStyle
     mastered: Boolean
   }
 
@@ -69,7 +71,8 @@ export default gql`
     title: String
     mainProgramId: ID
     clientId: ID
-    rules: [RuleInput]
+    targets: [TargetInput]
+    materials: String
     description: String
     writeAccess: [UserRoles]
     readAccess: [UserRoles]
@@ -77,8 +80,8 @@ export default gql`
     lastEditedBy: ID
     editedBy: [ID]
     createdBy: ID
-    ruleStyle: RuleStyle
-    steps: Int
+    targetStyle: TargetStyle
+    trials: Int
     mastered: Boolean
   }
 
@@ -87,17 +90,17 @@ export default gql`
     id: ID!
   }
 
-  input RuleInput {
+  input TargetInput {
     id: ID
-    question: String
+    title: String
     description: String
-    options: [RuleOptionInput]
+    options: [TargetOptionInput]
     required: Boolean
     inputType: InputTypes
     valueType: ProgramValueTypes
   }
 
-  input RuleOptionInput {
+  input TargetOptionInput {
     id: ID
     name: String
     target: Boolean
@@ -128,7 +131,7 @@ export default gql`
     CLIENT
   }
 
-  enum RuleStyle {
+  enum TargetStyle {
     SEPARATE
     GROUP
   }

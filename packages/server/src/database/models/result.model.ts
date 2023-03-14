@@ -1,16 +1,16 @@
 import { ObjectId } from "mongodb";
 
-const RuleResult = {
-  step: Number,
+const TargetResult = {
+  trial: Number,
   option: { name: String },
-  targetId: ObjectId,
+  targetOptionId: ObjectId,
   completed: Boolean
 };
 
 const ResultData = {
-  ruleId: ObjectId,
-  ruleCompleteness: Number,
-  ruleResults: [RuleResult]
+  targetId: ObjectId,
+  targetCompleteness: Number,
+  targetResults: [TargetResult]
 };
 
 export default {

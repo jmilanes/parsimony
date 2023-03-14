@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Header, Button } from "../components";
 import { generateKey, getRouterParams, navigateToRoute } from "../utils";
-import { ObserveRule } from "../containers";
+import { ObserveTarget } from "../containers";
 import {
   Collections,
   ObservationMetaTestIds,
   Program,
-  Rule
+  Target,
+  TargetStyle
 } from "@parsimony/types";
-import { RuleStyle } from "@parsimony/types";
+
 import { useServices } from "../context";
 import ObservationService from "../services/observation.service";
 
@@ -31,7 +32,7 @@ const Observe = () => {
 
   if (!observation.isLoaded) return null;
 
-  const isGroup = program.ruleStyle === RuleStyle.Group;
+  const isGroup = program.targetStyle === TargetStyle.Group;
 
   const onSubmit = () =>
     dataAccess.result.create(observation.getResultsForCreation());
@@ -44,22 +45,21 @@ const Observe = () => {
         size="sm"
       />
       {isGroup ? (
-        <ObserveRule
-          rule={program.rules as []}
+        <ObserveTarget
+          target={program.targets as []}
           updateResultData={observation.updatedResultsData}
-          programSteps={program.steps}
+          programTrials={program.trials || 1}
         />
       ) : (
-        program.rules?.map(
-          (rule: Rule, i: any) =>
-            rule && (
-              <ObserveRule
-                key={generateKey("observeRule", i)}
-                rule={rule}
-                updateResultData={observation.updatedResultsData}
-                programSteps={program.steps}
-              />
-            )
+        program.targets?.map((target: Target, i: any) =>
+          target ? (
+            <ObserveTarget
+              key={generateKey("observeTarget", i)}
+              target={target}
+              updateResultData={observation.updatedResultsData}
+              programTrials={program.trials || 1}
+            />
+          ) : null
         )
       )}
       <Button

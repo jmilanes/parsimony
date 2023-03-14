@@ -59,11 +59,12 @@ export type CreateProgramPayload = {
   lastEditedBy?: InputMaybe<Scalars['ID']>;
   mainProgramId?: InputMaybe<Scalars['ID']>;
   mastered?: InputMaybe<Scalars['Boolean']>;
+  materials?: InputMaybe<Scalars['String']>;
   readAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
-  ruleStyle?: InputMaybe<RuleStyle>;
-  rules?: InputMaybe<Array<InputMaybe<RuleInput>>>;
-  steps?: InputMaybe<Scalars['Int']>;
+  targetStyle?: InputMaybe<TargetStyle>;
+  targets?: InputMaybe<Array<InputMaybe<TargetInput>>>;
   title?: InputMaybe<Scalars['String']>;
+  trials?: InputMaybe<Scalars['Int']>;
   type?: InputMaybe<ProgramTypes>;
   writeAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
 };
@@ -488,11 +489,12 @@ export type Program = {
   lastEditedBy?: Maybe<Scalars['ID']>;
   mainProgramId?: Maybe<Scalars['ID']>;
   mastered?: Maybe<Scalars['Boolean']>;
+  materials?: Maybe<Scalars['String']>;
   readAccess?: Maybe<Array<Maybe<UserRoles>>>;
-  ruleStyle?: Maybe<RuleStyle>;
-  rules?: Maybe<Array<Maybe<Rule>>>;
-  steps?: Maybe<Scalars['Int']>;
+  targetStyle?: Maybe<TargetStyle>;
+  targets?: Maybe<Array<Maybe<Target>>>;
   title?: Maybe<Scalars['String']>;
+  trials?: Maybe<Scalars['Int']>;
   type?: Maybe<ProgramTypes>;
   updated_at?: Maybe<Scalars['Date']>;
   writeAccess?: Maybe<Array<Maybe<UserRoles>>>;
@@ -653,83 +655,16 @@ export type Result = {
 
 export type ResultData = {
   __typename?: 'ResultData';
-  ruleCompleteness?: Maybe<Scalars['Float']>;
-  ruleId?: Maybe<Scalars['ID']>;
-  ruleResults?: Maybe<Array<Maybe<RuleResult>>>;
+  targetCompleteness?: Maybe<Scalars['Float']>;
+  targetId?: Maybe<Scalars['ID']>;
+  targetResults?: Maybe<Array<Maybe<TargetResult>>>;
 };
 
 export type ResultDataInput = {
-  ruleCompleteness?: InputMaybe<Scalars['Float']>;
-  ruleId?: InputMaybe<Scalars['ID']>;
-  ruleResults?: InputMaybe<Array<InputMaybe<RuleResultInput>>>;
-};
-
-export type Rule = {
-  __typename?: 'Rule';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  inputType?: Maybe<InputTypes>;
-  options?: Maybe<Array<Maybe<RuleOption>>>;
-  question?: Maybe<Scalars['String']>;
-  required?: Maybe<Scalars['Boolean']>;
-  valueType?: Maybe<ProgramValueTypes>;
-};
-
-export type RuleInput = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
-  inputType?: InputMaybe<InputTypes>;
-  options?: InputMaybe<Array<InputMaybe<RuleOptionInput>>>;
-  question?: InputMaybe<Scalars['String']>;
-  required?: InputMaybe<Scalars['Boolean']>;
-  valueType?: InputMaybe<ProgramValueTypes>;
-};
-
-export type RuleOption = {
-  __typename?: 'RuleOption';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  target?: Maybe<Scalars['Boolean']>;
-};
-
-export type RuleOptionInput = {
-  id?: InputMaybe<Scalars['ID']>;
-  name?: InputMaybe<Scalars['String']>;
-  target?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type RuleResult = {
-  __typename?: 'RuleResult';
-  completed?: Maybe<Scalars['Boolean']>;
-  option?: Maybe<RuleResultOption>;
-  step?: Maybe<Scalars['Int']>;
-  targetId?: Maybe<Scalars['ID']>;
-};
-
-export type RuleResultInput = {
-  completed?: InputMaybe<Scalars['Boolean']>;
-  option?: InputMaybe<RuleResultOptionInput>;
-  step?: InputMaybe<Scalars['Int']>;
+  targetCompleteness?: InputMaybe<Scalars['Float']>;
   targetId?: InputMaybe<Scalars['ID']>;
+  targetResults?: InputMaybe<Array<InputMaybe<TargetResultInput>>>;
 };
-
-export type RuleResultOption = {
-  __typename?: 'RuleResultOption';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  target?: Maybe<Scalars['Boolean']>;
-};
-
-export type RuleResultOptionInput = {
-  id?: InputMaybe<Scalars['ID']>;
-  name?: InputMaybe<Scalars['String']>;
-  target?: InputMaybe<Scalars['Boolean']>;
-};
-
-export enum RuleStyle {
-  Group = 'GROUP',
-  Separate = 'SEPARATE'
-}
 
 export type School = {
   __typename?: 'School';
@@ -752,6 +687,73 @@ export type SubscriberInput = {
   displayName?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
 };
+
+export type Target = {
+  __typename?: 'Target';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  inputType?: Maybe<InputTypes>;
+  options?: Maybe<Array<Maybe<TargetOption>>>;
+  required?: Maybe<Scalars['Boolean']>;
+  title?: Maybe<Scalars['String']>;
+  valueType?: Maybe<ProgramValueTypes>;
+};
+
+export type TargetInput = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  inputType?: InputMaybe<InputTypes>;
+  options?: InputMaybe<Array<InputMaybe<TargetOptionInput>>>;
+  required?: InputMaybe<Scalars['Boolean']>;
+  title?: InputMaybe<Scalars['String']>;
+  valueType?: InputMaybe<ProgramValueTypes>;
+};
+
+export type TargetOption = {
+  __typename?: 'TargetOption';
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  target?: Maybe<Scalars['Boolean']>;
+};
+
+export type TargetOptionInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  target?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type TargetResult = {
+  __typename?: 'TargetResult';
+  completed?: Maybe<Scalars['Boolean']>;
+  option?: Maybe<TargetResultOption>;
+  targetOptionId?: Maybe<Scalars['ID']>;
+  trial?: Maybe<Scalars['Int']>;
+};
+
+export type TargetResultInput = {
+  completed?: InputMaybe<Scalars['Boolean']>;
+  option?: InputMaybe<TargetResultOptionInput>;
+  targetOptionId?: InputMaybe<Scalars['ID']>;
+  trial?: InputMaybe<Scalars['Int']>;
+};
+
+export type TargetResultOption = {
+  __typename?: 'TargetResultOption';
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  target?: Maybe<Scalars['Boolean']>;
+};
+
+export type TargetResultOptionInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  target?: InputMaybe<Scalars['Boolean']>;
+};
+
+export enum TargetStyle {
+  Group = 'GROUP',
+  Separate = 'SEPARATE'
+}
 
 export type Thread = {
   __typename?: 'Thread';
@@ -802,11 +804,12 @@ export type UpdateProgramPayload = {
   lastEditedBy?: InputMaybe<Scalars['ID']>;
   mainProgramId?: InputMaybe<Scalars['ID']>;
   mastered?: InputMaybe<Scalars['Boolean']>;
+  materials?: InputMaybe<Scalars['String']>;
   readAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
-  ruleStyle?: InputMaybe<RuleStyle>;
-  rules?: InputMaybe<Array<InputMaybe<RuleInput>>>;
-  steps?: InputMaybe<Scalars['Int']>;
+  targetStyle?: InputMaybe<TargetStyle>;
+  targets?: InputMaybe<Array<InputMaybe<TargetInput>>>;
   title?: InputMaybe<Scalars['String']>;
+  trials?: InputMaybe<Scalars['Int']>;
   type?: InputMaybe<ProgramTypes>;
   writeAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
 };
@@ -1019,19 +1022,19 @@ export type ResolversTypes = {
   Result: ResolverTypeWrapper<Result>;
   ResultData: ResolverTypeWrapper<ResultData>;
   ResultDataInput: ResultDataInput;
-  Rule: ResolverTypeWrapper<Rule>;
-  RuleInput: RuleInput;
-  RuleOption: ResolverTypeWrapper<RuleOption>;
-  RuleOptionInput: RuleOptionInput;
-  RuleResult: ResolverTypeWrapper<RuleResult>;
-  RuleResultInput: RuleResultInput;
-  RuleResultOption: ResolverTypeWrapper<RuleResultOption>;
-  RuleResultOptionInput: RuleResultOptionInput;
-  RuleStyle: RuleStyle;
   School: ResolverTypeWrapper<School>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Subscriber: ResolverTypeWrapper<Subscriber>;
   SubscriberInput: SubscriberInput;
+  Target: ResolverTypeWrapper<Target>;
+  TargetInput: TargetInput;
+  TargetOption: ResolverTypeWrapper<TargetOption>;
+  TargetOptionInput: TargetOptionInput;
+  TargetResult: ResolverTypeWrapper<TargetResult>;
+  TargetResultInput: TargetResultInput;
+  TargetResultOption: ResolverTypeWrapper<TargetResultOption>;
+  TargetResultOptionInput: TargetResultOptionInput;
+  TargetStyle: TargetStyle;
   Thread: ResolverTypeWrapper<Thread>;
   UpdateDocumentPayload: UpdateDocumentPayload;
   UpdateEventPayload: UpdateEventPayload;
@@ -1106,18 +1109,18 @@ export type ResolversParentTypes = {
   Result: Result;
   ResultData: ResultData;
   ResultDataInput: ResultDataInput;
-  Rule: Rule;
-  RuleInput: RuleInput;
-  RuleOption: RuleOption;
-  RuleOptionInput: RuleOptionInput;
-  RuleResult: RuleResult;
-  RuleResultInput: RuleResultInput;
-  RuleResultOption: RuleResultOption;
-  RuleResultOptionInput: RuleResultOptionInput;
   School: School;
   String: Scalars['String'];
   Subscriber: Subscriber;
   SubscriberInput: SubscriberInput;
+  Target: Target;
+  TargetInput: TargetInput;
+  TargetOption: TargetOption;
+  TargetOptionInput: TargetOptionInput;
+  TargetResult: TargetResult;
+  TargetResultInput: TargetResultInput;
+  TargetResultOption: TargetResultOption;
+  TargetResultOptionInput: TargetResultOptionInput;
   Thread: Thread;
   UpdateDocumentPayload: UpdateDocumentPayload;
   UpdateEventPayload: UpdateEventPayload;
@@ -1236,11 +1239,12 @@ export type ProgramResolvers<ContextType = any, ParentType extends ResolversPare
   lastEditedBy?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   mainProgramId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   mastered?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  materials?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   readAccess?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserRoles']>>>, ParentType, ContextType>;
-  ruleStyle?: Resolver<Maybe<ResolversTypes['RuleStyle']>, ParentType, ContextType>;
-  rules?: Resolver<Maybe<Array<Maybe<ResolversTypes['Rule']>>>, ParentType, ContextType>;
-  steps?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  targetStyle?: Resolver<Maybe<ResolversTypes['TargetStyle']>, ParentType, ContextType>;
+  targets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Target']>>>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  trials?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['ProgramTypes']>, ParentType, ContextType>;
   updated_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   writeAccess?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserRoles']>>>, ParentType, ContextType>;
@@ -1293,42 +1297,9 @@ export type ResultResolvers<ContextType = any, ParentType extends ResolversParen
 };
 
 export type ResultDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResultData'] = ResolversParentTypes['ResultData']> = {
-  ruleCompleteness?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  ruleId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  ruleResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['RuleResult']>>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type RuleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Rule'] = ResolversParentTypes['Rule']> = {
-  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  inputType?: Resolver<Maybe<ResolversTypes['InputTypes']>, ParentType, ContextType>;
-  options?: Resolver<Maybe<Array<Maybe<ResolversTypes['RuleOption']>>>, ParentType, ContextType>;
-  question?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  required?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  valueType?: Resolver<Maybe<ResolversTypes['ProgramValueTypes']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type RuleOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['RuleOption'] = ResolversParentTypes['RuleOption']> = {
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  target?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type RuleResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['RuleResult'] = ResolversParentTypes['RuleResult']> = {
-  completed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  option?: Resolver<Maybe<ResolversTypes['RuleResultOption']>, ParentType, ContextType>;
-  step?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  targetCompleteness?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   targetId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type RuleResultOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['RuleResultOption'] = ResolversParentTypes['RuleResultOption']> = {
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  target?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  targetResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['TargetResult']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1346,6 +1317,39 @@ export type SchoolResolvers<ContextType = any, ParentType extends ResolversParen
 export type SubscriberResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscriber'] = ResolversParentTypes['Subscriber']> = {
   displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TargetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Target'] = ResolversParentTypes['Target']> = {
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  inputType?: Resolver<Maybe<ResolversTypes['InputTypes']>, ParentType, ContextType>;
+  options?: Resolver<Maybe<Array<Maybe<ResolversTypes['TargetOption']>>>, ParentType, ContextType>;
+  required?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  valueType?: Resolver<Maybe<ResolversTypes['ProgramValueTypes']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TargetOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['TargetOption'] = ResolversParentTypes['TargetOption']> = {
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  target?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TargetResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['TargetResult'] = ResolversParentTypes['TargetResult']> = {
+  completed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  option?: Resolver<Maybe<ResolversTypes['TargetResultOption']>, ParentType, ContextType>;
+  targetOptionId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  trial?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TargetResultOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['TargetResultOption'] = ResolversParentTypes['TargetResultOption']> = {
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  target?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1398,12 +1402,12 @@ export type Resolvers<ContextType = any> = {
   ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
   Result?: ResultResolvers<ContextType>;
   ResultData?: ResultDataResolvers<ContextType>;
-  Rule?: RuleResolvers<ContextType>;
-  RuleOption?: RuleOptionResolvers<ContextType>;
-  RuleResult?: RuleResultResolvers<ContextType>;
-  RuleResultOption?: RuleResultOptionResolvers<ContextType>;
   School?: SchoolResolvers<ContextType>;
   Subscriber?: SubscriberResolvers<ContextType>;
+  Target?: TargetResolvers<ContextType>;
+  TargetOption?: TargetOptionResolvers<ContextType>;
+  TargetResult?: TargetResultResolvers<ContextType>;
+  TargetResultOption?: TargetResultOptionResolvers<ContextType>;
   Thread?: ThreadResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };

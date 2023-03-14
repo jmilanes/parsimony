@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
 import { IColumns, ITableAction } from "../components/table.component";
-import { AddForm, RulesForm } from "../containers";
+import { AddForm, TargetForm } from "../containers";
 import {
   Collections,
   Pages,
   ProgramsPageMetaTestIds,
   User,
-  Routes
+  Routes,
+  Program
 } from "@parsimony/types";
 import {
   initialProgramData,
   programTypes,
-  ruleStyles,
-  stepsOptions,
+  targetStyles,
+  trialOptions,
   userRoleOptions
 } from "../fixtures";
-import { Program } from "@parsimony/types";
 import {
   createList,
   getFullName,
@@ -100,7 +100,12 @@ const Programs = () => {
       displayFn: createList
     },
     { key: "createBy", title: "Created By", dataIndex: "createBy" },
-    { key: "rules", title: "Rules", dataIndex: "rules", displayFn: getLength }
+    {
+      key: "targets",
+      title: "targets",
+      dataIndex: "targets",
+      displayFn: getLength
+    }
   ];
 
   const actions: ITableAction[] = [
@@ -198,20 +203,20 @@ const Programs = () => {
         )}
 
         <Selector
-          title="Steps"
-          pathToState="steps"
-          value={localState.steps}
-          options={stepsOptions}
+          title="Trials"
+          pathToState="trials"
+          value={localState.trials}
+          options={trialOptions}
           updateState={updateState}
           isNumber={true}
           metaTestId={ProgramsPageMetaTestIds.stepsSelector}
         />
 
         <Selector
-          title="Rule Style"
-          pathToState="ruleStyle"
-          value={localState.ruleStyle}
-          options={ruleStyles}
+          title="Target Style"
+          pathToState="targetStyle"
+          value={localState.targetStyle}
+          options={targetStyles}
           updateState={updateState}
           metaTestId={ProgramsPageMetaTestIds.ruleStyleSelector}
         />
@@ -231,7 +236,7 @@ const Programs = () => {
           updateState={updateState}
           metaTestId={ProgramsPageMetaTestIds.writeAccessMultiSelector}
         />
-        <RulesForm localState={localState} updateState={updateState} />
+        <TargetForm localState={localState} updateState={updateState} />
       </AddForm>
     </>
   );

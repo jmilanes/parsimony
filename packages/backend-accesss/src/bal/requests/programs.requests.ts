@@ -15,9 +15,9 @@ const fullSchema = `
   id
   mainProgramId
   clientId
-  rules {
+  targets {
     id
-    question
+    title
     description
     options {
       id
@@ -29,15 +29,16 @@ const fullSchema = `
     valueType
   }
   description
+  materials
   writeAccess
   readAccess
   type
   title
-  steps
+  trials
   lastEditedBy
   editedBy
   createdBy
-  ruleStyle
+  targetStyle
   updated_at
   created_at
 `;

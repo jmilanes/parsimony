@@ -58,7 +58,7 @@ export default class ObservationService {
   updateProgramCompleteness() {
     const averageCompleteness = calculateAverage(
       this._resultDataValues(),
-      "ruleCompleteness"
+      "targetCompleteness"
     );
 
     this.programCompleteness = averageCompleteness || 0;
@@ -73,12 +73,12 @@ export default class ObservationService {
    * Update the the result data right now passing in most reset result data
    */
   updatedResultsData = (latestResult: IResultData) => {
-    // latest result is an object of the latest result data keys are the rule ID
-    // This is so that a group of rule results can be passed through as an object
+    // latest result is an object of the latest result data keys are the target ID
+    // This is so that a group of target results can be passed through as an object
     const latestsResults = Object.values(latestResult);
 
     latestsResults.forEach((latestResult: ResultData) => {
-      this.resultsData[latestResult?.ruleId as string] = latestResult;
+      this.resultsData[latestResult?.targetId as string] = latestResult;
     });
 
     this.onChange();

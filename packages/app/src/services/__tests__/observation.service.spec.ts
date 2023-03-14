@@ -3,7 +3,7 @@
 // result
 // Updated after each step
 
-// Rule tracker
+// Target tracker
 
 // Load a program based on an ID
 

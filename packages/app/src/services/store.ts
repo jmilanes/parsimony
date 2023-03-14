@@ -77,7 +77,7 @@ export default class Store {
   }
 
   addItemToCollection<T>(collectionName: Collections, item: T & { id?: IId }) {
-    if (!item.id) return;
+    if (!item?.id) return;
     const newStore$ = { ...this.store$[collectionName].value, [item.id]: item };
     this.store$[collectionName].next(newStore$);
   }

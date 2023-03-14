@@ -28,9 +28,9 @@ const createProgramHelper = (program: Partial<Program>) => {
   selectOption(ProgramsPageMetaTestIds.typeSelector, program.type);
   selectOption(
     `${ProgramsPageMetaTestIds.stepsSelector}`,
-    program.steps.toString()
+    program.trials.toString()
   );
-  selectOption(ProgramsPageMetaTestIds.ruleStyleSelector, program.ruleStyle);
+  selectOption(ProgramsPageMetaTestIds.ruleStyleSelector, program.targetStyle);
   selectMultipleOptions(
     ProgramsPageMetaTestIds.readAccessMultiSelector,
     program.readAccess
@@ -40,27 +40,27 @@ const createProgramHelper = (program: Partial<Program>) => {
     program.writeAccess
   );
 
-  program.rules.forEach((rule, ruleIndex) => {
+  program.targets.forEach((target, ruleIndex) => {
     getButton(`${RulesFormMetaTestIds.addRuleBtn}`).click();
     getField(`${RulesFormMetaTestIds.questionField}-${ruleIndex}`).type(
-      rule.question
+      target.title
     );
 
     getField(`${RulesFormMetaTestIds.descriptionField}-${ruleIndex}`).type(
-      rule.description
+      target.description
     );
     getCheckBox(
       `${RulesFormMetaTestIds.requiredCheckbox}-${ruleIndex}`
     ).click();
     selectOption(
       `${RulesFormMetaTestIds.inputTypeSelector}-${ruleIndex}`,
-      rule.inputType
+      target.inputType
     );
     selectOption(
       `${RulesFormMetaTestIds.valueTypeSelector}-${ruleIndex}`,
-      rule.valueType
+      target.valueType
     );
-    rule.options.forEach((option, optionIndex) => {
+    target.options.forEach((option, optionIndex) => {
       getButton(`${RulesFormMetaTestIds.addPromptBtn}-${ruleIndex}`).click();
       getField(
         `${RulesFormMetaTestIds.promptNameField}-rule-${ruleIndex}-prompt-${optionIndex}`
@@ -112,7 +112,7 @@ describe("Programs Page Tests", () => {
         "have.text",
         "Client needs to brush their teeth"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "rules").should(
+      getTableRowItem(ProgramsPageMetaTestIds.table, id, "targets").should(
         "have.text",
         "1"
       );
@@ -138,7 +138,7 @@ describe("Programs Page Tests", () => {
         "have.text",
         "Client needs to brush their teeth"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "rules").should(
+      getTableRowItem(ProgramsPageMetaTestIds.table, id, "targets").should(
         "have.text",
         "1"
       );
@@ -163,7 +163,7 @@ describe("Programs Page Tests", () => {
         "have.text",
         "Client needs to eat breakfast"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "rules").should(
+      getTableRowItem(ProgramsPageMetaTestIds.table, id, "targets").should(
         "have.text",
         "3"
       );

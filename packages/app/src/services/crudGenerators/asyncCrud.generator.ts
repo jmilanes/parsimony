@@ -52,9 +52,14 @@ export class AsyncCrudGenerator<
   };
 
   create = async (payload: CreatePayload) => {
+    console.log(
+      "🚀 ~ file: asyncCrud.generator.ts:55 ~ create= ~ payload:",
+      payload
+    );
     const item = (await this.requests.create(
       payload
     )) as AwaitedSchemaWithId<Schema>;
+    console.log("🚀 ~ file: asyncCrud.generator.ts:58 ~ create= ~ item:", item);
     this.store.addItemToCollection(this.collectionName, item);
     return item;
   };
