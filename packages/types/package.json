@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/types",
-  "version": "1.2.0",
+  "version": "1.2.11",
   "description": "Parsimony Types Library",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
