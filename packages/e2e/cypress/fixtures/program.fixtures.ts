@@ -10,6 +10,7 @@ import {
 export const program1 = {
   title: "Brushing Teeth",
   description: "Client needs to brush their teeth",
+  materials: "Toothbrush",
   writeAccess: [UserRoles.Director],
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,
@@ -40,6 +41,7 @@ export const program1 = {
 export const programWithoutPrompts = {
   title: "Brushing Teeth",
   description: "Client needs to brush their teeth",
+  materials: "Toothbrush",
   writeAccess: [UserRoles.Director],
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,
@@ -61,6 +63,7 @@ export const programWithoutPrompts = {
 export const program2 = {
   title: "Eat Breakfast",
   description: "Client needs to eat breakfast",
+  materials: "Spoon",
   writeAccess: [UserRoles.Director],
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,

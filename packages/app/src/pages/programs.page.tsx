@@ -183,6 +183,13 @@ const Programs = () => {
           updateState={updateState}
           metaTestId={ProgramsPageMetaTestIds.descriptionField}
         />
+        <Field
+          placeHolderText="Materials"
+          pathToState="materials"
+          value={localState.materials}
+          updateState={updateState}
+          metaTestId={ProgramsPageMetaTestIds.materialsField}
+        />
         <Selector
           title="Type"
           pathToState="type"

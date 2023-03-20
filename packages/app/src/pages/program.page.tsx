@@ -130,6 +130,14 @@ const Program = () => {
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.descriptionField}
       />
+      <Field
+        placeHolderText="Materials"
+        pathToState="materials"
+        value={localState.materials}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+        metaTestId={ProgramPageMetaTestIds.materialsField}
+      />
       <Selector
         title="Type"
         pathToState="type"

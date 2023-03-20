@@ -31,6 +31,9 @@ describe("Program Page Tests", () => {
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getField(ProgramPageMetaTestIds.titleField).type("!!");
       getField(ProgramPageMetaTestIds.descriptionField).type("!!");
+      getField(ProgramPageMetaTestIds.materialsField)
+        .clear()
+        .type("Toothbrush!!!");
       selectOption(ProgramPageMetaTestIds.stepsSelector, "2");
       selectOption(ProgramPageMetaTestIds.readAccessMultiSelector, "CLIENT");
       selectOption(ProgramPageMetaTestIds.writeAccessMultiSelector, "CLIENT");
@@ -43,6 +46,10 @@ describe("Program Page Tests", () => {
       getField(readOnlyLocator(ProgramPageMetaTestIds.descriptionField)).should(
         "have.text",
         "Client needs to brush their teeth!!"
+      );
+      getField(readOnlyLocator(ProgramPageMetaTestIds.materialsField)).should(
+        "have.text",
+        "Toothbrush!!!"
       );
       getSelect(
         readOnlyLocator(ProgramPageMetaTestIds.readAccessMultiSelector)
@@ -63,6 +70,7 @@ describe("Program Page Tests", () => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getField(ProgramPageMetaTestIds.titleField).type("!!");
+      getField(ProgramPageMetaTestIds.materialsField).type("Fork");
       getField(ProgramPageMetaTestIds.descriptionField).type("!!");
       selectOption(ProgramPageMetaTestIds.stepsSelector, "2");
       selectOption(ProgramPageMetaTestIds.readAccessMultiSelector, "CLIENT");
@@ -76,6 +84,10 @@ describe("Program Page Tests", () => {
       getField(readOnlyLocator(ProgramPageMetaTestIds.descriptionField)).should(
         "have.text",
         "Client needs to brush their teeth"
+      );
+      getField(readOnlyLocator(ProgramPageMetaTestIds.materialsField)).should(
+        "have.text",
+        "Toothbrush"
       );
       getSelect(
         readOnlyLocator(ProgramPageMetaTestIds.readAccessMultiSelector)

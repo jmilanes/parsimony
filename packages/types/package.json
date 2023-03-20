@@ -9,7 +9,8 @@
     "clean": "tsc --build --clean"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "dependencies": {
     "react": "^18.2.0",

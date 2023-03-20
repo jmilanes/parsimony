@@ -24,6 +24,7 @@ const createProgramHelper = (program: Partial<Program>) => {
   getButton(ProgramsPageMetaTestIds.addBtn).click();
   getField(ProgramsPageMetaTestIds.titleField).type(program.title);
   getField(ProgramsPageMetaTestIds.descriptionField).type(program.description);
+  getField(ProgramsPageMetaTestIds.materialsField).type(program.materials);
 
   selectOption(ProgramsPageMetaTestIds.typeSelector, program.type);
   selectOption(
@@ -45,7 +46,9 @@ const createProgramHelper = (program: Partial<Program>) => {
     getField(`${RulesFormMetaTestIds.questionField}-${ruleIndex}`).type(
       target.title
     );
-
+    getField(`${RulesFormMetaTestIds.descriptionField}-${ruleIndex}`).type(
+      target.description
+    );
     getField(`${RulesFormMetaTestIds.descriptionField}-${ruleIndex}`).type(
       target.description
     );
