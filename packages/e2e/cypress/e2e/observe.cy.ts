@@ -1,5 +1,6 @@
 import {
   NavMetaTestIds,
+  ObservationMetaTestIds,
   ProgramPageMetaTestIds,
   ProgramsPageMetaTestIds,
   TestEntryTypes,
@@ -11,10 +12,19 @@ import {
   login,
   selectOption,
   getTableRowAction,
-  getTableRowItem
+  getTableRowItem,
+  getTargetOptionButton,
+  getSeparateObserveButton
 } from "../../utilities";
 import { DB_ACTIONS } from "../../utilities/db.utils";
-import { API_URL, programWithoutPrompts, ROUTES, user1 } from "../fixtures";
+import {
+  API_URL,
+  programAsClientGroupStyle,
+  programAsClientSeparateStyle,
+  programWithoutPrompts,
+  ROUTES,
+  user1
+} from "../fixtures";
 
 beforeEach(() => {
   login();
@@ -80,6 +90,65 @@ describe("Observe Tests Page Tests", () => {
           ).should("have.text", "Brushing Teeth_Copy");
         });
       });
+    });
+  });
+
+  it("should run a group program", () => {
+    DB_ACTIONS.createUserRequest(user1).then((userId) => {
+      DB_ACTIONS.createProgramRequest({
+        ...programAsClientGroupStyle,
+        clientId: userId
+      }).then((id) => {
+        cy.visit(`${ROUTES.directory}/${userId}`);
+        getTableRowAction(
+          UserPageMetaTestIds.programsTable,
+          id,
+          "startobserving"
+        ).click();
+      });
+      getButton(ObservationMetaTestIds.selectGroupedRuleBtn).click();
+      getTargetOptionButton(0, 4).click();
+      getTargetOptionButton(1, 4).click();
+      getTargetOptionButton(2, 4).click();
+      getButton(ObservationMetaTestIds.nextRuleBtn).click();
+      getTargetOptionButton(0, 4).click();
+      getTargetOptionButton(1, 4).click();
+      getTargetOptionButton(2, 4).click();
+      getButton(ObservationMetaTestIds.nextRuleBtn).click();
+      getButton(ObservationMetaTestIds.submitObservation).click();
+      getButton(ObservationMetaTestIds.viewResultsBtn).click();
+      cy.get(`[data-test-id="chart"`).should("exist");
+    });
+  });
+
+  it("should run a separate program", () => {
+    DB_ACTIONS.createUserRequest(user1).then((userId) => {
+      DB_ACTIONS.createProgramRequest({
+        ...programAsClientSeparateStyle,
+        clientId: userId
+      }).then((id) => {
+        cy.visit(`${ROUTES.directory}/${userId}`);
+        getTableRowAction(
+          UserPageMetaTestIds.programsTable,
+          id,
+          "startobserving"
+        ).click();
+      });
+      getSeparateObserveButton(0).click();
+      getTargetOptionButton(0, 4).click();
+      getTargetOptionButton(0, 4).click();
+
+      getSeparateObserveButton(1).click();
+      getTargetOptionButton(1, 4).click();
+      getTargetOptionButton(1, 4).click();
+
+      getSeparateObserveButton(2).click();
+      getTargetOptionButton(2, 4).click();
+      getTargetOptionButton(2, 4).click();
+
+      getButton(ObservationMetaTestIds.submitObservation).click();
+      getButton(ObservationMetaTestIds.viewResultsBtn).click();
+      cy.get(`[data-test-id="chart"`).should("exist");
     });
   });
 });

@@ -1,6 +1,5 @@
 import {
   InputTypes,
-  Program,
   ProgramTypes,
   ProgramValueTypes,
   TargetStyle,
@@ -22,14 +21,14 @@ export const program1 = {
       title: "Has Client brushed their teeth",
       description: "This is a description",
       options: [
-        { name: "Full Physical" },
-        { name: "Partial physical" },
+        { name: "Full Physical", target: false },
+        { name: "Partial physical", target: false },
         {
           name: "Light physical ",
           target: true
         },
-        { name: "Gesture" },
-        { name: "Independent" }
+        { name: "Gesture", target: false },
+        { name: "Independent", target: false }
       ],
       required: true,
       inputType: InputTypes.Radio,
@@ -75,14 +74,14 @@ export const program2 = {
       title: "Eaten Oat Meal",
       description: "This is a description",
       options: [
-        { name: "Full Physical" },
-        { name: "Partial physical" },
+        { name: "Full Physical", target: false },
+        { name: "Partial physical", target: false },
         {
           name: "Light physical ",
           target: true
         },
-        { name: "Gesture" },
-        { name: "Independent" }
+        { name: "Gesture", target: false },
+        { name: "Independent", target: false }
       ],
       required: true,
       inputType: InputTypes.Radio,
@@ -92,14 +91,14 @@ export const program2 = {
       title: "Eaten Eggs",
       description: "This is a description",
       options: [
-        { name: "Full Physical" },
-        { name: "Partial physical" },
+        { name: "Full Physical", target: false },
+        { name: "Partial physical", target: false },
         {
           name: "Light physical ",
           target: true
         },
-        { name: "Gesture" },
-        { name: "Independent" }
+        { name: "Gesture", target: false },
+        { name: "Independent", target: false }
       ],
       required: true,
       inputType: InputTypes.Radio,
@@ -109,18 +108,32 @@ export const program2 = {
       title: "Eaten Toast",
       description: "This is a description",
       options: [
-        { name: "Full Physical" },
-        { name: "Partial physical" },
+        { name: "Full Physical", target: false },
+        { name: "Partial physical", target: false },
         {
           name: "Light physical ",
           target: true
         },
-        { name: "Gesture" },
-        { name: "Independent" }
+        { name: "Gesture", target: false },
+        { name: "Independent", target: false }
       ],
       required: true,
       inputType: InputTypes.Radio,
       valueType: ProgramValueTypes.Number
     }
   ]
+};
+
+export const programAsClientSeparateStyle = {
+  ...program2,
+  trials: 2,
+  type: ProgramTypes.Client,
+  targetStyle: TargetStyle.Separate
+};
+
+export const programAsClientGroupStyle = {
+  ...program2,
+  trials: 2,
+  type: ProgramTypes.Client,
+  targetStyle: TargetStyle.Group
 };

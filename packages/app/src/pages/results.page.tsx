@@ -71,7 +71,7 @@ const Results = () => {
   return (
     <>
       <Header text={Pages.Results} size="page" />
-      <Line data={state} />
+      <Line data-test-id={"chart"} data={state} />
     </>
   );
 };

@@ -58,6 +58,7 @@ const Observe = () => {
               target={target}
               updateResultData={observation.updatedResultsData}
               programTrials={program.trials || 1}
+              metaQualifierIndex={i}
             />
           ) : null
         )

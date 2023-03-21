@@ -1,4 +1,8 @@
-import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
+import {
+  MetaTestIds,
+  ObservationMetaTestIds,
+  UIMetaTargetTypes
+} from "@parsimony/types";
 
 export const findText = (text: string) => cy.contains(text);
 
@@ -53,3 +57,14 @@ export const getTableRowAction = (
 
 export const readOnlyLocator = (metaTestId: string) =>
   `${metaTestId}-read-only`;
+
+export const getTargetOptionButton = (
+  targetIndex: number,
+  propmptIndex: number
+) =>
+  getButton(
+    `${ObservationMetaTestIds.ruleOptionSelectBtn}-target-${targetIndex}-prompt-${propmptIndex}`
+  );
+
+export const getSeparateObserveButton = (targetIndex: number) =>
+  getButton(`${ObservationMetaTestIds.selectRuleBtn}-target-${targetIndex}`);

@@ -37,7 +37,7 @@ import { ProgramTypes } from "@parsimony/types";
 import { useServices } from "../context";
 
 const Programs = () => {
-  const { stateManager, dataAccess, store } = useServices();
+  const { stateManager, dataAccess, store, filterService } = useServices();
   const navigate = navigateToRoute();
   let [searchParams] = getSearchParams();
 
@@ -46,6 +46,7 @@ const Programs = () => {
   useEffect(() => {
     dataAccess.program.getAll();
     dataAccess.user.getAll();
+    filterService.addFilter("main", (data: any) => data.type === "MAIN");
   }, []);
 
   const clients = store.getCurrentCollectionItems<User>(Collections.User);

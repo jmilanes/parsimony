@@ -78,6 +78,7 @@ const User = () => {
       dataIndex: "title",
       title: "title"
     },
+    { key: "targetStyle", dataIndex: "targetStyle", title: "Style" },
     { key: "description", dataIndex: "description", title: "description" }
   ];
 
@@ -185,10 +186,6 @@ const User = () => {
           name="Add Programs"
           action={() => {
             filterService.setFromLink();
-            filterService.addFilter(
-              "main",
-              (data: any) => data.type === "MAIN"
-            );
             navigate(`${Routes.Programs}?userId=${user.id}`);
           }}
           metaTestId={UserPageMetaTestIds.addProgram}

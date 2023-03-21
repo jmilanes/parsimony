@@ -23,13 +23,15 @@ export type IObserverTargetProps = React.PropsWithChildren<{
   updateResultData: (result: IResultData) => void;
   programTrials: number;
   patentActiveState?: boolean;
+  metaQualifierIndex?: number;
 }>;
 
 export const ObserveTarget = ({
   target,
   updateResultData,
   patentActiveState,
-  programTrials
+  programTrials,
+  metaQualifierIndex
 }: IObserverTargetProps) => {
   // TODO: Revisit this and latest results
   const [active, setActive] = useState(patentActiveState || false);
@@ -122,7 +124,13 @@ export const ObserveTarget = ({
     !isGroup && incrementStep(target);
   };
 
-  const InactiveTarget = (target: Target) => {
+  const InactiveTarget = ({
+    target,
+    index
+  }: {
+    target: Target;
+    index: number;
+  }) => {
     const classes = isGroup
       ? undefined
       : compileStyles({ observeTarget: true, complete });
@@ -134,13 +142,20 @@ export const ObserveTarget = ({
             name="Observe"
             action={() => setActive(true)}
             metaTestId={ObservationMetaTestIds.selectRuleBtn}
+            metaTestQualifier={`target-${index}`}
           />
         )}
       </div>
     );
   };
 
-  const ActiveTarget = (target: Target) => {
+  const ActiveTarget = ({
+    target,
+    index
+  }: {
+    target: Target;
+    index: number;
+  }) => {
     return (
       <>
         <p>{target.title}</p>
@@ -175,9 +190,8 @@ export const ObserveTarget = ({
                   getTargetId(target)
                 )
               }
-              // TODO: Test id with option name
               metaTestId={ObservationMetaTestIds.ruleOptionSelectBtn}
-              metaTestQualifier={option?.name || ""}
+              metaTestQualifier={`target-${index.toString()}-prompt-${i}` || ""}
             />
           ))}
         </Container>
@@ -185,8 +199,12 @@ export const ObserveTarget = ({
     );
   };
 
-  const SingleTarget = (target: Target) =>
-    active ? <ActiveTarget {...target} /> : <InactiveTarget {...target} />;
+  const SingleTarget = ({ target, index }: { target: Target; index: number }) =>
+    active ? (
+      <ActiveTarget target={target} index={index} />
+    ) : (
+      <InactiveTarget target={target} index={index} />
+    );
 
   const GroupControls = ({ firstTarget }: { firstTarget: Target }) => {
     return (
@@ -218,7 +236,7 @@ export const ObserveTarget = ({
       <div className={compileStyles({ observeTarget: true, complete })}>
         {active && <GroupControls firstTarget={target[0]} />}
         {target.map((target, i) => (
-          <SingleTarget key={i} {...target} />
+          <SingleTarget key={i} target={target} index={i} />
         ))}
         <Button
           name="Observe"
@@ -229,5 +247,9 @@ export const ObserveTarget = ({
     ) : null;
   };
 
-  return isGroup ? <GroupTarget /> : <SingleTarget {...target} />;
+  return isGroup ? (
+    <GroupTarget />
+  ) : (
+    <SingleTarget target={target} index={metaQualifierIndex || 0} />
+  );
 };
