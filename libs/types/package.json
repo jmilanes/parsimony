@@ -2,15 +2,15 @@
   "name": "@parsimony/types",
   "version": "1.2.13",
   "description": "Parsimony Types Library",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "exports": "./src/index.ts",
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean"
   },
   "files": [
-    "dist",
-    "src"
+    "dist/**/**.d.ts",
+    "dist/**/**.js"
   ],
   "dependencies": {
     "react": "^18.2.0",

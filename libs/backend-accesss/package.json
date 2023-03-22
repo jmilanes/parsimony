@@ -2,14 +2,15 @@
   "name": "@parsimony/bal",
   "version": "1.0.6",
   "description": "Parsimony Backend Access Library",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "exports": "./src/index.ts",
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean"
   },
   "files": [
-    "dist"
+    "dist/**/**.d.ts",
+    "dist/**/**.js"
   ],
   "dependencies": {
     "@parsimony/utilities": "^1.0.8",
