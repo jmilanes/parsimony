@@ -1,7 +1,5 @@
 name: "Build and push to Parsimony WEB Image to ERC"
-
 on: workflow_call
-
 env:
   AWS_REGION: "us-east-1"
   ECR_REPOSITORY: "parsimony-web"
@@ -11,7 +9,6 @@ env:
   ECS_TASK_DEFINITION: "./aws/ParsimonyWebDefinition.json"
   CONTAINER_NAME: "ParsimonyWebContainer"
   PACKAGE: "./packages/app"
-
 jobs:
   BuildAndPushImageToECR:
     name: "Build and Push to ECR"
