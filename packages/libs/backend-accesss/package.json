@@ -1,0 +1,24 @@
+{
+  "name": "@parsimony/bal",
+  "version": "1.0.6",
+  "description": "Parsimony Backend Access Library",
+  "main": "./src/index.ts",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
+  "files": [
+    "dist/**/**.d.ts",
+    "dist/**/**.js"
+  ],
+  "dependencies": {
+    "@parsimony/utilities": "^1.0.8",
+    "typescript": "^4.6.4"
+  },
+  "devDependencies": {
+    "@parsimony/types": "^1.1.5"
+  },
+  "resolutions": {},
+  "keywords": []
+}

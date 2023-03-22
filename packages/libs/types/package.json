@@ -1,0 +1,32 @@
+{
+  "name": "@parsimony/types",
+  "version": "1.2.13",
+  "description": "Parsimony Types Library",
+  "main": "./src/index.ts",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
+  "files": [
+    "dist/**/**.d.ts",
+    "dist/**/**.js"
+  ],
+  "dependencies": {
+    "react": "^18.2.0",
+    "typescript": "^4.6.4"
+  },
+  "devDependencies": {
+    "@tsed/ajv": "^7.18.2",
+    "@tsed/core": "^7.18.2",
+    "@tsed/di": "^7.18.2",
+    "@tsed/exceptions": "^7.18.2",
+    "@tsed/logger": "^6.3.4",
+    "@tsed/mongoose": "^7.18.2",
+    "@tsed/schema": "^7.18.2",
+    "@types/react": "^18.0.27",
+    "ajv": "^8.12.0"
+  },
+  "resolutions": {},
+  "keywords": []
+}
