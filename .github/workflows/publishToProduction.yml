@@ -7,11 +7,11 @@ on:
     branches:
       - main
 jobs:
-  call-publish-libs:
+  publish-libs:
     uses: jmilanes/parsimony/.github/workflows/publishLibs.yml@main
-  call-deploy-API-service:
-    needs: call-publish-libs
+  deploy-API-service:
+    needs: publish-libs
     uses: jmilanes/parsimony/.github/workflows/buildProductionParsimonyAPI.yml@main
-  call-deploy-web-service:
-    needs: call-publish-libs
+  deploy-web-service:
+    needs: publish-libs
     uses: jmilanes/parsimony/.github/workflows/buildProductionParsimonyWeb.yml@main
