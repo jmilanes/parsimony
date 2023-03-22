@@ -10,6 +10,8 @@ jobs:
   call-publish-libs:
     uses: ./parsimony/.github/workflows/publishLibs.yml@main
   call-deploy-API-service:
+    needs: call-publish-libs
     uses: ./parsimony/.github/workflows/buildProductionParsimonyAPI.yml@main
   call-deploy-web-service:
+    needs: call-publish-libs
     uses: ./parsimony/.github/workflows/buildProductionParsimonyWeb.yml@main
