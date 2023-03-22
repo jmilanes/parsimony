@@ -1,0 +1,18 @@
+name: "Publish Parsimony to Production"
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+concurrency:
+  group: ci-publish-parsimony-production-${{ github.ref }}-1
+  cancel-in-progress: true
+jobs:
+  call-publish-libs:
+    uses: parsimony.github/workflows/publishLibs.yml@main
+  call-deploy-API-service:
+    uses: parsimony.github/workflows/buildProductionParsimonyAPI.yml@main
+  call-deploy-web-service:
+    uses: parsimony.github/workflows/buildProductionParsimonyWeb.yml@main
