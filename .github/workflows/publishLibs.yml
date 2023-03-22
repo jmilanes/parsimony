@@ -14,7 +14,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           cache: "yarn"
       - name: Install dependencies and build @parsimony/types 🔧
-        run: cd packages/libs/types && yarn install && yarn run build
+        run: cd packages/libs/types && yarn install && yarn build
       - name: Publish @parsimony/types on NPM 📦
         run: yarn publish
       - name: Install dependencies and build @parsimony/utilities 🔧
