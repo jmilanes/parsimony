@@ -1,11 +1,6 @@
 name: "Build and push to Parsimony API Image to ERC"
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_call:
 env:
   AWS_REGION: "us-east-1"
   ECR_REPOSITORY: "parsimony-api"
