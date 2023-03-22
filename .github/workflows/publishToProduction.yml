@@ -6,9 +6,6 @@ on:
   pull_request:
     branches:
       - main
-concurrency:
-  group: ci-publish-parsimony-production-${{ github.ref }}-1
-  cancel-in-progress: true
 jobs:
   call-publish-libs:
     uses: ./parsimony/.github/workflows/publishLibs.yml@main
