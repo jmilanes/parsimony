@@ -12,18 +12,18 @@ jobs:
         with:
           node-version: "18"
           registry-url: "https://registry.npmjs.org"
-          cache: "yarn"
+          cache: "npm"
       - name: Install dependencies and build @parsimony/types 🔧
-        run: cd packages/libs/types && yarn install && yarn build
+        run: cd packages/libs/types && npm install && npm run build
       - name: Publish @parsimony/types on NPM 📦
-        run: yarn publish
+        run: npm publish
       - name: Install dependencies and build @parsimony/utilities 🔧
-        run: cd ../utilities && yarn install && yarn build
+        run: cd ../utilities && npm install && npm run build
       - name: Publish @parsimony/utilities on NPM 📦
-        run: yarn publish
+        run: npm publish
       - name: Install dependencies and build @parsimony/bal 🔧
-        run: cd ../backend-access && yarn install && yarn build
+        run: cd ../backend-access && npm install && npm run build
       - name: Publish @parsimony/bal on NPM 📦
-        run: yarn publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
