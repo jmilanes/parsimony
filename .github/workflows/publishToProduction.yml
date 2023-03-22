@@ -11,8 +11,8 @@ concurrency:
   cancel-in-progress: true
 jobs:
   call-publish-libs:
-    uses: ./.github/workflows/publishLibs.yml@main
+    uses: ./parsimony/.github/workflows/publishLibs.yml
   call-deploy-API-service:
-    uses: ./.github/workflows/buildProductionParsimonyAPI.yml@main
+    uses: ./parsimony/.github/workflows/buildProductionParsimonyAPI.yml
   call-deploy-web-service:
-    uses: ./.github/workflows/buildProductionParsimonyWeb.yml@main
+    uses: ./parsimony/.github/workflows/buildProductionParsimonyWeb.yml
