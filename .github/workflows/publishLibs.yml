@@ -12,10 +12,12 @@ jobs:
         with:
           node-version: "18"
           cache: "yarn"
+      - name: CD into @parsimony/types
+        run: cd packages/libs/types
       - name: Authenticate with private NPM package
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ./.npmrc
       - name: Install dependencies and build @parsimony/types 🔧
-        run: cd packages/libs/types && yarn install && yarn build
+        run: yarn install && yarn build
       - name: Publish @parsimony/types on NPM 📦
         run: yarn publish
       - name: Install dependencies and build @parsimony/utilities 🔧
