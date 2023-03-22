@@ -7,6 +7,7 @@ on:
     branches:
       - main
 jobs:
+  # Tests, lint, publish broadcast
   publish-libs:
     uses: jmilanes/parsimony/.github/workflows/publishLibs.yml@main
   deploy-API-service:
