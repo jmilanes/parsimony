@@ -29,6 +29,6 @@ jobs:
       # - name: Back to Root
       #   run: cd ../../../
       - name: Workspace Publish
-        run: workspace foreach --exclude app server cypress utilities bal --no-private yarn publish
+        run: yarn workspace foreach --exclude app server cypress utilities bal --no-private yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
