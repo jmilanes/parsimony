@@ -16,21 +16,23 @@ jobs:
           always-auth: true
       - name: Authenticate with private NPM package
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+      - name: Set unsafe true
+        run: npm config set unsafe-perm true
       - name: Install dependencies and build @parsimony/types 🔧
         run: cd packages/libs/types && yarn install && yarn build
       - name: Publish @parsimony/types on NPM 📦
-        run: yarn publish --access restricted
+        run: yarn npm publish
       - name: Back to Root
         run: cd ../../../
       - name: Install dependencies and build @parsimony/utilities 🔧
         run: cd packages/libs/utilities && yarn install && yarn build
       - name: Publish @parsimony/utilities on NPM 📦
-        run: yarn publish --access restricted
+        run: yarn npm publish
       - name: Back to Root
         run: cd ../../../
       - name: Install dependencies and build @parsimony/bal 🔧
         run: cd packages/libs/backend-access && yarn install && yarn build
       - name: Publish @parsimony/bal on NPM 📦
-        run: yarn publish --access restricted
+        run: yarn npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
