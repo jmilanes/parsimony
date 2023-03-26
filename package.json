@@ -1,6 +1,8 @@
 {
   "name": "parsimony",
   "version": "1.0.0",
+  "license": "(c) Copyright 2021 Parsimony LLC, all rights reserved",
+  "description": "Parsimony Behavior Tracking",
   "workspaces": [
     "packages/*"
   ],
