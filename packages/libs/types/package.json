@@ -6,9 +6,6 @@
   "license": "UNLICENSED",
   "main": "./src/index.ts",
   "exports": "./src/index.ts",
-  "publishConfig": {
-    "registry": "https://www.npmjs.com/"
-  },
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean"
