@@ -4165,6 +4165,25 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@yarnpkg/fslib@^3.0.0-rc.40":
+  version "3.0.0-rc.40"
+  resolved "https://registry.yarnpkg.com/@yarnpkg/fslib/-/fslib-3.0.0-rc.40.tgz#cb40576e41d503decf369647e1365d3d94cfb28f"
+  integrity sha512-rbHwsgg2tCSWJGbk3skChGp6lRDgLybj4EvqBE8MVCXpj+lNxJbJU47Q9xPHdzlShGn/IM6rE3GFEX7ML4s0tA==
+  dependencies:
+    tslib "^2.4.0"
+
+"@yarnpkg/plugin-workspace-tools@^4.0.0-rc.40":
+  version "4.0.0-rc.40"
+  resolved "https://registry.yarnpkg.com/@yarnpkg/plugin-workspace-tools/-/plugin-workspace-tools-4.0.0-rc.40.tgz#9c74fc25b139b55b7a370cd4596aec2b355ec4dd"
+  integrity sha512-zO/VAwCFyX8L0ldtc/v/XZjV77JIAUCjGcx9/s7C2bs0gNMeU2hW0HhbrqbBch6kuftNmf0wUuYqOYz1Vpxc2w==
+  dependencies:
+    "@yarnpkg/fslib" "^3.0.0-rc.40"
+    clipanion "^3.2.0-rc.10"
+    micromatch "^4.0.2"
+    p-limit "^2.2.0"
+    tslib "^2.4.0"
+    typanion "^3.3.0"
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.6.tgz#41b80f2c871d19686216b82309231cfd3cb3d291"
@@ -5187,6 +5206,13 @@ cli-width@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-3.0.0.tgz#a2f48437a2caa9a22436e794bf071ec9e61cedf6"
   integrity sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==
+
+clipanion@^3.2.0-rc.10:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/clipanion/-/clipanion-3.2.0.tgz#ea55ce3fe27becb4ddd4915df6fb3de0f9e79a5c"
+  integrity sha512-XaPQiJQZKbyaaDbv5yR/cAt/ORfZfENkr4wGQj+Go/Uf/65ofTQBCPirgWFeJctZW24V3mxrFiEnEmqBflrJYA==
+  dependencies:
+    typanion "^3.8.0"
 
 cliui@^6.0.0:
   version "6.0.0"
@@ -10912,6 +10938,11 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==
+
+typanion@^3.3.0, typanion@^3.8.0:
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/typanion/-/typanion-3.12.1.tgz#d33deb130aba23ef6f2a3c69e7fb28148dd9089a"
+  integrity sha512-3SJF/czpzqq6G3lprGFLa6ps12yb1uQ1EmitNnep2fDMNh1aO/Zbq9sWY+3lem0zYb2oHJnQWyabTGUZ+L1ScQ==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
