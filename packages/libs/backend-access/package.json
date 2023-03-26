@@ -8,7 +8,8 @@
   "exports": "./src/index.ts",
   "scripts": {
     "build": "tsc --build",
-    "clean": "tsc --build --clean"
+    "clean": "tsc --build --clean",
+    "publish": "yarn publish"
   },
   "files": [
     "dist/**/**.d.ts",
