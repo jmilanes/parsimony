@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean",
-    "publish": "echo 'run'"
+    "publish": "yarn publish"
   },
   "files": [
     "dist/**/**.d.ts",
