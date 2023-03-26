@@ -10,9 +10,12 @@ jobs:
   # Tests, lint, publish broadcast
   publish-libs:
     uses: jmilanes/parsimony/.github/workflows/publishLibs.yml@main
+    secrets: inherit
   deploy-API-service:
     needs: publish-libs
     uses: jmilanes/parsimony/.github/workflows/buildProductionParsimonyAPI.yml@main
+    secrets: inherit
   deploy-web-service:
     needs: publish-libs
     uses: jmilanes/parsimony/.github/workflows/buildProductionParsimonyWeb.yml@main
+    secrets: inherit
