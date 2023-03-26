@@ -12,7 +12,6 @@ jobs:
         with:
           node-version: "18"
           cache: "yarn"
-          registry-url: "https://www.npmjs.com/org/"
           always-auth: true
           persist-credentials: false
       - name: Authenticate with private NPM package
