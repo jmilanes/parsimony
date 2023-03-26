@@ -4,7 +4,6 @@
   "description": "Parsimony Backend Access Library",
   "license": "UNLICENSED",
   "main": "./src/index.ts",
-  "exports": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc --build",
