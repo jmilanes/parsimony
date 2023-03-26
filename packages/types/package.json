@@ -4,7 +4,7 @@
   "description": "Parsimony Types Library",
   "license": "UNLICENSED",
   "main": "./src/index.ts",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean"
