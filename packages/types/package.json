@@ -10,6 +10,7 @@
     "clean": "tsc --build --clean"
   },
   "files": [
+    "src/*.ts",
     "dist/**/**.d.ts",
     "dist/**/**.js"
   ],
