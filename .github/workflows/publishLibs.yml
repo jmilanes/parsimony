@@ -15,7 +15,7 @@ jobs:
           always-auth: true
           persist-credentials: false
       - name: Authenticate with private NPM package
-        run: echo "//registry.npmjs.org/:_authToken=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" > ~/.npmrc
+        run: echo "//registry.npmjs.org/:_authToken=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" > ~/.npmrc
       - name: yarn
         run: yarn install
       - name: Install dependencies and build @parsimony/types
