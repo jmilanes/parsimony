@@ -20,17 +20,19 @@ jobs:
         run: yarn install
       - name: Install dependencies and build @parsimony/types
         run: cd packages/libs/types && yarn build
+      - name: Publish @parsimony/types
+        run: yarn publish --no-private
       - name: Back to Root
         run: cd ../../../
-      # - name: Install dependencies and build @parsimony/utilities 🔧
-      #   run: cd packages/libs/utilities && yarn install && yarn build
-      # - name: Back to Root
-      #   run: cd ../../../
-      # - name: Install dependencies and build @parsimony/bal 🔧
-      #   run: cd packages/libs/backend-access && yarn install && yarn build
-      # - name: Back to Root
-      #   run: cd ../../../
-      - name: Workspace Publish
-        run: yarn workspace foreach --exclude app server cypress utilities bal --no-private yarn publish
+        # - name: Install dependencies and build @parsimony/utilities 🔧
+        #   run: cd packages/libs/utilities && yarn install && yarn build
+        # - name: Back to Root
+        #   run: cd ../../../
+        # - name: Install dependencies and build @parsimony/bal 🔧
+        #   run: cd packages/libs/backend-access && yarn install && yarn build
+        # - name: Back to Root
+        #   run: cd ../../../
+        # - name: Workspace Publish
+        # run: yarn workspace foreach --exclude app server cypress utilities bal --no-private yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
