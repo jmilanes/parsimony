@@ -20,7 +20,7 @@ jobs:
         run: yarn install --immutable
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - name: Install dependencies and build @parsimony/types 🔧
+      - name: Install dependencies and build @parsimony/types
         run: cd packages/libs/types && yarn build
       - name: Back to Root
         run: cd ../../../
