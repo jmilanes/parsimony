@@ -31,6 +31,6 @@ jobs:
         # - name: Back to Root
         #   run: cd ../../../
       - name: Workspace Publish
-        run: yarn workspace types publish --no-private
+        run: yarn workspaces run publish --no-private
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

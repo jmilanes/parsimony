@@ -8,6 +8,7 @@
     "start": "nodemon src/index.ts",
     "start:prd": "nodemon dist/index.js",
     "build": "tsc --build",
+    "publish": "echo 'run'",
     "build:types": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {

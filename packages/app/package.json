@@ -8,6 +8,7 @@
     "lint": "yarn run eslint . --ext .js,.jsx,.ts,.tsx",
     "test:watch": "jest --watch",
     "test": "jest",
+    "publish": "echo 'run'",
     "deploy:prd": "cd deploy-scripts/ && python3 deploy.py && cd ../"
   },
   "dependencies": {

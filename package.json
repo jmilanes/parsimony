@@ -5,7 +5,8 @@
   "license": "UNLICENSED",
   "description": "Parsimony Behavior Tracking",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/libs/*"
   ],
   "scripts": {
     "test": "jest",
@@ -25,6 +26,6 @@
   "resolutions": {},
   "keywords": [],
   "dependencies": {
-    "@yarnpkg/plugin-workspace-tools": "^4.0.0-rc.40"
+    "@yarnpkg/plugin-workspace-tools": "4.0.0-rc.40"
   }
 }
