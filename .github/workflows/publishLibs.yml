@@ -11,15 +11,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "18"
-          cache: "yarn"
-          registry-url: "https://www.npmjs.com/org/"
           always-auth: true
       - name: Authenticate with private NPM package
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
-      - name: yarn
-        run: yarn
+      - name: nmp install
+        run: npm install
       - name: Install dependencies and build @parsimony/types 🔧
-        run: cd packages/libs/types && yarn build
+        run: cd packages/libs/types && npm build
       - name: Back to Root
         run: cd ../../../
       # - name: Install dependencies and build @parsimony/utilities 🔧
@@ -31,6 +29,6 @@ jobs:
       # - name: Back to Root
       #   run: cd ../../../
       - name: Workspace Publish
-        run: yarn workspace foreach --exclude app server cypress utilities bal --no-private yarn publish
+        run: npm workspace foreach --exclude app server cypress utilities bal --no-private yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
