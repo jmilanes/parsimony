@@ -11,11 +11,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "18"
+          cache: "yarn"
           registry-url: "https://www.npmjs.com/org/"
           always-auth: true
       - name: Authenticate with private NPM package
-        run: echo "//registry.npmjs.org/:_authToken=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" > ~/.npmrc
-      - name: Yarn install
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+      - name: yarn
         run: yarn install
       - name: Install dependencies and build @parsimony/types 🔧
         run: cd packages/libs/types && yarn build
