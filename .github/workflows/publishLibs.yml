@@ -19,18 +19,18 @@ jobs:
       - name: Install dependencies and build @parsimony/types 🔧
         run: cd packages/libs/types && yarn install && yarn build
       - name: Publish @parsimony/types on NPM 📦
-        run: npx lerna publish --no-private
+        run: npx lerna publish
       - name: Back to Root
         run: cd ../../../
       - name: Install dependencies and build @parsimony/utilities 🔧
         run: cd packages/libs/utilities && yarn install && yarn build
       - name: Publish @parsimony/utilities on NPM 📦
-        run: npx lerna publish --no-private
+        run: npx lerna publish
       - name: Back to Root
         run: cd ../../../
       - name: Install dependencies and build @parsimony/bal 🔧
         run: cd packages/libs/backend-access && yarn install && yarn build
       - name: Publish @parsimony/bal on NPM 📦
-        run: npx lerna publish --no-private
+        run: npx lerna publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
