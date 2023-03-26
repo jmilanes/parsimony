@@ -16,8 +16,10 @@ jobs:
           always-auth: true
       - name: Authenticate with private NPM package
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+      - name: yarn
+        run: yarn
       - name: Install dependencies and build @parsimony/types 🔧
-        run: cd packages/libs/types && yarn install && yarn build
+        run: cd packages/libs/types && yarn build
       - name: Back to Root
         run: cd ../../../
       # - name: Install dependencies and build @parsimony/utilities 🔧
