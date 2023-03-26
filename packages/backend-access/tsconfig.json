@@ -9,7 +9,6 @@
     "sourceMap": true,
     "allowJs": true,
     "lib": ["ES2021", "ES2017", "dom"],
-    "rootDir": "src",
     "outDir": "dist",
     "types": ["node", "jest"],
     "declaration": true,
