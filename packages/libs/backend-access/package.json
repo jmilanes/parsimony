@@ -1,7 +1,7 @@
 {
   "name": "@parsimony/bal",
   "version": "1.0.6",
-  "private": "false",
+  "private": false,
   "description": "Parsimony Backend Access Library",
   "license": "UNLICENSED",
   "main": "./src/index.ts",
