@@ -1,7 +1,6 @@
 {
   "name": "@parsimony/utilities",
   "version": "0.2.0",
-  "private": false,
   "description": "Parsimony Utility Library",
   "license": "UNLICENSED",
   "main": "./src/index.ts",
