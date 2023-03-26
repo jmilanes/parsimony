@@ -29,11 +29,11 @@ jobs:
       - name: Back to Root
         run: cd ../../../
       - name: Install dependencies and build @parsimony/utilities 🔧
-        run: cd packages/utilities && yarn install && yarn build
+        run: cd packages/utilities && yarn build
       - name: Back to Root
         run: cd ../../../
       - name: Install dependencies and build @parsimony/bal 🔧
-        run: cd packages/bal && yarn install && yarn build
+        run: cd packages/bal && yarn build
       - name: Back to Root
         run: cd ../../../
       - name: Workspace Publish
