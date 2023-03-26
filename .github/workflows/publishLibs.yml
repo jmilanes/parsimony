@@ -31,6 +31,6 @@ jobs:
         # - name: Back to Root
         #   run: cd ../../../
       - name: Workspace Publish
-        run: yarn workspace run publish --exclude app server cypress utilities bal --no-private
+        run: yarn workspace @parsimony/types publish --no-private
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
