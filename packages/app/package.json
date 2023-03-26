@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/app",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "",
   "scripts": {
     "start": "webpack serve --open --config webpack.dev.js",
@@ -23,9 +23,9 @@
     "@mui/icons-material": "^5.10.14",
     "@mui/material": "^5.10.16",
     "@mui/x-data-grid": "^5.17.10",
-    "@parsimony/bal": "^0.6.0",
-    "@parsimony/types": "^0.6.0",
-    "@parsimony/utilities": "^0.6.0",
+    "@parsimony/bal": "^0.7.0",
+    "@parsimony/types": "^0.7.0",
+    "@parsimony/utilities": "^0.7.0",
     "antd": "4.23.6",
     "chart.js": "^3.7.1",
     "classnames": "2.3.1",
