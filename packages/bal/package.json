@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/bal",
-  "version": "1.1.1",
+  "version": "0.1.0",
   "private": false,
   "description": "Parsimony Backend Access Library",
   "license": "UNLICENSED",
@@ -16,11 +16,11 @@
     "dist/**/**.js"
   ],
   "dependencies": {
-    "@parsimony/utilities": "^1.0.8",
+    "@parsimony/utilities": "^0.1.0",
     "typescript": "^4.6.4"
   },
   "devDependencies": {
-    "@parsimony/types": "^1.1.5"
+    "@parsimony/types": "^0.1.0"
   },
   "resolutions": {},
   "keywords": []
