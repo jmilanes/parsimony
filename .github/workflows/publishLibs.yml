@@ -16,22 +16,20 @@ jobs:
           always-auth: true
       - name: Authenticate with private NPM package
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
-      - name: yarn
-        run: yarn
       - name: Install dependencies and build @parsimony/types 🔧
-        run: cd packages/libs/types && yarn build
+        run: cd packages/libs/types && yarn install && yarn build
       - name: Publish @parsimony/types on NPM 📦
         run: yarn lerna publish --no-private
       - name: Back to Root
         run: cd ../../../
       - name: Install dependencies and build @parsimony/utilities 🔧
-        run: cd packages/libs/utilities && yarn build
+        run: cd packages/libs/utilities && yarn install && yarn build
       - name: Publish @parsimony/utilities on NPM 📦
         run: yarn lerna publish --no-private
       - name: Back to Root
         run: cd ../../../
       - name: Install dependencies and build @parsimony/bal 🔧
-        run: cd packages/libs/backend-access && yarn build
+        run: cd packages/libs/backend-access && yarn install && yarn build
       - name: Publish @parsimony/bal on NPM 📦
         run: yarn lerna publish --no-private
         env:
