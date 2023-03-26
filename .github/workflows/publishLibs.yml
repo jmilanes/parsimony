@@ -18,6 +18,10 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=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" > ~/.npmrc
       - name: yarn
         run: yarn install
+      - name: Git Identification
+        run: |
+          git config user.name "Joey Milanes"
+          git config user.email "joemilanes5@gmail.com"
       - name: Lerna Version Bump
         run: yarn lerna version minor --force-publish="@parsimony/types,@parsimony/bal,@parsimony/utilities" --yes
       - name: Install dependencies and build @parsimony/types
