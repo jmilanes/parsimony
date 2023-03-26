@@ -25,18 +25,14 @@ jobs:
       - name: Lerna Version Bump
         run: yarn lerna version minor --force-publish="@parsimony/types,@parsimony/bal,@parsimony/utilities" --yes
       - name: Install dependencies and build @parsimony/types
-        run: cd packages/types && yarn build
+        run: cd packages/types && yarn build && yarn publish
       - name: Back to Root
         run: cd ../../../
       - name: Install dependencies and build @parsimony/utilities 🔧
-        run: cd packages/utilities && yarn build
+        run: cd packages/utilities && yarn build && yarn publish
       - name: Back to Root
         run: cd ../../../
       - name: Install dependencies and build @parsimony/bal 🔧
-        run: cd packages/bal && yarn build
-      - name: Back to Root
-        run: cd ../../../
-      - name: Workspace Publish
-        run: yarn workspaces run publish
+        run: cd packages/bal && yarn build && yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
