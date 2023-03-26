@@ -12,6 +12,8 @@ jobs:
         with:
           node-version: "18"
           cache: "yarn"
+          registry-url: "https://registry.npmjs.org"
+          always-auth: true
       - name: Authenticate with private NPM package
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
       - name: Install dependencies and build @parsimony/types 🔧

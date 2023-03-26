@@ -2,7 +2,7 @@
   "name": "@parsimony/bal",
   "version": "1.0.6",
   "description": "Parsimony Backend Access Library",
-  "license": "(c) Copyright 2021 Parsimony LLC, all rights reserved",
+  "license": "UNLICENSED",
   "main": "./src/index.ts",
   "exports": "./src/index.ts",
   "scripts": {
