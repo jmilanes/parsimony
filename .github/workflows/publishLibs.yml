@@ -20,12 +20,16 @@ jobs:
         run: cd packages/libs/types && yarn install && yarn build
       - name: Publish @parsimony/types on NPM 📦
         run: yarn publish
+      - name: Back to Root
+        run: cd ../../../
       - name: Install dependencies and build @parsimony/utilities 🔧
-        run: cd ../utilities && yarn install && yarn build
+        run: cd packages/libs/utilities && yarn install && yarn build
       - name: Publish @parsimony/utilities on NPM 📦
         run: yarn publish
+      - name: Back to Root
+        run: cd ../../../
       - name: Install dependencies and build @parsimony/bal 🔧
-        run: cd ../backend-access && yarn install && yarn build
+        run: cd packages/libs/backend-access && yarn install && yarn build
       - name: Publish @parsimony/bal on NPM 📦
         run: yarn publish
         env:
