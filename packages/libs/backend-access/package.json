@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/bal",
-  "version": "1.1.00",
+  "version": "1.1.1",
   "private": false,
   "description": "Parsimony Backend Access Library",
   "license": "UNLICENSED",
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean",
-    "publish": "yarn publish"
+    "publish": "echo 'run'"
   },
   "files": [
     "dist/**/**.d.ts",
