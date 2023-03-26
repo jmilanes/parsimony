@@ -14,10 +14,13 @@ jobs:
           cache: "yarn"
           registry-url: "https://www.npmjs.com/org/"
           always-auth: true
+          persist-credentials: false
       - name: Authenticate with private NPM package
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
       - name: yarn
         run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Install dependencies and build @parsimony/types 🔧
         run: cd packages/libs/types && yarn build
       - name: Back to Root
