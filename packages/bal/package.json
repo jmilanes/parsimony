@@ -3,14 +3,13 @@
   "version": "0.14.0",
   "description": "Parsimony Backend Access Library",
   "license": "UNLICENSED",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean"
   },
   "files": [
-    "src/*.ts",
     "dist/**/**.d.ts",
     "dist/**/**.js"
   ],
