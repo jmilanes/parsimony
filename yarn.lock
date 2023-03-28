@@ -3693,6 +3693,14 @@
     node-addon-api "^3.2.1"
     node-gyp-build "^4.3.0"
 
+"@parsimony/types@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@parsimony/types/-/types-0.9.0.tgz#54c0fbc3542c8e994d4b3aed060fa77afc914384"
+  integrity sha512-B3g3PHjtGR6nqGdKkuFemlcVXxnw3t9pN8YnbuU3h49UeZNYNW5jhMR3mOu1LV3iT6zDjtmit2EpJkvGJwMvyw==
+  dependencies:
+    react "^18.2.0"
+    typescript "^4.6.4"
+
 "@peculiar/asn1-schema@^2.3.6":
   version "2.3.6"
   resolved "https://registry.yarnpkg.com/@peculiar/asn1-schema/-/asn1-schema-2.3.6.tgz#3dd3c2ade7f702a9a94dfb395c192f5fa5d6b922"
