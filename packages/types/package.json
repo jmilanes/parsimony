@@ -3,8 +3,11 @@
   "version": "0.18.0",
   "description": "Parsimony Types Library",
   "license": "UNLICENSED",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts"
+  },
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean"
