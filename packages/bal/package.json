@@ -3,7 +3,7 @@
   "version": "0.21.0",
   "description": "Parsimony Backend Access Library",
   "license": "UNLICENSED",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "publishConfig": {
     "main": "./dist/index.js"
