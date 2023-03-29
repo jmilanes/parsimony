@@ -19,11 +19,6 @@ const fullSchema = `
     id
     title
     description
-    options {
-      id
-      name
-      target
-    }
     required
     inputType
     valueType
@@ -41,6 +36,12 @@ const fullSchema = `
   targetStyle
   updated_at
   created_at
+  category
+  targetOptions {
+      id
+      name
+      target
+    }
 `;
 
 export const programOperationStrings = generateCrudOperationStrings(

@@ -7,7 +7,7 @@ import {
   ObservationMetaTestIds,
   Target,
   TargetResult,
-  TargetResultOption
+  TargetResultOption, TargetOption
 } from "@parsimony/types";
 import {
   increment,
@@ -20,6 +20,7 @@ import "./styles.css";
 
 export type IObserverTargetProps = React.PropsWithChildren<{
   target: Target | Target[];
+  targetOptions: TargetOption[]
   updateResultData: (result: IResultData) => void;
   programTrials: number;
   patentActiveState?: boolean;
@@ -27,13 +28,14 @@ export type IObserverTargetProps = React.PropsWithChildren<{
 }>;
 
 export const ObserveTarget = ({
-  target,
-  updateResultData,
-  patentActiveState,
-  programTrials,
-  metaQualifierIndex
-}: IObserverTargetProps) => {
-  // TODO: Revisit this and latest results
+                                target,
+                                targetOptions,
+                                updateResultData,
+                                patentActiveState,
+                                programTrials,
+                                metaQualifierIndex
+                              }: IObserverTargetProps) => {
+
   const [active, setActive] = useState(patentActiveState || false);
   const [complete, setComplete] = useState(false);
   const [completeness, setCompleteness] = useState<ICompletenessState>({});
@@ -96,7 +98,7 @@ export const ObserveTarget = ({
   };
 
   const getTargetId = (target: Target) =>
-    target.options?.find((option) => !!option?.target)?.id || "";
+    targetOptions?.find((option) => !!option?.target)?.id || "";
 
   const selectOption = (
     option: TargetResultOption,
@@ -106,7 +108,7 @@ export const ObserveTarget = ({
   ) => {
     let completed = true;
     // If the selection is above the target option then you get a 100% completeness
-    for (const opt of target.options || []) {
+    for (const opt of targetOptions || []) {
       if (opt?.target) break;
       if (opt?.id === option.id) {
         completed = false;
@@ -125,9 +127,9 @@ export const ObserveTarget = ({
   };
 
   const InactiveTarget = ({
-    target,
-    index
-  }: {
+                            target,
+                            index
+                          }: {
     target: Target;
     index: number;
   }) => {
@@ -150,9 +152,9 @@ export const ObserveTarget = ({
   };
 
   const ActiveTarget = ({
-    target,
-    index
-  }: {
+                          target,
+                          index
+                        }: {
     target: Target;
     index: number;
   }) => {
@@ -178,7 +180,7 @@ export const ObserveTarget = ({
             />
           )}
           {!isGroup && <h1>{currentStep}</h1>}
-          {target?.options?.map((option, i) => (
+          {targetOptions?.map((option, i) => (
             <Button
               key={generateKey("optionButton", i)}
               name={option?.name as string}

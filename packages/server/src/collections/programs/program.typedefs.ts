@@ -22,13 +22,14 @@ export default gql`
     updated_at: Date
     created_at: Date
     mastered: Boolean
+    targetOptions: [TargetOption]
+    category: ProgramCategories
   }
 
   type Target {
     id: ID
     title: String
     description: String
-    options: [TargetOption]
     required: Boolean
     inputType: InputTypes
     valueType: ProgramValueTypes
@@ -56,6 +57,8 @@ export default gql`
     trials: Int
     targetStyle: TargetStyle
     mastered: Boolean
+    targetOptions: [TargetOptionInput]
+    category: ProgramCategories 
   }
 
   input DeleteProgramPayload {
@@ -83,6 +86,8 @@ export default gql`
     targetStyle: TargetStyle
     trials: Int
     mastered: Boolean
+    targetOptions: [TargetOptionInput]
+    category: ProgramCategories 
   }
 
   input GetAllProgramsByRelationshipPayload {
@@ -94,7 +99,6 @@ export default gql`
     id: ID
     title: String
     description: String
-    options: [TargetOptionInput]
     required: Boolean
     inputType: InputTypes
     valueType: ProgramValueTypes
@@ -111,6 +115,11 @@ export default gql`
     NUMBER
     DATE
     BOOLEAN
+  }
+
+  enum ProgramCategories {
+     BEHAVIOR
+     SPEECH
   }
 
   enum InputTypes {

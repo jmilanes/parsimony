@@ -1,5 +1,5 @@
 import {
-  InputTypes,
+  InputTypes, ProgramCategory,
   ProgramTypes,
   ProgramValueTypes,
   TargetStyle,
@@ -16,20 +16,21 @@ export const program1 = {
   mastered: false,
   targetStyle: TargetStyle.Separate,
   trials: 4,
+  category: ProgramCategory.Behavior,
+  targetOptions: [
+    { name: "Full Physical", target: false },
+    { name: "Partial physical", target: false },
+    {
+      name: "Light physical ",
+      target: true
+    },
+    { name: "Gesture", target: false },
+    { name: "Independent", target: false }
+  ],
   targets: [
     {
       title: "Has Client brushed their teeth",
       description: "This is a description",
-      options: [
-        { name: "Full Physical", target: false },
-        { name: "Partial physical", target: false },
-        {
-          name: "Light physical ",
-          target: true
-        },
-        { name: "Gesture", target: false },
-        { name: "Independent", target: false }
-      ],
       required: true,
       inputType: InputTypes.Radio,
       valueType: ProgramValueTypes.Number
@@ -47,11 +48,12 @@ export const programWithoutPrompts = {
   mastered: false,
   targetStyle: TargetStyle.Separate,
   trials: 4,
+  category: ProgramCategory.Behavior,
+  targetOptions: [],
   targets: [
     {
       title: "Has Client brushed their teeth",
       description: "This is a description",
-      options: [],
       required: true,
       inputType: InputTypes.Radio,
       valueType: ProgramValueTypes.Number
@@ -69,20 +71,21 @@ export const program2 = {
   mastered: false,
   targetStyle: TargetStyle.Separate,
   trials: 4,
+  category: ProgramCategory.Behavior,
+  targetOptions: [
+    { name: "Full Physical", target: false },
+    { name: "Partial physical", target: false },
+    {
+      name: "Light physical ",
+      target: true
+    },
+    { name: "Gesture", target: false },
+    { name: "Independent", target: false }
+  ],
   targets: [
     {
       title: "Eaten Oat Meal",
       description: "This is a description",
-      options: [
-        { name: "Full Physical", target: false },
-        { name: "Partial physical", target: false },
-        {
-          name: "Light physical ",
-          target: true
-        },
-        { name: "Gesture", target: false },
-        { name: "Independent", target: false }
-      ],
       required: true,
       inputType: InputTypes.Radio,
       valueType: ProgramValueTypes.Number
@@ -90,16 +93,6 @@ export const program2 = {
     {
       title: "Eaten Eggs",
       description: "This is a description",
-      options: [
-        { name: "Full Physical", target: false },
-        { name: "Partial physical", target: false },
-        {
-          name: "Light physical ",
-          target: true
-        },
-        { name: "Gesture", target: false },
-        { name: "Independent", target: false }
-      ],
       required: true,
       inputType: InputTypes.Radio,
       valueType: ProgramValueTypes.Number
@@ -107,16 +100,6 @@ export const program2 = {
     {
       title: "Eaten Toast",
       description: "This is a description",
-      options: [
-        { name: "Full Physical", target: false },
-        { name: "Partial physical", target: false },
-        {
-          name: "Light physical ",
-          target: true
-        },
-        { name: "Gesture", target: false },
-        { name: "Independent", target: false }
-      ],
       required: true,
       inputType: InputTypes.Radio,
       valueType: ProgramValueTypes.Number

@@ -1,7 +1,8 @@
 import {
+  ProgramCategory,
   ProgramPageMetaTestIds,
   Prompts,
-  RulesFormMetaTestIds
+  TargetFormMetaTestIds
 } from "@parsimony/types";
 
 import {
@@ -37,7 +38,8 @@ describe("Program Page Tests", () => {
       selectOption(ProgramPageMetaTestIds.stepsSelector, "2");
       selectOption(ProgramPageMetaTestIds.readAccessMultiSelector, "CLIENT");
       selectOption(ProgramPageMetaTestIds.writeAccessMultiSelector, "CLIENT");
-      getButton(`${RulesFormMetaTestIds.deleteRuleBtn}-0`).click();
+      selectOption(ProgramPageMetaTestIds.categorySelector, ProgramCategory.Speech);
+      getButton(`${TargetFormMetaTestIds.deleteRuleBtn}-0`).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
       getField(readOnlyLocator(ProgramPageMetaTestIds.titleField)).should(
         "have.text",
@@ -52,6 +54,9 @@ describe("Program Page Tests", () => {
         "Toothbrush!!!"
       );
       getSelect(
+        readOnlyLocator(ProgramPageMetaTestIds.categorySelector)
+      ).should("have.text", ProgramCategory.Speech);
+      getSelect(
         readOnlyLocator(ProgramPageMetaTestIds.readAccessMultiSelector)
       ).should("have.text", "DIRECTOR, CLIENT");
       getSelect(
@@ -61,7 +66,7 @@ describe("Program Page Tests", () => {
         "have.text",
         "2"
       );
-      getButton(`${RulesFormMetaTestIds.deleteRuleBtn}-0`).should("not.exist");
+      getButton(`${TargetFormMetaTestIds.deleteRuleBtn}-0`).should("not.exist");
     });
   });
 
@@ -73,9 +78,10 @@ describe("Program Page Tests", () => {
       getField(ProgramPageMetaTestIds.materialsField).type("Fork");
       getField(ProgramPageMetaTestIds.descriptionField).type("!!");
       selectOption(ProgramPageMetaTestIds.stepsSelector, "2");
+      selectOption(ProgramPageMetaTestIds.categorySelector, ProgramCategory.Speech);
       selectOption(ProgramPageMetaTestIds.readAccessMultiSelector, "CLIENT");
       selectOption(ProgramPageMetaTestIds.writeAccessMultiSelector, "CLIENT");
-      getButton(`${RulesFormMetaTestIds.deleteRuleBtn}-0`);
+      getButton(`${TargetFormMetaTestIds.deleteRuleBtn}-0`);
       getButton(ProgramPageMetaTestIds.cancelEditBtn).click();
       getField(readOnlyLocator(ProgramPageMetaTestIds.titleField)).should(
         "have.text",
@@ -90,6 +96,9 @@ describe("Program Page Tests", () => {
         "Toothbrush"
       );
       getSelect(
+        readOnlyLocator(ProgramPageMetaTestIds.categorySelector)
+      ).should("have.text", ProgramCategory.Behavior);
+      getSelect(
         readOnlyLocator(ProgramPageMetaTestIds.readAccessMultiSelector)
       ).should("have.text", "DIRECTOR");
       getSelect(
@@ -99,7 +108,7 @@ describe("Program Page Tests", () => {
         "have.text",
         "4"
       );
-      getButton(`${RulesFormMetaTestIds.deleteRuleBtn}-0`).should("exist");
+      getButton(`${TargetFormMetaTestIds.deleteRuleBtn}-0`).should("exist");
     });
   });
 
@@ -107,34 +116,33 @@ describe("Program Page Tests", () => {
     DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
-      getButton(
-        `${RulesFormMetaTestIds.preSelectedPhysicalPromptsBtn}-0`
+      getButton(TargetFormMetaTestIds.preSelectedPhysicalPromptsBtn
       ).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
       findText("Target Prompt");
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-0`
         )
       ).should("have.text", Prompts.FullPhysical);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-1`
         )
       ).should("have.text", Prompts.PartialPhysical);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-2`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-2`
         )
       ).should("have.text", Prompts.LightPhysical);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-3`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-3`
         )
       ).should("have.text", Prompts.Gesture);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-4`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-4`
         )
       ).should("have.text", Prompts.Independent);
     });
@@ -145,33 +153,33 @@ describe("Program Page Tests", () => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
       getButton(
-        `${RulesFormMetaTestIds.preSelectedVerbalPromptsBtn}-0`
+        TargetFormMetaTestIds.preSelectedVerbalPromptsBtn
       ).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
       findText("Target Prompt");
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-0`
         )
       ).should("have.text", Prompts.FullVerbalModel);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-1`
         )
       ).should("have.text", Prompts.PartialVerbalModel);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-2`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-2`
         )
       ).should("have.text", Prompts.InitialSoundCue);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-3`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-3`
         )
       ).should("have.text", Prompts.Phonetic);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-4`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-4`
         )
       ).should("have.text", Prompts.Independent);
     });
@@ -181,37 +189,37 @@ describe("Program Page Tests", () => {
     DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
-      getButton(`${RulesFormMetaTestIds.preSelectedTimePromptsBtn}-0`).click();
+      getButton(TargetFormMetaTestIds.preSelectedTimePromptsBtn).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
       findText("Target Prompt");
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-0`
         )
       ).should("have.text", Prompts.Immediate);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-1`
         )
       ).should("have.text", Prompts.TwoSecondDelay);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-2`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-2`
         )
       ).should("have.text", Prompts.FourSecondDelay);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-3`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-3`
         )
       ).should("have.text", Prompts.SixSecondDelay);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-4`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-4`
         )
       ).should("have.text", Prompts.EightSecondDelay);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-5`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-5`
         )
       ).should("have.text", Prompts.TenSecondDelay);
     });
@@ -221,36 +229,36 @@ describe("Program Page Tests", () => {
     DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
-      getButton(`${RulesFormMetaTestIds.preSelectedTimePromptsBtn}-0`).click();
+      getButton(TargetFormMetaTestIds.preSelectedTimePromptsBtn).click();
       findText("Target Prompt");
       getButton(
-        `${RulesFormMetaTestIds.deletePromptBtn}-rule-0-prompt-1`
+        `${TargetFormMetaTestIds.deletePromptBtn}-target-option-1`
       ).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
       findText(Prompts.TwoSecondDelay).should("not.exist");
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-0`
         )
       ).should("have.text", Prompts.Immediate);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-1`
         )
       ).should("have.text", Prompts.FourSecondDelay);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-2`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-2`
         )
       ).should("have.text", Prompts.SixSecondDelay);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-3`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-3`
         )
       ).should("have.text", Prompts.EightSecondDelay);
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-4`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-4`
         )
       ).should("have.text", Prompts.TenSecondDelay);
     });
@@ -260,12 +268,12 @@ describe("Program Page Tests", () => {
     DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
-      getButton(`${RulesFormMetaTestIds.addPromptBtn}-0`).click();
-      getField(`${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`).type(
+      getButton(TargetFormMetaTestIds.addPromptBtn).click();
+      getField(`${TargetFormMetaTestIds.promptNameField}-target-option-0`).type(
         "Prompt 1"
       );
-      getButton(`${RulesFormMetaTestIds.addPromptBtn}-0`).click();
-      getField(`${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`).type(
+      getButton(TargetFormMetaTestIds.addPromptBtn).click();
+      getField(`${TargetFormMetaTestIds.promptNameField}-target-option-1`).type(
         "Prompt 2"
       );
       findText("Target Prompt");
@@ -273,12 +281,12 @@ describe("Program Page Tests", () => {
       findText(Prompts.TwoSecondDelay).should("not.exist");
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-0`
         )
       ).should("have.text", "Prompt 1");
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-1`
         )
       ).should("have.text", "Prompt 2");
     });
@@ -288,29 +296,29 @@ describe("Program Page Tests", () => {
     DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
-      getButton(`${RulesFormMetaTestIds.addPromptBtn}-0`).click();
-      getField(`${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`).type(
+      getButton(TargetFormMetaTestIds.addPromptBtn).click();
+      getField(`${TargetFormMetaTestIds.promptNameField}-target-option-0`).type(
         "Prompt 1"
       );
-      getButton(`${RulesFormMetaTestIds.addPromptBtn}-0`).click();
-      getField(`${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`).type(
+      getButton(TargetFormMetaTestIds.addPromptBtn).click();
+      getField(`${TargetFormMetaTestIds.promptNameField}-target-option-1`).type(
         "Prompt 2"
       );
       findText("Target Prompt");
       getButton(
-        `${RulesFormMetaTestIds.deletePromptBtn}-rule-0-prompt-0`
+        `${TargetFormMetaTestIds.deletePromptBtn}-target-option-0`
       ).click();
       findText("You can't delete the target program!");
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
       findText(Prompts.TwoSecondDelay).should("not.exist");
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-0`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-0`
         )
       ).should("have.text", "Prompt 1");
       getField(
         readOnlyLocator(
-          `${RulesFormMetaTestIds.promptNameField}-rule-0-prompt-1`
+          `${TargetFormMetaTestIds.promptNameField}-target-option-1`
         )
       ).should("have.text", "Prompt 2");
     });

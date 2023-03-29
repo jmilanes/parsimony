@@ -46,6 +46,7 @@ const Observe = () => {
       />
       {isGroup ? (
         <ObserveTarget
+          targetOptions={program.targetOptions}
           target={program.targets as []}
           updateResultData={observation.updatedResultsData}
           programTrials={program.trials || 1}
@@ -54,6 +55,7 @@ const Observe = () => {
         program.targets?.map((target: Target, i: any) =>
           target ? (
             <ObserveTarget
+              targetOptions={program.targetOptions}
               key={generateKey("observeTarget", i)}
               target={target}
               updateResultData={observation.updatedResultsData}

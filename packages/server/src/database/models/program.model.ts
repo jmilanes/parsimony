@@ -3,7 +3,8 @@ import {
   TargetStyle,
   UserRoles,
   InputTypes,
-  ProgramValueTypes
+  ProgramValueTypes,
+  ProgramCategory
 } from "@parsimony/types";
 
 import { ObjectId } from "mongodb";
@@ -16,7 +17,6 @@ const TargetOption = {
 const Target = {
   title: String,
   description: String,
-  options: [TargetOption],
   required: Boolean,
   inputType: { type: String, enum: InputTypes },
   valueType: { type: String, enum: ProgramValueTypes }
@@ -37,5 +37,7 @@ export default {
   createdBy: ObjectId,
   mastered: Boolean,
   trials: Number,
+  category: { type: String, enum: ProgramCategory },
+  targetOptions: [TargetOption],
   targetStyle: { type: String, enum: TargetStyle }
 };

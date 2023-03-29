@@ -3,7 +3,7 @@ import {
   TestEntryTypes,
   Program,
   ProgramsPageMetaTestIds,
-  RulesFormMetaTestIds
+  TargetFormMetaTestIds
 } from "@parsimony/types";
 
 import {
@@ -25,13 +25,13 @@ const createProgramHelper = (program: Partial<Program>) => {
   getField(ProgramsPageMetaTestIds.titleField).type(program.title);
   getField(ProgramsPageMetaTestIds.descriptionField).type(program.description);
   getField(ProgramsPageMetaTestIds.materialsField).type(program.materials);
-
   selectOption(ProgramsPageMetaTestIds.typeSelector, program.type);
   selectOption(
     `${ProgramsPageMetaTestIds.stepsSelector}`,
     program.trials.toString()
   );
   selectOption(ProgramsPageMetaTestIds.ruleStyleSelector, program.targetStyle);
+  selectOption(ProgramsPageMetaTestIds.categorySelector, program.category);
   selectMultipleOptions(
     ProgramsPageMetaTestIds.readAccessMultiSelector,
     program.readAccess
@@ -41,39 +41,40 @@ const createProgramHelper = (program: Partial<Program>) => {
     program.writeAccess
   );
 
+  program?.targetOptions?.forEach((option, optionIndex) => {
+    getButton(`${TargetFormMetaTestIds.addPromptBtn}`).click();
+    getField(
+      `${TargetFormMetaTestIds.promptNameField}-target-option-${optionIndex}`
+    ).type(option.name);
+    if (option.target) {
+      getButton(
+        `${TargetFormMetaTestIds.setToTargetBtn}-target-option-${optionIndex}`
+      ).click();
+    }
+  });
+
   program.targets.forEach((target, ruleIndex) => {
-    getButton(`${RulesFormMetaTestIds.addRuleBtn}`).click();
-    getField(`${RulesFormMetaTestIds.questionField}-${ruleIndex}`).type(
+    getButton(`${TargetFormMetaTestIds.addRuleBtn}`).click();
+    getField(`${TargetFormMetaTestIds.questionField}-${ruleIndex}`).type(
       target.title
     );
-    getField(`${RulesFormMetaTestIds.descriptionField}-${ruleIndex}`).type(
+    getField(`${TargetFormMetaTestIds.descriptionField}-${ruleIndex}`).type(
       target.description
     );
-    getField(`${RulesFormMetaTestIds.descriptionField}-${ruleIndex}`).type(
+    getField(`${TargetFormMetaTestIds.descriptionField}-${ruleIndex}`).type(
       target.description
     );
     getCheckBox(
-      `${RulesFormMetaTestIds.requiredCheckbox}-${ruleIndex}`
+      `${TargetFormMetaTestIds.requiredCheckbox}-${ruleIndex}`
     ).click();
     selectOption(
-      `${RulesFormMetaTestIds.inputTypeSelector}-${ruleIndex}`,
+      `${TargetFormMetaTestIds.inputTypeSelector}-${ruleIndex}`,
       target.inputType
     );
     selectOption(
-      `${RulesFormMetaTestIds.valueTypeSelector}-${ruleIndex}`,
+      `${TargetFormMetaTestIds.valueTypeSelector}-${ruleIndex}`,
       target.valueType
     );
-    target.options.forEach((option, optionIndex) => {
-      getButton(`${RulesFormMetaTestIds.addPromptBtn}-${ruleIndex}`).click();
-      getField(
-        `${RulesFormMetaTestIds.promptNameField}-rule-${ruleIndex}-prompt-${optionIndex}`
-      ).type(option.name);
-      if (option.target) {
-        getButton(
-          `${RulesFormMetaTestIds.setToTargetBtn}-rule-${ruleIndex}-prompt-${optionIndex}`
-        ).click();
-      }
-    });
   });
 
   cy.intercept(API_URL).as("apiRequest");
@@ -171,5 +172,27 @@ describe("Programs Page Tests", () => {
         "3"
       );
     });
+  });
+
+  it("should clear values on cancel", () => {
+    cy.visit(ROUTES.programs);
+    getButton(ProgramsPageMetaTestIds.addBtn).click();
+    getField(ProgramsPageMetaTestIds.titleField).type(program1.title);
+    getField(ProgramsPageMetaTestIds.descriptionField).type(program1.description);
+    getField(ProgramsPageMetaTestIds.materialsField).type(program1.materials);
+    getButton(AddModalControls.cancelBtn).click();
+    getButton(ProgramsPageMetaTestIds.addBtn).click();
+    getField(ProgramsPageMetaTestIds.titleField).should(
+      "have.value",
+      ""
+    );
+    getField(ProgramsPageMetaTestIds.descriptionField).should(
+      "have.value",
+      ""
+    );
+    getField(ProgramsPageMetaTestIds.materialsField).should(
+      "have.value",
+      ""
+    );
   });
 });

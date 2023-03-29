@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { IColumns, ITableAction } from "../components/table.component";
+import { IColumns, ITableAction } from "../components";
 import { AddForm, TargetForm } from "../containers";
 import {
   Collections,
@@ -7,10 +7,10 @@ import {
   ProgramsPageMetaTestIds,
   User,
   Routes,
-  Program
+  Program, TargetOption
 } from "@parsimony/types";
 import {
-  initialProgramData,
+  initialProgramData, programCategories,
   programTypes,
   targetStyles,
   trialOptions,
@@ -35,6 +35,7 @@ import {
 } from "../components";
 import { ProgramTypes } from "@parsimony/types";
 import { useServices } from "../context";
+import { TargetOptionSelector } from "../containers/targetOptionsSelector.container";
 
 const Programs = () => {
   const { stateManager, dataAccess, store, filterService } = useServices();
@@ -167,7 +168,10 @@ const Programs = () => {
       <AddForm
         showForm={showAddForm}
         onCreate={submitAddForm}
-        onCancel={() => setShowAddForm(false)}
+        onCancel={() => {
+          setShowAddForm(false);
+          updateLocalState(initialProgramData);
+        }}
         title="Add Program"
       >
         <Field
@@ -228,6 +232,14 @@ const Programs = () => {
           updateState={updateState}
           metaTestId={ProgramsPageMetaTestIds.ruleStyleSelector}
         />
+        <Selector
+          title="Category"
+          pathToState="category"
+          value={localState.category}
+          options={programCategories}
+          updateState={updateState}
+          metaTestId={ProgramsPageMetaTestIds.categorySelector}
+        />
         <MultiSelect
           title="Read Access"
           pathToState="readAccess"
@@ -244,6 +256,7 @@ const Programs = () => {
           updateState={updateState}
           metaTestId={ProgramsPageMetaTestIds.writeAccessMultiSelector}
         />
+        <TargetOptionSelector targetOptions={localState.targetOptions as TargetOption[]} updateState={updateState} />
         <TargetForm localState={localState} updateState={updateState} />
       </AddForm>
     </>

@@ -84,6 +84,7 @@ export enum ProgramsPageMetaTestIds {
   descriptionField = "add-program-description-field",
   materialsField = "update-program-materials-field",
   typeSelector = "add-program-type-selector",
+  categorySelector = "add-program-type-category",
   clientSelector = "add-program-client-selector",
   stepsSelector = "add-steps-selector",
   ruleStyleSelector = "add-program-rule-style-selector",
@@ -102,6 +103,7 @@ export enum ProgramPageMetaTestIds {
   descriptionField = "update-program-description-field",
   materialsField = "update-program-materials-field",
   typeSelector = "update-program-type-selector",
+  categorySelector = "update-program-category-selector",
   clientSelector = "update-program-client-selector",
   ruleStyleSelector = "update-program-rule-style-selector",
   writeAccessMultiSelector = "update-program-write-access-selector",
@@ -126,7 +128,7 @@ export enum ObservationMetaTestIds {
 }
 
 // TODO: will need to have a way to get prompts by each and prompts
-export enum RulesFormMetaTestIds {
+export enum TargetFormMetaTestIds {
   deleteRuleBtn = "delete-rule-btn",
   questionField = "add-rule-question-field",
   descriptionField = "add-rule-description-field",
@@ -175,7 +177,7 @@ export type MetaTestIds =
   | NavMetaTestIds
   | AddModalControls
   | AuthPageMetaTestIds
-  | RulesFormMetaTestIds
+  | TargetFormMetaTestIds
   | ProgramPageMetaTestIds
   | ObservationMetaTestIds
   | RepeatableMetaTestIds

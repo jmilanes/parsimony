@@ -2,15 +2,16 @@ import { IOptionMultiSelect } from "../components/multiSelect.component";
 import { IOption } from "../components/selector.component";
 import {
   InputTypes,
+  Program,
+  ProgramCategory,
   ProgramTypes,
   ProgramValueTypes,
   Prompts,
   PromptTypes,
+  Target,
   TargetOption,
   TargetStyle,
-  UserRoles,
-  Program,
-  Target
+  UserRoles
 } from "@parsimony/types";
 
 const currentUser = localStorage.getItem("currentUserId");
@@ -30,14 +31,15 @@ export const initialProgramData: Program = {
   createdBy: currentUser,
   trials: 1,
   targets: [],
-  mastered: false
+  mastered: false,
+  category: ProgramCategory.Behavior,
+  targetOptions: []
 };
 
 export const initialTargetData: Target = {
   id: "",
   title: "",
   description: "",
-  options: [],
   required: true,
   inputType: InputTypes.Radio,
   valueType: ProgramValueTypes.Number
@@ -57,6 +59,12 @@ export const targetStyles: IOption[] = [
   { name: TargetStyle.Separate, value: TargetStyle.Separate },
   { name: TargetStyle.Group, value: TargetStyle.Group }
 ];
+
+export const programCategories: IOption[] = [
+  { name: ProgramCategory.Behavior, value: ProgramCategory.Behavior },
+  { name: ProgramCategory.Speech, value: ProgramCategory.Speech }
+];
+
 
 export const inputTypes: IOption[] = [
   { name: InputTypes.Radio, value: InputTypes.Radio },

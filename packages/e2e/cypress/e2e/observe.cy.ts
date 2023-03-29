@@ -14,7 +14,7 @@ import {
   getTableRowAction,
   getTableRowItem,
   getTargetOptionButton,
-  getSeparateObserveButton
+  getSeparateObserveButton, getField, readOnlyLocator
 } from "../../utilities";
 import { DB_ACTIONS } from "../../utilities/db.utils";
 import {
@@ -49,12 +49,8 @@ describe("Observe Tests Page Tests", () => {
         return cy.wait("@save").then((interception) => {
           let targetId = interception.response.body.data.updateProgram.id;
           DB_ACTIONS.addEntity(targetId, TestEntryTypes.PROGRAM);
-          cy.visit(`${ROUTES.programs}`);
-          getTableRowItem(
-            ProgramsPageMetaTestIds.table,
-            targetId,
-            "title"
-          ).should("have.text", "Brushing Teeth_Copy");
+          cy.visit(`${ROUTES.programs}/${targetId}`);
+          getField(readOnlyLocator(ProgramPageMetaTestIds.titleField)).should("have.text", "Brushing Teeth_Copy");
         });
       });
     });
@@ -75,13 +71,9 @@ describe("Observe Tests Page Tests", () => {
         return cy.wait("@save").then((interception) => {
           let targetId = interception.response.body.data.updateProgram.id;
           DB_ACTIONS.addEntity(targetId, TestEntryTypes.PROGRAM);
-          getButton(NavMetaTestIds.programBtn).click();
-          getTableRowItem(
-            ProgramsPageMetaTestIds.table,
-            targetId,
-            "title"
-          ).should("have.text", "Brushing Teeth_Copy");
-
+          cy.visit(`${ROUTES.programs}/${targetId}`);
+          getField(readOnlyLocator(ProgramPageMetaTestIds.titleField)).should("have.text", "Brushing Teeth_Copy");
+          getButton(NavMetaTestIds.directoryBtn).click();
           cy.visit(`${ROUTES.directory}/${userId}`);
           getTableRowItem(
             UserPageMetaTestIds.programsTable,

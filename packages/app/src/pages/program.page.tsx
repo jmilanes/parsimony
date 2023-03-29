@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import {
+  programCategories,
   programTypes,
   targetStyles,
   trialOptions,
@@ -20,7 +21,7 @@ import {
   IModes,
   User,
   Collections,
-  ProgramPageMetaTestIds
+  ProgramPageMetaTestIds, TargetOption
 } from "@parsimony/types";
 
 import {
@@ -36,6 +37,7 @@ import {
 import { ProgramTypes, Routes } from "@parsimony/types";
 
 import { useServices } from "../context";
+import { TargetOptionSelector } from "../containers/targetOptionsSelector.container";
 
 const Program = () => {
   const { stateManager, dataAccess, store } = useServices();
@@ -44,7 +46,6 @@ const Program = () => {
   let [searchParams] = getSearchParams();
 
   const program = store.getCollectionItem(Collections.Program, programId || "");
-
   const [localState, updateLocalState] = React.useState<Program>(program);
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
@@ -147,6 +148,15 @@ const Program = () => {
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.typeSelector}
       />
+      <Selector
+        title="Category"
+        pathToState="category"
+        value={localState.category}
+        options={programCategories}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+        metaTestId={ProgramPageMetaTestIds.categorySelector}
+      />
 
       {/* This prob shouldn't exist but might need for now  */}
       {mode === "edit" && (
@@ -224,6 +234,14 @@ const Program = () => {
             }
           />
         </Row>
+      )}
+
+      {Array.isArray(localState.targetOptions) && (
+        <TargetOptionSelector
+          targetOptions={localState.targetOptions as TargetOption[]}
+          updateState={updateState}
+          readOnly={isReadOnlyMode(mode)}
+        />
       )}
 
       {Array.isArray(localState.targets) && (
