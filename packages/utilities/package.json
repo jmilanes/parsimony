@@ -4,9 +4,9 @@
   "description": "Parsimony Utility Library",
   "license": "UNLICENSED",
   "main": "./src/index.ts",
-  "types": "./dist/index.d.ts",
   "publishConfig": {
-    "main": "./dist/index.js"
+    "main": "./dist/index.js",
+    "typings": "./dist/index.d.ts"
   },
   "scripts": {
     "build": "tsc --build",
@@ -29,5 +29,9 @@
   "keywords": [],
   "browser": {
     "crypto": false
+  },
+  "engines": {
+    "node": ">=10",
+    "pnpm": ">=3"
   }
 }

@@ -7,7 +7,7 @@
   "types": "./dist/index.d.ts",
   "publishConfig": {
     "main": "./dist/index.js",
-    "types": "./dist/index.d.ts"
+    "typings": "./dist/index.d.ts"
   },
   "scripts": {
     "build": "tsc --build",
@@ -34,5 +34,9 @@
     "graphql": "^16.6.0"
   },
   "resolutions": {},
-  "keywords": []
+  "keywords": [],
+  "engines": {
+    "node": ">=10",
+    "pnpm": ">=3"
+  }
 }
