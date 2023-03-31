@@ -22,8 +22,6 @@ jobs:
         run: |
           git config user.name "Joey Milanes"
           git config user.email "joemilanes5@gmail.com"
-      - name: Lerna Version Bump
-        run: yarn lerna version minor --force-publish="@parsimony/types,@parsimony/bal,@parsimony/utilities" --yes
       - name: Install dependencies and build @parsimony/types
         run: cd packages/types && yarn build && yarn publish
       - name: Back to Root
