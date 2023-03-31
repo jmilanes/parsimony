@@ -4,6 +4,7 @@
   "description": "Parsimony Types Library",
   "license": "UNLICENSED",
   "main": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "publishConfig": {
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts"
