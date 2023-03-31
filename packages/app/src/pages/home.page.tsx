@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <>
       <Header text="Parsimony | The Best in Behavior Tracking." size="md" />
-      <p>Things usually behave in the simplest way :D</p>
+      <p>Things usually behave in the simplest way</p>
       <Header text="Principle of Parsimony:" size="md" />
       <p>
         the scientific principle that things are usually connected or behave in
