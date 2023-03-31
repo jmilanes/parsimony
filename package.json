@@ -16,15 +16,12 @@
     "build:types": "cd packages/server/ && yarn build:types",
     "start": "concurrently \"yarn start:server\" \"yarn start:app\"",
     "cypress:open": "cd packages/e2e/ && yarn cypress:open",
-    "cypress:run": "cd packages/e2e/ && yarn cypress:run",
-    "updatePublishedLibsVersionNumber": "yarn lerna version minor --yes && git add -A",
-    "prepare": "husky install"
+    "cypress:run": "cd packages/e2e/ && yarn cypress:run"
   },
   "devDependencies": {
     "concurrently": "^7.2.2",
     "lerna": "^6.6.1",
-    "process": "^0.11.10",
-    "husky": "^8.0.0"
+    "process": "^0.11.10"
   },
   "resolutions": {},
   "keywords": [],
