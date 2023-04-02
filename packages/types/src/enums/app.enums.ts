@@ -9,6 +9,7 @@ export enum Collections {
   File = "file",
   AppControls = "appControls"
 }
+
 export enum PromptTypes {
   Verbal = "VERBAL",
   Physical = "PHYSICAL",
