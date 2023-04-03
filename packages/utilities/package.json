@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/utilities",
-  "version": "0.37.0",
+  "version": "0.38.0",
   "description": "Parsimony Utility Library",
   "license": "UNLICENSED",
   "main": "./dist/index.js",
