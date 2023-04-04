@@ -110,6 +110,16 @@ const Program = () => {
             action={submitForm}
             hidden={isReadOnlyMode(mode)}
             metaTestId={ProgramPageMetaTestIds.submitEditBtn}
+          />,
+          <Button
+            key="delete"
+            name="Delete"
+            action={() => {
+              dataAccess.program.delete({ id: program.id });
+              navigate(`/programs`);
+            }}
+            hidden={isEditMode(mode)}
+            metaTestId={ProgramPageMetaTestIds.editBtn}
           />
         ]}
       />

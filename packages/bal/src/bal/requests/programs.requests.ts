@@ -21,6 +21,8 @@ const fullSchema = `
     required
     inputType
     valueType
+    currentMasterCount
+    mastered
   }
   description
   materials
@@ -42,6 +44,10 @@ const fullSchema = `
       target
     }
   chainingDirection
+  currentChainTarget
+  masterTargetPercent
+  masterTargetCount
+  subscribers
 `;
 
 export const programOperationStrings = generateCrudOperationStrings(

@@ -99,6 +99,11 @@ const User = () => {
     {
       name: "View Program",
       method: (program: Program) => navigate(`/programs/${program.id}`)
+    },
+    {
+      name: "Delete",
+      method: (program: Required<Program>) =>
+        dataAccess.program.delete({ id: program.id })
     }
   ];
 
