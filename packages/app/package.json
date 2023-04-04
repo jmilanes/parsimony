@@ -1,7 +1,7 @@
 {
   "name": "@parsimony/app",
   "version": "0.41.0",
-  "description": "",
+  "description": "THe app the tracks the all the behavior",
   "scripts": {
     "start": "webpack serve --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
