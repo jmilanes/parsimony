@@ -4,7 +4,8 @@ import {
   UserRoles,
   InputTypes,
   ProgramValueTypes,
-  ProgramCategory
+  ProgramCategories,
+  TrialChainingDirections
 } from "@parsimony/types";
 
 import { ObjectId } from "mongodb";
@@ -37,7 +38,8 @@ export default {
   createdBy: ObjectId,
   mastered: Boolean,
   trials: Number,
-  category: { type: String, enum: ProgramCategory },
+  category: { type: String, enum: ProgramCategories },
   targetOptions: [TargetOption],
-  targetStyle: { type: String, enum: TargetStyle }
+  targetStyle: { type: String, enum: TargetStyle },
+  chainingDirection: { type: String, enum: TrialChainingDirections }
 };

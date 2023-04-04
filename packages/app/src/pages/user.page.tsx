@@ -1,25 +1,30 @@
 import React, { useEffect } from "react";
-import { userRoleOptions, userRoleOptionsWithStringValues } from "../fixtures";
+import {
+  serviceProviderOptions,
+  userRoleOptions,
+  userRoleOptionsWithStringValues
+} from "../fixtures";
 
 import {
-  Header,
+  Button,
   Container,
   Field,
-  Selector,
+  Header,
   MultiSelect,
-  Button,
-  Table,
-  Row
+  Row,
+  Selector,
+  Table
 } from "../components";
 
 import {
   Collections,
   IModes,
   Program,
+  Routes,
   UpdateUserPayload,
   User,
   UserPageMetaTestIds,
-  Routes
+  UserRoles
 } from "@parsimony/types";
 
 import {
@@ -28,9 +33,9 @@ import {
   getRouterParams,
   isEditMode,
   isReadOnlyMode,
+  navigateToRoute,
   omitMongoKeys
 } from "../utils";
-import { navigateToRoute } from "../utils";
 
 import { IColumns, ITableAction } from "../components/table.component";
 import { useServices } from "../context";
@@ -122,8 +127,8 @@ const User = () => {
             metaTestId={UserPageMetaTestIds.cancelEdit}
           />,
           <Button
-            key="submit"
-            name="Submit"
+            key="save"
+            name="Save"
             action={submitForm}
             hidden={isReadOnlyMode(mode)}
             metaTestId={UserPageMetaTestIds.submitEdit}
@@ -180,6 +185,17 @@ const User = () => {
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.roleMultiSelector}
       />
+      {!user.roles.includes(UserRoles.Client) && (
+        <Selector
+          title="Service Provider"
+          options={serviceProviderOptions}
+          pathToState="serviceProvider"
+          value={localState.serviceProvider}
+          updateState={updateState}
+          readOnly={isReadOnlyMode(mode)}
+          metaTestId={UserPageMetaTestIds.serviceProviderSelector}
+        />
+      )}
       <Row>
         <Header text="Programs:" size="md" />
         <Button

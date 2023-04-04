@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Header, Button } from "../components";
 import { generateKey, getRouterParams, navigateToRoute } from "../utils";
 import { ObserveTarget } from "../containers";
 import {
   Collections,
   ObservationMetaTestIds,
-  Program,
   Target,
   TargetStyle
 } from "@parsimony/types";
@@ -32,7 +31,7 @@ const Observe = () => {
 
   if (!observation.isLoaded) return null;
 
-  const isGroup = program.targetStyle === TargetStyle.Group;
+  const isDiscreteTrial = program.targetStyle === TargetStyle.DiscreteTrials;
 
   const onSubmit = () =>
     dataAccess.result.create(observation.getResultsForCreation());
@@ -44,7 +43,7 @@ const Observe = () => {
         text={`Completeness: ${observation.programCompleteness}%`}
         size="sm"
       />
-      {isGroup ? (
+      {isDiscreteTrial ? (
         <ObserveTarget
           targetOptions={program.targetOptions}
           target={program.targets as []}

@@ -58,6 +58,7 @@ export enum UserPageMetaTestIds {
   emailField = "update-user-email-field",
   passwordField = "update-user-password-field",
   typeSelector = "update-user-type-selector",
+  serviceProviderSelector = "update-service-provider-selector",
   roleMultiSelector = "update-user-role-field",
   edit = "edit-user",
   cancelEdit = "cancel-edit-user",

@@ -416,6 +416,18 @@
             "deprecationReason": null
           },
           {
+            "name": "chainingDirection",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "TrialChainingDirections",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "clientId",
             "description": null,
             "type": {
@@ -1017,6 +1029,18 @@
           },
           {
             "name": "schoolId",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "serviceProvider",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -3376,6 +3400,18 @@
             "deprecationReason": null
           },
           {
+            "name": "chainingDirection",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "TrialChainingDirections",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "clientId",
             "description": null,
             "args": [],
@@ -3642,13 +3678,67 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "BEHAVIOR",
+            "name": "ABA",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "SPEECH",
+            "name": "COUNSELING_THERAPEUTIC",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ELL",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "EXECUTIVE_FUNCTIONING",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "MATH",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "OCCUPATIONAL",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "READING_WRITING",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "SELF_REGULATION",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "SKILLS",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "SPEECH_AND_LANGUAGE_SERVICES",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "THERAPY",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -5278,13 +5368,13 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "GROUP",
+            "name": "DISCRETE_TRIALS",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "SEPARATE",
+            "name": "TASK_ANALYSIS",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -5393,6 +5483,29 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "TrialChainingDirections",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "BACKWARD",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "FORWARD",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {
@@ -5744,6 +5857,18 @@
             "type": {
               "kind": "ENUM",
               "name": "ProgramCategories",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "chainingDirection",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "TrialChainingDirections",
               "ofType": null
             },
             "defaultValue": null,
@@ -6443,6 +6568,18 @@
             "deprecationReason": null
           },
           {
+            "name": "serviceProvider",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "threadDisplayNameName",
             "description": null,
             "type": {
@@ -6710,6 +6847,18 @@
           },
           {
             "name": "schoolId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "serviceProvider",
             "description": null,
             "args": [],
             "type": {

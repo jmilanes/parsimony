@@ -3,6 +3,28 @@ const { gql } = require("apollo-server");
 export default gql`
   scalar Date
 
+  type User {
+    schoolId: String
+    timeZone: String
+    roles: [String]
+    type: String
+    documents: [String]
+    password: String
+    email: String
+    firstName: String
+    lastName: String
+    dateOfBirth: Date
+    phone: String
+    contacts: [ID]
+    clients: [ID]
+    programs: [ID]
+    actionItems: [ID]
+    threadDisplayNameName: String
+    avatar: String
+    color: String
+    serviceProvider: String
+  }
+
   input CreateUserPayload {
     schoolId: String
     timeZone: String
@@ -22,6 +44,7 @@ export default gql`
     threadDisplayNameName: String
     avatar: String
     color: String
+    serviceProvider: String
   }
 
   input DeleteUserPayload {
@@ -52,6 +75,7 @@ export default gql`
     threadDisplayNameName: String
     avatar: String
     color: String
+    serviceProvider: String
   }
 
   input GetAllUsersByRelationshipPayload {

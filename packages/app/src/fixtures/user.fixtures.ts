@@ -1,4 +1,5 @@
-import { User, UserRoles } from "@parsimony/types";
+import { ServiceProviders, User, UserRoles } from "@parsimony/types";
+import { IOption } from "../components";
 
 export const initialUserData: Partial<User> = {
   firstName: "",
@@ -13,5 +14,19 @@ export const initialUserData: Partial<User> = {
   roles: [UserRoles.Director],
   type: UserRoles.Director,
   email: "",
-  password: ""
+  password: "",
+  serviceProvider: ""
 };
+
+export const serviceProviderOptions: IOption[] = [
+  { name: ServiceProviders.BCBA, value: ServiceProviders.BCBA },
+  { name: ServiceProviders.OT, value: ServiceProviders.OT },
+  { name: ServiceProviders.SLP, value: ServiceProviders.SLP },
+  { name: ServiceProviders.COUNSELOR, value: ServiceProviders.COUNSELOR },
+  { name: ServiceProviders.PSYCH, value: ServiceProviders.PSYCH },
+  {
+    name: ServiceProviders.SOCIAL_WORKER,
+    value: ServiceProviders.SOCIAL_WORKER
+  },
+  { name: ServiceProviders.SPED, value: ServiceProviders.SPED }
+];

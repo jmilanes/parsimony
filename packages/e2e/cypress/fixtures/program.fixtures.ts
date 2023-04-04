@@ -1,8 +1,10 @@
 import {
-  InputTypes, ProgramCategory,
+  InputTypes,
+  ProgramCategories,
   ProgramTypes,
   ProgramValueTypes,
   TargetStyle,
+  TrialChainingDirections,
   UserRoles
 } from "@parsimony/types";
 
@@ -14,9 +16,9 @@ export const program1 = {
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,
   mastered: false,
-  targetStyle: TargetStyle.Separate,
+  targetStyle: TargetStyle.TaskAnalysis,
   trials: 4,
-  category: ProgramCategory.Behavior,
+  category: ProgramCategories.Aba,
   targetOptions: [
     { name: "Full Physical", target: false },
     { name: "Partial physical", target: false },
@@ -35,7 +37,8 @@ export const program1 = {
       inputType: InputTypes.Radio,
       valueType: ProgramValueTypes.Number
     }
-  ]
+  ],
+  chainingDirection: TrialChainingDirections.Forward
 };
 
 export const programWithoutPrompts = {
@@ -46,9 +49,9 @@ export const programWithoutPrompts = {
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,
   mastered: false,
-  targetStyle: TargetStyle.Separate,
+  targetStyle: TargetStyle.TaskAnalysis,
   trials: 4,
-  category: ProgramCategory.Behavior,
+  category: ProgramCategories.Aba,
   targetOptions: [],
   targets: [
     {
@@ -58,7 +61,8 @@ export const programWithoutPrompts = {
       inputType: InputTypes.Radio,
       valueType: ProgramValueTypes.Number
     }
-  ]
+  ],
+  chainingDirection: TrialChainingDirections.Forward
 };
 
 export const program2 = {
@@ -69,9 +73,9 @@ export const program2 = {
   readAccess: [UserRoles.Director],
   type: ProgramTypes.Main,
   mastered: false,
-  targetStyle: TargetStyle.Separate,
+  targetStyle: TargetStyle.TaskAnalysis,
   trials: 4,
-  category: ProgramCategory.Behavior,
+  category: ProgramCategories.Aba,
   targetOptions: [
     { name: "Full Physical", target: false },
     { name: "Partial physical", target: false },
@@ -104,19 +108,22 @@ export const program2 = {
       inputType: InputTypes.Radio,
       valueType: ProgramValueTypes.Number
     }
-  ]
+  ],
+  chainingDirection: TrialChainingDirections.Forward
 };
 
 export const programAsClientSeparateStyle = {
   ...program2,
   trials: 2,
   type: ProgramTypes.Client,
-  targetStyle: TargetStyle.Separate
+  targetStyle: TargetStyle.TaskAnalysis,
+  chainingDirection: TrialChainingDirections.Forward
 };
 
 export const programAsClientGroupStyle = {
   ...program2,
   trials: 2,
   type: ProgramTypes.Client,
-  targetStyle: TargetStyle.Group
+  targetStyle: TargetStyle.DiscreteTrials,
+  chainingDirection: TrialChainingDirections.Forward
 };

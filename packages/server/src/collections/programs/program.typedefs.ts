@@ -24,6 +24,7 @@ export default gql`
     mastered: Boolean
     targetOptions: [TargetOption]
     category: ProgramCategories
+    chainingDirection: TrialChainingDirections
   }
 
   type Target {
@@ -58,7 +59,8 @@ export default gql`
     targetStyle: TargetStyle
     mastered: Boolean
     targetOptions: [TargetOptionInput]
-    category: ProgramCategories 
+    category: ProgramCategories
+    chainingDirection: TrialChainingDirections
   }
 
   input DeleteProgramPayload {
@@ -87,7 +89,8 @@ export default gql`
     trials: Int
     mastered: Boolean
     targetOptions: [TargetOptionInput]
-    category: ProgramCategories 
+    category: ProgramCategories
+    chainingDirection: TrialChainingDirections
   }
 
   input GetAllProgramsByRelationshipPayload {
@@ -118,8 +121,17 @@ export default gql`
   }
 
   enum ProgramCategories {
-     BEHAVIOR
-     SPEECH
+    SPEECH_AND_LANGUAGE_SERVICES
+    OCCUPATIONAL
+    THERAPY
+    ABA
+    COUNSELING_THERAPEUTIC
+    EXECUTIVE_FUNCTIONING
+    SKILLS
+    MATH
+    READING_WRITING
+    SELF_REGULATION
+    ELL
   }
 
   enum InputTypes {
@@ -140,9 +152,14 @@ export default gql`
     CLIENT
   }
 
+  enum TrialChainingDirections {
+    FORWARD
+    BACKWARD
+  }
+
   enum TargetStyle {
-    SEPARATE
-    GROUP
+    DISCRETE_TRIALS
+    TASK_ANALYSIS
   }
 
   type Query {

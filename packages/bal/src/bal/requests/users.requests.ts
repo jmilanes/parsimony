@@ -1,11 +1,11 @@
 import {
-  User,
-  GetUserPayload,
+  Collections,
   CreateUserPayload,
   DeleteUserPayload,
+  GetAllUsersByRelationshipPayload,
+  GetUserPayload,
   UpdateUserPayload,
-  Collections,
-  GetAllUsersByRelationshipPayload
+  User
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
@@ -29,6 +29,7 @@ export const fullSchema = `
   clients
   programs
   actionItems
+  serviceProvider
 `;
 
 export const userOperationStrings = generateCrudOperationStrings(

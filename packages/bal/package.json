@@ -3,8 +3,11 @@
   "version": "0.39.0",
   "description": "Parsimony Backend Access Library",
   "license": "UNLICENSED",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "src/index.ts",
+  "publishConfig": {
+    "types": "./dist/index.d.ts",
+    "main": "./dist/index.js"
+  },
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean"
@@ -21,9 +24,5 @@
     "@parsimony/types": "^0.9.0"
   },
   "resolutions": {},
-  "keywords": [],
-  "engines": {
-    "node": ">=10",
-    "pnpm": ">=3"
-  }
+  "keywords": []
 }

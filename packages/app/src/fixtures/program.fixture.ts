@@ -3,7 +3,7 @@ import { IOption } from "../components/selector.component";
 import {
   InputTypes,
   Program,
-  ProgramCategory,
+  ProgramCategories,
   ProgramTypes,
   ProgramValueTypes,
   Prompts,
@@ -11,6 +11,7 @@ import {
   Target,
   TargetOption,
   TargetStyle,
+  TrialChainingDirections,
   UserRoles
 } from "@parsimony/types";
 
@@ -32,8 +33,9 @@ export const initialProgramData: Program = {
   trials: 1,
   targets: [],
   mastered: false,
-  category: ProgramCategory.Behavior,
-  targetOptions: []
+  category: ProgramCategories.Aba,
+  targetOptions: [],
+  chainingDirection: TrialChainingDirections.Forward
 };
 
 export const initialTargetData: Target = {
@@ -56,15 +58,47 @@ export const programTypes: IOption[] = [
 ];
 
 export const targetStyles: IOption[] = [
-  { name: TargetStyle.Separate, value: TargetStyle.Separate },
-  { name: TargetStyle.Group, value: TargetStyle.Group }
+  { name: TargetStyle.DiscreteTrials, value: TargetStyle.DiscreteTrials },
+  { name: TargetStyle.TaskAnalysis, value: TargetStyle.TaskAnalysis }
 ];
 
 export const programCategories: IOption[] = [
-  { name: ProgramCategory.Behavior, value: ProgramCategory.Behavior },
-  { name: ProgramCategory.Speech, value: ProgramCategory.Speech }
+  { name: ProgramCategories.Aba, value: ProgramCategories.Aba },
+  { name: ProgramCategories.Ell, value: ProgramCategories.Ell },
+  {
+    name: ProgramCategories.CounselingTherapeutic,
+    value: ProgramCategories.CounselingTherapeutic
+  },
+  { name: ProgramCategories.Math, value: ProgramCategories.Math },
+  {
+    name: ProgramCategories.ExecutiveFunctioning,
+    value: ProgramCategories.ExecutiveFunctioning
+  },
+  {
+    name: ProgramCategories.Occupational,
+    value: ProgramCategories.Occupational
+  },
+  {
+    name: ProgramCategories.ReadingWriting,
+    value: ProgramCategories.ReadingWriting
+  },
+  {
+    name: ProgramCategories.SelfRegulation,
+    value: ProgramCategories.SelfRegulation
+  },
+  { name: ProgramCategories.Skills, value: ProgramCategories.Skills }
 ];
 
+export const programChainingDirectionsOptions: IOption[] = [
+  {
+    name: TrialChainingDirections.Forward,
+    value: TrialChainingDirections.Forward
+  },
+  {
+    name: TrialChainingDirections.Backward,
+    value: TrialChainingDirections.Backward
+  }
+];
 
 export const inputTypes: IOption[] = [
   { name: InputTypes.Radio, value: InputTypes.Radio },

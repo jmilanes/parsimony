@@ -2,22 +2,29 @@ import React, { useEffect } from "react";
 
 import {
   Button,
-  Table,
   Field,
+  Header,
   MultiSelect,
   Selector,
-  Header
+  Table
 } from "../components";
 import { navigateToRoute } from "../utils";
-import { Collections, DirectoryPageMetaTestIds, User } from "@parsimony/types";
+import {
+  Collections,
+  DirectoryPageMetaTestIds,
+  Pages,
+  User,
+  UserPageMetaTestIds,
+  UserRoles
+} from "@parsimony/types";
 import { AddForm } from "../containers";
 import {
   initialUserData,
+  serviceProviderOptions,
   userRoleOptions,
   userRoleOptionsWithStringValues
 } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table.component";
-import { Pages } from "@parsimony/types";
 
 import { useServices } from "../context";
 import { encrypt } from "@parsimony/utilities";
@@ -151,6 +158,17 @@ const Users = () => {
           updateState={updateState}
           metaTestId={DirectoryPageMetaTestIds.roleMultiSelector}
         />
+        {localState.roles?.length &&
+          !localState.roles?.includes(UserRoles.Client) && (
+            <Selector
+              title="Service Provider"
+              options={serviceProviderOptions}
+              pathToState="serviceProvider"
+              value={localState.serviceProvider}
+              updateState={updateState}
+              metaTestId={UserPageMetaTestIds.serviceProviderSelector}
+            />
+          )}
       </AddForm>
     </>
   );

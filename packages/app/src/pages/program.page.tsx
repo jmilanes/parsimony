@@ -8,20 +8,23 @@ import {
 } from "../fixtures";
 import { TargetForm } from "../containers";
 import {
-  Container,
-  Header,
-  Field,
   Button,
-  Selector,
+  Container,
+  Field,
+  Header,
   MultiSelect,
-  Row
+  Row,
+  Selector
 } from "../components";
 import {
-  Program,
-  IModes,
-  User,
   Collections,
-  ProgramPageMetaTestIds, TargetOption
+  IModes,
+  Program,
+  ProgramPageMetaTestIds,
+  ProgramTypes,
+  Routes,
+  TargetOption,
+  User
 } from "@parsimony/types";
 
 import {
@@ -34,7 +37,6 @@ import {
   navigateToRoute,
   omitMongoKeys
 } from "../utils";
-import { ProgramTypes, Routes } from "@parsimony/types";
 
 import { useServices } from "../context";
 import { TargetOptionSelector } from "../containers/targetOptionsSelector.container";
@@ -103,8 +105,8 @@ const Program = () => {
             metaTestId={ProgramPageMetaTestIds.cancelEditBtn}
           />,
           <Button
-            key="submit"
-            name="Submit"
+            key="save"
+            name="Save"
             action={submitForm}
             hidden={isReadOnlyMode(mode)}
             metaTestId={ProgramPageMetaTestIds.submitEditBtn}

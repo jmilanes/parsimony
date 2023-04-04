@@ -21,16 +21,14 @@ export default {
   lastName: String,
   dateOfBirth: Date,
   phone: String,
-
   // Only for clients
   contacts: [{ type: ObjectId, ref: "User" }],
   actionItems: [{ type: ObjectId, ref: "ActionItem" }],
   programs: [{ type: ObjectId, ref: "User" }],
-
   // Only of BAs
   clients: [{ type: ObjectId, ref: "User" }], // Only for BAs
-
   threadDisplayNameName: String,
   avatar: String,
-  color: String
+  color: String,
+  serviceProvider: String
 };

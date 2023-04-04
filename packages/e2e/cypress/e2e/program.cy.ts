@@ -1,18 +1,18 @@
 import {
-  ProgramCategory,
+  ProgramCategories,
   ProgramPageMetaTestIds,
   Prompts,
   TargetFormMetaTestIds
 } from "@parsimony/types";
 
 import {
+  findText,
   getButton,
   getField,
   getSelect,
   login,
   readOnlyLocator,
-  selectOption,
-  findText
+  selectOption
 } from "../../utilities";
 import { DB_ACTIONS } from "../../utilities/db.utils";
 import { programWithoutPrompts, ROUTES } from "../fixtures";
@@ -38,7 +38,10 @@ describe("Program Page Tests", () => {
       selectOption(ProgramPageMetaTestIds.stepsSelector, "2");
       selectOption(ProgramPageMetaTestIds.readAccessMultiSelector, "CLIENT");
       selectOption(ProgramPageMetaTestIds.writeAccessMultiSelector, "CLIENT");
-      selectOption(ProgramPageMetaTestIds.categorySelector, ProgramCategory.Speech);
+      selectOption(
+        ProgramPageMetaTestIds.categorySelector,
+        ProgramCategories.Ell
+      );
       getButton(`${TargetFormMetaTestIds.deleteRuleBtn}-0`).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
       getField(readOnlyLocator(ProgramPageMetaTestIds.titleField)).should(
@@ -55,7 +58,7 @@ describe("Program Page Tests", () => {
       );
       getSelect(
         readOnlyLocator(ProgramPageMetaTestIds.categorySelector)
-      ).should("have.text", ProgramCategory.Speech);
+      ).should("have.text", ProgramCategories.Ell);
       getSelect(
         readOnlyLocator(ProgramPageMetaTestIds.readAccessMultiSelector)
       ).should("have.text", "DIRECTOR, CLIENT");
@@ -78,7 +81,10 @@ describe("Program Page Tests", () => {
       getField(ProgramPageMetaTestIds.materialsField).type("Fork");
       getField(ProgramPageMetaTestIds.descriptionField).type("!!");
       selectOption(ProgramPageMetaTestIds.stepsSelector, "2");
-      selectOption(ProgramPageMetaTestIds.categorySelector, ProgramCategory.Speech);
+      selectOption(
+        ProgramPageMetaTestIds.categorySelector,
+        ProgramCategories.Ell
+      );
       selectOption(ProgramPageMetaTestIds.readAccessMultiSelector, "CLIENT");
       selectOption(ProgramPageMetaTestIds.writeAccessMultiSelector, "CLIENT");
       getButton(`${TargetFormMetaTestIds.deleteRuleBtn}-0`);
@@ -97,7 +103,7 @@ describe("Program Page Tests", () => {
       );
       getSelect(
         readOnlyLocator(ProgramPageMetaTestIds.categorySelector)
-      ).should("have.text", ProgramCategory.Behavior);
+      ).should("have.text", ProgramCategories.Aba);
       getSelect(
         readOnlyLocator(ProgramPageMetaTestIds.readAccessMultiSelector)
       ).should("have.text", "DIRECTOR");
@@ -116,8 +122,7 @@ describe("Program Page Tests", () => {
     DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
-      getButton(TargetFormMetaTestIds.preSelectedPhysicalPromptsBtn
-      ).click();
+      getButton(TargetFormMetaTestIds.preSelectedPhysicalPromptsBtn).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
       findText("Target Prompt");
       getField(
@@ -152,9 +157,7 @@ describe("Program Page Tests", () => {
     DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();
-      getButton(
-        TargetFormMetaTestIds.preSelectedVerbalPromptsBtn
-      ).click();
+      getButton(TargetFormMetaTestIds.preSelectedVerbalPromptsBtn).click();
       getButton(ProgramPageMetaTestIds.submitEditBtn).click();
       findText("Target Prompt");
       getField(

@@ -57,3 +57,13 @@ export enum Collections$ {
   Result$ = "result$",
   Thread$ = "thread$"
 }
+
+export enum ServiceProviders {
+  SLP = "SLP",
+  OT = "OT",
+  BCBA = "BCBA",
+  SPED = "SpEd",
+  PSYCH = "Psych",
+  SOCIAL_WORKER = "Social worker",
+  COUNSELOR = "Counselor"
+}

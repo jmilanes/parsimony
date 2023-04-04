@@ -1,12 +1,11 @@
 import {
   Collections,
-  Program,
   CreateProgramPayload,
   DeleteProgramPayload,
-  UpdateProgramPayload,
+  GetAllProgramsByRelationshipPayload,
   GetProgramPayload,
-  GetAllFilesByRelationshipPayload,
-  GetAllProgramsByRelationshipPayload
+  Program,
+  UpdateProgramPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
@@ -42,6 +41,7 @@ const fullSchema = `
       name
       target
     }
+  chainingDirection
 `;
 
 export const programOperationStrings = generateCrudOperationStrings(
