@@ -35,7 +35,11 @@ export const initialProgramData: Program = {
   mastered: false,
   category: ProgramCategories.Aba,
   targetOptions: [],
-  chainingDirection: TrialChainingDirections.Forward
+  chainingDirection: TrialChainingDirections.Forward,
+  currentChainTarget: null,
+  masterTargetPercent: 100,
+  masterTargetCount: 3,
+  subscribers: [currentUser]
 };
 
 export const initialTargetData: Target = {
@@ -44,7 +48,9 @@ export const initialTargetData: Target = {
   description: "",
   required: true,
   inputType: InputTypes.Radio,
-  valueType: ProgramValueTypes.Number
+  valueType: ProgramValueTypes.Number,
+  mastered: false,
+  currentMasterCount: 0
 };
 
 export const initialOptionData = {

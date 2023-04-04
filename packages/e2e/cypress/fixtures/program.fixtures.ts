@@ -108,8 +108,7 @@ export const program2 = {
       inputType: InputTypes.Radio,
       valueType: ProgramValueTypes.Number
     }
-  ],
-  chainingDirection: TrialChainingDirections.Forward
+  ]
 };
 
 export const programAsClientSeparateStyle = {

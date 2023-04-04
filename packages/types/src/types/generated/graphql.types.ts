@@ -56,13 +56,17 @@ export type CreateProgramPayload = {
   chainingDirection?: InputMaybe<TrialChainingDirections>;
   clientId?: InputMaybe<Scalars['ID']>;
   createdBy?: InputMaybe<Scalars['ID']>;
+  currentChainTarget?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
   editedBy?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   lastEditedBy?: InputMaybe<Scalars['ID']>;
   mainProgramId?: InputMaybe<Scalars['ID']>;
+  masterTargetCount?: InputMaybe<Scalars['Int']>;
+  masterTargetPercent?: InputMaybe<Scalars['Int']>;
   mastered?: InputMaybe<Scalars['Boolean']>;
   materials?: InputMaybe<Scalars['String']>;
   readAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
+  subscribers?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   targetOptions?: InputMaybe<Array<InputMaybe<TargetOptionInput>>>;
   targetStyle?: InputMaybe<TargetStyle>;
   targets?: InputMaybe<Array<InputMaybe<TargetInput>>>;
@@ -489,14 +493,18 @@ export type Program = {
   clientId?: Maybe<Scalars['ID']>;
   createdBy?: Maybe<Scalars['ID']>;
   created_at?: Maybe<Scalars['Date']>;
+  currentChainTarget?: Maybe<Scalars['ID']>;
   description?: Maybe<Scalars['String']>;
   editedBy?: Maybe<Array<Maybe<Scalars['ID']>>>;
   id: Scalars['ID'];
   lastEditedBy?: Maybe<Scalars['ID']>;
   mainProgramId?: Maybe<Scalars['ID']>;
+  masterTargetCount?: Maybe<Scalars['Int']>;
+  masterTargetPercent?: Maybe<Scalars['Int']>;
   mastered?: Maybe<Scalars['Boolean']>;
   materials?: Maybe<Scalars['String']>;
   readAccess?: Maybe<Array<Maybe<UserRoles>>>;
+  subscribers?: Maybe<Array<Maybe<Scalars['ID']>>>;
   targetOptions?: Maybe<Array<Maybe<TargetOption>>>;
   targetStyle?: Maybe<TargetStyle>;
   targets?: Maybe<Array<Maybe<Target>>>;
@@ -711,18 +719,22 @@ export type SubscriberInput = {
 
 export type Target = {
   __typename?: 'Target';
+  currentMasterCount?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   inputType?: Maybe<InputTypes>;
+  mastered?: Maybe<Scalars['Boolean']>;
   required?: Maybe<Scalars['Boolean']>;
   title?: Maybe<Scalars['String']>;
   valueType?: Maybe<ProgramValueTypes>;
 };
 
 export type TargetInput = {
+  currentMasterCount?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   inputType?: InputMaybe<InputTypes>;
+  mastered?: InputMaybe<Scalars['Boolean']>;
   required?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   valueType?: InputMaybe<ProgramValueTypes>;
@@ -824,14 +836,18 @@ export type UpdateProgramPayload = {
   chainingDirection?: InputMaybe<TrialChainingDirections>;
   clientId?: InputMaybe<Scalars['ID']>;
   createdBy?: InputMaybe<Scalars['ID']>;
+  currentChainTarget?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
   editedBy?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   id: Scalars['ID'];
   lastEditedBy?: InputMaybe<Scalars['ID']>;
   mainProgramId?: InputMaybe<Scalars['ID']>;
+  masterTargetCount?: InputMaybe<Scalars['Int']>;
+  masterTargetPercent?: InputMaybe<Scalars['Int']>;
   mastered?: InputMaybe<Scalars['Boolean']>;
   materials?: InputMaybe<Scalars['String']>;
   readAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
+  subscribers?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   targetOptions?: InputMaybe<Array<InputMaybe<TargetOptionInput>>>;
   targetStyle?: InputMaybe<TargetStyle>;
   targets?: InputMaybe<Array<InputMaybe<TargetInput>>>;
@@ -1266,14 +1282,18 @@ export type ProgramResolvers<ContextType = any, ParentType extends ResolversPare
   clientId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   createdBy?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   created_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  currentChainTarget?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   editedBy?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastEditedBy?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   mainProgramId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  masterTargetCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  masterTargetPercent?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   mastered?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   materials?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   readAccess?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserRoles']>>>, ParentType, ContextType>;
+  subscribers?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
   targetOptions?: Resolver<Maybe<Array<Maybe<ResolversTypes['TargetOption']>>>, ParentType, ContextType>;
   targetStyle?: Resolver<Maybe<ResolversTypes['TargetStyle']>, ParentType, ContextType>;
   targets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Target']>>>, ParentType, ContextType>;
@@ -1355,9 +1375,11 @@ export type SubscriberResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type TargetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Target'] = ResolversParentTypes['Target']> = {
+  currentMasterCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   inputType?: Resolver<Maybe<ResolversTypes['InputTypes']>, ParentType, ContextType>;
+  mastered?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   required?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   valueType?: Resolver<Maybe<ResolversTypes['ProgramValueTypes']>, ParentType, ContextType>;

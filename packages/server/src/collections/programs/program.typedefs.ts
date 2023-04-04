@@ -25,6 +25,10 @@ export default gql`
     targetOptions: [TargetOption]
     category: ProgramCategories
     chainingDirection: TrialChainingDirections
+    currentChainTarget: ID
+    masterTargetPercent: Int
+    masterTargetCount: Int
+    subscribers: [ID]
   }
 
   type Target {
@@ -34,6 +38,8 @@ export default gql`
     required: Boolean
     inputType: InputTypes
     valueType: ProgramValueTypes
+    currentMasterCount: Int
+    mastered: Boolean
   }
 
   type TargetOption {
@@ -61,6 +67,10 @@ export default gql`
     targetOptions: [TargetOptionInput]
     category: ProgramCategories
     chainingDirection: TrialChainingDirections
+    currentChainTarget: ID
+    masterTargetPercent: Int
+    masterTargetCount: Int
+    subscribers: [ID]
   }
 
   input DeleteProgramPayload {
@@ -91,6 +101,10 @@ export default gql`
     targetOptions: [TargetOptionInput]
     category: ProgramCategories
     chainingDirection: TrialChainingDirections
+    currentChainTarget: ID
+    masterTargetPercent: Int
+    masterTargetCount: Int
+    subscribers: [ID]
   }
 
   input GetAllProgramsByRelationshipPayload {
@@ -105,6 +119,8 @@ export default gql`
     required: Boolean
     inputType: InputTypes
     valueType: ProgramValueTypes
+    currentMasterCount: Int
+    mastered: Boolean
   }
 
   input TargetOptionInput {

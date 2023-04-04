@@ -24,7 +24,7 @@ export default {
   // Only for clients
   contacts: [{ type: ObjectId, ref: "User" }],
   actionItems: [{ type: ObjectId, ref: "ActionItem" }],
-  programs: [{ type: ObjectId, ref: "User" }],
+  programs: [{ type: ObjectId, ref: "Program" }],
   // Only of BAs
   clients: [{ type: ObjectId, ref: "User" }], // Only for BAs
   threadDisplayNameName: String,
