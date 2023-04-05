@@ -12,6 +12,7 @@ import {
 import { AddForm, TargetForm } from "../containers";
 import {
   Collections,
+  CreateProgramPayload,
   Pages,
   Program,
   ProgramsPageMetaTestIds,
@@ -141,7 +142,9 @@ const Programs = () => {
             type: ProgramTypes.Client
           })
         );
-        const createdProgram = await dataAccess.program.create(payload);
+        const createdProgram = await dataAccess.program.create(
+          payload as CreateProgramPayload
+        );
         navigate(`/programs/${createdProgram.id}?mode=edit`);
       }
     }

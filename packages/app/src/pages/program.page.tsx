@@ -55,7 +55,7 @@ const Program = () => {
 
   useEffect(() => {
     //TODO Eventually get all by
-    if (!program) dataAccess.program.get(programId);
+    if (!program) dataAccess.program.get(programId as string);
     if (!localState) updateLocalState(clone(program) as Program);
     dataAccess.user.getAll();
   }, [program]);

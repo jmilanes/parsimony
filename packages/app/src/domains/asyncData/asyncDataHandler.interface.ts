@@ -1,39 +1,26 @@
-import {
-  Collections,
-  ICrudGeneratorAsync,
-  ICrudRequests,
-  IId
-} from "@parsimony/types";
+import { Collections, ICrudRequests, IId } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../../utils";
-import Store from "../store";
+import Store from "../../services/store";
 
 type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
   id?: string | undefined;
 };
 
-export class AsyncCrudGenerator<
+export class AsyncDataHandlerInterface<
   Schema,
   CreatePayload,
   DeleteThreadPayload,
-  UploadPayload,
+  UpdatePayload,
   GetPayload,
   GetAllByRelationshipPayload
-> implements
-    ICrudGeneratorAsync<
-      Schema,
-      CreatePayload,
-      DeleteThreadPayload,
-      UploadPayload,
-      GetAllByRelationshipPayload
-    >
-{
+> {
   collectionName: Collections;
   requests: ICrudRequests<
     Schema,
     CreatePayload,
     DeleteThreadPayload,
-    UploadPayload,
+    UpdatePayload,
     GetPayload,
     GetAllByRelationshipPayload
   >;
@@ -66,7 +53,7 @@ export class AsyncCrudGenerator<
     return id;
   };
 
-  update = async (payload: UploadPayload) => {
+  update = async (payload: UpdatePayload) => {
     const item = (await this.requests.update(
       payload
     )) as AwaitedSchemaWithId<Schema>;

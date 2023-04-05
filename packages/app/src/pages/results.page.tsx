@@ -4,14 +4,14 @@ import { Header } from "../components";
 import { getRouterParams } from "../utils";
 
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
   Title,
-  Tooltip,
-  Legend
+  Tooltip
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { useServices } from "../context";
@@ -34,11 +34,12 @@ const Results = () => {
   const results: Result[] = store.getCurrentCollectionItems(Collections.Result);
 
   useEffect(() => {
-    dataAccess.program.get(programId);
+    dataAccess.program.get(programId as string);
   }, []);
 
   useEffect(() => {
-    if (program) dataAccess.result.getAllByRelationship("programId", programId);
+    if (program)
+      dataAccess.result.getAllByRelationship("programId", programId as string);
   }, [program]);
 
   if (!program || !results.length) return null;

@@ -1,67 +1,19 @@
-import {
-  Collections,
-  Collections$,
-  CreateDocumentPayload,
-  CreateEventPayload,
-  CreateFilePayload,
-  CreateProgramPayload,
-  CreateResultPayload,
-  CreateSchoolPayload,
-  CreateUserPayload,
-  DeleteDocumentPayload,
-  DeleteEventPayload,
-  DeleteFilePayload,
-  DeleteProgramPayload,
-  DeleteResultPayload,
-  DeleteSchoolPayload,
-  DeleteUserPayload,
-  Document,
-  Event,
-  GetAllDocumentsByRelationshipPayload,
-  GetAllEventsByRelationshipPayload,
-  GetAllFilesByRelationshipPayload,
-  GetAllProgramsByRelationshipPayload,
-  GetAllSchoolByRelationshipPayload,
-  GetAllUsersByRelationshipPayload,
-  GetDocumentPayload,
-  GetEventPayload,
-  GetProgramPayload,
-  GetResultPayload,
-  GetSchoolPayload,
-  GetUserPayload,
-  Program,
-  Result,
-  School,
-  ServiceTypes,
-  UpdateDocumentPayload,
-  UpdateEventPayload,
-  UpdateFilePayload,
-  UpdateProgramPayload,
-  UpdateResultPayload,
-  UpdateSchoolPayload,
-  UpdateUserPayload,
-  User
-} from "@parsimony/types";
+import { Collections, Collections$, ServiceTypes } from "@parsimony/types";
 import { Observable } from "rxjs";
 import ChatService from "./chat.service";
 import FilterService from "./filter.service";
 import StateService from "./state.service";
 import Store from "./store";
-
-import {
-  documentRequests,
-  eventRequests,
-  fileRequests,
-  programRequests,
-  resultRequests,
-  schoolRequests,
-  userRequests
-} from "@parsimony/bal";
-
-import { AsyncCrudGenerator } from "./crudGenerators/asyncCrud.generator";
 import AuthService from "./auth.service";
 import AppControlsService from "./appControls.service";
 import { envIs } from "@parsimony/utilities";
+import { ProgramAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/programAsyncData.handler";
+import { UserAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/userAsyncData.handler";
+import { ResultAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/resultAsyncData.handler";
+import { EventAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/eventAsyncData.handler";
+import { DocumentAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/documentAsyncData.handler";
+import { FileAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/fileAsyncData.handler";
+import { createDataAccessServices } from "../domains/asyncData/createDataAccessServices";
 
 export type Services = {
   [ServiceTypes.App]: {
@@ -75,13 +27,13 @@ export type Services = {
   [ServiceTypes.AppControls]: AppControlsService;
   [ServiceTypes.DataAccess]: {
     [Collections.School]: any;
-    //TODO: Current User
-    [Collections.User]: any;
-    [Collections.Program]: any;
-    [Collections.Result]: any;
-    [Collections.Event]: any;
-    [Collections.Document]: any;
-    [Collections.File]: any;
+    // TODO: Current User
+    [Collections.User]: UserAsyncDataHandler;
+    [Collections.Program]: ProgramAsyncDataHandler;
+    [Collections.Result]: ResultAsyncDataHandler;
+    [Collections.Event]: EventAsyncDataHandler;
+    [Collections.Document]: DocumentAsyncDataHandler;
+    [Collections.File]: FileAsyncDataHandler;
     [Collections$.Thread$]: ChatService;
   };
 };
@@ -163,82 +115,3 @@ export default class AppController {
     this.services[ServiceTypes.AuthService] = authService;
   };
 }
-
-export const createDataAccessServices = async (
-  store: Store,
-  socket$: ISocket$
-) => {
-  const UserService = new AsyncCrudGenerator<
-    User,
-    CreateUserPayload,
-    DeleteUserPayload,
-    UpdateUserPayload,
-    GetUserPayload,
-    GetAllUsersByRelationshipPayload
-  >(Collections.User, userRequests, store);
-
-  const ProgramService = new AsyncCrudGenerator<
-    Program,
-    CreateProgramPayload,
-    DeleteProgramPayload,
-    UpdateProgramPayload,
-    GetProgramPayload,
-    GetAllProgramsByRelationshipPayload
-  >(Collections.Program, programRequests, store);
-
-  const ResultService = new AsyncCrudGenerator<
-    Result,
-    CreateResultPayload,
-    DeleteResultPayload,
-    UpdateResultPayload,
-    GetResultPayload,
-    GetAllProgramsByRelationshipPayload
-  >(Collections.Result, resultRequests, store);
-
-  const SchoolService = new AsyncCrudGenerator<
-    School,
-    CreateSchoolPayload,
-    DeleteSchoolPayload,
-    UpdateSchoolPayload,
-    GetSchoolPayload,
-    GetAllSchoolByRelationshipPayload
-  >(Collections.School, schoolRequests, store);
-
-  const DocumentService = new AsyncCrudGenerator<
-    Document,
-    CreateDocumentPayload,
-    DeleteDocumentPayload,
-    UpdateDocumentPayload,
-    GetDocumentPayload,
-    GetAllDocumentsByRelationshipPayload
-  >(Collections.Document, documentRequests, store);
-
-  const EventService = new AsyncCrudGenerator<
-    Event,
-    CreateEventPayload,
-    DeleteEventPayload,
-    UpdateEventPayload,
-    GetEventPayload,
-    GetAllEventsByRelationshipPayload
-  >(Collections.Event, eventRequests, store);
-
-  const FileService = new AsyncCrudGenerator<
-    Event,
-    CreateFilePayload,
-    DeleteFilePayload,
-    UpdateFilePayload,
-    GetEventPayload,
-    GetAllFilesByRelationshipPayload
-  >(Collections.File, fileRequests, store);
-
-  return {
-    [Collections.Program]: ProgramService,
-    [Collections.User]: UserService,
-    [Collections.Result]: ResultService,
-    [Collections.School]: SchoolService,
-    [Collections.Document]: DocumentService,
-    [Collections.Event]: EventService,
-    [Collections.File]: FileService,
-    [Collections$.Thread$]: new ChatService(socket$, store)
-  };
-};

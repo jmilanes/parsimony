@@ -55,8 +55,8 @@ const User = () => {
     React.useState<UpdateUserPayload>(user);
 
   useEffect(() => {
-    dataAccess.program.getAllByRelationship("clientId", userId);
-    if (!user) dataAccess.user.get(userId);
+    dataAccess.program.getAllByRelationship("clientId", userId as string);
+    if (!user) dataAccess.user.get(userId as string);
     if (!localState) updateLocalState(clone(user) as User);
   }, [user]);
 

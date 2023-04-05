@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Header, Button } from "../components";
+import { Button, Header } from "../components";
 import { generateKey, getRouterParams, navigateToRoute } from "../utils";
 import { ObserveTarget } from "../containers";
 import {
@@ -23,7 +23,7 @@ const Observe = () => {
   const program = store.getCollectionItem(Collections.Program, programId || "");
 
   useEffect(() => {
-    if (!program) dataAccess.program.get(programId);
+    if (!program) dataAccess.program.get(programId as string);
     if (program) {
       observation.init(program, stateManager.updateState);
     }
