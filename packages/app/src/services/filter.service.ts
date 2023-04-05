@@ -7,6 +7,7 @@ class FilterService {
   filters: Record<string, FilterFn>;
   fromLink: boolean;
   stateManagement: StateService;
+
   constructor(stateManager: StateService) {
     this.filters = {};
     this.fromLink = false;
@@ -15,9 +16,9 @@ class FilterService {
 
   clear = () => {
     this.filters = {};
-    console.log("CLEAR");
     this.stateManagement.updateState();
   };
+
   filter = <G>(data: G[]): G[] =>
     data.filter((d) =>
       Object.values(this.filters).every((fn) => fn(d as IObject))

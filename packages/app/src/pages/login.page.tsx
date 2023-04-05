@@ -1,7 +1,7 @@
 import { AuthPageMetaTestIds } from "@parsimony/types";
 import React, { useEffect, useState } from "react";
 
-import { Header, Button, Field } from "../components";
+import { Button, Field, Header } from "../components";
 import { useServices } from "../context";
 
 const Login = ({ from }: { from: string }) => {
@@ -10,13 +10,13 @@ const Login = ({ from }: { from: string }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const onLogin = () => {
-    authService.logIn(userName.toLowerCase(), password);
+  const onLogin = async () => {
+    await authService.logIn(userName.toLowerCase(), password);
   };
   // createShortCut("Enter", login);
 
-  const onResetPassword = () => {
-    authService.resetPassword(userName.toLowerCase(), password);
+  const onResetPassword = async () => {
+    await authService.resetPassword(userName.toLowerCase(), password);
     setResetPasswordMode(false);
   };
 

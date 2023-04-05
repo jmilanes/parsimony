@@ -8,6 +8,7 @@ import AppController from "./services/app.service";
 import { createServicesProvider, useServices } from "./context";
 import { Drawer } from "./containers";
 import "antd/dist/antd.css";
+import { useAsync } from "react-use";
 
 const app = document.getElementById("app");
 
@@ -31,9 +32,13 @@ const AppContent = () => {
 };
 
 const App = () => {
-  const appController = new AppController();
-  appController.init();
-  const ServicesProvider = createServicesProvider(appController.services);
+  const { loading, value: services } = useAsync(async () => {
+    const appController = new AppController();
+    await appController.init();
+    return appController.services;
+  });
+  if (loading) return null;
+  const ServicesProvider = createServicesProvider(services);
   return (
     <ServicesProvider>
       <AppContent />

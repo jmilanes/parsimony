@@ -1,13 +1,13 @@
 import {
   Collections,
+  Document,
   Event,
+  File,
   IId,
   Program,
   Result,
   School,
-  User,
-  Document,
-  File
+  User
 } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../utils";
@@ -69,7 +69,7 @@ export default class Store {
     this.store$[collectionName].subscribe({ next });
   }
 
-  // Used to connect all collections to the the state manager updated
+  // Used to connect all collections to the state manager updated
   subscribeToStore(next: any) {
     Object.values(this.store$).forEach((collection$) => {
       collection$.subscribe({ next });

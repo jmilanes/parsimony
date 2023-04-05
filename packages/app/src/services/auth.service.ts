@@ -1,11 +1,6 @@
-import {
-  LoginResponse,
-  LogOutResponse,
-  MeResponse,
-  User
-} from "@parsimony/types";
+import { User } from "@parsimony/types";
 import { encrypt, envIs } from "@parsimony/utilities";
-import { me, login, logout, resetPassword } from "@parsimony/bal";
+import { login, logout, me, resetPassword } from "@parsimony/bal";
 
 // This is needed for encrypt to work for creating users in cypress with requests
 const applyEncryptionToCypressWindow = () =>
@@ -16,6 +11,7 @@ export default class AuthService {
   isLoggedIn: boolean;
   previousPage: string;
   currentUser?: User;
+
   constructor() {
     this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     this.previousPage = "";
@@ -28,59 +24,55 @@ export default class AuthService {
       !this.getAccessToken() &&
       localStorage.getItem("isLoggedIn") === "true"
     ) {
-      this.logOut();
+      await this.logOut();
     }
-
     if (localStorage.getItem("isLoggedIn") === "true") {
-      me({ refreshToken: this.getRefreshToken() })
-        .then((me) => {
-          this.currentUser = me.user as User;
-          this.setAccessToken(me.accessToken as string);
-          localStorage.setItem("currentUserId", this.currentUser.id);
-        })
-        .catch((e) => {
-          this._clearAuthData();
-        });
+      try {
+        const meResponse = await me({ refreshToken: this.getRefreshToken() });
+        this.currentUser = meResponse.user as User;
+        this.setAccessToken(meResponse.accessToken as string);
+        localStorage.setItem("currentUserId", this.currentUser.id);
+      } catch (e) {
+        this._clearAuthData();
+      }
     }
   }
 
-  logIn = (email: string, password: string) => {
+  logIn = async (email: string, password: string) => {
     const hashedPassword = encrypt(password);
-
-    if (email === "ADMIN-P$") {
+    try {
+      const loginResponse = await login({ email, password: hashedPassword });
+      if (!loginResponse) return;
       localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("accessToken", loginResponse.accessToken as string);
+      localStorage.setItem(
+        "refreshToken",
+        loginResponse.refreshToken as string
+      );
       window.location.reload();
-      return;
+    } catch (e) {
+      this._clearAuthData();
     }
-
-    //  also convert here
-    login({ email, password: hashedPassword }).then(
-      (response: LoginResponse) => {
-        if (!response) return;
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("accessToken", response.accessToken as string);
-        localStorage.setItem("refreshToken", response.refreshToken as string);
-        window.location.reload();
-      }
-    );
   };
 
-  logOut = () => {
+  logOut = async () => {
     if (!this.getRefreshToken()) {
       this._clearAuthData();
     }
-    logout({ refreshToken: this.getRefreshToken() }).then(
-      (response: LogOutResponse) => {
-        this._clearAuthData();
-      }
-    );
+    try {
+      await logout({
+        refreshToken: this.getRefreshToken()
+      });
+      this._clearAuthData();
+    } catch (e) {
+      // TODO: Add simple Error Handling
+      console.error("Error Logging out");
+    }
   };
 
-  resetPassword = (email: string, password: string) => {
+  resetPassword = async (email: string, password: string) => {
     const hashedPassword = encrypt(password);
-    resetPassword({ email, password: hashedPassword }).then((x) =>
-      console.log(x)
-    );
+    await resetPassword({ email, password: hashedPassword });
   };
 
   setPreviousPage = (page: string) => (this.previousPage = page);

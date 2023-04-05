@@ -1,46 +1,46 @@
 import {
   Collections,
-  CreateSchoolPayload,
-  DeleteSchoolPayload,
-  GetSchoolPayload,
-  ServiceTypes,
-  UpdateSchoolPayload,
+  Collections$,
+  CreateDocumentPayload,
+  CreateEventPayload,
+  CreateFilePayload,
   CreateProgramPayload,
   CreateResultPayload,
+  CreateSchoolPayload,
   CreateUserPayload,
+  DeleteDocumentPayload,
+  DeleteEventPayload,
+  DeleteFilePayload,
   DeleteProgramPayload,
   DeleteResultPayload,
+  DeleteSchoolPayload,
   DeleteUserPayload,
+  Document,
+  Event,
+  GetAllDocumentsByRelationshipPayload,
+  GetAllEventsByRelationshipPayload,
+  GetAllFilesByRelationshipPayload,
+  GetAllProgramsByRelationshipPayload,
+  GetAllSchoolByRelationshipPayload,
+  GetAllUsersByRelationshipPayload,
+  GetDocumentPayload,
+  GetEventPayload,
   GetProgramPayload,
   GetResultPayload,
+  GetSchoolPayload,
   GetUserPayload,
+  Program,
   Result,
+  School,
+  ServiceTypes,
+  UpdateDocumentPayload,
+  UpdateEventPayload,
+  UpdateFilePayload,
   UpdateProgramPayload,
   UpdateResultPayload,
+  UpdateSchoolPayload,
   UpdateUserPayload,
-  User,
-  Program,
-  School,
-  Collections$,
-  CreateEventPayload,
-  DeleteEventPayload,
-  UpdateEventPayload,
-  GetEventPayload,
-  Event,
-  Document,
-  CreateDocumentPayload,
-  DeleteDocumentPayload,
-  UpdateDocumentPayload,
-  GetDocumentPayload,
-  CreateFilePayload,
-  DeleteFilePayload,
-  UpdateFilePayload,
-  GetAllProgramsByRelationshipPayload,
-  GetAllFilesByRelationshipPayload,
-  GetAllUsersByRelationshipPayload,
-  GetAllSchoolByRelationshipPayload,
-  GetAllDocumentsByRelationshipPayload,
-  GetAllEventsByRelationshipPayload
+  User
 } from "@parsimony/types";
 import { Observable } from "rxjs";
 import ChatService from "./chat.service";
@@ -49,13 +49,13 @@ import StateService from "./state.service";
 import Store from "./store";
 
 import {
-  userRequests,
+  documentRequests,
+  eventRequests,
+  fileRequests,
   programRequests,
   resultRequests,
   schoolRequests,
-  documentRequests,
-  eventRequests,
-  fileRequests
+  userRequests
 } from "@parsimony/bal";
 
 import { AsyncCrudGenerator } from "./crudGenerators/asyncCrud.generator";
@@ -90,6 +90,7 @@ export type ISocket$ = Observable<any>;
 export default class AppController {
   socket$?: ISocket$;
   services: Services;
+
   constructor() {
     this.services = {
       //TODO Move to app controls
@@ -99,28 +100,28 @@ export default class AppController {
     } as Services;
   }
 
-  init = () => {
-    this._initWebSocket();
-    this._initServices();
+  public init = async () => {
+    await this.#initWebSocket();
+    await this.#initServices();
     this.services[ServiceTypes.AppControls].init();
-    this._initDataAccess();
-    this.loadCollections();
+    await this.#initDataAccess();
+    await this.#loadCollections();
     console.log("All Services Loads", this.services);
   };
 
-  loadCollections = async () => {
-    await this._initAuthService();
-    this.services.dataAccess.thread$.init();
-    this._isLoading(false);
+  #loadCollections = async () => {
+    await this.#initAuthService();
+    await this.services.dataAccess.thread$.init();
+    await this.#isLoading(false);
     console.log("All Data Loaded");
   };
 
-  private _isLoading = (isLoading: boolean) => {
+  #isLoading = async (isLoading: boolean) => {
     this.services[ServiceTypes.App].isLoading = isLoading;
     this.services.stateManager.updateState();
   };
 
-  private _initWebSocket = () => {
+  #initWebSocket = async () => {
     const SOCKET_URL = envIs("prod")
       ? "wss://broadcast.parsimony.app"
       : "ws://localhost:8080";
@@ -135,7 +136,7 @@ export default class AppController {
     });
   };
 
-  private _initServices = () => {
+  #initServices = async () => {
     this.services[ServiceTypes.Store] = new Store();
     this.services[ServiceTypes.StateManager] = new StateService(
       this.services.store
@@ -148,22 +149,25 @@ export default class AppController {
     );
   };
 
-  private _initDataAccess = () => {
+  #initDataAccess = async () => {
     // ** This is where I could just swap out the local storage version
-    this.services[ServiceTypes.DataAccess] = createDataAccessServices(
+    this.services[ServiceTypes.DataAccess] = await createDataAccessServices(
       this.services.store as Store,
       this.socket$ as ISocket$
     );
   };
 
-  private _initAuthService = async () => {
+  #initAuthService = async () => {
     const authService = new AuthService();
     await authService.init();
     this.services[ServiceTypes.AuthService] = authService;
   };
 }
 
-export const createDataAccessServices = (store: Store, socket$: ISocket$) => {
+export const createDataAccessServices = async (
+  store: Store,
+  socket$: ISocket$
+) => {
   const UserService = new AsyncCrudGenerator<
     User,
     CreateUserPayload,

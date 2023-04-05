@@ -6,10 +6,18 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "allowJs": true,
-    "lib": ["ES2021", "ES2017", "dom"],
-    "moduleResolution": "node"
+    "lib": [
+      "ES2021",
+      "ES2017",
+      "dom",
+      "ES2015"
+    ],
+    "moduleResolution": "node",
+    "target": "ESNext"
   },
-  "include": ["src/*"],
+  "include": [
+    "src/*"
+  ],
   "exclude": [
     ".git",
     ".app-cache",

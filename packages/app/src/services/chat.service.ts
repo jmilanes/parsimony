@@ -1,16 +1,16 @@
 import {
-  IUpdateIsTypingPayload,
-  ChatActionTypes,
-  Thread,
-  CreateThreadPayload,
-  IId,
-  DeleteThreadPayload,
-  UpdateThreadPayload,
-  DeleteMessagePayload,
   AddMessagePayload,
+  ChatActionTypes,
+  Collections,
+  CreateThreadPayload,
+  DeleteMessagePayload,
+  DeleteThreadPayload,
   EditMessagePayload,
+  IId,
+  IUpdateIsTypingPayload,
   Message,
-  Collections
+  Thread,
+  UpdateThreadPayload
 } from "@parsimony/types";
 import { clone } from "../utils";
 import { BehaviorSubject } from "rxjs";
@@ -24,12 +24,13 @@ export type ThreadCollection = Record<string, Thread>;
 export default class ChatService {
   threads$: BehaviorSubject<ThreadCollection>;
   socket$: ISocket$;
+
   constructor(socket$: ISocket$, store: Store) {
     this.threads$ = store.getCollection$(Collections.Thread);
     this.socket$ = socket$;
   }
 
-  init = () => {
+  init = async () => {
     // TODO: Create better way to get current user data (auth shouldn't need to be reliant on client side user data and there should be a service to access the auth data)
     const id = localStorage.getItem("currentUserId");
     if (!id) return;

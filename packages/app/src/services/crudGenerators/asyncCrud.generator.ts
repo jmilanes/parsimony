@@ -38,6 +38,7 @@ export class AsyncCrudGenerator<
     GetAllByRelationshipPayload
   >;
   store: Store;
+
   constructor(collectionName: Collections, requests: any, store: Store) {
     this.store = store;
     this.collectionName = collectionName;
@@ -52,14 +53,9 @@ export class AsyncCrudGenerator<
   };
 
   create = async (payload: CreatePayload) => {
-    console.log(
-      "🚀 ~ file: asyncCrud.generator.ts:55 ~ create= ~ payload:",
-      payload
-    );
     const item = (await this.requests.create(
       payload
     )) as AwaitedSchemaWithId<Schema>;
-    console.log("🚀 ~ file: asyncCrud.generator.ts:58 ~ create= ~ item:", item);
     this.store.addItemToCollection(this.collectionName, item);
     return item;
   };

@@ -1,16 +1,28 @@
 import React, { useEffect } from "react";
-import { IColumns, ITableAction } from "../components";
+import {
+  Button,
+  Field,
+  Header,
+  IColumns,
+  ITableAction,
+  MultiSelect,
+  Selector,
+  Table
+} from "../components";
 import { AddForm, TargetForm } from "../containers";
 import {
   Collections,
   Pages,
+  Program,
   ProgramsPageMetaTestIds,
-  User,
+  ProgramTypes,
   Routes,
-  Program, TargetOption
+  TargetOption,
+  User
 } from "@parsimony/types";
 import {
-  initialProgramData, programCategories,
+  initialProgramData,
+  programCategories,
   programTypes,
   targetStyles,
   trialOptions,
@@ -25,15 +37,6 @@ import {
   omitMongoKeys,
   removeMongoIds
 } from "../utils";
-import {
-  Button,
-  Header,
-  Field,
-  Table,
-  MultiSelect,
-  Selector
-} from "../components";
-import { ProgramTypes } from "@parsimony/types";
 import { useServices } from "../context";
 import { TargetOptionSelector } from "../containers/targetOptionsSelector.container";
 
@@ -42,14 +45,15 @@ const Programs = () => {
   const navigate = navigateToRoute();
   let [searchParams] = getSearchParams();
 
-  const data = store.getCurrentCollectionItems<Program>(Collections.Program);
-
   useEffect(() => {
     dataAccess.program.getAll();
     dataAccess.user.getAll();
     filterService.addFilter("main", (data: any) => data.type === "MAIN");
   }, []);
 
+  const programs = store.getCurrentCollectionItems<Program>(
+    Collections.Program
+  );
   const clients = store.getCurrentCollectionItems<User>(Collections.User);
 
   const clientDataOptions = clients.map((client: User) => ({
@@ -159,7 +163,7 @@ const Programs = () => {
         ]}
       />
       <Table<Program>
-        data={data}
+        data={programs}
         columns={columns}
         actions={actions}
         name="Programs"
@@ -256,7 +260,10 @@ const Programs = () => {
           updateState={updateState}
           metaTestId={ProgramsPageMetaTestIds.writeAccessMultiSelector}
         />
-        <TargetOptionSelector targetOptions={localState.targetOptions as TargetOption[]} updateState={updateState} />
+        <TargetOptionSelector
+          targetOptions={localState.targetOptions as TargetOption[]}
+          updateState={updateState}
+        />
         <TargetForm localState={localState} updateState={updateState} />
       </AddForm>
     </>
