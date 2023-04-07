@@ -25,6 +25,7 @@
     "@mui/x-data-grid": "^5.17.10",
     "@parsimony/bal": "^0.48.0",
     "@parsimony/utilities": "^0.48.0",
+    "@tsed/di": "^7.20.0",
     "antd": "4.23.6",
     "chart.js": "^3.7.1",
     "classnames": "2.3.1",
