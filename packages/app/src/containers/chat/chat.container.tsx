@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ThreadCollection } from "../services/chat.service";
+import { ThreadCollection } from "../../services/chat.service";
 import { ChatMetaTestIds, Thread } from "@parsimony/types";
-import { useServices } from "../context";
-import { DrawerContentTypes } from "../services/appControls.service";
-import { Button, List, Row, Col } from "../components";
-import { ChatMessager } from "../containers";
-import { getThreadName } from "../utils";
+import { useServices } from "../../context";
+import { DrawerContentTypes } from "../../services/appControls.service";
+import { Button, List, Row, Col } from "../../components";
+import { ChatMessager } from "../index";
+import { getThreadName } from "../../utils";
 
 export const Chat = () => {
   const { dataAccess, authService, appControls } = useServices();

@@ -1,7 +1,7 @@
 import { ChatMetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
-import { Button } from "../components";
-import { generateMetaTestId } from "../utils";
+import { Button } from "../../components";
+import { generateMetaTestId } from "../../utils";
 
 export type IInputWithActionProps = {
   defaultValue?: string;

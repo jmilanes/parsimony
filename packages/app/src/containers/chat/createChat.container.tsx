@@ -6,12 +6,19 @@ import {
 } from "@parsimony/types";
 import React, { useEffect, useState } from "react";
 
-import { createThread } from "@parsimony/bal";
-import { Header, Field, Autocomplete, Button, Row, Col } from "../components";
+import { createThread } from "@parsimony/bal/dist";
+import {
+  Header,
+  Field,
+  Autocomplete,
+  Button,
+  Row,
+  Col
+} from "../../components";
 
-import { useServices } from "../context";
-import { DrawerContentTypes } from "../services/appControls.service";
-import { getFullName } from "../utils";
+import { useServices } from "../../context";
+import { DrawerContentTypes } from "../../services/appControls.service";
+import { getFullName } from "../../utils";
 
 export const CreateChat = () => {
   const { appControls, dataAccess, store, authService } = useServices();

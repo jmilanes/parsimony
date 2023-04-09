@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 
 // TODO: THis is what is breaking the pattern. This is the next thing to be fixed
-import { addMessage, deleteThread, editMessage } from "@parsimony/bal";
-import { Menu, Row, Col, Header, Icon } from "../components";
-import { ChatMessage, ChatMessageInput } from "../containers";
+import { addMessage, deleteThread, editMessage } from "@parsimony/bal/dist";
+import { Menu, Row, Col, Header, Icon } from "../../components";
+import { ChatMessage, ChatMessageInput } from "../index";
 import { ChatMetaTestIds, Message, Thread } from "@parsimony/types";
-import { useServices } from "../context";
-import { getThreadName } from "../utils";
+import { useServices } from "../../context";
+import { getThreadName } from "../../utils";
 
 type IChatMessageRProps = {
   thread?: Thread;

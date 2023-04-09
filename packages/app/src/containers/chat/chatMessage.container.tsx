@@ -1,10 +1,10 @@
 import React from "react";
 
 // TODO: THis is what is breaking the pattern. This is the next thing to be fixed
-import { deleteMessage } from "@parsimony/bal";
-import { Menu } from "../components";
+import { deleteMessage } from "@parsimony/bal/dist";
+import { Menu } from "../../components";
 import { ChatMetaTestIds, Message } from "@parsimony/types";
-import { useServices } from "../context";
+import { useServices } from "../../context";
 
 type IChatMessageProps = {
   message: Message;
