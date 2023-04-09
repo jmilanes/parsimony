@@ -12,6 +12,7 @@ import {
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../utils";
 import { AppControls } from "./appControls.service";
+import { Service } from "typedi";
 
 type UserCollection = Record<IId, User>;
 type ProgramCollection = Record<IId, Program>;
@@ -22,6 +23,7 @@ type EventCollection = Record<IId, Event>;
 type DocumentCollection = Record<IId, Document>;
 type FileCollection = Record<IId, File>;
 
+@Service()
 export default class Store {
   public store$: Record<Collections, BehaviorSubject<any>>;
   public isLoading: boolean;

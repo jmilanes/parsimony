@@ -1,6 +1,7 @@
 import { Collections } from "@parsimony/types";
 import { clone } from "../utils";
 import Store from "./store";
+import { Service } from "typedi";
 
 type Subset<K> = {
   [attr in keyof K]?: K[attr] extends object
@@ -29,9 +30,12 @@ export type AppControls = {
 };
 
 type ControlPayloads = Partial<DrawerControls>;
+
+@Service()
 export default class AppControlsService {
   store: Store;
   defaultControls: AppControls;
+
   constructor(store: Store) {
     this.store = store;
     this.defaultControls = {

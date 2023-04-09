@@ -1,8 +1,10 @@
 import { IObject } from "@parsimony/types";
 import StateService from "./state.service";
+import { Service } from "typedi";
 
 export type FilterFn = (obj: IObject) => boolean;
 
+@Service()
 class FilterService {
   filters: Record<string, FilterFn>;
   fromLink: boolean;

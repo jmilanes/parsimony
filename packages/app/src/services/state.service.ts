@@ -1,5 +1,6 @@
 import { clone, setDataWithPath } from "../utils";
 import Store from "./store";
+import { Service } from "typedi";
 
 export type IUpdateLocalStatePayload = {
   localState: Record<string, unknown>;
@@ -11,9 +12,11 @@ export interface IStateService {
   updateState: () => void;
 }
 
+@Service()
 class StateService implements IStateService {
   store: Store;
   updateState: () => void;
+
   constructor(store: Store) {
     this.store = store;
     this.updateState = () => console.log("No update state function registered");

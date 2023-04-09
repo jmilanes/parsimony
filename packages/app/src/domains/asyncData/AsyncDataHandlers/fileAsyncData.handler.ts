@@ -1,4 +1,5 @@
 import {
+  Collections,
   CreateFilePayload,
   DeleteFilePayload,
   File,
@@ -7,7 +8,10 @@ import {
   UpdateFilePayload
 } from "@parsimony/types";
 import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { fileRequests } from "@parsimony/bal";
+import { Service } from "typedi";
 
+@Service()
 export class FileAsyncDataHandler extends AsyncDataHandlerInterface<
   File,
   CreateFilePayload,
@@ -15,4 +19,7 @@ export class FileAsyncDataHandler extends AsyncDataHandlerInterface<
   UpdateFilePayload,
   GetFilePayload,
   GetAllFilesByRelationshipPayload
-> {}
+> {
+  collectionName = Collections.File;
+  requests = fileRequests;
+}

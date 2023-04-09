@@ -42,6 +42,7 @@ type ITestEntry = {
 class DBManager {
   entities: ITestEntry[];
   accessToken: string;
+
   constructor() {
     this.entities = [];
     this.accessToken = null;

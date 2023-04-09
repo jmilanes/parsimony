@@ -1,4 +1,5 @@
 import {
+  Collections,
   CreateDocumentPayload,
   DeleteDocumentPayload,
   Document,
@@ -7,7 +8,10 @@ import {
   UpdateDocumentPayload
 } from "@parsimony/types";
 import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { documentRequests } from "@parsimony/bal";
+import { Service } from "typedi";
 
+@Service()
 export class DocumentAsyncDataHandler extends AsyncDataHandlerInterface<
   Document,
   CreateDocumentPayload,
@@ -15,4 +19,7 @@ export class DocumentAsyncDataHandler extends AsyncDataHandlerInterface<
   UpdateDocumentPayload,
   GetDocumentPayload,
   GetAllDocumentsByRelationshipPayload
-> {}
+> {
+  collectionName = Collections.Document;
+  requests = documentRequests;
+}

@@ -98,6 +98,7 @@ export enum ProgramsPageMetaTestIds {
 
 export enum ProgramPageMetaTestIds {
   editBtn = "edit-program-btn",
+  deleteProgramBtn = "delete-program-btn",
   cancelEditBtn = "cancel-edit-program",
   submitEditBtn = "submit-edit-program",
   titleField = "update-program-title-field",

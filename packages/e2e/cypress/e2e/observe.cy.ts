@@ -14,7 +14,9 @@ import {
   getTableRowAction,
   getTableRowItem,
   getTargetOptionButton,
-  getSeparateObserveButton, getField, readOnlyLocator
+  getSeparateObserveButton,
+  getField,
+  readOnlyLocator
 } from "../../utilities";
 import { DB_ACTIONS } from "../../utilities/db.utils";
 import {
@@ -34,6 +36,7 @@ afterEach(() => {
   DB_ACTIONS.cleanEntities();
 });
 
+//TODO Fix tests (seems like a async issue aka I need better testing with out all this)
 describe("Observe Tests Page Tests", () => {
   it("should associate program to user from Programs Page", () => {
     DB_ACTIONS.createUserRequest(user1).then((userId) => {
@@ -50,7 +53,10 @@ describe("Observe Tests Page Tests", () => {
           let targetId = interception.response.body.data.updateProgram.id;
           DB_ACTIONS.addEntity(targetId, TestEntryTypes.PROGRAM);
           cy.visit(`${ROUTES.programs}/${targetId}`);
-          getField(readOnlyLocator(ProgramPageMetaTestIds.titleField)).should("have.text", "Brushing Teeth_Copy");
+          getField(readOnlyLocator(ProgramPageMetaTestIds.titleField)).should(
+            "have.text",
+            "Brushing Teeth_Copy"
+          );
         });
       });
     });
@@ -72,7 +78,10 @@ describe("Observe Tests Page Tests", () => {
           let targetId = interception.response.body.data.updateProgram.id;
           DB_ACTIONS.addEntity(targetId, TestEntryTypes.PROGRAM);
           cy.visit(`${ROUTES.programs}/${targetId}`);
-          getField(readOnlyLocator(ProgramPageMetaTestIds.titleField)).should("have.text", "Brushing Teeth_Copy");
+          getField(readOnlyLocator(ProgramPageMetaTestIds.titleField)).should(
+            "have.text",
+            "Brushing Teeth_Copy"
+          );
           getButton(NavMetaTestIds.directoryBtn).click();
           cy.visit(`${ROUTES.directory}/${userId}`);
           getTableRowItem(

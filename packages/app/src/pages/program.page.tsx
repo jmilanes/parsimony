@@ -119,7 +119,7 @@ const Program = () => {
               navigate(`/programs`);
             }}
             hidden={isEditMode(mode)}
-            metaTestId={ProgramPageMetaTestIds.editBtn}
+            metaTestId={ProgramPageMetaTestIds.deleteProgramBtn}
           />
         ]}
       />

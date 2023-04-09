@@ -26,7 +26,7 @@ afterEach(() => {
 });
 
 describe("Program Page Tests", () => {
-  it("should basic program editing should work", () => {
+  it.only("should basic program editing should work", () => {
     DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
       cy.visit(`${ROUTES.programs}/${id}`);
       getButton(ProgramPageMetaTestIds.editBtn).click();

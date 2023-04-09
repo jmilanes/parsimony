@@ -5,7 +5,7 @@ import FilterService from "./filter.service";
 import StateService from "./state.service";
 import Store from "./store";
 import AuthService from "./auth.service";
-import AppControlsService from "./appControls.service";
+import AppControlsService, { AppControls } from "./appControls.service";
 import { envIs } from "@parsimony/utilities";
 import { ProgramAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/programAsyncData.handler";
 import { UserAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/userAsyncData.handler";
@@ -14,6 +14,7 @@ import { EventAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/ev
 import { DocumentAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/documentAsyncData.handler";
 import { FileAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/fileAsyncData.handler";
 import { createDataAccessServices } from "../domains/asyncData/createDataAccessServices";
+import { Inject, Service } from "typedi";
 
 export type Services = {
   [ServiceTypes.App]: {
@@ -39,30 +40,62 @@ export type Services = {
 };
 
 export type ISocket$ = Observable<any>;
+
+@Service()
 export default class AppController {
   socket$?: ISocket$;
   services: Services;
 
-  constructor() {
+  @Inject(() => Store)
+  private readonly store: Store;
+
+  @Inject(() => StateService)
+  private readonly stateService: StateService;
+
+  @Inject(() => FilterService)
+  private readonly filterService: FilterService;
+
+  @Inject(() => AppControlsService)
+  private readonly appControlsService: AppControlsService;
+
+  @Inject(() => AuthService)
+  private readonly authService: AuthService;
+
+  constructor(
+    store: Store,
+    ss: StateService,
+    fs: FilterService,
+    acs: AppControlsService,
+    as: AuthService
+  ) {
+    this.stateService = ss;
+    this.store = store;
+    this.filterService = fs;
+    this.appControlsService = acs;
+    this.authService = as;
     this.services = {
+      [ServiceTypes.AppControls]: this.appControlsService,
+      [ServiceTypes.AuthService]: this.authService,
       //TODO Move to app controls
       [ServiceTypes.App]: {
         isLoading: true
-      }
+      },
+      [ServiceTypes.Store]: this.store,
+      [ServiceTypes.StateManager]: this.stateService,
+      [ServiceTypes.Filter]: this.filterService
     } as Services;
   }
 
   public init = async () => {
     await this.#initWebSocket();
-    await this.#initServices();
     this.services[ServiceTypes.AppControls].init();
     await this.#initDataAccess();
+    await this.authService.init();
     await this.#loadCollections();
     console.log("All Services Loads", this.services);
   };
 
   #loadCollections = async () => {
-    await this.#initAuthService();
     await this.services.dataAccess.thread$.init();
     await this.#isLoading(false);
     console.log("All Data Loaded");
@@ -73,6 +106,7 @@ export default class AppController {
     this.services.stateManager.updateState();
   };
 
+  // TODO: MOVE TO A CLASS and into Async/Data Domain
   #initWebSocket = async () => {
     const SOCKET_URL = envIs("prod")
       ? "wss://broadcast.parsimony.app"
@@ -88,30 +122,11 @@ export default class AppController {
     });
   };
 
-  #initServices = async () => {
-    this.services[ServiceTypes.Store] = new Store();
-    this.services[ServiceTypes.StateManager] = new StateService(
-      this.services.store
-    );
-    this.services[ServiceTypes.AppControls] = new AppControlsService(
-      this.services.store
-    );
-    this.services[ServiceTypes.Filter] = new FilterService(
-      this.services.stateManager
-    );
-  };
-
   #initDataAccess = async () => {
     // ** This is where I could just swap out the local storage version
     this.services[ServiceTypes.DataAccess] = await createDataAccessServices(
       this.services.store as Store,
       this.socket$ as ISocket$
     );
-  };
-
-  #initAuthService = async () => {
-    const authService = new AuthService();
-    await authService.init();
-    this.services[ServiceTypes.AuthService] = authService;
   };
 }

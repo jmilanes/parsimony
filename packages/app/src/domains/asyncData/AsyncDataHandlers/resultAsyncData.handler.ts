@@ -1,4 +1,5 @@
 import {
+  Collections,
   CreateResultPayload,
   DeleteResultPayload,
   GetAllResultsByRelationshipPayload,
@@ -7,7 +8,10 @@ import {
   UpdateResultPayload
 } from "@parsimony/types";
 import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { resultRequests } from "@parsimony/bal";
+import { Service } from "typedi";
 
+@Service()
 export class ResultAsyncDataHandler extends AsyncDataHandlerInterface<
   Result,
   CreateResultPayload,
@@ -15,4 +19,7 @@ export class ResultAsyncDataHandler extends AsyncDataHandlerInterface<
   UpdateResultPayload,
   GetResultPayload,
   GetAllResultsByRelationshipPayload
-> {}
+> {
+  collectionName = Collections.Result;
+  requests = resultRequests;
+}

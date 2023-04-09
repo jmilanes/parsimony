@@ -2,11 +2,13 @@ import { Collections, ICrudRequests, IId } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../../utils";
 import Store from "../../services/store";
+import { Service } from "typedi";
 
 type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
   id?: string | undefined;
 };
 
+@Service()
 export class AsyncDataHandlerInterface<
   Schema,
   CreatePayload,
@@ -15,7 +17,9 @@ export class AsyncDataHandlerInterface<
   GetPayload,
   GetAllByRelationshipPayload
 > {
-  collectionName: Collections;
+  collectionName: Collections = "" as Collections;
+
+  //@ts-ignore
   requests: ICrudRequests<
     Schema,
     CreatePayload,
@@ -24,16 +28,14 @@ export class AsyncDataHandlerInterface<
     GetPayload,
     GetAllByRelationshipPayload
   >;
-  store: Store;
+  #store: Store;
 
-  constructor(collectionName: Collections, requests: any, store: Store) {
-    this.store = store;
-    this.collectionName = collectionName;
-    this.requests = requests;
+  constructor(store: Store) {
+    this.#store = store;
   }
 
   init = async () => {
-    await this.store.initCollectionInStore(
+    await this.#store.initCollectionInStore(
       this.collectionName,
       this.requests.getAll
     );
@@ -43,13 +45,13 @@ export class AsyncDataHandlerInterface<
     const item = (await this.requests.create(
       payload
     )) as AwaitedSchemaWithId<Schema>;
-    this.store.addItemToCollection(this.collectionName, item);
+    this.#store.addItemToCollection(this.collectionName, item);
     return item;
   };
 
   delete = async (payload: DeleteThreadPayload) => {
     const id = await this.requests.delete(payload);
-    this.store.deleteItemFromStore(this.collectionName, id);
+    this.#store.deleteItemFromStore(this.collectionName, id);
     return id;
   };
 
@@ -57,14 +59,14 @@ export class AsyncDataHandlerInterface<
     const item = (await this.requests.update(
       payload
     )) as AwaitedSchemaWithId<Schema>;
-    this.store.updateCollectionListItem(this.collectionName, item);
+    this.#store.updateCollectionListItem(this.collectionName, item);
     return item;
   };
 
   getAll = async () => {
     try {
       const items = await this.requests.getAll();
-      this.store.getCollection$(this.collectionName).next(arrayToObj(items));
+      this.#store.getCollection$(this.collectionName).next(arrayToObj(items));
     } catch (error) {
       console.error(error);
     }
@@ -74,7 +76,7 @@ export class AsyncDataHandlerInterface<
     const item = (await this.requests.get({
       id
     } as unknown as GetPayload)) as AwaitedSchemaWithId<Schema>;
-    this.store.addItemToCollection(this.collectionName, item);
+    this.#store.addItemToCollection(this.collectionName, item);
   };
 
   getAllByRelationship = async (
@@ -86,14 +88,14 @@ export class AsyncDataHandlerInterface<
         relationshipProperty,
         id
       } as unknown as GetAllByRelationshipPayload);
-      this.store.getCollection$(this.collectionName).next(items);
+      this.#store.getCollection$(this.collectionName).next(items);
     } catch (error) {
       console.error(error);
     }
   };
 
   subscribe = (service: { set: (data: any[]) => void }) => {
-    this.store.subscribeToStoreCollection(
+    this.#store.subscribeToStoreCollection(
       this.collectionName,
       (obs: BehaviorSubject<Record<string, unknown>>) =>
         service.set(Object.values(obs))

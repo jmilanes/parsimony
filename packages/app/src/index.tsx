@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import "@babel/polyfill";
 import React from "react";
 import ReactDom from "react-dom";
@@ -9,6 +10,7 @@ import { createServicesProvider, useServices } from "./context";
 import { Drawer } from "./containers";
 import "antd/dist/antd.css";
 import { useAsync } from "react-use";
+import { Container } from "typedi";
 
 const app = document.getElementById("app");
 
@@ -33,7 +35,7 @@ const AppContent = () => {
 
 const App = () => {
   const { loading, value: services } = useAsync(async () => {
-    const appController = new AppController();
+    const appController = Container.get(AppController);
     await appController.init();
     return appController.services;
   });

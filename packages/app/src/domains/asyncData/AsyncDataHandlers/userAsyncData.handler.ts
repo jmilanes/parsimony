@@ -1,4 +1,5 @@
 import {
+  Collections,
   CreateUserPayload,
   DeleteUserPayload,
   GetAllUsersByRelationshipPayload,
@@ -7,7 +8,10 @@ import {
   User
 } from "@parsimony/types";
 import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { userRequests } from "@parsimony/bal";
+import { Service } from "typedi";
 
+@Service()
 export class UserAsyncDataHandler extends AsyncDataHandlerInterface<
   User,
   CreateUserPayload,
@@ -15,4 +19,7 @@ export class UserAsyncDataHandler extends AsyncDataHandlerInterface<
   UpdateUserPayload,
   GetUserPayload,
   GetAllUsersByRelationshipPayload
-> {}
+> {
+  collectionName = Collections.User;
+  requests = userRequests;
+}

@@ -1,4 +1,5 @@
 import {
+  Collections,
   CreateEventPayload,
   DeleteEventPayload,
   Event,
@@ -7,7 +8,10 @@ import {
   UpdateEventPayload
 } from "@parsimony/types";
 import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { eventRequests } from "@parsimony/bal";
+import { Service } from "typedi";
 
+@Service()
 export class EventAsyncDataHandler extends AsyncDataHandlerInterface<
   Event,
   CreateEventPayload,
@@ -15,4 +19,7 @@ export class EventAsyncDataHandler extends AsyncDataHandlerInterface<
   UpdateEventPayload,
   GetEventPayload,
   GetAllEventsByRelationshipPayload
-> {}
+> {
+  collectionName = Collections.Event;
+  requests = eventRequests;
+}

@@ -1,12 +1,14 @@
 import { User } from "@parsimony/types";
 import { encrypt, envIs } from "@parsimony/utilities";
 import { login, logout, me, resetPassword } from "@parsimony/bal";
+import { Service } from "typedi";
 
 // This is needed for encrypt to work for creating users in cypress with requests
 const applyEncryptionToCypressWindow = () =>
   //@ts-ignore
   !envIs("prod") && (window.testEncrypt = (val: string) => encrypt(val));
 
+@Service()
 export default class AuthService {
   isLoggedIn: boolean;
   previousPage: string;
