@@ -4,7 +4,7 @@ import {
   CreateEventPayload,
   DeleteEventPayload,
   UpdateEventPayload,
-  Collections,
+  StoreCollections,
   GetAllEventsByRelationshipPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
@@ -24,7 +24,7 @@ const fullSchema = `
 `;
 
 const eventOperationStrings = generateCrudOperationStrings(
-  Collections.Event,
+  StoreCollections.Event,
   fullSchema
 );
 

@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateResultPayload,
   DeleteResultPayload,
   UpdateResultPayload,
@@ -32,7 +32,7 @@ const fullSchema = `
 `;
 
 const resultOperationStrings = generateCrudOperationStrings(
-  Collections.Result,
+  StoreCollections.Result,
   fullSchema
 );
 

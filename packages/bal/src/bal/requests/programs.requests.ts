@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateProgramPayload,
   DeleteProgramPayload,
   GetAllProgramsByRelationshipPayload,
@@ -51,7 +51,7 @@ const fullSchema = `
 `;
 
 export const programOperationStrings = generateCrudOperationStrings(
-  Collections.Program,
+  StoreCollections.Program,
   fullSchema
 );
 

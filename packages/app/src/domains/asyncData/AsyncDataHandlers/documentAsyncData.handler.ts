@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateDocumentPayload,
   DeleteDocumentPayload,
   Document,
@@ -20,6 +20,6 @@ export class DocumentAsyncDataHandler extends AsyncDataHandlerInterface<
   GetDocumentPayload,
   GetAllDocumentsByRelationshipPayload
 > {
-  collectionName = Collections.Document;
+  collectionName = StoreCollections.Document;
   requests = documentRequests;
 }

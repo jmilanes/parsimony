@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateUserPayload,
   DeleteUserPayload,
   GetAllUsersByRelationshipPayload,
@@ -33,7 +33,7 @@ export const fullSchema = `
 `;
 
 export const userOperationStrings = generateCrudOperationStrings(
-  Collections.User,
+  StoreCollections.User,
   fullSchema
 );
 

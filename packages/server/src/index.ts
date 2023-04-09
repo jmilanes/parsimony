@@ -9,9 +9,9 @@ import TokensService from "./database/token.service";
 
 const isProduction = envIs("prod");
 
-// const broadcastService = new BroadcastService();
+const broadcastService = new BroadcastService();
 
-// broadcastService.init();
+broadcastService.init();
 
 const DEV_CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
 const PROD_CONNECTION_STRING = `mongodb+srv://jmilanes:${process.env.MONGO_PW}@parsimonyapp01.xmune.mongodb.net/parsimony?retryWrites=true&w=majority`;
@@ -29,8 +29,7 @@ const tokenService = new TokensService(db);
 
 const resolverUtils: ICreateResolverParams = {
   db,
-  // broadcast: broadcastService.broadcast,
-  broadcast: (x) => console.log("MOCK BROADCAST", x),
+  broadcast: broadcastService.broadcast,
   tokenService
 };
 

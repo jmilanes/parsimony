@@ -4,7 +4,7 @@ import {
   CreateFilePayload,
   DeleteFilePayload,
   UpdateFilePayload,
-  Collections,
+  StoreCollections,
   GetAllFilesByRelationshipPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
@@ -19,7 +19,7 @@ const fullSchema = `
 `;
 
 const eventOperationStrings = generateCrudOperationStrings(
-  Collections.File,
+  StoreCollections.File,
   fullSchema
 );
 

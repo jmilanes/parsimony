@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 
 import { Button, Table, Field, Header } from "../components";
-import { Collections, School, SchoolPageMetaTestIds } from "@parsimony/types";
+import {
+  StoreCollections,
+  School,
+  SchoolPageMetaTestIds
+} from "@parsimony/types";
 import { AddForm } from "../containers";
 import { initialSchoolData } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table.component";
@@ -12,7 +16,7 @@ import { useServices } from "../context";
 const Schools = () => {
   const { stateManager, dataAccess, store } = useServices();
 
-  const data = store.getCurrentCollectionItems<School>(Collections.School);
+  const data = store.getCurrentCollectionItems<School>(StoreCollections.School);
 
   useEffect(() => {
     dataAccess.school.getAll();

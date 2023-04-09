@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Collections, Pages, Result } from "@parsimony/types";
+import { StoreCollections, Pages, Result } from "@parsimony/types";
 import { Header } from "../components";
 import { getRouterParams } from "../utils";
 
@@ -29,9 +29,14 @@ ChartJS.register(
 const Results = () => {
   const { dataAccess, store } = useServices();
   const { programId } = getRouterParams();
-  const program = store.getCollectionItem(Collections.Program, programId || "");
+  const program = store.getCollectionItem(
+    StoreCollections.Program,
+    programId || ""
+  );
 
-  const results: Result[] = store.getCurrentCollectionItems(Collections.Result);
+  const results: Result[] = store.getCurrentCollectionItems(
+    StoreCollections.Result
+  );
 
   useEffect(() => {
     dataAccess.program.get(programId as string);

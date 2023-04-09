@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Drawer as ADrawer } from "antd";
 
 import { useServices } from "../context";
-import { Collections, DrawerMetaTestIds } from "@parsimony/types";
+import { StoreCollections, DrawerMetaTestIds } from "@parsimony/types";
 import { DrawerContentTypes } from "../services/appControls.service";
 import { Chat, CreateChat } from "../containers";
 import { Button, Icon } from "../components";
@@ -11,7 +11,9 @@ export const Drawer = ({ content }: { content?: React.FC }) => {
   const [extended, updateExtended] = useState(false);
   const { appControls, store } = useServices();
 
-  const controls = store.getCollectionValue(Collections.AppControls).drawer;
+  const controls = store.getCollectionValue(
+    StoreCollections.AppControls
+  ).drawer;
 
   if (!controls) return null;
 

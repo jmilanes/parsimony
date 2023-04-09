@@ -1,4 +1,4 @@
-import { Collections, ICrudRequests, IId } from "@parsimony/types";
+import { StoreCollections, ICrudRequests, IId } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../../utils";
 import Store from "../../services/store";
@@ -17,7 +17,7 @@ export class AsyncDataHandlerInterface<
   GetPayload,
   GetAllByRelationshipPayload
 > {
-  collectionName: Collections = "" as Collections;
+  collectionName: StoreCollections = "" as StoreCollections;
 
   //@ts-ignore
   requests: ICrudRequests<

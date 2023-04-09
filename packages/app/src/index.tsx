@@ -11,6 +11,7 @@ import { Drawer } from "./containers";
 import "antd/dist/antd.css";
 import { useAsync } from "react-use";
 import { Container } from "typedi";
+import { Spin } from "antd";
 
 const app = document.getElementById("app");
 
@@ -39,7 +40,7 @@ const App = () => {
     await appController.init();
     return appController.services;
   });
-  if (loading) return null;
+  if (loading) return <Spin />;
   const ServicesProvider = createServicesProvider(services);
   return (
     <ServicesProvider>

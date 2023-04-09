@@ -14,11 +14,9 @@ import { uuid } from ".";
 import { IRoute } from "@parsimony/types";
 import { Login } from "../pages";
 import { useServices } from "../context";
-import { Spin } from "antd";
 
 export const generateRoutes = (routes: IRoute[]) => {
-  const { authService, appService } = useServices();
-  if (appService.isLoading) return <Spin />;
+  const { authService } = useServices();
   return (
     <HashRouter>
       {authService.isLoggedIn && <Nav routes={routes} />}

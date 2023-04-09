@@ -1,4 +1,4 @@
-export enum Collections {
+export enum StoreCollections {
   School = "school",
   User = "user",
   Program = "program",
@@ -48,14 +48,6 @@ export enum ServiceTypes {
   AuthService = "authService",
   App = "appService",
   AppControls = "appControls"
-}
-
-export enum Collections$ {
-  School$ = "school$",
-  User$ = "user$",
-  Program$ = "program$",
-  Result$ = "result$",
-  Thread$ = "thread$"
 }
 
 export enum ServiceProviders {

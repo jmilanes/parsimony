@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateFilePayload,
   DeleteFilePayload,
   File,
@@ -20,6 +20,6 @@ export class FileAsyncDataHandler extends AsyncDataHandlerInterface<
   GetFilePayload,
   GetAllFilesByRelationshipPayload
 > {
-  collectionName = Collections.File;
+  collectionName = StoreCollections.File;
   requests = fileRequests;
 }

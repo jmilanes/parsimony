@@ -1,10 +1,11 @@
-import { Collections } from "@parsimony/types";
+import { StoreCollections } from "@parsimony/types";
 import { ICrudGenerator, IId } from "@parsimony/types";
 
-const crudGenerator = <Schema>(collectionName: Collections) => {
+const crudGenerator = <Schema>(collectionName: StoreCollections) => {
   return class Service implements ICrudGenerator<Schema> {
     collection: Record<string, Schema>;
     count: number;
+
     constructor() {
       this.collection = {};
       this.count = 0;

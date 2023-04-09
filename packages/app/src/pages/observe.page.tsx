@@ -3,7 +3,7 @@ import { Button, Header } from "../components";
 import { generateKey, getRouterParams, navigateToRoute } from "../utils";
 import { ObserveTarget } from "../containers";
 import {
-  Collections,
+  StoreCollections,
   ObservationMetaTestIds,
   Target,
   TargetStyle
@@ -20,7 +20,10 @@ const Observe = () => {
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const program = store.getCollectionItem(Collections.Program, programId || "");
+  const program = store.getCollectionItem(
+    StoreCollections.Program,
+    programId || ""
+  );
 
   useEffect(() => {
     if (!program) dataAccess.program.get(programId as string);

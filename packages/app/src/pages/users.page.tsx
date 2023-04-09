@@ -10,7 +10,7 @@ import {
 } from "../components";
 import { navigateToRoute } from "../utils";
 import {
-  Collections,
+  StoreCollections,
   DirectoryPageMetaTestIds,
   Pages,
   User,
@@ -33,7 +33,7 @@ import { message } from "antd";
 const Users = () => {
   const { stateManager, dataAccess, store } = useServices();
   const navigate = navigateToRoute();
-  const data = store.getCurrentCollectionItems<User>(Collections.User);
+  const data = store.getCurrentCollectionItems<User>(StoreCollections.User);
 
   useEffect(() => {
     dataAccess.user.getAll();

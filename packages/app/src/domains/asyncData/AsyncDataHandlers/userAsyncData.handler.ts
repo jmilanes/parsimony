@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateUserPayload,
   DeleteUserPayload,
   GetAllUsersByRelationshipPayload,
@@ -20,6 +20,6 @@ export class UserAsyncDataHandler extends AsyncDataHandlerInterface<
   GetUserPayload,
   GetAllUsersByRelationshipPayload
 > {
-  collectionName = Collections.User;
+  collectionName = StoreCollections.User;
   requests = userRequests;
 }

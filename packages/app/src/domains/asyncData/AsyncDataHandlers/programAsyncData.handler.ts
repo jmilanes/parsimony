@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateProgramPayload,
   DeleteProgramPayload,
   GetAllProgramsByRelationshipPayload,
@@ -20,6 +20,6 @@ export class ProgramAsyncDataHandler extends AsyncDataHandlerInterface<
   GetProgramPayload,
   GetAllProgramsByRelationshipPayload
 > {
-  collectionName = Collections.Program;
+  collectionName = StoreCollections.Program;
   requests = programRequests;
 }

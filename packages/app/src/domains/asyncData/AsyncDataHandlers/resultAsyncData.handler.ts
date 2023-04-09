@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateResultPayload,
   DeleteResultPayload,
   GetAllResultsByRelationshipPayload,
@@ -20,6 +20,6 @@ export class ResultAsyncDataHandler extends AsyncDataHandlerInterface<
   GetResultPayload,
   GetAllResultsByRelationshipPayload
 > {
-  collectionName = Collections.Result;
+  collectionName = StoreCollections.Result;
   requests = resultRequests;
 }

@@ -1,8 +1,8 @@
-import { Collections } from "@parsimony/types";
+import { StoreCollections } from "@parsimony/types";
 import { capitalize } from "@parsimony/utilities";
 
 const generateCrudOperationStrings = (
-  collection: Collections,
+  collection: StoreCollections,
   fullSchema: string
 ) => {
   const type = capitalize(collection);

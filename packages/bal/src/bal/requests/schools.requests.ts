@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateSchoolPayload,
   DeleteSchoolPayload,
   GetAllSchoolByRelationshipPayload,
@@ -21,7 +21,7 @@ const fullSchema = `
 `;
 
 const schoolOperationStrings = generateCrudOperationStrings(
-  Collections.School,
+  StoreCollections.School,
   fullSchema
 );
 

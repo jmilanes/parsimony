@@ -1,7 +1,7 @@
 import {
   AddMessagePayload,
   ChatActionTypes,
-  Collections,
+  StoreCollections,
   CreateThreadPayload,
   DeleteMessagePayload,
   DeleteThreadPayload,
@@ -15,41 +15,46 @@ import {
 import { clone } from "../utils";
 import { BehaviorSubject } from "rxjs";
 import { getThreadsByUserId } from "@parsimony/bal";
-import { ISocket$ } from "./app.service";
 import Store from "./store";
+import { Service } from "typedi";
+import { SocketService } from "../domains/asyncData/SocketService/socket.service";
 
 export type ThreadCollection = Record<string, Thread>;
 
-// This service could be abstract SocketStreamingGenerator
+@Service()
 export default class ChatService {
   threads$: BehaviorSubject<ThreadCollection>;
-  socket$: ISocket$;
+  #socketService: SocketService;
+  #store: Store;
 
-  constructor(socket$: ISocket$, store: Store) {
-    this.threads$ = store.getCollection$(Collections.Thread);
-    this.socket$ = socket$;
+  constructor(s: Store, ss: SocketService) {
+    this.#store = s;
+    this.#socketService = ss;
+    this.threads$ = this.#store.getCollection$(StoreCollections.Thread);
   }
 
   init = async () => {
     // TODO: Create better way to get current user data (auth shouldn't need to be reliant on client side user data and there should be a service to access the auth data)
     const id = localStorage.getItem("currentUserId");
     if (!id) return;
-    getThreadsByUserId({
+
+    const threads = await getThreadsByUserId({
       id: id
-    }).then((threads) => {
-      const formattedData = threads.reduce(
-        (acc: ThreadCollection, curr: Thread) => {
-          acc[curr.id] = curr;
-          return acc;
-        },
-        {}
-      );
-      this.updateThreads(formattedData);
     });
 
-    this.socket$.subscribe({
-      next: (socketMessage: any) => this.updateThread(socketMessage)
-    });
+    const formattedData = threads.reduce(
+      (acc: ThreadCollection, curr: Thread) => {
+        acc[curr.id] = curr;
+        return acc;
+      },
+      {}
+    );
+
+    this.updateThreads(formattedData);
+
+    this.#socketService.subscribeToSocket((socketMessage: any) =>
+      this.updateThread(socketMessage)
+    );
   };
 
   subscribe = (next: any) => {

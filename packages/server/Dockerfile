@@ -31,7 +31,8 @@ ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET\n\
 REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET\n\
 MONGO_PW=$MONGO_PW" > ./.env
 
-# Open Port TODO: Breakbroadcast into its own service 
+# Open Port TODO: Breakbroadcast into its own service
+# Folding parsimony web and API service into one
 EXPOSE 4000
 
 # Docker Command to Start Service

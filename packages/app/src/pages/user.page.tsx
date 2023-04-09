@@ -17,7 +17,7 @@ import {
 } from "../components";
 
 import {
-  Collections,
+  StoreCollections,
   IModes,
   Program,
   Routes,
@@ -46,7 +46,7 @@ const User = () => {
   const { userId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const user = store.getCollectionItem(Collections.User, userId || "");
+  const user = store.getCollectionItem(StoreCollections.User, userId || "");
 
   const [mode, updateMode] = React.useState<IModes>("readOnly");
 
@@ -61,7 +61,7 @@ const User = () => {
   }, [user]);
 
   const associatedPrograms = store.getCurrentCollectionItems(
-    Collections.Program
+    StoreCollections.Program
   );
 
   const updateState = stateManager.updateLocalState({

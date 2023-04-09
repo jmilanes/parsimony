@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   User,
   Subscriber,
   ChatMetaTestIds
@@ -30,7 +30,7 @@ export const CreateChat = () => {
   }, []);
 
   const autoCompleteOptions = store
-    .getCurrentCollectionItems<User>(Collections.User)
+    .getCurrentCollectionItems<User>(StoreCollections.User)
     .filter((user: User) => user.id !== currentUserId)
     .map((user: User) => ({
       // TODO Change to display name once those are added to USER

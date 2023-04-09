@@ -30,9 +30,9 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
 
   const { authService } = useServices();
 
-  const onEditMessage = (value: string) => {
+  const onEditMessage = async (value: string) => {
     if (!selectedMessage || !thread) return;
-    editMessage({
+    await editMessage({
       value,
       threadId: thread?.id,
       messageId: selectedMessage?.id
@@ -44,8 +44,8 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
 
   const onDelete = (id: string) => deleteThread({ id });
 
-  const onAddMessage = (threadId: string) => (value: string) => {
-    addMessage({
+  const onAddMessage = (threadId: string) => async (value: string) => {
+    await addMessage({
       message: {
         userId: currentUser?.id,
         dataType: "string",

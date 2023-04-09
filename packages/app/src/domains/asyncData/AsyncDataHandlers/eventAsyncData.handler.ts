@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateEventPayload,
   DeleteEventPayload,
   Event,
@@ -20,6 +20,6 @@ export class EventAsyncDataHandler extends AsyncDataHandlerInterface<
   GetEventPayload,
   GetAllEventsByRelationshipPayload
 > {
-  collectionName = Collections.Event;
+  collectionName = StoreCollections.Event;
   requests = eventRequests;
 }

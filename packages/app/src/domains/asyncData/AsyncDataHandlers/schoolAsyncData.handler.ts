@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateSchoolPayload,
   DeleteSchoolPayload,
   GetAllSchoolByRelationshipPayload,
@@ -20,6 +20,6 @@ export class SchoolAsyncDataHandler extends AsyncDataHandlerInterface<
   GetSchoolPayload,
   GetAllSchoolByRelationshipPayload
 > {
-  collectionName = Collections.School;
+  collectionName = StoreCollections.School;
   requests = schoolRequests;
 }

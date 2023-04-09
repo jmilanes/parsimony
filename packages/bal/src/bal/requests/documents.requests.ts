@@ -1,5 +1,5 @@
 import {
-  Collections,
+  StoreCollections,
   CreateDocumentPayload,
   DeleteDocumentPayload,
   UpdateDocumentPayload,
@@ -20,7 +20,7 @@ const fullSchema = `
 `;
 
 const documentOperationStrings = generateCrudOperationStrings(
-  Collections.Document,
+  StoreCollections.Document,
   fullSchema
 );
 

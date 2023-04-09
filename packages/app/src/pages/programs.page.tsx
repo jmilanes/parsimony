@@ -11,7 +11,7 @@ import {
 } from "../components";
 import { AddForm, TargetForm } from "../containers";
 import {
-  Collections,
+  StoreCollections,
   CreateProgramPayload,
   Pages,
   Program,
@@ -53,9 +53,9 @@ const Programs = () => {
   }, []);
 
   const programs = store.getCurrentCollectionItems<Program>(
-    Collections.Program
+    StoreCollections.Program
   );
-  const clients = store.getCurrentCollectionItems<User>(Collections.User);
+  const clients = store.getCurrentCollectionItems<User>(StoreCollections.User);
 
   const clientDataOptions = clients.map((client: User) => ({
     name: getFullName(client),
@@ -129,7 +129,7 @@ const Programs = () => {
       name: "Add to Client",
       method: async (program: Required<Program>) => {
         const latestProgram = store.getCollectionItem(
-          Collections.Program,
+          StoreCollections.Program,
           program.id
         );
         latestProgram.mainProgramId = program.id;

@@ -1,7 +1,9 @@
-import { Collections } from "@parsimony/types";
+import { StoreCollections } from "@parsimony/types";
 import { ICrudGenerator, IId } from "@parsimony/types";
 
-const crudGeneratorWithLocalStorage = <Schema>(collectionName: Collections) => {
+const crudGeneratorWithLocalStorage = <Schema>(
+  collectionName: StoreCollections
+) => {
   if (!localStorage[collectionName]) {
     localStorage.setItem(collectionName, "{}");
     localStorage.setItem(`${collectionName}_count`, "0");
@@ -19,6 +21,7 @@ const crudGeneratorWithLocalStorage = <Schema>(collectionName: Collections) => {
 
   return class Service implements ICrudGenerator<Schema> {
     count: number;
+
     constructor() {
       this.count = 0;
     }

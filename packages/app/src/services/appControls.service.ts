@@ -1,4 +1,4 @@
-import { Collections } from "@parsimony/types";
+import { StoreCollections } from "@parsimony/types";
 import { clone } from "../utils";
 import Store from "./store";
 import { Service } from "typedi";
@@ -50,13 +50,13 @@ export default class AppControlsService {
 
   init = () => {
     this.store
-      .getCollection$(Collections.AppControls)
+      .getCollection$(StoreCollections.AppControls)
       .next(this.defaultControls);
   };
 
   updateControls = (control: keyof AppControls, update: ControlPayloads) => {
     const currentControls = clone(
-      this.store.getCollectionValue(Collections.AppControls)
+      this.store.getCollectionValue(StoreCollections.AppControls)
     );
 
     currentControls[control] = {
@@ -65,7 +65,7 @@ export default class AppControlsService {
     };
 
     this.store
-      .getCollection$(Collections.AppControls)
+      .getCollection$(StoreCollections.AppControls)
       .next({ ...currentControls });
   };
 }

@@ -17,7 +17,7 @@ import {
   Selector
 } from "../components";
 import {
-  Collections,
+  StoreCollections,
   IModes,
   Program,
   ProgramPageMetaTestIds,
@@ -47,7 +47,10 @@ const Program = () => {
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
 
-  const program = store.getCollectionItem(Collections.Program, programId || "");
+  const program = store.getCollectionItem(
+    StoreCollections.Program,
+    programId || ""
+  );
   const [localState, updateLocalState] = React.useState<Program>(program);
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
@@ -60,11 +63,14 @@ const Program = () => {
     dataAccess.user.getAll();
   }, [program]);
 
-  const client = store.getCollectionItem(Collections.User, program?.clientId);
+  const client = store.getCollectionItem(
+    StoreCollections.User,
+    program?.clientId
+  );
 
   //TODO: Filter so only clients are this way
   const allClientOptions = store
-    .getCurrentCollectionItems<User>(Collections.User)
+    .getCurrentCollectionItems<User>(StoreCollections.User)
     .map((user: User) => ({
       name: getFullName(user),
       value: user.id

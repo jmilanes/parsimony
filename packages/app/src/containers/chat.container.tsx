@@ -1,10 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  addMessage,
-  deleteMessage,
-  deleteThread,
-  editMessage
-} from "@parsimony/bal";
 import { ThreadCollection } from "../services/chat.service";
 import { ChatMetaTestIds, Thread } from "@parsimony/types";
 import { useServices } from "../context";
@@ -21,18 +15,7 @@ export const Chat = () => {
 
   const [currentThread, setCurrentThread] = useState<string>();
 
-  useEffect(() => dataAccess.thread$.subscribe(setThreads), []);
-
-  const onAddMessage = (threadId: string) => (value: string) => {
-    addMessage({
-      message: {
-        userId: authService.currentUser?.id,
-        dataType: "string",
-        value
-      },
-      threadId
-    });
-  };
+  useEffect(() => dataAccess.thread.subscribe(setThreads), []);
 
   const showCreateChat = () => {
     appControls.updateControls("drawer", {
