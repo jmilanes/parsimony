@@ -121,9 +121,9 @@ export const removeItemByIndex = (arr: unknown[], index: number) =>
   arr.filter((_, i) => i !== index);
 
 export const getThreadName = (thread: Thread, currentUser?: User): string =>
-  thread.subscribers.length > 2
+  thread?.subscribers?.length > 2
     ? thread.name
-    : thread.subscribers.find(
+    : thread?.subscribers?.find(
         (subscriber) => subscriber?.id !== currentUser?.id
       )?.displayName || thread.name;
 

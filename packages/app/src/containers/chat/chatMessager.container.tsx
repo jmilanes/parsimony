@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 
-// TODO: THis is what is breaking the pattern. This is the next thing to be fixed
-import { addMessage, deleteThread, editMessage } from "@parsimony/bal/dist";
-import { Menu, Row, Col, Header, Icon } from "../../components";
+import { Col, Header, Icon, Menu, Row } from "../../components";
 import { ChatMessage, ChatMessageInput } from "../index";
-import { ChatMetaTestIds, Message, Thread } from "@parsimony/types";
+import {
+  ChatMetaTestIds,
+  Message,
+  StoreCollections,
+  Thread
+} from "@parsimony/types";
 import { useServices } from "../../context";
 import { getThreadName } from "../../utils";
 
@@ -28,11 +31,11 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
 
   const [selectedMessage, setSelectedMessage] = useState<Message | null>();
 
-  const { authService } = useServices();
+  const { authService, dataAccess } = useServices();
 
   const onEditMessage = async (value: string) => {
     if (!selectedMessage || !thread) return;
-    await editMessage({
+    await dataAccess[StoreCollections.Thread].editMessage({
       value,
       threadId: thread?.id,
       messageId: selectedMessage?.id
@@ -42,10 +45,11 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
 
   const currentUser = authService.currentUser;
 
-  const onDelete = (id: string) => deleteThread({ id });
+  const onDelete = (id: string) =>
+    dataAccess[StoreCollections.Thread].delete({ id });
 
   const onAddMessage = (threadId: string) => async (value: string) => {
-    await addMessage({
+    await dataAccess[StoreCollections.Thread].addMessage({
       message: {
         userId: currentUser?.id,
         dataType: "string",

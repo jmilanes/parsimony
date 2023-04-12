@@ -20,7 +20,7 @@ export type ICreateResolverParams = {
 const createResolvers = (params: ICreateResolverParams) => {
   const resolvers = [
     authResolvers,
-    threadResolvers,
+    threadResolvers.getResolver(),
     userResolvers.getResolver(),
     programResolvers.getResolver(),
     resultResolvers.getResolver(),

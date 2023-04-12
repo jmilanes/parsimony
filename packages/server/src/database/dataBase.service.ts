@@ -4,6 +4,7 @@ import { modelTypes } from "./models";
 export class DataBaseService {
   dataBase: any;
   models: WithEmptyObj<Record<modelTypes, any>>;
+
   constructor(dataBase: any) {
     this.dataBase = dataBase;
     this.models = {};
@@ -59,8 +60,9 @@ export class DataBaseService {
 
   async updateEntry(entry: any, update: Record<string, any>) {
     await entry.updateOne(update);
-    this.saveEntry(entry);
+    await this.saveEntry(entry);
   }
+
   async saveEntry(entry: any) {
     await entry.save();
   }

@@ -51,10 +51,6 @@ export default gql`
     id: ID!
   }
 
-  input GetUserPayload {
-    id: ID!
-  }
-
   input UpdateUserPayload {
     id: ID!
     schoolId: String
@@ -80,6 +76,10 @@ export default gql`
 
   input GetAllUsersByRelationshipPayload {
     relationshipProperty: String!
+    id: ID!
+  }
+
+  input GetUserPayload {
     id: ID!
   }
 

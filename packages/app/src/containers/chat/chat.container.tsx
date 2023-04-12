@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ThreadCollection } from "../../services/chat.service";
-import { ChatMetaTestIds, Thread } from "@parsimony/types";
+import { ChatMetaTestIds, StoreCollections, Thread } from "@parsimony/types";
 import { useServices } from "../../context";
 import { DrawerContentTypes } from "../../services/appControls.service";
 import { Button, List, Row, Col } from "../../components";
@@ -8,14 +8,17 @@ import { ChatMessager } from "../index";
 import { getThreadName } from "../../utils";
 
 export const Chat = () => {
-  const { dataAccess, authService, appControls } = useServices();
+  const { authService, appControls, store } = useServices();
   const [threads, setThreads] = useState<ThreadCollection>(
     {} as ThreadCollection
   );
 
   const [currentThread, setCurrentThread] = useState<string>();
 
-  useEffect(() => dataAccess.thread.subscribe(setThreads), []);
+  useEffect(
+    () => store.subscribeToStoreCollection(StoreCollections.Thread, setThreads),
+    []
+  );
 
   const showCreateChat = () => {
     appControls.updateControls("drawer", {

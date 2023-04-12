@@ -224,6 +224,11 @@ export type GetAllSchoolByRelationshipPayload = {
   relationshipProperty: Scalars['String'];
 };
 
+export type GetAllThreadsByRelationshipPayload = {
+  id: Scalars['ID'];
+  relationshipProperty: Scalars['String'];
+};
+
 export type GetAllUsersByRelationshipPayload = {
   id: Scalars['ID'];
   relationshipProperty: Scalars['String'];
@@ -253,7 +258,7 @@ export type GetSchoolPayload = {
   id: Scalars['ID'];
 };
 
-export type GetThreadByUserIdPayload = {
+export type GetThreadPayload = {
   id: Scalars['ID'];
 };
 
@@ -555,6 +560,8 @@ export type Query = {
   getAllResultsByRelationship?: Maybe<Array<Maybe<Result>>>;
   getAllSchools?: Maybe<Array<Maybe<School>>>;
   getAllSchoolsByRelationship?: Maybe<Array<Maybe<School>>>;
+  getAllThreads?: Maybe<Array<Maybe<Thread>>>;
+  getAllThreadsByRelationship?: Maybe<Array<Maybe<Thread>>>;
   getAllUsers?: Maybe<Array<Maybe<User>>>;
   getAllUsersByRelationship?: Maybe<Array<Maybe<User>>>;
   getDocument?: Maybe<Document>;
@@ -563,12 +570,11 @@ export type Query = {
   getProgram?: Maybe<Program>;
   getResult?: Maybe<Result>;
   getSchool?: Maybe<School>;
-  getThreadsByUserId?: Maybe<Array<Maybe<Thread>>>;
+  getThread?: Maybe<Thread>;
   getUser?: Maybe<User>;
   login?: Maybe<LoginResponse>;
   logout?: Maybe<LogOutResponse>;
   me?: Maybe<MeResponse>;
-  threads?: Maybe<Array<Maybe<Thread>>>;
 };
 
 
@@ -599,6 +605,11 @@ export type QueryGetAllResultsByRelationshipArgs = {
 
 export type QueryGetAllSchoolsByRelationshipArgs = {
   payload?: InputMaybe<GetAllSchoolByRelationshipPayload>;
+};
+
+
+export type QueryGetAllThreadsByRelationshipArgs = {
+  payload?: InputMaybe<GetAllThreadsByRelationshipPayload>;
 };
 
 
@@ -637,8 +648,8 @@ export type QueryGetSchoolArgs = {
 };
 
 
-export type QueryGetThreadsByUserIdArgs = {
-  payload?: InputMaybe<GetThreadByUserIdPayload>;
+export type QueryGetThreadArgs = {
+  payload?: InputMaybe<GetThreadPayload>;
 };
 
 
@@ -1037,6 +1048,7 @@ export type ResolversTypes = {
   GetAllProgramsByRelationshipPayload: GetAllProgramsByRelationshipPayload;
   GetAllResultsByRelationshipPayload: GetAllResultsByRelationshipPayload;
   GetAllSchoolByRelationshipPayload: GetAllSchoolByRelationshipPayload;
+  GetAllThreadsByRelationshipPayload: GetAllThreadsByRelationshipPayload;
   GetAllUsersByRelationshipPayload: GetAllUsersByRelationshipPayload;
   GetDocumentPayload: GetDocumentPayload;
   GetEventPayload: GetEventPayload;
@@ -1044,7 +1056,7 @@ export type ResolversTypes = {
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
   GetSchoolPayload: GetSchoolPayload;
-  GetThreadByUserIdPayload: GetThreadByUserIdPayload;
+  GetThreadPayload: GetThreadPayload;
   GetUserPayload: GetUserPayload;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   InputTypes: InputTypes;
@@ -1129,6 +1141,7 @@ export type ResolversParentTypes = {
   GetAllProgramsByRelationshipPayload: GetAllProgramsByRelationshipPayload;
   GetAllResultsByRelationshipPayload: GetAllResultsByRelationshipPayload;
   GetAllSchoolByRelationshipPayload: GetAllSchoolByRelationshipPayload;
+  GetAllThreadsByRelationshipPayload: GetAllThreadsByRelationshipPayload;
   GetAllUsersByRelationshipPayload: GetAllUsersByRelationshipPayload;
   GetDocumentPayload: GetDocumentPayload;
   GetEventPayload: GetEventPayload;
@@ -1136,7 +1149,7 @@ export type ResolversParentTypes = {
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
   GetSchoolPayload: GetSchoolPayload;
-  GetThreadByUserIdPayload: GetThreadByUserIdPayload;
+  GetThreadPayload: GetThreadPayload;
   GetUserPayload: GetUserPayload;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
@@ -1318,6 +1331,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getAllResultsByRelationship?: Resolver<Maybe<Array<Maybe<ResolversTypes['Result']>>>, ParentType, ContextType, Partial<QueryGetAllResultsByRelationshipArgs>>;
   getAllSchools?: Resolver<Maybe<Array<Maybe<ResolversTypes['School']>>>, ParentType, ContextType>;
   getAllSchoolsByRelationship?: Resolver<Maybe<Array<Maybe<ResolversTypes['School']>>>, ParentType, ContextType, Partial<QueryGetAllSchoolsByRelationshipArgs>>;
+  getAllThreads?: Resolver<Maybe<Array<Maybe<ResolversTypes['Thread']>>>, ParentType, ContextType>;
+  getAllThreadsByRelationship?: Resolver<Maybe<Array<Maybe<ResolversTypes['Thread']>>>, ParentType, ContextType, Partial<QueryGetAllThreadsByRelationshipArgs>>;
   getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   getAllUsersByRelationship?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, Partial<QueryGetAllUsersByRelationshipArgs>>;
   getDocument?: Resolver<Maybe<ResolversTypes['Document']>, ParentType, ContextType, Partial<QueryGetDocumentArgs>>;
@@ -1326,12 +1341,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getProgram?: Resolver<Maybe<ResolversTypes['Program']>, ParentType, ContextType, Partial<QueryGetProgramArgs>>;
   getResult?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType, Partial<QueryGetResultArgs>>;
   getSchool?: Resolver<Maybe<ResolversTypes['School']>, ParentType, ContextType, Partial<QueryGetSchoolArgs>>;
-  getThreadsByUserId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Thread']>>>, ParentType, ContextType, Partial<QueryGetThreadsByUserIdArgs>>;
+  getThread?: Resolver<Maybe<ResolversTypes['Thread']>, ParentType, ContextType, Partial<QueryGetThreadArgs>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserArgs>>;
   login?: Resolver<Maybe<ResolversTypes['LoginResponse']>, ParentType, ContextType, Partial<QueryLoginArgs>>;
   logout?: Resolver<Maybe<ResolversTypes['LogOutResponse']>, ParentType, ContextType, Partial<QueryLogoutArgs>>;
   me?: Resolver<Maybe<ResolversTypes['MeResponse']>, ParentType, ContextType, Partial<QueryMeArgs>>;
-  threads?: Resolver<Maybe<Array<Maybe<ResolversTypes['Thread']>>>, ParentType, ContextType>;
 };
 
 export type ResetPasswordResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResetPasswordResponse'] = ResolversParentTypes['ResetPasswordResponse']> = {

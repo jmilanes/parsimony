@@ -24,10 +24,6 @@ export default gql`
     displayName: String
   }
 
-  input GetThreadByUserIdPayload {
-    id: ID!
-  }
-
   input CreateThreadPayload {
     name: String!
     subscribers: [SubscriberInput]!
@@ -71,9 +67,21 @@ export default gql`
     messageId: ID!
   }
 
+  input GetAllThreadsByRelationshipPayload {
+    relationshipProperty: String!
+    id: ID!
+  }
+
+  input GetThreadPayload {
+    id: ID!
+  }
+
   type Query {
-    threads: [Thread]
-    getThreadsByUserId(payload: GetThreadByUserIdPayload): [Thread]
+    getAllThreads: [Thread]
+    getThread(payload: GetThreadPayload): Thread
+    getAllThreadsByRelationship(
+      payload: GetAllThreadsByRelationshipPayload
+    ): [Thread]
   }
 
   type Mutation {

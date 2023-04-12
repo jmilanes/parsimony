@@ -1,19 +1,18 @@
 import {
+  ChatMetaTestIds,
   StoreCollections,
-  User,
   Subscriber,
-  ChatMetaTestIds
+  User
 } from "@parsimony/types";
 import React, { useEffect, useState } from "react";
 
-import { createThread } from "@parsimony/bal/dist";
 import {
-  Header,
-  Field,
   Autocomplete,
   Button,
-  Row,
-  Col
+  Col,
+  Field,
+  Header,
+  Row
 } from "../../components";
 
 import { useServices } from "../../context";
@@ -51,7 +50,7 @@ export const CreateChat = () => {
     });
 
   const onCreateThread = () => {
-    createThread({
+    dataAccess[StoreCollections.Thread].create({
       name,
       subscribers
     });

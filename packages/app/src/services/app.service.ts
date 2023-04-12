@@ -1,3 +1,5 @@
+import { Container, Inject, Service } from "typedi";
+
 import { ServiceTypes, StoreCollections } from "@parsimony/types";
 import ChatService from "./chat.service";
 import FilterService from "./filter.service";
@@ -11,14 +13,11 @@ import { ResultAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/r
 import { EventAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/eventAsyncData.handler";
 import { DocumentAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/documentAsyncData.handler";
 import { FileAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/fileAsyncData.handler";
-import { Container, Inject, Service } from "typedi";
 import { SocketService } from "../domains/asyncData/SocketService/socket.service";
 import { SchoolAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/schoolAsyncData.handler";
+import { ThreadAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/threadAsyncData.handler";
 
 export type Services = {
-  [ServiceTypes.App]: {
-    isLoading: boolean;
-  };
   [ServiceTypes.Chat]: ChatService;
   [ServiceTypes.Store]: Store;
   [ServiceTypes.StateManager]: StateService;
@@ -26,14 +25,14 @@ export type Services = {
   [ServiceTypes.AuthService]: AuthService;
   [ServiceTypes.AppControls]: AppControlsService;
   [ServiceTypes.DataAccess]: {
-    [StoreCollections.School]: any;
+    [StoreCollections.School]: SchoolAsyncDataHandler;
     [StoreCollections.User]: UserAsyncDataHandler;
     [StoreCollections.Program]: ProgramAsyncDataHandler;
     [StoreCollections.Result]: ResultAsyncDataHandler;
     [StoreCollections.Event]: EventAsyncDataHandler;
     [StoreCollections.Document]: DocumentAsyncDataHandler;
     [StoreCollections.File]: FileAsyncDataHandler;
-    [StoreCollections.Thread]: ChatService;
+    [StoreCollections.Thread]: ThreadAsyncDataHandler;
   };
 };
 
@@ -92,8 +91,7 @@ export default class AppController {
         [StoreCollections.Document]: Container.get(DocumentAsyncDataHandler),
         [StoreCollections.Event]: Container.get(EventAsyncDataHandler),
         [StoreCollections.File]: Container.get(FileAsyncDataHandler),
-        // This needs to an Async Handler for Message and threads
-        [StoreCollections.Thread]: Container.get(ChatService)
+        [StoreCollections.Thread]: Container.get(ThreadAsyncDataHandler)
       }
     } as Services;
   }
@@ -105,3 +103,10 @@ export default class AppController {
     console.log("All Services Loads", this.services);
   };
 }
+
+// NEXt:
+// Thread requests so evertything aligned (data access needs requests not service)
+// ...Chat containers can not have direct access to bal
+// maybe make the tread GQL align with other for messages and threads (think I am missing some of th eresolvers that the others have for both)
+// API Layer for interacting with this stuff from react
+// Forms with builder pattern to make it super easy

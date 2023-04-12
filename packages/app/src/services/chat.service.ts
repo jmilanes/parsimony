@@ -14,7 +14,7 @@ import {
 } from "@parsimony/types";
 import { clone } from "../utils";
 import { BehaviorSubject } from "rxjs";
-import { getThreadsByUserId } from "@parsimony/bal";
+import { getAllThreadsByRelationship } from "@parsimony/bal";
 import Store from "./store";
 import { Service } from "typedi";
 import { SocketService } from "../domains/asyncData/SocketService/socket.service";
@@ -38,7 +38,9 @@ export default class ChatService {
     const id = localStorage.getItem("currentUserId");
     if (!id) return;
 
-    const threads = await getThreadsByUserId({
+    // TODO: DO not directly use the BAL (change when you make an command api)
+    const threads = await getAllThreadsByRelationship({
+      relationshipProperty: "subscribers",
       id: id
     });
 
@@ -92,7 +94,7 @@ export default class ChatService {
           freshThreads,
           action.payload as unknown as UpdateThreadPayload
         );
-      case ChatActionTypes.ADD_MESSAGE:
+      case ChatActionTypes.CREATE_MESSAGE:
         return addMessage(
           freshThreads,
           action.payload as unknown as AddMessagePayload
@@ -102,7 +104,7 @@ export default class ChatService {
           freshThreads,
           action.payload as unknown as DeleteMessagePayload
         );
-      case ChatActionTypes.EDIT_MESSAGE:
+      case ChatActionTypes.UPDATE_MESSAGE:
         return editMessage(
           freshThreads,
           action.payload as unknown as EditMessagePayload

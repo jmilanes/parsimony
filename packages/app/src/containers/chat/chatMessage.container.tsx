@@ -1,9 +1,7 @@
 import React from "react";
 
-// TODO: THis is what is breaking the pattern. This is the next thing to be fixed
-import { deleteMessage } from "@parsimony/bal/dist";
 import { Menu } from "../../components";
-import { ChatMetaTestIds, Message } from "@parsimony/types";
+import { ChatMetaTestIds, Message, StoreCollections } from "@parsimony/types";
 import { useServices } from "../../context";
 
 type IChatMessageProps = {
@@ -19,11 +17,11 @@ export const ChatMessage = ({
 
   setSelectedMessage
 }: IChatMessageProps) => {
-  const { authService } = useServices();
+  const { authService, dataAccess } = useServices();
 
   const currentUserId = authService.getCurrentUser()?.id;
   const onDeleteMessage = (threadId: string, messageId: string) =>
-    deleteMessage({ threadId, messageId });
+    dataAccess[StoreCollections.Thread].deleteMessage({ threadId, messageId });
 
   const menuOptions = [
     {

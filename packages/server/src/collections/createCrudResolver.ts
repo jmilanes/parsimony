@@ -1,22 +1,33 @@
 import { ICreateResolverParams } from "./";
-import { modelTypes } from "../database/models";
+import { modelTypes } from "../database";
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
+// TODO Apply DI With DB and Broadcast
 export class CrudResolvers {
   model: modelTypes;
-  constructor(model: modelTypes) {
+  extendedMutations: any;
+
+  constructor(
+    model: modelTypes,
+    private readonly shouldBroadcast: boolean = false
+  ) {
     this.model = model;
+    this.extendedMutations = {};
   }
+
   propWithModel(action: string, suffix?: boolean) {
     return `${action}${capitalize(this.model)}${suffix ? "s" : ""}`;
   }
+
+  getExtendedMutations = (CreateResolverParams: ICreateResolverParams) => {};
 
   getMutations(CreateResolverParams: ICreateResolverParams) {
     return {
       [this.propWithModel("create")]: this.create(CreateResolverParams),
       [this.propWithModel("delete")]: this.delete(CreateResolverParams),
-      [this.propWithModel("update")]: this.update(CreateResolverParams)
+      [this.propWithModel("update")]: this.update(CreateResolverParams),
+      ...this.extendedMutations
     };
   }
 
@@ -29,6 +40,15 @@ export class CrudResolvers {
     };
   }
 
+  broadcast = (broadcast: any, type: string, payload: any) => {
+    if (this.shouldBroadcast) {
+      broadcast({
+        type: `${type}_${this.model.toUpperCase()}`,
+        payload
+      });
+    }
+  };
+
   getResolver() {
     return (CreateResolverParams: ICreateResolverParams) => ({
       Mutation: this.getMutations(CreateResolverParams),
@@ -37,11 +57,15 @@ export class CrudResolvers {
   }
 
   create =
-    ({ db }: ICreateResolverParams) =>
+    ({ db, broadcast }: ICreateResolverParams) =>
     async (_: any, { payload }: { payload: any }) => {
       try {
         const entry = await db.createEntry(this.model, {
           ...payload
+        });
+        this.broadcast(broadcast, "CREATE", {
+          ...entry.toJSON(),
+          id: entry._id
         });
         return entry;
       } catch (error) {
@@ -50,17 +74,25 @@ export class CrudResolvers {
     };
 
   delete =
-    ({ db }: ICreateResolverParams) =>
+    ({ db, broadcast }: ICreateResolverParams) =>
     async (_: any, { payload }: { payload: any }) => {
       await db.deleteEntry(this.model, payload.id);
+      this.broadcast(broadcast, "DELETE", {
+        id: payload.id
+      });
       return payload.id;
     };
 
   update =
-    ({ db }: ICreateResolverParams) =>
+    ({ db, broadcast }: ICreateResolverParams) =>
     async (_: any, { payload }: { payload: any }) => {
       await db.findAndUpdateEntry(this.model, { _id: payload.id }, payload);
-      return await db.findEntry(this.model, { _id: payload.id });
+      const updatedEntry = await db.findEntry(this.model, { _id: payload.id });
+      this.broadcast(broadcast, "UPDATE", {
+        ...updatedEntry,
+        id: updatedEntry._id
+      });
+      return updatedEntry;
     };
 
   getAll =
@@ -83,8 +115,10 @@ export class CrudResolvers {
       _: any,
       { payload }: { payload: { relationshipProperty: string; id: string } }
     ) => {
+      // Matches any direct ids or matches an id in an array
       return await db.findEntries(this.model, {
-        [payload.relationshipProperty]: payload.id
+        [payload.relationshipProperty]: payload.id,
+        [payload.relationshipProperty]: { $elemMatch: { id: payload.id } }
       });
     };
 }

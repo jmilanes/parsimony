@@ -14,16 +14,32 @@ const fullSchema = `
 }`;
 
 const fetchThreads = `
-query Threads {
- threads {
+query GetAllThreads {
+ getAllThreads {
   ${fullSchema}
  } 
 }
 `;
 
-const getThreadsByUserId = `
-query GetThreadsByUserId($payload: GetThreadByUserIdPayload) {
-  getThreadsByUserId(payload: $payload) {
+const getAllThreadsByRelationship = `
+query GetAllThreadsByRelationship($payload: GetAllThreadsByRelationshipPayload) {
+  getAllThreadsByRelationship(payload: $payload) {
+    ${fullSchema}
+  }
+}
+`;
+
+const getThread = `
+query GetThread($payload: GetThreadPayload) {
+  getThread(payload: $payload) {
+    ${fullSchema}
+  }
+}
+`;
+
+const updateThread = `
+query UpdateThread($payload: UpdateThreadPayload) {
+  updateThread(payload: $payload) {
     ${fullSchema}
   }
 }
@@ -70,5 +86,7 @@ export default {
   addMessage,
   editMessage,
   deleteMessage,
-  getThreadsByUserId
+  getAllThreadsByRelationship,
+  getThread,
+  updateThread
 };
