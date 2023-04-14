@@ -40,7 +40,7 @@ const App = () => {
     await appController.init();
     return appController.services;
   });
-  if (loading) return <Spin />;
+  if (loading || !services) return <Spin />;
   const ServicesProvider = createServicesProvider(services);
   return (
     <ServicesProvider>

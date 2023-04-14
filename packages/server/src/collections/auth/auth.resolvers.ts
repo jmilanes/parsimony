@@ -1,28 +1,34 @@
-import { ICreateResolverParams } from "../../collections";
 import { modelTypes } from "../../database/models";
+import { Service } from "typedi";
+import { DataBaseService } from "../../database";
+import TokensService from "../../database/token.service";
 
-// Retrieve user data based on auth token
-export const me =
-  ({ db, tokenService }: ICreateResolverParams) =>
-  async (
+@Service()
+export class AuthResolvers {
+  #db: DataBaseService;
+  #ts: TokensService;
+
+  constructor(db: DataBaseService, ts: TokensService) {
+    this.#db = db;
+    this.#ts = ts;
+  }
+
+  me = async (
     _: any,
     { payload: { refreshToken } }: { payload: { refreshToken: string } }
   ) => {
-    const response = await tokenService.verifyRefreshToken(refreshToken);
-
-    return response;
+    return await this.#ts.verifyRefreshToken(refreshToken);
   };
 
-// logs in user registers new auth token and returns
-export const login =
-  ({ db, tokenService }: ICreateResolverParams) =>
-  async (
+  // logs in user registers new auth token and returns
+  login = async (
     _: any,
     {
       payload: { email, password }
     }: { payload: { email: string; password: string } }
   ) => {
-    const user = await db.findEntry(modelTypes.user, {
+    console.log("ht");
+    const user = await this.#db.findEntry(modelTypes.user, {
       email: email.toLowerCase()
     });
 
@@ -35,8 +41,8 @@ export const login =
     }
 
     const userObj = user.toObject();
-    const accessToken = tokenService.generateAccessToken(userObj);
-    const refreshToken = tokenService.generateRefreshToke(userObj);
+    const accessToken = this.#ts.generateAccessToken(userObj);
+    const refreshToken = this.#ts.generateRefreshToke(userObj);
 
     return {
       isLoggedIn: true,
@@ -45,47 +51,43 @@ export const login =
     };
   };
 
-export const resetPassword =
-  ({ db }: ICreateResolverParams) =>
-  async (
+  resetPassword = async (
     _: any,
     {
       payload: { email, password }
     }: { payload: { email: string; password: string } }
   ) => {
-    const user = await db.findEntry(modelTypes.user, { email });
+    const user = await this.#db.findEntry(modelTypes.user, { email });
 
     if (!user) {
       throw Error("Invalid Email");
     }
 
-    await db.updateEntry(user, { password: password });
+    await this.#db.updateEntry(user, { password: password });
 
     return {
       passwordReset: true
     };
   };
 
-// unregister auth token logs out user
-export const logout =
-  ({ tokenService }: ICreateResolverParams) =>
-  async (
+  logout = async (
     _: any,
     { payload: { refreshToken } }: { payload: { refreshToken: string } }
   ) => {
-    await tokenService.deleteRefreshToken(refreshToken);
+    await this.#ts.deleteRefreshToken(refreshToken);
     return {
       isLoggedIn: false
     };
   };
 
-export default (ICreateResolverParams: ICreateResolverParams) => ({
-  Mutation: {
-    resetPassword: resetPassword(ICreateResolverParams)
-  },
-  Query: {
-    me: me(ICreateResolverParams),
-    login: login(ICreateResolverParams),
-    logout: logout(ICreateResolverParams)
-  }
-});
+  getResolver = () => ({
+    Mutation: {
+      resetPassword: this.resetPassword
+    },
+    Query: {
+      me: this.me,
+      login: this.login,
+      logout: this.logout
+    }
+  });
+}

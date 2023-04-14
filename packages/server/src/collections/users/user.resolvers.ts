@@ -1,4 +1,11 @@
-import { modelTypes } from "../../database";
-import { CrudResolvers } from "../createCrudResolver";
+import { BroadcastService, DataBaseService, modelTypes } from "../../database";
+import { BaseCrudResolvers } from "../baseCrudResolver";
+import { Service } from "typedi";
 
-export default new CrudResolvers(modelTypes.user);
+@Service()
+export class UserResolvers extends BaseCrudResolvers {
+  constructor(db: DataBaseService, bs: BroadcastService) {
+    super(db, bs);
+    this.model = modelTypes.user;
+  }
+}

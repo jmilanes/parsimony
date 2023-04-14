@@ -105,8 +105,7 @@ export default class AppController {
 }
 
 // NEXt:
-// Thread requests so evertything aligned (data access needs requests not service)
-// ...Chat containers can not have direct access to bal
+
 // maybe make the tread GQL align with other for messages and threads (think I am missing some of th eresolvers that the others have for both)
 // API Layer for interacting with this stuff from react
 // Forms with builder pattern to make it super easy

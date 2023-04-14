@@ -1,69 +1,89 @@
-import { WithEmptyObj } from "@parsimony/types";
-import { modelTypes } from "./models";
+import { serverToken } from "../sever.token";
 
+const mongoose = require("mongoose");
+require("dotenv").config();
+import { WithEmptyObj } from "@parsimony/types";
+import { models, modelTypes } from "./models";
+import { Service } from "typedi";
+import { envIs } from "@parsimony/utilities/dist";
+
+const DEV_CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
+const PROD_CONNECTION_STRING = `mongodb+srv://jmilanes:${process.env.MONGO_PW}@parsimonyapp01.xmune.mongodb.net/parsimony?retryWrites=true&w=majority`;
+
+const CONNECTION_STRING = envIs("prod")
+  ? PROD_CONNECTION_STRING
+  : DEV_CONNECTION_STRING;
+
+@Service()
 export class DataBaseService {
   dataBase: any;
   models: WithEmptyObj<Record<modelTypes, any>>;
+  #connectionString: string = CONNECTION_STRING;
 
-  constructor(dataBase: any) {
-    this.dataBase = dataBase;
+  constructor() {
+    this.dataBase = mongoose;
     this.models = {};
+    this.applyModels(models);
   }
 
-  connectDataBase(connectionString: string) {
+  init = () => {
+    this.#connectDataBase();
+  };
+
+  #connectDataBase = () => {
     this.dataBase
-      .connect(connectionString, {
+      .connect(this.#connectionString, {
         useNewUrlParser: true
       })
       .then(() => console.log("Connected to DB!"))
       .catch((e: any) => console.log("DB ERROR", e));
-  }
+  };
 
-  createModels(models: Record<modelTypes, any>) {
+  applyModels = (models: Record<modelTypes, any>) => {
     Object.entries(models).forEach(([modelType, model]) => {
       this.models[modelType as modelTypes] = this.dataBase.model(
         modelType,
         model
       );
     });
-  }
+  };
 
-  async createEntry(model: modelTypes, entry: Record<string, any>) {
+  createEntry = async (model: modelTypes, entry: Record<string, any>) => {
     const newEntry = new this.dataBase.models[model](entry);
     await this.saveEntry(newEntry);
     return newEntry;
-  }
+  };
 
-  async deleteEntry(model: modelTypes, id: string) {
+  deleteEntry = async (model: modelTypes, id: string) => {
     await this.dataBase.models[model].deleteOne({ _id: id });
-  }
+  };
 
-  async findAndUpdateEntry(
+  findAndUpdateEntry = async (
     model: modelTypes,
     filter: Record<string, any>,
     update: Record<string, any>
-  ) {
+  ) => {
     await this.dataBase.models[model].findOneAndUpdate(filter, update);
-  }
+  };
 
-  async findEntry(model: modelTypes, filter: Record<string, any>) {
+  findEntry = async (model: modelTypes, filter: Record<string, any>) => {
     return await this.dataBase.models[model].findOne(filter);
-  }
+  };
 
-  async findEntries(model: modelTypes, filter: Record<string, any>) {
+  findEntries = async (model: modelTypes, filter: Record<string, any>) => {
     return await this.dataBase.models[model].find(filter);
-  }
+  };
 
-  async findAllEntries(model: modelTypes) {
+  findAllEntries = async (model: modelTypes) => {
     return await this.dataBase.models[model].find({});
-  }
+  };
 
-  async updateEntry(entry: any, update: Record<string, any>) {
+  updateEntry = async (entry: any, update: Record<string, any>) => {
     await entry.updateOne(update);
     await this.saveEntry(entry);
-  }
+  };
 
-  async saveEntry(entry: any) {
+  saveEntry = async (entry: any) => {
     await entry.save();
-  }
+  };
 }

@@ -1,51 +1,57 @@
 import { DataBaseService } from "../database";
-import { threadTypeDefs, threadResolvers } from "./threads";
-import { userTypeDefs, userResolvers } from "./users";
-import { programTypeDefs, programResolvers } from "./programs";
-import { resultTypeDefs, resultResolvers } from "./results";
-import { schoolTypeDefs, schoolResolvers } from "./schools";
-import { documentTypeDefs, documentResolvers } from "./documents";
-import { eventTypeDefs, eventResolvers } from "./events";
-import { fileTypeDefs, fileResolvers } from "./files";
-import { authTypeDefs, authResolvers } from "./auth";
+import { threadTypeDefs } from "./threads";
+import { userTypeDefs } from "./users";
+import { programTypeDefs } from "./programs";
+import { resultTypeDefs } from "./results";
+import { schoolTypeDefs } from "./schools";
+import { documentTypeDefs } from "./documents";
+import { eventTypeDefs } from "./events";
+import { fileTypeDefs } from "./files";
+import { authTypeDefs } from "./auth";
 import sharedTypeDefs from "./shredTypeDefs";
-import TokensService from "../database/token.service";
 
-export type ICreateResolverParams = {
-  db: DataBaseService;
-  broadcast: (payload: Record<string, any>) => void;
-  tokenService: TokensService;
-};
+import { Container, Service } from "typedi";
+import { ThreadResolver } from "./threads/threads.resolvers";
+import { BaseCrudResolvers } from "./baseCrudResolver";
+import { UserResolvers } from "./users/user.resolvers";
+import { ProgramResolvers } from "./programs/program.resolvers";
+import { ResultResolvers } from "./results/results.resolvers";
+import { SchoolsResolvers } from "./schools/schools.resolvers";
+import { DocumentResolvers } from "./documents/document.resolvers";
+import { FileResolvers } from "./files/file.resolvers";
+import { EventResolvers } from "./events/event.resolvers";
+import { AuthResolvers } from "./auth/auth.resolvers";
 
-const createResolvers = (params: ICreateResolverParams) => {
-  const resolvers = [
-    authResolvers,
-    threadResolvers.getResolver(),
-    userResolvers.getResolver(),
-    programResolvers.getResolver(),
-    resultResolvers.getResolver(),
-    schoolResolvers.getResolver(),
-    documentResolvers.getResolver(),
-    eventResolvers.getResolver(),
-    fileResolvers.getResolver()
+@Service()
+export class QueryService {
+  #resolvers: (BaseCrudResolvers | AuthResolvers)[] = [
+    Container.get(AuthResolvers),
+    Container.get(ThreadResolver),
+    Container.get(UserResolvers),
+    Container.get(ProgramResolvers),
+    Container.get(ResultResolvers),
+    Container.get(SchoolsResolvers),
+    Container.get(DocumentResolvers),
+    Container.get(FileResolvers),
+    Container.get(EventResolvers)
   ];
-  return resolvers.map((resolver) => resolver(params));
-};
 
-const graphQlConfig = {
-  typeDefs: [
-    authTypeDefs,
-    threadTypeDefs,
-    userTypeDefs,
-    programTypeDefs,
-    resultTypeDefs,
-    schoolTypeDefs,
-    documentTypeDefs,
-    eventTypeDefs,
-    fileTypeDefs,
-    ...sharedTypeDefs
-  ],
-  createResolvers
-};
+  public getResolvers = () => {
+    return this.#resolvers.map((r) => r.getResolver());
+  };
 
-export default graphQlConfig;
+  public getTypeDefs = () => {
+    return [
+      authTypeDefs,
+      threadTypeDefs,
+      userTypeDefs,
+      programTypeDefs,
+      resultTypeDefs,
+      schoolTypeDefs,
+      documentTypeDefs,
+      eventTypeDefs,
+      fileTypeDefs,
+      ...sharedTypeDefs
+    ];
+  };
+}

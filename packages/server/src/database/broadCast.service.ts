@@ -1,13 +1,12 @@
+import { Service } from "typedi";
+
 const WS = require("ws");
 
-// type INotifyUsersPayLoad = {
-//   subscribers: string[];
-//   type: "THREAD" | "CALENDAR";/
-// };
-
+@Service()
 export class BroadcastService {
   webSocket: Record<string, any>;
   webSocketServer: Record<string, any>;
+
   constructor() {
     this.webSocket = {};
     this.webSocketServer = new WS.Server({ port: 8080 });
