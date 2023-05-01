@@ -1,9 +1,4 @@
-import {
-  ChatMetaTestIds,
-  StoreCollections,
-  Subscriber,
-  User
-} from "@parsimony/types";
+import { ChatMetaTestIds, Domains, Subscriber, User } from "@parsimony/types";
 import React, { useEffect, useState } from "react";
 
 import {
@@ -18,9 +13,12 @@ import {
 import { useServices } from "../../context";
 import { DrawerContentTypes } from "../../services/appControls.service";
 import { getFullName } from "../../utils";
+import { Container } from "typedi";
+import { CommandService } from "../../domains/commands/command.service";
 
 export const CreateChat = () => {
-  const { appControls, dataAccess, store, authService } = useServices();
+  const CS = Container.get(CommandService);
+  const { appControls, authService } = useServices();
   const currentUserId = authService.currentUser?.id as string;
   // TODO Change to display name once those are added to USER
   const currentName = getFullName(authService.currentUser);
@@ -32,11 +30,14 @@ export const CreateChat = () => {
   const [name, updateName] = useState("");
 
   useEffect(() => {
-    dataAccess.user.getAll();
+    CS.api.makeRequest({
+      domain: Domains.User,
+      requestType: "getAll"
+    });
   }, []);
 
-  const autoCompleteOptions = store
-    .getCurrentCollectionItems<User>(StoreCollections.User)
+  const autoCompleteOptions = CS.api
+    .getItems<User[]>({ domain: Domains.User })
     .filter((user: User) => user.id !== currentUserId)
     .map((user: User) => ({
       // TODO Change to display name once those are added to USER
@@ -50,10 +51,15 @@ export const CreateChat = () => {
     });
 
   const onCreateThread = () => {
-    dataAccess[StoreCollections.Thread].create({
-      name,
-      subscribers
+    CS.api.makeRequest({
+      domain: Domains.Thread,
+      requestType: "create",
+      payload: {
+        name,
+        subscribers
+      }
     });
+
     setToChatDrawer();
   };
 

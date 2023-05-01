@@ -1,5 +1,5 @@
 import {
-  StoreCollections,
+  Domains,
   Document,
   Event,
   File,
@@ -7,48 +7,49 @@ import {
   Program,
   Result,
   School,
-  User
+  User,
+  Collection
 } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../utils";
 import { AppControls } from "./appControls.service";
 import { Service } from "typedi";
-import ChatService from "./chat.service";
 
-type UserCollection = Record<IId, User>;
-type ProgramCollection = Record<IId, Program>;
-type ResultCollection = Record<IId, Result>;
-type SchoolCollection = Record<IId, School>;
-type ThreadCollection = Record<IId, School>;
-type EventCollection = Record<IId, Event>;
-type DocumentCollection = Record<IId, Document>;
-type FileCollection = Record<IId, File>;
+type UserStoreValue = Record<IId, User>;
+type ProgramStoreValue = Record<IId, Program>;
+type ResultStoreValue = Record<IId, Result>;
+type SchoolStoreValue = Record<IId, School>;
+type ThreadStoreValue = Record<IId, School>;
+type EventStoreValue = Record<IId, Event>;
+type DocumentStoreValue = Record<IId, Document>;
+type FileStoreValue = Record<IId, File>;
+type CollectionStoreValue = Record<IId, Collection>;
 
 @Service()
 export default class Store {
-  public store$: Record<StoreCollections, BehaviorSubject<any>>;
+  public store$: Record<Domains, BehaviorSubject<any>>;
   public isLoading: boolean;
 
-  // These collections will be updated upon requests on a per-page basis.
+  // These domains will be updated upon requests on a per-page basis.
   // Each page can set up with it need. User page only needs programs for that user so programs will be only the ones for that user
   // Programs page could do the same with pagination or filtering
   // This ensures every page has what they need pulling from this source but requesting from data access
   constructor() {
     // this.#chatService = cs;
-    // collections
+    // domains
     this.store$ = {
       // TODO: Current User
-      [StoreCollections.User]: new BehaviorSubject<UserCollection>({}),
-      [StoreCollections.Program]: new BehaviorSubject<ProgramCollection>({}),
-      [StoreCollections.Result]: new BehaviorSubject<ResultCollection>({}),
-      [StoreCollections.School]: new BehaviorSubject<SchoolCollection>({}),
-      [StoreCollections.Thread]: new BehaviorSubject<ThreadCollection>({}),
-      [StoreCollections.Document]: new BehaviorSubject<DocumentCollection>({}),
-      [StoreCollections.Event]: new BehaviorSubject<EventCollection>({}),
-      [StoreCollections.File]: new BehaviorSubject<FileCollection>({}),
-      [StoreCollections.AppControls]: new BehaviorSubject<AppControls>(
-        {} as AppControls
-      )
+      [Domains.User]: new BehaviorSubject<UserStoreValue>({}),
+      [Domains.Program]: new BehaviorSubject<ProgramStoreValue>({}),
+      [Domains.Result]: new BehaviorSubject<ResultStoreValue>({}),
+      [Domains.School]: new BehaviorSubject<SchoolStoreValue>({}),
+      [Domains.Thread]: new BehaviorSubject<ThreadStoreValue>({}),
+      [Domains.Document]: new BehaviorSubject<DocumentStoreValue>({}),
+      [Domains.Event]: new BehaviorSubject<EventStoreValue>({}),
+      [Domains.File]: new BehaviorSubject<FileStoreValue>({}),
+      [Domains.Collection]: new BehaviorSubject<CollectionStoreValue>({}),
+      //TODO: This is only clientside so need to make it clearer
+      [Domains.AppControls]: new BehaviorSubject<AppControls>({} as AppControls)
     };
 
     this.isLoading = false;
@@ -58,78 +59,74 @@ export default class Store {
     this.isLoading = isLoading;
   }
 
-  async initCollectionInStore(
-    collectionName: StoreCollections,
+  public async initDomainInStore(
+    domainName: Domains,
     request: () => Promise<any>
   ) {
-    console.log("HI");
     return request()
       .then((data) => {
         const dataObject = arrayToObj(data);
-        this.store$[collectionName].next(dataObject);
+        this.store$[domainName].next(dataObject);
       })
       .catch((err) => console.error(err));
   }
 
-  subscribeToStoreCollection(collectionName: StoreCollections, next: any) {
-    this.store$[collectionName].subscribe({ next });
+  public subscribeToStoreDomain(domainName: Domains, next: any) {
+    this.store$[domainName].subscribe({ next });
   }
 
-  // Used to connect all collections to the state manager updated
-  subscribeToStore(next: any) {
-    Object.values(this.store$).forEach((collection$) => {
-      collection$.subscribe({ next });
+  // Used to connect all domains to the state manager updated
+  public subscribeToStore(next: any) {
+    Object.values(this.store$).forEach((domain$) => {
+      domain$.subscribe({ next });
     });
   }
 
-  addItemToCollection<T>(
-    collectionName: StoreCollections,
-    item: T & { id?: IId }
-  ) {
+  public addItemToDomain<T>(domainName: Domains, item: T & { id?: IId }) {
     if (!item?.id) return;
-    const newStore$ = { ...this.store$[collectionName].value, [item.id]: item };
-    this.store$[collectionName].next(newStore$);
+    const newStore$ = { ...this.store$[domainName].value, [item.id]: item };
+    this.store$[domainName].next(newStore$);
   }
 
-  addItemsToCollection<T>(collectionName: StoreCollections, items: T[] = []) {
-    const newStore$ = { ...this.store$[collectionName].value, ...items };
-    this.store$[collectionName].next(newStore$);
+  public addItemsToDomain<T>(domainName: Domains, items: T[] = []) {
+    const newStore$ = { ...this.store$[domainName].value, ...items };
+    this.store$[domainName].next(newStore$);
   }
 
-  deleteItemFromStore(collectionName: StoreCollections, id: IId) {
-    const collection = { ...this.getCollectionValue(collectionName) };
-    delete collection[id];
-    this.store$[collectionName].next(collection);
+  public deleteItemFromStore(domainName: Domains, id: IId) {
+    const domain = { ...this.getDomainValue(domainName) };
+    delete domain[id];
+    this.store$[domainName].next(domain);
   }
 
-  updateCollectionListItem<T>(
-    collectionName: StoreCollections,
+  public updateDomainListItem<T>(
+    domainName: Domains,
     updatedItem: T & { id?: IId }
   ) {
     if (!updatedItem.id) return;
-    const updatedCollection = {
-      ...this.store$[collectionName].value,
+    const updatedDomain = {
+      ...this.store$[domainName].value,
       [updatedItem.id]: updatedItem
     };
-    this.store$[collectionName].next(updatedCollection);
+    this.store$[domainName].next(updatedDomain);
   }
 
   // Returns an object
-  getCollectionValue = (collectionName: StoreCollections) => {
-    return this.store$[collectionName].value;
+  public getDomainValue = (domainName: Domains) => {
+    return this.store$[domainName].value;
   };
 
-  getCollectionItem = (collectionName: StoreCollections, id: IId) => {
-    return this.store$[collectionName].value[id];
+  public getDomainItem = <T>(domainName: Domains, id: IId) => {
+    return this.store$[domainName].value[id];
   };
 
   // Returns an array
-  getCurrentCollectionItems = <T>(collectionName: StoreCollections): T[] => {
-    return Object.values(this.store$[collectionName].value);
+  public getCurrentDomainItems = <T>(domainName: Domains): T[] => {
+    return Object.values(this.store$[domainName].value);
   };
 
   // Returns an observable
-  getCollection$ = (collectionName: StoreCollections) => {
-    return this.store$[collectionName];
+  public getDomain$ = (domainName: Domains) => {
+    return this.store$[domainName];
   };
 }

@@ -1,23 +1,21 @@
-import { StoreCollections } from "@parsimony/types";
+import { Domains } from "@parsimony/types";
 import { ICrudGenerator, IId } from "@parsimony/types";
 
-const crudGeneratorWithLocalStorage = <Schema>(
-  collectionName: StoreCollections
-) => {
-  if (!localStorage[collectionName]) {
-    localStorage.setItem(collectionName, "{}");
-    localStorage.setItem(`${collectionName}_count`, "0");
+const crudGeneratorWithLocalStorage = <Schema>(domainName: Domains) => {
+  if (!localStorage[domainName]) {
+    localStorage.setItem(domainName, "{}");
+    localStorage.setItem(`${domainName}_count`, "0");
   }
 
-  const getCollectionFromLocalStorage = (name: string) => () =>
+  const getDomainFromLocalStorage = (name: string) => () =>
     JSON.parse(localStorage.getItem(name) || "{}");
 
-  const setCollectionInLocalStorage =
-    (name: string) => (collection: Record<string, Schema>) =>
-      localStorage.setItem(name, JSON.stringify(collection));
+  const setDomainInLocalStorage =
+    (name: string) => (domain: Record<string, Schema>) =>
+      localStorage.setItem(name, JSON.stringify(domain));
 
-  const getCollection = getCollectionFromLocalStorage(collectionName);
-  const setCollection = setCollectionInLocalStorage(collectionName);
+  const getDomain = getDomainFromLocalStorage(domainName);
+  const setDomain = setDomainInLocalStorage(domainName);
 
   return class Service implements ICrudGenerator<Schema> {
     count: number;
@@ -27,33 +25,31 @@ const crudGeneratorWithLocalStorage = <Schema>(
     }
 
     create = (payload: Schema): string => {
-      let count = parseInt(
-        localStorage.getItem(`${collectionName}_count`) || "0"
-      );
-      const uuid: IId = `${collectionName}_${count}`;
-      const collection = getCollection();
-      collection[uuid] = { ...payload, id: uuid };
-      setCollection(collection);
-      localStorage.setItem(`${collectionName}_count`, (++count).toString());
+      let count = parseInt(localStorage.getItem(`${domainName}_count`) || "0");
+      const uuid: IId = `${domainName}_${count}`;
+      const domain = getDomain();
+      domain[uuid] = { ...payload, id: uuid };
+      setDomain(domain);
+      localStorage.setItem(`${domainName}_count`, (++count).toString());
       return uuid;
     };
     get = (id: string): Schema => {
-      const collection = getCollection();
-      return collection[id];
+      const domain = getDomain();
+      return domain[id];
     };
     getAll = (): Schema[] => {
-      const collection = getCollection();
-      return Object.values(collection);
+      const domain = getDomain();
+      return Object.values(domain);
     };
     delete = (id: string) => {
-      const collection = getCollection();
-      delete collection[id];
-      setCollection(collection);
+      const domain = getDomain();
+      delete domain[id];
+      setDomain(domain);
     };
     update = (payload: Schema & { id: string }) => {
-      const collection = getCollection();
-      collection[payload.id] = payload;
-      setCollection(collection);
+      const domain = getDomain();
+      domain[payload.id] = payload;
+      setDomain(domain);
     };
   };
 };

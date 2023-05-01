@@ -1,5 +1,5 @@
 import {
-  CollectionOf,
+  DomainOf,
   Default,
   Description,
   Enum,
@@ -103,7 +103,7 @@ export class Program {
   @Default(RuleStyle.GROUP)
   ruleStyle: RuleStyle;
 
-  @CollectionOf(Rule)
+  @DomainOf(Rule)
   @MinLength(1)
   rules: Rule[];
 }

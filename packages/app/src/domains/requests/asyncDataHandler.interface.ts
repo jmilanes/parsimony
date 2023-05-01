@@ -1,0 +1,108 @@
+import { Domains, ICrudRequests, IId } from "@parsimony/types";
+import { BehaviorSubject } from "rxjs";
+import { arrayToObj } from "../../utils";
+import Store from "../../services/store";
+import { Service } from "typedi";
+
+type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
+  id?: string | undefined;
+};
+
+@Service()
+export class AsyncDataHandlerInterface<
+  Schema,
+  CreatePayload,
+  DeleteThreadPayload,
+  UpdatePayload,
+  GetPayload,
+  GetAllByRelationshipPayload
+> {
+  domainName: Domains = "" as Domains;
+
+  //@ts-ignore
+  requests: ICrudRequests<
+    Schema,
+    CreatePayload,
+    DeleteThreadPayload,
+    UpdatePayload,
+    GetPayload,
+    GetAllByRelationshipPayload
+  >;
+  #store: Store;
+
+  constructor(store: Store) {
+    this.#store = store;
+  }
+
+  init = async () => {
+    await this.#store.initDomainInStore(this.domainName, this.requests.getAll);
+  };
+
+  create = async (payload: CreatePayload) => {
+    const item = (await this.requests.create(
+      payload
+    )) as AwaitedSchemaWithId<Schema>;
+    this.#store.addItemToDomain(this.domainName, item);
+    return item;
+  };
+
+  delete = async (payload: DeleteThreadPayload) => {
+    const id = await this.requests.delete(payload);
+    this.#store.deleteItemFromStore(this.domainName, id);
+    return id;
+  };
+
+  update = async (payload: UpdatePayload) => {
+    const item = (await this.requests.update(
+      payload
+    )) as AwaitedSchemaWithId<Schema>;
+    this.#store.updateDomainListItem(this.domainName, item);
+    return item;
+  };
+
+  getAll = async () => {
+    try {
+      const items = await this.requests.getAll();
+      this.#store
+        .getDomain$(this.domainName)
+        .next(items ? arrayToObj(items) : {});
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  get = async (id: IId) => {
+    const item = (await this.requests.get({
+      id
+    } as unknown as GetPayload)) as AwaitedSchemaWithId<Schema>;
+    this.#store.addItemToDomain(this.domainName, item);
+  };
+
+  getAllByRelationship = async ({
+    relationshipProperty,
+    id
+  }: {
+    relationshipProperty: keyof Schema;
+    id: string;
+  }) => {
+    try {
+      const items = await this.requests.getAllByRelationship({
+        relationshipProperty,
+        id
+      } as unknown as GetAllByRelationshipPayload);
+      if (items) {
+        this.#store.getDomain$(this.domainName).next(items);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  subscribe = (service: { set: (data: any[]) => void }) => {
+    this.#store.subscribeToStoreDomain(
+      this.domainName,
+      (obs: BehaviorSubject<Record<string, unknown>>) =>
+        service.set(Object.values(obs))
+    );
+  };
+}

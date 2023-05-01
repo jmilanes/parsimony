@@ -10,6 +10,7 @@ export enum UIMetaTargetTypes {
 export enum NavMetaTestIds {
   logoutBtn = "logout-nav-button",
   programBtn = "program-nav-button",
+  booksBtn = "book-nav-button",
   directoryBtn = "directory-nav-button",
   schoolBtn = "school-nav-button",
   chatBtn = "chat-nav-button",
@@ -77,6 +78,12 @@ export enum SchoolPageMetaTestIds {
   nameField = "school-name",
   addBtn = "add-school",
   table = "schools-table"
+}
+
+export enum BookPageMetaTestIds {
+  nameField = "books-name",
+  addBtn = "add-book",
+  table = "books-table"
 }
 
 export enum ProgramsPageMetaTestIds {
@@ -183,5 +190,5 @@ export type MetaTestIds =
   | ProgramPageMetaTestIds
   | ObservationMetaTestIds
   | RepeatableMetaTestIds
-  | ChatMetaTestIds
+  | BookPageMetaTestIds
   | DrawerMetaTestIds;

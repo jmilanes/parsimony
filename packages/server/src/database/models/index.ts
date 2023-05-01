@@ -8,6 +8,7 @@ import document from "./document.model";
 import event from "./event.model";
 import file from "./file.model";
 import refreshToken from "./refreshTokens.model";
+import collection from "./collections.model";
 
 export enum modelTypes {
   thread = "thread",
@@ -19,7 +20,8 @@ export enum modelTypes {
   document = "document",
   event = "event",
   file = "file",
-  refreshToken = "refreshToken"
+  refreshToken = "refreshToken",
+  collection = "collection"
 }
 
 export const models = {
@@ -32,5 +34,6 @@ export const models = {
   [modelTypes.document]: document,
   [modelTypes.event]: event,
   [modelTypes.file]: file,
-  [modelTypes.refreshToken]: refreshToken
+  [modelTypes.refreshToken]: refreshToken,
+  [modelTypes.collection]: collection
 };

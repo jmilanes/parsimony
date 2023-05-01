@@ -1,25 +1,30 @@
 import React, { useEffect } from "react";
 
 import { Button, Table, Field, Header } from "../components";
-import {
-  StoreCollections,
-  School,
-  SchoolPageMetaTestIds
-} from "@parsimony/types";
+import { Domains, School, SchoolPageMetaTestIds } from "@parsimony/types";
 import { AddForm } from "../containers";
 import { initialSchoolData } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table.component";
+
 import { Pages } from "@parsimony/types";
 
 import { useServices } from "../context";
+import { Container } from "typedi";
+import { CommandService } from "../domains/commands/command.service";
 
 const Schools = () => {
-  const { stateManager, dataAccess, store } = useServices();
+  const CS = Container.get(CommandService);
+  const { stateManager } = useServices();
 
-  const data = store.getCurrentCollectionItems<School>(StoreCollections.School);
+  const data = CS.api.getItems<School[]>({
+    domain: Domains.School
+  });
 
   useEffect(() => {
-    dataAccess.school.getAll();
+    CS.api.makeRequest({
+      domain: Domains.School,
+      requestType: "getAll"
+    });
   }, []);
 
   const [showAddForm, setShowAddForm] = React.useState(false);
@@ -32,7 +37,11 @@ const Schools = () => {
   });
 
   const submitAddForm = () => {
-    dataAccess.school.create(localState);
+    CS.api.makeRequest({
+      domain: Domains.School,
+      requestType: "create",
+      payload: localState
+    });
     setShowAddForm(false);
     updateLocalState(initialSchoolData);
   };
@@ -44,12 +53,16 @@ const Schools = () => {
   const actions: ITableAction[] = [
     {
       name: "Delete",
-      method: (school: Required<School>) =>
-        dataAccess.school.delete({ id: school.id })
+      method: (school: Required<School>) => {
+        CS.api.makeRequest({
+          domain: Domains.School,
+          requestType: "delete",
+          payload: { id: school.id }
+        });
+      }
     }
   ];
 
-  if (!data.length) return null;
   return (
     <>
       <Header

@@ -1,4 +1,4 @@
-import { StoreCollections } from "@parsimony/types";
+import { Domains } from "@parsimony/types";
 import { clone } from "../utils";
 import Store from "./store";
 import { Service } from "typedi";
@@ -18,7 +18,7 @@ export enum DrawerContentTypes {
   CreateChat = "createChat"
 }
 
-type DrawerControls = {
+export type DrawerControls = {
   active: boolean;
   width: number | string;
   placement: "left" | "right";
@@ -49,14 +49,12 @@ export default class AppControlsService {
   }
 
   init = () => {
-    this.store
-      .getCollection$(StoreCollections.AppControls)
-      .next(this.defaultControls);
+    this.store.getDomain$(Domains.AppControls).next(this.defaultControls);
   };
 
   updateControls = (control: keyof AppControls, update: ControlPayloads) => {
     const currentControls = clone(
-      this.store.getCollectionValue(StoreCollections.AppControls)
+      this.store.getDomainValue(Domains.AppControls)
     );
 
     currentControls[control] = {
@@ -64,8 +62,6 @@ export default class AppControlsService {
       ...update
     };
 
-    this.store
-      .getCollection$(StoreCollections.AppControls)
-      .next({ ...currentControls });
+    this.store.getDomain$(Domains.AppControls).next({ ...currentControls });
   };
 }

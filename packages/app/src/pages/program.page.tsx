@@ -17,7 +17,7 @@ import {
   Selector
 } from "../components";
 import {
-  StoreCollections,
+  Domains,
   IModes,
   Program,
   ProgramPageMetaTestIds,
@@ -40,17 +40,22 @@ import {
 
 import { useServices } from "../context";
 import { TargetOptionSelector } from "../containers/targetOptionsSelector.container";
+import { CommandService } from "../domains/commands/command.service";
+import { Container as DI } from "typedi";
 
 const Program = () => {
-  const { stateManager, dataAccess, store } = useServices();
+  //TODO fix the container collision
+  const CS = DI.get(CommandService);
+  const { stateManager } = useServices();
   const navigate = navigateToRoute();
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
 
-  const program = store.getCollectionItem(
-    StoreCollections.Program,
-    programId || ""
-  );
+  const program = CS.api.getItem<Program>({
+    domain: Domains.Program,
+    id: programId || ""
+  });
+
   const [localState, updateLocalState] = React.useState<Program>(program);
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
@@ -58,19 +63,30 @@ const Program = () => {
 
   useEffect(() => {
     //TODO Eventually get all by
-    if (!program) dataAccess.program.get(programId as string);
+    if (!program) {
+      CS.api.makeRequest({
+        domain: Domains.Program,
+        payload: programId || "",
+        requestType: "get"
+      });
+    }
     if (!localState) updateLocalState(clone(program) as Program);
-    dataAccess.user.getAll();
+    CS.api.makeRequest({
+      domain: Domains.User,
+      requestType: "getAll"
+    });
   }, [program]);
 
-  const client = store.getCollectionItem(
-    StoreCollections.User,
-    program?.clientId
-  );
+  const client = CS.api.getItem<User>({
+    domain: Domains.User,
+    id: program?.clientId || ""
+  });
 
   //TODO: Filter so only clients are this way
-  const allClientOptions = store
-    .getCurrentCollectionItems<User>(StoreCollections.User)
+  const allClientOptions = CS.api
+    .getItems<User[]>({
+      domain: Domains.User
+    })
     .map((user: User) => ({
       name: getFullName(user),
       value: user.id
@@ -82,7 +98,12 @@ const Program = () => {
   });
 
   const submitForm = () => {
-    dataAccess.program.update(omitMongoKeys(localState));
+    console.log(localState);
+    CS.api.makeRequest({
+      domain: Domains.Program,
+      requestType: "update",
+      payload: omitMongoKeys(localState)
+    });
     updateMode("readOnly");
   };
 
@@ -121,7 +142,11 @@ const Program = () => {
             key="delete"
             name="Delete"
             action={() => {
-              dataAccess.program.delete({ id: program.id });
+              CS.api.makeRequest({
+                domain: Domains.Program,
+                requestType: "delete",
+                payload: { id: program.id }
+              });
               navigate(`/programs`);
             }}
             hidden={isEditMode(mode)}

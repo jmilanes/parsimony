@@ -10,7 +10,7 @@ import {
 } from "../components";
 import { navigateToRoute } from "../utils";
 import {
-  StoreCollections,
+  Domains,
   DirectoryPageMetaTestIds,
   Pages,
   User,
@@ -29,14 +29,23 @@ import { IColumns, ITableAction } from "../components/table.component";
 import { useServices } from "../context";
 import { encrypt } from "@parsimony/utilities";
 import { message } from "antd";
+import { Container } from "typedi";
+import { CommandService } from "../domains/commands/command.service";
 
 const Users = () => {
-  const { stateManager, dataAccess, store } = useServices();
+  const CS = Container.get(CommandService);
+  const { stateManager } = useServices();
   const navigate = navigateToRoute();
-  const data = store.getCurrentCollectionItems<User>(StoreCollections.User);
+
+  const data = CS.api.getItems<User[]>({
+    domain: Domains.User
+  });
 
   useEffect(() => {
-    dataAccess.user.getAll();
+    CS.api.makeRequest({
+      domain: Domains.User,
+      requestType: "getAll"
+    });
   }, []);
 
   const [showAddForm, setShowAddForm] = React.useState(false);
@@ -57,7 +66,13 @@ const Users = () => {
     if (!localState.email) message.error("Please provide email");
     // TODO: Make this better
     localState.email = localState.email?.toLowerCase();
-    dataAccess.user.create(localState);
+
+    CS.api.makeRequest({
+      domain: Domains.User,
+      requestType: "create",
+      payload: localState
+    });
+
     setShowAddForm(false);
     updateLocalState(initialUserData);
   };
@@ -75,7 +90,15 @@ const Users = () => {
     },
     {
       name: "Delete",
-      method: (user: Required<User>) => dataAccess.user.delete({ id: user.id })
+      method: (user: Required<User>) => {
+        CS.api.makeRequest({
+          domain: Domains.User,
+          requestType: "delete",
+          payload: {
+            id: user.id
+          }
+        });
+      }
     }
   ];
 

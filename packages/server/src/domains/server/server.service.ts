@@ -1,7 +1,7 @@
 import { serverToken } from "../../sever.token";
 
 require("dotenv").config();
-import { QueryService } from "../../collections";
+import { QueryService } from "../../database/handlers";
 
 import { Inject, Service } from "typedi";
 
@@ -80,6 +80,7 @@ export default class ServerService {
     if (isIgnoredAuthorizationQuery) {
       return {};
     }
+
     const accessToken = req.headers.authorization.split(" ")[1];
     const currentUser = await this.ts.verifyAccessToken(accessToken);
     return { currentUser };

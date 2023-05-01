@@ -17,7 +17,7 @@ import {
 } from "../components";
 
 import {
-  StoreCollections,
+  Domains,
   IModes,
   Program,
   Routes,
@@ -40,13 +40,19 @@ import {
 import { IColumns, ITableAction } from "../components/table.component";
 import { useServices } from "../context";
 import { message } from "antd";
+import { Container as DI } from "typedi";
+import { CommandService } from "../domains/commands/command.service";
 
 const User = () => {
-  const { filterService, stateManager, dataAccess, store } = useServices();
+  const CS = DI.get(CommandService);
+  const { stateManager } = useServices();
   const { userId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const user = store.getCollectionItem(StoreCollections.User, userId || "");
+  const user = CS.api.getItem<User>({
+    domain: Domains.User,
+    id: userId || ""
+  });
 
   const [mode, updateMode] = React.useState<IModes>("readOnly");
 
@@ -55,14 +61,32 @@ const User = () => {
     React.useState<UpdateUserPayload>(user);
 
   useEffect(() => {
-    dataAccess.program.getAllByRelationship("clientId", userId as string);
-    if (!user) dataAccess.user.get(userId as string);
-    if (!localState) updateLocalState(clone(user) as User);
+    // TODO This not working not returning the programs.
+    CS.api.makeRequest({
+      domain: Domains.Program,
+      requestType: "getAllByRelationship",
+      payload: {
+        relationshipProperty: "clientId",
+        id: userId
+      }
+    });
+
+    if (!user) {
+      CS.api.makeRequest({
+        domain: Domains.User,
+        requestType: "get",
+        payload: userId
+      });
+    }
+
+    if (!localState) {
+      updateLocalState(clone(user) as User);
+    }
   }, [user]);
 
-  const associatedPrograms = store.getCurrentCollectionItems(
-    StoreCollections.Program
-  );
+  const associatedPrograms = CS.api.getItems({
+    domain: Domains.Program
+  });
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -70,10 +94,17 @@ const User = () => {
   });
 
   const submitForm = () => {
+    // TODO: Make an error interface
     if (!localState.email) message.error("Please provide email");
     // TODO: Make this better
     localState.email = localState.email?.toLowerCase();
-    dataAccess.user.update(omitMongoKeys(localState));
+
+    CS.api.makeRequest({
+      domain: Domains.User,
+      requestType: "update",
+      payload: omitMongoKeys(localState)
+    });
+
     updateMode("readOnly");
   };
 
@@ -103,7 +134,11 @@ const User = () => {
     {
       name: "Delete",
       method: (program: Required<Program>) =>
-        dataAccess.program.delete({ id: program.id })
+        CS.api.makeRequest({
+          domain: Domains.Program,
+          requestType: "delete",
+          payload: { id: program.id }
+        })
     }
   ];
 
@@ -190,7 +225,7 @@ const User = () => {
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.roleMultiSelector}
       />
-      {!user.roles.includes(UserRoles.Client) && (
+      {!user.roles?.includes(UserRoles.Client) && (
         <Selector
           title="Service Provider"
           options={serviceProviderOptions}
@@ -206,14 +241,13 @@ const User = () => {
         <Button
           name="Add Programs"
           action={() => {
-            filterService.setFromLink();
             navigate(`${Routes.Programs}?userId=${user.id}`);
           }}
           metaTestId={UserPageMetaTestIds.addProgram}
         />
       </Row>
       <Table<Program>
-        //TODO: getCurrentCollectionItems should return the proper type
+        //TODO: getCurrentDomainItems should return the proper type
         data={associatedPrograms as Program[]}
         columns={columns}
         actions={actions}

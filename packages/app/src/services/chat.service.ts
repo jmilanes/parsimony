@@ -1,7 +1,7 @@
 import {
   AddMessagePayload,
   ChatActionTypes,
-  StoreCollections,
+  Domains,
   CreateThreadPayload,
   DeleteMessagePayload,
   DeleteThreadPayload,
@@ -17,20 +17,20 @@ import { BehaviorSubject } from "rxjs";
 import { getAllThreadsByRelationship } from "@parsimony/bal";
 import Store from "./store";
 import { Service } from "typedi";
-import { SocketService } from "../domains/asyncData/SocketService/socket.service";
+import { SocketService } from "../domains/requests/SocketService/socket.service";
 
-export type ThreadCollection = Record<string, Thread>;
+export type ThreadDomain = Record<string, Thread>;
 
 @Service()
 export default class ChatService {
-  threads$: BehaviorSubject<ThreadCollection>;
+  threads$: BehaviorSubject<ThreadDomain>;
   #socketService: SocketService;
   #store: Store;
 
   constructor(s: Store, ss: SocketService) {
     this.#store = s;
     this.#socketService = ss;
-    this.threads$ = this.#store.getCollection$(StoreCollections.Thread);
+    this.threads$ = this.#store.getDomain$(Domains.Thread);
   }
 
   init = async () => {
@@ -44,13 +44,10 @@ export default class ChatService {
       id: id
     });
 
-    const formattedData = threads.reduce(
-      (acc: ThreadCollection, curr: Thread) => {
-        acc[curr.id] = curr;
-        return acc;
-      },
-      {}
-    );
+    const formattedData = threads.reduce((acc: ThreadDomain, curr: Thread) => {
+      acc[curr.id] = curr;
+      return acc;
+    }, {});
 
     this.updateThreads(formattedData);
 
@@ -63,7 +60,7 @@ export default class ChatService {
     this.threads$.subscribe(next);
   };
 
-  updateThreads = (threads: ThreadCollection) => {
+  updateThreads = (threads: ThreadDomain) => {
     //TODO Need to make a universal space for state management
     this.threads$.next(threads);
   };
@@ -76,7 +73,7 @@ export default class ChatService {
     this.updateThreads(updatedThreads);
   };
 
-  updateThreadWithPayload = (threads: ThreadCollection, action: any) => {
+  updateThreadWithPayload = (threads: ThreadDomain, action: any) => {
     const freshThreads = action.type && clone<Thread>(threads);
     switch (action.type) {
       case ChatActionTypes.CREATE_THREAD:
@@ -121,7 +118,7 @@ export default class ChatService {
 }
 
 const createThread = (
-  threads: ThreadCollection,
+  threads: ThreadDomain,
   payload: CreateThreadPayload & { id: IId }
 ) => {
   threads[payload.id] = {
@@ -132,23 +129,17 @@ const createThread = (
   return threads;
 };
 
-const deleteThread = (
-  threads: ThreadCollection,
-  payload: DeleteThreadPayload
-) => {
+const deleteThread = (threads: ThreadDomain, payload: DeleteThreadPayload) => {
   delete threads[payload.id];
   return threads;
 };
 
-const updateThread = (
-  threads: ThreadCollection,
-  payload: UpdateThreadPayload
-) => {
+const updateThread = (threads: ThreadDomain, payload: UpdateThreadPayload) => {
   threads[payload.id] = { ...threads[payload.id], ...payload };
   return threads;
 };
 
-const addMessage = (threads: ThreadCollection, payload: AddMessagePayload) => {
+const addMessage = (threads: ThreadDomain, payload: AddMessagePayload) => {
   const thread = threads[payload.threadId];
   const currMessages = thread?.messages || [];
   thread.messages = [...currMessages, payload?.message as Message];
@@ -156,7 +147,7 @@ const addMessage = (threads: ThreadCollection, payload: AddMessagePayload) => {
 };
 
 const deleteMessage = (
-  threads: ThreadCollection,
+  threads: ThreadDomain,
   payload: DeleteMessagePayload
 ) => {
   const thread = threads[payload.threadId];
@@ -166,10 +157,7 @@ const deleteMessage = (
   return threads;
 };
 
-const editMessage = (
-  threads: ThreadCollection,
-  payload: EditMessagePayload
-) => {
+const editMessage = (threads: ThreadDomain, payload: EditMessagePayload) => {
   const thread = threads[payload.threadId];
   thread.messages = thread.messages?.map((message) => {
     if (message?.id === payload.messageId) {
@@ -181,7 +169,7 @@ const editMessage = (
 };
 
 const updateIsTyping = (
-  threads: ThreadCollection,
+  threads: ThreadDomain,
   payload: IUpdateIsTypingPayload
 ) => {
   const thread = threads[payload.threadId];

@@ -1,4 +1,4 @@
-export * from "./collections.types";
+export * from "./domain.types";
 export * from "./app.types";
 export * from "./interfaces.types";
 export * from "./chat.types";

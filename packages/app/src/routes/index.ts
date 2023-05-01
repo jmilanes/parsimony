@@ -9,7 +9,9 @@ import {
   Observe,
   Login,
   Results,
-  School
+  School,
+  Books,
+  Collection
 } from "../pages";
 import { IRoute } from "@parsimony/types";
 
@@ -29,6 +31,16 @@ const routes: IRoute[] = [
   {
     path: Routes.Program,
     element: Program
+  },
+  {
+    path: Routes.Books,
+    element: Books,
+    name: NavTitles.Books,
+    metaTestId: NavMetaTestIds.booksBtn
+  },
+  {
+    path: Routes.Collection,
+    element: Collection
   },
   {
     path: Routes.Users,

@@ -14,7 +14,7 @@ export default {
   timeZone: String,
   roles: [String],
   type: String,
-  documents: [String], // TODO: We will have a documents collection these will be ids
+  documents: [String], // TODO: We will have a documents domain these will be ids
   password: String,
   email: String,
   firstName: String,

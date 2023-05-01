@@ -1,5 +1,5 @@
 import {
-  CollectionOf,
+  DomainOf,
   Default,
   Description,
   Enum,
@@ -35,7 +35,7 @@ export class Rule {
   @Description(
     "If a user must complete this rule to submit the program results"
   )
-  @CollectionOf(RuleOption)
+  @DomainOf(RuleOption)
   @MinLength(2)
   rule: RuleOption[];
 

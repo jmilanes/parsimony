@@ -1,38 +1,42 @@
 import { Container, Inject, Service } from "typedi";
 
-import { ServiceTypes, StoreCollections } from "@parsimony/types";
+import { ServiceTypes, Domains } from "@parsimony/types";
 import ChatService from "./chat.service";
 import FilterService from "./filter.service";
 import StateService from "./state.service";
 import Store from "./store";
 import AuthService from "./auth.service";
 import AppControlsService from "./appControls.service";
-import { ProgramAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/programAsyncData.handler";
-import { UserAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/userAsyncData.handler";
-import { ResultAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/resultAsyncData.handler";
-import { EventAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/eventAsyncData.handler";
-import { DocumentAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/documentAsyncData.handler";
-import { FileAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/fileAsyncData.handler";
-import { SocketService } from "../domains/asyncData/SocketService/socket.service";
-import { SchoolAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/schoolAsyncData.handler";
-import { ThreadAsyncDataHandler } from "../domains/asyncData/AsyncDataHandlers/threadAsyncData.handler";
+import { ProgramAsyncDataHandler } from "../domains/requests/AsyncDataHandlers/programAsyncData.handler";
+import { UserAsyncDataHandler } from "../domains/requests/AsyncDataHandlers/userAsyncData.handler";
+import { ResultAsyncDataHandler } from "../domains/requests/AsyncDataHandlers/resultAsyncData.handler";
+import { EventAsyncDataHandler } from "../domains/requests/AsyncDataHandlers/eventAsyncData.handler";
+import { DocumentAsyncDataHandler } from "../domains/requests/AsyncDataHandlers/documentAsyncData.handler";
+import { FileAsyncDataHandler } from "../domains/requests/AsyncDataHandlers/fileAsyncData.handler";
+import { SocketService } from "../domains/requests/SocketService/socket.service";
+import { SchoolAsyncDataHandler } from "../domains/requests/AsyncDataHandlers/schoolAsyncData.handler";
+import { ThreadAsyncDataHandler } from "../domains/requests/AsyncDataHandlers/threadAsyncData.handler";
+import { CommandService } from "../domains/commands/command.service";
+import RequestService from "../domains/requests/request.Service";
 
 export type Services = {
   [ServiceTypes.Chat]: ChatService;
+  [ServiceTypes.CommandService]: CommandService;
   [ServiceTypes.Store]: Store;
   [ServiceTypes.StateManager]: StateService;
   [ServiceTypes.Filter]: FilterService;
   [ServiceTypes.AuthService]: AuthService;
   [ServiceTypes.AppControls]: AppControlsService;
+  //TODO Pull this into an interface:
   [ServiceTypes.DataAccess]: {
-    [StoreCollections.School]: SchoolAsyncDataHandler;
-    [StoreCollections.User]: UserAsyncDataHandler;
-    [StoreCollections.Program]: ProgramAsyncDataHandler;
-    [StoreCollections.Result]: ResultAsyncDataHandler;
-    [StoreCollections.Event]: EventAsyncDataHandler;
-    [StoreCollections.Document]: DocumentAsyncDataHandler;
-    [StoreCollections.File]: FileAsyncDataHandler;
-    [StoreCollections.Thread]: ThreadAsyncDataHandler;
+    [Domains.School]: SchoolAsyncDataHandler;
+    [Domains.User]: UserAsyncDataHandler;
+    [Domains.Program]: ProgramAsyncDataHandler;
+    [Domains.Result]: ResultAsyncDataHandler;
+    [Domains.Event]: EventAsyncDataHandler;
+    [Domains.Document]: DocumentAsyncDataHandler;
+    [Domains.File]: FileAsyncDataHandler;
+    [Domains.Thread]: ThreadAsyncDataHandler;
   };
 };
 
@@ -61,6 +65,12 @@ export default class AppController {
   @Inject(() => ChatService)
   private readonly chat: ChatService;
 
+  @Inject(() => CommandService)
+  private readonly commands: CommandService;
+
+  @Inject(() => RequestService)
+  private readonly requestService: RequestService;
+
   constructor(
     store: Store,
     ss: StateService,
@@ -68,10 +78,14 @@ export default class AppController {
     acs: AppControlsService,
     as: AuthService,
     socketService: SocketService,
-    cs: ChatService
+    cs: ChatService,
+    commands: CommandService,
+    requestService: RequestService
   ) {
     this.stateService = ss;
     this.store = store;
+    this.commands = commands;
+    this.requestService = requestService;
     this.filterService = fs;
     this.appControlsService = acs;
     this.authService = as;
@@ -79,19 +93,20 @@ export default class AppController {
     this.chat = cs;
     this.services = {
       [ServiceTypes.AppControls]: this.appControlsService,
+      [ServiceTypes.CommandService]: this.commands,
       [ServiceTypes.AuthService]: this.authService,
       [ServiceTypes.Store]: this.store,
       [ServiceTypes.StateManager]: this.stateService,
       [ServiceTypes.Filter]: this.filterService,
       [ServiceTypes.DataAccess]: {
-        [StoreCollections.Program]: Container.get(ProgramAsyncDataHandler),
-        [StoreCollections.User]: Container.get(UserAsyncDataHandler),
-        [StoreCollections.Result]: Container.get(ResultAsyncDataHandler),
-        [StoreCollections.School]: Container.get(SchoolAsyncDataHandler),
-        [StoreCollections.Document]: Container.get(DocumentAsyncDataHandler),
-        [StoreCollections.Event]: Container.get(EventAsyncDataHandler),
-        [StoreCollections.File]: Container.get(FileAsyncDataHandler),
-        [StoreCollections.Thread]: Container.get(ThreadAsyncDataHandler)
+        [Domains.Program]: Container.get(ProgramAsyncDataHandler),
+        [Domains.User]: Container.get(UserAsyncDataHandler),
+        [Domains.Result]: Container.get(ResultAsyncDataHandler),
+        [Domains.School]: Container.get(SchoolAsyncDataHandler),
+        [Domains.Document]: Container.get(DocumentAsyncDataHandler),
+        [Domains.Event]: Container.get(EventAsyncDataHandler),
+        [Domains.File]: Container.get(FileAsyncDataHandler),
+        [Domains.Thread]: Container.get(ThreadAsyncDataHandler)
       }
     } as Services;
   }
@@ -103,9 +118,3 @@ export default class AppController {
     console.log("All Services Loads", this.services);
   };
 }
-
-// NEXt:
-
-// maybe make the tread GQL align with other for messages and threads (think I am missing some of th eresolvers that the others have for both)
-// API Layer for interacting with this stuff from react
-// Forms with builder pattern to make it super easy

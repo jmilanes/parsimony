@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ThreadCollection } from "../../services/chat.service";
-import { ChatMetaTestIds, StoreCollections, Thread } from "@parsimony/types";
+import { ThreadDomain } from "../../services/chat.service";
+import { ChatMetaTestIds, Domains, Thread } from "@parsimony/types";
 import { useServices } from "../../context";
 import { DrawerContentTypes } from "../../services/appControls.service";
 import { Button, List, Row, Col } from "../../components";
@@ -9,14 +9,13 @@ import { getThreadName } from "../../utils";
 
 export const Chat = () => {
   const { authService, appControls, store } = useServices();
-  const [threads, setThreads] = useState<ThreadCollection>(
-    {} as ThreadCollection
-  );
+  const [threads, setThreads] = useState<ThreadDomain>({} as ThreadDomain);
 
   const [currentThread, setCurrentThread] = useState<string>();
 
   useEffect(
-    () => store.subscribeToStoreCollection(StoreCollections.Thread, setThreads),
+    //TODO: Make a Command
+    () => store.subscribeToStoreDomain(Domains.Thread, setThreads),
     []
   );
 

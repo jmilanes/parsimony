@@ -6,8 +6,8 @@ import { getDataWithPath } from "./abstractions.util";
 import { omit } from "ramda";
 import { debounceTime, distinctUntilChanged, fromEvent } from "rxjs";
 
-export const filterByProp = <T>(collection: T[], prop: keyof T): T[] =>
-  collection.filter((c: T) => c[prop]);
+export const filterByProp = <T>(domain: T[], prop: keyof T): T[] =>
+  domain.filter((c: T) => c[prop]);
 
 /**
  * Flatten a multidimensional object

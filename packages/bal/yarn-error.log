@@ -5311,7 +5311,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/cache-base/-/cache-base-1.0.1.tgz#0a7f46416831c8b662ee36fe4e7c59d76f666ab2"
     integrity sha512-AKcdTnFSWATd5/GCPRxr2ChwIJ85CeyrEyjRHlKxQ56d4XJMGym0uAiKn0xbLOGOl3+yRpOTi484dVCEc5AUzQ==
     dependencies:
-      collection-visit "^1.0.0"
+      domain-visit "^1.0.0"
       component-emitter "^1.2.1"
       get-value "^2.0.6"
       has-value "^1.0.0"
@@ -5677,9 +5677,9 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/collect-v8-coverage/-/collect-v8-coverage-1.0.1.tgz#cc2c8e94fc18bbdffe64d6534570c8a673b27f59"
     integrity sha512-iBPtljfCNcTKNAto0KEtDfZ3qzjJvqE3aTGZsbhjSBlorqpXJlaWWtPO35D+ZImoC3KWejX64o+yPGxhWSTzfg==
   
-  collection-visit@^1.0.0:
+  domain-visit@^1.0.0:
     version "1.0.0"
-    resolved "https://registry.yarnpkg.com/collection-visit/-/collection-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
+    resolved "https://registry.yarnpkg.com/domain-visit/-/domain-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
     integrity sha512-lNkKvzEeMBBjUGHZ+q6z9pSJla0KWAQPvtzhEV9+iGyQYG+pBpl7xKDhxoNSOZH2hhv0v5k0y2yAM4o4SjoSkw==
     dependencies:
       map-visit "^1.0.0"

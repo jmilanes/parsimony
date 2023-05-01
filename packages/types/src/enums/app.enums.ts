@@ -1,4 +1,4 @@
-export enum StoreCollections {
+export enum Domains {
   School = "school",
   User = "user",
   Program = "program",
@@ -7,6 +7,8 @@ export enum StoreCollections {
   Event = "event",
   Document = "document",
   File = "file",
+  Collection = "collection",
+  // Move with to clientDomains
   AppControls = "appControls"
 }
 
@@ -41,6 +43,7 @@ export enum Modes {
 
 export enum ServiceTypes {
   Chat = "chat",
+  CommandService = "commandService",
   Store = "store",
   Filter = "filterService",
   StateManager = "stateManager",

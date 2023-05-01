@@ -47,5 +47,6 @@ export default {
   currentChainTarget: { type: ObjectId, ref: "Target" },
   masterTargetPercent: Number,
   masterTargetCount: Number,
-  subscribers: [{ type: ObjectId, ref: "User" }]
+  subscribers: [{ type: ObjectId, ref: "User" }],
+  collections: [{ type: ObjectId, ref: "Collection" }]
 };

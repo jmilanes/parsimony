@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StoreCollections, Pages, Result } from "@parsimony/types";
+import { Domains, Pages, Result, Program } from "@parsimony/types";
 import { Header } from "../components";
 import { getRouterParams } from "../utils";
 
@@ -14,7 +14,9 @@ import {
   Tooltip
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { useServices } from "../context";
+
+import { CommandService } from "../domains/commands/command.service";
+import { Container as DI } from "typedi";
 
 ChartJS.register(
   CategoryScale,
@@ -27,24 +29,37 @@ ChartJS.register(
 );
 
 const Results = () => {
-  const { dataAccess, store } = useServices();
+  const CS = DI.get(CommandService);
   const { programId } = getRouterParams();
-  const program = store.getCollectionItem(
-    StoreCollections.Program,
-    programId || ""
-  );
 
-  const results: Result[] = store.getCurrentCollectionItems(
-    StoreCollections.Result
-  );
+  const program = CS.api.getItem<Program>({
+    domain: Domains.Program,
+    id: programId
+  });
+
+  const results = CS.api.getItems<Result[]>({
+    domain: Domains.Result
+  });
 
   useEffect(() => {
-    dataAccess.program.get(programId as string);
+    CS.api.makeRequest({
+      domain: Domains.Program,
+      requestType: "get",
+      payload: programId
+    });
   }, []);
 
   useEffect(() => {
-    if (program)
-      dataAccess.result.getAllByRelationship("programId", programId as string);
+    if (program) {
+      CS.api.makeRequest({
+        domain: Domains.Program,
+        requestType: "getAllByRelationship",
+        payload: {
+          relationshipProperty: "programId",
+          id: programId
+        }
+      });
+    }
   }, [program]);
 
   if (!program || !results.length) return null;

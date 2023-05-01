@@ -15,7 +15,7 @@ import {
   UserRoles
 } from "@parsimony/types";
 
-const currentUser = localStorage.getItem("currentUserId");
+export const currentUserLS = localStorage.getItem("currentUserId");
 
 // TODO: need to pass in the user...
 
@@ -27,9 +27,9 @@ export const initialProgramData: Program = {
   writeAccess: [],
   readAccess: [],
   type: ProgramTypes.Main,
-  lastEditedBy: currentUser,
-  editedBy: [currentUser],
-  createdBy: currentUser,
+  lastEditedBy: currentUserLS,
+  editedBy: [currentUserLS],
+  createdBy: currentUserLS,
   trials: 1,
   targets: [],
   mastered: false,
@@ -39,7 +39,8 @@ export const initialProgramData: Program = {
   currentChainTarget: null,
   masterTargetPercent: 100,
   masterTargetCount: 3,
-  subscribers: [currentUser]
+  subscribers: [currentUserLS],
+  collections: []
 };
 
 export const initialTargetData: Target = {

@@ -11,13 +11,13 @@ import {
 } from "../components";
 import { AddForm, TargetForm } from "../containers";
 import {
-  StoreCollections,
   CreateProgramPayload,
   Pages,
   Program,
   ProgramsPageMetaTestIds,
   ProgramTypes,
   Routes,
+  Domains,
   TargetOption,
   User
 } from "@parsimony/types";
@@ -40,26 +40,40 @@ import {
 } from "../utils";
 import { useServices } from "../context";
 import { TargetOptionSelector } from "../containers/targetOptionsSelector.container";
+import { Container } from "typedi";
+import { CommandService } from "../domains/commands/command.service";
 
 const Programs = () => {
-  const { stateManager, dataAccess, store, filterService } = useServices();
+  const CS = Container.get(CommandService);
+  const { stateManager, dataAccess } = useServices();
   const navigate = navigateToRoute();
   let [searchParams] = getSearchParams();
 
   useEffect(() => {
-    dataAccess.program.getAll();
-    dataAccess.user.getAll();
-    filterService.addFilter("main", (data: any) => data.type === "MAIN");
+    CS.api.makeRequest({
+      domain: Domains.Program,
+      requestType: "getAll"
+    });
+
+    CS.api.makeRequest({
+      domain: Domains.User,
+      requestType: "getAll"
+    });
   }, []);
 
-  const programs = store.getCurrentCollectionItems<Program>(
-    StoreCollections.Program
-  );
-  const clients = store.getCurrentCollectionItems<User>(StoreCollections.User);
+  const programs = CS.api
+    .getItems<Program[]>({
+      domain: Domains.Program
+    })
+    .filter((p) => p.type === "MAIN");
+
+  const clients = CS.api.getItems<User[]>({
+    domain: Domains.User
+  });
 
   const clientDataOptions = clients.map((client: User) => ({
     name: getFullName(client),
-    value: client.id
+    value: client?.id
   }));
 
   const getClientFullName = (clients: User[]) => (id: string) =>
@@ -75,7 +89,11 @@ const Programs = () => {
   });
 
   const submitAddForm = () => {
-    dataAccess.program.create(removeMongoIds(localState));
+    CS.api.makeRequest({
+      domain: Domains.Program,
+      requestType: "create",
+      payload: removeMongoIds(localState)
+    });
     setShowAddForm(false);
     updateLocalState(initialProgramData);
   };
@@ -122,16 +140,23 @@ const Programs = () => {
     },
     {
       name: "Delete",
-      method: (program: Required<Program>) =>
-        dataAccess.program.delete({ id: program.id })
+      method: (program: Required<Program>) => {
+        CS.api.makeRequest({
+          domain: Domains.Program,
+          requestType: "delete",
+          payload: { id: program.id }
+        });
+      }
     },
     {
       name: "Add to Client",
       method: async (program: Required<Program>) => {
-        const latestProgram = store.getCollectionItem(
-          StoreCollections.Program,
-          program.id
-        );
+        // TODO: This should be handled in server and made to do bulk things
+        const latestProgram = CS.api.getItem<Program>({
+          domain: Domains.Program,
+          id: program.id
+        });
+
         latestProgram.mainProgramId = program.id;
         const userId = searchParams.get("userId");
         const payload = omitMongoKeys(
@@ -142,10 +167,12 @@ const Programs = () => {
             type: ProgramTypes.Client
           })
         );
+
+        // TODO: THIS is a pattern brake should be handled server side (Will fix)
         const createdProgram = await dataAccess.program.create(
           payload as CreateProgramPayload
         );
-        navigate(`/programs/${createdProgram.id}?mode=edit`);
+        navigate(`/programs/${createdProgram?.id}?mode=edit`);
       }
     }
   ];

@@ -3,30 +3,41 @@ import { Button, Header } from "../components";
 import { generateKey, getRouterParams, navigateToRoute } from "../utils";
 import { ObserveTarget } from "../containers";
 import {
-  StoreCollections,
+  Domains,
   ObservationMetaTestIds,
   Target,
-  TargetStyle
+  TargetStyle,
+  Program
 } from "@parsimony/types";
 
 import { useServices } from "../context";
 import ObservationService from "../services/observation.service";
+import { Container } from "typedi";
+import { CommandService } from "../domains/commands/command.service";
 
 const observation = new ObservationService();
 
 const Observe = () => {
-  const { dataAccess, stateManager, store } = useServices();
+  const CS = Container.get(CommandService);
+  const { stateManager } = useServices();
 
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const program = store.getCollectionItem(
-    StoreCollections.Program,
-    programId || ""
-  );
+  // TODO Make work with program type
+  const program = CS.api.getItem<any>({
+    domain: Domains.Program,
+    id: programId || ""
+  });
 
   useEffect(() => {
-    if (!program) dataAccess.program.get(programId as string);
+    if (!program) {
+      CS.api.makeRequest({
+        domain: Domains.Program,
+        requestType: "get",
+        payload: programId
+      });
+    }
     if (program) {
       observation.init(program, stateManager.updateState);
     }
@@ -36,8 +47,13 @@ const Observe = () => {
 
   const isDiscreteTrial = program.targetStyle === TargetStyle.DiscreteTrials;
 
-  const onSubmit = () =>
-    dataAccess.result.create(observation.getResultsForCreation());
+  const onSubmit = () => {
+    CS.api.makeRequest({
+      domain: Domains.Result,
+      requestType: "create",
+      payload: observation.getResultsForCreation()
+    });
+  };
 
   return (
     <>

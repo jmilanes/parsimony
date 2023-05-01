@@ -2,14 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { Col, Header, Icon, Menu, Row } from "../../components";
 import { ChatMessage, ChatMessageInput } from "../index";
-import {
-  ChatMetaTestIds,
-  Message,
-  StoreCollections,
-  Thread
-} from "@parsimony/types";
+import { ChatMetaTestIds, Message, Domains, Thread } from "@parsimony/types";
 import { useServices } from "../../context";
 import { getThreadName } from "../../utils";
+import { Container } from "typedi";
+import { CommandService } from "../../domains/commands/command.service";
 
 type IChatMessageRProps = {
   thread?: Thread;
@@ -26,36 +23,52 @@ const scrollToBottomOfRef = (
 };
 
 export const ChatMessager = ({ thread }: IChatMessageRProps) => {
+  const CS = Container.get(CommandService);
   const messageContainer = useRef<HTMLInputElement>(null);
   const [initialLoad, setInitialLoad] = useState(false);
 
   const [selectedMessage, setSelectedMessage] = useState<Message | null>();
 
-  const { authService, dataAccess } = useServices();
+  const { authService } = useServices();
 
   const onEditMessage = async (value: string) => {
     if (!selectedMessage || !thread) return;
-    await dataAccess[StoreCollections.Thread].editMessage({
-      value,
-      threadId: thread?.id,
-      messageId: selectedMessage?.id
+    CS.api.makeRequest({
+      domain: Domains.Thread,
+      requestType: "editMessage",
+      payload: {
+        value,
+        threadId: thread?.id,
+        messageId: selectedMessage?.id
+      }
     });
     setSelectedMessage(null);
   };
 
   const currentUser = authService.currentUser;
 
-  const onDelete = (id: string) =>
-    dataAccess[StoreCollections.Thread].delete({ id });
+  const onDelete = (id: string) => {
+    CS.api.makeRequest({
+      domain: Domains.Thread,
+      requestType: "delete",
+      payload: {
+        id
+      }
+    });
+  };
 
   const onAddMessage = (threadId: string) => async (value: string) => {
-    await dataAccess[StoreCollections.Thread].addMessage({
-      message: {
-        userId: currentUser?.id,
-        dataType: "string",
-        value
-      },
-      threadId
+    CS.api.makeRequest({
+      domain: Domains.Thread,
+      requestType: "addMessage",
+      payload: {
+        message: {
+          userId: currentUser?.id,
+          dataType: "string",
+          value
+        },
+        threadId
+      }
     });
   };
 

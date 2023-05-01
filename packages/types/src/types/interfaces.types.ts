@@ -1,7 +1,7 @@
 import { IId } from "./index";
 
 export interface ICrudGenerator<Schema> {
-  collection?: Record<string, Schema>;
+  domain?: Record<string, Schema>;
   count: number;
   create: (payload: Schema) => IId;
   get: (id: string) => Schema;

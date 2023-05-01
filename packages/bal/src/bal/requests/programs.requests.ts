@@ -1,5 +1,5 @@
 import {
-  StoreCollections,
+  Domains,
   CreateProgramPayload,
   DeleteProgramPayload,
   GetAllProgramsByRelationshipPayload,
@@ -48,10 +48,11 @@ const fullSchema = `
   masterTargetPercent
   masterTargetCount
   subscribers
+  collections
 `;
 
 export const programOperationStrings = generateCrudOperationStrings(
-  StoreCollections.Program,
+  Domains.Program,
   fullSchema
 );
 

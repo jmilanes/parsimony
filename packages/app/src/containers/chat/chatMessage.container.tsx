@@ -1,8 +1,10 @@
 import React from "react";
 
 import { Menu } from "../../components";
-import { ChatMetaTestIds, Message, StoreCollections } from "@parsimony/types";
+import { ChatMetaTestIds, Message, Domains } from "@parsimony/types";
 import { useServices } from "../../context";
+import { Container } from "typedi";
+import { CommandService } from "../../domains/commands/command.service";
 
 type IChatMessageProps = {
   message: Message;
@@ -17,11 +19,17 @@ export const ChatMessage = ({
 
   setSelectedMessage
 }: IChatMessageProps) => {
-  const { authService, dataAccess } = useServices();
+  const CS = Container.get(CommandService);
+  const { authService } = useServices();
 
   const currentUserId = authService.getCurrentUser()?.id;
-  const onDeleteMessage = (threadId: string, messageId: string) =>
-    dataAccess[StoreCollections.Thread].deleteMessage({ threadId, messageId });
+  const onDeleteMessage = (threadId: string, messageId: string) => {
+    CS.api.makeRequest({
+      domain: Domains.Thread,
+      requestType: "deleteMessage",
+      payload: { threadId, messageId }
+    });
+  };
 
   const menuOptions = [
     {
