@@ -1,56 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Button, Header } from "../components";
 import {
-  Button,
-  Field,
-  Header,
-  IColumns,
-  ITableAction,
-  MultiSelect,
-  Selector,
-  Table
-} from "../components";
-import { AddForm, ProgramAddForm, TargetForm } from "../containers";
+  CollectionAddForm,
+  CollectionTable,
+  ProgramAddForm,
+  ProgramTable
+} from "../containers";
 import {
-  CreateProgramPayload,
-  Pages,
   Program,
   ProgramsPageMetaTestIds,
-  ProgramTypes,
-  Routes,
   Domains,
-  TargetOption,
-  User,
-  Collection
+  Collection,
+  CollectionCategories
 } from "@parsimony/types";
-import {
-  initialProgramData,
-  programCategories,
-  programTypes,
-  targetStyles,
-  trialOptions,
-  userRoleOptions
-} from "../fixtures";
-import {
-  createList,
-  getFullName,
-  getLength,
-  getRouterParams,
-  getSearchParams,
-  navigateToRoute,
-  omitMongoKeys,
-  removeMongoIds
-} from "../utils";
-import { useServices } from "../context";
-import { TargetOptionSelector } from "../containers/targetOptionsSelector.container";
+
+import { getRouterParams } from "../utils";
+
 import { Container } from "typedi";
 import { CommandService } from "../domains/commands/command.service";
 
 const Collection = () => {
   const CS = Container.get(CommandService);
-  const { dataAccess } = useServices();
-  const navigate = navigateToRoute();
   const { collectionId } = getRouterParams();
-  let [searchParams] = getSearchParams();
 
   const collection = CS.api.getItem<Collection>({
     domain: Domains.Collection,
@@ -58,145 +29,97 @@ const Collection = () => {
   });
 
   useEffect(() => {
-    if (collection) {
+    if (!collection) {
+      CS.api.makeRequest({
+        domain: Domains.Collection,
+        requestType: "get",
+        payload: {
+          id: collectionId
+        }
+      });
+    } else {
       CS.api.makeRequest({
         domain: Domains.Program,
         requestType: "getAllByRelationship",
         payload: {
-          relationshipProperty: "collections",
-          id: collection.programs
+          relationshipProperty: "collectionId",
+          id: collection.id
         }
       });
 
       CS.api.makeRequest({
-        domain: Domains.User,
-        requestType: "getAll"
-      });
-    } else {
-      CS.api.makeRequest({
         domain: Domains.Collection,
-        requestType: "getAll"
+        requestType: "getAllByRelationship",
+        payload: {
+          relationshipProperty: "parentCollectionId",
+          id: collection.id
+        }
       });
     }
-  }, [collection]);
+  }, [collection, collectionId]);
+
+  const collections = CS.api.getItems<Collection[]>({
+    domain: Domains.Collection
+  });
 
   const programs = CS.api
     .getItems<Program[]>({
       domain: Domains.Program
     })
-    .filter((p) => p.type === "MAIN");
+    .filter((p) => p.type === "MAIN" && p.collectionId === collectionId);
 
-  const clients = CS.api.getItems<User[]>({
-    domain: Domains.User
-  });
+  console.log(programs);
 
-  const getClientFullName = (clients: User[]) => (id: string) =>
-    getFullName(clients.find((client: User) => client.id === id));
+  const [showProgramAddForm, setShowProductionForm] = React.useState(false);
+  const [showCollectionAddForm, setCollectionShowAddForm] =
+    React.useState(false);
 
-  const [showAddForm, setShowAddForm] = React.useState(false);
-
-  const columns: IColumns[] = [
-    { key: "title", title: "title", dataIndex: "title" },
-    {
-      key: "clientId",
-      title: "Client Id",
-      dataIndex: "clientId",
-      displayFn: (id) => (
-        <a onClick={() => navigate(`${Routes.Users}/${id}`)}>
-          {getClientFullName(clients)(id)}
-        </a>
-      )
-    },
-    { key: "type", title: "Type", dataIndex: "type" },
-    { key: "description", title: "Description", dataIndex: "description" },
-    {
-      key: "writeAccess",
-      title: "Write Access",
-      dataIndex: "Write Access",
-      displayFn: createList
-    },
-    {
-      key: "readAccess",
-      title: "Read Access",
-      dataIndex: "readAccess",
-      displayFn: createList
-    },
-    { key: "createBy", title: "Created By", dataIndex: "createBy" },
-    {
-      key: "targets",
-      title: "targets",
-      dataIndex: "targets",
-      displayFn: getLength
-    }
-  ];
-
-  const actions: ITableAction[] = [
-    {
-      name: "View",
-      method: (program: Program) => navigate(`/programs/${program.id}`)
-    },
-    {
-      name: "Delete",
-      method: (program: Required<Program>) => {
-        CS.api.makeRequest({
-          domain: Domains.Program,
-          requestType: "delete",
-          payload: { id: program.id }
-        });
-      }
-    },
-    {
-      name: "Add to Client",
-      method: async (program: Required<Program>) => {
-        // TODO: This should be handled in server and made to do bulk things
-        const latestProgram = CS.api.getItem<Program>({
-          domain: Domains.Program,
-          id: program.id
-        });
-
-        latestProgram.mainProgramId = program.id;
-        const userId = searchParams.get("userId");
-        const payload = omitMongoKeys(
-          removeMongoIds({
-            ...latestProgram,
-            title: `${latestProgram.title}_Copy`,
-            clientId: userId || null,
-            type: ProgramTypes.Client
-          })
-        );
-
-        // TODO: THIS is a pattern brake should be handled server side (Will fix)
-        const createdProgram = await dataAccess.program.create(
-          payload as CreateProgramPayload
-        );
-        navigate(`/programs/${createdProgram?.id}?mode=edit`);
-      }
-    }
-  ];
-
+  if (!collection || !collectionId) return null;
   return (
     <>
       <Header
-        text={`Collection: ${collection?.title}`}
+        text={`${
+          collection.category === CollectionCategories.Book
+            ? "Book"
+            : "Collection"
+        }: ${collection?.title}`}
         size="page"
         extra={[
           <Button
-            key="add"
-            name="Add"
-            action={() => setShowAddForm(true)}
-            hidden={showAddForm}
+            key="add-program"
+            name="Add Program"
+            action={() => setShowProductionForm(true)}
+            hidden={showProgramAddForm}
             metaTestId={ProgramsPageMetaTestIds.addBtn}
+          />,
+          <Button
+            key="add-collection"
+            name="Add Collection"
+            action={() => setCollectionShowAddForm(true)}
+            hidden={showProgramAddForm}
+            metaTestId={ProgramsPageMetaTestIds.addCollection}
           />
         ]}
       />
-      <Table<Program>
-        data={programs}
-        columns={columns}
-        actions={actions}
-        name="Programs"
-        metaTestId={ProgramsPageMetaTestIds.table}
+
+      <Header text="Collections" size="md" />
+      <CollectionTable
+        collections={collections.filter(
+          (c) => c.id !== collectionId && c.parentCollectionId === collectionId
+        )}
       />
-      <ProgramAddForm show={showAddForm} setShowCb={setShowAddForm} />
+      <Header text="Programs" size="md" />
+      <ProgramTable programs={programs} />
+      <CollectionAddForm
+        show={showCollectionAddForm}
+        setShowCb={setCollectionShowAddForm}
+        parentId={collectionId}
+      ></CollectionAddForm>
+      <ProgramAddForm
+        show={showProgramAddForm}
+        setShowCb={setShowProductionForm}
+        collectionId={collectionId}
+      />
     </>
   );
 };

@@ -14,9 +14,10 @@ const fullSchema = `
   id
   title
   ancestors
-  collections
-  programs
+  parentCollectionId
   created_by
+  type
+  category
 `;
 
 const eventOperationStrings = generateCrudOperationStrings(

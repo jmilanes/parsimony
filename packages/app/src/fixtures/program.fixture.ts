@@ -40,7 +40,7 @@ export const initialProgramData: Program = {
   masterTargetPercent: 100,
   masterTargetCount: 3,
   subscribers: [currentUserLS],
-  collections: []
+  collectionId: ""
 };
 
 export const initialTargetData: Target = {

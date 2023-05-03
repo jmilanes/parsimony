@@ -48,5 +48,5 @@ export default {
   masterTargetPercent: Number,
   masterTargetCount: Number,
   subscribers: [{ type: ObjectId, ref: "User" }],
-  collections: [{ type: ObjectId, ref: "Collection" }]
+  collectionId: { type: ObjectId, ref: "Collection" }
 };

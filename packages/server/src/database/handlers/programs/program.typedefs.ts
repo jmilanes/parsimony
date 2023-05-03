@@ -29,7 +29,7 @@ export default gql`
     masterTargetPercent: Int
     masterTargetCount: Int
     subscribers: [ID]
-    collections: [ID]
+    collectionId: ID!
   }
 
   type Target {
@@ -72,7 +72,7 @@ export default gql`
     masterTargetPercent: Int
     masterTargetCount: Int
     subscribers: [ID]
-    collections: [ID]
+    collectionId: ID!
   }
 
   input DeleteProgramPayload {
@@ -107,7 +107,7 @@ export default gql`
     masterTargetPercent: Int
     masterTargetCount: Int
     subscribers: [ID]
-    collections: [ID]
+    collectionId: ID!
   }
 
   input GetAllProgramsByRelationshipPayload {

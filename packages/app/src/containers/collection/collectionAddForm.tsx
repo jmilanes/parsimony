@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { Collection, Domains, BookPageMetaTestIds } from "@parsimony/types";
+import {
+  BookPageMetaTestIds,
+  Collection,
+  CollectionCategories,
+  Domains
+} from "@parsimony/types";
 
 import { initialCollectionData } from "../../fixtures";
 import { Field } from "../../components";
@@ -13,17 +18,49 @@ import { removeMongoIds } from "../../utils";
 export type ICollectionAddFormProps = React.PropsWithChildren<{
   show: boolean;
   setShowCb: (payload: boolean) => void;
+  parentId?: string;
+  book?: boolean;
 }>;
 
 export const CollectionAddForm = ({
   show,
-  setShowCb
+  setShowCb,
+  parentId,
+  book
 }: ICollectionAddFormProps) => {
   const CS = Container.get(CommandService);
   const { stateManager } = useServices();
+
+  const [initialData, updateInitialData] = React.useState<Collection>(
+    initialCollectionData
+  );
   const [localState, updateLocalState] = React.useState<Collection>(
     initialCollectionData
   );
+
+  useEffect(() => {
+    if (book) {
+      updateLocalState(initialCollectionData);
+      updateInitialData(initialCollectionData);
+    } else {
+      const parent = CS.api.getItem<Collection>({
+        domain: Domains.Collection,
+        id: parentId
+      });
+
+      const collectionInitialData = {
+        ...initialCollectionData,
+        ancestors: book
+          ? []
+          : [...(parent?.ancestors || []), parent?.id as string],
+        category: book ? CollectionCategories.Book : CollectionCategories.Sub,
+        parentCollectionId: parent?.id
+      };
+
+      updateLocalState(collectionInitialData);
+      updateInitialData(collectionInitialData);
+    }
+  }, [parentId]);
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -37,7 +74,7 @@ export const CollectionAddForm = ({
       payload: removeMongoIds(localState)
     });
     setShowCb(false);
-    updateLocalState(initialCollectionData);
+    updateLocalState(initialData);
   };
 
   return (

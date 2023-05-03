@@ -29,7 +29,7 @@ export type AppControls = {
   drawer: DrawerControls;
 };
 
-type ControlPayloads = Partial<DrawerControls>;
+export type ControlPayloads = Partial<DrawerControls>;
 
 @Service()
 export default class AppControlsService {
@@ -52,7 +52,10 @@ export default class AppControlsService {
     this.store.getDomain$(Domains.AppControls).next(this.defaultControls);
   };
 
-  updateControls = (control: keyof AppControls, update: ControlPayloads) => {
+  public updateControls = (
+    control: keyof AppControls,
+    update: ControlPayloads
+  ) => {
     const currentControls = clone(
       this.store.getDomainValue(Domains.AppControls)
     );

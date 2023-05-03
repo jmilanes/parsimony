@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   ProgramsPageMetaTestIds,
@@ -29,11 +29,19 @@ import { getFullName, removeMongoIds } from "../../utils";
 export type IProgramAddFormProps = React.PropsWithChildren<{
   show: boolean;
   setShowCb: (payload: boolean) => void;
+  collectionId: string;
 }>;
 
-export const ProgramAddForm = ({ show, setShowCb }: IProgramAddFormProps) => {
+export const ProgramAddForm = ({
+  show,
+  setShowCb,
+  collectionId
+}: IProgramAddFormProps) => {
   const CS = Container.get(CommandService);
   const { stateManager } = useServices();
+  const [collectionIdState, updateCollectionIdState] = useState<string>(
+    collectionId || ""
+  );
   const [localState, updateLocalState] =
     React.useState<Program>(initialProgramData);
 
@@ -44,6 +52,10 @@ export const ProgramAddForm = ({ show, setShowCb }: IProgramAddFormProps) => {
       requestType: "getAll"
     });
   }, []);
+
+  useEffect(() => {
+    updateCollectionIdState(collectionId);
+  }, [collectionId]);
 
   const clients = CS.api.getItems<User[]>({
     domain: Domains.User
@@ -63,7 +75,10 @@ export const ProgramAddForm = ({ show, setShowCb }: IProgramAddFormProps) => {
     CS.api.makeRequest({
       domain: Domains.Program,
       requestType: "create",
-      payload: removeMongoIds(localState)
+      payload: removeMongoIds({
+        ...localState,
+        collectionId: collectionIdState
+      })
     });
     setShowCb(false);
     updateLocalState(initialProgramData);

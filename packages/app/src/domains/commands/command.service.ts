@@ -10,6 +10,7 @@ export enum API_KEYS {
   getItems = "getItems",
   getItem = "getItem",
   getValue = "getValue",
+  setStoreValue = "setStoreValue",
   makeRequest = "makeRequest"
 }
 
@@ -49,7 +50,8 @@ export class CommandService {
       getItems: this.#generateApi(COMMAND_HANDLERS.GET_ITEMS),
       getItem: this.#generateApi(COMMAND_HANDLERS.GET_ITEM),
       getValue: this.#generateApi(COMMAND_HANDLERS.GET_VALUE),
-      makeRequest: this.#generateApi(COMMAND_HANDLERS.MAKE_REQUEST)
+      makeRequest: this.#generateApi(COMMAND_HANDLERS.MAKE_REQUEST),
+      setStoreValue: this.#generateApi(COMMAND_HANDLERS.SET_SORE_VALUE)
     };
   };
 

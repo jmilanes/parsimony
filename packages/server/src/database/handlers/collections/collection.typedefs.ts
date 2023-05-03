@@ -9,17 +9,19 @@ export default gql`
     id: ID!
     title: String
     ancestors: [ID]
-    collections: [ID]
-    programs: [ID]
+    parentCollectionId: ID
     created_by: ID
+    type: CollectionTypes
+    category: CollectionCategories
   }
 
   input CreateCollectionPayload {
     title: String!
     ancestors: [ID]
-    collections: [ID]
-    programs: [ID]
+    parentCollectionId: ID
     created_by: ID
+    type: CollectionTypes!
+    category: CollectionCategories
   }
 
   input DeleteCollectionPayload {
@@ -32,16 +34,27 @@ export default gql`
 
   input UpdateCollectionPayload {
     id: ID!
-    title: String!
     ancestors: [ID]
-    collections: [ID]
-    programs: [ID]
+    title: String!
+    parentCollectionId: ID
     created_by: ID
+    type: CollectionTypes!
+    category: CollectionCategories
   }
 
   input GetAllCollectionsByRelationshipPayload {
     relationshipProperty: String!
-    id: ID!
+    id: ID
+  }
+
+  enum CollectionCategories {
+    BOOK
+    SUB
+  }
+
+  enum CollectionTypes {
+    MAIN
+    CLIENT
   }
 
   type Query {

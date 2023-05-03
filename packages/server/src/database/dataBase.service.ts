@@ -66,6 +66,10 @@ export class DataBaseService {
     await this.dataBase.models[model].findOneAndUpdate(filter, update);
   };
 
+  getModel = async (model: modelTypes) => {
+    return await this.dataBase.models[model];
+  };
+
   findEntry = async (model: modelTypes, filter: Record<string, any>) => {
     return await this.dataBase.models[model].findOne(filter);
   };

@@ -30,6 +30,7 @@ export class AsyncDataHandlerInterface<
   >;
   #store: Store;
 
+  // TODO Add a debugger and better testing
   constructor(store: Store) {
     this.#store = store;
   }
@@ -71,27 +72,18 @@ export class AsyncDataHandlerInterface<
     }
   };
 
-  get = async (id: IId) => {
-    const item = (await this.requests.get({
-      id
-    } as unknown as GetPayload)) as AwaitedSchemaWithId<Schema>;
+  get = async (payload: GetPayload) => {
+    const item = (await this.requests.get(
+      payload
+    )) as AwaitedSchemaWithId<Schema>;
     this.#store.addItemToDomain(this.domainName, item);
   };
 
-  getAllByRelationship = async ({
-    relationshipProperty,
-    id
-  }: {
-    relationshipProperty: keyof Schema;
-    id: string;
-  }) => {
+  getAllByRelationship = async (payload: GetAllByRelationshipPayload) => {
     try {
-      const items = await this.requests.getAllByRelationship({
-        relationshipProperty,
-        id
-      } as unknown as GetAllByRelationshipPayload);
-      if (items) {
-        this.#store.getDomain$(this.domainName).next(items);
+      const newItems = await this.requests.getAllByRelationship(payload);
+      if (newItems) {
+        this.#store.addItemsToDomain(this.domainName, arrayToObj(newItems));
       }
     } catch (error) {
       console.error(error);

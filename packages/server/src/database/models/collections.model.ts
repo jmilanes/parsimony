@@ -1,9 +1,11 @@
 import { ObjectId } from "mongodb";
+import { CollectionCategories, CollectionTypes } from "@parsimony/types";
 
 export default {
   title: String,
+  parentCollectionId: { type: ObjectId, ref: "Collection" },
   ancestors: [{ type: ObjectId, ref: "Collection" }],
-  collections: [{ type: ObjectId, ref: "Collection" }],
-  programs: [{ type: ObjectId, ref: "Program" }],
-  created_by: { type: ObjectId, ref: "User" }
+  created_by: { type: ObjectId, ref: "User" },
+  type: { type: String, enum: CollectionTypes },
+  category: { type: String, enum: CollectionCategories }
 };

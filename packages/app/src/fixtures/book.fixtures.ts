@@ -1,11 +1,15 @@
-import { Collection } from "@parsimony/types";
+import {
+  Collection,
+  CollectionCategories,
+  CollectionTypes
+} from "@parsimony/types";
 import { currentUserLS } from "./program.fixture";
 
 export const initialCollectionData: Collection = {
   id: "",
   title: "",
   ancestors: [],
-  collections: [],
-  programs: [],
-  created_by: currentUserLS
+  created_by: currentUserLS,
+  type: CollectionTypes.Main,
+  category: CollectionCategories.Book
 };

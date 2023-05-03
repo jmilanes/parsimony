@@ -2,13 +2,18 @@ import React from "react";
 import { useServices } from "../context";
 import { Button, Icon } from "../components";
 import { NavMetaTestIds } from "@parsimony/types";
+import { Container } from "typedi";
+import { CommandService } from "../domains/commands/command.service";
 
 export const OpenChatButton = () => {
-  const { appControls } = useServices();
+  const CS = Container.get(CommandService);
 
   const showDrawer = () => {
-    appControls.updateControls("drawer", {
-      active: true
+    CS.api.setStoreValue({
+      path: "drawer",
+      update: {
+        active: true
+      }
     });
   };
 

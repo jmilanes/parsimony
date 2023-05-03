@@ -18,7 +18,7 @@ import { CommandService } from "../../domains/commands/command.service";
 
 export const CreateChat = () => {
   const CS = Container.get(CommandService);
-  const { appControls, authService } = useServices();
+  const { authService } = useServices();
   const currentUserId = authService.currentUser?.id as string;
   // TODO Change to display name once those are added to USER
   const currentName = getFullName(authService.currentUser);
@@ -30,6 +30,13 @@ export const CreateChat = () => {
   const [name, updateName] = useState("");
 
   useEffect(() => {
+    CS.api.setStoreValue({
+      path: "drawer",
+      update: {
+        content: DrawerContentTypes.CreateChat
+      }
+    });
+
     CS.api.makeRequest({
       domain: Domains.User,
       requestType: "getAll"
@@ -45,10 +52,14 @@ export const CreateChat = () => {
       value: user.id
     }));
 
-  const setToChatDrawer = () =>
-    appControls.updateControls("drawer", {
-      content: DrawerContentTypes.Chat
+  const setToChatDrawer = () => {
+    CS.api.setStoreValue({
+      path: "drawer",
+      update: {
+        content: DrawerContentTypes.Chat
+      }
     });
+  };
 
   const onCreateThread = () => {
     CS.api.makeRequest({

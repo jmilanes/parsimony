@@ -48,7 +48,7 @@ const fullSchema = `
   masterTargetPercent
   masterTargetCount
   subscribers
-  collections
+  collectionId
 `;
 
 export const programOperationStrings = generateCrudOperationStrings(

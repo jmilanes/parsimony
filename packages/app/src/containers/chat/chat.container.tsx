@@ -6,9 +6,12 @@ import { DrawerContentTypes } from "../../services/appControls.service";
 import { Button, List, Row, Col } from "../../components";
 import { ChatMessager } from "../index";
 import { getThreadName } from "../../utils";
+import { CommandService } from "../../domains/commands/command.service";
+import { Container } from "typedi";
 
 export const Chat = () => {
-  const { authService, appControls, store } = useServices();
+  const CS = Container.get(CommandService);
+  const { authService, store } = useServices();
   const [threads, setThreads] = useState<ThreadDomain>({} as ThreadDomain);
 
   const [currentThread, setCurrentThread] = useState<string>();
@@ -20,8 +23,11 @@ export const Chat = () => {
   );
 
   const showCreateChat = () => {
-    appControls.updateControls("drawer", {
-      content: DrawerContentTypes.CreateChat
+    CS.api.setStoreValue({
+      path: "drawer",
+      update: {
+        content: DrawerContentTypes.CreateChat
+      }
     });
   };
 

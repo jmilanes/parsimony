@@ -104,9 +104,17 @@ export class BaseCrudResolvers {
     { payload }: { payload: { relationshipProperty: string; id: string } }
   ) => {
     // Matches any direct ids or matches an id in an array
+    const model = await this.#db.getModel(this.model);
+    const propertyInstance =
+      model.schema.paths[payload.relationshipProperty].instance;
+    const match =
+      propertyInstance === "Array"
+        ? { [payload.relationshipProperty]: { $elemMatch: { id: payload.id } } }
+        : { [payload.relationshipProperty]: payload.id };
+
     return await this.#db.findEntries(this.model, {
-      [payload.relationshipProperty]: payload.id,
-      [payload.relationshipProperty]: { $elemMatch: { id: payload.id } }
+      // In some cases we are fetching an ID of something we need clientside so we also want to return the item that we are matching
+      $or: [match]
     });
   };
 }

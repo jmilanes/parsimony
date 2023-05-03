@@ -7,7 +7,6 @@ module.exports = {
     path: path.join(__dirname, "/dist"),
     filename: "bundle.[contenthash].js"
   },
-  devtool: "inline-source-map",
   module: {
     rules: [
       {

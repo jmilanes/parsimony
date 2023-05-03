@@ -26,19 +26,31 @@ export type AuthPayload = {
 export type Collection = {
   __typename?: 'Collection';
   ancestors?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  collections?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  category?: Maybe<CollectionCategories>;
   created_by?: Maybe<Scalars['ID']>;
   id: Scalars['ID'];
-  programs?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentCollectionId?: Maybe<Scalars['ID']>;
   title?: Maybe<Scalars['String']>;
+  type?: Maybe<CollectionTypes>;
 };
+
+export enum CollectionCategories {
+  Book = 'BOOK',
+  Sub = 'SUB'
+}
+
+export enum CollectionTypes {
+  Client = 'CLIENT',
+  Main = 'MAIN'
+}
 
 export type CreateCollectionPayload = {
   ancestors?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  collections?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  category?: InputMaybe<CollectionCategories>;
   created_by?: InputMaybe<Scalars['ID']>;
-  programs?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  parentCollectionId?: InputMaybe<Scalars['ID']>;
   title: Scalars['String'];
+  type: CollectionTypes;
 };
 
 export type CreateDocumentPayload = {
@@ -73,7 +85,7 @@ export type CreateProgramPayload = {
   category?: InputMaybe<ProgramCategories>;
   chainingDirection?: InputMaybe<TrialChainingDirections>;
   clientId?: InputMaybe<Scalars['ID']>;
-  collections?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  collectionId?: InputMaybe<Scalars['ID']>;
   createdBy?: InputMaybe<Scalars['ID']>;
   currentChainTarget?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
@@ -218,7 +230,7 @@ export type File = {
 };
 
 export type GetAllCollectionsByRelationshipPayload = {
-  id: Scalars['ID'];
+  id?: InputMaybe<Scalars['ID']>;
   relationshipProperty: Scalars['String'];
 };
 
@@ -546,7 +558,7 @@ export type Program = {
   category?: Maybe<ProgramCategories>;
   chainingDirection?: Maybe<TrialChainingDirections>;
   clientId?: Maybe<Scalars['ID']>;
-  collections?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  collectionId?: Maybe<Scalars['ID']>;
   createdBy?: Maybe<Scalars['ID']>;
   created_at?: Maybe<Scalars['Date']>;
   currentChainTarget?: Maybe<Scalars['ID']>;
@@ -599,7 +611,7 @@ export enum ProgramValueTypes {
 
 export type Query = {
   __typename?: 'Query';
-  getAllCollections?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  getAllCollections?: Maybe<Array<Maybe<Collection>>>;
   getAllCollectionsByRelationship?: Maybe<Array<Maybe<Collection>>>;
   getAllDocuments?: Maybe<Array<Maybe<Document>>>;
   getAllDocumentsByRelationship?: Maybe<Array<Maybe<Document>>>;
@@ -877,11 +889,12 @@ export enum TrialChainingDirections {
 
 export type UpdateCollectionPayload = {
   ancestors?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  collections?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  category?: InputMaybe<CollectionCategories>;
   created_by?: InputMaybe<Scalars['ID']>;
   id: Scalars['ID'];
-  programs?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  parentCollectionId?: InputMaybe<Scalars['ID']>;
   title: Scalars['String'];
+  type: CollectionTypes;
 };
 
 export type UpdateDocumentPayload = {
@@ -919,7 +932,7 @@ export type UpdateProgramPayload = {
   category?: InputMaybe<ProgramCategories>;
   chainingDirection?: InputMaybe<TrialChainingDirections>;
   clientId?: InputMaybe<Scalars['ID']>;
-  collections?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  collectionId?: InputMaybe<Scalars['ID']>;
   createdBy?: InputMaybe<Scalars['ID']>;
   currentChainTarget?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
@@ -1094,6 +1107,8 @@ export type ResolversTypes = {
   AuthPayload: AuthPayload;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Collection: ResolverTypeWrapper<Collection>;
+  CollectionCategories: CollectionCategories;
+  CollectionTypes: CollectionTypes;
   CreateCollectionPayload: CreateCollectionPayload;
   CreateDocumentPayload: CreateDocumentPayload;
   CreateEventPayload: CreateEventPayload;
@@ -1281,11 +1296,12 @@ export type ResolversParentTypes = {
 
 export type CollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Collection'] = ResolversParentTypes['Collection']> = {
   ancestors?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
-  collections?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['CollectionCategories']>, ParentType, ContextType>;
   created_by?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  programs?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
+  parentCollectionId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['CollectionTypes']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1392,7 +1408,7 @@ export type ProgramResolvers<ContextType = any, ParentType extends ResolversPare
   category?: Resolver<Maybe<ResolversTypes['ProgramCategories']>, ParentType, ContextType>;
   chainingDirection?: Resolver<Maybe<ResolversTypes['TrialChainingDirections']>, ParentType, ContextType>;
   clientId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  collections?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
+  collectionId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   createdBy?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   created_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   currentChainTarget?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
@@ -1419,7 +1435,7 @@ export type ProgramResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getAllCollections?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
+  getAllCollections?: Resolver<Maybe<Array<Maybe<ResolversTypes['Collection']>>>, ParentType, ContextType>;
   getAllCollectionsByRelationship?: Resolver<Maybe<Array<Maybe<ResolversTypes['Collection']>>>, ParentType, ContextType, Partial<QueryGetAllCollectionsByRelationshipArgs>>;
   getAllDocuments?: Resolver<Maybe<Array<Maybe<ResolversTypes['Document']>>>, ParentType, ContextType>;
   getAllDocumentsByRelationship?: Resolver<Maybe<Array<Maybe<ResolversTypes['Document']>>>, ParentType, ContextType, Partial<QueryGetAllDocumentsByRelationshipArgs>>;
