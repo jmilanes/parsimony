@@ -85,7 +85,7 @@ export type CreateProgramPayload = {
   category?: InputMaybe<ProgramCategories>;
   chainingDirection?: InputMaybe<TrialChainingDirections>;
   clientId?: InputMaybe<Scalars['ID']>;
-  collectionId?: InputMaybe<Scalars['ID']>;
+  collectionId: Scalars['ID'];
   createdBy?: InputMaybe<Scalars['ID']>;
   currentChainTarget?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
@@ -558,7 +558,7 @@ export type Program = {
   category?: Maybe<ProgramCategories>;
   chainingDirection?: Maybe<TrialChainingDirections>;
   clientId?: Maybe<Scalars['ID']>;
-  collectionId?: Maybe<Scalars['ID']>;
+  collectionId: Scalars['ID'];
   createdBy?: Maybe<Scalars['ID']>;
   created_at?: Maybe<Scalars['Date']>;
   currentChainTarget?: Maybe<Scalars['ID']>;
@@ -932,7 +932,7 @@ export type UpdateProgramPayload = {
   category?: InputMaybe<ProgramCategories>;
   chainingDirection?: InputMaybe<TrialChainingDirections>;
   clientId?: InputMaybe<Scalars['ID']>;
-  collectionId?: InputMaybe<Scalars['ID']>;
+  collectionId: Scalars['ID'];
   createdBy?: InputMaybe<Scalars['ID']>;
   currentChainTarget?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
@@ -1408,7 +1408,7 @@ export type ProgramResolvers<ContextType = any, ParentType extends ResolversPare
   category?: Resolver<Maybe<ResolversTypes['ProgramCategories']>, ParentType, ContextType>;
   chainingDirection?: Resolver<Maybe<ResolversTypes['TrialChainingDirections']>, ParentType, ContextType>;
   clientId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  collectionId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  collectionId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   createdBy?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   created_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   currentChainTarget?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
