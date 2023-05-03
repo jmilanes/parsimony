@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/app",
-  "version": "0.51.0",
+  "version": "0.52.0",
   "description": "THe app the tracks the all the behavior",
   "scripts": {
     "start": "webpack serve --open --config webpack.dev.js",
@@ -23,8 +23,8 @@
     "@mui/icons-material": "^5.10.14",
     "@mui/material": "^5.10.16",
     "@mui/x-data-grid": "^5.17.10",
-    "@parsimony/bal": "^0.51.0",
-    "@parsimony/utilities": "^0.51.0",
+    "@parsimony/bal": "^0.52.0",
+    "@parsimony/utilities": "^0.52.0",
     "antd": "4.23.6",
     "chart.js": "^3.7.1",
     "classnames": "2.3.1",
@@ -45,7 +45,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.6",
     "@babel/plugin-transform-runtime": "^7.18.6",
-    "@parsimony/types": "^0.51.0",
+    "@parsimony/types": "^0.52.0",
     "@types/classnames": "2.3.1",
     "@types/jest": "^27.4.1",
     "@types/lodash": "4.14.178",
