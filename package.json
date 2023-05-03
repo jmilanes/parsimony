@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "license": "UNLICENSED",
-  "description": "Parsimony Behavior Tracking!",
+  "description": "Parsimony Behavior Tracking",
   "workspaces": [
     "packages/*"
   ],
