@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import {
   BookPageMetaTestIds,
@@ -12,8 +12,9 @@ import { Field } from "../../components";
 import { AddForm } from "../addForm.container";
 import { useServices } from "../../context";
 import { Container } from "typedi";
-import { CommandService } from "../../domains/commands/command.service";
+
 import { removeMongoIds } from "../../utils";
+import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export type ICollectionAddFormProps = React.PropsWithChildren<{
   show: boolean;
@@ -28,47 +29,48 @@ export const CollectionAddForm = ({
   parentId,
   book
 }: ICollectionAddFormProps) => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
   const { stateManager } = useServices();
 
   const [initialData, updateInitialData] = React.useState<Collection>(
     initialCollectionData
   );
+
+  // TODO In general We need to rename localState to something else and make better. It really is just the form state
   const [localState, updateLocalState] = React.useState<Collection>(
     initialCollectionData
   );
 
+  const getCollectionInitialData = () => {
+    const parent = API.getItem(Domains.Collection, parentId);
+    return {
+      ...initialCollectionData,
+      ancestors: [...(parent?.ancestors || []), parent?.id],
+      category: CollectionCategories.Sub,
+      parentCollectionId: parentId
+    };
+  };
+
   useEffect(() => {
+    // Need to make this better but if book or parent ID changes we need to reset the the initial data
     if (book) {
       updateLocalState(initialCollectionData);
       updateInitialData(initialCollectionData);
+      return;
     } else {
-      const parent = CS.api.getItem<Collection>({
-        domain: Domains.Collection,
-        id: parentId
-      });
-
-      const collectionInitialData = {
-        ...initialCollectionData,
-        ancestors: book
-          ? []
-          : [...(parent?.ancestors || []), parent?.id as string],
-        category: book ? CollectionCategories.Book : CollectionCategories.Sub,
-        parentCollectionId: parent?.id
-      };
-
+      const collectionInitialData = getCollectionInitialData();
       updateLocalState(collectionInitialData);
       updateInitialData(collectionInitialData);
     }
-  }, [parentId]);
+  }, [parentId, book]);
 
   const updateState = stateManager.updateLocalState({
     localState,
     updateLocalState
   });
 
-  const submitAddForm = () => {
-    CS.api.makeRequest({
+  const submitAddForm = async () => {
+    await API.makeRequest({
       domain: Domains.Collection,
       requestType: "create",
       payload: removeMongoIds(localState)

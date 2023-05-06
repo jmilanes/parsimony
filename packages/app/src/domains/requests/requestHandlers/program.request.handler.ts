@@ -7,12 +7,12 @@ import {
   Program,
   UpdateProgramPayload
 } from "@parsimony/types";
-import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { IRequestHandler } from "../IRequestHandler";
 import { programRequests } from "@parsimony/bal";
 import { Service } from "typedi";
 
 @Service()
-export class ProgramAsyncDataHandler extends AsyncDataHandlerInterface<
+export class ProgramRequestHandler extends IRequestHandler<
   Program,
   CreateProgramPayload,
   DeleteProgramPayload,

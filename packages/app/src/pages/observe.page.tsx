@@ -6,54 +6,47 @@ import {
   Domains,
   ObservationMetaTestIds,
   Target,
-  TargetStyle,
-  Program
+  TargetOption,
+  TargetStyle
 } from "@parsimony/types";
 
-import { useServices } from "../context";
 import ObservationService from "../services/observation.service";
 import { Container } from "typedi";
-import { CommandService } from "../domains/commands/command.service";
+
+import { useAsync } from "react-use";
+import { Spin } from "antd";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 const observation = new ObservationService();
 
 const Observe = () => {
-  const CS = Container.get(CommandService);
-  const { stateManager } = useServices();
+  const API = Container.get(UIApi);
 
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  // TODO Make work with program type
-  const program = CS.api.getItem<any>({
-    domain: Domains.Program,
-    id: programId || ""
+  const { loading } = useAsync(async () => {
+    await API.makeRequest({
+      domain: Domains.Program,
+      requestType: "get",
+      payload: programId
+    });
   });
 
-  useEffect(() => {
-    if (!program) {
-      CS.api.makeRequest({
-        domain: Domains.Program,
-        requestType: "get",
-        payload: programId
-      });
-    }
-    if (program) {
-      observation.init(program, stateManager.updateState);
-    }
-  }, [program]);
+  if (loading || !observation.isLoaded) return <Spin />;
 
-  if (!observation.isLoaded) return null;
-
+  const program = API.getItem(Domains.Program, programId);
   const isDiscreteTrial = program.targetStyle === TargetStyle.DiscreteTrials;
 
-  const onSubmit = () => {
-    CS.api.makeRequest({
+  const onSubmit = async () => {
+    await API.makeRequest({
       domain: Domains.Result,
       requestType: "create",
       payload: observation.getResultsForCreation()
     });
   };
+
+  if (!program.targetOptions) return null;
 
   return (
     <>
@@ -64,24 +57,24 @@ const Observe = () => {
       />
       {isDiscreteTrial ? (
         <ObserveTarget
-          targetOptions={program.targetOptions}
+          targetOptions={program.targetOptions as TargetOption[]}
           target={program.targets as []}
           updateResultData={observation.updatedResultsData}
           programTrials={program.trials || 1}
         />
       ) : (
-        program.targets?.map((target: Target, i: any) =>
-          target ? (
+        program.targets?.map((target, i) => {
+          return target ? (
             <ObserveTarget
-              targetOptions={program.targetOptions}
+              targetOptions={program.targetOptions as TargetOption[]}
               key={generateKey("observeTarget", i)}
               target={target}
               updateResultData={observation.updatedResultsData}
               programTrials={program.trials || 1}
               metaQualifierIndex={i}
             />
-          ) : null
-        )
+          ) : null;
+        })
       )}
       <Button
         name="Submit Observation"

@@ -7,12 +7,12 @@ import {
   UpdateUserPayload,
   User
 } from "@parsimony/types";
-import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { IRequestHandler } from "../IRequestHandler";
 import { userRequests } from "@parsimony/bal";
 import { Service } from "typedi";
 
 @Service()
-export class UserAsyncDataHandler extends AsyncDataHandlerInterface<
+export class UserRequestHandler extends IRequestHandler<
   User,
   CreateUserPayload,
   DeleteUserPayload,

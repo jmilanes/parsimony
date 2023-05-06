@@ -7,12 +7,12 @@ import {
   Collection,
   UpdateCollectionPayload
 } from "@parsimony/types";
-import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { IRequestHandler } from "../IRequestHandler";
 import { collectionRequests } from "@parsimony/bal";
 import { Service } from "typedi";
 
 @Service()
-export class CollectionAsyncDataHandler extends AsyncDataHandlerInterface<
+export class CollectionRequestHandler extends IRequestHandler<
   Collection,
   CreateCollectionPayload,
   DeleteCollectionPayload,

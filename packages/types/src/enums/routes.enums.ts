@@ -1,6 +1,5 @@
 export enum Routes {
   Home = "/",
-  Programs = "/programs",
   Program = "/programs/:programId",
   Books = "/books",
   Collection = "/books/:collectionId",

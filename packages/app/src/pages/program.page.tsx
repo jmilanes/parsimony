@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   programCategories,
   programTypes,
@@ -28,7 +28,6 @@ import {
 } from "@parsimony/types";
 
 import {
-  clone,
   getFullName,
   getRouterParams,
   getSearchParams,
@@ -40,71 +39,69 @@ import {
 
 import { useServices } from "../context";
 import { TargetOptionSelector } from "../containers/targetOptionsSelector.container";
-import { CommandService } from "../domains/commands/command.service";
 import { Container as DI } from "typedi";
+import { useAsync } from "react-use";
+import { Spin } from "antd";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Program = () => {
   //TODO fix the container collision
-  const CS = DI.get(CommandService);
+  const API = DI.get(UIApi);
   const { stateManager } = useServices();
   const navigate = navigateToRoute();
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
-
-  const program = CS.api.getItem<Program>({
-    domain: Domains.Program,
-    id: programId || ""
-  });
-
-  const [localState, updateLocalState] = React.useState<Program>(program);
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
   );
+  const [localState, updateLocalState] = React.useState<Program>();
 
-  useEffect(() => {
-    //TODO Eventually get all by
-    if (!program) {
-      CS.api.makeRequest({
-        domain: Domains.Program,
-        payload: programId || "",
-        requestType: "get"
-      });
-    }
-    if (!localState) updateLocalState(clone(program) as Program);
-    CS.api.makeRequest({
-      domain: Domains.User,
-      requestType: "getAll"
+  const { loading } = useAsync(async () => {
+    await API.makeRequest({
+      domain: Domains.Program,
+      requestType: "get",
+      payload: { id: programId }
     });
-  }, [program]);
 
-  const client = CS.api.getItem<User>({
-    domain: Domains.User,
-    id: program?.clientId || ""
+    if (programId) {
+      const program = API.getItem(Domains.Program, programId);
+      updateLocalState(program);
+    }
   });
 
-  //TODO: Filter so only clients are this way
-  const allClientOptions = CS.api
-    .getItems<User[]>({
-      domain: Domains.User
-    })
-    .map((user: User) => ({
-      name: getFullName(user),
-      value: user.id
-    }));
+  if (loading || !localState || !programId) return <Spin />;
+
+  const program = API.getItem(Domains.Program, programId);
+  const client =
+    program?.clientId && API.getItem(Domains.User, program?.clientId);
+  const allClients = API.getItemsFromStore(Domains.User);
+
+  const options = allClients.map((user: User) => ({
+    name: getFullName(user),
+    value: user.id
+  }));
 
   const updateState = stateManager.updateLocalState({
     localState,
     updateLocalState
   });
 
-  const submitForm = () => {
-    console.log(localState);
-    CS.api.makeRequest({
+  const submitForm = async () => {
+    await API.makeRequest({
       domain: Domains.Program,
       requestType: "update",
       payload: omitMongoKeys(localState)
     });
     updateMode("readOnly");
+  };
+
+  const deleteProgram = async () => {
+    await API.makeRequest({
+      domain: Domains.Program,
+      requestType: "delete",
+      payload: { id: program.id }
+    });
+    navigate(`/programs`);
   };
 
   if (!program || !localState) return null;
@@ -117,7 +114,10 @@ const Program = () => {
           <Button
             key="edit"
             name="Edit"
-            action={() => updateMode("edit")}
+            action={() => {
+              updateMode("edit");
+              updateLocalState(program);
+            }}
             hidden={isEditMode(mode)}
             metaTestId={ProgramPageMetaTestIds.editBtn}
           />,
@@ -141,23 +141,14 @@ const Program = () => {
           <Button
             key="delete"
             name="Delete"
-            action={() => {
-              CS.api.makeRequest({
-                domain: Domains.Program,
-                requestType: "delete",
-                payload: { id: program.id }
-              });
-              navigate(`/programs`);
-            }}
+            action={deleteProgram}
             hidden={isEditMode(mode)}
             metaTestId={ProgramPageMetaTestIds.deleteProgramBtn}
           />
         ]}
       />
 
-      {program.type === ProgramTypes.Client && client && (
-        <Header text={`Client: ${getFullName(client)}`} size="sm" />
-      )}
+      {client && <Header text={`Client: ${getFullName(client)}`} size="sm" />}
       <Field
         placeHolderText="Title"
         pathToState="title"
@@ -207,7 +198,7 @@ const Program = () => {
           title="Client"
           pathToState="clientId"
           value={localState.clientId}
-          options={allClientOptions}
+          options={options}
           updateState={updateState}
           metaTestId={ProgramPageMetaTestIds.clientSelector}
         />
@@ -262,7 +253,7 @@ const Program = () => {
           />
           <Button
             name="Start Observation"
-            action={() => navigate(`${Routes.Programs}/${program.id}/observe`)}
+            action={() => navigate(`programs/${program.id}/observe`)}
             hidden={isEditMode(mode)}
             metaTestId={
               ProgramPageMetaTestIds.clientProgramActionStartObservation

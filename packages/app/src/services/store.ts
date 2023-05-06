@@ -8,18 +8,37 @@ import {
   Result,
   School,
   User,
-  Collection
+  Collection,
+  Thread
 } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../utils";
 import { AppControls } from "./appControls.service";
 import { Service } from "typedi";
+import { AppStartOrchestrationOptions } from "../domains/orchestration/orchestrationHandlers/appStart/appStart.orchestration.handler";
+import { DATA_HANDLERS } from "../domains/orchestration/orchestrationHandlers/handlers.typemap";
+import { get } from "lodash";
+
+export interface DomainReturnTypeMap {
+  [Domains.Program]: Program;
+  [Domains.Collection]: Collection;
+  [Domains.User]: User;
+  [Domains.School]: School;
+  [Domains.Result]: Result;
+  [Domains.Thread]: Thread;
+  [Domains.Document]: Document;
+  [Domains.File]: File;
+  [Domains.Event]: Event;
+  [Domains.AppControls]: AppControls;
+}
 
 type UserStoreValue = Record<IId, User>;
 type ProgramStoreValue = Record<IId, Program>;
 type ResultStoreValue = Record<IId, Result>;
 type SchoolStoreValue = Record<IId, School>;
 type ThreadStoreValue = Record<IId, School>;
+
+//TODO: THink about removing these
 type EventStoreValue = Record<IId, Event>;
 type DocumentStoreValue = Record<IId, Document>;
 type FileStoreValue = Record<IId, File>;
@@ -48,7 +67,7 @@ export default class Store {
       [Domains.Event]: new BehaviorSubject<EventStoreValue>({}),
       [Domains.File]: new BehaviorSubject<FileStoreValue>({}),
       [Domains.Collection]: new BehaviorSubject<CollectionStoreValue>({}),
-      //TODO: This is only clientside so need to make it clearer
+      //TODO: This is only clientside so need to make it clearer maybe this is all just one store
       [Domains.AppControls]: new BehaviorSubject<AppControls>({} as AppControls)
     };
 
@@ -117,7 +136,10 @@ export default class Store {
     return this.store$[domainName].value;
   };
 
-  public getDomainItem = <T>(domainName: Domains, id: IId) => {
+  public getDomainItem = <T>(domainName: Domains, id?: IId) => {
+    if (!id) {
+      throw new Error("No id Proved getDomainIntem");
+    }
     return this.store$[domainName].value[id];
   };
 
@@ -129,5 +151,9 @@ export default class Store {
   // Returns an observable
   public getDomain$ = (domainName: Domains) => {
     return this.store$[domainName];
+  };
+
+  public getValueByPath = (domainName: Domains, path: string) => {
+    return get(this.getDomainValue(domainName), path);
   };
 }

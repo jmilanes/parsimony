@@ -7,12 +7,12 @@ import {
   Result,
   UpdateResultPayload
 } from "@parsimony/types";
-import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { IRequestHandler } from "../IRequestHandler";
 import { resultRequests } from "@parsimony/bal";
 import { Service } from "typedi";
 
 @Service()
-export class ResultAsyncDataHandler extends AsyncDataHandlerInterface<
+export class ResultRequestHandler extends IRequestHandler<
   Result,
   CreateResultPayload,
   DeleteResultPayload,

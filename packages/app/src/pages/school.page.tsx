@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Button, Table, Field, Header } from "../components";
 import { Domains, School, SchoolPageMetaTestIds } from "@parsimony/types";
@@ -10,34 +10,36 @@ import { Pages } from "@parsimony/types";
 
 import { useServices } from "../context";
 import { Container } from "typedi";
-import { CommandService } from "../domains/commands/command.service";
+
+import { useAsync } from "react-use";
+import { Spin } from "antd";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Schools = () => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
   const { stateManager } = useServices();
-
-  const data = CS.api.getItems<School[]>({
-    domain: Domains.School
-  });
-
-  useEffect(() => {
-    CS.api.makeRequest({
-      domain: Domains.School,
-      requestType: "getAll"
-    });
-  }, []);
-
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
     React.useState<Partial<School>>(initialSchoolData);
+
+  const { loading } = useAsync(async () => {
+    await API.makeRequest({
+      domain: Domains.School,
+      requestType: "getAll"
+    });
+  });
+
+  if (loading) return <Spin />;
+
+  const schools = API.getItemsFromStore(Domains.School);
 
   const updateState = stateManager.updateLocalState({
     localState,
     updateLocalState
   });
 
-  const submitAddForm = () => {
-    CS.api.makeRequest({
+  const submitAddForm = async () => {
+    await API.makeRequest({
       domain: Domains.School,
       requestType: "create",
       payload: localState
@@ -53,8 +55,8 @@ const Schools = () => {
   const actions: ITableAction[] = [
     {
       name: "Delete",
-      method: (school: Required<School>) => {
-        CS.api.makeRequest({
+      method: async (school: Required<School>) => {
+        await API.makeRequest({
           domain: Domains.School,
           requestType: "delete",
           payload: { id: school.id }
@@ -79,7 +81,7 @@ const Schools = () => {
         ]}
       />
       <Table
-        data={data}
+        data={schools}
         columns={columns}
         actions={actions}
         name="Schools"

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Domains, Pages, Result, Program } from "@parsimony/types";
+import { Domains, Pages } from "@parsimony/types";
 import { Header } from "../components";
 import { getRouterParams } from "../utils";
 
@@ -15,8 +15,10 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-import { CommandService } from "../domains/commands/command.service";
 import { Container as DI } from "typedi";
+import { useAsync } from "react-use";
+import { Spin } from "antd";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 ChartJS.register(
   CategoryScale,
@@ -29,40 +31,30 @@ ChartJS.register(
 );
 
 const Results = () => {
-  const CS = DI.get(CommandService);
+  const API = DI.get(UIApi);
   const { programId } = getRouterParams();
 
-  const program = CS.api.getItem<Program>({
-    domain: Domains.Program,
-    id: programId
-  });
+  const { loading } = useAsync(async () => {
+    await API.makeRequest({
+      domain: Domains.Result,
+      requestType: "getAllByRelationship",
+      payload: {
+        relationshipProperty: "programId",
+        id: programId
+      }
+    });
 
-  const results = CS.api.getItems<Result[]>({
-    domain: Domains.Result
-  });
-
-  useEffect(() => {
-    CS.api.makeRequest({
+    await API.makeRequest({
       domain: Domains.Program,
       requestType: "get",
       payload: programId
     });
-  }, []);
+  });
 
-  useEffect(() => {
-    if (program) {
-      CS.api.makeRequest({
-        domain: Domains.Program,
-        requestType: "getAllByRelationship",
-        payload: {
-          relationshipProperty: "programId",
-          id: programId
-        }
-      });
-    }
-  }, [program]);
+  if (loading) return <Spin />;
 
-  if (!program || !results.length) return null;
+  const program = API.getItem(Domains.Program, programId);
+  const results = API.getItemsFromStore(Domains.Result);
 
   const programCompletenessData = results?.map(
     (result) => result.programCompleteness

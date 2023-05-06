@@ -1,20 +1,14 @@
 import React from "react";
-import { useServices } from "../context";
 import { Button, Icon } from "../components";
 import { NavMetaTestIds } from "@parsimony/types";
 import { Container } from "typedi";
-import { CommandService } from "../domains/commands/command.service";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 export const OpenChatButton = () => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
 
   const showDrawer = () => {
-    CS.api.setStoreValue({
-      path: "drawer",
-      update: {
-        active: true
-      }
-    });
+    API.updateAppControls("drawer", { active: true });
   };
 
   return (

@@ -6,7 +6,8 @@ import { ChatMetaTestIds, Message, Domains, Thread } from "@parsimony/types";
 import { useServices } from "../../context";
 import { getThreadName } from "../../utils";
 import { Container } from "typedi";
-import { CommandService } from "../../domains/commands/command.service";
+
+import UIApi from "../../domains/uiApi/uiApi.Service";
 
 type IChatMessageRProps = {
   thread?: Thread;
@@ -23,7 +24,7 @@ const scrollToBottomOfRef = (
 };
 
 export const ChatMessager = ({ thread }: IChatMessageRProps) => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
   const messageContainer = useRef<HTMLInputElement>(null);
   const [initialLoad, setInitialLoad] = useState(false);
 
@@ -33,7 +34,7 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
 
   const onEditMessage = async (value: string) => {
     if (!selectedMessage || !thread) return;
-    CS.api.makeRequest({
+    await API.makeRequest({
       domain: Domains.Thread,
       requestType: "editMessage",
       payload: {
@@ -47,8 +48,8 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
 
   const currentUser = authService.currentUser;
 
-  const onDelete = (id: string) => {
-    CS.api.makeRequest({
+  const onDelete = async (id: string) => {
+    await API.makeRequest({
       domain: Domains.Thread,
       requestType: "delete",
       payload: {
@@ -57,8 +58,8 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
     });
   };
 
-  const onAddMessage = (threadId: string) => async (value: string) => {
-    CS.api.makeRequest({
+  const onAddMessage = async (threadId: string) => async (value: string) => {
+    await API.makeRequest({
       domain: Domains.Thread,
       requestType: "addMessage",
       payload: {
@@ -84,7 +85,6 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
   }, [thread?.messages]);
 
   if (!thread) return <Header text="No Thread Selected" size="md" />;
-  const sendMessage = onAddMessage(thread?.id);
   const menuOptions = [
     {
       label: "Delete",
@@ -97,7 +97,10 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
 
   const SendMessageInput = () => (
     <ChatMessageInput
-      action={(value: string) => sendMessage(value)}
+      action={async (value: string) => {
+        const send = await onAddMessage(thread?.id);
+        await send(value);
+      }}
       placeholder={`Message ${threadName}`}
       buttonText="Send"
     />

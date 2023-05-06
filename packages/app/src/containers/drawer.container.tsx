@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Drawer as ADrawer } from "antd";
-
-import { useServices } from "../context";
+import { Drawer as ADrawer, Spin } from "antd";
 import { Domains, DrawerMetaTestIds } from "@parsimony/types";
 import {
   DrawerContentTypes,
@@ -9,28 +7,27 @@ import {
 } from "../services/appControls.service";
 import { Chat, CreateChat } from "../containers";
 import { Button, Icon } from "../components";
+import { useAsync } from "react-use";
+import { Container } from "typedi";
 
-export const Drawer = ({ content }: { content?: React.FC }) => {
+import UIApi from "../domains/uiApi/uiApi.Service";
+
+export const Drawer = () => {
+  const API = Container.get(UIApi);
   const [extended, updateExtended] = useState(false);
-  const { appControls, commandService } = useServices();
 
-  const controls = commandService.api.getValue<DrawerControls>({
-    domain: Domains.AppControls,
-    path: "drawer"
-  });
-
+  const controls = API.getStoreValueByPath(Domains.AppControls, "drawer");
   if (!controls) return null;
 
   const onClose = () => {
-    appControls.updateControls("drawer", {
-      active: false
-    });
+    API.updateAppControls("drawer", { active: false });
   };
 
-  const onExtend = () => {
-    appControls.updateControls("drawer", {
+  const onExtend = async () => {
+    await API.updateAppControls("drawer", {
       width: extended ? "50%" : "90%"
     });
+
     updateExtended(!extended);
   };
 

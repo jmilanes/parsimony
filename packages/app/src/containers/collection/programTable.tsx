@@ -1,20 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import {
+  CreateProgramPayload,
+  Domains,
+  Program,
   ProgramsPageMetaTestIds,
   ProgramTypes,
-  Program,
-  Domains,
-  User,
   Routes,
-  CreateProgramPayload
+  User
 } from "@parsimony/types";
 
 import { IColumns, ITableAction, Table } from "../../components";
 
 import { useServices } from "../../context";
 import { Container } from "typedi";
-import { CommandService } from "../../domains/commands/command.service";
 import {
   createList,
   getFullName,
@@ -25,26 +24,18 @@ import {
   removeMongoIds
 } from "../../utils";
 
+import UIApi from "../../domains/uiApi/uiApi.Service";
+import { message } from "antd";
+
 export type IProgramTableProps = React.PropsWithChildren<{
   programs: Program[];
 }>;
 
 export const ProgramTable = ({ programs }: IProgramTableProps) => {
-  const CS = Container.get(CommandService);
-  const { dataAccess } = useServices();
+  const API = Container.get(UIApi);
   const navigate = navigateToRoute();
   let [searchParams] = getSearchParams();
-
-  useEffect(() => {
-    CS.api.makeRequest({
-      domain: Domains.User,
-      requestType: "getAll"
-    });
-  }, []);
-
-  const clients = CS.api.getItems<User[]>({
-    domain: Domains.User
-  });
+  const clients = API.getItemsFromStore(Domains.User);
 
   const getClientFullName = (clients: User[]) => (id: string) =>
     getFullName(clients.find((client: User) => client.id === id));
@@ -91,8 +82,8 @@ export const ProgramTable = ({ programs }: IProgramTableProps) => {
     },
     {
       name: "Delete",
-      method: (program: Required<Program>) => {
-        CS.api.makeRequest({
+      method: async (program: Required<Program>) => {
+        await API.makeRequest({
           domain: Domains.Program,
           requestType: "delete",
           payload: { id: program.id }
@@ -102,28 +93,26 @@ export const ProgramTable = ({ programs }: IProgramTableProps) => {
     {
       name: "Add to Client",
       method: async (program: Required<Program>) => {
-        // TODO: This should be handled in server and made to do bulk things
-        const latestProgram = CS.api.getItem<Program>({
-          domain: Domains.Program,
-          id: program.id
-        });
-
-        latestProgram.mainProgramId = program.id;
+        // TODO: This should be handled in server and made to do bulk experience around this
         const userId = searchParams.get("userId");
+        const latestProgram = API.getItem(Domains.Program, program.id);
+        latestProgram.mainProgramId = program.id;
         const payload = omitMongoKeys(
           removeMongoIds({
             ...latestProgram,
-            title: `${latestProgram.title}_Copy`,
+            title: `${latestProgram.title}`,
             clientId: userId || null,
             type: ProgramTypes.Client
           })
         );
 
-        // TODO: THIS is a pattern brake should be handled server side (Will fix)
-        const createdProgram = await dataAccess.program.create(
-          payload as CreateProgramPayload
-        );
-        navigate(`/programs/${createdProgram?.id}?mode=edit`);
+        await API.makeRequest({
+          domain: Domains.Program,
+          requestType: "create",
+          payload
+        });
+
+        message.success("Program Added");
       }
     }
   ];

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Header } from "../components";
 import {
   CollectionAddForm,
@@ -7,74 +7,37 @@ import {
   ProgramTable
 } from "../containers";
 import {
-  Program,
-  ProgramsPageMetaTestIds,
+  CollectionCategories,
   Domains,
-  Collection,
-  CollectionCategories
+  ProgramsPageMetaTestIds
 } from "@parsimony/types";
 
 import { getRouterParams } from "../utils";
 
 import { Container } from "typedi";
-import { CommandService } from "../domains/commands/command.service";
+import { useAsync } from "react-use";
+import { Spin } from "antd";
+
+import { DATA_HANDLERS } from "../domains/orchestration/orchestrationHandlers/handlers.typemap";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Collection = () => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
   const { collectionId } = getRouterParams();
-
-  const collection = CS.api.getItem<Collection>({
-    domain: Domains.Collection,
-    id: collectionId
-  });
-
-  useEffect(() => {
-    if (!collection) {
-      CS.api.makeRequest({
-        domain: Domains.Collection,
-        requestType: "get",
-        payload: {
-          id: collectionId
-        }
-      });
-    } else {
-      CS.api.makeRequest({
-        domain: Domains.Program,
-        requestType: "getAllByRelationship",
-        payload: {
-          relationshipProperty: "collectionId",
-          id: collection.id
-        }
-      });
-
-      CS.api.makeRequest({
-        domain: Domains.Collection,
-        requestType: "getAllByRelationship",
-        payload: {
-          relationshipProperty: "parentCollectionId",
-          id: collection.id
-        }
-      });
-    }
-  }, [collection, collectionId]);
-
-  const collections = CS.api.getItems<Collection[]>({
-    domain: Domains.Collection
-  });
-
-  const programs = CS.api
-    .getItems<Program[]>({
-      domain: Domains.Program
-    })
-    .filter((p) => p.type === "MAIN" && p.collectionId === collectionId);
-
-  console.log(programs);
-
   const [showProgramAddForm, setShowProductionForm] = React.useState(false);
   const [showCollectionAddForm, setCollectionShowAddForm] =
     React.useState(false);
+  const { loading } = useAsync(async () => {
+    await API.setUpDataFor(DATA_HANDLERS.COLLECTION_PAGE, { collectionId });
+  }, [collectionId]);
+  if (loading) return <Spin />;
 
-  if (!collection || !collectionId) return null;
+  const collections = API.getItemsFromStore(Domains.Collection);
+  const collection = API.getItem(Domains.Collection, collectionId);
+  const programs = API.getItemsFromStore(Domains.Program).filter(
+    (program) => program.collectionId === collectionId
+  );
+
   return (
     <>
       <Header
@@ -118,7 +81,7 @@ const Collection = () => {
       <ProgramAddForm
         show={showProgramAddForm}
         setShowCb={setShowProductionForm}
-        collectionId={collectionId}
+        collectionId={collectionId || ""}
       />
     </>
   );

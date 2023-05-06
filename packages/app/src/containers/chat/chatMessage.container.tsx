@@ -4,7 +4,8 @@ import { Menu } from "../../components";
 import { ChatMetaTestIds, Message, Domains } from "@parsimony/types";
 import { useServices } from "../../context";
 import { Container } from "typedi";
-import { CommandService } from "../../domains/commands/command.service";
+
+import UIApi from "../../domains/uiApi/uiApi.Service";
 
 type IChatMessageProps = {
   message: Message;
@@ -16,15 +17,15 @@ type IChatMessageProps = {
 export const ChatMessage = ({
   message,
   threadId,
-
   setSelectedMessage
 }: IChatMessageProps) => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
   const { authService } = useServices();
 
+  // TODO: ADD This to store / clientside domains
   const currentUserId = authService.getCurrentUser()?.id;
-  const onDeleteMessage = (threadId: string, messageId: string) => {
-    CS.api.makeRequest({
+  const onDeleteMessage = async (threadId: string, messageId: string) => {
+    await API.makeRequest({
       domain: Domains.Thread,
       requestType: "deleteMessage",
       payload: { threadId, messageId }

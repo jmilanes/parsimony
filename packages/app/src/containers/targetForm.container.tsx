@@ -3,27 +3,14 @@ import {
   Field,
   Selector,
   Checkbox,
-  Header,
   Repeater,
   Button,
   Row,
   Col
 } from "../components";
-import {
-  initialTargetData,
-  inputTypes,
-  programValueTypes,
-  promptsByType
-} from "../fixtures";
-import { message } from "antd";
+import { initialTargetData, inputTypes, programValueTypes } from "../fixtures";
 
-import {
-  Program,
-  PromptTypes,
-  TargetFormMetaTestIds,
-  Target,
-  TargetOption
-} from "@parsimony/types";
+import { Program, TargetFormMetaTestIds, Target } from "@parsimony/types";
 import { generateKey, removeItemByIndex } from "../utils";
 import "./styles.css";
 
@@ -35,10 +22,10 @@ type TargetFormProps = {
 };
 
 export const TargetForm = ({
-                             localState,
-                             readOnly = false,
-                             updateState
-                           }: TargetFormProps) => {
+  localState,
+  readOnly = false,
+  updateState
+}: TargetFormProps) => {
   const deleteItem = (arr: any[], index: number, path: string) =>
     updateState(path, removeItemByIndex(arr, index));
 

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import {
+  Domains,
+  Program,
   ProgramsPageMetaTestIds,
   ProgramTypes,
   TargetOption,
-  Program,
-  Domains,
   User
 } from "@parsimony/types";
 
@@ -23,8 +23,10 @@ import { TargetForm } from "../targetForm.container";
 import { AddForm } from "../addForm.container";
 import { useServices } from "../../context";
 import { Container } from "typedi";
-import { CommandService } from "../../domains/commands/command.service";
 import { getFullName, removeMongoIds } from "../../utils";
+import { useAsync } from "react-use";
+import { Spin } from "antd";
+import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export type IProgramAddFormProps = React.PropsWithChildren<{
   show: boolean;
@@ -37,29 +39,12 @@ export const ProgramAddForm = ({
   setShowCb,
   collectionId
 }: IProgramAddFormProps) => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
   const { stateManager } = useServices();
-  const [collectionIdState, updateCollectionIdState] = useState<string>(
-    collectionId || ""
-  );
   const [localState, updateLocalState] =
     React.useState<Program>(initialProgramData);
 
-  useEffect(() => {
-    //TODO: Things that remain consistent might just need to be fetch on re-loaded like Users since they are less frequent
-    CS.api.makeRequest({
-      domain: Domains.User,
-      requestType: "getAll"
-    });
-  }, []);
-
-  useEffect(() => {
-    updateCollectionIdState(collectionId);
-  }, [collectionId]);
-
-  const clients = CS.api.getItems<User[]>({
-    domain: Domains.User
-  });
+  const clients = API.getItemsFromStore(Domains.User);
 
   const clientDataOptions = clients.map((client: User) => ({
     name: getFullName(client),
@@ -71,13 +56,13 @@ export const ProgramAddForm = ({
     updateLocalState
   });
 
-  const submitAddForm = () => {
-    CS.api.makeRequest({
+  const submitAddForm = async () => {
+    await API.makeRequest({
       domain: Domains.Program,
       requestType: "create",
       payload: removeMongoIds({
         ...localState,
-        collectionId: collectionIdState
+        collectionId: collectionId
       })
     });
     setShowCb(false);

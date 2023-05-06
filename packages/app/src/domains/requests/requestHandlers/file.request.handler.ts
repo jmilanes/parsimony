@@ -7,12 +7,12 @@ import {
   GetFilePayload,
   UpdateFilePayload
 } from "@parsimony/types";
-import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { IRequestHandler } from "../IRequestHandler";
 import { fileRequests } from "@parsimony/bal";
 import { Service } from "typedi";
 
 @Service()
-export class FileAsyncDataHandler extends AsyncDataHandlerInterface<
+export class FileRequestHandler extends IRequestHandler<
   File,
   CreateFilePayload,
   DeleteFilePayload,

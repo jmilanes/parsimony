@@ -9,7 +9,7 @@ type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
 };
 
 @Service()
-export class AsyncDataHandlerInterface<
+export class IRequestHandler<
   Schema,
   CreatePayload,
   DeleteThreadPayload,

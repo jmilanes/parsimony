@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   serviceProviderOptions,
   userRoleOptions,
@@ -39,30 +39,21 @@ import {
 
 import { IColumns, ITableAction } from "../components/table.component";
 import { useServices } from "../context";
-import { message } from "antd";
+import { message, Spin } from "antd";
 import { Container as DI } from "typedi";
-import { CommandService } from "../domains/commands/command.service";
+import { useAsync } from "react-use";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 const User = () => {
-  const CS = DI.get(CommandService);
+  const API = DI.get(UIApi);
   const { stateManager } = useServices();
   const { userId } = getRouterParams();
   const navigate = navigateToRoute();
-
-  const user = CS.api.getItem<User>({
-    domain: Domains.User,
-    id: userId || ""
-  });
-
   const [mode, updateMode] = React.useState<IModes>("readOnly");
+  const [localState, updateLocalState] = React.useState<User>();
 
-  // TODO Look into that observable state hook this is gross
-  const [localState, updateLocalState] =
-    React.useState<UpdateUserPayload>(user);
-
-  useEffect(() => {
-    // TODO This not working not returning the programs.
-    CS.api.makeRequest({
+  const { loading } = useAsync(async () => {
+    await API.makeRequest({
       domain: Domains.Program,
       requestType: "getAllByRelationship",
       payload: {
@@ -71,35 +62,34 @@ const User = () => {
       }
     });
 
-    if (!user) {
-      CS.api.makeRequest({
-        domain: Domains.User,
-        requestType: "get",
-        payload: userId
-      });
-    }
+    await API.makeRequest({
+      domain: Domains.User,
+      requestType: "get",
+      payload: { id: userId }
+    });
 
-    if (!localState) {
-      updateLocalState(clone(user) as User);
-    }
-  }, [user]);
-
-  const associatedPrograms = CS.api.getItems({
-    domain: Domains.Program
+    const user = API.getItem(Domains.User, userId);
+    updateLocalState(clone(user) as User);
   });
+
+  if (loading || !localState) return <Spin />;
+
+  const user = API.getItem(Domains.User, userId);
+
+  const clientPrograms = API.getItemsFromStore(Domains.Program);
 
   const updateState = stateManager.updateLocalState({
     localState,
     updateLocalState
   });
 
-  const submitForm = () => {
+  const submitForm = async () => {
     // TODO: Make an error interface
     if (!localState.email) message.error("Please provide email");
     // TODO: Make this better
     localState.email = localState.email?.toLowerCase();
 
-    CS.api.makeRequest({
+    await API.makeRequest({
       domain: Domains.User,
       requestType: "update",
       payload: omitMongoKeys(localState)
@@ -133,12 +123,13 @@ const User = () => {
     },
     {
       name: "Delete",
-      method: (program: Required<Program>) =>
-        CS.api.makeRequest({
+      method: async (program: Required<Program>) => {
+        await API.makeRequest({
           domain: Domains.Program,
           requestType: "delete",
           payload: { id: program.id }
-        })
+        });
+      }
     }
   ];
 
@@ -241,14 +232,15 @@ const User = () => {
         <Button
           name="Add Programs"
           action={() => {
-            navigate(`${Routes.Programs}?userId=${user.id}`);
+            navigate(`${Routes.Books}`);
+            // Pop open
           }}
           metaTestId={UserPageMetaTestIds.addProgram}
         />
       </Row>
       <Table<Program>
         //TODO: getCurrentDomainItems should return the proper type
-        data={associatedPrograms as Program[]}
+        data={clientPrograms}
         columns={columns}
         actions={actions}
         name="user-program-table"

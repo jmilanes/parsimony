@@ -10,12 +10,12 @@ import {
   UpdateThreadPayload,
   GetThreadPayload
 } from "@parsimony/types";
-import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { IRequestHandler } from "../IRequestHandler";
 import { threadRequests } from "@parsimony/bal";
 import { Service } from "typedi";
 
 @Service()
-export class ThreadAsyncDataHandler extends AsyncDataHandlerInterface<
+export class ThreadRequestHandler extends IRequestHandler<
   Thread,
   CreateThreadPayload,
   DeleteThreadPayload,

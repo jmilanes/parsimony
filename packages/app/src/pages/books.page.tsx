@@ -11,19 +11,17 @@ import {
 import { CollectionAddForm, CollectionTable } from "../containers";
 
 import { Container } from "typedi";
-import { CommandService } from "../domains/commands/command.service";
+
+import { useAsync } from "react-use";
+import { Spin } from "antd";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Books = () => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
+  const [showAddForm, setShowAddForm] = React.useState(false);
 
-  const collections = CS.api
-    .getItems<Collection[]>({
-      domain: Domains.Collection
-    })
-    .filter((x) => x.category === CollectionCategories.Book);
-
-  useEffect(() => {
-    CS.api.makeRequest({
+  const { loading } = useAsync(async () => {
+    await API.makeRequest({
       domain: Domains.Collection,
       requestType: "getAllByRelationship",
       payload: {
@@ -31,9 +29,12 @@ const Books = () => {
         id: CollectionCategories.Book
       }
     });
-  }, []);
+  });
+  if (loading) return <Spin />;
 
-  const [showAddForm, setShowAddForm] = React.useState(false);
+  const collections = API.getItemsFromStore(Domains.Collection).filter(
+    (x) => x.category === CollectionCategories.Book
+  );
 
   return (
     <>

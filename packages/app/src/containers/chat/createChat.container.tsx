@@ -14,10 +14,10 @@ import { useServices } from "../../context";
 import { DrawerContentTypes } from "../../services/appControls.service";
 import { getFullName } from "../../utils";
 import { Container } from "typedi";
-import { CommandService } from "../../domains/commands/command.service";
+import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export const CreateChat = () => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
   const { authService } = useServices();
   const currentUserId = authService.currentUser?.id as string;
   // TODO Change to display name once those are added to USER
@@ -28,23 +28,11 @@ export const CreateChat = () => {
     currentUserSubscriber
   ]);
   const [name, updateName] = useState("");
+  const clients = API.getItemsFromStore(Domains.User);
 
-  useEffect(() => {
-    CS.api.setStoreValue({
-      path: "drawer",
-      update: {
-        content: DrawerContentTypes.CreateChat
-      }
-    });
+  useEffect(() => {}, []);
 
-    CS.api.makeRequest({
-      domain: Domains.User,
-      requestType: "getAll"
-    });
-  }, []);
-
-  const autoCompleteOptions = CS.api
-    .getItems<User[]>({ domain: Domains.User })
+  const autoCompleteOptions = clients
     .filter((user: User) => user.id !== currentUserId)
     .map((user: User) => ({
       // TODO Change to display name once those are added to USER
@@ -52,17 +40,14 @@ export const CreateChat = () => {
       value: user.id
     }));
 
-  const setToChatDrawer = () => {
-    CS.api.setStoreValue({
-      path: "drawer",
-      update: {
-        content: DrawerContentTypes.Chat
-      }
+  const setToChatDrawer = async () => {
+    await API.updateAppControls("drawer", {
+      content: DrawerContentTypes.Chat
     });
   };
 
-  const onCreateThread = () => {
-    CS.api.makeRequest({
+  const onCreateThread = async () => {
+    await API.makeRequest({
       domain: Domains.Thread,
       requestType: "create",
       payload: {
@@ -71,7 +56,7 @@ export const CreateChat = () => {
       }
     });
 
-    setToChatDrawer();
+    await setToChatDrawer();
   };
 
   const onUpdateSubscribers = (

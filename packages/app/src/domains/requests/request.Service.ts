@@ -1,44 +1,47 @@
 import { Container, Service } from "typedi";
 import { Domains } from "@parsimony/types";
 
-import { ProgramAsyncDataHandler } from "./AsyncDataHandlers/programAsyncData.handler";
-import { UserAsyncDataHandler } from "./AsyncDataHandlers/userAsyncData.handler";
-import { ResultAsyncDataHandler } from "./AsyncDataHandlers/resultAsyncData.handler";
-import { SchoolAsyncDataHandler } from "./AsyncDataHandlers/schoolAsyncData.handler";
-import { DocumentAsyncDataHandler } from "./AsyncDataHandlers/documentAsyncData.handler";
-import { EventAsyncDataHandler } from "./AsyncDataHandlers/eventAsyncData.handler";
-import { FileAsyncDataHandler } from "./AsyncDataHandlers/fileAsyncData.handler";
-import { ThreadAsyncDataHandler } from "./AsyncDataHandlers/threadAsyncData.handler";
-import { CollectionAsyncDataHandler } from "./AsyncDataHandlers/collectionAsyncData.handler";
+import { ProgramRequestHandler } from "./requestHandlers/program.request.handler";
+import { UserRequestHandler } from "./requestHandlers/user.request.handler";
+import { ResultRequestHandler } from "./requestHandlers/result.request.handler";
+import { SchoolRequestHandler } from "./requestHandlers/school.request.handler";
+import { DocumentRequestHandler } from "./requestHandlers/document.request.handler";
+import { EventRequestHandler } from "./requestHandlers/event.request.handler";
+import { FileRequestHandler } from "./requestHandlers/file.request.handler";
+import { ThreadRequestHandler } from "./requestHandlers/thread.request.handler";
+import { CollectionRequestHandler } from "./requestHandlers/collection.request.handler";
+import { IRequestHandler } from "./IRequestHandler";
 
 export interface RequestsTypeMap {
-  [Domains.Program]: ProgramAsyncDataHandler;
-  [Domains.User]: UserAsyncDataHandler;
-  [Domains.Result]: ResultAsyncDataHandler;
-  [Domains.School]: SchoolAsyncDataHandler;
-  [Domains.Document]: DocumentAsyncDataHandler;
-  [Domains.Event]: EventAsyncDataHandler;
-  [Domains.File]: FileAsyncDataHandler;
-  [Domains.Thread]: ThreadAsyncDataHandler;
-  [Domains.Collection]: CollectionAsyncDataHandler;
-  [Domains.AppControls]: ThreadAsyncDataHandler;
+  [Domains.Program]: ProgramRequestHandler;
+  [Domains.User]: UserRequestHandler;
+  [Domains.Result]: ResultRequestHandler;
+  [Domains.School]: SchoolRequestHandler;
+  [Domains.Document]: DocumentRequestHandler;
+  [Domains.Event]: EventRequestHandler;
+  [Domains.File]: FileRequestHandler;
+  [Domains.Thread]: ThreadRequestHandler;
+  [Domains.Collection]: CollectionRequestHandler;
+  [Domains.AppControls]: ThreadRequestHandler;
 }
 
 @Service()
 export default class RequestService {
-  public requests: Partial<Record<Domains, any>>;
+  public requests: Partial<
+    Record<Domains, IRequestHandler<any, any, any, any, any, any>>
+  >;
 
   constructor() {
     this.requests = {
-      [Domains.Program]: Container.get(ProgramAsyncDataHandler),
-      [Domains.User]: Container.get(UserAsyncDataHandler),
-      [Domains.Result]: Container.get(ResultAsyncDataHandler),
-      [Domains.School]: Container.get(SchoolAsyncDataHandler),
-      [Domains.Document]: Container.get(DocumentAsyncDataHandler),
-      [Domains.Event]: Container.get(EventAsyncDataHandler),
-      [Domains.File]: Container.get(FileAsyncDataHandler),
-      [Domains.Collection]: Container.get(CollectionAsyncDataHandler),
-      [Domains.Thread]: Container.get(ThreadAsyncDataHandler)
+      [Domains.Program]: Container.get(ProgramRequestHandler),
+      [Domains.User]: Container.get(UserRequestHandler),
+      [Domains.Result]: Container.get(ResultRequestHandler),
+      [Domains.School]: Container.get(SchoolRequestHandler),
+      [Domains.Document]: Container.get(DocumentRequestHandler),
+      [Domains.Event]: Container.get(EventRequestHandler),
+      [Domains.File]: Container.get(FileRequestHandler),
+      [Domains.Collection]: Container.get(CollectionRequestHandler),
+      [Domains.Thread]: Container.get(ThreadRequestHandler)
     };
   }
 }

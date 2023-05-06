@@ -15,7 +15,9 @@ import {
   Pages,
   User,
   UserPageMetaTestIds,
-  UserRoles
+  UserRoles,
+  CollectionCategories,
+  Collection
 } from "@parsimony/types";
 import { AddForm } from "../containers";
 import {
@@ -28,36 +30,27 @@ import { IColumns, ITableAction } from "../components/table.component";
 
 import { useServices } from "../context";
 import { encrypt } from "@parsimony/utilities";
-import { message } from "antd";
+import { message, Spin } from "antd";
 import { Container } from "typedi";
 import { CommandService } from "../domains/commands/command.service";
+import { useAsync } from "react-use";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Users = () => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
   const { stateManager } = useServices();
   const navigate = navigateToRoute();
-
-  const data = CS.api.getItems<User[]>({
-    domain: Domains.User
-  });
-
-  useEffect(() => {
-    CS.api.makeRequest({
-      domain: Domains.User,
-      requestType: "getAll"
-    });
-  }, []);
-
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
     React.useState<Partial<User>>(initialUserData);
+  const users = API.getItemsFromStore(Domains.User);
 
   const updateState = stateManager.updateLocalState({
     localState,
     updateLocalState
   });
 
-  const submitAddForm = () => {
+  const submitAddForm = async () => {
     if (!localState.password) {
       console.error("YOU NEED A PASSWORD");
       return;
@@ -67,7 +60,7 @@ const Users = () => {
     // TODO: Make this better
     localState.email = localState.email?.toLowerCase();
 
-    CS.api.makeRequest({
+    await API.makeRequest({
       domain: Domains.User,
       requestType: "create",
       payload: localState
@@ -90,8 +83,8 @@ const Users = () => {
     },
     {
       name: "Delete",
-      method: (user: Required<User>) => {
-        CS.api.makeRequest({
+      method: async (user: Required<User>) => {
+        await API.makeRequest({
           domain: Domains.User,
           requestType: "delete",
           payload: {
@@ -118,7 +111,7 @@ const Users = () => {
         ]}
       />
       <Table
-        data={data}
+        data={users}
         columns={columns}
         actions={actions}
         name="Directory"

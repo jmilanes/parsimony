@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 
 const { gql } = require("apollo-server");
 
+//TODO: ADD Client ID
 export default gql`
   scalar Date
 

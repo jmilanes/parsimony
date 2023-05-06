@@ -1,5 +1,4 @@
 export { default as Home } from "./home.page";
-export { default as Programs } from "./programs.page";
 export { default as Program } from "./program.page";
 export { default as Users } from "./users.page";
 export { default as User } from "./user.page";

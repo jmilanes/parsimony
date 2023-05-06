@@ -5,21 +5,20 @@ import { ProgramsPageMetaTestIds, Domains, Collection } from "@parsimony/types";
 import { IColumns, ITableAction, Table } from "../../components";
 
 import { Container } from "typedi";
-import { CommandService } from "../../domains/commands/command.service";
 import { navigateToRoute } from "../../utils";
+import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export type ICollectionTableProps = React.PropsWithChildren<{
   collections: Collection[];
 }>;
 
 export const CollectionTable = ({ collections }: ICollectionTableProps) => {
-  const CS = Container.get(CommandService);
+  const API = Container.get(UIApi);
   const navigate = navigateToRoute();
 
   const columns: IColumns[] = [
     { key: "title", dataIndex: "title", title: "title" }
   ];
-
   const actions: ITableAction[] = [
     {
       name: "Open",
@@ -27,10 +26,11 @@ export const CollectionTable = ({ collections }: ICollectionTableProps) => {
     },
     {
       name: "Delete",
-      method: (collection: Required<Collection>) => {
-        CS.api.makeRequest({
+      method: async (collection: Required<Collection>) => {
+        await API.makeRequest({
           domain: Domains.Collection,
           requestType: "delete",
+          //TODO Better Types on this
           payload: { id: collection.id }
         });
       }

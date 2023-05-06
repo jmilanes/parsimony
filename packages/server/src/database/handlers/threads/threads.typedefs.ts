@@ -1,5 +1,6 @@
 const { gql } = require("apollo-server");
 
+// TODO Flatten Messages
 export default gql`
   scalar Date
 

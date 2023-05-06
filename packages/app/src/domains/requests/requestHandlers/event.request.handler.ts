@@ -7,12 +7,12 @@ import {
   GetEventPayload,
   UpdateEventPayload
 } from "@parsimony/types";
-import { AsyncDataHandlerInterface } from "../asyncDataHandler.interface";
+import { IRequestHandler } from "../IRequestHandler";
 import { eventRequests } from "@parsimony/bal";
 import { Service } from "typedi";
 
 @Service()
-export class EventAsyncDataHandler extends AsyncDataHandlerInterface<
+export class EventRequestHandler extends IRequestHandler<
   Event,
   CreateEventPayload,
   DeleteEventPayload,
