@@ -21,7 +21,6 @@ import {
   IModes,
   Program,
   Routes,
-  UpdateUserPayload,
   User,
   UserPageMetaTestIds,
   UserRoles

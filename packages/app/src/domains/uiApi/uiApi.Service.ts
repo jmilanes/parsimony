@@ -4,14 +4,13 @@ import {
   DATA_HANDLERS,
   OrchestrationHandlerOptionsTypeMap
 } from "../orchestration/orchestrationHandlers/handlers.typemap";
-import Store, { DomainReturnTypeMap } from "../../services/store";
+import Store, { DomainReturnTypeMap } from "../store/store";
 import { Domains } from "@parsimony/types";
 import AppControlsService, {
   AppControls,
   ControlPayloads
 } from "../../services/appControls.service";
-import { MakeRequestOptions } from "../commands/handlers/makeRequest/makeRequest.commandHandler";
-import { IRequestHandler } from "../requests/IRequestHandler";
+
 import RequestService, { RequestsTypeMap } from "../requests/request.Service";
 
 /**

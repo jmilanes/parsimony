@@ -4,7 +4,7 @@ import { ServiceTypes } from "@parsimony/types";
 import ChatService from "./chat.service";
 import FilterService from "./filter.service";
 import StateService from "./state.service";
-import Store from "./store";
+import Store from "../domains/store/store";
 import AuthService from "./auth.service";
 import AppControlsService from "./appControls.service";
 import { SocketService } from "../domains/requests/socketService/socket.service";

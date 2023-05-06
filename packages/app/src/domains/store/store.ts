@@ -12,11 +12,11 @@ import {
   Thread
 } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
-import { arrayToObj } from "../utils";
-import { AppControls } from "./appControls.service";
+import { arrayToObj } from "../../utils";
+import { AppControls } from "../../services/appControls.service";
 import { Service } from "typedi";
-import { AppStartOrchestrationOptions } from "../domains/orchestration/orchestrationHandlers/appStart/appStart.orchestration.handler";
-import { DATA_HANDLERS } from "../domains/orchestration/orchestrationHandlers/handlers.typemap";
+import { AppStartOrchestrationOptions } from "../orchestration/orchestrationHandlers/appStart/appStart.orchestration.handler";
+import { DATA_HANDLERS } from "../orchestration/orchestrationHandlers/handlers.typemap";
 import { get } from "lodash";
 
 export interface DomainReturnTypeMap {

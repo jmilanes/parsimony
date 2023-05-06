@@ -1,6 +1,6 @@
 import { Domains } from "@parsimony/types";
 import { clone } from "../utils";
-import Store from "./store";
+import Store from "../domains/store/store";
 import { Service } from "typedi";
 
 type Subset<K> = {

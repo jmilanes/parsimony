@@ -15,7 +15,7 @@ import {
 import { clone } from "../utils";
 import { BehaviorSubject } from "rxjs";
 import { getAllThreadsByRelationship } from "@parsimony/bal";
-import Store from "./store";
+import Store from "../domains/store/store";
 import { Service } from "typedi";
 import { SocketService } from "../domains/requests/socketService/socket.service";
 
