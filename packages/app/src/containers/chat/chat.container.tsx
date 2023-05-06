@@ -3,7 +3,7 @@ import { ThreadDomain } from "../../services/chat.service";
 import { ChatMetaTestIds, Domains, Thread } from "@parsimony/types";
 import { useServices } from "../../context";
 import { DrawerContentTypes } from "../../services/appControls.service";
-import { Button, List, Row, Col } from "../../components";
+import { Button, Col, List, Row } from "../../components";
 import { ChatMessager } from "../index";
 import { getThreadName } from "../../utils";
 
@@ -12,16 +12,9 @@ import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export const Chat = () => {
   const API = Container.get(UIApi);
-  const { authService, store } = useServices();
-  const [threads, setThreads] = useState<ThreadDomain>({} as ThreadDomain);
-
+  const { authService } = useServices();
   const [currentThread, setCurrentThread] = useState<string>();
-
-  useEffect(
-    //TODO: Make a Command
-    () => store.subscribeToStoreDomain(Domains.Thread, setThreads),
-    []
-  );
+  const threads = API.getItemsFromStore(Domains.Thread);
 
   const showCreateChat = async () => {
     await API.updateAppControls("drawer", {
@@ -55,9 +48,7 @@ export const Chat = () => {
           <ChatList threads={Object.values(threads)} />
         </Col>
         <Col xs={8}>
-          <ChatMessager
-            thread={currentThread ? threads[currentThread] : undefined}
-          />
+          <ChatMessager thread={threads.find((t) => t.id === currentThread)} />
         </Col>
       </Row>
     </div>
