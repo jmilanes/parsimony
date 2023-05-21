@@ -1,5 +1,3 @@
-import { serverToken } from "../../sever.token";
-
 require("dotenv").config();
 import { QueryService } from "../../database/handlers";
 
@@ -50,20 +48,22 @@ export default class ServerService {
     this.qs = qs;
   }
 
-  public start = () => {
-    this.db.init();
+  public start = async (connectionString: string) => {
+    await this.db.init(connectionString);
     this.bs.init();
-    this.#createServer();
-    this.#listen();
+    await this.#createServer();
+    await this.#listen();
   };
 
-  #listen = () => {
-    this.server.listen().then(({ url }: { url: string }) => {
-      console.log(`🚀  Server ready at ${url}`);
-    });
+  public close = async () => {
+    await this.server.stop();
   };
 
-  #createServer = () => {
+  #listen = async () => {
+    await this.server.listen();
+  };
+
+  #createServer = async () => {
     const context = this.#authContext;
     this.server = new ApolloServer({
       namespace: "Parsimony",

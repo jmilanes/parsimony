@@ -11,7 +11,7 @@ import {
 } from "../../components";
 
 import { useServices } from "../../context";
-import { DrawerContentTypes } from "../../services/appControls.service";
+import { DrawerContentTypes } from "../../services/appStateService";
 import { getFullName } from "../../utils";
 import { Container } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";

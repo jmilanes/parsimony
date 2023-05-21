@@ -14,6 +14,7 @@ export default gql`
     created_by: ID
     type: CollectionTypes
     category: CollectionCategories
+    clientId: ID
   }
 
   input CreateCollectionPayload {
@@ -23,6 +24,7 @@ export default gql`
     created_by: ID
     type: CollectionTypes!
     category: CollectionCategories
+    clientId: ID
   }
 
   input DeleteCollectionPayload {
@@ -41,6 +43,7 @@ export default gql`
     created_by: ID
     type: CollectionTypes!
     category: CollectionCategories
+    clientId: ID
   }
 
   input GetAllCollectionsByRelationshipPayload {

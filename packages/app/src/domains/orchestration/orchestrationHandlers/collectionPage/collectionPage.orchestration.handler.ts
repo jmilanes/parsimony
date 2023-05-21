@@ -3,7 +3,7 @@ import { Service } from "typedi";
 import { IOrchestrationHandler } from "../orchestrationHandler.interface";
 import RequestService from "../../../requests/request.Service";
 import ChatService from "../../../../services/chat.service";
-import AppControlsService from "../../../../services/appControls.service";
+import AppStateService from "../../../../services/appStateService";
 
 export interface CollectionPageOrchestrationHandlerOptions {
   collectionId?: string;
@@ -18,7 +18,7 @@ export class CollectionPageOrchestrationHandler
 {
   #rs: RequestService;
 
-  constructor(rs: RequestService, cs: ChatService, ac: AppControlsService) {
+  constructor(rs: RequestService, cs: ChatService, ac: AppStateService) {
     this.#rs = rs;
   }
 

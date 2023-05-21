@@ -5,7 +5,8 @@ import {
   GetAllProgramsByRelationshipPayload,
   GetProgramPayload,
   Program,
-  UpdateProgramPayload
+  UpdateProgramPayload,
+  AddProgramsToClientPayload
 } from "@parsimony/types";
 import { IRequestHandler } from "../IRequestHandler";
 import { programRequests } from "@parsimony/bal";
@@ -22,4 +23,8 @@ export class ProgramRequestHandler extends IRequestHandler<
 > {
   domainName = Domains.Program;
   requests = programRequests;
+
+  addProgramsToClient = async (payload: AddProgramsToClientPayload) => {
+    await this.requests.addProgramsToClient(payload);
+  };
 }

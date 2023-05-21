@@ -14,18 +14,13 @@ export class ThreadResolver extends BaseCrudResolvers {
     this.shouldBroadcast = true;
     this.#db = db;
     this.#bs = bs;
+    this.initTreadMutations();
   }
 
-  // TODO make this better
-  getMutations() {
-    return {
-      [this.propWithModel("create")]: this.create,
-      [this.propWithModel("delete")]: this.delete,
-      [this.propWithModel("update")]: this.update,
-      addMessage: this.addMessage,
-      deleteMessage: this.deleteMessage,
-      editMessage: this.editMessage
-    };
+  initTreadMutations() {
+    this.setMutation("addMessage", this.addMessage);
+    this.setMutation("deleteMessage", this.deleteMessage);
+    this.setMutation("editMessage", this.editMessage);
   }
 
   addMessage = async (_: any, { payload }: { payload: any }) => {

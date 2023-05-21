@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import { Drawer as ADrawer, Spin } from "antd";
 import { Domains, DrawerMetaTestIds } from "@parsimony/types";
-import {
-  DrawerContentTypes,
-  DrawerControls
-} from "../services/appControls.service";
-import { Chat, CreateChat } from "../containers";
+import { DrawerContentTypes } from "../services/appStateService";
+import { BulkProgramsContainer, Chat, CreateChat } from "../containers";
 import { Button, Icon } from "../components";
-import { useAsync } from "react-use";
 import { Container } from "typedi";
 
 import UIApi from "../domains/uiApi/uiApi.Service";
@@ -16,7 +12,7 @@ export const Drawer = () => {
   const API = Container.get(UIApi);
   const [extended, updateExtended] = useState(false);
 
-  const controls = API.getStoreValueByPath(Domains.AppControls, "drawer");
+  const controls = API.getStoreValueByPath(Domains.AppState, "drawer");
   if (!controls) return null;
 
   const onClose = () => {
@@ -48,6 +44,9 @@ export const Drawer = () => {
     >
       {controls.content === DrawerContentTypes.Chat && <Chat />}
       {controls.content === DrawerContentTypes.CreateChat && <CreateChat />}
+      {controls.content === DrawerContentTypes.BulkPrograms && (
+        <BulkProgramsContainer />
+      )}
     </ADrawer>
   );
 };

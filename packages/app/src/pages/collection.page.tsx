@@ -20,6 +20,7 @@ import { Spin } from "antd";
 
 import { DATA_HANDLERS } from "../domains/orchestration/orchestrationHandlers/handlers.typemap";
 import UIApi from "../domains/uiApi/uiApi.Service";
+import { DrawerContentTypes } from "../services/appStateService";
 
 const Collection = () => {
   const API = Container.get(UIApi);
@@ -37,6 +38,13 @@ const Collection = () => {
   const programs = API.getItemsFromStore(Domains.Program).filter(
     (program) => program.collectionId === collectionId
   );
+
+  const openBulkPrograms = () => {
+    API.updateAppControls("drawer", {
+      active: true,
+      content: DrawerContentTypes.BulkPrograms
+    });
+  };
 
   return (
     <>
@@ -61,6 +69,13 @@ const Collection = () => {
             action={() => setCollectionShowAddForm(true)}
             hidden={showProgramAddForm}
             metaTestId={ProgramsPageMetaTestIds.addCollection}
+          />,
+          // Think there should be a button to see check boxes and a button open close sections/user expreience after client is slected
+          <Button
+            key="add-programs-to-cliennt"
+            name="Add Programs To Clients"
+            action={openBulkPrograms}
+            metaTestId={ProgramsPageMetaTestIds.addProgramToClient}
           />
         ]}
       />

@@ -3,16 +3,17 @@ import { Service } from "typedi";
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
+type IReducer = (_: any, payload: any) => Promise<any>;
+
 @Service()
 export class BaseCrudResolvers {
   model: modelTypes = "" as modelTypes;
-  extendedMutations: any;
+  mutations: Record<string, IReducer> = {};
   shouldBroadcast: boolean = false;
   #bs: BroadcastService;
   #db: DataBaseService;
 
   constructor(db: DataBaseService, bs: BroadcastService) {
-    this.extendedMutations = {};
     this.#bs = bs;
     this.#db = db;
   }
@@ -26,8 +27,12 @@ export class BaseCrudResolvers {
       [this.propWithModel("create")]: this.create,
       [this.propWithModel("delete")]: this.delete,
       [this.propWithModel("update")]: this.update,
-      ...this.extendedMutations
+      ...this.mutations
     };
+  }
+
+  setMutation(key: string, mutation: IReducer) {
+    this.mutations[key] = mutation;
   }
 
   getQuires() {
@@ -56,7 +61,6 @@ export class BaseCrudResolvers {
   }
 
   create = async (_: any, { payload }: { payload: any }) => {
-    console.log(payload);
     try {
       const entry = await this.#db.createEntry(this.model, {
         ...payload

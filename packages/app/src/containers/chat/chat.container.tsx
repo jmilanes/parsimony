@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ThreadDomain } from "../../services/chat.service";
 import { ChatMetaTestIds, Domains, Thread } from "@parsimony/types";
 import { useServices } from "../../context";
-import { DrawerContentTypes } from "../../services/appControls.service";
+import { DrawerContentTypes } from "../../services/appStateService";
 import { Button, Col, List, Row } from "../../components";
 import { ChatMessager } from "../index";
 import { getThreadName } from "../../utils";

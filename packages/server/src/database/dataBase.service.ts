@@ -1,42 +1,37 @@
-import { serverToken } from "../sever.token";
-
-const mongoose = require("mongoose");
 require("dotenv").config();
 import { WithEmptyObj } from "@parsimony/types";
 import { models, modelTypes } from "./models";
 import { Service } from "typedi";
 import { envIs } from "@parsimony/utilities/dist";
+import * as mongoose from "mongoose";
 
 const DEV_CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
 const PROD_CONNECTION_STRING = `mongodb+srv://jmilanes:${process.env.MONGO_PW}@parsimonyapp01.xmune.mongodb.net/parsimony?retryWrites=true&w=majority`;
 
-const CONNECTION_STRING = envIs("prod")
+export const CONNECTION_STRING = envIs("prod")
   ? PROD_CONNECTION_STRING
   : DEV_CONNECTION_STRING;
 
 @Service()
 export class DataBaseService {
   dataBase: any;
-  models: WithEmptyObj<Record<modelTypes, any>>;
-  #connectionString: string = CONNECTION_STRING;
+  models: WithEmptyObj<Record<modelTypes, any>> = {};
+  #connectionString?: string;
 
-  constructor() {
+  constructor() {}
+
+  init = async (cs: string) => {
+    this.#connectionString = cs;
     this.dataBase = mongoose;
-    this.models = {};
     this.applyModels(models);
-  }
-
-  init = () => {
-    this.#connectDataBase();
+    await this.#connectDataBase();
   };
 
-  #connectDataBase = () => {
-    this.dataBase
-      .connect(this.#connectionString, {
-        useNewUrlParser: true
-      })
-      .then(() => console.log("Connected to DB!"))
-      .catch((e: any) => console.log("DB ERROR", e));
+  #connectDataBase = async () => {
+    await this.dataBase.connect(this.#connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
   };
 
   applyModels = (models: Record<modelTypes, any>) => {

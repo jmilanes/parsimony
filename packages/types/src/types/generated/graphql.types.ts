@@ -19,6 +19,12 @@ export type AddMessagePayload = {
   threadId: Scalars['ID'];
 };
 
+export type AddProgramsToClientPayload = {
+  clientId?: InputMaybe<Scalars['ID']>;
+  collectionIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  programIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
 export type AuthPayload = {
   accessToken: Scalars['String'];
 };
@@ -27,6 +33,7 @@ export type Collection = {
   __typename?: 'Collection';
   ancestors?: Maybe<Array<Maybe<Scalars['ID']>>>;
   category?: Maybe<CollectionCategories>;
+  clientId?: Maybe<Scalars['ID']>;
   created_by?: Maybe<Scalars['ID']>;
   id: Scalars['ID'];
   parentCollectionId?: Maybe<Scalars['ID']>;
@@ -47,6 +54,7 @@ export enum CollectionTypes {
 export type CreateCollectionPayload = {
   ancestors?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   category?: InputMaybe<CollectionCategories>;
+  clientId?: InputMaybe<Scalars['ID']>;
   created_by?: InputMaybe<Scalars['ID']>;
   parentCollectionId?: InputMaybe<Scalars['ID']>;
   title: Scalars['String'];
@@ -366,6 +374,7 @@ export type MessagePayload = {
 export type Mutation = {
   __typename?: 'Mutation';
   addMessage?: Maybe<Thread>;
+  addProgramsToClient?: Maybe<Array<Maybe<Program>>>;
   createCollection?: Maybe<Collection>;
   createDocument?: Maybe<Document>;
   createEvent?: Maybe<Event>;
@@ -401,6 +410,11 @@ export type Mutation = {
 
 export type MutationAddMessageArgs = {
   payload?: InputMaybe<AddMessagePayload>;
+};
+
+
+export type MutationAddProgramsToClientArgs = {
+  payload?: InputMaybe<AddProgramsToClientPayload>;
 };
 
 
@@ -890,6 +904,7 @@ export enum TrialChainingDirections {
 export type UpdateCollectionPayload = {
   ancestors?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   category?: InputMaybe<CollectionCategories>;
+  clientId?: InputMaybe<Scalars['ID']>;
   created_by?: InputMaybe<Scalars['ID']>;
   id: Scalars['ID'];
   parentCollectionId?: InputMaybe<Scalars['ID']>;
@@ -1104,6 +1119,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AddMessagePayload: AddMessagePayload;
+  AddProgramsToClientPayload: AddProgramsToClientPayload;
   AuthPayload: AuthPayload;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Collection: ResolverTypeWrapper<Collection>;
@@ -1205,6 +1221,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   AddMessagePayload: AddMessagePayload;
+  AddProgramsToClientPayload: AddProgramsToClientPayload;
   AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean'];
   Collection: Collection;
@@ -1297,6 +1314,7 @@ export type ResolversParentTypes = {
 export type CollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Collection'] = ResolversParentTypes['Collection']> = {
   ancestors?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['CollectionCategories']>, ParentType, ContextType>;
+  clientId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   created_by?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   parentCollectionId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
@@ -1372,6 +1390,7 @@ export type MessageResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addMessage?: Resolver<Maybe<ResolversTypes['Thread']>, ParentType, ContextType, Partial<MutationAddMessageArgs>>;
+  addProgramsToClient?: Resolver<Maybe<Array<Maybe<ResolversTypes['Program']>>>, ParentType, ContextType, Partial<MutationAddProgramsToClientArgs>>;
   createCollection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType, Partial<MutationCreateCollectionArgs>>;
   createDocument?: Resolver<Maybe<ResolversTypes['Document']>, ParentType, ContextType, Partial<MutationCreateDocumentArgs>>;
   createEvent?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType, Partial<MutationCreateEventArgs>>;

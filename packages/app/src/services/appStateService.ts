@@ -15,7 +15,8 @@ type Subset<K> = {
 
 export enum DrawerContentTypes {
   Chat = "chat",
-  CreateChat = "createChat"
+  CreateChat = "createChat",
+  BulkPrograms = "bulkPrograms"
 }
 
 export type DrawerControls = {
@@ -25,46 +26,53 @@ export type DrawerControls = {
   content: DrawerContentTypes;
 };
 
-export type AppControls = {
+export type AppState = {
   drawer: DrawerControls;
+  bulkPrograms: {
+    clientId?: string;
+    collectionIds: string[];
+    programIds: string[];
+  };
 };
 
 export type ControlPayloads = Partial<DrawerControls>;
 
 @Service()
-export default class AppControlsService {
+export default class AppStateService {
   store: Store;
-  defaultControls: AppControls;
+  appState: AppState;
 
   constructor(store: Store) {
     this.store = store;
-    this.defaultControls = {
+    this.appState = {
       drawer: {
         active: false,
         width: 500,
         placement: "left",
         content: DrawerContentTypes.Chat
+      },
+      bulkPrograms: {
+        collectionIds: [],
+        programIds: []
       }
     };
   }
 
   init = () => {
-    this.store.getDomain$(Domains.AppControls).next(this.defaultControls);
+    this.store.getDomain$(Domains.AppState).next(this.appState);
   };
 
   public updateControls = (
-    control: keyof AppControls,
+    control: keyof AppState,
     update: ControlPayloads
   ) => {
-    const currentControls = clone(
-      this.store.getDomainValue(Domains.AppControls)
-    );
+    const currentControls = clone(this.store.getDomainValue(Domains.AppState));
 
     currentControls[control] = {
       ...(currentControls[control] as Record<string, any>),
       ...update
     };
 
-    this.store.getDomain$(Domains.AppControls).next({ ...currentControls });
+    this.store.getDomain$(Domains.AppState).next({ ...currentControls });
   };
 }

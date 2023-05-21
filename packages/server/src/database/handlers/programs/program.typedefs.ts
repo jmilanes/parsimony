@@ -115,6 +115,12 @@ export default gql`
     id: ID!
   }
 
+  input AddProgramsToClientPayload {
+    collectionIds: [ID]
+    programIds: [ID]
+    clientId: ID
+  }
+
   input TargetInput {
     id: ID
     title: String
@@ -193,5 +199,6 @@ export default gql`
     createProgram(payload: CreateProgramPayload): Program
     deleteProgram(payload: DeleteProgramPayload): ID
     updateProgram(payload: UpdateProgramPayload): Program
+    addProgramsToClient(payload: AddProgramsToClientPayload): [Program]
   }
 `;

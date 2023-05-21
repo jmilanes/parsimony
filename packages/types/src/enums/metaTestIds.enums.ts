@@ -89,6 +89,7 @@ export enum BookPageMetaTestIds {
 export enum ProgramsPageMetaTestIds {
   addBtn = "add-program",
   addCollection = "add-collection",
+  addProgramToClient = "add-program-to-client",
   titleField = "add-program-title-field",
   descriptionField = "add-program-description-field",
   materialsField = "update-program-materials-field",

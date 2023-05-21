@@ -3,9 +3,9 @@ import { Service } from "typedi";
 import { IOrchestrationHandler } from "../orchestrationHandler.interface";
 import RequestService from "../../../requests/request.Service";
 import ChatService from "../../../../services/chat.service";
-import AppControlsService, {
-  AppControls
-} from "../../../../services/appControls.service";
+import AppStateService, {
+  AppState
+} from "../../../../services/appStateService";
 
 export interface AppStartOrchestrationOptions {}
 
@@ -16,9 +16,9 @@ export interface AppStartOrchestrationOptions {}
 export class AppStartOrchestrationHandler implements IOrchestrationHandler {
   #rs: RequestService;
   #cs: ChatService;
-  #ac: AppControlsService;
+  #ac: AppStateService;
 
-  constructor(rs: RequestService, cs: ChatService, ac: AppControlsService) {
+  constructor(rs: RequestService, cs: ChatService, ac: AppStateService) {
     this.#rs = rs;
     this.#cs = cs;
     this.#ac = ac;

@@ -6,7 +6,7 @@ import FilterService from "./filter.service";
 import StateService from "./state.service";
 import Store from "../domains/store/store";
 import AuthService from "./auth.service";
-import AppControlsService from "./appControls.service";
+import AppStateService from "./appStateService";
 import { SocketService } from "../domains/requests/socketService/socket.service";
 import RequestService from "../domains/requests/request.Service";
 import OrchestrationService from "../domains/orchestration/orchestration.service";
@@ -19,7 +19,7 @@ export type Services = {
   [ServiceTypes.StateManager]: StateService;
   [ServiceTypes.Filter]: FilterService;
   [ServiceTypes.AuthService]: AuthService;
-  [ServiceTypes.AppControls]: AppControlsService;
+  [ServiceTypes.AppState]: AppStateService;
 };
 
 @Service()
@@ -35,8 +35,8 @@ export default class AppController {
   @Inject(() => FilterService)
   private readonly filterService: FilterService;
 
-  @Inject(() => AppControlsService)
-  private readonly appControlsService: AppControlsService;
+  @Inject(() => AppStateService)
+  private readonly appControlsService: AppStateService;
 
   @Inject(() => AuthService)
   private readonly authService: AuthService;
@@ -60,7 +60,7 @@ export default class AppController {
     store: Store,
     ss: StateService,
     fs: FilterService,
-    acs: AppControlsService,
+    acs: AppStateService,
     as: AuthService,
     socketService: SocketService,
     cs: ChatService,
@@ -81,7 +81,7 @@ export default class AppController {
 
     // TODO: KILL ALL OF THIS
     this.services = {
-      [ServiceTypes.AppControls]: this.appControlsService,
+      [ServiceTypes.AppState]: this.appControlsService,
       [ServiceTypes.AuthService]: this.authService,
       [ServiceTypes.Store]: this.store,
       [ServiceTypes.StateManager]: this.stateService,

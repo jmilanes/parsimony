@@ -22,7 +22,7 @@ export interface RequestsTypeMap {
   [Domains.File]: FileRequestHandler;
   [Domains.Thread]: ThreadRequestHandler;
   [Domains.Collection]: CollectionRequestHandler;
-  [Domains.AppControls]: ThreadRequestHandler;
+  [Domains.AppState]: ThreadRequestHandler;
 }
 
 @Service()

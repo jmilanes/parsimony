@@ -6,10 +6,10 @@ import {
 } from "../orchestration/orchestrationHandlers/handlers.typemap";
 import Store, { DomainReturnTypeMap } from "../store/store";
 import { Domains } from "@parsimony/types";
-import AppControlsService, {
-  AppControls,
+import AppStateService, {
+  AppState,
   ControlPayloads
-} from "../../services/appControls.service";
+} from "../../services/appStateService";
 
 import RequestService, { RequestsTypeMap } from "../requests/request.Service";
 
@@ -21,14 +21,14 @@ import RequestService, { RequestsTypeMap } from "../requests/request.Service";
 @Service()
 export default class UIApi {
   #os: OrchestrationService;
-  #acs: AppControlsService;
+  #acs: AppStateService;
   #rs: RequestService;
   #store: Store;
 
   constructor(
     os: OrchestrationService,
     s: Store,
-    acs: AppControlsService,
+    acs: AppStateService,
     rs: RequestService
   ) {
     this.#os = os;
@@ -69,7 +69,7 @@ export default class UIApi {
 
   //TODO: Make this more general maybe this just update "client side specific states control, add programs stuff"
   public updateAppControls = (
-    path: keyof AppControls,
+    path: keyof AppState,
     update: ControlPayloads
   ) => {
     this.#acs.updateControls(path, update);

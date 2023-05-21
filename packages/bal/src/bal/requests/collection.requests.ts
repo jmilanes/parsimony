@@ -18,6 +18,7 @@ const fullSchema = `
   created_by
   type
   category
+  clientId
 `;
 
 const eventOperationStrings = generateCrudOperationStrings(

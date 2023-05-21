@@ -5,7 +5,8 @@ import {
   GetAllProgramsByRelationshipPayload,
   GetProgramPayload,
   Program,
-  UpdateProgramPayload
+  UpdateProgramPayload,
+  AddProgramsToClientPayload
 } from "@parsimony/types";
 import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
@@ -81,11 +82,17 @@ export const updateProgram = createRequest<UpdateProgramPayload, Program>(
   programOperationStrings.edit
 );
 
+export const addProgramsToClient = createRequest<
+  AddProgramsToClientPayload,
+  Program[]
+>(programOperationStrings.getAll);
+
 export const programRequests = {
   getAll: getAllPrograms,
   get: getProgram,
   getAllByRelationship: getAllProgramsByRelationship,
   create: createProgram,
   delete: deleteProgram,
-  update: updateProgram
+  update: updateProgram,
+  addProgramsToClient: addProgramsToClient
 };

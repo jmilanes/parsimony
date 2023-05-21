@@ -13,7 +13,7 @@ import {
 } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../../utils";
-import { AppControls } from "../../services/appControls.service";
+import { AppState } from "../../services/appStateService";
 import { Service } from "typedi";
 import { AppStartOrchestrationOptions } from "../orchestration/orchestrationHandlers/appStart/appStart.orchestration.handler";
 import { DATA_HANDLERS } from "../orchestration/orchestrationHandlers/handlers.typemap";
@@ -29,7 +29,7 @@ export interface DomainReturnTypeMap {
   [Domains.Document]: Document;
   [Domains.File]: File;
   [Domains.Event]: Event;
-  [Domains.AppControls]: AppControls;
+  [Domains.AppState]: AppState;
 }
 
 type UserStoreValue = Record<IId, User>;
@@ -68,7 +68,7 @@ export default class Store {
       [Domains.File]: new BehaviorSubject<FileStoreValue>({}),
       [Domains.Collection]: new BehaviorSubject<CollectionStoreValue>({}),
       //TODO: This is only clientside so need to make it clearer maybe this is all just one store
-      [Domains.AppControls]: new BehaviorSubject<AppControls>({} as AppControls)
+      [Domains.AppState]: new BehaviorSubject<AppState>({} as AppState)
     };
 
     this.isLoading = false;

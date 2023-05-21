@@ -9,7 +9,7 @@ export enum Domains {
   File = "file",
   Collection = "collection",
   // Move with to clientDomains
-  AppControls = "appControls"
+  AppState = "appControls"
 }
 
 export enum PromptTypes {
@@ -43,14 +43,13 @@ export enum Modes {
 
 export enum ServiceTypes {
   Chat = "chat",
-  CommandService = "commandService",
   Store = "store",
   Filter = "filterService",
   StateManager = "stateManager",
   DataAccess = "dataAccess",
   AuthService = "authService",
   App = "appService",
-  AppControls = "appControls"
+  AppState = "appControls"
 }
 
 export enum ServiceProviders {

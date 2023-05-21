@@ -40,7 +40,10 @@ export default {
   createdBy: { type: ObjectId, ref: "User" },
   mastered: Boolean,
   trials: Number,
-  category: { type: String, enum: ProgramCategories },
+  category: {
+    type: String,
+    enum: ProgramCategories
+  },
   targetOptions: [TargetOption],
   targetStyle: { type: String, enum: TargetStyle },
   chainingDirection: { type: String, enum: TrialChainingDirections },
