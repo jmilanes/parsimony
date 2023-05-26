@@ -16,11 +16,11 @@ export const Drawer = () => {
   if (!controls) return null;
 
   const onClose = () => {
-    API.updateAppControls("drawer", { active: false });
+    API.updateAppState("drawer", { active: false });
   };
 
   const onExtend = async () => {
-    await API.updateAppControls("drawer", {
+    await API.updateAppState("drawer", {
       width: extended ? "50%" : "90%"
     });
 

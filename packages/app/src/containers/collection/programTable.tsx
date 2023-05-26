@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import {
+  Collection,
   CreateProgramPayload,
   Domains,
   Program,
@@ -26,6 +27,8 @@ import {
 
 import UIApi from "../../domains/uiApi/uiApi.Service";
 import { message } from "antd";
+import { createBulkOrderSelectable } from "../bulkPrograms/helpers";
+import { useMap } from "react-use";
 
 export type IProgramTableProps = React.PropsWithChildren<{
   programs: Program[];
@@ -117,6 +120,39 @@ export const ProgramTable = ({ programs }: IProgramTableProps) => {
     }
   ];
 
+  const bulkOrder = API.getAppState("bulkPrograms");
+
+  const isProgramIdSelected = (id: string) => {
+    return API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
+      id,
+      "programIds"
+    );
+  };
+
+  const isIdExcluded = (id: string) =>
+    API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
+      id,
+      "excludedIds"
+    );
+
+  const isCollectionIdSelected = (id: string) => {
+    return API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
+      id,
+      "collectionIds"
+    );
+  };
+
+  const addIdToBulkProgramsCollectionIds = (id: string) =>
+    API.actions.bulkPrograms.addIdToBulkProgramProperty(id, "programIds");
+
+  const { onChange, selected } = useMemo(() => {
+    return createBulkOrderSelectable<Program>(
+      "collectionId",
+      "programIds",
+      "collectionIds"
+    );
+  }, []);
+
   return (
     <Table<Program>
       data={programs}
@@ -124,6 +160,7 @@ export const ProgramTable = ({ programs }: IProgramTableProps) => {
       actions={actions}
       name="Programs"
       metaTestId={ProgramsPageMetaTestIds.table}
+      selectable={{ visible: bulkOrder.active, selected, onChange }}
     />
   );
 };

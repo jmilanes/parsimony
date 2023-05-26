@@ -26,13 +26,18 @@ export type DrawerControls = {
   content: DrawerContentTypes;
 };
 
+export type BulkProgram = {
+  active: boolean;
+  clientId?: string;
+  collectionIds: string[];
+  programIds: string[];
+  subscribers: string[];
+  excludedIds: string[];
+};
+
 export type AppState = {
   drawer: DrawerControls;
-  bulkPrograms: {
-    clientId?: string;
-    collectionIds: string[];
-    programIds: string[];
-  };
+  bulkPrograms: BulkProgram;
 };
 
 export type ControlPayloads = Partial<DrawerControls>;
@@ -52,8 +57,11 @@ export default class AppStateService {
         content: DrawerContentTypes.Chat
       },
       bulkPrograms: {
+        active: false,
         collectionIds: [],
-        programIds: []
+        programIds: [],
+        subscribers: [],
+        excludedIds: []
       }
     };
   }
@@ -62,14 +70,14 @@ export default class AppStateService {
     this.store.getDomain$(Domains.AppState).next(this.appState);
   };
 
-  public updateControls = (
-    control: keyof AppState,
-    update: ControlPayloads
+  public updateAppState = <K extends keyof AppState>(
+    appStateKey: K,
+    update: Partial<AppState[K]>
   ) => {
     const currentControls = clone(this.store.getDomainValue(Domains.AppState));
 
-    currentControls[control] = {
-      ...(currentControls[control] as Record<string, any>),
+    currentControls[appStateKey] = {
+      ...(currentControls[appStateKey] as Record<string, any>),
       ...update
     };
 

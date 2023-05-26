@@ -17,7 +17,7 @@ export const Chat = () => {
   const threads = API.getItemsFromStore(Domains.Thread);
 
   const showCreateChat = async () => {
-    await API.updateAppControls("drawer", {
+    await API.updateAppState("drawer", {
       content: DrawerContentTypes.CreateChat
     });
   };

@@ -22,7 +22,9 @@ export type AddMessagePayload = {
 export type AddProgramsToClientPayload = {
   clientId?: InputMaybe<Scalars['ID']>;
   collectionIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  excludedIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   programIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  subscribers?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 export type AuthPayload = {

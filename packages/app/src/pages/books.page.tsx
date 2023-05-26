@@ -8,7 +8,11 @@ import {
   Domains,
   Pages
 } from "@parsimony/types";
-import { CollectionAddForm, CollectionTable } from "../containers";
+import {
+  CollectionAddForm,
+  CollectionTable,
+  OpenBulkProgramButton
+} from "../containers";
 
 import { Container } from "typedi";
 
@@ -48,7 +52,8 @@ const Books = () => {
             action={() => setShowAddForm(true)}
             hidden={showAddForm}
             metaTestId={BookPageMetaTestIds.addBtn}
-          />
+          />,
+          <OpenBulkProgramButton key="book-bulk-btn" />
         ]}
       />
 

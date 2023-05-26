@@ -13,6 +13,23 @@ type CollectionUpdates = {
   clientId: string;
   parentCollectionId?: string;
   ancestors?: string[];
+  excludedIds: string[];
+};
+
+type ProgramUpdates = {
+  collectionId?: string;
+  clientId: string;
+  excludedIds?: string[];
+};
+
+type AddToClientsPayLoad = {
+  payload: {
+    collectionIds: string[];
+    programIds: string[];
+    excludedIds: string[];
+    clientId: string;
+    subscribers: string[];
+  };
 };
 
 @Service()
@@ -40,27 +57,21 @@ export class ProgramResolvers extends BaseCrudResolvers {
   addProgramsToClient = async (
     _: any,
     {
-      payload
-    }: {
-      payload: {
-        // potentially add subscibers for differenct BAs
-        collectionIds: string[];
-        programIds: string[];
-        clientId: string;
-      };
-    }
+      payload: { collectionIds, programIds, clientId, excludedIds }
+    }: AddToClientsPayLoad
   ) => {
     const createdPrograms: Record<string, true> = {};
     await this.#copyCollectionByIds(
-      payload.collectionIds,
+      collectionIds,
       {
-        clientId: payload.clientId
+        clientId,
+        excludedIds
       },
       createdPrograms
     );
     await this.#copyProgramsByIds(
-      payload.programIds,
-      { clientId: payload.clientId },
+      programIds,
+      { clientId, excludedIds },
       createdPrograms
     );
   };
@@ -72,6 +83,9 @@ export class ProgramResolvers extends BaseCrudResolvers {
   ) => {
     await Promise.all(
       collectionIds.map(async (originalCollectionId) => {
+        if (updates.excludedIds.includes(originalCollectionId)) {
+          return;
+        }
         const payload = await this.#createCollectionPayload(
           originalCollectionId,
           updates
@@ -84,14 +98,17 @@ export class ProgramResolvers extends BaseCrudResolvers {
         const newCollectionId = newCollection.id;
         const newCollectionAncestors = newCollection.ancestors;
 
-        const children = await this.#getChildCollectionIds(newCollectionId);
-        // If there are child collections go get everything in those reccursivly
+        const children = await this.#getChildCollectionIds(
+          originalCollectionId
+        );
+
         await this.#copyCollectionByIds(
           children,
           {
             clientId: updates.clientId,
             parentCollectionId: newCollectionId,
-            ancestors: newCollectionAncestors
+            ancestors: newCollectionAncestors,
+            excludedIds: updates.excludedIds
           },
           programCache
         );
@@ -101,7 +118,8 @@ export class ProgramResolvers extends BaseCrudResolvers {
           programs,
           {
             collectionId: newCollectionId,
-            clientId: updates.clientId
+            clientId: updates.clientId,
+            excludedIds: updates.excludedIds
           },
           programCache
         );
@@ -145,12 +163,15 @@ export class ProgramResolvers extends BaseCrudResolvers {
 
   #copyProgramsByIds = async (
     programIds: string[],
-    update: { collectionId?: string; clientId: string },
+    update: ProgramUpdates,
     cache: Record<string, true>
   ) => {
     await Promise.all(
       programIds.map(async (originalProgramId: string) => {
-        if (!cache[originalProgramId]) {
+        if (
+          !cache[originalProgramId] &&
+          !update.excludedIds?.includes(originalProgramId)
+        ) {
           const program = await this.#db.findEntry(modelTypes.program, {
             id: originalProgramId
           });

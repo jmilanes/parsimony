@@ -119,6 +119,8 @@ export default gql`
     collectionIds: [ID]
     programIds: [ID]
     clientId: ID
+    subscribers: [ID]
+    excludedIds: [ID]
   }
 
   input TargetInput {

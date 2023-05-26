@@ -15,12 +15,13 @@ import { DrawerContentTypes } from "../../services/appStateService";
 import { getFullName } from "../../utils";
 import { Container } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
+import { ClientSelector } from "../clientSelector";
 
 export const CreateChat = () => {
   const API = Container.get(UIApi);
+  // TODO Move to api
   const { authService } = useServices();
   const currentUserId = authService.currentUser?.id as string;
-  // TODO Change to display name once those are added to USER
   const currentName = getFullName(authService.currentUser);
 
   const currentUserSubscriber = { id: currentUserId, displayName: currentName };
@@ -28,20 +29,9 @@ export const CreateChat = () => {
     currentUserSubscriber
   ]);
   const [name, updateName] = useState("");
-  const clients = API.getItemsFromStore(Domains.User);
-
-  useEffect(() => {}, []);
-
-  const autoCompleteOptions = clients
-    .filter((user: User) => user.id !== currentUserId)
-    .map((user: User) => ({
-      // TODO Change to display name once those are added to USER
-      label: getFullName(user),
-      value: user.id
-    }));
 
   const setToChatDrawer = async () => {
-    await API.updateAppControls("drawer", {
+    await API.updateAppState("drawer", {
       content: DrawerContentTypes.Chat
     });
   };
@@ -96,13 +86,7 @@ export const CreateChat = () => {
         placeHolderText="Chat name"
         metaTestId={ChatMetaTestIds.createChatNameField}
       />
-      <Autocomplete
-        label="Search User"
-        options={autoCompleteOptions}
-        multiSelect={true}
-        updateState={onUpdateSubscribers}
-        metaTestId={ChatMetaTestIds.createChatNameField}
-      />
+      <ClientSelector multiSelect={true} onChange={onUpdateSubscribers} />
       <Button
         name="Create"
         action={onCreateThread}

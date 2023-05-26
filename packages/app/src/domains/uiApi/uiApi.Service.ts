@@ -6,12 +6,10 @@ import {
 } from "../orchestration/orchestrationHandlers/handlers.typemap";
 import Store, { DomainReturnTypeMap } from "../store/store";
 import { Domains } from "@parsimony/types";
-import AppStateService, {
-  AppState,
-  ControlPayloads
-} from "../../services/appStateService";
+import AppStateService, { AppState } from "../../services/appStateService";
 
 import RequestService, { RequestsTypeMap } from "../requests/request.Service";
+import { getActions, GetActionsReturnType } from "../../actions";
 
 /**
  * API Between service and UI Layer
@@ -21,19 +19,20 @@ import RequestService, { RequestsTypeMap } from "../requests/request.Service";
 @Service()
 export default class UIApi {
   #os: OrchestrationService;
-  #acs: AppStateService;
+  #ass: AppStateService;
   #rs: RequestService;
   #store: Store;
+  actions: GetActionsReturnType = getActions();
 
   constructor(
     os: OrchestrationService,
     s: Store,
-    acs: AppStateService,
+    ass: AppStateService,
     rs: RequestService
   ) {
     this.#os = os;
     this.#store = s;
-    this.#acs = acs;
+    this.#ass = ass;
     this.#rs = rs;
   }
 
@@ -68,11 +67,17 @@ export default class UIApi {
   };
 
   //TODO: Make this more general maybe this just update "client side specific states control, add programs stuff"
-  public updateAppControls = (
-    path: keyof AppState,
-    update: ControlPayloads
+  public updateAppState = <K extends keyof AppState>(
+    appStateKey: K,
+    update: Partial<AppState[K]>
   ) => {
-    this.#acs.updateControls(path, update);
+    this.#ass.updateAppState(appStateKey, update);
+  };
+
+  public getAppState = <K extends keyof AppState>(
+    appStateKey: K
+  ): AppState[K] => {
+    return this.#store.getValueByPath(Domains.AppState, appStateKey);
   };
 
   public makeRequest = async <K extends Domains>({

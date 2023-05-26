@@ -10,3 +10,4 @@ export * from "./chat/chatMessager.container";
 export * from "./chat/chatMessageInput.container";
 export * from "./collection";
 export * from "./bulkPrograms";
+export * from "./clientSelector";

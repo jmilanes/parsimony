@@ -114,6 +114,9 @@ const setUpBulkProgramAdditions = async (db: DataBaseService) => {
   return { program1, program2, program3, book, collection };
 };
 
+const createUser = async (db: DataBaseService, name: string) =>
+  await db.createEntry(modelTypes.user, generateUserPayload(name));
+
 describe("Program Resolver Tests", () => {
   let db: DataBaseService;
   let mongo: MongoMemoryServer;
@@ -165,11 +168,7 @@ describe("Program Resolver Tests", () => {
 
   it("Should preform bulk program addition from book id", async () => {
     const { book } = await setUpBulkProgramAdditions(db);
-
-    const client = await db.createEntry(
-      modelTypes.user,
-      generateUserPayload("Joey")
-    );
+    const client = await createUser(db, "Joey");
 
     await programResolver.addProgramsToClient(
       {},
@@ -177,7 +176,9 @@ describe("Program Resolver Tests", () => {
         payload: {
           collectionIds: [book.id],
           programIds: [],
-          clientId: client.id
+          clientId: client.id,
+          excludedIds: [],
+          subscribers: []
         }
       }
     );
@@ -195,11 +196,7 @@ describe("Program Resolver Tests", () => {
 
   it("Should preform bulk program addition from collection id", async () => {
     const { collection } = await setUpBulkProgramAdditions(db);
-
-    const client = await db.createEntry(
-      modelTypes.user,
-      generateUserPayload("Joey")
-    );
+    const client = await createUser(db, "Joey");
 
     await programResolver.addProgramsToClient(
       {},
@@ -207,7 +204,9 @@ describe("Program Resolver Tests", () => {
         payload: {
           collectionIds: [collection.id],
           programIds: [],
-          clientId: client.id
+          clientId: client.id,
+          excludedIds: [],
+          subscribers: []
         }
       }
     );
@@ -223,11 +222,7 @@ describe("Program Resolver Tests", () => {
     const { program2, program3, program1 } = await setUpBulkProgramAdditions(
       db
     );
-
-    const client = await db.createEntry(
-      modelTypes.user,
-      generateUserPayload("Joey")
-    );
+    const client = await createUser(db, "Joey");
 
     await programResolver.addProgramsToClient(
       {},
@@ -235,7 +230,9 @@ describe("Program Resolver Tests", () => {
         payload: {
           collectionIds: [],
           programIds: [program2.id, program3.id, program1.id],
-          clientId: client.id
+          clientId: client.id,
+          excludedIds: [],
+          subscribers: []
         }
       }
     );
@@ -245,5 +242,65 @@ describe("Program Resolver Tests", () => {
     });
 
     expect(programs.length).toBe(3);
+  });
+
+  it("Should preform bulk with excludes", async () => {
+    const { book, program1 } = await setUpBulkProgramAdditions(db);
+
+    const client = await createUser(db, "Joey");
+
+    await programResolver.addProgramsToClient(
+      {},
+      {
+        payload: {
+          collectionIds: [book.id],
+          programIds: [],
+          clientId: client.id,
+          excludedIds: [program1.id],
+          subscribers: []
+        }
+      }
+    );
+
+    const programs = await db.findEntries(modelTypes.program, {
+      clientId: client.id
+    });
+
+    const collections = await db.findEntries(modelTypes.collection, {
+      clientId: client.id
+    });
+
+    expect(collections.length).toBe(2);
+    expect(programs.length).toBe(2);
+  });
+
+  it("Should preform bulk with collection excludes", async () => {
+    const { book, collection, program1 } = await setUpBulkProgramAdditions(db);
+
+    const client = await createUser(db, "Joey");
+
+    await programResolver.addProgramsToClient(
+      {},
+      {
+        payload: {
+          collectionIds: [book.id],
+          programIds: [],
+          clientId: client.id,
+          excludedIds: [collection.id],
+          subscribers: []
+        }
+      }
+    );
+
+    const programs = await db.findEntries(modelTypes.program, {
+      clientId: client.id
+    });
+
+    const collections = await db.findEntries(modelTypes.collection, {
+      clientId: client.id
+    });
+
+    expect(collections.length).toBe(1);
+    expect(programs.length).toBe(0);
   });
 });

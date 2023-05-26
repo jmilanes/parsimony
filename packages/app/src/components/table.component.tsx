@@ -1,9 +1,10 @@
 import React from "react";
 
 import { flattenObject, generateKey } from "../utils";
-import { Content, Button } from "../components";
-import { useServices } from "../context";
+import { Content, Button, Checkbox } from "../components";
+
 import { MetaTestIds, RepeatableMetaTestIds } from "@parsimony/types";
+import MaterialCheckbox from "@mui/material/Checkbox";
 
 export type ITableAction = {
   name: string;
@@ -24,25 +25,53 @@ export type ITableProps<Data> = {
   name: string;
   metaTestId: MetaTestIds;
   actions?: ITableAction[];
+  selectable?: ISelectable<Data>;
 };
 
-export type ITableRowProps = {
+export type ITableRowProps<Data> = {
   source: any;
   tableName: string;
   metaTestId: MetaTestIds;
   columns: IColumns[];
   actions: ITableAction[];
+  selectable?: ISelectable<Data>;
 };
 
-const TableRow = ({
+export type ISelectable<Data> = {
+  visible: boolean;
+  selected: (value: Data) => boolean;
+  onChange: (value: Data) => void;
+};
+
+const TableRow = <Data extends { id: string }>({
   source,
   tableName,
   metaTestId,
   columns,
-  actions
-}: ITableRowProps) => {
+  actions,
+  selectable
+}: ITableRowProps<Data>) => {
+  const SelectBox = () => {
+    if (!selectable || !selectable.visible) {
+      return null;
+    }
+    const onChange = (
+      _event: React.ChangeEvent<HTMLInputElement>,
+      _checked: boolean
+    ) => selectable.onChange(source);
+    return (
+      <td>
+        <MaterialCheckbox
+          checked={selectable.selected(source)}
+          onChange={onChange}
+        />
+      </td>
+    );
+  };
+
   return (
     <tr>
+      <SelectBox />
       {columns.map((col) => {
         return (
           <td
@@ -77,11 +106,10 @@ export const Table = <Data extends { id: string }>({
   actions,
   columns,
   name,
-  metaTestId
+  metaTestId,
+  selectable
 }: ITableProps<Data>) => {
-  const { filterService } = useServices();
-
-  const processedData = filterService.filter(data).map((item: Data) => {
+  const processedData = data.map((item: Data) => {
     const flatItem = flattenObject<Data>(item);
     Object.values(columns).forEach(
       (column) =>
@@ -97,6 +125,7 @@ export const Table = <Data extends { id: string }>({
       <table className="styled-table">
         <thead>
           <tr data-test-id={RepeatableMetaTestIds.tableHeader}>
+            {selectable?.visible ? <th>Add To Client</th> : null}
             {columns.map((column) => (
               <th
                 data-test-id={`${RepeatableMetaTestIds.tableHeader}-col-${column.key}`}
@@ -110,13 +139,14 @@ export const Table = <Data extends { id: string }>({
         </thead>
         <tbody>
           {processedData.map((source, i) => (
-            <TableRow
+            <TableRow<Data>
               key={source.id}
               source={source}
               tableName={name}
               metaTestId={metaTestId}
               actions={actions || []}
               columns={columns}
+              selectable={selectable}
             />
           ))}
         </tbody>

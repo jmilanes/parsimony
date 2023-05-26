@@ -3,6 +3,7 @@ import { Button, Header } from "../components";
 import {
   CollectionAddForm,
   CollectionTable,
+  OpenBulkProgramButton,
   ProgramAddForm,
   ProgramTable
 } from "../containers";
@@ -39,13 +40,6 @@ const Collection = () => {
     (program) => program.collectionId === collectionId
   );
 
-  const openBulkPrograms = () => {
-    API.updateAppControls("drawer", {
-      active: true,
-      content: DrawerContentTypes.BulkPrograms
-    });
-  };
-
   return (
     <>
       <Header
@@ -70,13 +64,7 @@ const Collection = () => {
             hidden={showProgramAddForm}
             metaTestId={ProgramsPageMetaTestIds.addCollection}
           />,
-          // Think there should be a button to see check boxes and a button open close sections/user expreience after client is slected
-          <Button
-            key="add-programs-to-cliennt"
-            name="Add Programs To Clients"
-            action={openBulkPrograms}
-            metaTestId={ProgramsPageMetaTestIds.addProgramToClient}
-          />
+          <OpenBulkProgramButton key="colleciton-bulk-btn" />
         ]}
       />
 
