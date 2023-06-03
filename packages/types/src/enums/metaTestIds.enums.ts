@@ -86,6 +86,10 @@ export enum BookPageMetaTestIds {
   table = "books-table"
 }
 
+export enum BulKProgramMetaTestIds {
+  addToClientBtn = "add-to-client-btn"
+}
+
 export enum ProgramsPageMetaTestIds {
   addBtn = "add-program",
   addCollection = "add-collection",
@@ -193,4 +197,5 @@ export type MetaTestIds =
   | ObservationMetaTestIds
   | RepeatableMetaTestIds
   | BookPageMetaTestIds
-  | DrawerMetaTestIds;
+  | DrawerMetaTestIds
+  | BulKProgramMetaTestIds;

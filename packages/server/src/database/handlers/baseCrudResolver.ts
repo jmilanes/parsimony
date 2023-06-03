@@ -1,5 +1,6 @@
 import { BroadcastService, DataBaseService, modelTypes } from "../index";
 import { Service } from "typedi";
+import { ObjectId } from "mongodb";
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -113,12 +114,20 @@ export class BaseCrudResolvers {
       model.schema.paths[payload.relationshipProperty].instance;
     const match =
       propertyInstance === "Array"
-        ? { [payload.relationshipProperty]: { $elemMatch: { id: payload.id } } }
+        ? {
+            [payload.relationshipProperty]: {
+              $elemMatch: { id: payload.id }
+            }
+          }
         : { [payload.relationshipProperty]: payload.id };
-
-    return await this.#db.findEntries(this.model, {
+    console.log("match", match);
+    const ret = await this.#db.findEntries(this.model, {
       // In some cases we are fetching an ID of something we need clientside so we also want to return the item that we are matching
       $or: [match]
     });
+
+    console.log(ret);
+
+    return ret;
   };
 }

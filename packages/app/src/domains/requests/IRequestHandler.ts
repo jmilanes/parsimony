@@ -3,6 +3,7 @@ import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../../utils";
 import Store from "../store/store";
 import { Service } from "typedi";
+import { message } from "antd";
 
 type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
   id?: string | undefined;
@@ -85,8 +86,8 @@ export class IRequestHandler<
       if (newItems) {
         this.#store.addItemsToDomain(this.domainName, arrayToObj(newItems));
       }
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      console.error(e);
     }
   };
 

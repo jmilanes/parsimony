@@ -1,7 +1,10 @@
 import { IResultData, Program, ResultData } from "@parsimony/types";
 import { initialResultData } from "../fixtures";
 import { calculateAverage, omitMongoKeys, removeMongoIds } from "../utils";
+import { Service } from "typedi";
+import StateService from "./state.service";
 
+@Service()
 export default class ObservationService {
   program?: Program;
   programCompleteness: Number;
@@ -9,17 +12,17 @@ export default class ObservationService {
   resultsData: Record<string, any>;
   isLoaded: boolean;
   // Passed in from state service
-  updateState: () => void;
+  #ss: StateService;
 
-  constructor() {
+  constructor(ss: StateService) {
     this.programCompleteness = 0;
     this.results = {};
     this.resultsData = {};
     this.isLoaded = false;
-    this.updateState = () => {};
+    this.#ss = ss;
   }
 
-  init(program: Program, updateState: () => void) {
+  init(program: Program) {
     this.isLoaded = true;
     this.program = program;
     this.results = {
@@ -27,14 +30,11 @@ export default class ObservationService {
       clientId: program?.clientId,
       programId: program?.id
     };
-    this.updateState = updateState;
-    this.updateState();
   }
 
   onChange() {
-    // Update Result data
     this.updateProgramCompleteness();
-    this.updateState();
+    this.#ss.updateState();
   }
 
   /**
@@ -70,7 +70,7 @@ export default class ObservationService {
 
   /**
    *
-   * Update the the result data right now passing in most reset result data
+   * Update the result data right now passing in most reset result data
    */
   updatedResultsData = (latestResult: IResultData) => {
     // latest result is an object of the latest result data keys are the target ID

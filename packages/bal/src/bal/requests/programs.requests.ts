@@ -52,6 +52,12 @@ const fullSchema = `
   collectionId
 `;
 
+const addProgramsToClientString = `mutation AddProgramsToClient($payload: AddProgramsToClientPayload) {
+  addProgramsToClient(payload: $payload) {
+    ${fullSchema}
+  }
+}`;
+
 export const programOperationStrings = generateCrudOperationStrings(
   Domains.Program,
   fullSchema
@@ -85,7 +91,7 @@ export const updateProgram = createRequest<UpdateProgramPayload, Program>(
 export const addProgramsToClient = createRequest<
   AddProgramsToClientPayload,
   Program[]
->(programOperationStrings.getAll);
+>(addProgramsToClientString);
 
 export const programRequests = {
   getAll: getAllPrograms,

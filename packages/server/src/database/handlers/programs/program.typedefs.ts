@@ -29,7 +29,7 @@ export default gql`
     masterTargetPercent: Int
     masterTargetCount: Int
     subscribers: [ID]
-    collectionId: ID!
+    collectionId: ID
   }
 
   type Target {

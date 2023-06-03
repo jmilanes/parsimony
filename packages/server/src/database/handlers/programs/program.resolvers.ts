@@ -49,7 +49,9 @@ export class ProgramResolvers extends BaseCrudResolvers {
 
   //TODO Archive all Program results when a program is deleted
   delete = async (_: any, { payload }: { payload: any }) => {
-    console.log("FROM Program Delete Extension");
+    console.log(
+      "FROM Program Delete Extension will need to delete all results"
+    );
     await this.#db.deleteEntry(this.model, payload.id);
     return payload.id;
   };
@@ -173,9 +175,8 @@ export class ProgramResolvers extends BaseCrudResolvers {
           !update.excludedIds?.includes(originalProgramId)
         ) {
           const program = await this.#db.findEntry(modelTypes.program, {
-            id: originalProgramId
+            _id: originalProgramId
           });
-
           const copyPayload = program.toJSON();
           delete copyPayload._id;
           delete copyPayload.id;

@@ -10,6 +10,7 @@ import AppStateService, { AppState } from "../../services/appStateService";
 
 import RequestService, { RequestsTypeMap } from "../requests/request.Service";
 import { getActions, GetActionsReturnType } from "../../actions";
+import ObservationService from "../../services/observation.service";
 
 /**
  * API Between service and UI Layer
@@ -19,6 +20,7 @@ import { getActions, GetActionsReturnType } from "../../actions";
 @Service()
 export default class UIApi {
   #os: OrchestrationService;
+  #ops: ObservationService;
   #ass: AppStateService;
   #rs: RequestService;
   #store: Store;
@@ -26,6 +28,7 @@ export default class UIApi {
 
   constructor(
     os: OrchestrationService,
+    ops: ObservationService,
     s: Store,
     ass: AppStateService,
     rs: RequestService
@@ -34,7 +37,12 @@ export default class UIApi {
     this.#store = s;
     this.#ass = ass;
     this.#rs = rs;
+    this.#ops = ops;
   }
+
+  public getObservationService = () => {
+    return this.#ops;
+  };
 
   public setUpDataFor = async <K extends DATA_HANDLERS>(
     dh: DATA_HANDLERS,

@@ -1,26 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button, Header } from "../components";
 import { generateKey, getRouterParams, navigateToRoute } from "../utils";
 import { ObserveTarget } from "../containers";
 import {
   Domains,
   ObservationMetaTestIds,
-  Target,
   TargetOption,
   TargetStyle
 } from "@parsimony/types";
 
-import ObservationService from "../services/observation.service";
 import { Container } from "typedi";
 
 import { useAsync } from "react-use";
 import { Spin } from "antd";
 import UIApi from "../domains/uiApi/uiApi.Service";
 
-const observation = new ObservationService();
-
 const Observe = () => {
   const API = Container.get(UIApi);
+  const observation = API.getObservationService();
 
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();
@@ -29,13 +26,16 @@ const Observe = () => {
     await API.makeRequest({
       domain: Domains.Program,
       requestType: "get",
-      payload: programId
+      payload: { id: programId }
     });
   });
 
-  if (loading || !observation.isLoaded) return <Spin />;
+  if (loading) return <Spin />;
 
   const program = API.getItem(Domains.Program, programId);
+
+  observation.init(program);
+
   const isDiscreteTrial = program.targetStyle === TargetStyle.DiscreteTrials;
 
   const onSubmit = async () => {

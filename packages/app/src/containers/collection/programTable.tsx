@@ -92,31 +92,6 @@ export const ProgramTable = ({ programs }: IProgramTableProps) => {
           payload: { id: program.id }
         });
       }
-    },
-    {
-      name: "Add to Client",
-      method: async (program: Required<Program>) => {
-        // TODO: This should be handled in server and made to do bulk experience around this
-        const userId = searchParams.get("userId");
-        const latestProgram = API.getItem(Domains.Program, program.id);
-        latestProgram.mainProgramId = program.id;
-        const payload = omitMongoKeys(
-          removeMongoIds({
-            ...latestProgram,
-            title: `${latestProgram.title}`,
-            clientId: userId || null,
-            type: ProgramTypes.Client
-          })
-        );
-
-        await API.makeRequest({
-          domain: Domains.Program,
-          requestType: "create",
-          payload
-        });
-
-        message.success("Program Added");
-      }
     }
   ];
 

@@ -12,6 +12,7 @@ import RequestService from "../domains/requests/request.Service";
 import OrchestrationService from "../domains/orchestration/orchestration.service";
 import { DATA_HANDLERS } from "../domains/orchestration/orchestrationHandlers/handlers.typemap";
 import UIApi from "../domains/uiApi/uiApi.Service";
+import ObservationService from "./observation.service";
 
 export type Services = {
   [ServiceTypes.Chat]: ChatService;
@@ -53,6 +54,9 @@ export default class AppController {
   @Inject(() => OrchestrationService)
   private readonly orchestration: OrchestrationService;
 
+  @Inject(() => ObservationService)
+  private readonly observation: ObservationService;
+
   @Inject(() => UIApi)
   private readonly API: UIApi;
 
@@ -66,7 +70,8 @@ export default class AppController {
     cs: ChatService,
     requestService: RequestService,
     orchestration: OrchestrationService,
-    api: UIApi
+    api: UIApi,
+    observation: ObservationService
   ) {
     this.stateService = ss;
     this.store = store;
@@ -77,6 +82,7 @@ export default class AppController {
     this.socketService = socketService;
     this.chat = cs;
     this.orchestration = orchestration;
+    this.observation = observation;
     this.API = api;
 
     // TODO: KILL ALL OF THIS

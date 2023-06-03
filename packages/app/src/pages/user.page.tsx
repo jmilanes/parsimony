@@ -75,7 +75,9 @@ const User = () => {
 
   const user = API.getItem(Domains.User, userId);
 
-  const clientPrograms = API.getItemsFromStore(Domains.Program);
+  const clientPrograms = API.getItemsFromStore(Domains.Program).filter(
+    (p) => p.clientId === userId
+  );
 
   const updateState = stateManager.updateLocalState({
     localState,
