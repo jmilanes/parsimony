@@ -177,6 +177,7 @@ export class ProgramResolvers extends BaseCrudResolvers {
           const program = await this.#db.findEntry(modelTypes.program, {
             _id: originalProgramId
           });
+          //com
           const copyPayload = program.toJSON();
           delete copyPayload._id;
           delete copyPayload.id;
