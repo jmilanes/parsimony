@@ -120,13 +120,11 @@ export class BaseCrudResolvers {
             }
           }
         : { [payload.relationshipProperty]: payload.id };
-    console.log("match", match);
+
     const ret = await this.#db.findEntries(this.model, {
       // In some cases we are fetching an ID of something we need clientside so we also want to return the item that we are matching
       $or: [match]
     });
-
-    console.log(ret);
 
     return ret;
   };

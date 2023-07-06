@@ -27,7 +27,6 @@ export class AuthResolvers {
       payload: { email, password }
     }: { payload: { email: string; password: string } }
   ) => {
-    console.log("ht");
     const user = await this.#db.findEntry(modelTypes.user, {
       email: email.toLowerCase()
     });

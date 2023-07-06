@@ -56,9 +56,13 @@ export default class UIApi {
     return this.#ss;
   }
 
-  public getObservationService = () => {
+  public get OrchestrationService() {
+    return this.#os;
+  }
+
+  public get ObservationService() {
     return this.#ops;
-  };
+  }
 
   public setUpDataFor = async <K extends DATA_HANDLERS>(
     dh: DATA_HANDLERS,

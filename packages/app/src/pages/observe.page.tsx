@@ -17,7 +17,7 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Observe = () => {
   const API = Container.get(UIApi);
-  const observation = API.getObservationService();
+  const observation = API.ObservationService;
 
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();

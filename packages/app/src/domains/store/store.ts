@@ -111,7 +111,6 @@ export default class Store {
 
   public addItemsToDomain<T>(domainName: Domains, items: T[] = []) {
     const newStore$ = { ...this.store$[domainName].value, ...items };
-    console.log(newStore$);
     this.store$[domainName].next(newStore$);
   }
 
