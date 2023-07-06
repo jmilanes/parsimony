@@ -13,13 +13,13 @@ type CollectionUpdates = {
   clientId: string;
   parentCollectionId?: string;
   ancestors?: string[];
-  excludedIds: string[];
+  excludedIds: Map<string, boolean>;
 };
 
 type ProgramUpdates = {
   collectionId?: string;
   clientId: string;
-  excludedIds?: string[];
+  excludedIds?: Map<string, boolean>;
 };
 
 type AddToClientsPayLoad = {
@@ -31,6 +31,9 @@ type AddToClientsPayLoad = {
     subscribers: string[];
   };
 };
+
+const createMapFromStringArray = (arr: string[]) =>
+  new Map(arr.map((x) => [x, true]));
 
 @Service()
 export class ProgramResolvers extends BaseCrudResolvers {
@@ -63,17 +66,20 @@ export class ProgramResolvers extends BaseCrudResolvers {
     }: AddToClientsPayLoad
   ) => {
     const createdPrograms: Record<string, true> = {};
+    const createdCollections: Record<string, true> = {};
+    const excludedIdsMap = createMapFromStringArray(excludedIds);
     await this.#copyCollectionByIds(
       collectionIds,
       {
         clientId,
-        excludedIds
+        excludedIds: excludedIdsMap
       },
-      createdPrograms
+      createdPrograms,
+      createdCollections
     );
     await this.#copyProgramsByIds(
       programIds,
-      { clientId, excludedIds },
+      { clientId, excludedIds: excludedIdsMap },
       createdPrograms
     );
   };
@@ -81,52 +87,67 @@ export class ProgramResolvers extends BaseCrudResolvers {
   #copyCollectionByIds = async (
     collectionIds: string[],
     updates: CollectionUpdates,
-    programCache: Record<string, true>
+    programCache: Record<string, true>,
+    collectionCache: Record<string, true>
   ) => {
-    await Promise.all(
-      collectionIds.map(async (originalCollectionId) => {
-        if (updates.excludedIds.includes(originalCollectionId)) {
-          return;
-        }
-        const payload = await this.#createCollectionPayload(
-          originalCollectionId,
-          updates
-        );
-        const newCollection = await this.#db.createEntry(
-          modelTypes.collection,
-          payload
-        );
+    for (const originalCollectionId of collectionIds) {
+      if (
+        updates.excludedIds.has(originalCollectionId) ||
+        collectionCache[originalCollectionId]
+      ) {
+        return;
+      }
 
-        const newCollectionId = newCollection.id;
-        const newCollectionAncestors = newCollection.ancestors;
+      const payload = await this.#createCollectionPayload(
+        originalCollectionId,
+        updates
+      );
 
-        const children = await this.#getChildCollectionIds(
-          originalCollectionId
-        );
+      if (
+        collectionIds.includes(payload.parentCollectionId) &&
+        !collectionCache[payload.parentCollectionId]
+      ) {
+        return;
+      }
 
-        await this.#copyCollectionByIds(
-          children,
-          {
-            clientId: updates.clientId,
-            parentCollectionId: newCollectionId,
-            ancestors: newCollectionAncestors,
-            excludedIds: updates.excludedIds
-          },
-          programCache
-        );
+      if (collectionCache[payload.parentCollectionId]) {
+        return;
+      }
 
-        const programs = await this.#getProgramIds(originalCollectionId);
-        await this.#copyProgramsByIds(
-          programs,
-          {
-            collectionId: newCollectionId,
-            clientId: updates.clientId,
-            excludedIds: updates.excludedIds
-          },
-          programCache
-        );
-      })
-    );
+      const newCollection = await this.#db.createEntry(
+        modelTypes.collection,
+        payload
+      );
+      collectionCache[originalCollectionId] = true;
+
+      const newCollectionId = newCollection.id;
+      const newCollectionAncestors = newCollection.ancestors;
+
+      const children = await this.#getChildCollectionIds(originalCollectionId);
+
+      await this.#copyCollectionByIds(
+        children,
+        {
+          clientId: updates.clientId,
+          parentCollectionId: newCollectionId,
+          ancestors: newCollectionAncestors,
+          excludedIds: updates.excludedIds
+        },
+        programCache,
+        collectionCache
+      );
+
+      const programs = await this.#getProgramIds(originalCollectionId);
+      await this.#copyProgramsByIds(
+        programs,
+        {
+          collectionId: newCollectionId,
+          clientId: updates.clientId,
+          excludedIds: updates.excludedIds
+        },
+        programCache
+      );
+    }
   };
 
   #createCollectionPayload = async (id: string, updates: CollectionUpdates) => {
@@ -168,27 +189,26 @@ export class ProgramResolvers extends BaseCrudResolvers {
     update: ProgramUpdates,
     cache: Record<string, true>
   ) => {
-    await Promise.all(
-      programIds.map(async (originalProgramId: string) => {
-        if (
-          !cache[originalProgramId] &&
-          !update.excludedIds?.includes(originalProgramId)
-        ) {
-          const program = await this.#db.findEntry(modelTypes.program, {
-            _id: originalProgramId
-          });
-          //com
-          const copyPayload = program.toJSON();
-          delete copyPayload._id;
-          delete copyPayload.id;
-          copyPayload.clientId = update.clientId;
-          copyPayload.type = ProgramTypes.Client;
-          copyPayload.collectionId = update.collectionId;
-          await this.#db.createEntry(modelTypes.program, copyPayload);
-          // Add To Cache so we don't do extra work
-          cache[originalProgramId] = true;
-        }
-      })
-    );
+    for (const originalProgramId of programIds) {
+      const shouldAddProgram =
+        !cache[originalProgramId] &&
+        !update.excludedIds?.has(originalProgramId);
+
+      if (shouldAddProgram) {
+        const program = await this.#db.findEntry(modelTypes.program, {
+          _id: originalProgramId
+        });
+        //com
+        const copyPayload = program.toJSON();
+        delete copyPayload._id;
+        delete copyPayload.id;
+        copyPayload.clientId = update.clientId;
+        copyPayload.type = ProgramTypes.Client;
+        copyPayload.collectionId = update.collectionId;
+        await this.#db.createEntry(modelTypes.program, copyPayload);
+        // Add To Cache so we don't do extra work
+        cache[originalProgramId] = true;
+      }
+    }
   };
 }

@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { ThreadDomain } from "../../services/chat.service";
+import React, { useState } from "react";
 import { ChatMetaTestIds, Domains, Thread } from "@parsimony/types";
-import { useServices } from "../../context";
 import { DrawerContentTypes } from "../../services/appStateService";
 import { Button, Col, List, Row } from "../../components";
 import { ChatMessager } from "../index";
@@ -12,7 +10,7 @@ import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export const Chat = () => {
   const API = Container.get(UIApi);
-  const { authService } = useServices();
+  const authService = API.Auth;
   const [currentThread, setCurrentThread] = useState<string>();
   const threads = API.getItemsFromStore(Domains.Thread);
 

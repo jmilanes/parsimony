@@ -53,7 +53,7 @@ const Books = () => {
             hidden={showAddForm}
             metaTestId={BookPageMetaTestIds.addBtn}
           />,
-          <OpenBulkProgramButton key="book-bulk-btn" />
+          <OpenBulkProgramButton />
         ]}
       />
 

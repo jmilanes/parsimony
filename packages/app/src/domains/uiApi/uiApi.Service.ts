@@ -11,6 +11,8 @@ import AppStateService, { AppState } from "../../services/appStateService";
 import RequestService, { RequestsTypeMap } from "../requests/request.Service";
 import { getActions, GetActionsReturnType } from "../../actions";
 import ObservationService from "../../services/observation.service";
+import AuthService from "../../services/auth.service";
+import StateService from "../../services/state.service";
 
 /**
  * API Between service and UI Layer
@@ -24,6 +26,8 @@ export default class UIApi {
   #ass: AppStateService;
   #rs: RequestService;
   #store: Store;
+  #auth: AuthService;
+  #ss: StateService;
   actions: GetActionsReturnType = getActions();
 
   constructor(
@@ -31,13 +35,25 @@ export default class UIApi {
     ops: ObservationService,
     s: Store,
     ass: AppStateService,
-    rs: RequestService
+    rs: RequestService,
+    auth: AuthService,
+    ss: StateService
   ) {
     this.#os = os;
     this.#store = s;
     this.#ass = ass;
     this.#rs = rs;
     this.#ops = ops;
+    this.#auth = auth;
+    this.#ss = ss;
+  }
+
+  public get Auth() {
+    return this.#auth;
+  }
+
+  public get StateService() {
+    return this.#ss;
   }
 
   public getObservationService = () => {

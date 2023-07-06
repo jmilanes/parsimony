@@ -8,24 +8,32 @@ export type IHeaderProps = {
   size: IHeaderSizes;
   action?: () => void;
   hidden?: boolean;
+  marginTop?: number;
   extra?: any[];
 };
 
-export const Header = ({ text, action, hidden, size, extra }: IHeaderProps) => {
+export const Header = ({
+  text,
+  action,
+  hidden,
+  size,
+  extra,
+  marginTop
+}: IHeaderProps) => {
   if (hidden) return <></>;
   const headers: Record<IHeaderSizes, JSX.Element> = {
     sm: (
-      <Typography variant="subtitle1" onClick={action}>
+      <Typography variant="subtitle1" onClick={action} style={{ marginTop }}>
         {text}
       </Typography>
     ),
     md: (
-      <Typography variant="h5" onClick={action}>
+      <Typography variant="h5" onClick={action} style={{ marginTop }}>
         {text}
       </Typography>
     ),
     lg: (
-      <Typography variant="h3" onClick={action}>
+      <Typography variant="h3" onClick={action} style={{ marginTop }}>
         {text}
       </Typography>
     ),

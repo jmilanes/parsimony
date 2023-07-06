@@ -1,179 +1,246 @@
-.container {
-  display: flex;
-  /* align-items: center; */
+:root {
+    --background: #D473F5;
+    --button: black;
+    --border-radus: 1rem;
 }
 
-.container.column {
-  flex-direction: column;
+
+body {
+    background-color: var(--background) !important;
 }
 
-.container.row {
-  flex-direction: row;
-}
-.container.rowReverse {
-  flex-direction: row-reverse;
-}
-.container.columnReverse {
-  flex-direction: column-reverse;
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 30px 0 30px;
 }
 
-.hidden {
-  display: none;
+h1.logo {
+    font-size: 1.35rem;
+    margin-bottom: 0;
 }
 
-p {
-  margin: 5px;
-  font-size: 14px;
-}
-h3 {
-  margin: 20px 0;
-  font-size: 24px;
-}
-h5 {
-  margin: 5px;
-  font-size: 14px;
-}
-input,
-select {
-  margin: 5px !important;
+h1.logo span {
+    font-size: 2rem;
+    letter-spacing: -3px;
 }
 
-input[type="checkbox"] {
-  margin: 5px 0;
+.innerContent {
+    background-color: white;
+    margin: 20px 20px 20px 20px;
+    padding: 20px;
+    height: 100%;
+    border-radius: var(--border-radus);
 }
 
-.add-target-row {
-  border: 1px solid black;
-  padding: 10px;
-  margin: 10px;
-}
 
 .nav {
-  padding: 20px;
+    padding: 0 20px 0 20px;
+    margin-bottom: 0;
 }
 
 .nav-item {
-  margin: 5px;
+    margin: 5px;
 }
 
+.demo-container {
+    display: flex;
+}
+
+.demo-content {
+    margin: 20px;
+    background-color: rgba(172, 196, 255, 0.45);
+    height: 600px;
+    width: 50%;
+    border-radius: var(--border-radus);
+}
+
+
+.demo-content h2 {
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+.container {
+    display: flex;
+    /* align-items: center; */
+}
+
+.container.column {
+    flex-direction: column;
+}
+
+.container.row {
+    flex-direction: row;
+}
+
+.container.rowReverse {
+    flex-direction: row-reverse;
+}
+
+.container.columnReverse {
+    flex-direction: column-reverse;
+}
+
+.hidden {
+    display: none;
+}
+
+p {
+    margin: 5px;
+    font-size: 14px;
+}
+
+h3 {
+    margin: 20px 0;
+    font-size: 24px;
+}
+
+h5 {
+    margin: 5px;
+    font-size: 14px;
+}
+
+input,
+select {
+    margin: 5px !important;
+}
+
+input[type="checkbox"] {
+    margin: 5px 0;
+}
+
+.add-target-row {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+}
+
+
 .input-container {
-  margin: 5px;
+    margin: 5px;
 }
 
 .parsimony-btn {
-  margin: 0 5px !important;
+    margin: 0 5px !important;
+    color: var(--button) !important;
+    border-color: var(--button) !important;
 }
 
 .full-height {
-  min-height: 100%;
+    min-height: 100%;
 }
 
 .chat-container {
-  min-height: 100%;
+    min-height: 100%;
 }
 
 .message-container {
-  width: auto;
-  color: #eee;
-  display: flex;
-  flex: 0 0 auto;
-  justify-content: space-between;
+    width: auto;
+    color: #eee;
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: space-between;
 }
 
 .messager {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
+
 .message-container.sent-by-current-user .message-bubble {
-  background-color: #1976d2;
-  margin-right: 0;
-  margin-left: auto;
+    background-color: var(--background);
+    margin-right: 0;
+    margin-left: auto;
 }
 
 .message-bubble {
-  border-radius: 20px;
-  max-width: 85%;
-  background-color: grey;
-  display: flex;
-  margin: 8px 0;
+    border-radius: 20px;
+    max-width: 85%;
+    background-color: grey;
+    display: flex;
+    margin: 8px 0;
 }
 
 .message {
-  width: 80%;
-  align-self: flex-end;
+    width: 80%;
+    align-self: flex-end;
 }
 
 .message p {
-  margin: 10px;
-  word-wrap: break-word;
+    margin: 10px;
+    word-wrap: break-word;
 }
 
 hr {
-  background: "black";
+    background: black;
 }
 
 .chatMessageInput-container {
-  position: absolute;
-  display: flex;
-  bottom: 0;
-  width: 100%;
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    width: 100%;
 }
 
 .chatMessageInput {
-  width: 100%;
-  resize: none;
+    width: 100%;
+    resize: none;
 }
 
 .messages-container {
-  max-height: 600px;
-  height: 100%;
-  min-height: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
+    max-height: 600px;
+    height: 100%;
+    min-height: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
 }
 
 .overflow-container {
-  overflow: auto;
-  width: 100%;
-  align-self: flex-end;
+    overflow: auto;
+    width: 100%;
+    align-self: flex-end;
 }
 
 .styled-table {
-  border-collapse: collapse;
-  margin: 5px auto;
-  width: 100%;
-  font-size: 0.9em;
-  font-family: sans-serif;
-  min-width: 400px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    border-collapse: collapse;
+    margin: 5px auto;
+    width: 100%;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
 .styled-table thead tr {
-  background-color: #1976d2;
-  color: #ffffff;
-  text-align: left;
+    background-color: var(--background);
+    color: #ffffff;
+    text-align: left;
 }
 
 .styled-table th,
 .styled-table td {
-  padding: 12px 15px;
+    padding: 12px 15px;
 }
 
 .styled-table tbody tr {
-  border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
 }
 
 .styled-table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
+    background-color: #f3f3f3;
 }
 
 .styled-table tbody tr:last-of-type {
-  border-bottom: 2px solid #1976d2;
+    border-bottom: 2px solid var(--background);
 }
 
 .styled-table tbody tr.active-row {
-  font-weight: bold;
-  color: #009879;
+    font-weight: bold;
+    color: #009879;
 }

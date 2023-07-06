@@ -114,6 +114,30 @@ const setUpBulkProgramAdditions = async (db: DataBaseService) => {
   return { program1, program2, program3, book, collection };
 };
 
+const setUpBulkProgramMultiLevelCategoryAdditions = async (
+  db: DataBaseService
+) => {
+  const book = await db.createEntry(
+    modelTypes.collection,
+    generateCollection("Book")
+  );
+
+  const collectionL1 = await db.createEntry(
+    modelTypes.collection,
+    generateCollection("Collection", book._id, [book._id])
+  );
+
+  const collectionL2 = await db.createEntry(
+    modelTypes.collection,
+    generateCollection("Collection", collectionL1._id, [
+      book._id,
+      collectionL1._id
+    ])
+  );
+
+  return { book, collectionL1, collectionL2 };
+};
+
 const createUser = async (db: DataBaseService, name: string) =>
   await db.createEntry(modelTypes.user, generateUserPayload(name));
 
@@ -302,5 +326,83 @@ describe("Program Resolver Tests", () => {
 
     expect(collections.length).toBe(1);
     expect(programs.length).toBe(0);
+  });
+
+  it("Should work with nested collection in order", async () => {
+    const { book, collectionL1, collectionL2 } =
+      await setUpBulkProgramMultiLevelCategoryAdditions(db);
+
+    const client = await createUser(db, "Joey");
+
+    await programResolver.addProgramsToClient(
+      {},
+      {
+        payload: {
+          collectionIds: [book.id, collectionL1.id, collectionL2.id],
+          programIds: [],
+          clientId: client.id,
+          excludedIds: [],
+          subscribers: []
+        }
+      }
+    );
+
+    const collections = await db.findEntries(modelTypes.collection, {
+      clientId: client.id
+    });
+
+    expect(collections.length).toBe(3);
+  });
+
+  it("Should work with nested collection in reverse order", async () => {
+    const { book, collectionL1, collectionL2 } =
+      await setUpBulkProgramMultiLevelCategoryAdditions(db);
+
+    const client = await createUser(db, "Joey");
+
+    await programResolver.addProgramsToClient(
+      {},
+      {
+        payload: {
+          collectionIds: [collectionL2.id, collectionL1.id, book.id],
+          programIds: [],
+          clientId: client.id,
+          excludedIds: [],
+          subscribers: []
+        }
+      }
+    );
+
+    const collections = await db.findEntries(modelTypes.collection, {
+      clientId: client.id
+    });
+
+    expect(collections.length).toBe(3);
+  });
+
+  it("Should work with nested collection in mixed order", async () => {
+    const { book, collectionL1, collectionL2 } =
+      await setUpBulkProgramMultiLevelCategoryAdditions(db);
+
+    const client = await createUser(db, "Joey");
+
+    await programResolver.addProgramsToClient(
+      {},
+      {
+        payload: {
+          collectionIds: [collectionL2.id, book.id, collectionL1.id],
+          programIds: [],
+          clientId: client.id,
+          excludedIds: [],
+          subscribers: []
+        }
+      }
+    );
+
+    const collections = await db.findEntries(modelTypes.collection, {
+      clientId: client.id
+    });
+
+    expect(collections.length).toBe(3);
   });
 });

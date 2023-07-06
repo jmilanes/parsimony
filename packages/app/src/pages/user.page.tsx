@@ -37,7 +37,7 @@ import {
 } from "../utils";
 
 import { IColumns, ITableAction } from "../components/table.component";
-import { useServices } from "../context";
+
 import { message, Spin } from "antd";
 import { Container as DI } from "typedi";
 import { useAsync } from "react-use";
@@ -45,7 +45,7 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 const User = () => {
   const API = DI.get(UIApi);
-  const { stateManager } = useServices();
+  const stateManager = API.StateService;
   const { userId } = getRouterParams();
   const navigate = navigateToRoute();
   const [mode, updateMode] = React.useState<IModes>("readOnly");

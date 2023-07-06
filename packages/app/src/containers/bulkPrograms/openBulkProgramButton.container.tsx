@@ -5,7 +5,7 @@ import { Container } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
 import { DrawerContentTypes } from "../../services/appStateService";
 
-export const OpenBulkProgramButton = ({ key }: { key: string }) => {
+export const OpenBulkProgramButton = () => {
   const API = Container.get(UIApi);
 
   const openBulkPrograms = () => {
@@ -20,7 +20,6 @@ export const OpenBulkProgramButton = ({ key }: { key: string }) => {
 
   return (
     <Button
-      key={key}
       name={name}
       action={openBulkPrograms}
       metaTestId={ProgramsPageMetaTestIds.addProgramToClient}

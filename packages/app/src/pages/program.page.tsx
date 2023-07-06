@@ -37,7 +37,6 @@ import {
   omitMongoKeys
 } from "../utils";
 
-import { useServices } from "../context";
 import { TargetOptionSelector } from "../containers/targetOptionsSelector.container";
 import { Container as DI } from "typedi";
 import { useAsync } from "react-use";
@@ -47,7 +46,8 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 const Program = () => {
   //TODO fix the container collision
   const API = DI.get(UIApi);
-  const { stateManager } = useServices();
+
+  const stateManager = API.StateService;
   const navigate = navigateToRoute();
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();

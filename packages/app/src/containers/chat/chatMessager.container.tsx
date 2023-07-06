@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Col, Header, Icon, Menu, Row } from "../../components";
 import { ChatMessage, ChatMessageInput } from "../index";
 import { ChatMetaTestIds, Message, Domains, Thread } from "@parsimony/types";
-import { useServices } from "../../context";
+
 import { getThreadName } from "../../utils";
 import { Container } from "typedi";
 
@@ -30,7 +30,7 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
 
   const [selectedMessage, setSelectedMessage] = useState<Message | null>();
 
-  const { authService } = useServices();
+  const authService = API.Auth;
 
   const onEditMessage = async (value: string) => {
     if (!selectedMessage || !thread) return;

@@ -21,11 +21,9 @@ import { Field, MultiSelect, Selector } from "../../components";
 import { TargetOptionSelector } from "../targetOptionsSelector.container";
 import { TargetForm } from "../targetForm.container";
 import { AddForm } from "../addForm.container";
-import { useServices } from "../../context";
+
 import { Container } from "typedi";
 import { getFullName, removeMongoIds } from "../../utils";
-import { useAsync } from "react-use";
-import { Spin } from "antd";
 import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export type IProgramAddFormProps = React.PropsWithChildren<{
@@ -40,7 +38,7 @@ export const ProgramAddForm = ({
   collectionId
 }: IProgramAddFormProps) => {
   const API = Container.get(UIApi);
-  const { stateManager } = useServices();
+  const stateManager = API.StateService;
   const [localState, updateLocalState] =
     React.useState<Program>(initialProgramData);
 

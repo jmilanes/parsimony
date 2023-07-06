@@ -10,7 +10,7 @@ import {
 import { initialCollectionData } from "../../fixtures";
 import { Field } from "../../components";
 import { AddForm } from "../addForm.container";
-import { useServices } from "../../context";
+
 import { Container } from "typedi";
 
 import { removeMongoIds } from "../../utils";
@@ -30,7 +30,8 @@ export const CollectionAddForm = ({
   book
 }: ICollectionAddFormProps) => {
   const API = Container.get(UIApi);
-  const { stateManager } = useServices();
+
+  const stateManager = API.StateService;
 
   const [initialData, updateInitialData] = React.useState<Collection>(
     initialCollectionData

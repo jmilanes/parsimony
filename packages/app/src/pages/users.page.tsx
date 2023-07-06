@@ -15,9 +15,7 @@ import {
   Pages,
   User,
   UserPageMetaTestIds,
-  UserRoles,
-  CollectionCategories,
-  Collection
+  UserRoles
 } from "@parsimony/types";
 import { AddForm } from "../containers";
 import {
@@ -28,7 +26,6 @@ import {
 } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table.component";
 
-import { useServices } from "../context";
 import { encrypt } from "@parsimony/utilities";
 import { message } from "antd";
 import { Container } from "typedi";
@@ -37,7 +34,7 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Users = () => {
   const API = Container.get(UIApi);
-  const { stateManager } = useServices();
+  const stateManager = API.StateService;
   const navigate = navigateToRoute();
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =

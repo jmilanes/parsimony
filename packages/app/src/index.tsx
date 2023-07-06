@@ -3,22 +3,26 @@ import "@babel/polyfill";
 import React from "react";
 import ReactDom from "react-dom";
 
-import { generateRoutes } from "./utils";
+import { generateApp } from "./utils";
 import routes from "./routes";
 import AppController from "./services/app.service";
-import { createServicesProvider, useServices } from "./context";
+
 import { Drawer } from "./containers";
 import "antd/dist/antd.css";
 import { useAsync } from "react-use";
-import { Container } from "typedi";
+import { Container as DI, Container } from "typedi";
 import { Spin } from "antd";
+import UIApi from "./domains/uiApi/uiApi.Service";
 
 const app = document.getElementById("app");
 
 const AppContent = () => {
+  const API = DI.get(UIApi);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, updateState] = React.useState({});
-  const { stateManager } = useServices();
+
+  const stateManager = API.StateService;
 
   React.useEffect(() => {
     stateManager.registerUpdateState(() => {
@@ -27,26 +31,21 @@ const AppContent = () => {
   }, [updateState]);
 
   return (
-    <>
-      {generateRoutes(routes)}
+    <div>
+      {generateApp(routes)}
       <Drawer />
-    </>
+    </div>
   );
 };
 
 const App = () => {
-  const { loading, value: services } = useAsync(async () => {
+  const { loading } = useAsync(async () => {
     const appController = Container.get(AppController);
     await appController.init();
-    return appController.services;
   });
-  if (loading || !services) return <Spin />;
-  const ServicesProvider = createServicesProvider(services);
-  return (
-    <ServicesProvider>
-      <AppContent />
-    </ServicesProvider>
-  );
+  if (loading) return <Spin />;
+
+  return <AppContent />;
 };
 
 ReactDom.render(<App />, app);

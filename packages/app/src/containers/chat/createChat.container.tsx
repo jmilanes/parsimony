@@ -1,16 +1,8 @@
 import { ChatMetaTestIds, Domains, Subscriber, User } from "@parsimony/types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import {
-  Autocomplete,
-  Button,
-  Col,
-  Field,
-  Header,
-  Row
-} from "../../components";
+import { Button, Col, Field, Header, Row } from "../../components";
 
-import { useServices } from "../../context";
 import { DrawerContentTypes } from "../../services/appStateService";
 import { getFullName } from "../../utils";
 import { Container } from "typedi";
@@ -19,8 +11,8 @@ import { ClientSelector } from "../clientSelector";
 
 export const CreateChat = () => {
   const API = Container.get(UIApi);
-  // TODO Move to api
-  const { authService } = useServices();
+
+  const authService = API.Auth;
   const currentUserId = authService.currentUser?.id as string;
   const currentName = getFullName(authService.currentUser);
 

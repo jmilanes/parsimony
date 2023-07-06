@@ -1,6 +1,5 @@
 import { Inject, Service } from "typedi";
 
-import { ServiceTypes } from "@parsimony/types";
 import ChatService from "./chat.service";
 import FilterService from "./filter.service";
 import StateService from "./state.service";
@@ -14,19 +13,8 @@ import { DATA_HANDLERS } from "../domains/orchestration/orchestrationHandlers/ha
 import UIApi from "../domains/uiApi/uiApi.Service";
 import ObservationService from "./observation.service";
 
-export type Services = {
-  [ServiceTypes.Chat]: ChatService;
-  [ServiceTypes.Store]: Store;
-  [ServiceTypes.StateManager]: StateService;
-  [ServiceTypes.Filter]: FilterService;
-  [ServiceTypes.AuthService]: AuthService;
-  [ServiceTypes.AppState]: AppStateService;
-};
-
 @Service()
 export default class AppController {
-  services: Services;
-
   @Inject(() => Store)
   private readonly store: Store;
 
@@ -84,15 +72,6 @@ export default class AppController {
     this.orchestration = orchestration;
     this.observation = observation;
     this.API = api;
-
-    // TODO: KILL ALL OF THIS
-    this.services = {
-      [ServiceTypes.AppState]: this.appControlsService,
-      [ServiceTypes.AuthService]: this.authService,
-      [ServiceTypes.Store]: this.store,
-      [ServiceTypes.StateManager]: this.stateService,
-      [ServiceTypes.Filter]: this.filterService
-    } as Services;
   }
 
   public init = async () => {

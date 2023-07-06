@@ -34,7 +34,9 @@ const Collection = () => {
   }, [collectionId]);
   if (loading) return <Spin />;
 
-  const collections = API.getItemsFromStore(Domains.Collection);
+  const collections = API.getItemsFromStore(Domains.Collection).filter(
+    (c) => c.id !== collectionId && c.parentCollectionId === collectionId
+  );
   const collection = API.getItem(Domains.Collection, collectionId);
   const programs = API.getItemsFromStore(Domains.Program).filter(
     (program) => program.collectionId === collectionId
@@ -64,16 +66,12 @@ const Collection = () => {
             hidden={showProgramAddForm}
             metaTestId={ProgramsPageMetaTestIds.addCollection}
           />,
-          <OpenBulkProgramButton key="colleciton-bulk-btn" />
+          <OpenBulkProgramButton />
         ]}
       />
 
       <Header text="Collections" size="md" />
-      <CollectionTable
-        collections={collections.filter(
-          (c) => c.id !== collectionId && c.parentCollectionId === collectionId
-        )}
-      />
+      <CollectionTable collections={collections} />
       <Header text="Programs" size="md" />
       <ProgramTable programs={programs} />
       <CollectionAddForm

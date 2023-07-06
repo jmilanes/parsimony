@@ -1,5 +1,11 @@
 import { clone } from ".";
-import { IObject, IObjectValues, Thread, User } from "@parsimony/types";
+import {
+  Collection,
+  IObject,
+  IObjectValues,
+  Thread,
+  User
+} from "@parsimony/types";
 import { Modes } from "@parsimony/types";
 import { IModes } from "@parsimony/types";
 import { getDataWithPath } from "./abstractions.util";
@@ -136,3 +142,39 @@ export const createShortCut = (key: string, handler: () => void) => {
     e.code === key && handler();
   });
 };
+
+export const exactIncludes = (arr: string[], id: string) =>
+  arr.some((x) => x === id);
+
+export const findTopLevelCollection = (collections: Collection[]) =>
+  collections.reduce(
+    (a, c) => {
+      const level = c.ancestors?.length;
+      // If no top level first thing is undefined
+      if (a.topLevel === undefined) {
+        a.ret.push(c);
+        a.topLevel = level;
+        return a;
+      }
+
+      // If it is the same level as the top level included
+      if (level === a.topLevel) {
+        // update top level
+        a.ret.push(c);
+      }
+
+      // If you find a higher level then there is a new peak
+      if (level !== undefined && level < a.topLevel) {
+        a.ret = [c];
+        // update top level
+        a.topLevel = level;
+      }
+
+      // Alwats return a
+      return a;
+    },
+    { topLevel: undefined, ret: [] } as {
+      topLevel: undefined | number;
+      ret: Collection[];
+    }
+  );

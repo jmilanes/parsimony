@@ -8,7 +8,6 @@ import { IColumns, ITableAction } from "../components/table.component";
 
 import { Pages } from "@parsimony/types";
 
-import { useServices } from "../context";
 import { Container } from "typedi";
 
 import { useAsync } from "react-use";
@@ -17,7 +16,7 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Schools = () => {
   const API = Container.get(UIApi);
-  const { stateManager } = useServices();
+  const stateManager = API.StateService;
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
     React.useState<Partial<School>>(initialSchoolData);

@@ -15,8 +15,7 @@ import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../../utils";
 import { AppState } from "../../services/appStateService";
 import { Service } from "typedi";
-import { AppStartOrchestrationOptions } from "../orchestration/orchestrationHandlers/appStart/appStart.orchestration.handler";
-import { DATA_HANDLERS } from "../orchestration/orchestrationHandlers/handlers.typemap";
+
 import { get } from "lodash";
 
 export interface DomainReturnTypeMap {
@@ -44,6 +43,9 @@ type DocumentStoreValue = Record<IId, Document>;
 type FileStoreValue = Record<IId, File>;
 type CollectionStoreValue = Record<IId, Collection>;
 
+//TODO: idea maybe the store can be turned into async then we can check if its not inclued we can go fetch
+// Also have an option for allways fetching
+// Amount we acctually want for the get alls
 @Service()
 export default class Store {
   public store$: Record<Domains, BehaviorSubject<any>>;

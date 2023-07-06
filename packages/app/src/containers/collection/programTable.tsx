@@ -1,34 +1,26 @@
 import React, { useMemo } from "react";
 
 import {
-  Collection,
-  CreateProgramPayload,
   Domains,
   Program,
   ProgramsPageMetaTestIds,
-  ProgramTypes,
   Routes,
   User
 } from "@parsimony/types";
 
 import { IColumns, ITableAction, Table } from "../../components";
 
-import { useServices } from "../../context";
 import { Container } from "typedi";
 import {
   createList,
   getFullName,
   getLength,
-  getSearchParams,
-  navigateToRoute,
-  omitMongoKeys,
-  removeMongoIds
+  navigateToRoute
 } from "../../utils";
 
 import UIApi from "../../domains/uiApi/uiApi.Service";
-import { message } from "antd";
+
 import { createBulkOrderSelectable } from "../bulkPrograms/helpers";
-import { useMap } from "react-use";
 
 export type IProgramTableProps = React.PropsWithChildren<{
   programs: Program[];
@@ -37,7 +29,6 @@ export type IProgramTableProps = React.PropsWithChildren<{
 export const ProgramTable = ({ programs }: IProgramTableProps) => {
   const API = Container.get(UIApi);
   const navigate = navigateToRoute();
-  let [searchParams] = getSearchParams();
   const clients = API.getItemsFromStore(Domains.User);
 
   const getClientFullName = (clients: User[]) => (id: string) =>
@@ -96,29 +87,6 @@ export const ProgramTable = ({ programs }: IProgramTableProps) => {
   ];
 
   const bulkOrder = API.getAppState("bulkPrograms");
-
-  const isProgramIdSelected = (id: string) => {
-    return API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
-      id,
-      "programIds"
-    );
-  };
-
-  const isIdExcluded = (id: string) =>
-    API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
-      id,
-      "excludedIds"
-    );
-
-  const isCollectionIdSelected = (id: string) => {
-    return API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
-      id,
-      "collectionIds"
-    );
-  };
-
-  const addIdToBulkProgramsCollectionIds = (id: string) =>
-    API.actions.bulkPrograms.addIdToBulkProgramProperty(id, "programIds");
 
   const { onChange, selected } = useMemo(() => {
     return createBulkOrderSelectable<Program>(

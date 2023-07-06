@@ -41,17 +41,6 @@ export enum Modes {
   Edit = "edit"
 }
 
-export enum ServiceTypes {
-  Chat = "chat",
-  Store = "store",
-  Filter = "filterService",
-  StateManager = "stateManager",
-  DataAccess = "dataAccess",
-  AuthService = "authService",
-  App = "appService",
-  AppState = "appControls"
-}
-
 export enum ServiceProviders {
   SLP = "SLP",
   OT = "OT",

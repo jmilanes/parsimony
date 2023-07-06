@@ -3,11 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import MaterialMenu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {
-  ChatMetaTestIds,
-  MetaTestIds,
-  UIMetaTargetTypes
-} from "@parsimony/types";
+import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 import { generateMetaTestId } from "../utils";
 
 const ITEM_HEIGHT = 48;

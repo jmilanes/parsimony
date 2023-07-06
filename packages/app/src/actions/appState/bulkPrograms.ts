@@ -1,6 +1,7 @@
 import { Container } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
 import { BulkProgram } from "../../services/appStateService";
+import { exactIncludes } from "../../utils";
 
 export const getBulkProgramsState = () => {
   const API = Container.get(UIApi);
@@ -51,6 +52,6 @@ export const isIdIncludedInBulkProgramProperty = (
 ) => {
   const target = getBulkProgramsState()[propertyName];
   if (Array.isArray(target)) {
-    return target.includes(id);
+    return exactIncludes(target, id);
   }
 };

@@ -1,6 +1,6 @@
 import { Container } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
-import { Collection } from "@parsimony/types";
+
 import { BulkProgram } from "../../services/appStateService";
 
 export const createBulkOrderSelectable = <E extends { id: string }>(

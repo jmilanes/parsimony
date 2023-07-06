@@ -1,17 +1,25 @@
 import React from "react";
 import { Header } from "../components";
+import { Container as DI } from "typedi";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Home = () => {
+  const API = DI.get(UIApi);
+  const authService = API.Auth;
   return (
     <>
-      <Header text="Parsimony | The Best in Behavior Tracking." size="md" />
-      <p>Things usually behave in the simplest way :D</p>
-      <Header text="Principle of Parsimony:" size="md" />
-      <p>
-        the scientific principle that things are usually connected or behave in
-        the simplest or most economical way, especially with reference to
-        alternative evolutionary pathways.
-      </p>
+      <Header
+        text={`Welcome Back, ${authService.currentUser?.firstName}!`}
+        size="md"
+      />
+      <div className="demo-container">
+        <div className="demo-content">
+          <h2>Client Updates</h2>
+        </div>
+        <div className="demo-content">
+          <h2>Clients</h2>
+        </div>
+      </div>
     </>
   );
 };

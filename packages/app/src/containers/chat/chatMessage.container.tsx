@@ -2,7 +2,7 @@ import React from "react";
 
 import { Menu } from "../../components";
 import { ChatMetaTestIds, Message, Domains } from "@parsimony/types";
-import { useServices } from "../../context";
+
 import { Container } from "typedi";
 
 import UIApi from "../../domains/uiApi/uiApi.Service";
@@ -20,7 +20,7 @@ export const ChatMessage = ({
   setSelectedMessage
 }: IChatMessageProps) => {
   const API = Container.get(UIApi);
-  const { authService } = useServices();
+  const authService = API.Auth;
 
   // TODO: ADD This to store / clientside domains
   const currentUserId = authService.getCurrentUser()?.id;

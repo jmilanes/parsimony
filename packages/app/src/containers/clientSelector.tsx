@@ -5,7 +5,6 @@ import { Container } from "typedi";
 import UIApi from "../domains/uiApi/uiApi.Service";
 
 import { getFullName } from "../utils";
-import { useServices } from "../context";
 
 type ClientSelectorProps = {
   onChange: (value: any) => void;
@@ -17,7 +16,8 @@ export const ClientSelector = ({
   multiSelect
 }: ClientSelectorProps) => {
   const API = Container.get(UIApi);
-  const { authService } = useServices();
+
+  const authService = API.Auth;
   const currentUserId = authService.currentUser?.id as string;
   const clients = API.getItemsFromStore(Domains.User);
 

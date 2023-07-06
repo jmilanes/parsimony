@@ -2,11 +2,13 @@ import React from "react";
 
 import { Container } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
-import { Header, IOption, Button } from "../../components";
+import { Button, Header, IOption } from "../../components";
 import { ClientSelector } from "../clientSelector";
 import { BulKProgramMetaTestIds, Domains } from "@parsimony/types";
-import { omit, tryCatch } from "ramda";
+import { omit } from "ramda";
 import { message } from "antd";
+import { Tree } from "../../components/tree.componet";
+import { findTopLevelCollection } from "../../utils";
 
 export const BulkProgramsContainer = () => {
   const API = Container.get(UIApi);
@@ -60,15 +62,24 @@ export const BulkProgramsContainer = () => {
     }
   };
 
+  const selectedClientIds = API.getAppState("bulkPrograms").collectionIds.map(
+    (id) => API.getItem(Domains.Collection, id)
+  );
+
+  const { ret: topLevelCollections } =
+    findTopLevelCollection(selectedClientIds);
+
   return (
     <div>
       <Header text="Add Programs to Clients" size="md" />
       <ClientSelector onChange={onChange} multiSelect={false} />
       <Button
-        name="Add To Client"
+        name="Add Progams To ClientTo Client"
         metaTestId={BulKProgramMetaTestIds.addToClientBtn}
         action={onAdd}
       />
+      <Header text="Selected Programs:" size="sm" marginTop={20} />
+      <Tree collections={topLevelCollections} />
     </div>
   );
 };

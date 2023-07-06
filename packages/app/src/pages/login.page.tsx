@@ -2,10 +2,13 @@ import { AuthPageMetaTestIds } from "@parsimony/types";
 import React, { useEffect, useState } from "react";
 
 import { Button, Field, Header } from "../components";
-import { useServices } from "../context";
+
+import { Container } from "typedi";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Login = ({ from }: { from: string }) => {
-  const { authService } = useServices();
+  const API = Container.get(UIApi);
+  const authService = API.Auth;
   const [resetPasswordMode, setResetPasswordMode] = useState(Boolean);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +34,7 @@ const Login = ({ from }: { from: string }) => {
 
   return (
     <div>
-      <Header text="Parsimony | Login" size="lg" />
+      <Header text="Login" size="md" />
       <Field
         updateState={(_, value) => setUserName(value)}
         placeHolderText="Email"

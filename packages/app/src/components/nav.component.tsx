@@ -1,10 +1,11 @@
 import React from "react";
-import { createLink, filterByProp, getFullName } from "../utils";
-import { IRoute, NavMetaTestIds, User } from "@parsimony/types";
+import { createLink, filterByProp } from "../utils";
+import { IRoute, NavMetaTestIds } from "@parsimony/types";
 
 import { Button } from "../components";
-import { useServices } from "../context";
 import { OpenChatButton } from "../containers";
+import { Container as DI } from "typedi";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 export type INavProps = {
   routes: IRoute[];
@@ -14,7 +15,8 @@ const filterRoutesByName = (routes: IRoute[]) =>
   filterByProp<IRoute>(routes, "name");
 
 export const Nav = ({ routes }: INavProps) => {
-  const { authService } = useServices();
+  const API = DI.get(UIApi);
+  const authService = API.Auth;
   return (
     <ul className="nav">
       {filterRoutesByName(routes).map((route: IRoute) => createLink(route))}
@@ -28,11 +30,6 @@ export const Nav = ({ routes }: INavProps) => {
       <a className="nav-item">
         <OpenChatButton />
       </a>
-      <p>
-        {authService.getCurrentUser() &&
-          getFullName(authService.getCurrentUser() as User)}{" "}
-        is logged in
-      </p>
     </ul>
   );
 };
