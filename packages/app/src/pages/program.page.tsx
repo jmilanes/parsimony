@@ -148,13 +148,13 @@ const Program = () => {
 
           <Button
             name="View Client"
-            action={() => navigate(`${Routes.Users}/${program.clientId}`)}
+            action={() => navigate(`/${Routes.Users}/${program.clientId}`)}
             hidden={isEditMode(mode) || program.type !== ProgramTypes.Client}
             metaTestId={ProgramPageMetaTestIds.clientProgramActionViewClient}
           />,
           <Button
             name="Start Observation"
-            action={() => navigate(`programs/${program.id}/observe`)}
+            action={() => navigate(`/programs/${program.id}/observe`)}
             hidden={isEditMode(mode) || program.type !== ProgramTypes.Client}
             metaTestId={
               ProgramPageMetaTestIds.clientProgramActionStartObservation

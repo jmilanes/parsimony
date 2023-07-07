@@ -152,10 +152,11 @@ export class ProgramResolvers extends BaseCrudResolvers {
 
   #createCollectionPayload = async (id: string, updates: CollectionUpdates) => {
     const collection = await this.#db.findEntry(modelTypes.collection, {
-      id
+      _id: id
     });
 
     const copyPayload = collection.toJSON();
+
     delete copyPayload.id;
     delete copyPayload._id;
     copyPayload.type = CollectionTypes.Client;

@@ -43,11 +43,10 @@ const Results = () => {
         id: programId
       }
     });
-
     await API.makeRequest({
       domain: Domains.Program,
       requestType: "get",
-      payload: programId
+      payload: { id: programId }
     });
   });
 
@@ -70,20 +69,21 @@ const Results = () => {
     labels: programDateLabels,
     datasets: [
       {
-        label: `${program.title} Completeness`,
+        label: `Program ${program?.title} Completeness`,
         fill: false,
         lineTension: 0.5,
-        backgroundColor: "rgba(75,192,192,1)",
-        borderColor: "rgba(0,0,0,1)",
+        backgroundColor: "#D473F5",
+        borderColor: "#D473F5",
         borderWidth: 2,
         data: programCompletenessData
       }
     ]
   };
+  const header = `${program?.title || "Untitled"}: Results`;
 
   return (
     <>
-      <Header text={Pages.Results} size="page" />
+      <Header text={header} size="page" />
       <Line data-test-id={"chart"} data={state} />
     </>
   );

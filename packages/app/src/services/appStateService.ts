@@ -38,9 +38,14 @@ export type BulkProgram = {
   excludedIds: string[];
 };
 
+export type ProgramViewer = {
+  clientId?: string;
+};
+
 export type AppState = {
   drawer: DrawerControls;
   bulkPrograms: BulkProgram;
+  programViewer: ProgramViewer;
 };
 
 export type ControlPayloads = Partial<DrawerControls>;
@@ -65,7 +70,8 @@ export default class AppStateService {
         programIds: [],
         subscribers: [],
         excludedIds: []
-      }
+      },
+      programViewer: {}
     };
   }
 

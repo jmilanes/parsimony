@@ -32,7 +32,8 @@ h1.logo span {
     background-color: white;
     margin: 20px 20px 20px 20px;
     padding: 20px;
-    height: 100%;
+    height: auto;
+    min-height: 100%;
     border-radius: var(--border-radus);
 }
 
@@ -244,4 +245,9 @@ hr {
 .styled-table tbody tr.active-row {
     font-weight: bold;
     color: #009879;
+}
+
+
+.ant-modal-close {
+    top: 20px
 }

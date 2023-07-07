@@ -2,9 +2,9 @@ import React from "react";
 
 import { Container } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
-import { Header } from "../../components";
+import { Header, IOption } from "../../components";
 import { ClientSelector } from "../clientSelector";
-import { CollectionCategories, Domains } from "@parsimony/types";
+import { Collection, CollectionCategories, Domains } from "@parsimony/types";
 import { Tree } from "../../components/tree.componet";
 import { findTopLevelCollection } from "../../utils";
 import { useAsync } from "react-use";
@@ -14,21 +14,41 @@ export const ProgramViewContainer = () => {
   const API = Container.get(UIApi);
   const navigate = API.Navigation;
 
+  const selectedClientId = API.getAppState("programViewer").clientId;
+
   const { loading } = useAsync(async () => {
-    await API.makeRequest({
-      domain: Domains.Collection,
-      requestType: "getAllByRelationship",
-      payload: {
-        relationshipProperty: "category",
-        id: CollectionCategories.Book
-      }
-    });
-  });
+    if (selectedClientId) {
+      await API.makeRequest({
+        domain: Domains.Collection,
+        requestType: "getAllByRelationship",
+        payload: {
+          relationshipProperty: "clientId",
+          id: selectedClientId
+        }
+      });
+    } else {
+      await API.makeRequest({
+        domain: Domains.Collection,
+        requestType: "getAllByRelationship",
+        payload: {
+          relationshipProperty: "category",
+          id: CollectionCategories.Book
+        }
+      });
+    }
+  }, [selectedClientId]);
 
   if (loading) return <Spin />;
 
+  const collectionFilter = (c: Collection) => {
+    if (selectedClientId) {
+      return c.clientId === selectedClientId;
+    }
+    return c.category === CollectionCategories.Book;
+  };
+
   const collections = API.getItemsFromStore(Domains.Collection).filter(
-    (x) => x.category === CollectionCategories.Book
+    collectionFilter
   );
 
   const { ret: topLevelCollections } = findTopLevelCollection(collections);
@@ -38,10 +58,12 @@ export const ProgramViewContainer = () => {
     navigate(`${route}${id}`);
   };
 
-  const onChange = () => {};
-  // If no client show only main bock/programs
-  // If selected only take CLIENT and matching the clent id
-  // Tree needs a way to click to the page
+  const onChange = (option: IOption) => {
+    const clientId = option ? (option.value as string) : undefined;
+    API.updateAppState("programViewer", {
+      clientId
+    });
+  };
 
   return (
     <div>

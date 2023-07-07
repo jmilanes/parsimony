@@ -214,6 +214,13 @@ describe("Program Resolver Tests", () => {
       clientId: client.id
     });
 
+    const titles = collections.map((x: any) => x.toJSON().title);
+    const clientIds = collections.map((x: any) => x.toJSON().clientId);
+
+    expect(clientIds.every((id: any) => id === client.id));
+
+    expect(titles.includes("Book") && titles.includes("Collection")).toBe(true);
+
     expect(collections.length).toBe(2);
     expect(programs.length).toBe(3);
   });
@@ -299,7 +306,7 @@ describe("Program Resolver Tests", () => {
   });
 
   it("Should preform bulk with collection excludes", async () => {
-    const { book, collection, program1 } = await setUpBulkProgramAdditions(db);
+    const { book, collection } = await setUpBulkProgramAdditions(db);
 
     const client = await createUser(db, "Joey");
 

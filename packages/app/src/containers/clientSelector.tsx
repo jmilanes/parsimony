@@ -17,11 +17,9 @@ export const ClientSelector = ({
 }: ClientSelectorProps) => {
   const API = Container.get(UIApi);
 
-  const authService = API.Auth;
-  const currentUserId = authService.currentUser?.id as string;
+  const currentUserId = API.Auth.currentUser?.id as string;
   const clients = API.getItemsFromStore(Domains.User);
 
-  //TODO Add Filter prop so that we can ge the correct list client or no client
   const options = clients
     .filter((user: User) => user.id !== currentUserId)
     .map((user: User) => ({

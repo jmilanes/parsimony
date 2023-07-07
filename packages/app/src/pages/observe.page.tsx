@@ -48,9 +48,11 @@ const Observe = () => {
 
   if (!program.targetOptions) return null;
 
+  const header = `${program.title || "Untitled"}: Observation`;
+
   return (
     <>
-      <Header text={program?.title || ""} size="page" />
+      <Header text={header} size="page" />
       <Header
         text={`Completeness: ${observation.programCompleteness}%`}
         size="sm"

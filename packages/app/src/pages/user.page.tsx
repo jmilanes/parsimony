@@ -17,6 +17,7 @@ import {
 } from "../components";
 
 import {
+  Collection,
   Domains,
   IModes,
   Program,
@@ -61,6 +62,15 @@ const User = () => {
     });
 
     await API.makeRequest({
+      domain: Domains.Collection,
+      requestType: "getAllByRelationship",
+      payload: {
+        relationshipProperty: "clientId",
+        id: userId
+      }
+    });
+
+    await API.makeRequest({
       domain: Domains.User,
       requestType: "get",
       payload: { id: userId }
@@ -75,6 +85,10 @@ const User = () => {
   const user = API.getItem(Domains.User, userId);
 
   const clientPrograms = API.getItemsFromStore(Domains.Program).filter(
+    (p) => p.clientId === userId
+  );
+
+  const clientCollections = API.getItemsFromStore(Domains.Collection).filter(
     (p) => p.clientId === userId
   );
 
@@ -128,6 +142,23 @@ const User = () => {
           domain: Domains.Program,
           requestType: "delete",
           payload: { id: program.id }
+        });
+      }
+    }
+  ];
+
+  const collectionActions: ITableAction[] = [
+    {
+      name: "View Program",
+      method: (program: Program) => navigate(`/programs/${program.id}`)
+    },
+    {
+      name: "Delete",
+      method: async (collection: Required<Collection>) => {
+        await API.makeRequest({
+          domain: Domains.Collection,
+          requestType: "delete",
+          payload: { id: collection.id }
         });
       }
     }
@@ -227,19 +258,23 @@ const User = () => {
           metaTestId={UserPageMetaTestIds.serviceProviderSelector}
         />
       )}
+
       <Row>
-        <Header text="Programs:" size="md" />
-        <Button
-          name="Add Programs"
-          action={() => {
-            navigate(`${Routes.Books}`);
-            // Pop open
-          }}
-          metaTestId={UserPageMetaTestIds.addProgram}
-        />
+        <Header text="Collections:" size="sm" />
       </Row>
+      <Table<Collection>
+        data={clientCollections}
+        columns={columns}
+        actions={collectionActions}
+        name="user-program-table"
+        metaTestId={UserPageMetaTestIds.programsTable}
+      ></Table>
+
+      <Row>
+        <Header text="Programs:" size="sm" />
+      </Row>
+      {/*TODO This should be a better expereince*/}
       <Table<Program>
-        //TODO: getCurrentDomainItems should return the proper type
         data={clientPrograms}
         columns={columns}
         actions={actions}
