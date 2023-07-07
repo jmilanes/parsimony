@@ -53,10 +53,7 @@ const Observe = () => {
   return (
     <>
       <Header text={header} size="page" />
-      <Header
-        text={`Completeness: ${observation.programCompleteness}%`}
-        size="sm"
-      />
+      <h4 className="completeness">{`Completeness: ${observation.programCompleteness}%`}</h4>
       {isDiscreteTrial ? (
         <ObserveTarget
           targetOptions={program.targetOptions as TargetOption[]}

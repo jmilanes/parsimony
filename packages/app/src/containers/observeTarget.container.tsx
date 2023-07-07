@@ -7,7 +7,8 @@ import {
   ObservationMetaTestIds,
   Target,
   TargetResult,
-  TargetResultOption, TargetOption
+  TargetResultOption,
+  TargetOption
 } from "@parsimony/types";
 import {
   increment,
@@ -20,7 +21,7 @@ import "./styles.css";
 
 export type IObserverTargetProps = React.PropsWithChildren<{
   target: Target | Target[];
-  targetOptions: TargetOption[]
+  targetOptions: TargetOption[];
   updateResultData: (result: IResultData) => void;
   programTrials: number;
   patentActiveState?: boolean;
@@ -28,14 +29,13 @@ export type IObserverTargetProps = React.PropsWithChildren<{
 }>;
 
 export const ObserveTarget = ({
-                                target,
-                                targetOptions,
-                                updateResultData,
-                                patentActiveState,
-                                programTrials,
-                                metaQualifierIndex
-                              }: IObserverTargetProps) => {
-
+  target,
+  targetOptions,
+  updateResultData,
+  patentActiveState,
+  programTrials,
+  metaQualifierIndex
+}: IObserverTargetProps) => {
   const [active, setActive] = useState(patentActiveState || false);
   const [complete, setComplete] = useState(false);
   const [completeness, setCompleteness] = useState<ICompletenessState>({});
@@ -127,9 +127,9 @@ export const ObserveTarget = ({
   };
 
   const InactiveTarget = ({
-                            target,
-                            index
-                          }: {
+    target,
+    index
+  }: {
     target: Target;
     index: number;
   }) => {
@@ -138,7 +138,7 @@ export const ObserveTarget = ({
       : compileStyles({ observeTarget: true, complete });
     return (
       <div className={classes}>
-        <p>{target.title}</p>
+        <h3>{target.title}</h3>
         {!isGroup && (
           <Button
             name="Observe"
@@ -152,26 +152,40 @@ export const ObserveTarget = ({
   };
 
   const ActiveTarget = ({
-                          target,
-                          index
-                        }: {
+    target,
+    index
+  }: {
     target: Target;
     index: number;
   }) => {
     return (
-      <>
-        <p>{target.title}</p>
-        <p>
-          Individual Completeness: {completeness[target.id as string] || 0}%
-        </p>
-        {!isGroup && (
-          <Button
-            name="Close"
-            action={() => setActive(false)}
-            metaTestId={ObservationMetaTestIds.closeRuleBtn}
-          />
-        )}
-        <Container>
+      <div
+        className={compileStyles({
+          activeObservationTarget: true,
+          group: isGroup
+        })}
+      >
+        <div className="content">
+          <div className="trial">
+            {!isGroup && (
+              <>
+                <h3>
+                  {target.title} Trial: {currentStep}
+                </h3>
+                <h4 className="completeness">
+                  Completeness: {completeness[target.id as string] || 0}%
+                </h4>
+              </>
+            )}
+            {isGroup && <h3>{target.title}</h3>}
+          </div>
+          {!isGroup && (
+            <Button
+              name="Close"
+              action={() => setActive(false)}
+              metaTestId={ObservationMetaTestIds.closeRuleBtn}
+            />
+          )}
           {currentStep > 1 && (
             <Button
               name="Back"
@@ -179,7 +193,9 @@ export const ObserveTarget = ({
               metaTestId={ObservationMetaTestIds.revertStepBtn}
             />
           )}
-          {!isGroup && <h1>{currentStep}</h1>}
+        </div>
+
+        <div className="promptBtnContainer">
           {targetOptions?.map((option, i) => (
             <Button
               key={generateKey("optionButton", i)}
@@ -196,8 +212,8 @@ export const ObserveTarget = ({
               metaTestQualifier={`target-${index.toString()}-prompt-${i}` || ""}
             />
           ))}
-        </Container>
-      </>
+        </div>
+      </div>
     );
   };
 
@@ -210,41 +226,51 @@ export const ObserveTarget = ({
 
   const GroupControls = ({ firstTarget }: { firstTarget: Target }) => {
     return (
-      <>
-        <h1>{currentStep}</h1>
-        <Button
-          name="Close"
-          action={() => setActive(false)}
-          metaTestId={ObservationMetaTestIds.closeGroupedRuleBtn}
-        />
-        <Button
-          name="Next Step"
-          action={() => incrementStep(firstTarget)}
-          metaTestId={ObservationMetaTestIds.nextRuleBtn}
-        />
-        {currentStep > 1 && (
+      <div className="group-controls">
+        <h3>Trial: {currentStep}</h3>
+        <div className="group-contols-buttons">
+          {currentStep > 1 && (
+            <Button
+              name="Back"
+              action={decrementStep}
+              metaTestId={ObservationMetaTestIds.revertRuleBtn}
+            />
+          )}
           <Button
-            name="Back"
-            action={decrementStep}
-            metaTestId={ObservationMetaTestIds.revertRuleBtn}
+            name="Next Step"
+            action={() => incrementStep(firstTarget)}
+            metaTestId={ObservationMetaTestIds.nextRuleBtn}
           />
-        )}
-      </>
+          <Button
+            name="Close"
+            action={() => setActive(false)}
+            metaTestId={ObservationMetaTestIds.closeGroupedRuleBtn}
+          />
+        </div>
+      </div>
     );
   };
 
   const GroupTarget = () => {
     return isGroup ? (
-      <div className={compileStyles({ observeTarget: true, complete })}>
+      <div
+        className={compileStyles({
+          observeTarget: true,
+          group: isGroup,
+          complete
+        })}
+      >
         {active && <GroupControls firstTarget={target[0]} />}
         {target.map((target, i) => (
           <SingleTarget key={i} target={target} index={i} />
         ))}
-        <Button
-          name="Observe"
-          action={() => setActive(true)}
-          metaTestId={ObservationMetaTestIds.selectGroupedRuleBtn}
-        />
+        {!active && (
+          <Button
+            name="Observe"
+            action={() => setActive(true)}
+            metaTestId={ObservationMetaTestIds.selectGroupedRuleBtn}
+          />
+        )}
       </div>
     ) : null;
   };

@@ -249,5 +249,67 @@ hr {
 
 
 .ant-modal-close {
-    top: 20px
+    top: 20px !important;
+}
+
+
+.observeTarget {
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.observeTarget.group {
+
+    flex-direction: column;
+
+}
+
+
+.activeObservationTarget {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border: 1px solid var(--background);
+    padding: 20px;
+    margin: 20px;
+}
+
+.activeObservationTarget.group {
+    min-width: 100%;
+}
+
+.activeObservationTarget .content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.activeObservationTarget .content .trial {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.activeObservationTarget .promptBtnContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.activeObservationTarget .promptBtnContainer button {
+    margin: 10px !important;
+}
+
+.group-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.completeness {
+    margin-left: 20px;
 }

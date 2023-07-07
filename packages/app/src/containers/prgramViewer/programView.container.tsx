@@ -4,7 +4,12 @@ import { Container } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
 import { Header, IOption } from "../../components";
 import { ClientSelector } from "../clientSelector";
-import { Collection, CollectionCategories, Domains } from "@parsimony/types";
+import {
+  Collection,
+  CollectionCategories,
+  CollectionTypes,
+  Domains
+} from "@parsimony/types";
 import { Tree } from "../../components/tree.componet";
 import { findTopLevelCollection } from "../../utils";
 import { useAsync } from "react-use";
@@ -44,7 +49,10 @@ export const ProgramViewContainer = () => {
     if (selectedClientId) {
       return c.clientId === selectedClientId;
     }
-    return c.category === CollectionCategories.Book;
+    return (
+      c.category === CollectionCategories.Book &&
+      c.type === CollectionTypes.Main
+    );
   };
 
   const collections = API.getItemsFromStore(Domains.Collection).filter(
