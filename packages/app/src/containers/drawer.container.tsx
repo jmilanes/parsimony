@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { Drawer as ADrawer, Spin } from "antd";
 import { Domains, DrawerMetaTestIds } from "@parsimony/types";
 import { DrawerContentTypes } from "../services/appStateService";
-import { BulkProgramsContainer, Chat, CreateChat } from "../containers";
+import {
+  BulkProgramsContainer,
+  Chat,
+  CreateChat,
+  ProgramViewContainer
+} from "../containers";
 import { Button, Icon } from "../components";
 import { Container } from "typedi";
 
@@ -46,6 +51,9 @@ export const Drawer = () => {
       {controls.content === DrawerContentTypes.CreateChat && <CreateChat />}
       {controls.content === DrawerContentTypes.BulkPrograms && (
         <BulkProgramsContainer />
+      )}
+      {controls.content === DrawerContentTypes.ProgramSelector && (
+        <ProgramViewContainer />
       )}
     </ADrawer>
   );

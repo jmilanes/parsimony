@@ -13,6 +13,7 @@ import { getActions, GetActionsReturnType } from "../../actions";
 import ObservationService from "../../services/observation.service";
 import AuthService from "../../services/auth.service";
 import StateService from "../../services/state.service";
+import { useNavigate } from "react-router-dom";
 
 /**
  * API Between service and UI Layer
@@ -62,6 +63,10 @@ export default class UIApi {
 
   public get ObservationService() {
     return this.#ops;
+  }
+
+  public get Navigation() {
+    return useNavigate();
   }
 
   public setUpDataFor = async <K extends DATA_HANDLERS>(

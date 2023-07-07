@@ -3,7 +3,11 @@ import { createLink, filterByProp } from "../utils";
 import { IRoute, NavMetaTestIds } from "@parsimony/types";
 
 import { Button } from "../components";
-import { OpenChatButton } from "../containers";
+import {
+  OpenBulkProgramButton,
+  OpenChatButton,
+  OpenProgramViewButton
+} from "../containers";
 import { Container as DI } from "typedi";
 import UIApi from "../domains/uiApi/uiApi.Service";
 
@@ -26,6 +30,9 @@ export const Nav = ({ routes }: INavProps) => {
           action={async () => await authService.logOut()}
           metaTestId={NavMetaTestIds.logoutBtn}
         />
+      </a>
+      <a className="nav-item">
+        <OpenProgramViewButton />
       </a>
       <a className="nav-item">
         <OpenChatButton />

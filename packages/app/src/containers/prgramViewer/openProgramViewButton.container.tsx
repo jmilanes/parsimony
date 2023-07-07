@@ -1,0 +1,21 @@
+import React from "react";
+import { Button, Icon } from "../../components";
+import { ProgramsPageMetaTestIds } from "@parsimony/types";
+import { Container } from "typedi";
+import UIApi from "../../domains/uiApi/uiApi.Service";
+import { DrawerContentTypes } from "../../services/appStateService";
+
+export const OpenProgramViewButton = () => {
+  const API = Container.get(UIApi);
+
+  return (
+    <Button
+      name="Show Programs"
+      action={() =>
+        API.actions.drawer.setDrawerActive(DrawerContentTypes.ProgramSelector)
+      }
+      icon={<Icon.ProgramViewer />}
+      metaTestId={ProgramsPageMetaTestIds.addProgramToClient}
+    />
+  );
+};

@@ -62,12 +62,28 @@ export const BulkProgramsContainer = () => {
     }
   };
 
-  const selectedClientIds = API.getAppState("bulkPrograms").collectionIds.map(
+  const selectedCollections = API.getAppState("bulkPrograms").collectionIds.map(
     (id) => API.getItem(Domains.Collection, id)
   );
 
   const { ret: topLevelCollections } =
-    findTopLevelCollection(selectedClientIds);
+    findTopLevelCollection(selectedCollections);
+
+  const filteredCollections = topLevelCollections.filter(
+    (collection) =>
+      !API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
+        collection.id,
+        "excludedIds"
+      )
+  );
+
+  const onClose = (id: string, isProgram = false) => {
+    API.actions.bulkPrograms.addIdToBulkProgramProperty(id, "excludedIds");
+    API.actions.bulkPrograms.removeIdFromBulkProgramProperty(
+      id,
+      isProgram ? "programIds" : "collectionIds"
+    );
+  };
 
   return (
     <div>
@@ -79,7 +95,12 @@ export const BulkProgramsContainer = () => {
         action={onAdd}
       />
       <Header text="Selected Programs:" size="sm" marginTop={20} />
-      <Tree collections={topLevelCollections} />
+      <Tree
+        collections={filteredCollections}
+        actions={{
+          onClose
+        }}
+      />
     </div>
   );
 };

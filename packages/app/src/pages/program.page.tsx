@@ -144,6 +144,29 @@ const Program = () => {
             action={deleteProgram}
             hidden={isEditMode(mode)}
             metaTestId={ProgramPageMetaTestIds.deleteProgramBtn}
+          />,
+
+          <Button
+            name="View Client"
+            action={() => navigate(`${Routes.Users}/${program.clientId}`)}
+            hidden={isEditMode(mode) || program.type !== ProgramTypes.Client}
+            metaTestId={ProgramPageMetaTestIds.clientProgramActionViewClient}
+          />,
+          <Button
+            name="Start Observation"
+            action={() => navigate(`programs/${program.id}/observe`)}
+            hidden={isEditMode(mode) || program.type !== ProgramTypes.Client}
+            metaTestId={
+              ProgramPageMetaTestIds.clientProgramActionStartObservation
+            }
+          />,
+          <Button
+            name="View Data"
+            action={() => navigate(`/results/${program.clientId}`)}
+            hidden={isEditMode(mode) || program.type !== ProgramTypes.Client}
+            metaTestId={
+              ProgramPageMetaTestIds.clientProgramActionViewProgramData
+            }
           />
         ]}
       />
@@ -242,33 +265,6 @@ const Program = () => {
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.writeAccessMultiSelector}
       />
-
-      {program.type === ProgramTypes.Client && client && (
-        <Row>
-          <Button
-            name="View Client"
-            action={() => navigate(`${Routes.Users}/${program.clientId}`)}
-            hidden={isEditMode(mode)}
-            metaTestId={ProgramPageMetaTestIds.clientProgramActionViewClient}
-          />
-          <Button
-            name="Start Observation"
-            action={() => navigate(`programs/${program.id}/observe`)}
-            hidden={isEditMode(mode)}
-            metaTestId={
-              ProgramPageMetaTestIds.clientProgramActionStartObservation
-            }
-          />
-          <Button
-            name="View Data"
-            action={() => navigate(`/results/${program.clientId}`)}
-            hidden={isEditMode(mode)}
-            metaTestId={
-              ProgramPageMetaTestIds.clientProgramActionViewProgramData
-            }
-          />
-        </Row>
-      )}
 
       {Array.isArray(localState.targetOptions) && (
         <TargetOptionSelector

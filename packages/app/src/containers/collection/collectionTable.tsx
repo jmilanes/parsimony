@@ -51,7 +51,6 @@ export const CollectionTable = ({ collections }: ICollectionTableProps) => {
     );
   }, []);
 
-  console.log(bulkOrder);
   return (
     <Table<Collection>
       data={collections}

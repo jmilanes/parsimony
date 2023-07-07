@@ -30,12 +30,7 @@ const AppContent = () => {
     });
   }, [updateState]);
 
-  return (
-    <div>
-      {generateApp(routes)}
-      <Drawer />
-    </div>
-  );
+  return <div>{generateApp(routes)}</div>;
 };
 
 const App = () => {

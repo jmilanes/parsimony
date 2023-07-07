@@ -11,3 +11,5 @@ export * from "./chat/chatMessageInput.container";
 export * from "./collection";
 export * from "./bulkPrograms";
 export * from "./clientSelector";
+export * from "./appHeader.container";
+export * from "./prgramViewer";

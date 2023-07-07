@@ -15,18 +15,15 @@ import { IRoute } from "@parsimony/types";
 import { Login } from "../pages";
 import { Container as DI } from "typedi";
 import UIApi from "../domains/uiApi/uiApi.Service";
+import { AppHeader, Drawer } from "../containers";
 
 export const generateApp = (routes: IRoute[]) => {
   const API = DI.get(UIApi);
   const authService = API.Auth;
+
   return (
     <HashRouter>
-      <div className="header">
-        <h1 className="logo">
-          <span>P</span>arsimony
-        </h1>
-        {authService.isLoggedIn && <Nav routes={routes} />}
-      </div>
+      <AppHeader routes={routes} />
       <div className={"innerContent"}>
         <Routes>
           {routes.map((route) => (
@@ -43,6 +40,7 @@ export const generateApp = (routes: IRoute[]) => {
             />
           ))}
         </Routes>
+        <Drawer />
       </div>
     </HashRouter>
   );

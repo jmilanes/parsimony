@@ -16,7 +16,10 @@ type Subset<K> = {
 export enum DrawerContentTypes {
   Chat = "chat",
   CreateChat = "createChat",
-  BulkPrograms = "bulkPrograms"
+  BulkPrograms = "bulkPrograms",
+  Nav = "nav",
+  CurrentUser = "currentUser",
+  ProgramSelector = "programSelector"
 }
 
 export type DrawerControls = {

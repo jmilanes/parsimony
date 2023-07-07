@@ -32,7 +32,6 @@ import {
   getRouterParams,
   isEditMode,
   isReadOnlyMode,
-  navigateToRoute,
   omitMongoKeys
 } from "../utils";
 
@@ -47,7 +46,7 @@ const User = () => {
   const API = DI.get(UIApi);
   const stateManager = API.StateService;
   const { userId } = getRouterParams();
-  const navigate = navigateToRoute();
+  const navigate = API.Navigation;
   const [mode, updateMode] = React.useState<IModes>("readOnly");
   const [localState, updateLocalState] = React.useState<User>();
 
@@ -247,10 +246,6 @@ const User = () => {
         name="user-program-table"
         metaTestId={UserPageMetaTestIds.programsTable}
       ></Table>
-      <Header text="Client Files" size="sm" />
-      <p>Upload your client files here:</p>
-      {/* //TODO FIX FILE UPLOAD */}
-      {/* <FileUpload></FileUpload> */}
     </Container>
   );
 };

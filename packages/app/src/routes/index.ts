@@ -17,9 +17,7 @@ import { IRoute } from "@parsimony/types";
 const routes: IRoute[] = [
   {
     path: Routes.Home,
-    element: Home,
-    name: NavTitles.Home,
-    metaTestId: NavMetaTestIds.homeBtn
+    element: Home
   },
   {
     path: Routes.Program,
@@ -59,9 +57,7 @@ const routes: IRoute[] = [
   },
   {
     path: Routes.School,
-    element: School,
-    name: NavTitles.School,
-    metaTestId: NavMetaTestIds.schoolBtn
+    element: School
   }
 ];
 
