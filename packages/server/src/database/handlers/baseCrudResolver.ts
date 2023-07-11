@@ -1,6 +1,7 @@
 import { BroadcastService, DataBaseService, modelTypes } from "../index";
 import { Service } from "typedi";
-import { ObjectId } from "mongodb";
+import { validateRole } from "../../domains/autherization/validateRole";
+import { UserRoles } from "@parsimony/types";
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -56,9 +57,24 @@ export class BaseCrudResolvers {
 
   getResolver() {
     return {
-      Mutation: this.getMutations(),
+      Mutation: this.#mutationsWithAuthorization(),
       Query: this.getQuires()
     };
+  }
+
+  #mutationsWithAuthorization() {
+    const mutations = this.getMutations();
+    const keys = Object.keys(mutations);
+    const ret: any = {};
+    for (const key of keys) {
+      ret[key] = validateRole([UserRoles.Admin, UserRoles.Director])(
+        (_: any, args: any) => {
+          return mutations[key](_, args);
+        }
+      );
+    }
+
+    return ret;
   }
 
   create = async (_: any, { payload }: { payload: any }) => {

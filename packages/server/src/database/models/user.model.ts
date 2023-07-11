@@ -1,14 +1,5 @@
 import { ObjectId } from "mongodb";
 
-// TODO: Ask Molly what else needs to be here
-const ActionItem = {
-  tile: String,
-  details: String,
-  completed: Boolean,
-  ignored: Boolean,
-  clientId: { type: ObjectId, ref: "User" }
-};
-
 export default {
   schoolId: String,
   timeZone: String,

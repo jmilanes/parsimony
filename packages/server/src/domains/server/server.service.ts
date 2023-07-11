@@ -83,6 +83,6 @@ export default class ServerService {
 
     const accessToken = req.headers.authorization.split(" ")[1];
     const currentUser = await this.ts.verifyAccessToken(accessToken);
-    return { currentUser };
+    return currentUser;
   };
 }
