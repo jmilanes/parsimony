@@ -3,9 +3,6 @@ import { userTypeDefs } from "./users";
 import { programTypeDefs } from "./programs";
 import { resultTypeDefs } from "./results";
 import { schoolTypeDefs } from "./schools";
-import { documentTypeDefs } from "./documents";
-import { eventTypeDefs } from "./events";
-import { fileTypeDefs } from "./files";
 import { authTypeDefs } from "./auth";
 import { collectionTypedefs } from "./collections";
 import sharedTypeDefs from "./shredTypeDefs";
@@ -17,9 +14,7 @@ import { UserResolvers } from "./users/user.resolvers";
 import { ProgramResolvers } from "./programs/program.resolvers";
 import { ResultResolvers } from "./results/results.resolvers";
 import { SchoolsResolvers } from "./schools/schools.resolvers";
-import { DocumentResolvers } from "./documents/document.resolvers";
-import { FileResolvers } from "./files/file.resolvers";
-import { EventResolvers } from "./events/event.resolvers";
+
 import { AuthResolvers } from "./auth/auth.resolvers";
 import { CollectionResolvers } from "./collections/collection.resolvers";
 
@@ -32,9 +27,6 @@ export class QueryService {
     Container.get(ProgramResolvers),
     Container.get(ResultResolvers),
     Container.get(SchoolsResolvers),
-    Container.get(DocumentResolvers),
-    Container.get(FileResolvers),
-    Container.get(EventResolvers),
     Container.get(CollectionResolvers)
   ];
 
@@ -50,9 +42,6 @@ export class QueryService {
       programTypeDefs,
       resultTypeDefs,
       schoolTypeDefs,
-      documentTypeDefs,
-      eventTypeDefs,
-      fileTypeDefs,
       collectionTypedefs,
       ...sharedTypeDefs
     ];

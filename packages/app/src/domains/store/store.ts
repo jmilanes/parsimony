@@ -1,8 +1,5 @@
 import {
   Domains,
-  Document,
-  Event,
-  File,
   IId,
   Program,
   Result,
@@ -25,9 +22,6 @@ export interface DomainReturnTypeMap {
   [Domains.School]: School;
   [Domains.Result]: Result;
   [Domains.Thread]: Thread;
-  [Domains.Document]: Document;
-  [Domains.File]: File;
-  [Domains.Event]: Event;
   [Domains.AppState]: AppState;
 }
 
@@ -65,9 +59,6 @@ export default class Store {
       [Domains.Result]: new BehaviorSubject<ResultStoreValue>({}),
       [Domains.School]: new BehaviorSubject<SchoolStoreValue>({}),
       [Domains.Thread]: new BehaviorSubject<ThreadStoreValue>({}),
-      [Domains.Document]: new BehaviorSubject<DocumentStoreValue>({}),
-      [Domains.Event]: new BehaviorSubject<EventStoreValue>({}),
-      [Domains.File]: new BehaviorSubject<FileStoreValue>({}),
       [Domains.Collection]: new BehaviorSubject<CollectionStoreValue>({}),
       //TODO: This is only clientside so need to make it clearer maybe this is all just one store
       [Domains.AppState]: new BehaviorSubject<AppState>({} as AppState)

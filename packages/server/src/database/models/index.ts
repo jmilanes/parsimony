@@ -4,9 +4,6 @@ import school from "./school.model";
 import thread from "./thread.model";
 import user from "./user.model";
 import actionItem from "./actionItem.model";
-import document from "./document.model";
-import event from "./event.model";
-import file from "./file.model";
 import refreshToken from "./refreshTokens.model";
 import collection from "./collections.model";
 
@@ -17,9 +14,6 @@ export enum modelTypes {
   result = "result",
   school = "school",
   actionItem = "actionItem",
-  document = "document",
-  event = "event",
-  file = "file",
   refreshToken = "refreshToken",
   collection = "collection"
 }
@@ -31,9 +25,6 @@ export const models = {
   [modelTypes.result]: result,
   [modelTypes.school]: school,
   [modelTypes.actionItem]: actionItem,
-  [modelTypes.document]: document,
-  [modelTypes.event]: event,
-  [modelTypes.file]: file,
   [modelTypes.refreshToken]: refreshToken,
   [modelTypes.collection]: collection
 };
