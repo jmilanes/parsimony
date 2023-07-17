@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Domains, Pages } from "@parsimony/types";
+import React from "react";
+import { Domains } from "@parsimony/types";
 import { Header } from "../components";
 import { getRouterParams } from "../utils";
 

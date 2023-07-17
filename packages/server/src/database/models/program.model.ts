@@ -32,6 +32,7 @@ export default {
   targets: [Target],
   description: String,
   materials: String,
+  // TODO Do we need these anymore?
   writeAccess: [{ type: String, enum: UserRoles }],
   readAccess: [{ type: String, enum: UserRoles }],
   type: { type: String, enum: ProgramTypes },
