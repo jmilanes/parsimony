@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { BehaviorType, ResultType } from "@parsimony/types";
 
 const TargetResult = {
   trial: Number,
@@ -13,9 +14,18 @@ const ResultData = {
   targetResults: [TargetResult]
 };
 
+const BehaviorData = {
+  type: { type: String, enum: BehaviorType },
+  tally: Number,
+  duration: Number,
+  intervalPassed: Boolean
+};
+
 export default {
   programId: ObjectId,
   clientId: ObjectId,
+  type: { type: String, enum: ResultType },
   programCompleteness: Number,
+  behaviorData: BehaviorData,
   data: [ResultData]
 };

@@ -31,6 +31,38 @@ export type AuthPayload = {
   accessToken: Scalars['String'];
 };
 
+export type BehaviorData = {
+  __typename?: 'BehaviorData';
+  duration?: Maybe<Scalars['Int']>;
+  intervalPassed?: Maybe<Scalars['Boolean']>;
+  tally?: Maybe<Scalars['Int']>;
+  type?: Maybe<BehaviorType>;
+};
+
+export type BehaviorDataInput = {
+  duration?: InputMaybe<Scalars['Int']>;
+  intervalPassed?: InputMaybe<Scalars['Boolean']>;
+  tally?: InputMaybe<Scalars['Int']>;
+  type?: InputMaybe<BehaviorType>;
+};
+
+export enum BehaviorType {
+  Interval = 'INTERVAL',
+  Tally = 'TALLY',
+  Time = 'TIME'
+}
+
+export type Chaining = {
+  __typename?: 'Chaining';
+  targetCompleteness?: Maybe<Scalars['Int']>;
+  type?: Maybe<TrialChainingDirections>;
+};
+
+export type ChainingInput = {
+  targetCompleteness?: InputMaybe<Scalars['Int']>;
+  type?: InputMaybe<TrialChainingDirections>;
+};
+
 export type Collection = {
   __typename?: 'Collection';
   ancestors?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -64,7 +96,9 @@ export type CreateCollectionPayload = {
 };
 
 export type CreateProgramPayload = {
+  behavior?: InputMaybe<ProgramBehaviorInput>;
   category?: InputMaybe<ProgramCategories>;
+  chaining?: InputMaybe<ChainingInput>;
   chainingDirection?: InputMaybe<TrialChainingDirections>;
   clientId?: InputMaybe<Scalars['ID']>;
   collectionId: Scalars['ID'];
@@ -90,6 +124,7 @@ export type CreateProgramPayload = {
 };
 
 export type CreateResultPayload = {
+  behaviorData?: InputMaybe<BehaviorDataInput>;
   clientId: Scalars['ID'];
   data?: InputMaybe<Array<InputMaybe<ResultDataInput>>>;
   programCompleteness: Scalars['Float'];
@@ -416,7 +451,9 @@ export type MutationUpdateUserArgs = {
 
 export type Program = {
   __typename?: 'Program';
+  behavior?: Maybe<ProgramBehavior>;
   category?: Maybe<ProgramCategories>;
+  chaining?: Maybe<Chaining>;
   chainingDirection?: Maybe<TrialChainingDirections>;
   clientId?: Maybe<Scalars['ID']>;
   collectionId?: Maybe<Scalars['ID']>;
@@ -442,6 +479,17 @@ export type Program = {
   type?: Maybe<ProgramTypes>;
   updated_at?: Maybe<Scalars['Date']>;
   writeAccess?: Maybe<Array<Maybe<UserRoles>>>;
+};
+
+export type ProgramBehavior = {
+  __typename?: 'ProgramBehavior';
+  alertTime?: Maybe<Scalars['Int']>;
+  type?: Maybe<BehaviorType>;
+};
+
+export type ProgramBehaviorInput = {
+  alertTime?: InputMaybe<Scalars['Int']>;
+  type?: InputMaybe<BehaviorType>;
 };
 
 export enum ProgramCategories {
@@ -582,12 +630,14 @@ export type ResetPasswordResponse = {
 
 export type Result = {
   __typename?: 'Result';
+  behaviorData?: Maybe<BehaviorData>;
   clientId?: Maybe<Scalars['ID']>;
   created_at?: Maybe<Scalars['Date']>;
   data?: Maybe<Array<Maybe<ResultData>>>;
   id: Scalars['ID'];
   programCompleteness?: Maybe<Scalars['Float']>;
   programId?: Maybe<Scalars['ID']>;
+  type?: Maybe<ResultType>;
   updated_at?: Maybe<Scalars['Date']>;
 };
 
@@ -603,6 +653,11 @@ export type ResultDataInput = {
   targetId?: InputMaybe<Scalars['ID']>;
   targetResults?: InputMaybe<Array<InputMaybe<TargetResultInput>>>;
 };
+
+export enum ResultType {
+  Behavior = 'BEHAVIOR',
+  Trial = 'TRIAL'
+}
 
 export type School = {
   __typename?: 'School';
@@ -691,6 +746,7 @@ export type TargetResultOptionInput = {
 };
 
 export enum TargetStyle {
+  Behavior = 'BEHAVIOR',
   DiscreteTrials = 'DISCRETE_TRIALS',
   TaskAnalysis = 'TASK_ANALYSIS'
 }
@@ -721,12 +777,12 @@ export type UpdateCollectionPayload = {
 };
 
 export type UpdateProgramPayload = {
+  behavior?: InputMaybe<ProgramBehaviorInput>;
   category?: InputMaybe<ProgramCategories>;
-  chainingDirection?: InputMaybe<TrialChainingDirections>;
+  chaining?: InputMaybe<ChainingInput>;
   clientId?: InputMaybe<Scalars['ID']>;
   collectionId: Scalars['ID'];
   createdBy?: InputMaybe<Scalars['ID']>;
-  currentChainTarget?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
   editedBy?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   id: Scalars['ID'];
@@ -748,6 +804,7 @@ export type UpdateProgramPayload = {
 };
 
 export type UpdateResultPayload = {
+  behaviorData?: InputMaybe<BehaviorDataInput>;
   clientId: Scalars['ID'];
   data?: InputMaybe<Array<InputMaybe<ResultDataInput>>>;
   id: Scalars['ID'];
@@ -898,7 +955,12 @@ export type ResolversTypes = {
   AddMessagePayload: AddMessagePayload;
   AddProgramsToClientPayload: AddProgramsToClientPayload;
   AuthPayload: AuthPayload;
+  BehaviorData: ResolverTypeWrapper<BehaviorData>;
+  BehaviorDataInput: BehaviorDataInput;
+  BehaviorType: BehaviorType;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Chaining: ResolverTypeWrapper<Chaining>;
+  ChainingInput: ChainingInput;
   Collection: ResolverTypeWrapper<Collection>;
   CollectionCategories: CollectionCategories;
   CollectionTypes: CollectionTypes;
@@ -943,6 +1005,8 @@ export type ResolversTypes = {
   MessagePayload: MessagePayload;
   Mutation: ResolverTypeWrapper<{}>;
   Program: ResolverTypeWrapper<Program>;
+  ProgramBehavior: ResolverTypeWrapper<ProgramBehavior>;
+  ProgramBehaviorInput: ProgramBehaviorInput;
   ProgramCategories: ProgramCategories;
   ProgramTypes: ProgramTypes;
   ProgramValueTypes: ProgramValueTypes;
@@ -952,6 +1016,7 @@ export type ResolversTypes = {
   Result: ResolverTypeWrapper<Result>;
   ResultData: ResolverTypeWrapper<ResultData>;
   ResultDataInput: ResultDataInput;
+  ResultType: ResultType;
   School: ResolverTypeWrapper<School>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Subscriber: ResolverTypeWrapper<Subscriber>;
@@ -982,7 +1047,11 @@ export type ResolversParentTypes = {
   AddMessagePayload: AddMessagePayload;
   AddProgramsToClientPayload: AddProgramsToClientPayload;
   AuthPayload: AuthPayload;
+  BehaviorData: BehaviorData;
+  BehaviorDataInput: BehaviorDataInput;
   Boolean: Scalars['Boolean'];
+  Chaining: Chaining;
+  ChainingInput: ChainingInput;
   Collection: Collection;
   CreateCollectionPayload: CreateCollectionPayload;
   CreateProgramPayload: CreateProgramPayload;
@@ -1024,6 +1093,8 @@ export type ResolversParentTypes = {
   MessagePayload: MessagePayload;
   Mutation: {};
   Program: Program;
+  ProgramBehavior: ProgramBehavior;
+  ProgramBehaviorInput: ProgramBehaviorInput;
   Query: {};
   ResetPasswordPayload: ResetPasswordPayload;
   ResetPasswordResponse: ResetPasswordResponse;
@@ -1050,6 +1121,20 @@ export type ResolversParentTypes = {
   UpdateThreadPayload: UpdateThreadPayload;
   UpdateUserPayload: UpdateUserPayload;
   User: User;
+};
+
+export type BehaviorDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['BehaviorData'] = ResolversParentTypes['BehaviorData']> = {
+  duration?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  intervalPassed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  tally?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['BehaviorType']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChainingResolvers<ContextType = any, ParentType extends ResolversParentTypes['Chaining'] = ResolversParentTypes['Chaining']> = {
+  targetCompleteness?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['TrialChainingDirections']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Collection'] = ResolversParentTypes['Collection']> = {
@@ -1122,7 +1207,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type ProgramResolvers<ContextType = any, ParentType extends ResolversParentTypes['Program'] = ResolversParentTypes['Program']> = {
+  behavior?: Resolver<Maybe<ResolversTypes['ProgramBehavior']>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['ProgramCategories']>, ParentType, ContextType>;
+  chaining?: Resolver<Maybe<ResolversTypes['Chaining']>, ParentType, ContextType>;
   chainingDirection?: Resolver<Maybe<ResolversTypes['TrialChainingDirections']>, ParentType, ContextType>;
   clientId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   collectionId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
@@ -1148,6 +1235,12 @@ export type ProgramResolvers<ContextType = any, ParentType extends ResolversPare
   type?: Resolver<Maybe<ResolversTypes['ProgramTypes']>, ParentType, ContextType>;
   updated_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   writeAccess?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserRoles']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProgramBehaviorResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProgramBehavior'] = ResolversParentTypes['ProgramBehavior']> = {
+  alertTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['BehaviorType']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1181,12 +1274,14 @@ export type ResetPasswordResponseResolvers<ContextType = any, ParentType extends
 };
 
 export type ResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['Result'] = ResolversParentTypes['Result']> = {
+  behaviorData?: Resolver<Maybe<ResolversTypes['BehaviorData']>, ParentType, ContextType>;
   clientId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   created_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   data?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResultData']>>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   programCompleteness?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   programId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['ResultType']>, ParentType, ContextType>;
   updated_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1285,6 +1380,8 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
+  BehaviorData?: BehaviorDataResolvers<ContextType>;
+  Chaining?: ChainingResolvers<ContextType>;
   Collection?: CollectionResolvers<ContextType>;
   Date?: GraphQLScalarType;
   LogOutResponse?: LogOutResponseResolvers<ContextType>;
@@ -1293,6 +1390,7 @@ export type Resolvers<ContextType = any> = {
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Program?: ProgramResolvers<ContextType>;
+  ProgramBehavior?: ProgramBehaviorResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
   Result?: ResultResolvers<ContextType>;

@@ -30,6 +30,8 @@ export default gql`
     masterTargetCount: Int
     subscribers: [ID]
     collectionId: ID
+    behavior: ProgramBehavior
+    chaining: Chaining
   }
 
   type Target {
@@ -47,6 +49,16 @@ export default gql`
     id: ID
     name: String
     target: Boolean
+  }
+
+  type ProgramBehavior {
+    type: BehaviorType
+    alertTime: Int
+  }
+
+  type Chaining {
+    type: TrialChainingDirections
+    targetCompleteness: Int
   }
 
   input CreateProgramPayload {
@@ -73,6 +85,8 @@ export default gql`
     masterTargetCount: Int
     subscribers: [ID]
     collectionId: ID!
+    behavior: ProgramBehaviorInput
+    chaining: ChainingInput
   }
 
   input DeleteProgramPayload {
@@ -102,12 +116,12 @@ export default gql`
     mastered: Boolean
     targetOptions: [TargetOptionInput]
     category: ProgramCategories
-    chainingDirection: TrialChainingDirections
-    currentChainTarget: ID
     masterTargetPercent: Int
     masterTargetCount: Int
     subscribers: [ID]
     collectionId: ID!
+    behavior: ProgramBehaviorInput
+    chaining: ChainingInput
   }
 
   input GetAllProgramsByRelationshipPayload {
@@ -134,6 +148,16 @@ export default gql`
     mastered: Boolean
   }
 
+  input ProgramBehaviorInput {
+    type: BehaviorType
+    alertTime: Int
+  }
+
+  input ChainingInput {
+    type: TrialChainingDirections
+    targetCompleteness: Int
+  }
+
   input TargetOptionInput {
     id: ID
     name: String
@@ -145,6 +169,12 @@ export default gql`
     NUMBER
     DATE
     BOOLEAN
+  }
+
+  enum BehaviorType {
+    TIME
+    TALLY
+    INTERVAL
   }
 
   enum ProgramCategories {
@@ -187,6 +217,7 @@ export default gql`
   enum TargetStyle {
     DISCRETE_TRIALS
     TASK_ANALYSIS
+    BEHAVIOR
   }
 
   type Query {

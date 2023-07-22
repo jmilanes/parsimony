@@ -15,6 +15,7 @@ const fullSchema = `
   programId
   clientId
   programCompleteness
+  type
   data {
     targetId
     targetCompleteness
@@ -26,6 +27,12 @@ const fullSchema = `
           name
       }
     }
+  }
+  behavior {
+    type
+    tally
+    duration
+    intervalPassed
   }
   updated_at
   created_at

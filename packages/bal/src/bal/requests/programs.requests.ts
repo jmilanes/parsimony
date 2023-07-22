@@ -44,12 +44,18 @@ const fullSchema = `
       name
       target
     }
-  chainingDirection
-  currentChainTarget
   masterTargetPercent
   masterTargetCount
   subscribers
   collectionId
+  behavior {
+    type
+    alertTime
+  }
+  chaining {
+    type 
+    targetCompleteness 
+  }
 `;
 
 const addProgramsToClientString = `mutation AddProgramsToClient($payload: AddProgramsToClientPayload) {

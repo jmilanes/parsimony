@@ -7,10 +7,19 @@ export default gql`
     id: ID!
     programId: ID
     clientId: ID
+    type: ResultType
     programCompleteness: Float
+    behaviorData: BehaviorData
     data: [ResultData]
     updated_at: Date
     created_at: Date
+  }
+
+  type BehaviorData {
+    type: BehaviorType
+    tally: Int
+    duration: Int
+    intervalPassed: Boolean
   }
 
   type ResultData {
@@ -45,6 +54,13 @@ export default gql`
     targetOptionId: ID
   }
 
+  input BehaviorDataInput {
+    type: BehaviorType
+    tally: Int
+    duration: Int
+    intervalPassed: Boolean
+  }
+
   input ResultDataInput {
     targetId: ID
     targetCompleteness: Float
@@ -55,6 +71,7 @@ export default gql`
     programId: ID!
     clientId: ID!
     programCompleteness: Float!
+    behaviorData: BehaviorDataInput
     data: [ResultDataInput]
   }
 
@@ -71,6 +88,7 @@ export default gql`
     programId: ID!
     clientId: ID!
     programCompleteness: Float!
+    behaviorData: BehaviorDataInput
     data: [ResultDataInput]
   }
 
@@ -89,6 +107,16 @@ export default gql`
   enum InputTypes {
     RADIO
     TEXT
+  }
+
+  enum BehaviorType {
+    TIME
+    TALLY
+    INTERVAL
+  }
+  enum ResultType {
+    TRIAL
+    BEHAVIOR
   }
 
   type Query {

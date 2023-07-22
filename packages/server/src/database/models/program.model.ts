@@ -5,7 +5,8 @@ import {
   ProgramValueTypes,
   TargetStyle,
   TrialChainingDirections,
-  UserRoles
+  UserRoles,
+  BehaviorType
 } from "@parsimony/types";
 
 import { ObjectId } from "mongodb";
@@ -23,6 +24,16 @@ const Target = {
   valueType: { type: String, enum: ProgramValueTypes },
   currentMasterCount: Number,
   mastered: Boolean
+};
+
+const Behavior = {
+  type: { type: String, enum: BehaviorType },
+  alertTime: Number
+};
+
+const Chaining = {
+  type: { type: String, enum: TrialChainingDirections },
+  targetCompleteness: Number
 };
 
 export default {
@@ -47,10 +58,10 @@ export default {
   },
   targetOptions: [TargetOption],
   targetStyle: { type: String, enum: TargetStyle },
-  chainingDirection: { type: String, enum: TrialChainingDirections },
-  currentChainTarget: { type: ObjectId, ref: "Target" },
   masterTargetPercent: Number,
   masterTargetCount: Number,
   subscribers: [{ type: ObjectId, ref: "User" }],
-  collectionId: { type: ObjectId, ref: "Collection" }
+  collectionId: { type: ObjectId, ref: "Collection" },
+  behavior: Behavior,
+  chaining: Chaining
 };
