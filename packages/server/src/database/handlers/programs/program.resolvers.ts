@@ -8,7 +8,6 @@ import {
   Program,
   ProgramTypes
 } from "@parsimony/types";
-import { program2 } from "@parsimony/cypress/cypress/fixtures";
 
 type CollectionUpdates = {
   clientId: string;
