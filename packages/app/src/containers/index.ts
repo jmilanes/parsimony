@@ -9,6 +9,8 @@ export * from "./chat/chatMessage.container";
 export * from "./chat/chatMessager.container";
 export * from "./chat/chatMessageInput.container";
 export * from "./collection";
+export * from "./programPage";
+export * from "./behaviorTracker";
 export * from "./bulkPrograms";
 export * from "./clientSelector";
 export * from "./appHeader.container";

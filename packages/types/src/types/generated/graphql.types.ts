@@ -483,11 +483,13 @@ export type Program = {
 
 export type ProgramBehavior = {
   __typename?: 'ProgramBehavior';
+  active?: Maybe<Scalars['Boolean']>;
   alertTime?: Maybe<Scalars['Int']>;
   type?: Maybe<BehaviorType>;
 };
 
 export type ProgramBehaviorInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   alertTime?: InputMaybe<Scalars['Int']>;
   type?: InputMaybe<BehaviorType>;
 };
@@ -1239,6 +1241,7 @@ export type ProgramResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type ProgramBehaviorResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProgramBehavior'] = ResolversParentTypes['ProgramBehavior']> = {
+  active?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   alertTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['BehaviorType']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

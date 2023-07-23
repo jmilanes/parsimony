@@ -4,6 +4,7 @@ import { IRoute, NavMetaTestIds } from "@parsimony/types";
 
 import { Button } from "../components";
 import {
+  OpenBehaviorButton,
   OpenBulkProgramButton,
   OpenChatButton,
   OpenProgramViewButton
@@ -33,6 +34,9 @@ export const Nav = ({ routes }: INavProps) => {
       </a>
       <a className="nav-item">
         <OpenProgramViewButton />
+      </a>
+      <a className="nav-item">
+        <OpenBehaviorButton />
       </a>
       <a className="nav-item">
         <OpenChatButton />

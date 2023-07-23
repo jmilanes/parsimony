@@ -92,6 +92,7 @@ export enum BulKProgramMetaTestIds {
 
 export enum ProgramsPageMetaTestIds {
   addBtn = "add-program",
+  addBehaviror = "add-behavior",
   addCollection = "add-collection",
   addProgramToClient = "add-program-to-client",
   titleField = "add-program-title-field",
@@ -126,7 +127,8 @@ export enum ProgramPageMetaTestIds {
   clientProgramActionViewClient = "view-client-btn",
   clientProgramActionStartObservation = "start-observation-btn",
   clientProgramActionViewProgramData = "view-program-data",
-  stepsSelector = "update-steps-selector"
+  stepsSelector = "update-steps-selector",
+  behaviorActiveCheckBok = "behavior-active-checkbox"
 }
 
 export enum ObservationMetaTestIds {

@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Button, Header } from "../components";
 import {
   BookPageMetaTestIds,
-  Collection,
   CollectionCategories,
+  CollectionTypes,
   Domains,
   Pages
 } from "@parsimony/types";
@@ -37,7 +37,9 @@ const Books = () => {
   if (loading) return <Spin />;
 
   const collections = API.getItemsFromStore(Domains.Collection).filter(
-    (x) => x.category === CollectionCategories.Book
+    (x) =>
+      x.category === CollectionCategories.Book &&
+      x.type === CollectionTypes.Main
   );
 
   return (

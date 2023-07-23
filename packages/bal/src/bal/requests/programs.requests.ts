@@ -51,6 +51,7 @@ const fullSchema = `
   behavior {
     type
     alertTime
+    active
   }
   chaining {
     type 

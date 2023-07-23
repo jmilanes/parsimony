@@ -6,25 +6,15 @@ import {
   trialOptions,
   userRoleOptions
 } from "../fixtures";
-import { TargetForm } from "../containers";
-import {
-  Button,
-  Container,
-  Field,
-  Header,
-  MultiSelect,
-  Row,
-  Selector
-} from "../components";
+import { ProgramPageBehaviorView, ProgramPageProgramView } from "../containers";
+import { Button, Container, Header } from "../components";
 import {
   Domains,
   IModes,
   Program,
   ProgramPageMetaTestIds,
   ProgramTypes,
-  Routes,
-  TargetOption,
-  User
+  Routes
 } from "@parsimony/types";
 
 import {
@@ -37,7 +27,6 @@ import {
   omitMongoKeys
 } from "../utils";
 
-import { TargetOptionSelector } from "../containers/targetOptionsSelector.container";
 import { Container as DI } from "typedi";
 import { useAsync } from "react-use";
 import { Spin } from "antd";
@@ -74,12 +63,6 @@ const Program = () => {
   const program = API.getItem(Domains.Program, programId);
   const client =
     program?.clientId && API.getItem(Domains.User, program?.clientId);
-  const allClients = API.getItemsFromStore(Domains.User);
-
-  const options = allClients.map((user: User) => ({
-    name: getFullName(user),
-    value: user.id
-  }));
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -105,10 +88,26 @@ const Program = () => {
   };
 
   if (!program || !localState) return null;
+  const header = program.behavior ? "Behavior" : Program;
+  console.log(program);
+  const View = () =>
+    program.behavior ? (
+      <ProgramPageBehaviorView
+        localState={localState}
+        updateState={updateState}
+        mode={mode}
+      />
+    ) : (
+      <ProgramPageProgramView
+        localState={localState}
+        updateState={updateState}
+        mode={mode}
+      />
+    );
   return (
     <Container>
       <Header
-        text={`Program ${program.title}`}
+        text={`${header} ${program.title}`}
         size="page"
         extra={[
           <Button
@@ -172,115 +171,7 @@ const Program = () => {
       />
 
       {client && <Header text={`Client: ${getFullName(client)}`} size="sm" />}
-      <Field
-        placeHolderText="Title"
-        pathToState="title"
-        value={localState.title}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.titleField}
-      />
-      <Field
-        placeHolderText="Description"
-        pathToState="description"
-        value={localState.description}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.descriptionField}
-      />
-      <Field
-        placeHolderText="Materials"
-        pathToState="materials"
-        value={localState.materials}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.materialsField}
-      />
-      <Selector
-        title="Type"
-        pathToState="type"
-        value={localState.type}
-        options={programTypes}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.typeSelector}
-      />
-      <Selector
-        title="Category"
-        pathToState="category"
-        value={localState.category}
-        options={programCategories}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.categorySelector}
-      />
-
-      {/* This prob shouldn't exist but might need for now  */}
-      {mode === "edit" && (
-        <Selector
-          title="Client"
-          pathToState="clientId"
-          value={localState.clientId}
-          options={options}
-          updateState={updateState}
-          metaTestId={ProgramPageMetaTestIds.clientSelector}
-        />
-      )}
-
-      <Selector
-        title="Trials"
-        pathToState="trials"
-        value={localState.trials}
-        options={trialOptions}
-        updateState={updateState}
-        isNumber={true}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.stepsSelector}
-      />
-
-      <Selector
-        title="Target Style"
-        pathToState="targetStyle"
-        value={localState.targetStyle}
-        options={targetStyles}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.ruleStyleSelector}
-      />
-      <MultiSelect
-        title="Read Access"
-        pathToState="readAccess"
-        options={userRoleOptions}
-        values={localState.readAccess as string[]}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.readAccessMultiSelector}
-      />
-      <MultiSelect
-        title="Write Access"
-        pathToState="writeAccess"
-        options={userRoleOptions}
-        values={localState.writeAccess as string[]}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.writeAccessMultiSelector}
-      />
-
-      {Array.isArray(localState.targetOptions) && (
-        <TargetOptionSelector
-          targetOptions={localState.targetOptions as TargetOption[]}
-          updateState={updateState}
-          readOnly={isReadOnlyMode(mode)}
-        />
-      )}
-
-      {Array.isArray(localState.targets) && (
-        <TargetForm
-          localState={localState}
-          updateState={updateState}
-          readOnly={isReadOnlyMode(mode)}
-        />
-      )}
+      <View />
     </Container>
   );
 };

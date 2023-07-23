@@ -8,6 +8,7 @@ import {
   Program,
   ProgramTypes
 } from "@parsimony/types";
+import { program2 } from "@parsimony/cypress/cypress/fixtures";
 
 type CollectionUpdates = {
   clientId: string;
@@ -199,14 +200,19 @@ export class ProgramResolvers extends BaseCrudResolvers {
         const program = await this.#db.findEntry(modelTypes.program, {
           _id: originalProgramId
         });
-        //com
+
         const copyPayload = program.toJSON();
         delete copyPayload._id;
         delete copyPayload.id;
         copyPayload.clientId = update.clientId;
         copyPayload.type = ProgramTypes.Client;
         copyPayload.collectionId = update.collectionId;
-        await this.#db.createEntry(modelTypes.program, copyPayload);
+        try {
+          await this.#db.createEntry(modelTypes.program, copyPayload);
+        } catch (e) {
+          console.error(e);
+          console.error("ERROR IN PROGRAM COPY");
+        }
         // Add To Cache so we don't do extra work
         cache[originalProgramId] = true;
       }

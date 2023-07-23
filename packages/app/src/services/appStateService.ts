@@ -19,7 +19,8 @@ export enum DrawerContentTypes {
   BulkPrograms = "bulkPrograms",
   Nav = "nav",
   CurrentUser = "currentUser",
-  ProgramSelector = "programSelector"
+  ProgramSelector = "programSelector",
+  BehaviorViewer = "behaviorViewer"
 }
 
 export type DrawerControls = {
@@ -38,6 +39,12 @@ export type BulkProgram = {
   excludedIds: string[];
 };
 
+export type BehaviorTracker = {
+  clientId?: string;
+  timerActive: boolean;
+  activeInterval: boolean;
+};
+
 export type ProgramViewer = {
   clientId?: string;
 };
@@ -46,6 +53,7 @@ export type AppState = {
   drawer: DrawerControls;
   bulkPrograms: BulkProgram;
   programViewer: ProgramViewer;
+  behaviorTracker: BehaviorTracker;
 };
 
 export type ControlPayloads = Partial<DrawerControls>;
@@ -71,7 +79,11 @@ export default class AppStateService {
         subscribers: [],
         excludedIds: []
       },
-      programViewer: {}
+      programViewer: {},
+      behaviorTracker: {
+        timerActive: false,
+        activeInterval: false
+      }
     };
   }
 

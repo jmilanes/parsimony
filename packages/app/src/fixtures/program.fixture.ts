@@ -1,6 +1,7 @@
 import { IOptionMultiSelect } from "../components/multiSelect.component";
-import { IOption } from "../components/selector.component";
+
 import {
+  BehaviorType,
   InputTypes,
   Program,
   ProgramCategories,
@@ -14,10 +15,11 @@ import {
   TrialChainingDirections,
   UserRoles
 } from "@parsimony/types";
+import { IOption } from "../components";
 
 export const currentUserLS = localStorage.getItem("currentUserId");
 
-// TODO: need to pass in the user...
+// TODO: need to pass in the user... or make this better
 
 export const initialProgramData: Program = {
   id: "",
@@ -35,12 +37,36 @@ export const initialProgramData: Program = {
   mastered: false,
   category: ProgramCategories.Aba,
   targetOptions: [],
-  chainingDirection: TrialChainingDirections.Forward,
-  currentChainTarget: null,
   masterTargetPercent: 100,
   masterTargetCount: 3,
   subscribers: [currentUserLS],
   collectionId: ""
+};
+
+export const initialBehaviorData: Program = {
+  id: "",
+  title: "",
+  description: "",
+  materials: "",
+  writeAccess: [],
+  readAccess: [],
+  type: ProgramTypes.Main,
+  lastEditedBy: currentUserLS,
+  editedBy: [currentUserLS],
+  createdBy: currentUserLS,
+  trials: 1,
+  mastered: false,
+  targetOptions: [],
+  targetStyle: TargetStyle.Behavior,
+  masterTargetPercent: 100,
+  masterTargetCount: 3,
+  subscribers: [currentUserLS],
+  collectionId: "",
+  behavior: {
+    alertTime: 0,
+    type: BehaviorType.Tally,
+    active: true
+  }
 };
 
 export const initialTargetData: Target = {
@@ -62,6 +88,15 @@ export const initialOptionData = {
 export const programTypes: IOption[] = [
   { name: ProgramTypes.Main, value: ProgramTypes.Main },
   { name: ProgramTypes.Client, value: ProgramTypes.Client }
+];
+
+export const behaviorTypes: IOption[] = [
+  { name: BehaviorType.Tally, value: BehaviorType.Tally },
+  {
+    name: BehaviorType.Time,
+    value: BehaviorType.Time
+  },
+  { name: BehaviorType.Interval, value: BehaviorType.Interval }
 ];
 
 export const targetStyles: IOption[] = [

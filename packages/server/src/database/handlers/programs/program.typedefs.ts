@@ -24,8 +24,6 @@ export default gql`
     mastered: Boolean
     targetOptions: [TargetOption]
     category: ProgramCategories
-    chainingDirection: TrialChainingDirections
-    currentChainTarget: ID
     masterTargetPercent: Int
     masterTargetCount: Int
     subscribers: [ID]
@@ -54,6 +52,7 @@ export default gql`
   type ProgramBehavior {
     type: BehaviorType
     alertTime: Int
+    active: Boolean
   }
 
   type Chaining {
@@ -79,8 +78,6 @@ export default gql`
     mastered: Boolean
     targetOptions: [TargetOptionInput]
     category: ProgramCategories
-    chainingDirection: TrialChainingDirections
-    currentChainTarget: ID
     masterTargetPercent: Int
     masterTargetCount: Int
     subscribers: [ID]
@@ -151,6 +148,7 @@ export default gql`
   input ProgramBehaviorInput {
     type: BehaviorType
     alertTime: Int
+    active: Boolean
   }
 
   input ChainingInput {

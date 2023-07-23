@@ -7,10 +7,12 @@ import { DataBaseService } from "../../dataBase.service";
 import { modelTypes } from "../../models";
 import { ProgramResolvers } from "./program.resolvers";
 import {
+  BehaviorType,
   CollectionCategories,
   CollectionTypes,
   ProgramCategories,
   ProgramTypes,
+  TargetStyle,
   TrialChainingDirections,
   UserRoles
 } from "@parsimony/types";
@@ -24,6 +26,7 @@ import {
 const generateProgramJSON = (title: string, collectionId?: String) => {
   return {
     title,
+    collectionId,
     description: "",
     materials: "",
     writeAccess: [],
@@ -41,8 +44,35 @@ const generateProgramJSON = (title: string, collectionId?: String) => {
     currentChainTarget: null,
     masterTargetPercent: 100,
     masterTargetCount: 3,
+    subscribers: [new ObjectId(1)]
+  };
+};
+
+const generateBehaviorJSON = (title: string, collectionId?: String) => {
+  return {
+    title,
+    collectionId,
+    description: "",
+    materials: "",
+    writeAccess: [],
+    readAccess: [],
+    type: ProgramTypes.Main,
+    lastEditedBy: new ObjectId(1),
+    editedBy: [new ObjectId(1)],
+    createdBy: new ObjectId(1),
+    trials: 1,
+    mastered: false,
+    targetOptions: [],
+    currentChainTarget: null,
+    targetStyle: TargetStyle.Behavior,
+    masterTargetPercent: 100,
+    masterTargetCount: 3,
     subscribers: [new ObjectId(1)],
-    collectionId: collectionId
+    behavior: {
+      alertTime: 0,
+      type: BehaviorType.Tally,
+      active: true
+    }
   };
 };
 
@@ -111,7 +141,12 @@ const setUpBulkProgramAdditions = async (db: DataBaseService) => {
     generateProgramJSON("Test Program 3", collection._id)
   );
 
-  return { program1, program2, program3, book, collection };
+  const behavior = await db.createEntry(
+    modelTypes.program,
+    generateBehaviorJSON("Test Behavior", collection._id)
+  );
+
+  return { program1, program2, program3, book, collection, behavior };
 };
 
 const setUpBulkProgramMultiLevelCategoryAdditions = async (
@@ -187,7 +222,7 @@ describe("Program Resolver Tests", () => {
     expect(p3.title).toBe("Test Program 3");
     expect(b.title).toBe("Book");
     expect(c.title).toBe("Collection");
-    expect(programs.length).toBe(3);
+    expect(programs.length).toBe(4);
   });
 
   it("Should preform bulk program addition from book id", async () => {
@@ -222,7 +257,7 @@ describe("Program Resolver Tests", () => {
     expect(titles.includes("Book") && titles.includes("Collection")).toBe(true);
 
     expect(collections.length).toBe(2);
-    expect(programs.length).toBe(3);
+    expect(programs.length).toBe(4);
   });
 
   it("Should preform bulk program addition from collection id", async () => {
@@ -246,7 +281,7 @@ describe("Program Resolver Tests", () => {
       clientId: client.id
     });
 
-    expect(programs.length).toBe(3);
+    expect(programs.length).toBe(4);
   });
 
   it("Should preform bulk program addition from program Ids", async () => {
@@ -302,7 +337,7 @@ describe("Program Resolver Tests", () => {
     });
 
     expect(collections.length).toBe(2);
-    expect(programs.length).toBe(2);
+    expect(programs.length).toBe(3);
   });
 
   it("Should preform bulk with collection excludes", async () => {

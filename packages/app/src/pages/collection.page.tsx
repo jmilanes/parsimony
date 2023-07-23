@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Header } from "../components";
 import {
+  BehaviorAddForm,
   CollectionAddForm,
   CollectionTable,
   OpenBulkProgramButton,
@@ -21,7 +22,6 @@ import { Spin } from "antd";
 
 import { DATA_HANDLERS } from "../domains/orchestration/orchestrationHandlers/handlers.typemap";
 import UIApi from "../domains/uiApi/uiApi.Service";
-import { DrawerContentTypes } from "../services/appStateService";
 
 const Collection = () => {
   const API = Container.get(UIApi);
@@ -29,6 +29,7 @@ const Collection = () => {
   const [showProgramAddForm, setShowProductionForm] = React.useState(false);
   const [showCollectionAddForm, setCollectionShowAddForm] =
     React.useState(false);
+  const [showBehaviorAddForm, setBehaviorAShowAddForm] = React.useState(false);
   const { loading } = useAsync(async () => {
     await API.setUpDataFor(DATA_HANDLERS.COLLECTION_PAGE, { collectionId });
   }, [collectionId]);
@@ -60,6 +61,13 @@ const Collection = () => {
             metaTestId={ProgramsPageMetaTestIds.addBtn}
           />,
           <Button
+            key="add-behavior"
+            name="Add Behavior"
+            action={() => setBehaviorAShowAddForm(true)}
+            hidden={showProgramAddForm}
+            metaTestId={ProgramsPageMetaTestIds.addBehaviror}
+          />,
+          <Button
             key="add-collection"
             name="Add Collection"
             action={() => setCollectionShowAddForm(true)}
@@ -82,6 +90,11 @@ const Collection = () => {
       <ProgramAddForm
         show={showProgramAddForm}
         setShowCb={setShowProductionForm}
+        collectionId={collectionId || ""}
+      />
+      <BehaviorAddForm
+        show={showBehaviorAddForm}
+        setShowCb={setBehaviorAShowAddForm}
         collectionId={collectionId || ""}
       />
     </>

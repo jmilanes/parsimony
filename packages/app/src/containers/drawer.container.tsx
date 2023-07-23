@@ -3,6 +3,7 @@ import { Drawer as ADrawer, Spin } from "antd";
 import { Domains, DrawerMetaTestIds } from "@parsimony/types";
 import { DrawerContentTypes } from "../services/appStateService";
 import {
+  BehaviorTrackerContainer,
   BulkProgramsContainer,
   Chat,
   CreateChat,
@@ -49,6 +50,9 @@ export const Drawer = () => {
     >
       {controls.content === DrawerContentTypes.Chat && <Chat />}
       {controls.content === DrawerContentTypes.CreateChat && <CreateChat />}
+      {controls.content === DrawerContentTypes.BehaviorViewer && (
+        <BehaviorTrackerContainer />
+      )}
       {controls.content === DrawerContentTypes.BulkPrograms && (
         <BulkProgramsContainer />
       )}

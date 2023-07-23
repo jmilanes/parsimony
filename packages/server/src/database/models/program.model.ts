@@ -28,7 +28,8 @@ const Target = {
 
 const Behavior = {
   type: { type: String, enum: BehaviorType },
-  alertTime: Number
+  alertTime: Number,
+  active: Boolean
 };
 
 const Chaining = {
