@@ -11,6 +11,7 @@ import { IModes } from "@parsimony/types";
 import { getDataWithPath } from "./abstractions.util";
 import { omit } from "ramda";
 import { debounceTime, distinctUntilChanged, fromEvent } from "rxjs";
+import { format } from "date-fns";
 
 export const filterByProp = <T>(domain: T[], prop: keyof T): T[] =>
   domain.filter((c: T) => c[prop]);
@@ -111,8 +112,9 @@ export const omitMongoKeys = <R>(obj: any): R =>
   omit(["updated_at", "created_at"], obj) as R;
 
 export const removeMongoIds = (obj: any) => {
-  if (typeof obj !== "object" || !!obj === false || Array.isArray(obj))
+  if (typeof obj !== "object" || !!obj === false || Array.isArray(obj)) {
     return obj;
+  }
   delete obj.id;
   Object.values(obj).forEach((value) => {
     if (Array.isArray(value)) value.forEach(removeMongoIds);
@@ -178,3 +180,10 @@ export const findTopLevelCollection = (collections: Collection[]) =>
       ret: Collection[];
     }
   );
+
+export const getFullDate = (date: Date) => {
+  if (!date) {
+    return "";
+  }
+  return format(date, "MM/dd/yyyy");
+};

@@ -5,7 +5,12 @@ import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import { TrackChangesRounded } from "@mui/icons-material";
+import {
+  TrackChangesRounded,
+  AddCircleOutlined,
+  Timer,
+  AddAlarm
+} from "@mui/icons-material";
 
 export const Icon = {
   Delete: () => <DeleteIcon />,
@@ -13,5 +18,8 @@ export const Icon = {
   Collapse: () => <CloseFullscreenIcon />,
   Chat: () => <ChatBubbleOutlineIcon />,
   ProgramViewer: () => <AutoStoriesIcon />,
-  BehaviorTracker: () => <TrackChangesRounded />
+  BehaviorTracker: () => <TrackChangesRounded />,
+  BehaviorTally: () => <AddCircleOutlined />,
+  BehaviorTime: () => <Timer />,
+  BehaviorInterval: () => <AddAlarm />
 };

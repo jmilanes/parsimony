@@ -28,7 +28,7 @@ const fullSchema = `
       }
     }
   }
-  behavior {
+  behaviorData {
     type
     tally
     duration

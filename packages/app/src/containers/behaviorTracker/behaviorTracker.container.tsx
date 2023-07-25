@@ -2,29 +2,41 @@ import React from "react";
 
 import { Container } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
-import { Header, IOption } from "../../components";
+import { Button, Header, Icon, IOption } from "../../components";
 import { ClientSelector } from "../clientSelector";
 import { useAsync } from "react-use";
-import { Domains, TargetStyle } from "@parsimony/types";
+import {
+  BehaviorTracker,
+  BehaviorType,
+  Domains,
+  Program,
+  ProgramBehavior,
+  TargetStyle
+} from "@parsimony/types";
 import { Spin } from "antd";
+import { TallyBehaviorInput } from "./inputs/tally.behavior.input";
+import { TimeBehaviorInput } from "./inputs/time.behavior.input";
+import { IntervalBehaviorInput } from "./inputs/interval.behavior.input";
 
 export const BehaviorTrackerContainer = () => {
   const API = Container.get(UIApi);
 
   const selectedUserId = API.getAppState("behaviorTracker").clientId;
 
-  // const { loading } = useAsync(async () => {
-  //   await API.makeRequest({
-  //     domain: Domains.Program,
-  //     requestType: "getAllByRelationship",
-  //     payload: {
-  //       relationshipProperty: "clientId",
-  //       id: selectedUserId
-  //     }
-  //   });
-  // });
-  //
-  // if (loading) return <Spin />;
+  const { loading } = useAsync(async () => {
+    if (selectedUserId) {
+      await API.makeRequest({
+        domain: Domains.Program,
+        requestType: "getAllByRelationship",
+        payload: {
+          relationshipProperty: "clientId",
+          id: selectedUserId
+        }
+      });
+    }
+  }, [selectedUserId]);
+
+  if (loading) return <Spin />;
 
   const programs = API.getItemsFromStore(Domains.Program);
 
@@ -46,12 +58,30 @@ export const BehaviorTrackerContainer = () => {
     });
   };
 
-  console.log(behaviors);
+  const behaviorInputFactory = (program: Program) => {
+    if (!program.behavior?.type) {
+      console.warn(`No behavior associated with ${program.title}`);
+      return;
+    }
+    const behaviorInputMap: Record<BehaviorType, (program: Program) => any> = {
+      [BehaviorType.Tally]: TallyBehaviorInput,
+      [BehaviorType.Time]: TimeBehaviorInput,
+      [BehaviorType.Interval]: IntervalBehaviorInput
+    };
+
+    return behaviorInputMap[program.behavior?.type](program);
+  };
 
   return (
     <div>
-      <Header text="Client Behaviors" size="md" />
-      <ClientSelector onChange={onChange} multiSelect={false} />
+      <Header text="Behaviors" size="md" />
+      <ClientSelector
+        onChange={onChange}
+        multiSelect={false}
+        onCancel={reset}
+        selected={selectedUserId}
+      />
+      {selectedUserId && <ul>{behaviors.map(behaviorInputFactory)}</ul>}
     </div>
   );
 };

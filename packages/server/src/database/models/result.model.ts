@@ -27,5 +27,7 @@ export default {
   type: { type: String, enum: ResultType },
   programCompleteness: Number,
   behaviorData: BehaviorData,
-  data: [ResultData]
+  data: [ResultData],
+  updated_at: Date,
+  created_at: Date
 };

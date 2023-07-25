@@ -185,6 +185,12 @@ export enum TestEntryTypes {
   CHAT = "chat"
 }
 
+export enum BehaviorTracker {
+  tallyBtn = "tally-btn",
+  startTimer = "start-timer",
+  startInterval = "start-interval"
+}
+
 export type MetaTestIds =
   | ChatMetaTestIds
   | ProgramsPageMetaTestIds
@@ -200,4 +206,5 @@ export type MetaTestIds =
   | RepeatableMetaTestIds
   | BookPageMetaTestIds
   | DrawerMetaTestIds
-  | BulKProgramMetaTestIds;
+  | BulKProgramMetaTestIds
+  | BehaviorTracker;

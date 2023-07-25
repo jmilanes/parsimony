@@ -74,7 +74,8 @@ export class DataBaseService {
   };
 
   findAllEntries = async (model: modelTypes) => {
-    return await this.dataBase.models[model].find({});
+    const allEntries = await this.dataBase.models[model].find({});
+    return allEntries;
   };
 
   updateEntry = async (entry: any, update: Record<string, any>) => {

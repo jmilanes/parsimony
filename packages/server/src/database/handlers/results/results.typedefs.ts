@@ -73,6 +73,8 @@ export default gql`
     programCompleteness: Float!
     behaviorData: BehaviorDataInput
     data: [ResultDataInput]
+    updated_at: Date
+    created_at: Date
   }
 
   input DeleteResultPayload {

@@ -42,13 +42,14 @@ export default class ObservationService {
    * Returns the results in a format for the submission
    */
   getResultsForCreation() {
-    return removeMongoIds(
-      omitMongoKeys({
-        ...this.results,
-        data: this._resultDataValues(),
-        programCompleteness: this.programCompleteness
-      })
-    );
+    const date = new Date();
+    return removeMongoIds({
+      ...this.results,
+      data: this._resultDataValues(),
+      programCompleteness: this.programCompleteness,
+      created_at: date,
+      updated_at: date
+    });
   }
 
   /**
