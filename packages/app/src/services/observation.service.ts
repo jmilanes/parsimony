@@ -39,7 +39,7 @@ export default class ObservationService {
 
   /**
    *
-   * Returns the results in a format for the submission
+   * Returns the results in a format for the submission!
    */
   getResultsForCreation() {
     const date = new Date();
