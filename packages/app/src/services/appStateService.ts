@@ -43,14 +43,21 @@ export type BehaviorTracker = {
   clientId?: string;
   timerActive: boolean;
   activeInterval: boolean;
+  intervalId?: any;
 };
 
 export type ProgramViewer = {
   clientId?: string;
 };
 
+export type DialogControls = {
+  active: boolean;
+  content?: any;
+};
+
 export type AppState = {
   drawer: DrawerControls;
+  dialog: DialogControls;
   bulkPrograms: BulkProgram;
   programViewer: ProgramViewer;
   behaviorTracker: BehaviorTracker;
@@ -66,6 +73,9 @@ export default class AppStateService {
   constructor(store: Store) {
     this.store = store;
     this.appState = {
+      dialog: {
+        active: false
+      },
       drawer: {
         active: false,
         width: 500,

@@ -101,10 +101,15 @@ const Results = () => {
       )
     ];
 
+    const calculate = (acc: number, result: Result) => {
+      const tally = result?.behaviorData?.tally || 0;
+      return acc + tally;
+    };
+
     const processedResults = uniqueFullDates.map((uniqueFullDate) => ({
-      count: results.filter(
-        (x) => getFullDate(new Date(x.created_at)) === uniqueFullDate
-      ).length,
+      count: results
+        .filter((x) => getFullDate(new Date(x.created_at)) === uniqueFullDate)
+        .reduce(calculate, 0),
       date: uniqueFullDate
     }));
 

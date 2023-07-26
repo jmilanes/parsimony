@@ -9,7 +9,9 @@ import {
   TrackChangesRounded,
   AddCircleOutlined,
   Timer,
-  AddAlarm
+  AddAlarm,
+  RemoveCircleOutline,
+  StopCircle
 } from "@mui/icons-material";
 
 export const Icon = {
@@ -19,7 +21,9 @@ export const Icon = {
   Chat: () => <ChatBubbleOutlineIcon />,
   ProgramViewer: () => <AutoStoriesIcon />,
   BehaviorTracker: () => <TrackChangesRounded />,
-  BehaviorTally: () => <AddCircleOutlined />,
+  BehaviorTallyAdd: () => <AddCircleOutlined />,
+  BehaviorTallyRemove: () => <RemoveCircleOutline />,
   BehaviorTime: () => <Timer />,
-  BehaviorInterval: () => <AddAlarm />
+  BehaviorInterval: () => <AddAlarm />,
+  BehaviorIntervalStop: () => <StopCircle />
 };

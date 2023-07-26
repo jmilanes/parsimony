@@ -313,3 +313,12 @@ hr {
 .completeness {
     margin-left: 20px;
 }
+
+
+.behavior-input-container {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}

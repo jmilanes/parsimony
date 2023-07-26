@@ -18,6 +18,22 @@ import { TallyBehaviorInput } from "./inputs/tally.behavior.input";
 import { TimeBehaviorInput } from "./inputs/time.behavior.input";
 import { IntervalBehaviorInput } from "./inputs/interval.behavior.input";
 
+const behaviorInputFactory = (program: Program) => {
+  if (!program.behavior?.type) {
+    console.warn(`No behavior associated with ${program.title}`);
+    return;
+  }
+
+  const behaviorInputMap: Record<BehaviorType, any> = {
+    [BehaviorType.Tally]: TallyBehaviorInput,
+    [BehaviorType.Time]: TimeBehaviorInput,
+    [BehaviorType.Interval]: IntervalBehaviorInput
+  };
+
+  const Comp = behaviorInputMap[program.behavior?.type];
+  return <Comp program={program} />;
+};
+
 export const BehaviorTrackerContainer = () => {
   const API = Container.get(UIApi);
 
@@ -42,7 +58,9 @@ export const BehaviorTrackerContainer = () => {
 
   const behaviors = programs.filter((program) => {
     return (
-      program.targetStyle === TargetStyle.Behavior && program.behavior?.active
+      program.targetStyle === TargetStyle.Behavior &&
+      program.behavior?.active &&
+      program.clientId === selectedUserId
     );
   });
 
@@ -58,20 +76,6 @@ export const BehaviorTrackerContainer = () => {
     });
   };
 
-  const behaviorInputFactory = (program: Program) => {
-    if (!program.behavior?.type) {
-      console.warn(`No behavior associated with ${program.title}`);
-      return;
-    }
-    const behaviorInputMap: Record<BehaviorType, (program: Program) => any> = {
-      [BehaviorType.Tally]: TallyBehaviorInput,
-      [BehaviorType.Time]: TimeBehaviorInput,
-      [BehaviorType.Interval]: IntervalBehaviorInput
-    };
-
-    return behaviorInputMap[program.behavior?.type](program);
-  };
-
   return (
     <div>
       <Header text="Behaviors" size="md" />
@@ -81,7 +85,7 @@ export const BehaviorTrackerContainer = () => {
         onCancel={reset}
         selected={selectedUserId}
       />
-      {selectedUserId && <ul>{behaviors.map(behaviorInputFactory)}</ul>}
+      {selectedUserId && behaviors.map(behaviorInputFactory)}
     </div>
   );
 };

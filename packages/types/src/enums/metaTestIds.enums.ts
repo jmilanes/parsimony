@@ -188,7 +188,10 @@ export enum TestEntryTypes {
 export enum BehaviorTracker {
   tallyBtn = "tally-btn",
   startTimer = "start-timer",
-  startInterval = "start-interval"
+  startInterval = "start-interval",
+  stopInterval = "stop-interval",
+  passInterval = "pass-interval",
+  failInterval = "fail-interval"
 }
 
 export type MetaTestIds =
