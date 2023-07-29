@@ -70,10 +70,20 @@ const Program = () => {
   });
 
   const submitForm = async () => {
+    const payload: Program = {
+      ...omitMongoKeys(localState),
+      behavior: {
+        ...localState.behavior,
+        alertTime: parseInt(
+          localState?.behavior?.alertTime as unknown as string
+        )
+      }
+    };
+
     await API.makeRequest({
       domain: Domains.Program,
       requestType: "update",
-      payload: omitMongoKeys(localState)
+      payload
     });
     updateMode("readOnly");
   };

@@ -1,9 +1,10 @@
 import { IResultData, Program, ResultData } from "@parsimony/types";
 import { initialResultData } from "../fixtures";
-import { calculateAverage, omitMongoKeys, removeMongoIds } from "../utils";
+import { calculateAverage, removeMongoIds } from "../utils";
 import { Service } from "typedi";
 import StateService from "./state.service";
 
+// TODO this should be in app state
 @Service()
 export default class ObservationService {
   program?: Program;

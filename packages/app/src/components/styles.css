@@ -321,4 +321,31 @@ hr {
     flex-direction: row;
     width: 100%;
     align-items: center;
+    justify-content: space-between;
+    border-bottom: solid 1px var(--background);
+}
+
+.behavior-input-container p {
+    margin: 10px;
+    font-size: 16px;
+}
+
+.behavior-input-container button {
+    margin: 2px;
+}
+
+.client-selector-selected-view {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.count-container {
+    display: flex;
+    align-self: flex-end;
+}
+
+.flex-row {
+    display: flex;
 }

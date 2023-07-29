@@ -76,6 +76,7 @@ export const BehaviorTrackerContainer = () => {
     });
   };
 
+  console.log(behaviors);
   return (
     <div>
       <Header text="Behaviors" size="md" />

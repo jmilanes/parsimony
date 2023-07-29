@@ -81,7 +81,7 @@ export default gql`
     masterTargetPercent: Int
     masterTargetCount: Int
     subscribers: [ID]
-    collectionId: ID!
+    collectionId: ID
     behavior: ProgramBehaviorInput
     chaining: ChainingInput
   }
@@ -116,7 +116,7 @@ export default gql`
     masterTargetPercent: Int
     masterTargetCount: Int
     subscribers: [ID]
-    collectionId: ID!
+    collectionId: ID
     behavior: ProgramBehaviorInput
     chaining: ChainingInput
   }

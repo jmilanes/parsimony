@@ -191,7 +191,15 @@ export enum BehaviorTracker {
   startInterval = "start-interval",
   stopInterval = "stop-interval",
   passInterval = "pass-interval",
-  failInterval = "fail-interval"
+  failInterval = "fail-interval",
+  dialogCancel = "dialog-cancel-interval",
+  dialogContinue = "dialog-continue-interval",
+  dialogSubmit = "dialog-submit-interval",
+  dialogAction = "dialog-action"
+}
+
+export enum DialogMetaIds {
+  action = "dialog-action"
 }
 
 export type MetaTestIds =
@@ -210,4 +218,5 @@ export type MetaTestIds =
   | BookPageMetaTestIds
   | DrawerMetaTestIds
   | BulKProgramMetaTestIds
-  | BehaviorTracker;
+  | BehaviorTracker
+  | DialogMetaIds;

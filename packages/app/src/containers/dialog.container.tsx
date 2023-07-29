@@ -1,9 +1,17 @@
 import * as React from "react";
 
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from "@mui/material";
+import { Button } from "../components";
+
 import { Container } from "typedi";
 import UIApi from "../domains/uiApi/uiApi.Service";
+import { DialogMetaIds } from "@parsimony/types";
 
 export const DialogContainer = () => {
   const API = Container.get(UIApi);
@@ -13,11 +21,24 @@ export const DialogContainer = () => {
     API.updateAppState("dialog", { active: false });
   };
 
+  const actions = controls.actions?.map((x) => {
+    return (
+      <Button
+        name={x.name}
+        action={x.action}
+        metaTestId={DialogMetaIds.action}
+        metaTestQualifier={x.name}
+      ></Button>
+    );
+  });
+
   return (
-    <Dialog onClose={handleClose} open={controls.active}>
-      <div className="inner-idalod">
-        {controls.content && <controls.content />}
-      </div>
+    <Dialog open={controls.active} onClose={handleClose}>
+      <DialogTitle>{controls.title}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>{controls.message}</DialogContentText>
+      </DialogContent>
+      <DialogActions>{actions}</DialogActions>
     </Dialog>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Autocomplete, Button } from "../components";
+import { Autocomplete, Button, Header } from "../components";
 import {
   ChatMetaTestIds,
   Domains,
@@ -44,14 +44,14 @@ export const ClientSelector = ({
 
   const SelectedView = () => {
     return (
-      <>
-        <p>{selectedName}</p>
+      <div className="client-selector-selected-view">
+        <Header text={selectedName || ""} size="sm" />
         <Button
           name="Cancel"
           action={onCancel}
           metaTestId={ProgramPageMetaTestIds.clientSelector}
         />
-      </>
+      </div>
     );
   };
 

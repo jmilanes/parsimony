@@ -44,15 +44,21 @@ export type BehaviorTracker = {
   timerActive: boolean;
   activeInterval: boolean;
   intervalId?: any;
+  intervalOccurred: number;
+  intervalTotal: number;
 };
 
 export type ProgramViewer = {
   clientId?: string;
 };
 
+type DialogActions = { name: string; action: () => void };
+
 export type DialogControls = {
   active: boolean;
-  content?: any;
+  message?: React.ReactElement;
+  title?: string;
+  actions?: DialogActions[];
 };
 
 export type AppState = {
@@ -92,7 +98,9 @@ export default class AppStateService {
       programViewer: {},
       behaviorTracker: {
         timerActive: false,
-        activeInterval: false
+        activeInterval: false,
+        intervalOccurred: 0,
+        intervalTotal: 0
       }
     };
   }

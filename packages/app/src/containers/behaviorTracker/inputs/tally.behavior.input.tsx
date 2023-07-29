@@ -32,29 +32,32 @@ export const TallyBehaviorInput = ({ program }: { program: Program }) => {
 
   return (
     <div className="behavior-input-container" key={program.id}>
-      <div>
-        <Button
-          metaTestId={BehaviorTracker.tallyBtn}
-          name="Tally"
-          action={remove}
-          icon={<Icon.BehaviorTallyRemove />}
-        />
-        <Button
-          metaTestId={BehaviorTracker.tallyBtn}
-          name="Tally"
-          action={add}
-          icon={<Icon.BehaviorTallyAdd />}
-        />
+      <div className="flex-row">
+        <div>
+          <Button
+            metaTestId={BehaviorTracker.tallyBtn}
+            name="Tally"
+            action={remove}
+            icon={<Icon.BehaviorTallyRemove />}
+          />
+          <Button
+            metaTestId={BehaviorTracker.tallyBtn}
+            name="Tally"
+            action={add}
+            icon={<Icon.BehaviorTallyAdd />}
+          />
+        </div>
+        <p>{program.title}</p>
       </div>
-      <p>
-        {program.title}:{count}
-      </p>
       {count > 0 && (
-        <Button
-          metaTestId={BehaviorTracker.tallyBtn}
-          name="Submit"
-          action={action}
-        />
+        <div className="count-container">
+          <p className="tally-count">{count}</p>
+          <Button
+            metaTestId={BehaviorTracker.tallyBtn}
+            name="Submit"
+            action={action}
+          />
+        </div>
       )}
     </div>
   );
