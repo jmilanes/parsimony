@@ -14,6 +14,7 @@ import ObservationService from "../../services/observation.service";
 import AuthService from "../../services/auth.service";
 import StateService from "../../services/state.service";
 import { useNavigate } from "react-router-dom";
+import { TimerActions } from "../../actions/appState/timer.actions";
 
 /**
  * API Between service and UI Layer
@@ -29,7 +30,7 @@ export default class UIApi {
   #store: Store;
   #auth: AuthService;
   #ss: StateService;
-  actions: GetActionsReturnType = getActions();
+  actions: GetActionsReturnType;
 
   constructor(
     os: OrchestrationService,
@@ -47,6 +48,8 @@ export default class UIApi {
     this.#ops = ops;
     this.#auth = auth;
     this.#ss = ss;
+    // Fix this
+    this.actions = getActions(new TimerActions(this));
   }
 
   public get Auth() {

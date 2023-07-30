@@ -11,7 +11,11 @@ import {
   Timer,
   AddAlarm,
   RemoveCircleOutline,
-  StopCircle
+  StopCircle,
+  Close,
+  Cancel,
+  PlayCircle,
+  PauseCircle
 } from "@mui/icons-material";
 
 export const Icon = {
@@ -25,5 +29,8 @@ export const Icon = {
   BehaviorTallyRemove: () => <RemoveCircleOutline />,
   BehaviorTime: () => <Timer />,
   BehaviorInterval: () => <AddAlarm />,
-  BehaviorIntervalStop: () => <StopCircle />
+  BehaviorIntervalStop: () => <StopCircle />,
+  Close: () => <Cancel />,
+  Play: () => <PlayCircle />,
+  Pause: () => <PauseCircle />
 };

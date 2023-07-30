@@ -15,7 +15,13 @@ import { IRoute } from "@parsimony/types";
 import { Login } from "../pages";
 import { Container as DI } from "typedi";
 import UIApi from "../domains/uiApi/uiApi.Service";
-import { AppHeader, Drawer, DialogContainer } from "../containers";
+import {
+  AppHeader,
+  Drawer,
+  DialogContainer,
+  NotificationContainer,
+  TimerContainer
+} from "../containers";
 
 export const generateApp = (routes: IRoute[]) => {
   const API = DI.get(UIApi);
@@ -40,6 +46,8 @@ export const generateApp = (routes: IRoute[]) => {
             />
           ))}
         </Routes>
+        <TimerContainer />
+        <NotificationContainer />
         <Drawer />
         <DialogContainer />
       </div>

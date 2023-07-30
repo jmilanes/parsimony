@@ -31,7 +31,7 @@ const behaviorInputFactory = (program: Program) => {
   };
 
   const Comp = behaviorInputMap[program.behavior?.type];
-  return <Comp program={program} />;
+  return <Comp key={program.id} program={program} />;
 };
 
 export const BehaviorTrackerContainer = () => {
@@ -76,7 +76,6 @@ export const BehaviorTrackerContainer = () => {
     });
   };
 
-  console.log(behaviors);
   return (
     <div>
       <Header text="Behaviors" size="md" />

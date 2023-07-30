@@ -11,7 +11,9 @@ import { IModes } from "@parsimony/types";
 import { getDataWithPath } from "./abstractions.util";
 import { omit } from "ramda";
 import { debounceTime, distinctUntilChanged, fromEvent } from "rxjs";
-import { format } from "date-fns";
+import { format, intervalToDuration } from "date-fns";
+import { Container } from "typedi";
+import UIApi from "../domains/uiApi/uiApi.Service";
 
 export const filterByProp = <T>(domain: T[], prop: keyof T): T[] =>
   domain.filter((c: T) => c[prop]);
@@ -187,3 +189,6 @@ export const getFullDate = (date: Date) => {
   }
   return format(date, "MM/dd/yyyy");
 };
+
+export const prependZero = (number: number = 0) =>
+  number < 10 ? `0${number}` : number;

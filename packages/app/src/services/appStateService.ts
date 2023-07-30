@@ -1,4 +1,4 @@
-import { Domains } from "@parsimony/types";
+import { Domains, Program } from "@parsimony/types";
 import { clone } from "../utils";
 import Store from "../domains/store/store";
 import { Service } from "typedi";
@@ -13,6 +13,7 @@ type Subset<K> = {
     : K[attr];
 };
 
+// TODO Move to types
 export enum DrawerContentTypes {
   Chat = "chat",
   CreateChat = "createChat",
@@ -42,6 +43,9 @@ export type BulkProgram = {
 export type BehaviorTracker = {
   clientId?: string;
   timerActive: boolean;
+  timerPaused: boolean;
+  time: number;
+  activeProgram?: Program;
   activeInterval: boolean;
   intervalId?: any;
   intervalOccurred: number;
@@ -61,12 +65,25 @@ export type DialogControls = {
   actions?: DialogActions[];
 };
 
+export type Notification = {
+  id: string;
+  message?: React.ReactElement | string;
+  action?: React.ReactElement | string;
+  autoHideDuration?: number;
+  onClose?: () => void;
+  anchorOrigin?: {
+    vertical: "top" | "bottom";
+    horizontal: "left" | "right" | "center";
+  };
+};
+
 export type AppState = {
   drawer: DrawerControls;
   dialog: DialogControls;
   bulkPrograms: BulkProgram;
   programViewer: ProgramViewer;
   behaviorTracker: BehaviorTracker;
+  notifications: { activeNotifications: Record<string, Notification> };
 };
 
 export type ControlPayloads = Partial<DrawerControls>;
@@ -96,12 +113,16 @@ export default class AppStateService {
         excludedIds: []
       },
       programViewer: {},
+      // Break each behavior into its own domain (interval and program)
       behaviorTracker: {
         timerActive: false,
+        timerPaused: false,
         activeInterval: false,
+        time: 0,
         intervalOccurred: 0,
         intervalTotal: 0
-      }
+      },
+      notifications: { activeNotifications: {} }
     };
   }
 
@@ -113,6 +134,7 @@ export default class AppStateService {
     appStateKey: K,
     update: Partial<AppState[K]>
   ) => {
+    // TODO: Make this better
     const currentControls = clone(this.store.getDomainValue(Domains.AppState));
 
     currentControls[appStateKey] = {

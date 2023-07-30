@@ -1,18 +1,38 @@
 import React from "react";
 
-import { BehaviorTracker, Program } from "@parsimony/types";
+import { BehaviorTracker, Domains, Program } from "@parsimony/types";
 import { Button, Icon } from "../../../components";
+import { Container } from "typedi";
+import UIApi from "../../../domains/uiApi/uiApi.Service";
+import { TimerSubmitDialogMessage } from "../dialogMessages/timer.dialog.message";
 
-export const TimeBehaviorInput = (program: Program) => {
+export const TimeBehaviorInput = ({ program }: { program: Program }) => {
+  const API = Container.get(UIApi);
   return (
-    <li key={program.id}>
-      {program.title}{" "}
-      <Button
-        metaTestId={BehaviorTracker.startTimer}
-        name="Timer"
-        action={() => console.log("submit result")}
-        icon={<Icon.BehaviorTime />}
-      />
-    </li>
+    <div className="behavior-input-container" key={program.id}>
+      <div className="flex-row">
+        <Button
+          metaTestId={BehaviorTracker.startTimer}
+          name="Start Timer"
+          action={() => {
+            API.updateAppState("behaviorTracker", { activeProgram: program });
+            API.actions.timer.start();
+          }}
+          icon={<Icon.BehaviorTime />}
+        />
+        <Button
+          metaTestId={BehaviorTracker.stopTime}
+          name="Stop Time"
+          action={() =>
+            API.actions.timer.complete(
+              program,
+              <TimerSubmitDialogMessage program={program} />
+            )
+          }
+          icon={<Icon.BehaviorIntervalStop />}
+        />
+        <p>{program.title}</p>
+      </div>
+    </div>
   );
 };

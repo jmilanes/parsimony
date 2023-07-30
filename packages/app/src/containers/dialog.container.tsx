@@ -19,6 +19,7 @@ export const DialogContainer = () => {
 
   const handleClose = () => {
     API.updateAppState("dialog", { active: false });
+    // TODO Fix reseting
   };
 
   const actions = controls.actions?.map((x) => {

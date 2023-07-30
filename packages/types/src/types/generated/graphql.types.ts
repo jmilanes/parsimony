@@ -35,6 +35,7 @@ export type BehaviorData = {
   __typename?: 'BehaviorData';
   duration?: Maybe<Scalars['Int']>;
   intervalPassed?: Maybe<Scalars['Boolean']>;
+  result?: Maybe<Scalars['Int']>;
   tally?: Maybe<Scalars['Int']>;
   type?: Maybe<BehaviorType>;
 };
@@ -42,6 +43,7 @@ export type BehaviorData = {
 export type BehaviorDataInput = {
   duration?: InputMaybe<Scalars['Int']>;
   intervalPassed?: InputMaybe<Scalars['Boolean']>;
+  result?: InputMaybe<Scalars['Int']>;
   tally?: InputMaybe<Scalars['Int']>;
   type?: InputMaybe<BehaviorType>;
 };
@@ -99,11 +101,9 @@ export type CreateProgramPayload = {
   behavior?: InputMaybe<ProgramBehaviorInput>;
   category?: InputMaybe<ProgramCategories>;
   chaining?: InputMaybe<ChainingInput>;
-  chainingDirection?: InputMaybe<TrialChainingDirections>;
   clientId?: InputMaybe<Scalars['ID']>;
-  collectionId: Scalars['ID'];
+  collectionId?: InputMaybe<Scalars['ID']>;
   createdBy?: InputMaybe<Scalars['ID']>;
-  currentChainTarget?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
   editedBy?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   lastEditedBy?: InputMaybe<Scalars['ID']>;
@@ -126,9 +126,11 @@ export type CreateProgramPayload = {
 export type CreateResultPayload = {
   behaviorData?: InputMaybe<BehaviorDataInput>;
   clientId: Scalars['ID'];
+  created_at?: InputMaybe<Scalars['Date']>;
   data?: InputMaybe<Array<InputMaybe<ResultDataInput>>>;
   programCompleteness: Scalars['Float'];
   programId: Scalars['ID'];
+  updated_at?: InputMaybe<Scalars['Date']>;
 };
 
 export type CreateSchoolPayload = {
@@ -454,12 +456,10 @@ export type Program = {
   behavior?: Maybe<ProgramBehavior>;
   category?: Maybe<ProgramCategories>;
   chaining?: Maybe<Chaining>;
-  chainingDirection?: Maybe<TrialChainingDirections>;
   clientId?: Maybe<Scalars['ID']>;
   collectionId?: Maybe<Scalars['ID']>;
   createdBy?: Maybe<Scalars['ID']>;
   created_at?: Maybe<Scalars['Date']>;
-  currentChainTarget?: Maybe<Scalars['ID']>;
   description?: Maybe<Scalars['String']>;
   editedBy?: Maybe<Array<Maybe<Scalars['ID']>>>;
   id: Scalars['ID'];
@@ -783,7 +783,7 @@ export type UpdateProgramPayload = {
   category?: InputMaybe<ProgramCategories>;
   chaining?: InputMaybe<ChainingInput>;
   clientId?: InputMaybe<Scalars['ID']>;
-  collectionId: Scalars['ID'];
+  collectionId?: InputMaybe<Scalars['ID']>;
   createdBy?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
   editedBy?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
@@ -1128,6 +1128,7 @@ export type ResolversParentTypes = {
 export type BehaviorDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['BehaviorData'] = ResolversParentTypes['BehaviorData']> = {
   duration?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   intervalPassed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  result?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   tally?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['BehaviorType']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1212,12 +1213,10 @@ export type ProgramResolvers<ContextType = any, ParentType extends ResolversPare
   behavior?: Resolver<Maybe<ResolversTypes['ProgramBehavior']>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['ProgramCategories']>, ParentType, ContextType>;
   chaining?: Resolver<Maybe<ResolversTypes['Chaining']>, ParentType, ContextType>;
-  chainingDirection?: Resolver<Maybe<ResolversTypes['TrialChainingDirections']>, ParentType, ContextType>;
   clientId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   collectionId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   createdBy?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   created_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  currentChainTarget?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   editedBy?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
