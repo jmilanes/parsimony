@@ -17,8 +17,9 @@ export class IntervalActions {
     return this.#api.getAppState("behaviorTracker");
   }
 
-  public closeIntervalDialog = () =>
+  public closeIntervalDialog = () => {
     this.#api.updateAppState("dialog", { active: false });
+  };
 
   public resetIntervalTracking = () => {
     const { intervalId } = this.#getIntervalState();
@@ -48,7 +49,7 @@ export class IntervalActions {
 
   public submit = async (program: Program) => {
     const { intervalOccurred, intervalTotal } = this.#getIntervalState();
-    const result = intervalOccurred / intervalTotal;
+    const result = Math.round((intervalOccurred / intervalTotal) * 100);
     await this.#api.makeRequest(
       buildCreateBehaviorRequest({ program, result })
     );

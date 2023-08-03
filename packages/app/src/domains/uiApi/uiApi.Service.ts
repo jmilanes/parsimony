@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { TimerActions } from "../../actions/appState/timer.actions";
 import { TallyActions } from "../../actions/appState/tally.actions";
 import { IntervalActions } from "../../actions/appState/interval.actions";
+import { ResultActions } from "../../actions/appState/result.actions";
 
 /**
  * API Between service and UI Layer
@@ -54,7 +55,8 @@ export default class UIApi {
     this.actions = getActions(
       new TimerActions(this),
       new TallyActions(this),
-      new IntervalActions(this)
+      new IntervalActions(this),
+      new ResultActions(this)
     );
   }
 

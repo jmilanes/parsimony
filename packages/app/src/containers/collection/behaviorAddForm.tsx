@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import {
+  BehaviorType,
   Domains,
   Program,
   ProgramsPageMetaTestIds,
@@ -65,7 +66,7 @@ export const BehaviorAddForm = ({
       })
     });
     setShowCb(false);
-    updateLocalState(initialProgramData);
+    updateLocalState(initialBehaviorData);
   };
 
   return (
@@ -109,14 +110,16 @@ export const BehaviorAddForm = ({
         metaTestId={ProgramsPageMetaTestIds.typeSelector}
       />
 
-      <Field
-        placeHolderText="Alert Time"
-        pathToState="behavior.alertTime"
-        //TODO Figure this out
-        value={localState.behavior?.alertTime?.toString()}
-        updateState={updateState}
-        metaTestId={ProgramsPageMetaTestIds.descriptionField}
-      />
+      {localState.behavior?.type === BehaviorType.Interval && (
+        <Field
+          placeHolderText="Alert Time"
+          pathToState="behavior.alertTime"
+          //TODO Figure this out
+          value={localState.behavior?.alertTime?.toString()}
+          updateState={updateState}
+          metaTestId={ProgramsPageMetaTestIds.descriptionField}
+        />
+      )}
       {localState.type === ProgramTypes.Client && (
         <Selector
           title="Client"

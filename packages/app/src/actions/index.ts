@@ -12,13 +12,15 @@ import {
 import { TimerActions } from "./appState/timer.actions";
 import { TallyActions } from "./appState/tally.actions";
 import { IntervalActions } from "./appState/interval.actions";
+import { ResultActions } from "./appState/result.actions";
 
 // MAke Actions pattern better... Follow timer actions
 export type GetActionsReturnType = ReturnType<typeof getActions>;
 export const getActions = (
   TimerActions: TimerActions,
   TallyActions: TallyActions,
-  intervalActions: IntervalActions
+  intervalActions: IntervalActions,
+  resultActions: ResultActions
 ) => {
   return {
     drawer: { getState: getDrawerState, setDrawerActive },
@@ -31,6 +33,7 @@ export const getActions = (
     notifications: { addNotification, removeNotification },
     timer: TimerActions,
     tally: TallyActions,
-    interval: intervalActions
+    interval: intervalActions,
+    result: resultActions
   };
 };

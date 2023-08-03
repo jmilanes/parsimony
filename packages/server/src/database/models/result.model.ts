@@ -16,9 +16,7 @@ const ResultData = {
 
 const BehaviorData = {
   type: { type: String, enum: BehaviorType },
-  tally: Number,
-  duration: Number,
-  intervalPassed: Boolean
+  result: Number
 };
 
 export default {

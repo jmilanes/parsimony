@@ -30,9 +30,7 @@ const fullSchema = `
   }
   behaviorData {
     type
-    tally
-    duration
-    intervalPassed
+    result
   }
   updated_at
   created_at

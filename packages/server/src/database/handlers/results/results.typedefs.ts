@@ -17,9 +17,6 @@ export default gql`
   type BehaviorData {
     type: BehaviorType
     result: Int
-    tally: Int
-    duration: Int
-    intervalPassed: Boolean
   }
 
   type ResultData {
@@ -57,9 +54,6 @@ export default gql`
   input BehaviorDataInput {
     type: BehaviorType
     result: Int
-    tally: Int
-    duration: Int
-    intervalPassed: Boolean
   }
 
   input ResultDataInput {

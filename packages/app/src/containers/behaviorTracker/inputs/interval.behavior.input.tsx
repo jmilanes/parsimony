@@ -23,7 +23,7 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
       actions: [
         {
           name: "Occurred",
-          action: API.actions.interval.onSuccess
+          action: API.actions.interval.onFail
         },
         {
           name: "Did Not Occur",
