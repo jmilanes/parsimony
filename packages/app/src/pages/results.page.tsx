@@ -91,6 +91,8 @@ const Results = () => {
     };
   };
 
+  //TODO Make sure it formats correctly for all three
+
   const createTallyResultState = (results: Result[]) => {
     // find all unique data
     // filter.by by each date to get the count and create an object with create at and tall
@@ -102,8 +104,8 @@ const Results = () => {
     ];
 
     const calculate = (acc: number, result: Result) => {
-      const tally = result?.behaviorData?.tally || 0;
-      return acc + tally;
+      const currentResult = result?.behaviorData?.result || 0;
+      return acc + currentResult;
     };
 
     const processedResults = uniqueFullDates.map((uniqueFullDate) => ({

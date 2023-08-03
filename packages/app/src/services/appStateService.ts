@@ -13,7 +13,7 @@ type Subset<K> = {
     : K[attr];
 };
 
-// TODO Move to types
+// TODO Move to types and clean up so you are not having to use strings everywhere
 export enum DrawerContentTypes {
   Chat = "chat",
   CreateChat = "createChat",
@@ -41,6 +41,7 @@ export type BulkProgram = {
 };
 
 export type BehaviorTracker = {
+  counters: Record<string, number>;
   clientId?: string;
   timerActive: boolean;
   timerPaused: boolean;
@@ -115,10 +116,15 @@ export default class AppStateService {
       programViewer: {},
       // Break each behavior into its own domain (interval and program)
       behaviorTracker: {
+        //tally
+        counters: {},
+        //time
         timerActive: false,
         timerPaused: false,
-        activeInterval: false,
         time: 0,
+        // interval and time
+        activeInterval: false,
+        // interval
         intervalOccurred: 0,
         intervalTotal: 0
       },

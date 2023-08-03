@@ -10,10 +10,16 @@ import {
   removeNotification
 } from "./appState/notifcations.actions";
 import { TimerActions } from "./appState/timer.actions";
+import { TallyActions } from "./appState/tally.actions";
+import { IntervalActions } from "./appState/interval.actions";
 
 // MAke Actions pattern better... Follow timer actions
 export type GetActionsReturnType = ReturnType<typeof getActions>;
-export const getActions = (TimerActions: TimerActions) => {
+export const getActions = (
+  TimerActions: TimerActions,
+  TallyActions: TallyActions,
+  intervalActions: IntervalActions
+) => {
   return {
     drawer: { getState: getDrawerState, setDrawerActive },
     bulkPrograms: {
@@ -23,6 +29,8 @@ export const getActions = (TimerActions: TimerActions) => {
       isIdIncludedInBulkProgramProperty
     },
     notifications: { addNotification, removeNotification },
-    timer: TimerActions
+    timer: TimerActions,
+    tally: TallyActions,
+    interval: intervalActions
   };
 };

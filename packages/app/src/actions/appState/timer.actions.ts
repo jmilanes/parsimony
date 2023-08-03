@@ -1,11 +1,10 @@
-import { Container, Service } from "typedi";
+import { Service } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
 import React from "react";
 
-import { Domains, Program, User } from "@parsimony/types";
+import { Program } from "@parsimony/types";
 import { intervalToDuration } from "date-fns";
-import { prependZero } from "../../utils";
-import { initialResultData } from "../../fixtures";
+import { prependZero, buildCreateBehaviorRequest } from "../../utils";
 
 // MAke Actions pattern better...
 @Service()
@@ -92,24 +91,9 @@ export class TimerActions {
   // This can be generic to all three once the behavior data is aligned
   public submit = async (program: Program) => {
     const { time } = this.#api.getAppState("behaviorTracker");
-    const date = new Date();
-    // TODO Make generic with other behaviors
-    await this.#api.makeRequest({
-      domain: Domains.Result,
-      requestType: "create",
-      payload: {
-        ...initialResultData,
-        id: undefined,
-        clientId: program?.clientId,
-        programId: program?.id,
-        behaviorData: {
-          type: program.behavior?.type,
-          result: time
-        },
-        created_at: date,
-        updated_at: date
-      }
-    });
+    await this.#api.makeRequest(
+      buildCreateBehaviorRequest({ program, result: time })
+    );
     this.#api.actions.timer.cancel();
   };
 }

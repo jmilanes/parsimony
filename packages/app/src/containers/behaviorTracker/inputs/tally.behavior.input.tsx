@@ -1,35 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { BehaviorTracker, Domains, Program } from "@parsimony/types";
 import { Button, Icon } from "../../../components";
 import { Container } from "typedi";
 import UIApi from "../../../domains/uiApi/uiApi.Service";
-import { initialResultData } from "../../../fixtures";
 
 export const TallyBehaviorInput = ({ program }: { program: Program }) => {
-  const [count, updateCount] = useState<number>(0);
   const API = Container.get(UIApi);
-
-  const action = async () => {
-    const date = new Date();
-    await API.makeRequest({
-      domain: Domains.Result,
-      requestType: "create",
-      payload: {
-        ...initialResultData,
-        id: undefined,
-        clientId: program?.clientId,
-        programId: program?.id,
-        behaviorData: { type: program.behavior?.type, tally: count },
-        created_at: date,
-        updated_at: date
-      }
-    });
-  };
-
-  const add = () => updateCount(count + 1);
-  const remove = () => count > 0 && updateCount(count - 1);
-
+  const count = API.actions.tally.getCounter(program);
+  const safeCount = count || 0;
   return (
     <div className="behavior-input-container" key={program.id}>
       <div className="flex-row">
@@ -37,25 +16,25 @@ export const TallyBehaviorInput = ({ program }: { program: Program }) => {
           <Button
             metaTestId={BehaviorTracker.tallyBtn}
             name="Tally"
-            action={remove}
+            action={() => API.actions.tally.decrement(program)}
             icon={<Icon.BehaviorTallyRemove />}
           />
           <Button
             metaTestId={BehaviorTracker.tallyBtn}
             name="Tally"
-            action={add}
+            action={() => API.actions.tally.increment(program)}
             icon={<Icon.BehaviorTallyAdd />}
           />
         </div>
         <p>{program.title}</p>
       </div>
-      {count > 0 && (
+      {safeCount > 0 && (
         <div className="count-container">
           <p className="tally-count">{count}</p>
           <Button
             metaTestId={BehaviorTracker.tallyBtn}
             name="Submit"
-            action={action}
+            action={() => API.actions.tally.submit(program, count)}
           />
         </div>
       )}

@@ -15,6 +15,8 @@ import AuthService from "../../services/auth.service";
 import StateService from "../../services/state.service";
 import { useNavigate } from "react-router-dom";
 import { TimerActions } from "../../actions/appState/timer.actions";
+import { TallyActions } from "../../actions/appState/tally.actions";
+import { IntervalActions } from "../../actions/appState/interval.actions";
 
 /**
  * API Between service and UI Layer
@@ -49,7 +51,11 @@ export default class UIApi {
     this.#auth = auth;
     this.#ss = ss;
     // Fix this
-    this.actions = getActions(new TimerActions(this));
+    this.actions = getActions(
+      new TimerActions(this),
+      new TallyActions(this),
+      new IntervalActions(this)
+    );
   }
 
   public get Auth() {

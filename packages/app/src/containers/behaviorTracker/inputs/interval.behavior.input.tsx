@@ -4,59 +4,12 @@ import { BehaviorTracker, Domains, Program } from "@parsimony/types";
 import { Button, Icon } from "../../../components";
 import { Container } from "typedi";
 import UIApi from "../../../domains/uiApi/uiApi.Service";
-import { initialResultData } from "../../../fixtures";
 
 export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
   const API = Container.get(UIApi);
 
-  const closeInterval = () => API.updateAppState("dialog", { active: false });
   const getBehaviorTrackerState = () => API.getAppState("behaviorTracker");
   const user = API.getItem(Domains.User, program.clientId || "");
-
-  const resetInterval = () => {
-    closeInterval();
-    API.updateAppState("behaviorTracker", {
-      intervalTotal: 0,
-      intervalOccurred: 0
-    });
-  };
-
-  // Maybe this can work more like tall -> number of passes till interval stopped
-  const submitResult = async () => {
-    const { intervalOccurred, intervalTotal } = getBehaviorTrackerState();
-    const date = new Date();
-    await API.makeRequest({
-      domain: Domains.Result,
-      requestType: "create",
-      payload: {
-        ...initialResultData,
-        id: undefined,
-        clientId: program?.clientId,
-        programId: program?.id,
-        behaviorData: {
-          type: program.behavior?.type,
-          intervalPassed: intervalOccurred / intervalTotal
-        },
-        created_at: date,
-        updated_at: date
-      }
-    });
-    resetInterval();
-  };
-
-  const onSuccess = () => {
-    const { intervalTotal, intervalOccurred } = getBehaviorTrackerState();
-    API.updateAppState("behaviorTracker", {
-      intervalTotal: intervalTotal + 1,
-      intervalOccurred: intervalOccurred + 1
-    });
-    closeInterval();
-  };
-  const onFail = () => {
-    const { intervalTotal } = getBehaviorTrackerState();
-    API.updateAppState("behaviorTracker", { intervalTotal: intervalTotal + 1 });
-    closeInterval();
-  };
 
   const openIntervalDialog = () => {
     API.updateAppState("dialog", {
@@ -70,23 +23,14 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
       actions: [
         {
           name: "Occurred",
-          action: onSuccess
+          action: API.actions.interval.onSuccess
         },
         {
           name: "Did Not Occur",
-          action: onFail
+          action: API.actions.interval.onSuccess
         }
       ]
     });
-  };
-
-  const startInterval = () => {
-    if (program.behavior?.alertTime) {
-      const intervalId = setInterval(() => {
-        openIntervalDialog();
-      }, program.behavior?.alertTime * 1000);
-      API.updateAppState("behaviorTracker", { intervalId });
-    }
   };
 
   const submitMessage = () => {
@@ -100,9 +44,7 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
     );
   };
 
-  const endInterval = () => {
-    const intervalId = getBehaviorTrackerState().intervalId;
-    clearInterval(intervalId);
+  const openEndIntervalDialog = () => {
     API.updateAppState("dialog", {
       active: true,
       title: program.title as string,
@@ -110,13 +52,14 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
       actions: [
         {
           name: "Continue",
-          action: startInterval
+          action: () =>
+            API.actions.interval.startInterval(program, openIntervalDialog)
         },
         {
           name: "Cancel",
-          action: resetInterval
+          action: API.actions.interval.resetIntervalTracking
         },
-        { name: "Submit", action: submitResult }
+        { name: "Submit", action: () => API.actions.interval.submit(program) }
       ]
     });
   };
@@ -130,13 +73,15 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
         <Button
           metaTestId={BehaviorTracker.startInterval}
           name="Interval"
-          action={startInterval}
+          action={() =>
+            API.actions.interval.startInterval(program, openIntervalDialog)
+          }
           icon={<Icon.BehaviorInterval />}
         />
         <Button
           metaTestId={BehaviorTracker.startInterval}
           name="Interval"
-          action={endInterval}
+          action={() => API.actions.interval.endInterval(openEndIntervalDialog)}
           icon={<Icon.BehaviorIntervalStop />}
         />
         <p>{program.title}</p>
