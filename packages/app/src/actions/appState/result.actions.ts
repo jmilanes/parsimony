@@ -56,7 +56,7 @@ export class ResultActions {
     const programDateLabels = processedResults.map((result) => {
       return result.date;
     });
-
+    //c
     return {
       labels: programDateLabels,
       datasets: [
