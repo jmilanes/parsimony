@@ -45,14 +45,14 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 const User = () => {
   const API = DI.get(UIApi);
-  const stateManager = API.StateService;
+  const stateManager = API.system.StateService;
   const { userId } = getRouterParams();
   const navigate = API.Navigation;
   const [mode, updateMode] = React.useState<IModes>("readOnly");
   const [localState, updateLocalState] = React.useState<User>();
 
   const { loading } = useAsync(async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "getAllByRelationship",
       payload: {
@@ -61,7 +61,7 @@ const User = () => {
       }
     });
 
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Collection,
       requestType: "getAllByRelationship",
       payload: {
@@ -70,27 +70,27 @@ const User = () => {
       }
     });
 
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.User,
       requestType: "get",
       payload: { id: userId }
     });
 
-    const user = API.getItem(Domains.User, userId);
+    const user = API.system.getItem(Domains.User, userId);
     updateLocalState(clone(user) as User);
   });
 
   if (loading || !localState) return <Spin />;
 
-  const user = API.getItem(Domains.User, userId);
+  const user = API.system.getItem(Domains.User, userId);
 
-  const clientPrograms = API.getItemsFromStore(Domains.Program).filter(
-    (p) => p.clientId === userId
-  );
+  const clientPrograms = API.system
+    .getItemsFromStore(Domains.Program)
+    .filter((p) => p.clientId === userId);
 
-  const clientCollections = API.getItemsFromStore(Domains.Collection).filter(
-    (p) => p.clientId === userId
-  );
+  const clientCollections = API.system
+    .getItemsFromStore(Domains.Collection)
+    .filter((p) => p.clientId === userId);
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -103,7 +103,7 @@ const User = () => {
     // TODO: Make this better
     localState.email = localState.email?.toLowerCase();
 
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.User,
       requestType: "update",
       payload: omitMongoKeys(localState)
@@ -138,7 +138,7 @@ const User = () => {
     {
       name: "Delete",
       method: async (program: Required<Program>) => {
-        await API.makeRequest({
+        await API.system.makeRequest({
           domain: Domains.Program,
           requestType: "delete",
           payload: { id: program.id }
@@ -155,7 +155,7 @@ const User = () => {
     {
       name: "Delete",
       method: async (collection: Required<Collection>) => {
-        await API.makeRequest({
+        await API.system.makeRequest({
           domain: Domains.Collection,
           requestType: "delete",
           payload: { id: collection.id }

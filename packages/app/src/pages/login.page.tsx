@@ -8,7 +8,7 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Login = ({ from }: { from: string }) => {
   const API = Container.get(UIApi);
-  const authService = API.Auth;
+  const authService = API.system.Auth;
   const [resetPasswordMode, setResetPasswordMode] = useState(Boolean);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");

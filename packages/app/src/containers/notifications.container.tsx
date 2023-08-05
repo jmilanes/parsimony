@@ -4,10 +4,11 @@ import Snackbar from "@mui/material/Snackbar";
 import UIApi from "../domains/uiApi/uiApi.Service";
 import { Container } from "typedi";
 import { Notification } from "../services/appStateService";
-import { Slide } from "@mui/material";
+
 import { Button, Icon } from "../components";
 import { BehaviorTracker } from "@parsimony/types";
-import { uuid } from "../utils";
+
+//TODO: Breakl this up
 
 const Notification = ({
   id,
@@ -53,9 +54,8 @@ const Notification = ({
 
 export const NotificationContainer = () => {
   const API = Container.get(UIApi);
-  const notifications = API.getAppState("notifications");
-  const time = API.getAppState("behaviorTracker").time;
-  console.log("NOTIFCATION RERENDER");
+  const notifications = API.system.getAppState("notifications");
+  const time = API.system.getAppState("behaviorTracker").time;
   return (
     <div>
       {Object.values(notifications.activeNotifications).map(Notification)}

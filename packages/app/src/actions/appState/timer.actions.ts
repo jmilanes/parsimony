@@ -1,17 +1,17 @@
 import { Service } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+
 import React from "react";
 
 import { Program } from "@parsimony/types";
 import { intervalToDuration } from "date-fns";
 import { prependZero, buildCreateBehaviorRequest } from "../../utils";
+import CoreApi from "../../domains/coreApi/coreApi.service";
 
-// MAke Actions pattern better...
 @Service()
 export class TimerActions {
-  #api: UIApi;
+  #api: CoreApi;
 
-  constructor(_api: UIApi) {
+  constructor(_api: CoreApi) {
     this.#api = _api;
   }
 
@@ -62,15 +62,15 @@ export class TimerActions {
       actions: [
         {
           name: "Continue",
-          action: this.#api.actions.timer.start
+          action: this.start
         },
         {
           name: "Cancel",
-          action: this.#api.actions.timer.cancel
+          action: this.cancel
         },
         {
           name: "Submit",
-          action: () => this.#api.actions.timer.submit(program)
+          action: () => this.submit(program)
         }
       ]
     });
@@ -94,6 +94,6 @@ export class TimerActions {
     await this.#api.makeRequest(
       buildCreateBehaviorRequest({ program, result: time })
     );
-    this.#api.actions.timer.cancel();
+    this.cancel();
   };
 }

@@ -16,13 +16,13 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Schools = () => {
   const API = Container.get(UIApi);
-  const stateManager = API.StateService;
+  const stateManager = API.system.StateService;
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
     React.useState<Partial<School>>(initialSchoolData);
 
   const { loading } = useAsync(async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.School,
       requestType: "getAll"
     });
@@ -30,7 +30,7 @@ const Schools = () => {
 
   if (loading) return <Spin />;
 
-  const schools = API.getItemsFromStore(Domains.School);
+  const schools = API.system.getItemsFromStore(Domains.School);
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -38,7 +38,7 @@ const Schools = () => {
   });
 
   const submitAddForm = async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.School,
       requestType: "create",
       payload: localState
@@ -55,7 +55,7 @@ const Schools = () => {
     {
       name: "Delete",
       method: async (school: Required<School>) => {
-        await API.makeRequest({
+        await API.system.makeRequest({
           domain: Domains.School,
           requestType: "delete",
           payload: { id: school.id }

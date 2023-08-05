@@ -41,7 +41,7 @@ const Results = () => {
   const { programId } = getRouterParams();
 
   const { loading } = useAsync(async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Result,
       requestType: "getAllByRelationship",
       payload: {
@@ -49,7 +49,7 @@ const Results = () => {
         id: programId
       }
     });
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "get",
       payload: { id: programId }
@@ -58,8 +58,8 @@ const Results = () => {
 
   if (loading) return <Spin />;
 
-  const program = API.getItem(Domains.Program, programId);
-  const results = API.getItemsFromStore(Domains.Result);
+  const program = API.system.getItem(Domains.Program, programId);
+  const results = API.system.getItemsFromStore(Domains.Result);
 
   const header = `${program?.title || "Untitled"}: Results`;
 

@@ -17,13 +17,13 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Observe = () => {
   const API = Container.get(UIApi);
-  const observation = API.ObservationService;
+  const observation = API.system.ObservationService;
 
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();
 
   const { loading } = useAsync(async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "get",
       payload: { id: programId }
@@ -32,14 +32,14 @@ const Observe = () => {
 
   if (loading) return <Spin />;
 
-  const program = API.getItem(Domains.Program, programId);
+  const program = API.system.getItem(Domains.Program, programId);
 
   observation.init(program);
 
   const isDiscreteTrial = program.targetStyle === TargetStyle.DiscreteTrials;
 
   const onSubmit = async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Result,
       requestType: "create",
       payload: observation.getResultsForCreation()

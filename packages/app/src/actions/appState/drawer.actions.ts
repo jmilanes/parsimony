@@ -1,16 +1,25 @@
 import { DrawerContentTypes } from "../../services/appStateService";
 import { Container } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
 
-export const getDrawerState = () => {
-  const API = Container.get(UIApi);
-  return API.getAppState("drawer");
-};
+import { Service } from "typedi";
+import CoreApi from "../../domains/coreApi/coreApi.service";
 
-export const setDrawerActive = (content: DrawerContentTypes) => {
-  const API = Container.get(UIApi);
-  API.updateAppState("drawer", {
-    active: true,
-    content
-  });
-};
+@Service()
+export class DrawerActions {
+  #api: CoreApi;
+
+  constructor(_api: CoreApi) {
+    this.#api = _api;
+  }
+
+  public getDrawerState = () => {
+    return this.#api.getAppState("drawer");
+  };
+
+  public setDrawerActive = (content: DrawerContentTypes) => {
+    this.#api.updateAppState("drawer", {
+      active: true,
+      content
+    });
+  };
+}

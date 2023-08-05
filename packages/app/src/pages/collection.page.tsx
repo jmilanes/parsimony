@@ -31,17 +31,21 @@ const Collection = () => {
     React.useState(false);
   const [showBehaviorAddForm, setBehaviorAShowAddForm] = React.useState(false);
   const { loading } = useAsync(async () => {
-    await API.setUpDataFor(DATA_HANDLERS.COLLECTION_PAGE, { collectionId });
+    await API.system.setUpDataFor(DATA_HANDLERS.COLLECTION_PAGE, {
+      collectionId
+    });
   }, [collectionId]);
   if (loading) return <Spin />;
 
-  const collections = API.getItemsFromStore(Domains.Collection).filter(
-    (c) => c.id !== collectionId && c.parentCollectionId === collectionId
-  );
-  const collection = API.getItem(Domains.Collection, collectionId);
-  const programs = API.getItemsFromStore(Domains.Program).filter(
-    (program) => program.collectionId === collectionId
-  );
+  const collections = API.system
+    .getItemsFromStore(Domains.Collection)
+    .filter(
+      (c) => c.id !== collectionId && c.parentCollectionId === collectionId
+    );
+  const collection = API.system.getItem(Domains.Collection, collectionId);
+  const programs = API.system
+    .getItemsFromStore(Domains.Program)
+    .filter((program) => program.collectionId === collectionId);
 
   return (
     <>

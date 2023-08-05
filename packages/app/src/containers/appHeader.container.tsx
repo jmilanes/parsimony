@@ -7,7 +7,7 @@ import { Nav } from "../components";
 
 export const AppHeader = ({ routes }: { routes: IRoute[] }) => {
   const API = Container.get(UIApi);
-  const authService = API.Auth;
+  const authService = API.system.Auth;
   const navigate = API.Navigation;
   return (
     <div className="header">

@@ -33,7 +33,7 @@ export const CollectionTable = ({ collections }: ICollectionTableProps) => {
     {
       name: "Delete",
       method: async (collection: Required<Collection>) => {
-        await API.makeRequest({
+        await API.system.makeRequest({
           domain: Domains.Collection,
           requestType: "delete",
           //TODO Better Types on this
@@ -43,7 +43,7 @@ export const CollectionTable = ({ collections }: ICollectionTableProps) => {
     }
   ];
 
-  const bulkOrder = API.getAppState("bulkPrograms");
+  const bulkOrder = API.system.getAppState("bulkPrograms");
   const { onChange, selected } = useMemo(() => {
     return createBulkOrderSelectable<Collection>(
       "parentCollectionId",

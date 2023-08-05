@@ -1,14 +1,15 @@
 import { Service } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+
 import { Program } from "@parsimony/types";
 import { buildCreateBehaviorRequest, clone, uuid } from "../../utils";
+import CoreApi from "../../domains/coreApi/coreApi.service";
 
 // MAke Actions pattern better...
 @Service()
 export class TallyActions {
-  #api: UIApi;
+  #api: CoreApi;
 
-  constructor(_api: UIApi) {
+  constructor(_api: CoreApi) {
     this.#api = _api;
   }
 

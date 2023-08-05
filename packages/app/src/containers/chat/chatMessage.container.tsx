@@ -20,12 +20,12 @@ export const ChatMessage = ({
   setSelectedMessage
 }: IChatMessageProps) => {
   const API = Container.get(UIApi);
-  const authService = API.Auth;
+  const authService = API.system.Auth;
 
   // TODO: ADD This to store / clientside domains
   const currentUserId = authService.getCurrentUser()?.id;
   const onDeleteMessage = async (threadId: string, messageId: string) => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Thread,
       requestType: "deleteMessage",
       payload: { threadId, messageId }

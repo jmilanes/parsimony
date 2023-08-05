@@ -26,33 +26,39 @@ export const AsyncTreeItem = ({
   const API = Container.get(UIApi);
 
   const { loading } = useAsync(async () => {
-    await API.setUpDataFor(DATA_HANDLERS.COLLECTION_PAGE, { collectionId });
+    await API.system.setUpDataFor(DATA_HANDLERS.COLLECTION_PAGE, {
+      collectionId
+    });
   }, []);
 
   if (loading) return null;
 
-  const collections = API.getItemsFromStore(Domains.Collection).filter((c) => {
-    return (
-      c.id !== collectionId &&
-      c.parentCollectionId === collectionId &&
-      !API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
-        c.id,
-        "excludedIds"
-      )
-    );
-  });
+  const collections = API.system
+    .getItemsFromStore(Domains.Collection)
+    .filter((c) => {
+      return (
+        c.id !== collectionId &&
+        c.parentCollectionId === collectionId &&
+        !API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
+          c.id,
+          "excludedIds"
+        )
+      );
+    });
 
-  const programs = API.getItemsFromStore(Domains.Program).filter((program) => {
-    return (
-      program.collectionId === collectionId &&
-      !API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
-        program.id,
-        "excludedIds"
-      )
-    );
-  });
+  const programs = API.system
+    .getItemsFromStore(Domains.Program)
+    .filter((program) => {
+      return (
+        program.collectionId === collectionId &&
+        !API.actions.bulkPrograms.isIdIncludedInBulkProgramProperty(
+          program.id,
+          "excludedIds"
+        )
+      );
+    });
 
-  const collection = API.getItem(Domains.Collection, collectionId);
+  const collection = API.system.getItem(Domains.Collection, collectionId);
 
   const onClose = handleAction("onClose", actions);
   const onClick = handleAction("onClick", actions);

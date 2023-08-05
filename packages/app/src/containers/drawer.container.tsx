@@ -18,15 +18,15 @@ export const Drawer = () => {
   const API = Container.get(UIApi);
   const [extended, updateExtended] = useState(false);
 
-  const controls = API.getStoreValueByPath(Domains.AppState, "drawer");
+  const controls = API.system.getStoreValueByPath(Domains.AppState, "drawer");
   if (!controls) return null;
 
   const onClose = () => {
-    API.updateAppState("drawer", { active: false });
+    API.system.updateAppState("drawer", { active: false });
   };
 
   const onExtend = async () => {
-    await API.updateAppState("drawer", {
+    await API.system.updateAppState("drawer", {
       width: extended ? "50%" : "90%"
     });
 

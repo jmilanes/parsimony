@@ -30,11 +30,11 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
 
   const [selectedMessage, setSelectedMessage] = useState<Message | null>();
 
-  const authService = API.Auth;
+  const authService = API.system.Auth;
 
   const onEditMessage = async (value: string) => {
     if (!selectedMessage || !thread) return;
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Thread,
       requestType: "editMessage",
       payload: {
@@ -49,7 +49,7 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
   const currentUser = authService.currentUser;
 
   const onDelete = async (id: string) => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Thread,
       requestType: "delete",
       payload: {
@@ -59,7 +59,7 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
   };
 
   const onAddMessage = async (threadId: string) => async (value: string) => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Thread,
       requestType: "addMessage",
       payload: {

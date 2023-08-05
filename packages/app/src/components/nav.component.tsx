@@ -21,7 +21,7 @@ const filterRoutesByName = (routes: IRoute[]) =>
 
 export const Nav = ({ routes }: INavProps) => {
   const API = DI.get(UIApi);
-  const authService = API.Auth;
+  const authService = API.system.Auth;
   return (
     <ul className="nav">
       {filterRoutesByName(routes).map((route: IRoute) => createLink(route))}

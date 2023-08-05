@@ -12,7 +12,7 @@ import { ClientSelector } from "../clientSelector";
 export const CreateChat = () => {
   const API = Container.get(UIApi);
 
-  const authService = API.Auth;
+  const authService = API.system.Auth;
   const currentUserId = authService.currentUser?.id as string;
   const currentName = getFullName(authService.currentUser);
 
@@ -23,13 +23,13 @@ export const CreateChat = () => {
   const [name, updateName] = useState("");
 
   const setToChatDrawer = async () => {
-    await API.updateAppState("drawer", {
+    await API.system.updateAppState("drawer", {
       content: DrawerContentTypes.Chat
     });
   };
 
   const onCreateThread = async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Thread,
       requestType: "create",
       payload: {

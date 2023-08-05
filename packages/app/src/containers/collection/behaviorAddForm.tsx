@@ -34,10 +34,10 @@ export const BehaviorAddForm = ({
   collectionId
 }: IBehaviorAddFormProps) => {
   const API = Container.get(UIApi);
-  const stateManager = API.StateService;
+  const stateManager = API.system.StateService;
   const [localState, updateLocalState] = useState<Program>(initialBehaviorData);
 
-  const clients = API.getItemsFromStore(Domains.User);
+  const clients = API.system.getItemsFromStore(Domains.User);
 
   const clientDataOptions = clients.map((client: User) => ({
     name: getFullName(client),
@@ -50,7 +50,7 @@ export const BehaviorAddForm = ({
   });
 
   const submitAddForm = async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "create",
       payload: removeMongoIds({

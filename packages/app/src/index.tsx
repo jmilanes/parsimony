@@ -22,7 +22,7 @@ const AppContent = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, updateState] = React.useState({});
 
-  const stateManager = API.StateService;
+  const stateManager = API.system.StateService;
 
   React.useEffect(() => {
     stateManager.registerUpdateState(() => {

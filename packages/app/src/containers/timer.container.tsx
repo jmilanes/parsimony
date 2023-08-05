@@ -4,12 +4,13 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 import { compileStyles } from "../utils";
 import { Button, Icon } from "../components";
-import { BehaviorTracker, Domains } from "@parsimony/types";
+import { BehaviorTracker } from "@parsimony/types";
 import { TimerSubmitDialogMessage } from "./behaviorTracker/dialogMessages/timer.dialog.message";
 
 export const TimerContainer = () => {
   const API = Container.get(UIApi);
-  const { timerActive, activeProgram } = API.getAppState("behaviorTracker");
+  const { timerActive, activeProgram } =
+    API.system.getAppState("behaviorTracker");
 
   return (
     <div

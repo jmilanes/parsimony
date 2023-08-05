@@ -1,57 +1,64 @@
-import { Container } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import { Service } from "typedi";
+
 import { BulkProgram } from "../../services/appStateService";
 import { exactIncludes } from "../../utils";
+import CoreApi from "../../domains/coreApi/coreApi.service";
 
-export const getBulkProgramsState = () => {
-  const API = Container.get(UIApi);
-  return API.getAppState("bulkPrograms");
-};
+@Service()
+export class BulkProgramsActions {
+  #api: CoreApi;
 
-export const addIdToBulkProgramProperty = (
-  id: String,
-  propertyName: keyof BulkProgram
-) => {
-  const API = Container.get(UIApi);
-  const state = getBulkProgramsState();
-  if (!Array.isArray(state[propertyName])) {
-    throw new Error(
-      "Tried to resolve a property name on bulk program that was not an array!"
-    );
+  constructor(_api: CoreApi) {
+    this.#api = _api;
   }
-  const current = Array.isArray(state[propertyName])
-    ? (state[propertyName] as [])
-    : [];
-  API.updateAppState("bulkPrograms", {
-    [propertyName]: [...current, id]
-  });
-};
 
-export const removeIdFromBulkProgramProperty = (
-  id: String,
-  propertyName: keyof BulkProgram
-) => {
-  const API = Container.get(UIApi);
-  const state = getBulkProgramsState();
-  if (!Array.isArray(state[propertyName])) {
-    throw new Error(
-      "Tried to resolve a property name on bulk program that was not an array!"
-    );
-  }
-  const current = Array.isArray(state[propertyName])
-    ? (state[propertyName] as [])
-    : [];
-  API.updateAppState("bulkPrograms", {
-    [propertyName]: current.filter((cid) => cid !== id)
-  });
-};
+  public getBulkProgramsState = () => {
+    return this.#api.getAppState("bulkPrograms");
+  };
 
-export const isIdIncludedInBulkProgramProperty = (
-  id: string,
-  propertyName: keyof BulkProgram
-) => {
-  const target = getBulkProgramsState()[propertyName];
-  if (Array.isArray(target)) {
-    return exactIncludes(target, id);
-  }
-};
+  public addIdToBulkProgramProperty = (
+    id: String,
+    propertyName: keyof BulkProgram
+  ) => {
+    const state = this.getBulkProgramsState();
+    if (!Array.isArray(state[propertyName])) {
+      throw new Error(
+        "Tried to resolve a property name on bulk program that was not an array!"
+      );
+    }
+    const current = Array.isArray(state[propertyName])
+      ? (state[propertyName] as [])
+      : [];
+    this.#api.updateAppState("bulkPrograms", {
+      [propertyName]: [...current, id]
+    });
+  };
+
+  public removeIdFromBulkProgramProperty = (
+    id: String,
+    propertyName: keyof BulkProgram
+  ) => {
+    const state = this.getBulkProgramsState();
+    if (!Array.isArray(state[propertyName])) {
+      throw new Error(
+        "Tried to resolve a property name on bulk program that was not an array!"
+      );
+    }
+    const current = Array.isArray(state[propertyName])
+      ? (state[propertyName] as [])
+      : [];
+    this.#api.updateAppState("bulkPrograms", {
+      [propertyName]: current.filter((cid) => cid !== id)
+    });
+  };
+
+  public isIdIncludedInBulkProgramProperty = (
+    id: string,
+    propertyName: keyof BulkProgram
+  ) => {
+    const target = this.getBulkProgramsState()[propertyName];
+    if (Array.isArray(target)) {
+      return exactIncludes(target, id);
+    }
+  };
+}

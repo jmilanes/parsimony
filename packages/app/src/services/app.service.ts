@@ -13,7 +13,10 @@ export default class AppController {
   }
 
   public init = async () => {
-    await this.API.Auth.init();
-    await this.API.OrchestrationService.setupData(DATA_HANDLERS.APP_START, {});
+    await this.API.system.Auth.init();
+    await this.API.system.OrchestrationService.setupData(
+      DATA_HANDLERS.APP_START,
+      {}
+    );
   };
 }

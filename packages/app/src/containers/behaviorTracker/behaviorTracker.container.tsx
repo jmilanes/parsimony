@@ -37,11 +37,11 @@ const behaviorInputFactory = (program: Program) => {
 export const BehaviorTrackerContainer = () => {
   const API = Container.get(UIApi);
 
-  const selectedUserId = API.getAppState("behaviorTracker").clientId;
+  const selectedUserId = API.system.getAppState("behaviorTracker").clientId;
 
   const { loading } = useAsync(async () => {
     if (selectedUserId) {
-      await API.makeRequest({
+      await API.system.makeRequest({
         domain: Domains.Program,
         requestType: "getAllByRelationship",
         payload: {
@@ -54,7 +54,7 @@ export const BehaviorTrackerContainer = () => {
 
   if (loading) return <Spin />;
 
-  const programs = API.getItemsFromStore(Domains.Program);
+  const programs = API.system.getItemsFromStore(Domains.Program);
 
   const behaviors = programs.filter((program) => {
     return (
@@ -65,13 +65,13 @@ export const BehaviorTrackerContainer = () => {
   });
 
   const reset = () =>
-    API.updateAppState("behaviorTracker", {
+    API.system.updateAppState("behaviorTracker", {
       clientId: undefined
     });
 
   const onChange = (option: IOption) => {
     reset();
-    API.updateAppState("behaviorTracker", {
+    API.system.updateAppState("behaviorTracker", {
       clientId: (option.value as string) || undefined
     });
   };

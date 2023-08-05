@@ -1,11 +1,4 @@
 import React from "react";
-import {
-  programCategories,
-  programTypes,
-  targetStyles,
-  trialOptions,
-  userRoleOptions
-} from "../fixtures";
 import { ProgramPageBehaviorView, ProgramPageProgramView } from "../containers";
 import { Button, Container, Header } from "../components";
 import {
@@ -36,7 +29,7 @@ const Program = () => {
   //TODO fix the container collision
   const API = DI.get(UIApi);
 
-  const stateManager = API.StateService;
+  const stateManager = API.system.StateService;
   const navigate = navigateToRoute();
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
@@ -46,23 +39,23 @@ const Program = () => {
   const [localState, updateLocalState] = React.useState<Program>();
 
   const { loading } = useAsync(async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "get",
       payload: { id: programId }
     });
 
     if (programId) {
-      const program = API.getItem(Domains.Program, programId);
+      const program = API.system.getItem(Domains.Program, programId);
       updateLocalState(program);
     }
   });
 
   if (loading || !localState || !programId) return <Spin />;
 
-  const program = API.getItem(Domains.Program, programId);
+  const program = API.system.getItem(Domains.Program, programId);
   const client =
-    program?.clientId && API.getItem(Domains.User, program?.clientId);
+    program?.clientId && API.system.getItem(Domains.User, program?.clientId);
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -80,7 +73,7 @@ const Program = () => {
       }
     };
 
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "update",
       payload
@@ -89,7 +82,7 @@ const Program = () => {
   };
 
   const deleteProgram = async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "delete",
       payload: { id: program.id }

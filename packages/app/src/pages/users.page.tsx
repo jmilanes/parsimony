@@ -34,12 +34,12 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Users = () => {
   const API = Container.get(UIApi);
-  const stateManager = API.StateService;
+  const stateManager = API.system.StateService;
   const navigate = navigateToRoute();
   const [showAddForm, setShowAddForm] = React.useState(false);
   const [localState, updateLocalState] =
     React.useState<Partial<User>>(initialUserData);
-  const users = API.getItemsFromStore(Domains.User);
+  const users = API.system.getItemsFromStore(Domains.User);
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -56,7 +56,7 @@ const Users = () => {
     // TODO: Make this better
     localState.email = localState.email?.toLowerCase();
 
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.User,
       requestType: "create",
       payload: localState
@@ -80,7 +80,7 @@ const Users = () => {
     {
       name: "Delete",
       method: async (user: Required<User>) => {
-        await API.makeRequest({
+        await API.system.makeRequest({
           domain: Domains.User,
           requestType: "delete",
           payload: {

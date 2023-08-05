@@ -31,7 +31,7 @@ export const CollectionAddForm = ({
 }: ICollectionAddFormProps) => {
   const API = Container.get(UIApi);
 
-  const stateManager = API.StateService;
+  const stateManager = API.system.StateService;
 
   const [initialData, updateInitialData] = React.useState<Collection>(
     initialCollectionData
@@ -43,7 +43,7 @@ export const CollectionAddForm = ({
   );
 
   const getCollectionInitialData = () => {
-    const parent = API.getItem(Domains.Collection, parentId);
+    const parent = API.system.getItem(Domains.Collection, parentId);
     return {
       ...initialCollectionData,
       ancestors: [...(parent?.ancestors || []), parent?.id],
@@ -71,7 +71,7 @@ export const CollectionAddForm = ({
   });
 
   const submitAddForm = async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Collection,
       requestType: "create",
       payload: removeMongoIds(localState)

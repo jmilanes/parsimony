@@ -25,7 +25,7 @@ import {
 
 export const generateApp = (routes: IRoute[]) => {
   const API = DI.get(UIApi);
-  const authService = API.Auth;
+  const authService = API.system.Auth;
 
   return (
     <HashRouter>

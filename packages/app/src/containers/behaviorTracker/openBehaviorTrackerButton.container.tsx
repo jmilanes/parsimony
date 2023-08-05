@@ -12,10 +12,10 @@ export const OpenBehaviorButton = () => {
 
   const openBulkPrograms = () => {
     API.actions.drawer.setDrawerActive(DrawerContentTypes.BehaviorViewer);
-    API.updateAppState("drawer", { placement: "right" });
+    API.system.updateAppState("drawer", { placement: "right" });
   };
 
-  const BulkProgramActiveState = API.getAppState("bulkPrograms").active;
+  const BulkProgramActiveState = API.system.getAppState("bulkPrograms").active;
 
   return (
     <Button

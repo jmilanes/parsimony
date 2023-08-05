@@ -26,11 +26,11 @@ export const ClientSelector = ({
 }: ClientSelectorProps) => {
   const API = Container.get(UIApi);
 
-  const currentUserId = API.Auth.currentUser?.id as string;
-  const clients = API.getItemsFromStore(Domains.User);
+  const currentUserId = API.system.Auth.currentUser?.id as string;
+  const clients = API.system.getItemsFromStore(Domains.User);
 
   const selectedUser = selected
-    ? API.getItem(Domains.User, selected)
+    ? API.system.getItem(Domains.User, selected)
     : undefined;
 
   const selectedName = selected ? getFullName(selectedUser) : undefined;

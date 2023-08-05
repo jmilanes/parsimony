@@ -1,15 +1,13 @@
 import { Service } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
-import { Domains, Program } from "@parsimony/types";
-import { initialResultData } from "../../fixtures";
+import { Program } from "@parsimony/types";
 import { buildCreateBehaviorRequest } from "../../utils";
+import CoreApi from "../../domains/coreApi/coreApi.service";
 
-// MAke Actions pattern better...
 @Service()
 export class IntervalActions {
-  #api: UIApi;
+  #api: CoreApi;
 
-  constructor(_api: UIApi) {
+  constructor(_api: CoreApi) {
     this.#api = _api;
   }
 
@@ -53,7 +51,7 @@ export class IntervalActions {
     await this.#api.makeRequest(
       buildCreateBehaviorRequest({ program, result })
     );
-    this.#api.actions.interval.resetIntervalTracking();
+    this.resetIntervalTracking();
   };
 
   public onSuccess = () => {

@@ -29,7 +29,7 @@ export type IProgramTableProps = React.PropsWithChildren<{
 export const ProgramTable = ({ programs }: IProgramTableProps) => {
   const API = Container.get(UIApi);
   const navigate = navigateToRoute();
-  const clients = API.getItemsFromStore(Domains.User);
+  const clients = API.system.getItemsFromStore(Domains.User);
 
   const getClientFullName = (clients: User[]) => (id: string) =>
     getFullName(clients.find((client: User) => client.id === id));
@@ -77,7 +77,7 @@ export const ProgramTable = ({ programs }: IProgramTableProps) => {
     {
       name: "Delete",
       method: async (program: Required<Program>) => {
-        await API.makeRequest({
+        await API.system.makeRequest({
           domain: Domains.Program,
           requestType: "delete",
           payload: { id: program.id }
@@ -86,7 +86,7 @@ export const ProgramTable = ({ programs }: IProgramTableProps) => {
     }
   ];
 
-  const bulkOrder = API.getAppState("bulkPrograms");
+  const bulkOrder = API.system.getAppState("bulkPrograms");
 
   const { onChange, selected } = useMemo(() => {
     return createBulkOrderSelectable<Program>(

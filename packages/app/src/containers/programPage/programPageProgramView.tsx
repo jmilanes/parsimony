@@ -32,7 +32,7 @@ export const ProgramPageProgramView = ({
   updateState: any;
 }) => {
   const API = DI.get(UIApi);
-  const allClients = API.getItemsFromStore(Domains.User);
+  const allClients = API.system.getItemsFromStore(Domains.User);
 
   const options = allClients.map((user: User) => ({
     name: getFullName(user),

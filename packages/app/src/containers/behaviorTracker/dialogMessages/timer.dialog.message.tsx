@@ -5,7 +5,7 @@ import { Domains, Program } from "@parsimony/types";
 
 export const TimerSubmitDialogMessage = ({ program }: { program: Program }) => {
   const API = Container.get(UIApi);
-  const user = API.getItem(Domains.User, program.clientId || "");
+  const user = API.system.getItem(Domains.User, program.clientId || "");
   return (
     <div>
       <p>

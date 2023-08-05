@@ -10,11 +10,12 @@ import { message } from "antd";
 import { Tree } from "../../components/tree.componet";
 import { findTopLevelCollection } from "../../utils";
 
+//TODO Most of this can get moved to actions
 export const BulkProgramsContainer = () => {
   const API = Container.get(UIApi);
 
   const resetBulkPrograms = () =>
-    API.updateAppState("bulkPrograms", {
+    API.system.updateAppState("bulkPrograms", {
       clientId: undefined,
       excludedIds: [],
       collectionIds: [],
@@ -25,36 +26,36 @@ export const BulkProgramsContainer = () => {
   const onChange = (option: IOption) => {
     resetBulkPrograms();
     if (option === null) {
-      API.updateAppState("bulkPrograms", {
+      API.system.updateAppState("bulkPrograms", {
         active: false
       });
       return;
     }
 
-    API.updateAppState("bulkPrograms", {
+    API.system.updateAppState("bulkPrograms", {
       active: true,
       clientId: option.value as string
     });
 
-    API.updateAppState("drawer", {
+    API.system.updateAppState("drawer", {
       active: false
     });
   };
 
   const onAdd = async () => {
-    const payload = omit(["active"], API.getAppState("bulkPrograms"));
+    const payload = omit(["active"], API.system.getAppState("bulkPrograms"));
 
     try {
-      await API.makeRequest({
+      await API.system.makeRequest({
         domain: Domains.Program,
         requestType: "addProgramsToClient",
         payload
       });
       resetBulkPrograms();
-      API.updateAppState("bulkPrograms", {
+      API.system.updateAppState("bulkPrograms", {
         active: false
       });
-      API.updateAppState("drawer", {
+      API.system.updateAppState("drawer", {
         active: false
       });
     } catch (e) {
@@ -62,9 +63,9 @@ export const BulkProgramsContainer = () => {
     }
   };
 
-  const selectedCollections = API.getAppState("bulkPrograms").collectionIds.map(
-    (id) => API.getItem(Domains.Collection, id)
-  );
+  const selectedCollections = API.system
+    .getAppState("bulkPrograms")
+    .collectionIds.map((id) => API.system.getItem(Domains.Collection, id));
 
   const { ret: topLevelCollections } =
     findTopLevelCollection(selectedCollections);

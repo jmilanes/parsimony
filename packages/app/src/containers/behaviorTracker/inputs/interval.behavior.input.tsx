@@ -8,11 +8,12 @@ import UIApi from "../../../domains/uiApi/uiApi.Service";
 export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
   const API = Container.get(UIApi);
 
-  const getBehaviorTrackerState = () => API.getAppState("behaviorTracker");
-  const user = API.getItem(Domains.User, program.clientId || "");
+  const getBehaviorTrackerState = () =>
+    API.system.getAppState("behaviorTracker");
+  const user = API.system.getItem(Domains.User, program.clientId || "");
 
   const openIntervalDialog = () => {
-    API.updateAppState("dialog", {
+    API.system.updateAppState("dialog", {
       active: true,
       title: program.title as string,
       message: (
@@ -45,7 +46,7 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
   };
 
   const openEndIntervalDialog = () => {
-    API.updateAppState("dialog", {
+    API.system.updateAppState("dialog", {
       active: true,
       title: program.title as string,
       message: submitMessage(),

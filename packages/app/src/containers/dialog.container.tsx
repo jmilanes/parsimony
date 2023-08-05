@@ -15,10 +15,10 @@ import { DialogMetaIds } from "@parsimony/types";
 
 export const DialogContainer = () => {
   const API = Container.get(UIApi);
-  const controls = API.getAppState("dialog");
+  const controls = API.system.getAppState("dialog");
 
   const handleClose = () => {
-    API.updateAppState("dialog", { active: false });
+    API.system.updateAppState("dialog", { active: false });
     // TODO Fix reseting
   };
 

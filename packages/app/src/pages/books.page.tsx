@@ -25,7 +25,7 @@ const Books = () => {
   const [showAddForm, setShowAddForm] = React.useState(false);
 
   const { loading } = useAsync(async () => {
-    await API.makeRequest({
+    await API.system.makeRequest({
       domain: Domains.Collection,
       requestType: "getAllByRelationship",
       payload: {
@@ -36,11 +36,13 @@ const Books = () => {
   });
   if (loading) return <Spin />;
 
-  const collections = API.getItemsFromStore(Domains.Collection).filter(
-    (x) =>
-      x.category === CollectionCategories.Book &&
-      x.type === CollectionTypes.Main
-  );
+  const collections = API.system
+    .getItemsFromStore(Domains.Collection)
+    .filter(
+      (x) =>
+        x.category === CollectionCategories.Book &&
+        x.type === CollectionTypes.Main
+    );
 
   return (
     <>

@@ -10,12 +10,12 @@ import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export const Chat = () => {
   const API = Container.get(UIApi);
-  const authService = API.Auth;
+  const authService = API.system.Auth;
   const [currentThread, setCurrentThread] = useState<string>();
-  const threads = API.getItemsFromStore(Domains.Thread);
+  const threads = API.system.getItemsFromStore(Domains.Thread);
 
   const showCreateChat = async () => {
-    await API.updateAppState("drawer", {
+    await API.system.updateAppState("drawer", {
       content: DrawerContentTypes.CreateChat
     });
   };

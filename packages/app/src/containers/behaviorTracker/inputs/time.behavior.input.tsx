@@ -15,7 +15,9 @@ export const TimeBehaviorInput = ({ program }: { program: Program }) => {
           metaTestId={BehaviorTracker.startTimer}
           name="Start Timer"
           action={() => {
-            API.updateAppState("behaviorTracker", { activeProgram: program });
+            API.system.updateAppState("behaviorTracker", {
+              activeProgram: program
+            });
             API.actions.timer.start();
           }}
           icon={<Icon.BehaviorTime />}

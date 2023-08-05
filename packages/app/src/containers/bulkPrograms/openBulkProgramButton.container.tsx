@@ -12,7 +12,7 @@ export const OpenBulkProgramButton = () => {
     API.actions.drawer.setDrawerActive(DrawerContentTypes.BulkPrograms);
   };
 
-  const BulkProgramActiveState = API.getAppState("bulkPrograms").active;
+  const BulkProgramActiveState = API.system.getAppState("bulkPrograms").active;
 
   const name = BulkProgramActiveState
     ? "See Selections"

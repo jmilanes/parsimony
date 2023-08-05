@@ -5,7 +5,7 @@ import UIApi from "../domains/uiApi/uiApi.Service";
 
 const Home = () => {
   const API = DI.get(UIApi);
-  const authService = API.Auth;
+  const authService = API.system.Auth;
   return (
     <>
       <Header

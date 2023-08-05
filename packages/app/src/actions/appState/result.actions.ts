@@ -1,7 +1,8 @@
 import { Service } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+
 import { BehaviorType, Program, Result, TargetStyle } from "@parsimony/types";
 import { getFullDate } from "../../utils";
+import CoreApi from "../../domains/coreApi/coreApi.service";
 
 const chartDefaults = {
   fill: false,
@@ -13,9 +14,9 @@ const chartDefaults = {
 
 @Service()
 export class ResultActions {
-  #api: UIApi;
+  #api: CoreApi;
 
-  constructor(_api: UIApi) {
+  constructor(_api: CoreApi) {
     this.#api = _api;
   }
 
