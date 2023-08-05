@@ -1,4 +1,4 @@
-import { Container, Service } from "typedi";
+import { Service } from "typedi";
 
 import { uuid } from "../../utils";
 import { Notification } from "../../services/appStateService";

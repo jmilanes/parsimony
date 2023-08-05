@@ -53,6 +53,12 @@ export type BehaviorTracker = {
   intervalTotal: number;
 };
 
+export type Observation = {
+  stated: boolean;
+  currentTrial: number;
+  currentTrialPercentage?: number;
+};
+
 export type ProgramViewer = {
   clientId?: string;
 };
@@ -84,6 +90,7 @@ export type AppState = {
   bulkPrograms: BulkProgram;
   programViewer: ProgramViewer;
   behaviorTracker: BehaviorTracker;
+  observation: Observation;
   notifications: { activeNotifications: Record<string, Notification> };
 };
 
@@ -112,6 +119,10 @@ export default class AppStateService {
         programIds: [],
         subscribers: [],
         excludedIds: []
+      },
+      observation: {
+        stated: false,
+        currentTrial: 0
       },
       programViewer: {},
       // Break each behavior into its own domain (interval and program)

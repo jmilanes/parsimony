@@ -6,6 +6,7 @@ import { IntervalActions } from "./appState/interval.actions";
 import { DrawerActions } from "./appState/drawer.actions";
 import { NotifcationActions } from "./appState/notifcation.actions";
 import { BulkProgramsActions } from "./appState/bulkPrograms.actions";
+import { ObservationActions } from "./appState/observations.actions";
 
 @Service()
 export class ActionDomainService {
@@ -16,6 +17,7 @@ export class ActionDomainService {
   #notifactionActions: NotifcationActions;
   #drawerActions: DrawerActions;
   #bulkProgramsActions: BulkProgramsActions;
+  #observationActions: ObservationActions;
 
   constructor(
     intervalActions: IntervalActions,
@@ -24,7 +26,8 @@ export class ActionDomainService {
     tallyActions: TallyActions,
     notificationActions: NotifcationActions,
     drawerActions: DrawerActions,
-    bulkProgramActions: BulkProgramsActions
+    bulkProgramActions: BulkProgramsActions,
+    observationActions: ObservationActions
   ) {
     this.#intervalActions = intervalActions;
     this.#resultActions = resultActions;
@@ -33,6 +36,7 @@ export class ActionDomainService {
     this.#notifactionActions = notificationActions;
     this.#drawerActions = drawerActions;
     this.#bulkProgramsActions = bulkProgramActions;
+    this.#observationActions = observationActions;
   }
 
   get timer() {
@@ -61,5 +65,9 @@ export class ActionDomainService {
 
   get drawer() {
     return this.#drawerActions;
+  }
+
+  get objservation() {
+    return this.#observationActions;
   }
 }
