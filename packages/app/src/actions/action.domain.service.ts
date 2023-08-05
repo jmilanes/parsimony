@@ -7,6 +7,7 @@ import { DrawerActions } from "./appState/drawer.actions";
 import { NotifcationActions } from "./appState/notifcation.actions";
 import { BulkProgramsActions } from "./appState/bulkPrograms.actions";
 import { ObservationActions } from "./appState/observations.actions";
+import { ProgramViewerActions } from "./appState/programViewer.actions";
 
 @Service()
 export class ActionDomainService {
@@ -14,6 +15,7 @@ export class ActionDomainService {
   #tallyActions: TallyActions;
   #timerActions: TimerActions;
   #intervalActions: IntervalActions;
+  #programViewer: ProgramViewerActions;
   #notifactionActions: NotifcationActions;
   #drawerActions: DrawerActions;
   #bulkProgramsActions: BulkProgramsActions;
@@ -27,7 +29,8 @@ export class ActionDomainService {
     notificationActions: NotifcationActions,
     drawerActions: DrawerActions,
     bulkProgramActions: BulkProgramsActions,
-    observationActions: ObservationActions
+    observationActions: ObservationActions,
+    programViewer: ProgramViewerActions
   ) {
     this.#intervalActions = intervalActions;
     this.#resultActions = resultActions;
@@ -37,6 +40,7 @@ export class ActionDomainService {
     this.#drawerActions = drawerActions;
     this.#bulkProgramsActions = bulkProgramActions;
     this.#observationActions = observationActions;
+    this.#programViewer = programViewer;
   }
 
   get timer() {
@@ -67,7 +71,11 @@ export class ActionDomainService {
     return this.#drawerActions;
   }
 
-  get objservation() {
+  get observations() {
     return this.#observationActions;
+  }
+
+  get programViewer() {
+    return this.#programViewer;
   }
 }

@@ -67,6 +67,9 @@ export const BulkProgramsContainer = () => {
 
       {selectedClient && (
         <CollectionTree
+          clientName={
+            API.actions.bulkPrograms.getSelectedClient()?.firstName || ""
+          }
           orphanPrograms={orphanPrograms}
           collections={filteredCollections}
           actions={{

@@ -19,11 +19,13 @@ export type TreeActions = {
 type TreeProps = {
   collections: Collection[];
   orphanPrograms?: Program[];
+  clientName: string;
   actions?: TreeActions;
 };
 export const CollectionTree = ({
   collections,
   actions = {},
+  clientName,
   orphanPrograms = []
 }: TreeProps) => {
   const API = Container.get(UIApi);
@@ -52,9 +54,7 @@ export const CollectionTree = ({
       <StyledTreeItem
         nodeId={`tree-item-root`}
         key={`tree-styled-item-root`}
-        labelText={`${
-          API.actions.bulkPrograms.getSelectedClient()?.firstName
-        } Collections & Programs`}
+        labelText={`${clientName} Collections & Programs`}
         labelIcon={Collections}
       >
         {orphanProgramItems}

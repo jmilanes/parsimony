@@ -6,14 +6,16 @@ import CoreApi from "../../domains/coreApi/coreApi.service";
 import { Domains } from "@parsimony/types";
 import { omit } from "ramda";
 import { message } from "antd";
-import { IOption } from "../../components";
+import { ActionUtiltites } from "./utilities.actions";
 
 @Service()
 export class BulkProgramsActions {
   #api: CoreApi;
+  #utils: ActionUtiltites;
 
-  constructor(_api: CoreApi) {
+  constructor(_api: CoreApi, utils: ActionUtiltites) {
     this.#api = _api;
+    this.#utils = utils;
   }
 
   public state = () => {
@@ -33,8 +35,7 @@ export class BulkProgramsActions {
 
   public getSelectedClient = () => {
     const { clientId } = this.state();
-    if (!clientId) return;
-    return this.#api.getItem(Domains.User, clientId);
+    return this.#utils.getClient(clientId);
   };
 
   public addIdToBulkProgramProperty = (

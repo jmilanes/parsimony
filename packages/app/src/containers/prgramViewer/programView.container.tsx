@@ -78,7 +78,13 @@ export const ProgramViewContainer = () => {
       <Header text="Choose Client:" size="md" />
       <ClientSelector onChange={onChange} multiSelect={false} />
       <Header text="Programs:" size="sm" marginTop={20} />
-      <CollectionTree collections={topLevelCollections} actions={{ onClick }} />
+      <CollectionTree
+        clientName={
+          API.actions.programViewer.getSelectedClient()?.firstName || ""
+        }
+        collections={topLevelCollections}
+        actions={{ onClick }}
+      />
     </div>
   );
 };
