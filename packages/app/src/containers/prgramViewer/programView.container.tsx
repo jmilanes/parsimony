@@ -10,7 +10,7 @@ import {
   CollectionTypes,
   Domains
 } from "@parsimony/types";
-import { Tree } from "../../components/tree.componet";
+import { CollectionTree } from "../../components/tree.componet";
 import { findTopLevelCollection } from "../../utils";
 import { useAsync } from "react-use";
 import { Spin } from "antd";
@@ -78,7 +78,7 @@ export const ProgramViewContainer = () => {
       <Header text="Choose Client:" size="md" />
       <ClientSelector onChange={onChange} multiSelect={false} />
       <Header text="Programs:" size="sm" marginTop={20} />
-      <Tree collections={topLevelCollections} actions={{ onClick }} />
+      <CollectionTree collections={topLevelCollections} actions={{ onClick }} />
     </div>
   );
 };

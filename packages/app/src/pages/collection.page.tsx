@@ -82,9 +82,9 @@ const Collection = () => {
         ]}
       />
 
-      <Header text="Collections" size="md" />
+      <Header text="Collections" size="table" />
       <CollectionTable collections={collections} />
-      <Header text="Programs" size="md" />
+      <Header text="Programs" size="table" />
       <ProgramTable programs={programs} />
       <CollectionAddForm
         show={showCollectionAddForm}

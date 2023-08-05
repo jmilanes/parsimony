@@ -5,67 +5,26 @@ import UIApi from "../../domains/uiApi/uiApi.Service";
 import { Button, Header, IOption } from "../../components";
 import { ClientSelector } from "../clientSelector";
 import { BulKProgramMetaTestIds, Domains } from "@parsimony/types";
-import { omit } from "ramda";
-import { message } from "antd";
-import { Tree } from "../../components/tree.componet";
+import { CollectionTree } from "../../components/tree.componet";
 import { findTopLevelCollection } from "../../utils";
 
-//TODO Most of this can get moved to actions
 export const BulkProgramsContainer = () => {
   const API = Container.get(UIApi);
 
-  const resetBulkPrograms = () =>
-    API.system.updateAppState("bulkPrograms", {
-      clientId: undefined,
-      excludedIds: [],
-      collectionIds: [],
-      programIds: [],
-      subscribers: []
-    });
-
   const onChange = (option: IOption) => {
-    resetBulkPrograms();
-    if (option === null) {
-      API.system.updateAppState("bulkPrograms", {
-        active: false
-      });
-      return;
+    if (!option.value) {
+      API.actions.bulkPrograms.resetBulkProgram();
     }
-
-    API.system.updateAppState("bulkPrograms", {
-      active: true,
-      clientId: option.value as string
-    });
-
-    API.system.updateAppState("drawer", {
-      active: false
-    });
-  };
-
-  const onAdd = async () => {
-    const payload = omit(["active"], API.system.getAppState("bulkPrograms"));
-
-    try {
-      await API.system.makeRequest({
-        domain: Domains.Program,
-        requestType: "addProgramsToClient",
-        payload
-      });
-      resetBulkPrograms();
-      API.system.updateAppState("bulkPrograms", {
-        active: false
-      });
-      API.system.updateAppState("drawer", {
-        active: false
-      });
-    } catch (e) {
-      message.error("Programs Not Added To Client");
-    }
+    API.actions.bulkPrograms.startSelections(option.value as string);
   };
 
   const selectedCollections = API.system
     .getAppState("bulkPrograms")
     .collectionIds.map((id) => API.system.getItem(Domains.Collection, id));
+
+  const orphanPrograms = API.system
+    .getAppState("bulkPrograms")
+    .programIds.map((id) => API.system.getItem(Domains.Program, id));
 
   const { ret: topLevelCollections } =
     findTopLevelCollection(selectedCollections);
@@ -86,22 +45,35 @@ export const BulkProgramsContainer = () => {
     );
   };
 
+  const selectedClient = API.system.getAppState("bulkPrograms").clientId;
+
   return (
     <div>
-      <Header text="Add Programs to Clients" size="md" />
-      <ClientSelector onChange={onChange} multiSelect={false} />
-      <Button
-        name="Add Progams To ClientTo Client"
-        metaTestId={BulKProgramMetaTestIds.addToClientBtn}
-        action={onAdd}
+      <div className="bulk-program-header">
+        <Header text="Add Programs to Clients" size="md" />
+        <Button
+          name="Add"
+          type="contained"
+          metaTestId={BulKProgramMetaTestIds.addToClientBtn}
+          action={API.actions.bulkPrograms.submitBulkPrograms}
+        />
+      </div>
+      <ClientSelector
+        onChange={onChange}
+        multiSelect={false}
+        selected={selectedClient}
+        onCancel={() => API.actions.bulkPrograms.resetBulkProgram()}
       />
-      <Header text="Selected Programs:" size="sm" marginTop={20} />
-      <Tree
-        collections={filteredCollections}
-        actions={{
-          onClose
-        }}
-      />
+
+      {selectedClient && (
+        <CollectionTree
+          orphanPrograms={orphanPrograms}
+          collections={filteredCollections}
+          actions={{
+            onClose
+          }}
+        />
+      )}
     </div>
   );
 };

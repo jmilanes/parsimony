@@ -1,6 +1,9 @@
 import React from "react";
 import { Button } from "../../components";
-import { ProgramsPageMetaTestIds } from "@parsimony/types";
+import {
+  BulKProgramMetaTestIds,
+  ProgramsPageMetaTestIds
+} from "@parsimony/types";
 import { Container } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
 import { DrawerContentTypes } from "../../services/appStateService";
@@ -12,17 +15,27 @@ export const OpenBulkProgramButton = () => {
     API.actions.drawer.setDrawerActive(DrawerContentTypes.BulkPrograms);
   };
 
-  const BulkProgramActiveState = API.system.getAppState("bulkPrograms").active;
+  const bulkProgramActiveState = API.system.getAppState("bulkPrograms").active;
 
-  const name = BulkProgramActiveState
+  const name = bulkProgramActiveState
     ? "See Selections"
     : "Add Programs To Clients";
 
   return (
-    <Button
-      name={name}
-      action={openBulkPrograms}
-      metaTestId={ProgramsPageMetaTestIds.addProgramToClient}
-    />
+    <div className="bulk-program-buttons">
+      <Button
+        name={name}
+        action={openBulkPrograms}
+        metaTestId={ProgramsPageMetaTestIds.addProgramToClient}
+      />
+      {bulkProgramActiveState && (
+        <Button
+          name="Add Selected"
+          type="contained"
+          metaTestId={BulKProgramMetaTestIds.addToClientBtn}
+          action={API.actions.bulkPrograms.submitBulkPrograms}
+        />
+      )}
+    </div>
   );
 };

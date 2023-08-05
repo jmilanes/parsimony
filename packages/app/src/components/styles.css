@@ -1,7 +1,10 @@
 :root {
     --black: black;
-    --background: #D473F5;
+    --white: white;
+    --purple: #D473F5;
+    --background: var(--purple);
     --button: var(--black);
+    --button-contant-bg: var(--black);
     --border-radus: 1rem;
 }
 
@@ -131,6 +134,13 @@ input[type="checkbox"] {
     margin: 0 5px !important;
     color: var(--button) !important;
     border-color: var(--button) !important;
+}
+
+.parsimony-btn-contained {
+    margin: 0 5px !important;
+    color: var(--white) !important;
+    border-color: var(--purple) !important;
+    background-color: var(--purple) !important;
 }
 
 .full-height {
@@ -391,4 +401,22 @@ hr {
 
 .timerContainer svg {
     font-size: 2.2rem;
+}
+
+
+.bulk-program-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.bulk-program-buttons {
+    display: flex;
+}
+
+.table-header-container {
+    display: block;
+    margin: auto;
+    padding: 32px 24px 8px 24px;
+    max-width: 1200px;
 }

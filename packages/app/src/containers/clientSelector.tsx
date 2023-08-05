@@ -4,7 +4,8 @@ import {
   ChatMetaTestIds,
   Domains,
   ProgramPageMetaTestIds,
-  User
+  User,
+  UserRoles
 } from "@parsimony/types";
 import { Container } from "typedi";
 import UIApi from "../domains/uiApi/uiApi.Service";
@@ -36,7 +37,10 @@ export const ClientSelector = ({
   const selectedName = selected ? getFullName(selectedUser) : undefined;
 
   const options = clients
-    .filter((user: User) => user.id !== currentUserId)
+    .filter(
+      (user: User) =>
+        user.id !== currentUserId && user.type === UserRoles.Client
+    )
     .map((user: User) => ({
       label: getFullName(user),
       value: user.id

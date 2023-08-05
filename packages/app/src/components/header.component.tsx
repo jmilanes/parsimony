@@ -2,7 +2,7 @@ import { PageHeader } from "antd";
 import React from "react";
 import Typography from "@mui/material/Typography";
 
-export type IHeaderSizes = "sm" | "md" | "lg" | "page";
+export type IHeaderSizes = "sm" | "md" | "lg" | "page" | "table";
 export type IHeaderProps = {
   text: string;
   size: IHeaderSizes;
@@ -22,6 +22,13 @@ export const Header = ({
 }: IHeaderProps) => {
   if (hidden) return <></>;
   const headers: Record<IHeaderSizes, JSX.Element> = {
+    table: (
+      <div className="table-header-container">
+        <Typography variant="h5" onClick={action} style={{ marginTop }}>
+          {text}
+        </Typography>
+      </div>
+    ),
     sm: (
       <Typography variant="subtitle1" onClick={action} style={{ marginTop }}>
         {text}

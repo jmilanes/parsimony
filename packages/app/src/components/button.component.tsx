@@ -48,7 +48,9 @@ export const Button = ({
     <MaterialButton
       data-test-id={metaId}
       disabled={disabled}
-      className="parsimony-btn"
+      className={
+        type === "contained" ? "parsimony-btn-contained" : "parsimony-btn"
+      }
       variant={type}
       onClick={action}
     >
