@@ -273,9 +273,7 @@ hr {
 }
 
 .observeTarget.group {
-
     flex-direction: column;
-
 }
 
 
@@ -302,12 +300,14 @@ hr {
 .activeObservationTarget .content .trial {
     display: flex;
     flex-direction: column;
+    padding: 0 10px;
+    font-size: 16px;
 }
 
 
 .activeObservationTarget .promptBtnContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 

@@ -9,12 +9,8 @@ import { Domains } from "@parsimony/types";
 import AppStateService, { AppState } from "../../services/appStateService";
 
 import RequestService, { RequestsTypeMap } from "../requests/request.Service";
-import ObservationService from "../../services/observation.service";
 import AuthService from "../../services/auth.service";
 import StateService from "../../services/state.service";
-import { useNavigate } from "react-router-dom";
-
-import { ActionDomainService } from "../../actions/action.domain.service";
 
 /**
  * API Between service and UI Layer
@@ -24,7 +20,6 @@ import { ActionDomainService } from "../../actions/action.domain.service";
 @Service()
 export default class CoreApi {
   #os: OrchestrationService;
-  #ops: ObservationService;
   #ass: AppStateService;
   #rs: RequestService;
   #store: Store;
@@ -33,7 +28,6 @@ export default class CoreApi {
 
   constructor(
     os: OrchestrationService,
-    ops: ObservationService,
     s: Store,
     ass: AppStateService,
     rs: RequestService,
@@ -44,7 +38,6 @@ export default class CoreApi {
     this.#store = s;
     this.#ass = ass;
     this.#rs = rs;
-    this.#ops = ops;
     this.#auth = auth;
     this.#ss = ss;
   }
@@ -59,10 +52,6 @@ export default class CoreApi {
 
   public get OrchestrationService() {
     return this.#os;
-  }
-
-  public get ObservationService() {
-    return this.#ops;
   }
 
   public setUpDataFor = async <K extends DATA_HANDLERS>(

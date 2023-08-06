@@ -1,83 +1,53 @@
 import React from "react";
 import { Button, Header } from "../components";
-import { generateKey, getRouterParams, navigateToRoute } from "../utils";
-import { ObserveTarget } from "../containers";
-import {
-  Domains,
-  ObservationMetaTestIds,
-  TargetOption,
-  TargetStyle
-} from "@parsimony/types";
+import { getRouterParams, navigateToRoute } from "../utils";
+
+import { Domains, ObservationMetaTestIds } from "@parsimony/types";
 
 import { Container } from "typedi";
 
 import { useAsync } from "react-use";
 import { Spin } from "antd";
 import UIApi from "../domains/uiApi/uiApi.Service";
+import { DiscreteTrial } from "../containers/observations/discreteTrial.container";
+import { TaskAnalysis } from "../containers/observations/taskAnalysis.container";
 
 const Observe = () => {
   const API = Container.get(UIApi);
-  const observation = API.system.ObservationService;
 
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();
 
   const { loading } = useAsync(async () => {
-    await API.system.makeRequest({
-      domain: Domains.Program,
-      requestType: "get",
-      payload: { id: programId }
-    });
+    await API.actions.observations.init(programId);
   });
 
-  if (loading) return <Spin />;
+  if (loading) {
+    return <Spin />;
+  }
 
   const program = API.system.getItem(Domains.Program, programId);
 
-  observation.init(program);
-
-  const isDiscreteTrial = program.targetStyle === TargetStyle.DiscreteTrials;
-
-  const onSubmit = async () => {
-    await API.system.makeRequest({
-      domain: Domains.Result,
-      requestType: "create",
-      payload: observation.getResultsForCreation()
-    });
-  };
-
-  if (!program.targetOptions) return null;
+  if (!program.targetOptions) {
+    return null;
+  }
 
   const header = `${program.title || "Untitled"}: Observation`;
 
   return (
     <>
       <Header text={header} size="page" />
-      <h4 className="completeness">{`Completeness: ${observation.programCompleteness}%`}</h4>
-      {isDiscreteTrial ? (
-        <ObserveTarget
-          targetOptions={program.targetOptions as TargetOption[]}
-          target={program.targets as []}
-          updateResultData={observation.updatedResultsData}
-          programTrials={program.trials || 1}
-        />
+      <h4 className="completeness">{`Completeness: ${
+        API.actions.observations.state().programCompleteness
+      }%`}</h4>
+      {API.actions.observations.isDiscreteTrial(program) ? (
+        <DiscreteTrial program={program} />
       ) : (
-        program.targets?.map((target, i) => {
-          return target ? (
-            <ObserveTarget
-              targetOptions={program.targetOptions as TargetOption[]}
-              key={generateKey("observeTarget", i)}
-              target={target}
-              updateResultData={observation.updatedResultsData}
-              programTrials={program.trials || 1}
-              metaQualifierIndex={i}
-            />
-          ) : null;
-        })
+        <TaskAnalysis program={program} />
       )}
       <Button
         name="Submit Observation"
-        action={onSubmit}
+        action={API.actions.observations.submit}
         metaTestId={ObservationMetaTestIds.submitObservation}
       />
       <Button

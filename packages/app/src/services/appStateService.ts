@@ -57,6 +57,11 @@ export type Observation = {
   stated: boolean;
   currentTrial: number;
   currentTrialPercentage?: number;
+  programCompleteness: number;
+  results: Record<string, unknown>;
+  resultsData: Record<string, unknown>;
+  isLoaded: boolean;
+  program?: Program;
 };
 
 export type ProgramViewer = {
@@ -122,7 +127,11 @@ export default class AppStateService {
       },
       observation: {
         stated: false,
-        currentTrial: 0
+        currentTrial: 0,
+        programCompleteness: 0,
+        results: {},
+        resultsData: {},
+        isLoaded: false
       },
       programViewer: {},
       // Break each behavior into its own domain (interval and program)

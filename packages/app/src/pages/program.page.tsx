@@ -94,7 +94,7 @@ const Program = () => {
   const header = program.behavior ? "Behavior" : Program;
   console.log(program);
   const View = () =>
-    program.behavior ? (
+    program.behavior?.type ? (
       <ProgramPageBehaviorView
         localState={localState}
         updateState={updateState}
