@@ -6,10 +6,26 @@ import {
   IResultData,
   Program,
   ResultData,
+  Target,
   TargetStyle
 } from "@parsimony/types";
 import { initialResultData } from "../../fixtures";
-import { calculateAverage, removeMongoIds } from "../../utils";
+import {
+  calculateAverage,
+  parseResultsWithCompleteness,
+  removeMongoIds
+} from "../../utils";
+import { ObservationTarget } from "../../services/appStateService";
+
+export const TASK_ANALYSIS_ID = "taskAnalysis";
+
+const initTargetData = {
+  active: false,
+  results: {},
+  completeness: {},
+  currentStep: 1,
+  complete: false
+};
 
 @Service()
 export class ObservationActions {
@@ -31,7 +47,8 @@ export class ObservationActions {
       programCompleteness: 0,
       results: {},
       resultsData: {},
-      isLoaded: false
+      isLoaded: false,
+      targetStates: {}
     });
   };
 
@@ -53,9 +70,58 @@ export class ObservationActions {
       },
       currentTrialPercentage: 0,
       currentTrial: 1,
-      stated: true
+      stated: true,
+      targetStates: this.initTarget(program.targets as Target[])
     });
   }
+
+  public initTarget = (targets: Target[] = []) => {
+    const targetStates: any = {
+      [TASK_ANALYSIS_ID]: { ...initTargetData }
+    };
+    for (const target of targets) {
+      targetStates[target.id as string] = { ...initTargetData };
+    }
+    return targetStates;
+  };
+
+  public getTargetState = (targetId: string) => {
+    const { targetStates } = this.state();
+    return targetStates[targetId];
+  };
+
+  public updateTargetState = (
+    targetId: string,
+    update: Partial<ObservationTarget>
+  ) => {
+    if (!targetId.length) {
+      return;
+    }
+    const { targetStates } = this.state();
+    this.#api.updateAppState("observation", {
+      targetStates: {
+        ...targetStates,
+        [targetId]: { ...targetStates[targetId], ...update }
+      }
+    });
+  };
+
+  public updateResultForTarget = (target: Target) => {
+    const { results, completeness } = this.getTargetState(target.id || "");
+    if (Object.keys(results).length) {
+      const { parsedResults, newCompleteNess } = parseResultsWithCompleteness(
+        results,
+        completeness,
+        target
+      );
+
+      this.updateTargetState(target.id || "", {
+        completeness: newCompleteNess
+      });
+
+      this.updateProgramResultData(parsedResults);
+    }
+  };
 
   public isDiscreteTrial = (program: Program) => {
     return program.targetStyle === TargetStyle.DiscreteTrials;
@@ -93,7 +159,7 @@ export class ObservationActions {
    *
    * Update the result data right now passing in most reset result data
    */
-  updatedResultsData = (latestResult: IResultData) => {
+  updateProgramResultData = (latestResult: IResultData) => {
     // latest result is an object of the latest result data keys are the target ID
     // This is so that a group of target results can be passed through as an object
     const latestResults = Object.values(latestResult);

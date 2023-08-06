@@ -14,11 +14,10 @@ export const TaskAnalysis = ({ program }: { program: Program }) => {
       {program.targets?.map((target, i) => {
         return target ? (
           <ObserveTarget
+            program={program}
             targetOptions={program.targetOptions as TargetOption[]}
             key={generateKey("observeTarget", i)}
             target={target}
-            updateResultData={API.actions.observations.updatedResultsData}
-            programTrials={program.trials || 1}
             metaQualifierIndex={i}
           />
         ) : null;

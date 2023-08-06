@@ -31,7 +31,6 @@ export const calculateCompleteness = (
 export const parseResultsWithCompleteness = (
   results: IResultsState,
   completeness: ICompletenessState,
-  setCompleteness: (c: ICompletenessState) => void,
   target: Target | Target[]
 ) => {
   const cloneCompleteness = clone(completeness);
@@ -39,8 +38,8 @@ export const parseResultsWithCompleteness = (
     createResult(cloneCompleteness, target, results),
     {}
   );
-  setCompleteness(cloneCompleteness);
-  return parsedResults;
+
+  return { parsedResults, newCompleteNess: cloneCompleteness };
 };
 
 export const createResult =

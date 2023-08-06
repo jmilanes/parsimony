@@ -1,7 +1,13 @@
-import { Domains, Program } from "@parsimony/types";
+import {
+  Domains,
+  ICompletenessState,
+  IResultsState,
+  Program
+} from "@parsimony/types";
 import { clone } from "../utils";
 import Store from "../domains/store/store";
 import { Service } from "typedi";
+import { useState } from "react";
 
 type Subset<K> = {
   [attr in keyof K]?: K[attr] extends object
@@ -53,6 +59,14 @@ export type BehaviorTracker = {
   intervalTotal: number;
 };
 
+export type ObservationTarget = {
+  active: boolean;
+  complete: boolean;
+  completeness: ICompletenessState;
+  results: IResultsState;
+  currentStep: number;
+};
+
 export type Observation = {
   stated: boolean;
   currentTrial: number;
@@ -62,6 +76,8 @@ export type Observation = {
   resultsData: Record<string, unknown>;
   isLoaded: boolean;
   program?: Program;
+  // TODO Figure out why this cant just be an object
+  targetStates: Record<string, ObservationTarget>;
 };
 
 export type ProgramViewer = {
@@ -131,7 +147,8 @@ export default class AppStateService {
         programCompleteness: 0,
         results: {},
         resultsData: {},
-        isLoaded: false
+        isLoaded: false,
+        targetStates: {}
       },
       programViewer: {},
       // Break each behavior into its own domain (interval and program)

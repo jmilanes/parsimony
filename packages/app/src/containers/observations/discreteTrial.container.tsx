@@ -10,10 +10,9 @@ export const DiscreteTrial = ({ program }: { program: Program }) => {
 
   return (
     <ObserveTarget
+      program={program}
       targetOptions={program.targetOptions as TargetOption[]}
       target={program.targets as []}
-      updateResultData={API.actions.observations.updatedResultsData}
-      programTrials={program.trials || 1}
     />
   );
 };

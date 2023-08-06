@@ -1,78 +1,61 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button } from "../components";
+import { Container as DI } from "typedi";
 import {
-  IResultsState,
-  ICompletenessState,
-  IResultData,
   ObservationMetaTestIds,
   Target,
   TargetResult,
   TargetResultOption,
-  TargetOption
+  TargetOption,
+  Program
 } from "@parsimony/types";
-import {
-  increment,
-  decrement,
-  generateKey,
-  compileStyles,
-  parseResultsWithCompleteness
-} from "../utils";
+import { generateKey, compileStyles } from "../utils";
 import "./styles.css";
+import UIApi from "../domains/uiApi/uiApi.Service";
+import { TASK_ANALYSIS_ID } from "../actions/appState/observations.actions";
 
 export type IObserverTargetProps = React.PropsWithChildren<{
   target: Target | Target[];
   targetOptions: TargetOption[];
-  updateResultData: (result: IResultData) => void;
-  programTrials: number;
-  patentActiveState?: boolean;
+  program: Program;
   metaQualifierIndex?: number;
 }>;
 
 export const ObserveTarget = ({
   target,
   targetOptions,
-  updateResultData,
-  patentActiveState,
-  programTrials,
+  program,
   metaQualifierIndex
 }: IObserverTargetProps) => {
-  const [active, setActive] = useState(patentActiveState || false);
-  const [complete, setComplete] = useState(false);
-  const [completeness, setCompleteness] = useState<ICompletenessState>({});
-  const [results, setResults] = useState<IResultsState>({});
-  const [currentStep, setCurrentStep] = useState(1);
+  const API = DI.get(UIApi);
 
-  const isGroup = Array.isArray(target);
+  const isTaskAnalysis = Array.isArray(target);
 
-  useEffect(() => {
-    if (Object.keys(results).length) {
-      const latestResult = parseResultsWithCompleteness(
-        results,
-        completeness,
-        setCompleteness,
-        target
-      );
+  //TODO MOVE TO ACTION
+  const incrementStep = (targetId: string) => {
+    const { currentStep } = API.actions.observations.getTargetState(targetId);
 
-      updateResultData(latestResult);
-    }
-  }, [results]);
-
-  useEffect(() => {
-    patentActiveState !== undefined && setActive(patentActiveState);
-  }, [patentActiveState]);
-
-  const incrementStep = (target: Target) => {
-    if (currentStep === programTrials) {
-      setComplete(true);
-      setActive(false);
+    if (currentStep === program.trials) {
+      API.actions.observations.updateTargetState(targetId, {
+        active: false,
+        complete: true
+      });
       return;
     }
-    increment(currentStep, setCurrentStep);
+
+    // GOOD SPOT TO BLOCK WITH CHAin
+    API.actions.observations.updateTargetState(targetId || "", {
+      currentStep: currentStep + 1
+    });
   };
 
-  const decrementStep = () => {
-    decrement(currentStep, setCurrentStep);
-    // need to destroy the current result if it has been updated (be able to remove from the array)
+  //TODO MOVE TO ACTION
+  const decrementStep = (targetId: string) => {
+    const { currentStep } = API.actions.observations.getTargetState(targetId);
+
+    API.actions.observations.updateTargetState(targetId, {
+      currentStep: currentStep - 1
+    });
   };
 
   const updateTargetResultAtStep = (
@@ -85,21 +68,28 @@ export const ObserveTarget = ({
     return update;
   };
 
+  //TODO MOVE TO ACTION
   const updateResults = (resultData: TargetResult, target: Target) => {
     const id = target.id as string;
+    const results = API.actions.observations.getTargetState(id).results;
     const updatedResultArray = results[id]
       ? updateTargetResultAtStep(results[id], resultData)
       : [resultData];
 
-    setResults({
-      ...results,
-      [id]: updatedResultArray
+    API.actions.observations.updateTargetState(id, {
+      results: {
+        ...results,
+        [id]: updatedResultArray
+      }
     });
+
+    API.actions.observations.updateResultForTarget(target);
   };
 
   const getTargetId = (target: Target) =>
     targetOptions?.find((option) => !!option?.target)?.id || "";
 
+  //TODO MOVE TO ACTION
   const selectOption = (
     option: TargetResultOption,
     currentStep: number,
@@ -123,7 +113,7 @@ export const ObserveTarget = ({
     };
 
     updateResults(obj, target);
-    !isGroup && incrementStep(target);
+    !isTaskAnalysis && incrementStep(target.id || "");
   };
 
   const InactiveTarget = ({
@@ -133,16 +123,25 @@ export const ObserveTarget = ({
     target: Target;
     index: number;
   }) => {
-    const classes = isGroup
+    const id = isTaskAnalysis ? TASK_ANALYSIS_ID : target.id || "";
+    const { complete } = API.actions.observations.getTargetState(id);
+    const classes = isTaskAnalysis
       ? undefined
-      : compileStyles({ observeTarget: true, complete });
+      : compileStyles({
+          observeTarget: true,
+          complete
+        });
     return (
       <div className={classes}>
         <h3>{target.title}</h3>
-        {!isGroup && (
+        {!isTaskAnalysis && (
           <Button
             name="Observe"
-            action={() => setActive(true)}
+            action={() =>
+              API.actions.observations.updateTargetState(id, {
+                active: true
+              })
+            }
             metaTestId={ObservationMetaTestIds.selectRuleBtn}
             metaTestQualifier={`target-${index}`}
           />
@@ -158,16 +157,18 @@ export const ObserveTarget = ({
     target: Target;
     index: number;
   }) => {
+    const { currentStep, completeness } =
+      API.actions.observations.getTargetState(target.id || "");
     return (
       <div
         className={compileStyles({
           activeObservationTarget: true,
-          group: isGroup
+          group: isTaskAnalysis
         })}
       >
         <div className="content">
           <div className="trial">
-            {!isGroup && (
+            {!isTaskAnalysis && (
               <>
                 <h3>
                   {target.title} Trial: {currentStep}
@@ -177,19 +178,23 @@ export const ObserveTarget = ({
                 </h4>
               </>
             )}
-            {isGroup && <h3>{target.title}</h3>}
+            {isTaskAnalysis && <h3>{target.title}</h3>}
           </div>
-          {!isGroup && (
+          {!isTaskAnalysis && (
             <Button
               name="Close"
-              action={() => setActive(false)}
+              action={() =>
+                API.actions.observations.updateTargetState(target.id || "", {
+                  active: false
+                })
+              }
               metaTestId={ObservationMetaTestIds.closeRuleBtn}
             />
           )}
           {currentStep > 1 && (
             <Button
               name="Back"
-              action={decrementStep}
+              action={() => decrementStep(target.id || "")}
               metaTestId={ObservationMetaTestIds.revertStepBtn}
             />
           )}
@@ -217,14 +222,25 @@ export const ObserveTarget = ({
     );
   };
 
-  const SingleTarget = ({ target, index }: { target: Target; index: number }) =>
-    active ? (
+  const SingleTarget = ({
+    target,
+    index
+  }: {
+    target: Target;
+    index: number;
+  }) => {
+    const id = isTaskAnalysis ? TASK_ANALYSIS_ID : target.id || "";
+    const { active } = API.actions.observations.getTargetState(id);
+    return active ? (
       <ActiveTarget target={target} index={index} />
     ) : (
       <InactiveTarget target={target} index={index} />
     );
+  };
 
   const GroupControls = ({ firstTarget }: { firstTarget: Target }) => {
+    const { currentStep } =
+      API.actions.observations.getTargetState(TASK_ANALYSIS_ID);
     return (
       <div className="group-controls">
         <h3>Trial: {currentStep}</h3>
@@ -232,18 +248,22 @@ export const ObserveTarget = ({
           {currentStep > 1 && (
             <Button
               name="Back"
-              action={decrementStep}
+              action={() => decrementStep("taskAnalysis")}
               metaTestId={ObservationMetaTestIds.revertRuleBtn}
             />
           )}
           <Button
             name="Next Step"
-            action={() => incrementStep(firstTarget)}
+            action={() => incrementStep("taskAnalysis")}
             metaTestId={ObservationMetaTestIds.nextRuleBtn}
           />
           <Button
             name="Close"
-            action={() => setActive(false)}
+            action={() =>
+              API.actions.observations.updateTargetState("taskAnalysis", {
+                active: false
+              })
+            }
             metaTestId={ObservationMetaTestIds.closeGroupedRuleBtn}
           />
         </div>
@@ -252,11 +272,14 @@ export const ObserveTarget = ({
   };
 
   const GroupTarget = () => {
-    return isGroup ? (
+    const { complete, active } =
+      API.actions.observations.getTargetState(TASK_ANALYSIS_ID);
+
+    return isTaskAnalysis ? (
       <div
         className={compileStyles({
           observeTarget: true,
-          group: isGroup,
+          group: isTaskAnalysis,
           complete
         })}
       >
@@ -267,7 +290,11 @@ export const ObserveTarget = ({
         {!active && (
           <Button
             name="Observe"
-            action={() => setActive(true)}
+            action={() =>
+              API.actions.observations.updateTargetState(TASK_ANALYSIS_ID, {
+                active: true
+              })
+            }
             metaTestId={ObservationMetaTestIds.selectGroupedRuleBtn}
           />
         )}
@@ -275,7 +302,7 @@ export const ObserveTarget = ({
     ) : null;
   };
 
-  return isGroup ? (
+  return isTaskAnalysis ? (
     <GroupTarget />
   ) : (
     <SingleTarget target={target} index={metaQualifierIndex || 0} />
