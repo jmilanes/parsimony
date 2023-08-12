@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Drawer as ADrawer, Spin } from "antd";
+import { Drawer as ADrawer } from "antd";
 import { Domains, DrawerMetaTestIds } from "@parsimony/types";
 import { DrawerContentTypes } from "../services/appStateService";
 import {

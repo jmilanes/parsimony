@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Container, Button } from "../components";
+import React from "react";
+import { Button } from "../components";
 import { Container as DI } from "typedi";
 import {
   ObservationMetaTestIds,

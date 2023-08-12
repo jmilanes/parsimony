@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { BehaviorTracker, Domains, Program } from "@parsimony/types";
 import { Button, Icon } from "../../../components";
