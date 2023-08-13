@@ -43,7 +43,6 @@ export const ObserveTarget = ({
       return;
     }
 
-    // GOOD SPOT TO BLOCK WITH CHAin
     API.actions.observations.updateTargetState(targetId || "", {
       currentStep: currentStep + 1
     });
@@ -83,6 +82,7 @@ export const ObserveTarget = ({
       }
     });
 
+    API.actions.observations.updateCurrentTrialCompleteness();
     API.actions.observations.updateResultForTarget(target);
   };
 
@@ -131,17 +131,21 @@ export const ObserveTarget = ({
           observeTarget: true,
           complete
         });
+    const disabled = !API.actions.observations.isTrialActiveForChain(id);
     return (
       <div className={classes}>
         <h3>{target.title}</h3>
         {!isTaskAnalysis && (
           <Button
             name="Observe"
+            // SPOT TO ADD CHAIN BLOCK
+            disabled={disabled}
             action={() =>
               API.actions.observations.updateTargetState(id, {
                 active: true
               })
             }
+            type={disabled ? "outlined" : "contained"}
             metaTestId={ObservationMetaTestIds.selectRuleBtn}
             metaTestQualifier={`target-${index}`}
           />
@@ -157,8 +161,15 @@ export const ObserveTarget = ({
     target: Target;
     index: number;
   }) => {
-    const { currentStep, completeness } =
+    const { currentStep, completeness, results } =
       API.actions.observations.getTargetState(target.id || "");
+
+    const targetResults = results[target.id as string];
+
+    const selectedId = API.actions.observations.getSelectedByTargetState(
+      target.id || ""
+    );
+
     return (
       <div
         className={compileStyles({
@@ -180,6 +191,13 @@ export const ObserveTarget = ({
             )}
             {isTaskAnalysis && <h3>{target.title}</h3>}
           </div>
+          {currentStep > 1 && (
+            <Button
+              name="Back"
+              action={() => decrementStep(target.id || "")}
+              metaTestId={ObservationMetaTestIds.revertStepBtn}
+            />
+          )}
           {!isTaskAnalysis && (
             <Button
               name="Close"
@@ -189,13 +207,6 @@ export const ObserveTarget = ({
                 })
               }
               metaTestId={ObservationMetaTestIds.closeRuleBtn}
-            />
-          )}
-          {currentStep > 1 && (
-            <Button
-              name="Back"
-              action={() => decrementStep(target.id || "")}
-              metaTestId={ObservationMetaTestIds.revertStepBtn}
             />
           )}
         </div>
@@ -213,6 +224,7 @@ export const ObserveTarget = ({
                   getTargetId(target)
                 )
               }
+              type={selectedId === option.id ? "contained" : "outlined"}
               metaTestId={ObservationMetaTestIds.ruleOptionSelectBtn}
               metaTestQualifier={`target-${index.toString()}-prompt-${i}` || ""}
             />

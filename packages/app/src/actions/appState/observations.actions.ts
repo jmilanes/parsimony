@@ -41,7 +41,7 @@ export class ObservationActions {
 
   public reset = () => {
     this.#api.updateAppState("observation", {
-      currentTrialPercentage: undefined,
+      currentTrialCompleteness: undefined,
       currentTrial: undefined,
       stated: false,
       programCompleteness: 0,
@@ -68,7 +68,7 @@ export class ObservationActions {
         clientId: program?.clientId,
         programId: program?.id
       },
-      currentTrialPercentage: 0,
+      currentTrialCompleteness: 0,
       currentTrial: 1,
       stated: true,
       targetStates: this.initTarget(program.targets as Target[])
@@ -88,6 +88,20 @@ export class ObservationActions {
   public getTargetState = (targetId: string) => {
     const { targetStates } = this.state();
     return targetStates[targetId];
+  };
+
+  public getTargetIdByIndex = (index: number) => {
+    const { program } = this.state();
+    const targets = program?.targets;
+    return targets && targets[index - 1]?.id;
+  };
+
+  public getSelectedByTargetState = (targetId: string) => {
+    const { currentStep, completeness, results } =
+      this.getTargetState(targetId);
+    const targetResults = results[targetId];
+    const currentSelection = targetResults && targetResults[currentStep - 1];
+    return currentSelection?.option?.id;
   };
 
   public updateTargetState = (
@@ -177,27 +191,41 @@ export class ObservationActions {
     this.updateProgramCompleteness();
   };
 
-  public updateCurrentTrialPercentage = (percentage: number) => {
-    const { currentTrialPercentage, currentTrial } = this.state();
-    if (currentTrialPercentage === percentage && percentage !== 100) {
+  public updateCurrentTrialCompleteness = () => {
+    const { currentTrialCompleteness, currentTrial, program } = this.state();
+    const targetId = this.getTargetIdByIndex(currentTrial);
+    if (!targetId) {
+      return;
+    }
+    const { completeness, currentStep } = this.getTargetState(targetId);
+
+    if (currentStep !== program?.trials) {
       return;
     }
 
-    if (percentage < 100) {
+    const current = completeness[targetId];
+
+    if (currentTrialCompleteness === current && current !== 100) {
+      return;
+    }
+
+    if (current < 100) {
       this.#api.updateAppState("observation", {
-        currentTrialPercentage: percentage
+        currentTrialCompleteness: current
       });
     }
 
     this.#api.updateAppState("observation", {
-      currentTrialPercentage: 0,
+      currentTrialCompleteness: 0,
       currentTrial: currentTrial + 1
     });
   };
 
-  public isTrialActiveForChain = (trial: number) => {
-    const { currentTrial } = this.state();
-    return trial <= currentTrial;
+  public isTrialActiveForChain = (targetId: string) => {
+    const { currentTrial, program } = this.state();
+    const index = program?.targets?.map((t) => t?.id).indexOf(targetId);
+    const trialStep = index || 0;
+    return trialStep + 1 <= currentTrial;
   };
 
   public submit = async () => {
