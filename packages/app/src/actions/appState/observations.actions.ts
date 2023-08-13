@@ -214,11 +214,12 @@ export class ObservationActions {
         currentTrialCompleteness: current
       });
     }
-
-    this.#api.updateAppState("observation", {
-      currentTrialCompleteness: 0,
-      currentTrial: currentTrial + 1
-    });
+    if (current === 100) {
+      this.#api.updateAppState("observation", {
+        currentTrialCompleteness: 0,
+        currentTrial: currentTrial + 1
+      });
+    }
   };
 
   public isTrialActiveForChain = (targetId: string) => {

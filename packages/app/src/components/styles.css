@@ -272,6 +272,11 @@ hr {
     justify-content: space-between;
 }
 
+.observeTarget.complete {
+    border: 3px solid var(--purple);
+}
+
+
 .observeTarget.group {
     flex-direction: column;
 }
