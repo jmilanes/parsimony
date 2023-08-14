@@ -7,6 +7,8 @@ import {
   Program,
   ResultData,
   Target,
+  TargetResult,
+  TargetResultOption,
   TargetStyle
 } from "@parsimony/types";
 import { initialResultData } from "../../fixtures";
@@ -17,7 +19,7 @@ import {
 } from "../../utils";
 import { ObservationTarget } from "../../services/appStateService";
 
-export const TASK_ANALYSIS_ID = "taskAnalysis";
+export const Discrete_Trial_ID = "discrete";
 
 const initTargetData = {
   active: false,
@@ -41,7 +43,6 @@ export class ObservationActions {
 
   public reset = () => {
     this.#api.updateAppState("observation", {
-      currentTrialCompleteness: undefined,
       currentTrial: undefined,
       stated: false,
       programCompleteness: 0,
@@ -68,7 +69,6 @@ export class ObservationActions {
         clientId: program?.clientId,
         programId: program?.id
       },
-      currentTrialCompleteness: 0,
       currentTrial: 1,
       stated: true,
       targetStates: this.initTarget(program.targets as Target[])
@@ -77,7 +77,7 @@ export class ObservationActions {
 
   public initTarget = (targets: Target[] = []) => {
     const targetStates: any = {
-      [TASK_ANALYSIS_ID]: { ...initTargetData }
+      [Discrete_Trial_ID]: { ...initTargetData }
     };
     for (const target of targets) {
       targetStates[target.id as string] = { ...initTargetData };
@@ -97,11 +97,88 @@ export class ObservationActions {
   };
 
   public getSelectedByTargetState = (targetId: string) => {
-    const { currentStep, completeness, results } =
-      this.getTargetState(targetId);
+    const { currentStep, results } = this.getTargetState(targetId);
     const targetResults = results[targetId];
     const currentSelection = targetResults && targetResults[currentStep - 1];
     return currentSelection?.option?.id;
+  };
+
+  public incrementStep = (targetId: string) => {
+    const { program } = this.state();
+    const { currentStep } = this.getTargetState(targetId);
+
+    if (currentStep === program?.trials) {
+      this.updateTargetState(targetId, {
+        active: false,
+        complete: true
+      });
+      return;
+    }
+
+    this.updateTargetState(targetId || "", {
+      currentStep: currentStep + 1
+    });
+  };
+
+  public decrementStep = (targetId: string) => {
+    const { currentStep } = this.getTargetState(targetId);
+
+    this.updateTargetState(targetId, {
+      currentStep: currentStep - 1
+    });
+  };
+
+  #updateTargetResultAtStep = (results: TargetResult[], data: TargetResult) => {
+    const update = [...results];
+    const zeroIndexStep = (data.trial || 1) - 1;
+    update[zeroIndexStep] = data;
+    return update;
+  };
+
+  public updateResults = (resultData: TargetResult, target: Target) => {
+    const id = target.id as string;
+    const { results } = this.getTargetState(id);
+    const updatedResultArray = results[id]
+      ? this.#updateTargetResultAtStep(results[id], resultData)
+      : [resultData];
+
+    this.updateTargetState(id, {
+      results: {
+        ...results,
+        [id]: updatedResultArray
+      }
+    });
+
+    this.updateCurrentTrialCompleteness();
+    this.updateResultForTarget(target);
+  };
+
+  #getTargetOptionId = () => {
+    const { program } = this.state();
+    return program?.targetOptions?.find((option) => !!option?.target)?.id || "";
+  };
+
+  public selectOption = (option: TargetResultOption, target: Target) => {
+    const { program } = this.state();
+    const { currentStep } = this.getTargetState(target.id || "");
+    let completed = true;
+    // If the selection is above the target option then you get a 100% completeness
+    for (const opt of program?.targetOptions || []) {
+      if (opt?.target) break;
+      if (opt?.id === option.id) {
+        completed = false;
+        break;
+      }
+    }
+    const obj: TargetResult = {
+      trial: currentStep,
+      option,
+      targetOptionId: this.#getTargetOptionId(),
+      completed
+    };
+
+    this.updateResults(obj, target);
+    this.isTaskAnalysis() && this.incrementStep(target.id || "");
   };
 
   public updateTargetState = (
@@ -112,6 +189,7 @@ export class ObservationActions {
       return;
     }
     const { targetStates } = this.state();
+    this.updateCurrentTrialCompleteness();
     this.#api.updateAppState("observation", {
       targetStates: {
         ...targetStates,
@@ -137,12 +215,14 @@ export class ObservationActions {
     }
   };
 
-  public isDiscreteTrial = (program: Program) => {
-    return program.targetStyle === TargetStyle.DiscreteTrials;
+  public isDiscreteTrial = () => {
+    const { program } = this.state();
+    return program?.targetStyle === TargetStyle.DiscreteTrials;
   };
 
-  public isTaskAnalysis = (program: Program) => {
-    return program.targetStyle === TargetStyle.TaskAnalysis;
+  public isTaskAnalysis = () => {
+    const { program } = this.state();
+    return program?.targetStyle === TargetStyle.TaskAnalysis;
   };
 
   onChange() {
@@ -191,8 +271,20 @@ export class ObservationActions {
     this.updateProgramCompleteness();
   };
 
+  #shouldChain() {
+    const { program } = this.state();
+
+    if (this.isDiscreteTrial() || !program?.chaining?.type) {
+      return false;
+    }
+    return true;
+  }
+
   public updateCurrentTrialCompleteness = () => {
-    const { currentTrialCompleteness, currentTrial, program } = this.state();
+    if (this.#shouldChain()) {
+      return;
+    }
+    const { currentTrial, program } = this.state();
     const targetId = this.getTargetIdByIndex(currentTrial);
     if (!targetId) {
       return;
@@ -202,27 +294,19 @@ export class ObservationActions {
     if (currentStep !== program?.trials) {
       return;
     }
-
     const current = completeness[targetId];
 
-    if (currentTrialCompleteness === current && current !== 100) {
-      return;
-    }
-
-    if (current < 100) {
-      this.#api.updateAppState("observation", {
-        currentTrialCompleteness: current
-      });
-    }
     if (current === 100) {
       this.#api.updateAppState("observation", {
-        currentTrialCompleteness: 0,
         currentTrial: currentTrial + 1
       });
     }
   };
 
   public isTrialActiveForChain = (targetId: string) => {
+    if (!this.#shouldChain()) {
+      return true;
+    }
     const { currentTrial, program } = this.state();
     const index = program?.targets?.map((t) => t?.id).indexOf(targetId);
     const trialStep = index || 0;

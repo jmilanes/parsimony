@@ -70,7 +70,6 @@ export type ObservationTarget = {
 export type Observation = {
   stated: boolean;
   currentTrial: number;
-  currentTrialCompleteness?: number;
   programCompleteness: number;
   results: Record<string, unknown>;
   resultsData: Record<string, unknown>;
