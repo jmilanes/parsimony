@@ -277,6 +277,15 @@ hr {
 }
 
 
+.taskAnalysisContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.taskAnalysisContainer.backwardChain {
+    flex-direction: column-reverse;
+}
+
 .observeTarget.group {
     flex-direction: column;
 }

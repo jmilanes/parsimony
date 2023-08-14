@@ -4,7 +4,6 @@ import CoreApi from "../../domains/coreApi/coreApi.service";
 import {
   Domains,
   IResultData,
-  Program,
   ResultData,
   Target,
   TargetResult,
@@ -55,6 +54,7 @@ export class ObservationActions {
   };
 
   public async init(programId?: string) {
+    this.reset();
     await this.#api.makeRequest({
       domain: Domains.Program,
       requestType: "get",
@@ -70,7 +70,10 @@ export class ObservationActions {
         clientId: program?.clientId,
         programId: program?.id
       },
-      currentTrial: 1,
+      currentTrial:
+        program.chaining?.type === TrialChainingDirections.Backward
+          ? program.targets?.length
+          : 1,
       stated: true,
       targetStates: this.initTarget(program.targets as Target[])
     });
@@ -295,7 +298,7 @@ export class ObservationActions {
   };
 
   public updateCurrentTrialCompleteness = () => {
-    if (this.#shouldChain()) {
+    if (!this.#shouldChain()) {
       return;
     }
     const { currentTrial, program } = this.state();
@@ -303,6 +306,10 @@ export class ObservationActions {
     if (!targetId) {
       return;
     }
+
+    // For opening old steps we are gonna need
+    // to check if its been update less than 100 and clear all above results
+
     const { completeness, currentStep } = this.getTargetState(targetId);
 
     if (currentStep !== program?.trials) {
@@ -310,10 +317,12 @@ export class ObservationActions {
     }
     const current = completeness[targetId];
 
-    // BACKWARD must do different logic here (ALSO REVERS FLEX)
     if (current === 100) {
+      const updatedCurrentTrial = this.isBackwardChain()
+        ? currentTrial - 1
+        : currentTrial + 1;
       this.#api.updateAppState("observation", {
-        currentTrial: currentTrial + 1
+        currentTrial: updatedCurrentTrial
       });
     }
   };
@@ -326,6 +335,9 @@ export class ObservationActions {
     const index = program?.targets?.map((t) => t?.id).indexOf(targetId);
     const trialStep = index || 0;
 
+    if (this.isBackwardChain()) {
+      return trialStep + 1 >= currentTrial;
+    }
     // BACKWARD must do different logic here
     return trialStep + 1 <= currentTrial;
   };
