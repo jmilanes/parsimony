@@ -47,9 +47,7 @@ const Schools = () => {
     updateLocalState(initialSchoolData);
   };
 
-  const columns: IColumns[] = [
-    { key: "name", dataIndex: "name", title: "name" }
-  ];
+  const columns: IColumns[] = [{ key: "name", title: "name" }];
 
   const actions: ITableAction[] = [
     {

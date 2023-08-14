@@ -22,9 +22,7 @@ export const CollectionTable = ({ collections }: ICollectionTableProps) => {
   const API = Container.get(UIApi);
   const navigate = navigateToRoute();
 
-  const columns: IColumns[] = [
-    { key: "title", dataIndex: "title", title: "title" }
-  ];
+  const columns: IColumns[] = [{ key: "title", title: "title" }];
   const actions: ITableAction[] = [
     {
       name: "Open",

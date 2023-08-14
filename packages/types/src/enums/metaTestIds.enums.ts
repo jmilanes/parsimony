@@ -123,6 +123,7 @@ export enum ProgramPageMetaTestIds {
   categorySelector = "update-program-category-selector",
   clientSelector = "update-program-client-selector",
   ruleStyleSelector = "update-program-rule-style-selector",
+  chaingDirections = "update-program-rule-direction-selector",
   writeAccessMultiSelector = "update-program-write-access-selector",
   readAccessMultiSelector = "update-program-read-access-selector",
   clientProgramActionViewClient = "view-client-btn",

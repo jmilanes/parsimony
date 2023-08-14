@@ -6,7 +6,8 @@ import {
   Collection,
   CollectionTypes,
   Program,
-  ProgramTypes
+  ProgramTypes,
+  TargetStyle
 } from "@parsimony/types";
 
 type CollectionUpdates = {
@@ -206,6 +207,13 @@ export class ProgramResolvers extends BaseCrudResolvers {
         copyPayload.clientId = update.clientId;
         copyPayload.type = ProgramTypes.Client;
         copyPayload.collectionId = update.collectionId;
+        copyPayload.mainProgramId = originalProgramId;
+
+        //TODO: Look into why this is happening for non total chains add form
+        if (copyPayload.targetStyle !== TargetStyle.Behavior) {
+          delete copyPayload.behavior;
+        }
+
         try {
           await this.#db.createEntry(modelTypes.program, copyPayload);
         } catch (e) {

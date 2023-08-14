@@ -115,11 +115,11 @@ const User = () => {
   const columns: IColumns[] = [
     {
       key: "title",
-      dataIndex: "title",
       title: "title"
     },
-    { key: "targetStyle", dataIndex: "targetStyle", title: "Style" },
-    { key: "description", dataIndex: "description", title: "description" }
+    { key: "description", title: "description" },
+    { key: "targetStyle", title: "Style" },
+    { key: "chaining.type", title: "Chaining" }
   ];
 
   const actions: ITableAction[] = [

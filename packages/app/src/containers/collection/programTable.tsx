@@ -1,22 +1,11 @@
 import React, { useMemo } from "react";
 
-import {
-  Domains,
-  Program,
-  ProgramsPageMetaTestIds,
-  Routes,
-  User
-} from "@parsimony/types";
+import { Domains, Program, ProgramsPageMetaTestIds } from "@parsimony/types";
 
 import { IColumns, ITableAction, Table } from "../../components";
 
 import { Container } from "typedi";
-import {
-  createList,
-  getFullName,
-  getLength,
-  navigateToRoute
-} from "../../utils";
+import { navigateToRoute } from "../../utils";
 
 import UIApi from "../../domains/uiApi/uiApi.Service";
 
@@ -29,44 +18,12 @@ export type IProgramTableProps = React.PropsWithChildren<{
 export const ProgramTable = ({ programs }: IProgramTableProps) => {
   const API = Container.get(UIApi);
   const navigate = navigateToRoute();
-  const clients = API.system.getItemsFromStore(Domains.User);
-
-  const getClientFullName = (clients: User[]) => (id: string) =>
-    getFullName(clients.find((client: User) => client.id === id));
 
   const columns: IColumns[] = [
-    { key: "title", title: "title", dataIndex: "title" },
-    {
-      key: "clientId",
-      title: "Client Id",
-      dataIndex: "clientId",
-      displayFn: (id) => (
-        <a onClick={() => navigate(`${Routes.Users}/${id}`)}>
-          {getClientFullName(clients)(id)}
-        </a>
-      )
-    },
-    { key: "type", title: "Type", dataIndex: "type" },
-    { key: "description", title: "Description", dataIndex: "description" },
-    {
-      key: "writeAccess",
-      title: "Write Access",
-      dataIndex: "Write Access",
-      displayFn: createList
-    },
-    {
-      key: "readAccess",
-      title: "Read Access",
-      dataIndex: "readAccess",
-      displayFn: createList
-    },
-    { key: "createBy", title: "Created By", dataIndex: "createBy" },
-    {
-      key: "targets",
-      title: "targets",
-      dataIndex: "targets",
-      displayFn: getLength
-    }
+    { key: "title", title: "title" },
+    { key: "description", title: "Description" },
+    { key: "targetStyle", title: "Program Style" },
+    { key: "chaining.type", title: "Chaining" }
   ];
 
   const actions: ITableAction[] = [

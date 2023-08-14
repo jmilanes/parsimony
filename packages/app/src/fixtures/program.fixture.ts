@@ -41,6 +41,7 @@ export const initialProgramData: Program = {
   masterTargetCount: 3,
   subscribers: [currentUserLS],
   collectionId: "",
+  targetStyle: TargetStyle.DiscreteTrials,
   chaining: {
     type: TrialChainingDirections.Total
   }

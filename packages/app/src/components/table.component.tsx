@@ -5,6 +5,7 @@ import { Content, Button, Checkbox } from "../components";
 
 import { MetaTestIds, RepeatableMetaTestIds } from "@parsimony/types";
 import MaterialCheckbox from "@mui/material/Checkbox";
+import { get } from "lodash";
 
 export type ITableAction = {
   name: string;
@@ -13,7 +14,6 @@ export type ITableAction = {
 
 export type IColumns = {
   title: string;
-  dataIndex: string;
   key: string;
   displayFn?: (data: any) => any;
   render?: any;
@@ -110,14 +110,12 @@ export const Table = <Data extends { id: string }>({
   selectable
 }: ITableProps<Data>) => {
   const processedData = data.map((item: Data) => {
-    const flatItem = flattenObject<Data>(item);
-    Object.values(columns).forEach(
-      (column) =>
-        (flatItem[column.key] = column.displayFn
-          ? column.displayFn(flatItem[column.key])
-          : flatItem[column.key])
-    );
-    return flatItem as Data;
+    Object.values(columns).forEach((column) => {
+      const value = get(item, column.key);
+      //@ts-ignore
+      item[column.key] = column.displayFn ? column.displayFn(value) : value;
+    });
+    return item as Data;
   });
 
   return (
@@ -138,7 +136,7 @@ export const Table = <Data extends { id: string }>({
           </tr>
         </thead>
         <tbody>
-          {processedData.map((source, i) => (
+          {processedData.map((source) => (
             <TableRow<Data>
               key={source.id}
               source={source}

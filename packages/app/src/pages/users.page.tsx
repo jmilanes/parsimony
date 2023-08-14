@@ -67,9 +67,9 @@ const Users = () => {
   };
 
   const columns: IColumns[] = [
-    { key: "firstName", dataIndex: "firstName", title: "First Name" },
-    { key: "lastName", dataIndex: "lastName", title: "Last Name" },
-    { key: "type", dataIndex: "type", title: "Type" }
+    { key: "firstName", title: "First Name" },
+    { key: "lastName", title: "Last Name" },
+    { key: "type", title: "Type" }
   ];
 
   const actions: ITableAction[] = [

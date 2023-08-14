@@ -6,16 +6,17 @@ import {
   Program,
   ProgramPageMetaTestIds,
   TargetOption,
+  TargetStyle,
   User
 } from "@parsimony/types";
-import { Field, MultiSelect, Selector } from "../../components";
+import { Field, Selector } from "../../components";
 import { getFullName, isReadOnlyMode } from "../../utils";
 import {
+  chainingTypesOptions,
   programCategories,
   programTypes,
   targetStyles,
-  trialOptions,
-  userRoleOptions
+  trialOptions
 } from "../../fixtures";
 import { TargetOptionSelector } from "../targetOptionsSelector.container";
 import { TargetForm } from "../targetForm.container";
@@ -83,17 +84,6 @@ export const ProgramPageProgramView = ({
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.categorySelector}
       />
-      {/* This prob shouldn't exist but might need for now  */}
-      {mode === "edit" && (
-        <Selector
-          title="Client"
-          pathToState="clientId"
-          value={localState.clientId}
-          options={options}
-          updateState={updateState}
-          metaTestId={ProgramPageMetaTestIds.clientSelector}
-        />
-      )}
       <Selector
         title="Trials"
         pathToState="trials"
@@ -113,6 +103,17 @@ export const ProgramPageProgramView = ({
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.ruleStyleSelector}
       />
+      {localState.targetStyle === TargetStyle.TaskAnalysis && (
+        <Selector
+          title="Chaining Style"
+          pathToState="chaining.type"
+          value={localState.chaining?.type}
+          options={chainingTypesOptions}
+          updateState={updateState}
+          readOnly={isReadOnlyMode(mode)}
+          metaTestId={ProgramPageMetaTestIds.chaingDirections}
+        />
+      )}
       {Array.isArray(localState.targetOptions) && (
         <TargetOptionSelector
           targetOptions={localState.targetOptions as TargetOption[]}
