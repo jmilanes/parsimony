@@ -40,7 +40,10 @@ export const initialProgramData: Program = {
   masterTargetPercent: 100,
   masterTargetCount: 3,
   subscribers: [currentUserLS],
-  collectionId: ""
+  collectionId: "",
+  chaining: {
+    type: TrialChainingDirections.Total
+  }
 };
 
 export const initialBehaviorData: Program = {
@@ -102,6 +105,21 @@ export const behaviorTypes: IOption[] = [
 export const targetStyles: IOption[] = [
   { name: TargetStyle.DiscreteTrials, value: TargetStyle.DiscreteTrials },
   { name: TargetStyle.TaskAnalysis, value: TargetStyle.TaskAnalysis }
+];
+
+export const chainingTypesOptions: IOption[] = [
+  {
+    name: TrialChainingDirections.Total,
+    value: TrialChainingDirections.Total
+  },
+  {
+    name: TrialChainingDirections.Forward,
+    value: TrialChainingDirections.Forward
+  },
+  {
+    name: TrialChainingDirections.Backward,
+    value: TrialChainingDirections.Backward
+  }
 ];
 
 export const programCategories: IOption[] = [

@@ -99,6 +99,7 @@ export enum ProgramsPageMetaTestIds {
   descriptionField = "add-program-description-field",
   materialsField = "update-program-materials-field",
   typeSelector = "add-program-type-selector",
+  chainingSelector = "chaining-selecto",
   categorySelector = "add-program-type-category",
   clientSelector = "add-program-client-selector",
   stepsSelector = "add-steps-selector",

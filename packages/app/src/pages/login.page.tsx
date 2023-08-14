@@ -43,6 +43,7 @@ const Login = ({ from }: { from: string }) => {
       />
       <Field
         placeHolderText="password"
+        type="password"
         value={password}
         updateState={(_, value) => setPassword(value)}
         metaTestId={AuthPageMetaTestIds.passwordField}

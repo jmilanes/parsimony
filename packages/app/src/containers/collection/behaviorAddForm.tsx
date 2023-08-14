@@ -112,7 +112,7 @@ export const BehaviorAddForm = ({
 
       {localState.behavior?.type === BehaviorType.Interval && (
         <Field
-          placeHolderText="Alert Time"
+          placeHolderText="Alert Time (Seconds)"
           pathToState="behavior.alertTime"
           //TODO Figure this out
           value={localState.behavior?.alertTime?.toString()}

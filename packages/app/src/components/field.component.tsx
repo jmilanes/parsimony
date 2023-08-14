@@ -2,11 +2,12 @@ import React from "react";
 
 import { Container, ReadOnly } from "../components";
 import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types";
-import TextField from "@mui/material/TextField";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { generateMetaTestId } from "../utils";
 import { CONTAINER_INPUT_MARGIN } from "../constants";
 
-export type IFieldProps = {
+//TODO: Exten the textfield props
+export type IFieldProps = TextFieldProps & {
   key?: string;
   readOnly?: boolean;
   value?: Maybe<string>;
@@ -26,7 +27,8 @@ export const Field = ({
   placeHolderText,
   key,
   metaTestId,
-  metaTestQualifier
+  metaTestQualifier,
+  ...rest
 }: IFieldProps) => {
   const metaId = generateMetaTestId(
     UIMetaTargetTypes.Field,
@@ -45,7 +47,8 @@ export const Field = ({
         placeholder={placeHolderText}
         value={value || ""}
         onChange={(e) => updateState(pathToState || "", e.currentTarget.value)}
-      ></TextField>
+        {...rest}
+      />
     </Container>
   );
 };

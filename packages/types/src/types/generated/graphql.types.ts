@@ -33,18 +33,12 @@ export type AuthPayload = {
 
 export type BehaviorData = {
   __typename?: 'BehaviorData';
-  duration?: Maybe<Scalars['Int']>;
-  intervalPassed?: Maybe<Scalars['Boolean']>;
   result?: Maybe<Scalars['Int']>;
-  tally?: Maybe<Scalars['Int']>;
   type?: Maybe<BehaviorType>;
 };
 
 export type BehaviorDataInput = {
-  duration?: InputMaybe<Scalars['Int']>;
-  intervalPassed?: InputMaybe<Scalars['Boolean']>;
   result?: InputMaybe<Scalars['Int']>;
-  tally?: InputMaybe<Scalars['Int']>;
   type?: InputMaybe<BehaviorType>;
 };
 
@@ -764,7 +758,8 @@ export type Thread = {
 
 export enum TrialChainingDirections {
   Backward = 'BACKWARD',
-  Forward = 'FORWARD'
+  Forward = 'FORWARD',
+  Total = 'TOTAL'
 }
 
 export type UpdateCollectionPayload = {
@@ -1126,10 +1121,7 @@ export type ResolversParentTypes = {
 };
 
 export type BehaviorDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['BehaviorData'] = ResolversParentTypes['BehaviorData']> = {
-  duration?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  intervalPassed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   result?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  tally?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['BehaviorType']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

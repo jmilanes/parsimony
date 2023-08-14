@@ -113,24 +113,6 @@ export const ProgramPageProgramView = ({
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.ruleStyleSelector}
       />
-      <MultiSelect
-        title="Read Access"
-        pathToState="readAccess"
-        options={userRoleOptions}
-        values={localState.readAccess as string[]}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.readAccessMultiSelector}
-      />
-      <MultiSelect
-        title="Write Access"
-        pathToState="writeAccess"
-        options={userRoleOptions}
-        values={localState.writeAccess as string[]}
-        updateState={updateState}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.writeAccessMultiSelector}
-      />
       {Array.isArray(localState.targetOptions) && (
         <TargetOptionSelector
           targetOptions={localState.targetOptions as TargetOption[]}

@@ -208,6 +208,7 @@ export default gql`
   }
 
   enum TrialChainingDirections {
+    TOTAL
     FORWARD
     BACKWARD
   }

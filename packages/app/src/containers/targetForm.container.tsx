@@ -64,42 +64,6 @@ export const TargetForm = ({
             metaTestQualifier={metaQualifier}
           />
         </Col>
-
-        <Col xs={12}>
-          <Checkbox
-            title="Required"
-            pathToState={`targets[${index}].required`}
-            value={!!target.required}
-            updateState={updateState}
-            readOnly={readOnly}
-            metaTestId={TargetFormMetaTestIds.requiredCheckbox}
-            metaTestQualifier={metaQualifier}
-          />
-        </Col>
-        <Col xs={12}>
-          <Selector
-            title="Input Type"
-            pathToState={`targets[${index}].inputType`}
-            value={target.inputType}
-            options={inputTypes}
-            updateState={updateState}
-            readOnly={readOnly}
-            metaTestId={TargetFormMetaTestIds.inputTypeSelector}
-            metaTestQualifier={metaQualifier}
-          />
-        </Col>
-        <Col xs={12}>
-          <Selector
-            title="Value Type"
-            pathToState={`targets[${index}].valueType`}
-            value={target.valueType}
-            options={programValueTypes}
-            updateState={updateState}
-            readOnly={readOnly}
-            metaTestId={TargetFormMetaTestIds.valueTypeSelector}
-            metaTestQualifier={index.toString()}
-          />
-        </Col>
       </Row>
     );
   };

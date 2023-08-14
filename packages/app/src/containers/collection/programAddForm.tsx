@@ -6,10 +6,12 @@ import {
   ProgramsPageMetaTestIds,
   ProgramTypes,
   TargetOption,
+  TargetStyle,
   User
 } from "@parsimony/types";
 
 import {
+  chainingTypesOptions,
   initialProgramData,
   programCategories,
   programTypes,
@@ -135,6 +137,16 @@ export const ProgramAddForm = ({
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.ruleStyleSelector}
       />
+      {localState.targetStyle === TargetStyle.TaskAnalysis && (
+        <Selector
+          title="Chainging"
+          pathToState="chaining.type"
+          value={localState.chaining?.type}
+          options={chainingTypesOptions}
+          updateState={updateState}
+          metaTestId={ProgramsPageMetaTestIds.chainingSelector}
+        />
+      )}
       <Selector
         title="Category"
         pathToState="category"
@@ -142,22 +154,6 @@ export const ProgramAddForm = ({
         options={programCategories}
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.categorySelector}
-      />
-      <MultiSelect
-        title="Read Access"
-        pathToState="readAccess"
-        options={userRoleOptions}
-        values={localState.readAccess as string[]}
-        updateState={updateState}
-        metaTestId={ProgramsPageMetaTestIds.readAccessMultiSelector}
-      />
-      <MultiSelect
-        title="Write Access"
-        pathToState="writeAccess"
-        options={userRoleOptions}
-        values={localState.writeAccess as string[]}
-        updateState={updateState}
-        metaTestId={ProgramsPageMetaTestIds.writeAccessMultiSelector}
       />
       <TargetOptionSelector
         targetOptions={localState.targetOptions as TargetOption[]}

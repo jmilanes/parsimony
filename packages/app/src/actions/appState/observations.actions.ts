@@ -9,7 +9,8 @@ import {
   Target,
   TargetResult,
   TargetResultOption,
-  TargetStyle
+  TargetStyle,
+  TrialChainingDirections
 } from "@parsimony/types";
 import { initialResultData } from "../../fixtures";
 import {
@@ -274,11 +275,24 @@ export class ObservationActions {
   #shouldChain() {
     const { program } = this.state();
 
-    if (this.isDiscreteTrial() || !program?.chaining?.type) {
+    if (
+      this.isDiscreteTrial() ||
+      program?.chaining?.type === TrialChainingDirections.Total
+    ) {
       return false;
     }
     return true;
   }
+
+  public isBackwardChain = () => {
+    const { program } = this.state();
+    return program?.chaining?.type === TrialChainingDirections.Backward;
+  };
+
+  public isForwardChain = () => {
+    const { program } = this.state();
+    return program?.chaining?.type === TrialChainingDirections.Forward;
+  };
 
   public updateCurrentTrialCompleteness = () => {
     if (this.#shouldChain()) {
@@ -296,6 +310,7 @@ export class ObservationActions {
     }
     const current = completeness[targetId];
 
+    // BACKWARD must do different logic here (ALSO REVERS FLEX)
     if (current === 100) {
       this.#api.updateAppState("observation", {
         currentTrial: currentTrial + 1
@@ -310,6 +325,8 @@ export class ObservationActions {
     const { currentTrial, program } = this.state();
     const index = program?.targets?.map((t) => t?.id).indexOf(targetId);
     const trialStep = index || 0;
+
+    // BACKWARD must do different logic here
     return trialStep + 1 <= currentTrial;
   };
 

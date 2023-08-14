@@ -91,7 +91,7 @@ const Program = () => {
   };
 
   if (!program || !localState) return null;
-  const header = program.behavior ? "Behavior" : Program;
+
   console.log(program);
   const View = () =>
     program.behavior?.type ? (
@@ -110,7 +110,7 @@ const Program = () => {
   return (
     <Container>
       <Header
-        text={`${header} ${program.title}`}
+        text={program.title || ""}
         size="page"
         extra={[
           <Button
