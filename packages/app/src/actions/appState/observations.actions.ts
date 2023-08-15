@@ -5,7 +5,6 @@ import {
   Domains,
   ICompletenessState,
   IResultData,
-  IResultsState,
   ResultData,
   Target,
   TargetResult,
@@ -201,7 +200,7 @@ export class ObservationActions {
       return;
     }
     const { targetStates } = this.state();
-    this.updateCurrentTrialCompleteness();
+
     this.#api.updateAppState("observation", {
       targetStates: {
         ...targetStates,
@@ -212,8 +211,8 @@ export class ObservationActions {
 
   public updateResultForTarget = (target: Target) => {
     const parsedResults = this.#parseResultsWithCompleteness(target);
-
     this.updateProgramResultData(parsedResults);
+    this.updateCurrentTrialCompleteness();
   };
 
   public isDiscreteTrial = () => {
@@ -304,17 +303,17 @@ export class ObservationActions {
       return;
     }
 
-    // For opening old steps we are gonna need
-    // to check if its been update less than 100 and clear all above results
-
     const { completeness, currentStep } = this.getTargetState(targetId);
 
-    if (currentStep !== program?.trials) {
+    this.#processRegressions();
+
+    const trials = program?.trials;
+    if (currentStep !== trials) {
       return;
     }
     const current = completeness[targetId];
 
-    if (current === 100) {
+    if (current === 100 && currentTrial < trials) {
       const updatedCurrentTrial = this.isBackwardChain()
         ? currentTrial - 1
         : currentTrial + 1;
@@ -323,6 +322,61 @@ export class ObservationActions {
       });
     }
   };
+
+  #processRegressions() {
+    const { currentTrial } = this.state();
+
+    let prev = currentTrial - 1;
+
+    while (prev > 0) {
+      const targetId = this.getTargetIdByIndex(prev);
+      const { completeness } = this.getTargetState(targetId || "");
+      const currentCompleteness = completeness[targetId || ""];
+
+      // Also need to delete results of seen ids
+      if (currentCompleteness < 100) {
+        this.#api.updateAppState("observation", {
+          currentTrial: prev
+        });
+        this.#resetTargets(prev - 1);
+        this.updateProgramCompleteness();
+        break;
+      }
+      prev--;
+    }
+  }
+
+  #resetTargets(regressionIndex: number) {
+    const { program } = this.state();
+    program?.targets?.forEach((target, i) => {
+      if (i > regressionIndex) {
+        const targetId = target?.id || "";
+        this.#resetTarget(targetId);
+      }
+    });
+  }
+
+  #resetTarget(targetId: string) {
+    const { resultsData } = this.state();
+    const { completeness } = this.getTargetState(targetId);
+
+    const programResultDataUpdate = clone(resultsData);
+    delete programResultDataUpdate[targetId];
+
+    this.#api.updateAppState("observation", {
+      resultsData: programResultDataUpdate
+    });
+
+    const update = clone(completeness);
+    delete update[targetId];
+    this.updateTargetState(targetId, {
+      active: false,
+      complete: false,
+      currentStep: 1,
+      completeness: update,
+      results: {}
+    });
+  }
 
   public isTrialActiveForChain = (targetId: string) => {
     if (!this.#shouldChain()) {
