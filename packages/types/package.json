@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/types",
-  "version": "0.76.0",
+  "version": "0.77.0",
   "description": "Parsimony Types Library",
   "license": "UNLICENSED",
   "main": "src/index.ts",
