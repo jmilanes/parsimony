@@ -313,7 +313,11 @@ export class ObservationActions {
     }
     const current = completeness[targetId];
 
-    if (current === 100 && currentTrial < trials) {
+    const condition = this.isBackwardChain()
+      ? currentTrial >= 1
+      : currentTrial < trials;
+
+    if (current === 100 && condition) {
       const updatedCurrentTrial = this.isBackwardChain()
         ? currentTrial - 1
         : currentTrial + 1;
@@ -324,6 +328,12 @@ export class ObservationActions {
   };
 
   #processRegressions() {
+    this.isBackwardChain()
+      ? this.#processBackwardRegression()
+      : this.#processForwardRegression();
+  }
+
+  #processForwardRegression() {
     const { currentTrial } = this.state();
 
     let prev = currentTrial - 1;
@@ -346,10 +356,37 @@ export class ObservationActions {
     }
   }
 
+  #processBackwardRegression() {
+    const { currentTrial, program } = this.state();
+
+    //3
+    let prev = program?.trials || 1;
+    while (prev > currentTrial) {
+      const targetId = this.getTargetIdByIndex(prev);
+      const { completeness } = this.getTargetState(targetId || "");
+      const currentCompleteness = completeness[targetId || ""];
+
+      // Also need to delete results of seen ids
+      if (currentCompleteness < 100) {
+        this.#api.updateAppState("observation", {
+          currentTrial: prev
+        });
+        this.#resetTargets(prev - 1);
+        this.updateProgramCompleteness();
+        break;
+      }
+      prev--;
+    }
+  }
+
   #resetTargets(regressionIndex: number) {
     const { program } = this.state();
     program?.targets?.forEach((target, i) => {
-      if (i > regressionIndex) {
+      const condition = this.isBackwardChain()
+        ? i < regressionIndex
+        : i > regressionIndex;
+
+      if (condition) {
         const targetId = target?.id || "";
         this.#resetTarget(targetId);
       }
