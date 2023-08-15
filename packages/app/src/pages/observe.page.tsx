@@ -37,9 +37,7 @@ const Observe = () => {
   return (
     <>
       <Header text={header} size="page" />
-      <h4 className="completeness">{`Completeness: ${
-        API.actions.observations.state().programCompleteness
-      }%`}</h4>
+      <h4 className="completeness">{`Completeness: ${API.actions.observations.getProgramCompleteness()}%`}</h4>
       {API.actions.observations.isDiscreteTrial() ? (
         <DiscreteTrial program={program} />
       ) : (

@@ -43,7 +43,11 @@ export const ActiveTarget = ({
                 {target.title} Trial: {currentStep}
               </h3>
               <h4 className="completeness">
-                Completeness: {completeness[target.id as string] || 0}%
+                Completeness:{" "}
+                {API.actions.observations.getTargetCompleteness(
+                  target.id || ""
+                )}
+                %
               </h4>
             </>
           )}

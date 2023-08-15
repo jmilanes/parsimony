@@ -7,6 +7,7 @@ import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export const DiscreteTrialsControlsContainer = () => {
   const API = Container.get(UIApi);
+  const { program } = API.actions.observations.state();
   const { currentStep } =
     API.actions.observations.getTargetState(Discrete_Trial_ID);
 
@@ -17,17 +18,23 @@ export const DiscreteTrialsControlsContainer = () => {
         {currentStep > 1 && (
           <Button
             name="Back"
-            action={() =>
-              API.actions.observations.decrementStep(Discrete_Trial_ID)
-            }
+            action={() => {
+              API.actions.observations.decrementStep(Discrete_Trial_ID);
+              program?.targets?.forEach((target) => {
+                API.actions.observations.decrementStep(target?.id || "");
+              });
+            }}
             metaTestId={ObservationMetaTestIds.revertRuleBtn}
           />
         )}
         <Button
           name="Next Step"
-          action={() =>
-            API.actions.observations.incrementStep(Discrete_Trial_ID)
-          }
+          action={() => {
+            API.actions.observations.incrementStep(Discrete_Trial_ID);
+            program?.targets?.forEach((target) => {
+              API.actions.observations.incrementStep(target?.id || "");
+            });
+          }}
           metaTestId={ObservationMetaTestIds.nextRuleBtn}
         />
         <Button

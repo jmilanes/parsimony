@@ -3,7 +3,9 @@ import { Service } from "typedi";
 import CoreApi from "../../domains/coreApi/coreApi.service";
 import {
   Domains,
+  ICompletenessState,
   IResultData,
+  IResultsState,
   ResultData,
   Target,
   TargetResult,
@@ -12,11 +14,7 @@ import {
   TrialChainingDirections
 } from "@parsimony/types";
 import { initialResultData } from "../../fixtures";
-import {
-  calculateAverage,
-  parseResultsWithCompleteness,
-  removeMongoIds
-} from "../../utils";
+import { calculateAverage, clone, removeMongoIds } from "../../utils";
 import { ObservationTarget } from "../../services/appStateService";
 
 export const Discrete_Trial_ID = "discrete";
@@ -40,6 +38,16 @@ export class ObservationActions {
   public state() {
     return this.#api.getAppState("observation");
   }
+
+  public getProgramCompleteness = () => {
+    const { programCompleteness } = this.state();
+    return this.#round(programCompleteness);
+  };
+
+  public getTargetCompleteness = (targetId: string) => {
+    const { completeness } = this.getTargetState(targetId);
+    return this.#round(completeness[targetId] || 0);
+  };
 
   public reset = () => {
     this.#api.updateAppState("observation", {
@@ -203,20 +211,9 @@ export class ObservationActions {
   };
 
   public updateResultForTarget = (target: Target) => {
-    const { results, completeness } = this.getTargetState(target.id || "");
-    if (Object.keys(results).length) {
-      const { parsedResults, newCompleteNess } = parseResultsWithCompleteness(
-        results,
-        completeness,
-        target
-      );
+    const parsedResults = this.#parseResultsWithCompleteness(target);
 
-      this.updateTargetState(target.id || "", {
-        completeness: newCompleteNess
-      });
-
-      this.updateProgramResultData(parsedResults);
-    }
+    this.updateProgramResultData(parsedResults);
   };
 
   public isDiscreteTrial = () => {
@@ -365,4 +362,56 @@ export class ObservationActions {
       updated_at: date
     });
   }
+
+  #round = (n: number) => {
+    return Math.round(n * 100) / 100;
+  };
+
+  #parseResultsWithCompleteness = (target: Target) => {
+    const { results, completeness } = this.getTargetState(target.id || "");
+    const parsedResults = Object.entries(results).reduce(
+      this.#createResult(target),
+      {}
+    );
+
+    this.updateTargetState(target.id || "", {
+      completeness: clone(completeness)
+    });
+
+    return parsedResults;
+  };
+
+  #createResult =
+    (target: Target) =>
+    (acc: IResultData, [key, value]: [string, TargetResult[]]) => {
+      const { results, completeness } = this.getTargetState(target.id || "");
+
+      const processedTarget = Array.isArray(target)
+        ? target.find((target) => target.id === key)
+        : target;
+
+      const targetCompleteness = processedTarget
+        ? this.#calculateCompleteness(processedTarget, value, completeness)
+        : 0;
+
+      acc[key] = {
+        targetId: processedTarget?.id,
+        targetCompleteness,
+        targetResults: results[key]
+      } as ResultData;
+
+      return acc;
+    };
+
+  #calculateCompleteness = (
+    target: Target,
+    results: TargetResult[],
+    completenessObj: ICompletenessState
+  ) => {
+    const max = results.length;
+    const resultSum = results.filter((result) => !!result.completed).length;
+    const completenessTotal = (resultSum / max) * 100;
+    completenessObj[target.id as string] = completenessTotal;
+    return completenessTotal;
+  };
 }

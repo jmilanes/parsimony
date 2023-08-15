@@ -98,8 +98,8 @@ export const getMax = (path?: string) => (a: any, c: any) => {
   return a;
 };
 
-export const calculateAverage = (data: any[] | Object, path?: string) => {
-  return Object.values(data).reduce(getSum(path), 0) / Object.keys(data).length;
+export const calculateAverage = (data: any[], path?: string) => {
+  return data.reduce(getSum(path), 0) / data.length;
 };
 
 export const formatFormHeader = (text: string) => `${text}:`;
