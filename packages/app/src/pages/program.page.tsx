@@ -92,21 +92,6 @@ const Program = () => {
 
   if (!program || !localState) return null;
 
-  console.log(program);
-  const View = () =>
-    program.behavior?.type ? (
-      <ProgramPageBehaviorView
-        localState={localState}
-        updateState={updateState}
-        mode={mode}
-      />
-    ) : (
-      <ProgramPageProgramView
-        localState={localState}
-        updateState={updateState}
-        mode={mode}
-      />
-    );
   return (
     <Container>
       <Header
@@ -174,7 +159,19 @@ const Program = () => {
       />
 
       {client && <Header text={`Client: ${getFullName(client)}`} size="sm" />}
-      <View />
+      {program.behavior?.type ? (
+        <ProgramPageBehaviorView
+          localState={localState}
+          updateState={updateState}
+          mode={mode}
+        />
+      ) : (
+        <ProgramPageProgramView
+          localState={localState}
+          updateState={updateState}
+          mode={mode}
+        />
+      )}
     </Container>
   );
 };
