@@ -45,16 +45,25 @@ const Users = () => {
     localState,
     updateLocalState
   });
+  const isNotClient = localState.type !== UserRoles.Client;
 
   const submitAddForm = async () => {
-    if (!localState.password) {
+    if (!localState.password && isNotClient) {
       console.error("YOU NEED A PASSWORD");
       return;
     }
-    localState.password = encrypt(localState.password);
-    if (!localState.email) message.error("Please provide email");
+    localState.password = localState.password
+      ? encrypt(localState.password)
+      : undefined;
+
+    if (!localState.email && isNotClient) {
+      message.error("Please provide email");
+    }
+
     // TODO: Make this better
-    localState.email = localState.email?.toLowerCase();
+    localState.email = localState.email
+      ? localState.email?.toLowerCase()
+      : undefined;
 
     await API.system.makeRequest({
       domain: Domains.User,
@@ -147,13 +156,15 @@ const Users = () => {
           updateState={updateState}
           metaTestId={DirectoryPageMetaTestIds.emailField}
         />
-        <Field
-          placeHolderText="Password"
-          pathToState="password"
-          value={localState.password}
-          updateState={updateState}
-          metaTestId={DirectoryPageMetaTestIds.passwordField}
-        />
+        {isNotClient && (
+          <Field
+            placeHolderText="Password"
+            pathToState="password"
+            value={localState.password}
+            updateState={updateState}
+            metaTestId={DirectoryPageMetaTestIds.passwordField}
+          />
+        )}
         <Selector
           title="Type"
           options={userRoleOptionsWithStringValues}
