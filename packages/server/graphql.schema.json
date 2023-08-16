@@ -244,6 +244,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "DURATION",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "INTERVAL",
             "description": null,
             "isDeprecated": false,

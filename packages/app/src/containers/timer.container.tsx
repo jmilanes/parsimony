@@ -29,7 +29,7 @@ export const TimerContainer = () => {
         />
         <Button
           metaTestId={BehaviorTracker.stopTime}
-          name="Stop Time"
+          name="Stop Duration"
           action={() =>
             activeProgram &&
             API.actions.timer.complete(
@@ -41,7 +41,7 @@ export const TimerContainer = () => {
         />
         <Button
           metaTestId={BehaviorTracker.stopTime}
-          name="Stop Time"
+          name="Stop Durration"
           action={API.actions.timer.pause}
           icon={<Icon.Pause />}
         />

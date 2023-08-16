@@ -97,8 +97,8 @@ export const programTypes: IOption[] = [
 export const behaviorTypes: IOption[] = [
   { name: BehaviorType.Tally, value: BehaviorType.Tally },
   {
-    name: BehaviorType.Time,
-    value: BehaviorType.Time
+    name: BehaviorType.Duration,
+    value: BehaviorType.Duration
   },
   { name: BehaviorType.Interval, value: BehaviorType.Interval }
 ];
@@ -229,5 +229,5 @@ export const timePrompts: TargetOption[] = [
 export const promptsByType: Record<PromptTypes, TargetOption[]> = {
   [PromptTypes.Physical]: physicalPrompts,
   [PromptTypes.Verbal]: verbalPrompts,
-  [PromptTypes.Time]: timePrompts
+  [PromptTypes.Duration]: timePrompts
 };

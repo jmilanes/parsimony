@@ -1,13 +1,6 @@
 // @ts-ignore
 import React from "react";
-import {
-  Field,
-
-  Repeater,
-  Button,
-  Row,
-  Col, Header
-} from "../components";
+import { Field, Repeater, Button, Row, Col, Header } from "../components";
 
 import { message } from "antd";
 
@@ -30,14 +23,14 @@ type TargetOptionSelectorProps = {
 const prefilledPromptBtnMetaTestIds = {
   [PromptTypes.Verbal]: TargetFormMetaTestIds.preSelectedVerbalPromptsBtn,
   [PromptTypes.Physical]: TargetFormMetaTestIds.preSelectedPhysicalPromptsBtn,
-  [PromptTypes.Time]: TargetFormMetaTestIds.preSelectedTimePromptsBtn
+  [PromptTypes.Duration]: TargetFormMetaTestIds.preSelectedTimePromptsBtn
 };
 
 export const TargetOptionSelector = ({
-                                       targetOptions,
-                                       readOnly = false,
-                                       updateState
-                                     }: TargetOptionSelectorProps) => {
+  targetOptions,
+  readOnly = false,
+  updateState
+}: TargetOptionSelectorProps) => {
   const deleteItem = (arr: any[], index: number, path: string) =>
     updateState(path, removeItemByIndex(arr, index));
 
@@ -55,7 +48,6 @@ export const TargetOptionSelector = ({
   };
 
   const generateOption = (optionIndex: number) => {
-
     const option = targetOptions[optionIndex] as TargetOption;
     const metaTestQualifier = `target-option-${optionIndex}`;
 
@@ -69,11 +61,7 @@ export const TargetOptionSelector = ({
         message.error("You can't delete the target program!");
         return;
       }
-      deleteItem(
-        targetOptions || [],
-        optionIndex,
-        `targetOptions`
-      );
+      deleteItem(targetOptions || [], optionIndex, `targetOptions`);
     };
 
     return (
@@ -110,42 +98,43 @@ export const TargetOptionSelector = ({
     );
   };
 
-  return <>
-    <Row>
-      <Col xs={12} hidden={readOnly}>
-        <Header text="Pre-filled Prompts:" size="sm" />
-        {Object.entries(promptsByType).map(([key, value]) => {
-          return (
-            <Button
-              key={generateKey("pre-filled-prompt-button", key)}
-              name={key}
-              action={() => updateState(`targetOptions`, value)}
-              metaTestId={prefilledPromptBtnMetaTestIds[key as PromptTypes]}
-            />
-          );
-        })}
-      </Col>
-    </Row>
-    <Row>
-      <Repeater
-        title="Target Options"
-        items={targetOptions || []}
-        pathToState={`targetOptions`}
-        updateState={updateState}
-        generateRow={generateOption}
-        initialData={{ name: "", target: targetOptions?.length === 0 }}
-        readOnly={readOnly}
-        renderAddButton={(addFn) => {
-          return (
-            <Button
-              name="Add Target Option"
-              action={addFn}
-              metaTestId={TargetFormMetaTestIds.addPromptBtn}
-            />
-          );
-        }}
-      />
-    </Row>
-  </>;
-
+  return (
+    <>
+      <Row>
+        <Col xs={12} hidden={readOnly}>
+          <Header text="Pre-filled Prompts:" size="sm" />
+          {Object.entries(promptsByType).map(([key, value]) => {
+            return (
+              <Button
+                key={generateKey("pre-filled-prompt-button", key)}
+                name={key}
+                action={() => updateState(`targetOptions`, value)}
+                metaTestId={prefilledPromptBtnMetaTestIds[key as PromptTypes]}
+              />
+            );
+          })}
+        </Col>
+      </Row>
+      <Row>
+        <Repeater
+          title="Target Options"
+          items={targetOptions || []}
+          pathToState={`targetOptions`}
+          updateState={updateState}
+          generateRow={generateOption}
+          initialData={{ name: "", target: targetOptions?.length === 0 }}
+          readOnly={readOnly}
+          renderAddButton={(addFn) => {
+            return (
+              <Button
+                name="Add Target Option"
+                action={addFn}
+                metaTestId={TargetFormMetaTestIds.addPromptBtn}
+              />
+            );
+          }}
+        />
+      </Row>
+    </>
+  );
 };

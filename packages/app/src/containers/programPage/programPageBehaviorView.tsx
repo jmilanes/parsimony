@@ -69,7 +69,7 @@ export const ProgramPageBehaviorView = ({
       />
 
       <Field
-        placeHolderText="Alert Time"
+        placeHolderText="Alert Duration"
         pathToState="behavior.alertTime"
         //TODO Figure this out
         value={localState.behavior?.alertTime?.toString()}

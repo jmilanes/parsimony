@@ -34,7 +34,7 @@ const Notification = ({
   const defaultAction = (
     <Button
       metaTestId={BehaviorTracker.stopTime}
-      name="Stop Time"
+      name="Stop Durration"
       action={() => handleClose({} as Event, "")}
       icon={<Icon.Close />}
     />

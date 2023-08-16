@@ -26,7 +26,7 @@ const behaviorInputFactory = (program: Program) => {
 
   const behaviorInputMap: Record<BehaviorType, any> = {
     [BehaviorType.Tally]: TallyBehaviorInput,
-    [BehaviorType.Time]: TimeBehaviorInput,
+    [BehaviorType.Duration]: TimeBehaviorInput,
     [BehaviorType.Interval]: IntervalBehaviorInput
   };
 

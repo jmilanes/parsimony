@@ -49,9 +49,12 @@ export class IRequestHandler<
   };
 
   delete = async (payload: DeleteThreadPayload) => {
-    const id = await this.requests.delete(payload);
-    this.#store.deleteItemFromStore(this.domainName, id);
-    return id;
+    // TODO: Make a better version of this
+    if (window.confirm(`Are you sure you want to Delete this Item?`)) {
+      const id = await this.requests.delete(payload);
+      this.#store.deleteItemFromStore(this.domainName, id);
+      return id;
+    }
   };
 
   update = async (payload: UpdatePayload) => {

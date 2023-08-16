@@ -12,7 +12,7 @@ export enum Domains {
 export enum PromptTypes {
   Verbal = "VERBAL",
   Physical = "PHYSICAL",
-  Time = "TIME"
+  Duration = "DURATION"
 }
 
 export enum Prompts {

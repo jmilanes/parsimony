@@ -170,7 +170,7 @@ export default gql`
   }
 
   enum BehaviorType {
-    TIME
+    DURATION
     TALLY
     INTERVAL
   }

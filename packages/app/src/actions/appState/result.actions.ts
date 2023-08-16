@@ -48,7 +48,7 @@ export class ResultActions {
     }));
 
     const programCompletenessData = processedResults?.map((result) => {
-      if (program.behavior?.type === BehaviorType.Time) {
+      if (program.behavior?.type === BehaviorType.Duration) {
         return Math.round(result.calculatedResult / 1000);
       }
       return result.calculatedResult;

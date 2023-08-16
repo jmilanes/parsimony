@@ -24,7 +24,7 @@ export const TimeBehaviorInput = ({ program }: { program: Program }) => {
         />
         <Button
           metaTestId={BehaviorTracker.stopTime}
-          name="Stop Time"
+          name="Stop Duration"
           action={() =>
             API.actions.timer.complete(
               program,
