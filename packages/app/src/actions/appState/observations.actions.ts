@@ -438,6 +438,25 @@ export class ObservationActions {
     });
   };
 
+  public validProgramResults = () => {
+    return this.#getValidTargets()?.every((target) => {
+      const { complete } = this.getTargetState(target?.id || "");
+      return complete;
+    });
+  };
+
+  #getValidTargets() {
+    const { program, currentTrial } = this.state();
+    const targets = program?.targets;
+    if (this.#shouldChain()) {
+      if (this.isBackwardChain()) {
+        return targets?.filter((_x, i) => i >= currentTrial - 1);
+      }
+      return targets?.filter((_x, i) => i <= currentTrial - 1);
+    }
+    return targets;
+  }
+
   /**
    *
    * Returns the results in a format for the submission!
