@@ -120,16 +120,35 @@ export const BehaviorAddForm = ({
           metaTestId={ProgramsPageMetaTestIds.descriptionField}
         />
       )}
-      {localState.type === ProgramTypes.Client && (
-        <Selector
-          title="Client"
-          pathToState="clientId"
-          value={localState.clientId}
-          options={clientDataOptions}
-          updateState={updateState}
-          metaTestId={ProgramsPageMetaTestIds.clientSelector}
-        />
-      )}
+
+      <Field
+        placeHolderText="Operational Definition"
+        pathToState="behavior.operationalDefinition"
+        value={localState.behavior?.operationalDefinition}
+        updateState={updateState}
+        metaTestId={ProgramsPageMetaTestIds.titleField}
+      />
+      <Field
+        placeHolderText="Precursor Behaviors"
+        pathToState="behavior.precursorBehaviors"
+        value={localState.behavior?.precursorBehaviors}
+        updateState={updateState}
+        metaTestId={ProgramsPageMetaTestIds.titleField}
+      />
+      <Field
+        placeHolderText="Proactive Strategies"
+        pathToState="behavior.proactiveStrategies"
+        value={localState.behavior?.proactiveStrategies}
+        updateState={updateState}
+        metaTestId={ProgramsPageMetaTestIds.titleField}
+      />
+      <Field
+        placeHolderText="Reactive Strategies"
+        pathToState="behavior.reactiveStrategies"
+        value={localState.behavior?.reactiveStrategies}
+        updateState={updateState}
+        metaTestId={ProgramsPageMetaTestIds.titleField}
+      />
     </AddForm>
   );
 };

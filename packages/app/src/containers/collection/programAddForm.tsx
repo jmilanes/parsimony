@@ -4,10 +4,8 @@ import {
   Domains,
   Program,
   ProgramsPageMetaTestIds,
-  ProgramTypes,
   TargetOption,
-  TargetStyle,
-  User
+  TargetStyle
 } from "@parsimony/types";
 
 import {
@@ -16,10 +14,9 @@ import {
   programCategories,
   programTypes,
   targetStyles,
-  trialOptions,
-  userRoleOptions
+  trialOptions
 } from "../../fixtures";
-import { Field, MultiSelect, Selector } from "../../components";
+import { Field, Selector } from "../../components";
 import { TargetOptionSelector } from "../targetOptionsSelector.container";
 import { TargetForm } from "../targetForm.container";
 import { AddForm } from "../addForm.container";
@@ -43,13 +40,6 @@ export const ProgramAddForm = ({
   const stateManager = API.system.StateService;
   const [localState, updateLocalState] =
     React.useState<Program>(initialProgramData);
-
-  const clients = API.system.getItemsFromStore(Domains.User);
-
-  const clientDataOptions = clients.map((client: User) => ({
-    name: getFullName(client),
-    value: client?.id
-  }));
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -108,16 +98,6 @@ export const ProgramAddForm = ({
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.typeSelector}
       />
-      {localState.type === ProgramTypes.Client && (
-        <Selector
-          title="Client"
-          pathToState="clientId"
-          value={localState.clientId}
-          options={clientDataOptions}
-          updateState={updateState}
-          metaTestId={ProgramsPageMetaTestIds.clientSelector}
-        />
-      )}
 
       <Selector
         title="Trials"

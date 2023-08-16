@@ -467,12 +467,20 @@ export type ProgramBehavior = {
   __typename?: "ProgramBehavior";
   active?: Maybe<Scalars["Boolean"]>;
   alertTime?: Maybe<Scalars["Int"]>;
+  operationalDefinition?: Maybe<Scalars["String"]>;
+  precursorBehaviors?: Maybe<Scalars["String"]>;
+  proactiveStrategies?: Maybe<Scalars["String"]>;
+  reactiveStrategies?: Maybe<Scalars["String"]>;
   type?: Maybe<BehaviorType>;
 };
 
 export type ProgramBehaviorInput = {
   active?: InputMaybe<Scalars["Boolean"]>;
   alertTime?: InputMaybe<Scalars["Int"]>;
+  operationalDefinition?: InputMaybe<Scalars["String"]>;
+  precursorBehaviors?: InputMaybe<Scalars["String"]>;
+  proactiveStrategies?: InputMaybe<Scalars["String"]>;
+  reactiveStrategies?: InputMaybe<Scalars["String"]>;
   type?: InputMaybe<BehaviorType>;
 };
 
@@ -1507,6 +1515,26 @@ export type ProgramBehaviorResolvers<
 > = {
   active?: Resolver<Maybe<ResolversTypes["Boolean"]>, ParentType, ContextType>;
   alertTime?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  operationalDefinition?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  precursorBehaviors?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  proactiveStrategies?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  reactiveStrategies?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
   type?: Resolver<
     Maybe<ResolversTypes["BehaviorType"]>,
     ParentType,

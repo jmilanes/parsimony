@@ -29,7 +29,11 @@ const Target = {
 const Behavior = {
   type: { type: String, enum: BehaviorType },
   alertTime: Number,
-  active: Boolean
+  active: Boolean,
+  operationalDefinition: String,
+  precursorBehaviors: String,
+  proactiveStrategies: String,
+  reactiveStrategies: String
 };
 
 const Chaining = {

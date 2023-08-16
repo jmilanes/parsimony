@@ -32,14 +32,6 @@ export const ProgramPageProgramView = ({
   mode: IModes;
   updateState: any;
 }) => {
-  const API = DI.get(UIApi);
-  const allClients = API.system.getItemsFromStore(Domains.User);
-
-  const options = allClients.map((user: User) => ({
-    name: getFullName(user),
-    value: user.id
-  }));
-
   return (
     <>
       <Field

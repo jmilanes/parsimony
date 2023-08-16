@@ -52,6 +52,10 @@ const fullSchema = `
     type
     alertTime
     active
+    operationalDefinition
+    precursorBehaviors
+    proactiveStrategies
+    reactiveStrategies
   }
   chaining {
     type 

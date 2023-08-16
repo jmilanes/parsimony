@@ -53,6 +53,10 @@ export default gql`
     type: BehaviorType
     alertTime: Int
     active: Boolean
+    operationalDefinition: String
+    precursorBehaviors: String
+    proactiveStrategies: String
+    reactiveStrategies: String
   }
 
   type Chaining {
@@ -149,6 +153,10 @@ export default gql`
     type: BehaviorType
     alertTime: Int
     active: Boolean
+    operationalDefinition: String
+    precursorBehaviors: String
+    proactiveStrategies: String
+    reactiveStrategies: String
   }
 
   input ChainingInput {

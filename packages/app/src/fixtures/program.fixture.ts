@@ -69,7 +69,11 @@ export const initialBehaviorData: Program = {
   behavior: {
     alertTime: 0,
     type: BehaviorType.Tally,
-    active: true
+    active: true,
+    operationalDefinition: "",
+    precursorBehaviors: "",
+    proactiveStrategies: "",
+    reactiveStrategies: ""
   }
 };
 

@@ -77,17 +77,38 @@ export const ProgramPageBehaviorView = ({
         readOnly={readOnly}
         metaTestId={ProgramsPageMetaTestIds.descriptionField}
       />
-      {/* This prob shouldn't exist but might need for now  */}
-      {mode === "edit" && (
-        <Selector
-          title="Client"
-          pathToState="clientId"
-          value={localState.clientId}
-          options={options}
-          updateState={updateState}
-          metaTestId={ProgramPageMetaTestIds.clientSelector}
-        />
-      )}
+      <Field
+        placeHolderText="Operational Definition"
+        pathToState="behavior.operationalDefinition"
+        value={localState.behavior?.operationalDefinition}
+        updateState={updateState}
+        readOnly={readOnly}
+        metaTestId={ProgramsPageMetaTestIds.titleField}
+      />
+      <Field
+        placeHolderText="Precursor Behaviors"
+        pathToState="behavior.precursorBehaviors"
+        value={localState.behavior?.precursorBehaviors}
+        updateState={updateState}
+        readOnly={readOnly}
+        metaTestId={ProgramsPageMetaTestIds.titleField}
+      />
+      <Field
+        placeHolderText="Proactive Strategies"
+        pathToState="behavior.proactiveStrategies"
+        value={localState.behavior?.proactiveStrategies}
+        updateState={updateState}
+        readOnly={readOnly}
+        metaTestId={ProgramsPageMetaTestIds.titleField}
+      />
+      <Field
+        placeHolderText="Reactive Strategies"
+        pathToState="behavior.reactiveStrategies"
+        value={localState.behavior?.reactiveStrategies}
+        updateState={updateState}
+        readOnly={readOnly}
+        metaTestId={ProgramsPageMetaTestIds.titleField}
+      />
     </>
   );
 };
