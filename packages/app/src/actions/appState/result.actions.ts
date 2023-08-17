@@ -1,6 +1,12 @@
 import { Service } from "typedi";
 
-import { BehaviorType, Program, Result, TargetStyle } from "@parsimony/types";
+import {
+  BehaviorType,
+  Domains,
+  Program,
+  Result,
+  TargetStyle
+} from "@parsimony/types";
 import { getFullDate } from "../../utils";
 import CoreApi from "../../domains/coreApi/coreApi.service";
 
@@ -18,6 +24,22 @@ export class ResultActions {
 
   constructor(_api: CoreApi) {
     this.#api = _api;
+  }
+
+  public async init(programId: string) {
+    await this.#api.makeRequest({
+      domain: Domains.Result,
+      requestType: "getAllByRelationship",
+      payload: {
+        relationshipProperty: "programId",
+        id: programId
+      }
+    });
+    await this.#api.makeRequest({
+      domain: Domains.Program,
+      requestType: "get",
+      payload: { id: programId }
+    });
   }
 
   public calculateResult = (program: Program, results: Result[]) => {
@@ -63,7 +85,7 @@ export class ResultActions {
       datasets: [
         {
           ...chartDefaults,
-          label: `Behavior ${program?.title} `,
+          label: `${program?.title}`,
           data: programCompletenessData
         }
       ]
@@ -85,10 +107,17 @@ export class ResultActions {
       datasets: [
         {
           ...chartDefaults,
-          label: `Program ${program?.title} Completeness`,
+          label: `${program?.title}`,
           data: programCompletenessData
         }
       ]
     };
   }
+
+  public getYAxisLabel = (program: Program) => {
+    if (program.targetStyle !== TargetStyle.Behavior) return "Completeness";
+    if (program.behavior?.type === BehaviorType.Frequency) return "Frequency";
+    if (program.behavior?.type === BehaviorType.Duration) return "Seconds";
+    if (program.behavior?.type === BehaviorType.Interval) return "Occurrences";
+  };
 }

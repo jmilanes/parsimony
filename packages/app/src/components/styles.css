@@ -371,6 +371,10 @@ hr {
     display: flex;
 }
 
+.flex-row.spaceBetween {
+    justify-content: space-between;
+}
+
 .timerContainer {
     z-index: 99999999999;
     position: absolute;

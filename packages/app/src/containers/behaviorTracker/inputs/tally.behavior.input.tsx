@@ -8,7 +8,7 @@ import UIApi from "../../../domains/uiApi/uiApi.Service";
 export const TallyBehaviorInput = ({ program }: { program: Program }) => {
   const API = Container.get(UIApi);
   const count = API.actions.tally.getCounter(program);
-  const safeCount = count || 0;
+  const safeCount = count === undefined ? -1 : count;
   return (
     <div className="behavior-input-container" key={program.id}>
       <div className="flex-row">
@@ -28,7 +28,7 @@ export const TallyBehaviorInput = ({ program }: { program: Program }) => {
         </div>
         <p>{program.title}</p>
       </div>
-      {safeCount > 0 && (
+      {safeCount >= 0 && (
         <div className="count-container">
           <p className="tally-count">{count}</p>
           <Button

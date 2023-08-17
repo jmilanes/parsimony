@@ -33,6 +33,12 @@ export const TimeBehaviorInput = ({ program }: { program: Program }) => {
           }
           icon={<Icon.BehaviorIntervalStop />}
         />
+        <Button
+          metaTestId={BehaviorTracker.submitZero}
+          name="Zero"
+          action={() => API.actions.timer.submit(program)}
+          icon={<Icon.BehaviorTimeZero />}
+        />
         <p>{program.title}</p>
       </div>
     </div>

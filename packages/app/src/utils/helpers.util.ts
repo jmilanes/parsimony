@@ -187,7 +187,7 @@ export const getFullDate = (date: Date) => {
   if (!date) {
     return "";
   }
-  return format(date, "MM/dd/yyyy");
+  return format(date, "MM/dd/yy");
 };
 
 export const prependZero = (number: number = 0) =>

@@ -29,13 +29,14 @@ export class TallyActions {
 
   public increment = (program: Program) => {
     const update = clone(this.#getCounters());
-    update[program.id] = update[program.id] ? update[program.id] + 1 : 1;
+    update[program.id] =
+      update[program.id] !== undefined ? update[program.id] + 1 : 0;
     this.#api.updateAppState("behaviorTracker", { counters: update });
   };
 
   public decrement = (program: Program) => {
     const update = clone(this.#getCounters());
-    if (update[program.id] > 0) {
+    if (update[program.id] >= 0) {
       update[program.id] = update[program.id] - 1;
       this.#api.updateAppState("behaviorTracker", { counters: update });
     }

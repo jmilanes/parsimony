@@ -191,6 +191,7 @@ export enum BehaviorTracker {
   tallyBtn = "tally-btn",
   startTimer = "start-timer",
   stopTime = "stop-timer",
+  submitZero = "submit-zero",
   startInterval = "start-interval",
   stopInterval = "stop-interval",
   passInterval = "pass-interval",

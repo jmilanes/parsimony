@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  BehaviorType,
-  Domains,
-  Program,
-  Result,
-  TargetStyle
-} from "@parsimony/types";
+import { Domains } from "@parsimony/types";
 import { Header } from "../components";
-import { getFullDate, getRouterParams } from "../utils";
+import { getRouterParams } from "../utils";
 
 import {
   CategoryScale,
@@ -41,34 +35,36 @@ const Results = () => {
   const { programId } = getRouterParams();
 
   const { loading } = useAsync(async () => {
-    await API.system.makeRequest({
-      domain: Domains.Result,
-      requestType: "getAllByRelationship",
-      payload: {
-        relationshipProperty: "programId",
-        id: programId
-      }
-    });
-    await API.system.makeRequest({
-      domain: Domains.Program,
-      requestType: "get",
-      payload: { id: programId }
-    });
+    await API.actions.result.init(programId || "");
   });
 
   if (loading) return <Spin />;
 
   const program = API.system.getItem(Domains.Program, programId);
-  const results = API.system.getItemsFromStore(Domains.Result);
+  const results = API.system
+    .getItemsFromStore(Domains.Result)
+    .filter((r) => r.programId === programId);
 
   const header = `${program?.title || "Untitled"}: Results`;
 
+  // @ts-ignore
   return (
     <>
       <Header text={header} size="page" />
       <Line
         data-test-id={"chart"}
         data={API.actions.result.calculateResult(program, results)}
+        options={{
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: API.actions.result.getYAxisLabel(program)
+              }
+            }
+          }
+        }}
       />
     </>
   );
