@@ -9,6 +9,7 @@ export const TallyBehaviorInput = ({ program }: { program: Program }) => {
   const API = Container.get(UIApi);
   const count = API.actions.tally.getCounter(program);
   const safeCount = count === undefined ? -1 : count;
+  //com
   return (
     <div className="behavior-input-container" key={program.id}>
       <div className="flex-row">
