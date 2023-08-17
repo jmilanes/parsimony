@@ -2,7 +2,7 @@ import React from "react";
 import { ObservationMetaTestIds, Target } from "@parsimony/types";
 import { Discrete_Trial_ID } from "../../actions/appState/observations.actions";
 import { compileStyles } from "../../utils";
-import { Button } from "../../components";
+import { Button, Icon } from "../../components";
 import { Container as DI } from "typedi";
 import UIApi from "../../domains/uiApi/uiApi.Service";
 
@@ -42,6 +42,7 @@ export const InactiveTarget = ({
               active: true
             })
           }
+          icon={disabled ? <Icon.Lock /> : undefined}
           type={disabled ? "outlined" : "contained"}
           metaTestId={ObservationMetaTestIds.selectRuleBtn}
           metaTestQualifier={`target-${index}`}

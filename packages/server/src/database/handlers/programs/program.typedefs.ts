@@ -179,7 +179,7 @@ export default gql`
 
   enum BehaviorType {
     DURATION
-    TALLY
+    FREQUENCY
     INTERVAL
   }
 

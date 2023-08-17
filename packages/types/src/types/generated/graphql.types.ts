@@ -55,8 +55,8 @@ export type BehaviorDataInput = {
 
 export enum BehaviorType {
   Duration = "DURATION",
-  Interval = "INTERVAL",
-  Tally = "TALLY"
+  Frequency = "FREQUENCY",
+  Interval = "INTERVAL"
 }
 
 export type Chaining = {

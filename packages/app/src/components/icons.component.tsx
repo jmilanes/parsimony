@@ -5,6 +5,9 @@ import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+
+import LockIcon from "@mui/icons-material/Lock";
+
 import {
   TrackChangesRounded,
   AddCircleOutlined,
@@ -32,5 +35,6 @@ export const Icon = {
   BehaviorIntervalStop: () => <StopCircle />,
   Close: () => <Cancel />,
   Play: () => <PlayCircle />,
-  Pause: () => <PauseCircle />
+  Pause: () => <PauseCircle />,
+  Lock: () => <LockIcon />
 };

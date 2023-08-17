@@ -68,7 +68,7 @@ export const initialBehaviorData: Program = {
   collectionId: "",
   behavior: {
     alertTime: 0,
-    type: BehaviorType.Tally,
+    type: BehaviorType.Frequency,
     active: true,
     operationalDefinition: "",
     precursorBehaviors: "",
@@ -99,7 +99,7 @@ export const programTypes: IOption[] = [
 ];
 
 export const behaviorTypes: IOption[] = [
-  { name: BehaviorType.Tally, value: BehaviorType.Tally },
+  { name: BehaviorType.Frequency, value: BehaviorType.Frequency },
   {
     name: BehaviorType.Duration,
     value: BehaviorType.Duration

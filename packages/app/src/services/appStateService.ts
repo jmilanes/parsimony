@@ -152,15 +152,11 @@ export default class AppStateService {
       programViewer: {},
       // Break each behavior into its own domain (interval and program)
       behaviorTracker: {
-        //tally
         counters: {},
-        //time
         timerActive: false,
         timerPaused: false,
         time: 0,
-        // interval and time
         activeInterval: false,
-        // interval
         intervalOccurred: 0,
         intervalTotal: 0
       },

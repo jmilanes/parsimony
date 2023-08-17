@@ -6,7 +6,7 @@ import { Domains, ObservationMetaTestIds } from "@parsimony/types";
 
 import { Container } from "typedi";
 
-import { useAsync } from "react-use";
+import { useAsyncRetry } from "react-use";
 import { message, Spin } from "antd";
 import UIApi from "../domains/uiApi/uiApi.Service";
 import { DiscreteTrial } from "../containers/observations/discreteTrial.container";
@@ -18,7 +18,7 @@ const Observe = () => {
   const { programId } = getRouterParams();
   const navigate = navigateToRoute();
 
-  const { loading } = useAsync(async () => {
+  const { loading, retry } = useAsyncRetry(async () => {
     await API.actions.observations.init(programId);
   });
 
@@ -50,9 +50,10 @@ const Observe = () => {
         type={validResults ? "contained" : "outlined"}
         disabled={!validResults}
         action={() =>
-          API.actions.observations
-            .submit()
-            .finally(() => message.success("Program Results Submitted"))
+          API.actions.observations.submit().finally(() => {
+            message.success("Program Results Submitted");
+            retry();
+          })
         }
         metaTestId={ObservationMetaTestIds.submitObservation}
       />

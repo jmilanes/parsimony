@@ -21,7 +21,7 @@ export const TallyBehaviorInput = ({ program }: { program: Program }) => {
           />
           <Button
             metaTestId={BehaviorTracker.tallyBtn}
-            name="Tally"
+            name="Frequency"
             action={() => API.actions.tally.increment(program)}
             icon={<Icon.BehaviorTallyAdd />}
           />
