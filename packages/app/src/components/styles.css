@@ -369,10 +369,22 @@ hr {
 
 .flex-row {
     display: flex;
+    align-items: center;
 }
 
-.flex-row.spaceBetween {
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex-row.spaceBetween, .flex-col.spaceBetween {
     justify-content: space-between;
+}
+
+.add-form-spacer {
+    padding-top: 24px;
 }
 
 .timerContainer {

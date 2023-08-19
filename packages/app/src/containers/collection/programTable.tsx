@@ -23,7 +23,11 @@ export const ProgramTable = ({ programs }: IProgramTableProps) => {
     { key: "title", title: "title" },
     { key: "description", title: "Description" },
     { key: "targetStyle", title: "Program Style" },
-    { key: "chaining.type", title: "Chaining" }
+    {
+      key: "chaining.type",
+      title: "Chaining",
+      displayFn: (v) => (v ? v : "N/A")
+    }
   ];
 
   const actions: ITableAction[] = [

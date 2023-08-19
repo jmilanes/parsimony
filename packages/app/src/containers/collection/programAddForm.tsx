@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Domains,
@@ -22,7 +22,7 @@ import { TargetForm } from "../targetForm.container";
 import { AddForm } from "../addForm.container";
 
 import { Container } from "typedi";
-import { getFullName, removeMongoIds } from "../../utils";
+import { removeMongoIds } from "../../utils";
 import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export type IProgramAddFormProps = React.PropsWithChildren<{
@@ -38,8 +38,21 @@ export const ProgramAddForm = ({
 }: IProgramAddFormProps) => {
   const API = Container.get(UIApi);
   const stateManager = API.system.StateService;
+
   const [localState, updateLocalState] =
     React.useState<Program>(initialProgramData);
+
+  useEffect(() => {
+    if (localState.targetStyle === TargetStyle.DiscreteTrials) {
+      const copy = { ...localState };
+      delete copy.chaining;
+      updateLocalState(copy);
+    } else {
+      const copy = { ...localState };
+      copy.chaining = initialProgramData.chaining;
+      updateLocalState(copy);
+    }
+  }, [localState.targetStyle]);
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -135,11 +148,15 @@ export const ProgramAddForm = ({
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.categorySelector}
       />
-      <TargetOptionSelector
-        targetOptions={localState.targetOptions as TargetOption[]}
-        updateState={updateState}
-      />
-      <TargetForm localState={localState} updateState={updateState} />
+      <div className="add-form-spacer">
+        <TargetOptionSelector
+          targetOptions={localState.targetOptions as TargetOption[]}
+          updateState={updateState}
+        />
+      </div>
+      <div className="add-form-spacer">
+        <TargetForm localState={localState} updateState={updateState} />
+      </div>
     </AddForm>
   );
 };

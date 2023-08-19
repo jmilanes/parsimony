@@ -80,6 +80,7 @@ export const TargetForm = ({
       renderAddButton={(addFn) => {
         return (
           <Button
+            type={"contained"}
             name="Add Target"
             action={addFn}
             metaTestId={TargetFormMetaTestIds.addRuleBtn}

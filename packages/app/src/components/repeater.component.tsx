@@ -29,15 +29,15 @@ export const Repeater = ({
   return readOnly ? (
     <>{items.map((_: any, index) => generateRow(index))}</>
   ) : (
-    <Row>
-      <Col xs={12}>
-        <Row>
-          <Header text={title} size="md" />
-          {renderAddButton(addRow)}
-        </Row>
-      </Col>
-
-      {items.map((_: any, index) => generateRow(index))}
-    </Row>
+    <div>
+      <div className="flex-row spaceBetween">
+        <Header text={title} size="sm" />
+        {renderAddButton(addRow)}
+      </div>
+      <div className="add-form-spacer">
+        {items.map((_: any, index) => generateRow(index))}
+      </div>
+      <div>{!!items.length && renderAddButton(addRow)}</div>
+    </div>
   );
 };

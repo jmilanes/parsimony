@@ -65,8 +65,8 @@ export const TargetOptionSelector = ({
     };
 
     return (
-      <Row key={generateKey("option", optionIndex)}>
-        <Col xs={4}>
+      <div className="flex-row" key={generateKey("option", optionIndex)}>
+        <div>
           <Field
             placeHolderText="Prompt Name"
             pathToState={`targetOptions[${optionIndex}].name`}
@@ -76,8 +76,8 @@ export const TargetOptionSelector = ({
             metaTestId={TargetFormMetaTestIds.promptNameField}
             metaTestQualifier={metaTestQualifier}
           />
-        </Col>
-        <Col xs={6}>
+        </div>
+        <div>
           <Button
             disabled={readOnly}
             name="Delete Prompt"
@@ -92,17 +92,17 @@ export const TargetOptionSelector = ({
             metaTestId={TargetFormMetaTestIds.setToTargetBtn}
             metaTestQualifier={metaTestQualifier}
           />
-        </Col>
+        </div>
         <Col xs={2}>{option.target ? <p>Target Prompt</p> : null}</Col>
-      </Row>
+      </div>
     );
   };
 
   return (
     <>
-      <Row>
-        <Col xs={12} hidden={readOnly}>
-          <Header text="Pre-filled Prompts:" size="sm" />
+      <div className="flex-row spaceBetween">
+        <Header text="Pre-filled Prompts:" size="sm" />
+        <div>
           {Object.entries(promptsByType).map(([key, value]) => {
             return (
               <Button
@@ -113,9 +113,9 @@ export const TargetOptionSelector = ({
               />
             );
           })}
-        </Col>
-      </Row>
-      <Row>
+        </div>
+      </div>
+      <div className={"add-form-spacer"}>
         <Repeater
           title="Target Options"
           items={targetOptions || []}
@@ -127,6 +127,7 @@ export const TargetOptionSelector = ({
           renderAddButton={(addFn) => {
             return (
               <Button
+                type={"contained"}
                 name="Add Target Option"
                 action={addFn}
                 metaTestId={TargetFormMetaTestIds.addPromptBtn}
@@ -134,7 +135,7 @@ export const TargetOptionSelector = ({
             );
           }}
         />
-      </Row>
+      </div>
     </>
   );
 };
