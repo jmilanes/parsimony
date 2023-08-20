@@ -34,6 +34,33 @@ export const ProgramPageBehaviorView = ({
   const readOnly = isReadOnlyMode(mode);
   return (
     <>
+      <div>
+        <h4>Mastery Criteria:</h4>
+        <p>
+          Mastery criteria: student will engage in {localState.masteryTarget} or
+          less instances of behavior across{" "}
+          {localState.masteryConsecutiveTargets} consecutive sessions.
+        </p>
+        <hr />
+      </div>
+      <div className="flex-row">
+        <Checkbox
+          title="Mastered"
+          pathToState={"mastered"}
+          value={!!localState.mastered}
+          updateState={updateState}
+          readOnly={isReadOnlyMode(mode)}
+          metaTestId={ProgramPageMetaTestIds.masteredCheckbox}
+        />
+        <Checkbox
+          title="Active"
+          pathToState={"behavior.active"}
+          value={!!localState.behavior?.active}
+          updateState={updateState}
+          readOnly={readOnly}
+          metaTestId={ProgramPageMetaTestIds.behaviorActiveCheckBok}
+        />
+      </div>
       <Field
         placeHolderText="Title"
         pathToState="title"
@@ -50,14 +77,6 @@ export const ProgramPageBehaviorView = ({
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.descriptionField}
       />
-      <Checkbox
-        title="Active"
-        pathToState={"behavior.active"}
-        value={!!localState.behavior?.active}
-        updateState={updateState}
-        readOnly={readOnly}
-        metaTestId={ProgramPageMetaTestIds.behaviorActiveCheckBok}
-      />
       <Selector
         title="Behavior Type"
         pathToState="behavior.type"
@@ -66,6 +85,22 @@ export const ProgramPageBehaviorView = ({
         updateState={updateState}
         readOnly={readOnly}
         metaTestId={ProgramsPageMetaTestIds.typeSelector}
+      />
+      <Field
+        placeHolderText="Mastery Independence Target"
+        pathToState="masteryTarget"
+        value={localState.masteryTarget?.toString()}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+        metaTestId={ProgramsPageMetaTestIds.masteryTarget}
+      />
+      <Field
+        placeHolderText="Mastery Consecutive Requriement"
+        pathToState="masteryConsecutiveTargets"
+        value={localState.masteryConsecutiveTargets?.toString()}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+        metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
       />
 
       <Field

@@ -24,8 +24,8 @@ export default gql`
     mastered: Boolean
     targetOptions: [TargetOption]
     category: ProgramCategories
-    masterTargetPercent: Int
-    masterTargetCount: Int
+    masteryTarget: Int
+    masteryConsecutiveTargets: Int
     subscribers: [ID]
     collectionId: ID
     behavior: ProgramBehavior
@@ -82,8 +82,8 @@ export default gql`
     mastered: Boolean
     targetOptions: [TargetOptionInput]
     category: ProgramCategories
-    masterTargetPercent: Int
-    masterTargetCount: Int
+    masteryTarget: Int
+    masteryConsecutiveTargets: Int
     subscribers: [ID]
     collectionId: ID
     behavior: ProgramBehaviorInput
@@ -117,8 +117,8 @@ export default gql`
     mastered: Boolean
     targetOptions: [TargetOptionInput]
     category: ProgramCategories
-    masterTargetPercent: Int
-    masterTargetCount: Int
+    masteryTarget: Int
+    masteryConsecutiveTargets: Int
     subscribers: [ID]
     collectionId: ID
     behavior: ProgramBehaviorInput

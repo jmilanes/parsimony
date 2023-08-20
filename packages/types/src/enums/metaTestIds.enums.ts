@@ -108,7 +108,9 @@ export enum ProgramsPageMetaTestIds {
   readAccessMultiSelector = "add-program-read-access-selector",
   tableActionView = "view-program",
   tableActionCopy = "copy-program",
-  table = "programs-table"
+  table = "programs-table",
+  masteryTarget = "mastery-target-field",
+  masteryConsecutive = "mastery-consecutive-field"
 }
 
 export enum ProgramPageMetaTestIds {
@@ -130,7 +132,8 @@ export enum ProgramPageMetaTestIds {
   clientProgramActionStartObservation = "start-observation-btn",
   clientProgramActionViewProgramData = "view-program-data",
   stepsSelector = "update-steps-selector",
-  behaviorActiveCheckBok = "behavior-active-checkbox"
+  behaviorActiveCheckBok = "behavior-active-checkbox",
+  masteredCheckbox = "mastered"
 }
 
 export enum ObservationMetaTestIds {

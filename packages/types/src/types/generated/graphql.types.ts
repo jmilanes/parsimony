@@ -113,8 +113,8 @@ export type CreateProgramPayload = {
   editedBy?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   lastEditedBy?: InputMaybe<Scalars["ID"]>;
   mainProgramId?: InputMaybe<Scalars["ID"]>;
-  masterTargetCount?: InputMaybe<Scalars["Int"]>;
-  masterTargetPercent?: InputMaybe<Scalars["Int"]>;
+  masteryConsecutiveTargets?: InputMaybe<Scalars["Int"]>;
+  masteryTarget?: InputMaybe<Scalars["Int"]>;
   mastered?: InputMaybe<Scalars["Boolean"]>;
   materials?: InputMaybe<Scalars["String"]>;
   readAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
@@ -447,8 +447,8 @@ export type Program = {
   id: Scalars["ID"];
   lastEditedBy?: Maybe<Scalars["ID"]>;
   mainProgramId?: Maybe<Scalars["ID"]>;
-  masterTargetCount?: Maybe<Scalars["Int"]>;
-  masterTargetPercent?: Maybe<Scalars["Int"]>;
+  masteryConsecutiveTargets?: Maybe<Scalars["Int"]>;
+  masteryTarget?: Maybe<Scalars["Int"]>;
   mastered?: Maybe<Scalars["Boolean"]>;
   materials?: Maybe<Scalars["String"]>;
   readAccess?: Maybe<Array<Maybe<UserRoles>>>;
@@ -766,8 +766,8 @@ export type UpdateProgramPayload = {
   id: Scalars["ID"];
   lastEditedBy?: InputMaybe<Scalars["ID"]>;
   mainProgramId?: InputMaybe<Scalars["ID"]>;
-  masterTargetCount?: InputMaybe<Scalars["Int"]>;
-  masterTargetPercent?: InputMaybe<Scalars["Int"]>;
+  masteryConsecutiveTargets?: InputMaybe<Scalars["Int"]>;
+  masteryTarget?: InputMaybe<Scalars["Int"]>;
   mastered?: InputMaybe<Scalars["Boolean"]>;
   materials?: InputMaybe<Scalars["String"]>;
   readAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
@@ -1448,12 +1448,12 @@ export type ProgramResolvers<
     ParentType,
     ContextType
   >;
-  masterTargetCount?: Resolver<
+  masteryConsecutiveTargets?: Resolver<
     Maybe<ResolversTypes["Int"]>,
     ParentType,
     ContextType
   >;
-  masterTargetPercent?: Resolver<
+  masteryTarget?: Resolver<
     Maybe<ResolversTypes["Int"]>,
     ParentType,
     ContextType

@@ -58,6 +58,10 @@ const Results = () => {
           scales: {
             y: {
               beginAtZero: true,
+              max: API.actions.result.getYMax(program),
+              ticks: {
+                callback: API.actions.result.getYAxisCallback(program)
+              },
               title: {
                 display: true,
                 text: API.actions.result.getYAxisLabel(program)

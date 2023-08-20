@@ -5,11 +5,12 @@ import {
   IModes,
   Program,
   ProgramPageMetaTestIds,
+  ProgramsPageMetaTestIds,
   TargetOption,
   TargetStyle,
   User
 } from "@parsimony/types";
-import { Field, Selector } from "../../components";
+import { Checkbox, Field, Selector } from "../../components";
 import { getFullName, isReadOnlyMode } from "../../utils";
 import {
   chainingTypesOptions,
@@ -20,8 +21,6 @@ import {
 } from "../../fixtures";
 import { TargetOptionSelector } from "../targetOptionsSelector.container";
 import { TargetForm } from "../targetForm.container";
-import { Container as DI } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
 
 export const ProgramPageProgramView = ({
   localState,
@@ -34,6 +33,23 @@ export const ProgramPageProgramView = ({
 }) => {
   return (
     <>
+      <div>
+        <h4>Mastery Criteria:</h4>
+        <p>
+          Student will complete this program with {localState.masteryTarget}%
+          independence across {localState.masteryConsecutiveTargets} consecutive
+          session.{" "}
+        </p>
+        <hr />
+      </div>
+      <Checkbox
+        title="Mastered"
+        pathToState={"mastered"}
+        value={!!localState.mastered}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+        metaTestId={ProgramPageMetaTestIds.masteredCheckbox}
+      />
       <Field
         placeHolderText="Title"
         pathToState="title"
@@ -95,6 +111,23 @@ export const ProgramPageProgramView = ({
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.ruleStyleSelector}
       />
+      <Field
+        placeHolderText="Mastery Independence Target (%)"
+        pathToState="masteryTarget"
+        value={localState.masteryTarget?.toString()}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+        metaTestId={ProgramsPageMetaTestIds.masteryTarget}
+      />
+      <Field
+        placeHolderText="Mastery Consecutive Requriement"
+        pathToState="masteryConsecutiveTargets"
+        value={localState.masteryConsecutiveTargets?.toString()}
+        updateState={updateState}
+        readOnly={isReadOnlyMode(mode)}
+        metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
+      />
+
       {localState.targetStyle === TargetStyle.TaskAnalysis && (
         <Selector
           title="Chaining Style"

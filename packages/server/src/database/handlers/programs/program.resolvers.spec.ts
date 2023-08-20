@@ -42,8 +42,8 @@ const generateProgramJSON = (title: string, collectionId?: String) => {
     targetOptions: [],
     chainingDirection: TrialChainingDirections.Forward,
     currentChainTarget: null,
-    masterTargetPercent: 100,
-    masterTargetCount: 3,
+    masteryTarget: 100,
+    masteryConsecutiveTargets: 3,
     subscribers: [new ObjectId(1)]
   };
 };
@@ -65,8 +65,8 @@ const generateBehaviorJSON = (title: string, collectionId?: String) => {
     targetOptions: [],
     currentChainTarget: null,
     targetStyle: TargetStyle.Behavior,
-    masterTargetPercent: 100,
-    masterTargetCount: 3,
+    masteryTarget: 100,
+    masteryConsecutiveTargets: 3,
     subscribers: [new ObjectId(1)],
     behavior: {
       alertTime: 0,

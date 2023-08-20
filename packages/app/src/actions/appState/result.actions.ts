@@ -13,8 +13,8 @@ import CoreApi from "../../domains/coreApi/coreApi.service";
 const chartDefaults = {
   fill: false,
   lineTension: 0.5,
-  backgroundColor: "#D473F5",
-  borderColor: "#D473F5",
+  backgroundColor: "#A35F98",
+  borderColor: "#A35F98",
   borderWidth: 2
 };
 
@@ -120,4 +120,24 @@ export class ResultActions {
     if (program.behavior?.type === BehaviorType.Duration) return "Seconds";
     if (program.behavior?.type === BehaviorType.Interval) return "Occurrences";
   };
+
+  public getYAxisCallback = (program: Program) => (value: any) => {
+    if (this.#isPercentage(program)) {
+      return value + "%";
+    }
+    return value;
+  };
+
+  public getYMax = (program: Program) => {
+    if (this.#isPercentage(program)) {
+      return 100;
+    }
+  };
+
+  #isPercentage(program: Program) {
+    return (
+      program.targetStyle !== TargetStyle.Behavior ||
+      program.behavior?.type === BehaviorType.Interval
+    );
+  }
 }

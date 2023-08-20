@@ -111,6 +111,20 @@ export const ProgramAddForm = ({
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.typeSelector}
       />
+      <Field
+        placeHolderText="Mastery Independence Target (%)"
+        pathToState="masteryTarget"
+        value={localState.masteryTarget?.toString()}
+        updateState={updateState}
+        metaTestId={ProgramsPageMetaTestIds.masteryTarget}
+      />
+      <Field
+        placeHolderText="Mastery Consecutive Requriement"
+        pathToState="masteryConsecutiveTargets"
+        value={localState.masteryConsecutiveTargets?.toString()}
+        updateState={updateState}
+        metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
+      />
 
       <Selector
         title="Trials"

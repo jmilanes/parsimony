@@ -25,6 +25,7 @@ const fullSchema = `
     currentMasterCount
     mastered
   }
+  mastered
   description
   materials
   writeAccess
@@ -44,8 +45,8 @@ const fullSchema = `
       name
       target
     }
-  masterTargetPercent
-  masterTargetCount
+  masteryTarget
+  masteryConsecutiveTargets
   subscribers
   collectionId
   behavior {
