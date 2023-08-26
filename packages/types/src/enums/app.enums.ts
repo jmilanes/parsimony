@@ -45,5 +45,7 @@ export enum ServiceProviders {
   SPED = "SpEd",
   PSYCH = "Psych",
   SOCIAL_WORKER = "Social worker",
-  COUNSELOR = "Counselor"
+  COUNSELOR = "Counselor",
+  ABA_SPECIALIST = "ABA Specialist",
+  Other = "Other"
 }

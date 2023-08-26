@@ -65,6 +65,10 @@ const Program = () => {
   const submitForm = async () => {
     const payload: Program = {
       ...omitMongoKeys(localState),
+      masteryConsecutiveTargets: parseInt(
+        localState?.masteryConsecutiveTargets as unknown as string
+      ),
+      masteryTarget: parseInt(localState?.masteryTarget as unknown as string),
       behavior: {
         ...localState.behavior,
         alertTime: parseInt(

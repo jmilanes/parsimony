@@ -65,7 +65,11 @@ export const ProgramAddForm = ({
       requestType: "create",
       payload: removeMongoIds({
         ...localState,
-        collectionId: collectionId
+        collectionId,
+        masteryConsecutiveTargets: parseInt(
+          localState?.masteryConsecutiveTargets as unknown as string
+        ),
+        masteryTarget: parseInt(localState?.masteryTarget as unknown as string)
       })
     });
     setShowCb(false);
