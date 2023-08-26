@@ -47,6 +47,8 @@ const Results = () => {
     //@ts-ignore
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
+  // TODO make sorting better
+
   const client = API.system.getItem(Domains.User, program?.clientId || "");
   const clientName = getFullName(client);
 
