@@ -209,6 +209,11 @@ export enum DialogMetaIds {
   action = "dialog-action"
 }
 
+export enum ResultsMetaTestIds {
+  deleteBtn = "results-delete-btn",
+  resultsTable = "results-table"
+}
+
 export type MetaTestIds =
   | ChatMetaTestIds
   | ProgramsPageMetaTestIds
@@ -226,4 +231,5 @@ export type MetaTestIds =
   | DrawerMetaTestIds
   | BulKProgramMetaTestIds
   | BehaviorTracker
-  | DialogMetaIds;
+  | DialogMetaIds
+  | ResultsMetaTestIds;

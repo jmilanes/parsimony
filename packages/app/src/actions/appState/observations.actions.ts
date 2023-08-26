@@ -14,7 +14,7 @@ import {
 } from "@parsimony/types";
 import { initialResultData } from "../../fixtures";
 import { calculateAverage, clone, removeMongoIds } from "../../utils";
-import { ObservationTarget } from "../../services/appStateService";
+import { Observation, ObservationTarget } from "../../services/appStateService";
 
 export const Discrete_Trial_ID = "discrete";
 
@@ -48,15 +48,20 @@ export class ObservationActions {
     return this.#round(completeness[targetId] || 0);
   };
 
+  #updateObservationState(update: Partial<Observation>) {
+    this.#api.updateAppState("observation", update);
+  }
+
   public reset = () => {
-    this.#api.updateAppState("observation", {
+    this.#updateObservationState({
       currentTrial: undefined,
       stated: false,
       programCompleteness: 0,
       results: {},
       resultsData: {},
       isLoaded: false,
-      targetStates: {}
+      targetStates: {},
+      dateStarted: new Date()
     });
   };
 
@@ -69,7 +74,7 @@ export class ObservationActions {
     });
 
     const program = this.#api.getItem(Domains.Program, programId);
-    this.#api.updateAppState("observation", {
+    this.#updateObservationState({
       isLoaded: true,
       program: program,
       results: {
@@ -260,7 +265,7 @@ export class ObservationActions {
 
     latestResults.forEach((latestResult: ResultData) => {
       const previousResults = this.state().resultsData;
-      this.#api.updateAppState("observation", {
+      this.#updateObservationState({
         resultsData: {
           ...previousResults,
           [latestResult?.targetId as string]: latestResult
@@ -462,20 +467,30 @@ export class ObservationActions {
    * Returns the results in a format for the submission!
    */
   getResultsForCreation() {
-    const date = new Date();
+    const date = this.getDateStarted();
     const { results, programCompleteness } = this.state();
     return removeMongoIds({
       ...results,
       data: this.#getResultData(),
       programCompleteness: programCompleteness,
+      observerId: this.#api.Auth.currentUser?.id,
       created_at: date,
       updated_at: date
     });
   }
 
-  #round = (n: number) => {
-    return Math.round(n * 100) / 100;
+  getDateStarted = () => {
+    const { dateStarted } = this.state();
+    return dateStarted;
   };
+
+  updateDateStarted = (dateStarted: Date) => {
+    this.#updateObservationState({ dateStarted });
+  };
+
+  #round(n: number) {
+    return Math.round(n * 100) / 100;
+  }
 
   #parseResultsWithCompleteness = (target: Target) => {
     const { results, completeness } = this.getTargetState(target.id || "");

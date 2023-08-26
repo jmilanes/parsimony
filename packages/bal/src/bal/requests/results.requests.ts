@@ -14,6 +14,7 @@ const fullSchema = `
   id
   programId
   clientId
+  observerId
   programCompleteness
   type
   data {

@@ -265,6 +265,7 @@ hr {
 
 
 .observeTarget {
+    border-radius: 4px;
     margin: 20px;
     padding: 20px;
     display: flex;
@@ -372,6 +373,9 @@ hr {
     align-items: center;
 }
 
+.space-1 {
+    margin: 20px;
+}
 
 .flex-col {
     display: flex;

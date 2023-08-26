@@ -22,6 +22,7 @@ const BehaviorData = {
 export default {
   programId: ObjectId,
   clientId: ObjectId,
+  observerId: ObjectId,
   type: { type: String, enum: ResultType },
   programCompleteness: Number,
   behaviorData: BehaviorData,

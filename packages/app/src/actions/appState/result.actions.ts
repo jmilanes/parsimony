@@ -121,12 +121,30 @@ export class ResultActions {
     if (program.behavior?.type === BehaviorType.Interval) return "Occurrences";
   };
 
+  public getKeyByProgram = (program: Program) => {
+    if (program.targetStyle !== TargetStyle.Behavior)
+      return "programCompleteness";
+    return "behaviorData.result";
+  };
+
   public getYAxisCallback = (program: Program) => (value: any) => {
     if (this.#isPercentage(program)) {
       return value + "%";
     }
     return value;
   };
+
+  public getDisplayValueForTable = (program: Program) => (value: any) => {
+    if (this.#isPercentage(program)) {
+      return this.#round(value) + "%";
+    }
+    return value;
+  };
+
+  #round(n: number) {
+    // MAKE UTIL
+    return Math.round(n * 100) / 100;
+  }
 
   public getYMax = (program: Program) => {
     if (this.#isPercentage(program)) {

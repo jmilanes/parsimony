@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 const { gql } = require("apollo-server");
 export default gql`
   scalar Date
@@ -6,6 +8,7 @@ export default gql`
     id: ID!
     programId: ID
     clientId: ID
+    observerId: ID
     type: ResultType
     programCompleteness: Float
     behaviorData: BehaviorData
@@ -65,6 +68,7 @@ export default gql`
   input CreateResultPayload {
     programId: ID!
     clientId: ID!
+    observerId: ID
     programCompleteness: Float!
     behaviorData: BehaviorDataInput
     data: [ResultDataInput]
@@ -84,6 +88,7 @@ export default gql`
     id: ID!
     programId: ID!
     clientId: ID!
+    observerId: ID
     programCompleteness: Float!
     behaviorData: BehaviorDataInput
     data: [ResultDataInput]

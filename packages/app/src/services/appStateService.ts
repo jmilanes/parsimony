@@ -71,6 +71,7 @@ export type Observation = {
   stated: boolean;
   currentTrial: number;
   programCompleteness: number;
+  dateStarted: Date;
   results: Record<string, unknown>;
   resultsData: Record<string, unknown>;
   isLoaded: boolean;
@@ -141,6 +142,7 @@ export default class AppStateService {
         excludedIds: []
       },
       observation: {
+        dateStarted: new Date(),
         stated: false,
         currentTrial: 0,
         programCompleteness: 0,

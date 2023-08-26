@@ -113,9 +113,9 @@ export type CreateProgramPayload = {
   editedBy?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   lastEditedBy?: InputMaybe<Scalars["ID"]>;
   mainProgramId?: InputMaybe<Scalars["ID"]>;
+  mastered?: InputMaybe<Scalars["Boolean"]>;
   masteryConsecutiveTargets?: InputMaybe<Scalars["Int"]>;
   masteryTarget?: InputMaybe<Scalars["Int"]>;
-  mastered?: InputMaybe<Scalars["Boolean"]>;
   materials?: InputMaybe<Scalars["String"]>;
   readAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
   subscribers?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -133,6 +133,7 @@ export type CreateResultPayload = {
   clientId: Scalars["ID"];
   created_at?: InputMaybe<Scalars["Date"]>;
   data?: InputMaybe<Array<InputMaybe<ResultDataInput>>>;
+  observerId?: InputMaybe<Scalars["ID"]>;
   programCompleteness: Scalars["Float"];
   programId: Scalars["ID"];
   updated_at?: InputMaybe<Scalars["Date"]>;
@@ -447,9 +448,9 @@ export type Program = {
   id: Scalars["ID"];
   lastEditedBy?: Maybe<Scalars["ID"]>;
   mainProgramId?: Maybe<Scalars["ID"]>;
+  mastered?: Maybe<Scalars["Boolean"]>;
   masteryConsecutiveTargets?: Maybe<Scalars["Int"]>;
   masteryTarget?: Maybe<Scalars["Int"]>;
-  mastered?: Maybe<Scalars["Boolean"]>;
   materials?: Maybe<Scalars["String"]>;
   readAccess?: Maybe<Array<Maybe<UserRoles>>>;
   subscribers?: Maybe<Array<Maybe<Scalars["ID"]>>>;
@@ -612,6 +613,7 @@ export type Result = {
   created_at?: Maybe<Scalars["Date"]>;
   data?: Maybe<Array<Maybe<ResultData>>>;
   id: Scalars["ID"];
+  observerId?: Maybe<Scalars["ID"]>;
   programCompleteness?: Maybe<Scalars["Float"]>;
   programId?: Maybe<Scalars["ID"]>;
   type?: Maybe<ResultType>;
@@ -766,9 +768,9 @@ export type UpdateProgramPayload = {
   id: Scalars["ID"];
   lastEditedBy?: InputMaybe<Scalars["ID"]>;
   mainProgramId?: InputMaybe<Scalars["ID"]>;
+  mastered?: InputMaybe<Scalars["Boolean"]>;
   masteryConsecutiveTargets?: InputMaybe<Scalars["Int"]>;
   masteryTarget?: InputMaybe<Scalars["Int"]>;
-  mastered?: InputMaybe<Scalars["Boolean"]>;
   materials?: InputMaybe<Scalars["String"]>;
   readAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
   subscribers?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -786,6 +788,7 @@ export type UpdateResultPayload = {
   clientId: Scalars["ID"];
   data?: InputMaybe<Array<InputMaybe<ResultDataInput>>>;
   id: Scalars["ID"];
+  observerId?: InputMaybe<Scalars["ID"]>;
   programCompleteness: Scalars["Float"];
   programId: Scalars["ID"];
 };
@@ -1448,6 +1451,11 @@ export type ProgramResolvers<
     ParentType,
     ContextType
   >;
+  mastered?: Resolver<
+    Maybe<ResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType
+  >;
   masteryConsecutiveTargets?: Resolver<
     Maybe<ResolversTypes["Int"]>,
     ParentType,
@@ -1455,11 +1463,6 @@ export type ProgramResolvers<
   >;
   masteryTarget?: Resolver<
     Maybe<ResolversTypes["Int"]>,
-    ParentType,
-    ContextType
-  >;
-  mastered?: Resolver<
-    Maybe<ResolversTypes["Boolean"]>,
     ParentType,
     ContextType
   >;
@@ -1698,6 +1701,7 @@ export type ResultResolvers<
     ContextType
   >;
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  observerId?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
   programCompleteness?: Resolver<
     Maybe<ResolversTypes["Float"]>,
     ParentType,

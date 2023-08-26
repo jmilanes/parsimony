@@ -7,7 +7,8 @@ import { generateApp } from "./utils";
 import routes from "./routes";
 import AppController from "./services/app.service";
 
-import { Drawer } from "./containers";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import "antd/dist/antd.css";
 import { useAsync } from "react-use";
 import { Container as DI, Container } from "typedi";
@@ -38,9 +39,15 @@ const App = () => {
     const appController = Container.get(AppController);
     await appController.init();
   });
+
   if (loading) return <Spin />;
 
   return <AppContent />;
 };
 
-ReactDom.render(<App />, app);
+ReactDom.render(
+  <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <App />
+  </LocalizationProvider>,
+  app
+);
