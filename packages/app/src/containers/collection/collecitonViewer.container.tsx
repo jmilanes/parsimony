@@ -56,18 +56,19 @@ const CollectionViewerContainer = ({
       );
 
   const allPrograms =
-    passedPrograms || API.system.getItemsFromStore(Domains.Program);
+    passedPrograms ||
+    API.system
+      .getItemsFromStore(Domains.Program)
+      .filter((program) => program.collectionId === collectionId);
+
+  console.log("ALL", allPrograms);
 
   const programs = allPrograms.filter(
-    (program) =>
-      program.collectionId === collectionId &&
-      program.targetStyle !== TargetStyle.Behavior
+    (program) => program.targetStyle !== TargetStyle.Behavior
   );
 
   const behaviors = allPrograms.filter(
-    (program) =>
-      program.collectionId === collectionId &&
-      program.targetStyle === TargetStyle.Behavior
+    (program) => program.targetStyle === TargetStyle.Behavior
   );
 
   const programColumns: IColumns[] = [

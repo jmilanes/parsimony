@@ -94,7 +94,9 @@ const User = () => {
 
   const topLevelPrograms = API.system
     .getItemsFromStore(Domains.Program)
-    .filter((c) => c.clientId === userId && !c.collectionId);
+    .filter((c) => c.clientId === userId);
+
+  console.log(topLevelPrograms);
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -150,28 +152,6 @@ const User = () => {
     {
       name: "Edit",
       method: (collection: Collection) => navigate(`/books/${collection.id}`)
-    },
-    {
-      name: "Delete",
-      method: async (collection: Required<Collection>) => {
-        await API.system.makeRequest({
-          domain: Domains.Collection,
-          requestType: "delete",
-          payload: { id: collection.id }
-        });
-      }
-    }
-  ];
-
-  const mainCollectionActions: ITableAction[] = [
-    {
-      name: "Select",
-      method: (collection: Collection) =>
-        updateSelectedCollection(collection?.id)
-    },
-    {
-      name: "Edit",
-      method: (collection: Collection) => navigate(`/books/${collection?.id}`)
     },
     {
       name: "Delete",
