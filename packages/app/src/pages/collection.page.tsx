@@ -39,8 +39,9 @@ const Collection = () => {
   }, [collectionId]);
   if (loading) return <Spin />;
 
-  const toCollection = (collection?: Collection) =>
+  const toCollection = (collection?: Collection) => {
     collection ? navigate(`/books/${collection.id}`) : navigate(`/books`);
+  };
 
   const collection = API.system.getItem(Domains.Collection, collectionId);
   const collectionActions: ITableAction[] = [
@@ -113,6 +114,7 @@ const Collection = () => {
         ]}
       />
       <CollectionViewerContainer
+        ancestorRootText={"Books"}
         collectionId={collectionId}
         collectionActions={collectionActions}
         programActions={programActions}

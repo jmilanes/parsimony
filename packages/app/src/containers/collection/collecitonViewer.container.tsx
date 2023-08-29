@@ -5,7 +5,7 @@ import {
   CollectionTable,
   ProgramTable
 } from "../../containers";
-import { Domains, TargetStyle } from "@parsimony/types";
+import { Collection, Domains, Program, TargetStyle } from "@parsimony/types";
 
 import { Container } from "typedi";
 import { useAsync } from "react-use";
@@ -20,45 +20,55 @@ const CollectionViewerContainer = ({
   header,
   programActions,
   collectionActions,
-  ancestorAction
+  ancestorAction,
+  ancestorRootText,
+  passedCollections,
+  passedPrograms
 }: {
   collectionId?: string;
   header?: boolean;
   programActions: ITableAction[];
   collectionActions: ITableAction[];
-  ancestorAction: AncestorOnClickAction;
+  ancestorAction?: AncestorOnClickAction;
+  ancestorRootText?: string;
+  passedCollections?: Collection[];
+  passedPrograms?: Program[];
 }) => {
   const API = Container.get(UIApi);
 
   const { loading } = useAsync(async () => {
+    if ((passedPrograms && passedCollections) || !collectionId) {
+      return;
+    }
     await API.system.setUpDataFor(DATA_HANDLERS.COLLECTION_PAGE, {
       collectionId
     });
   }, [collectionId]);
-  if (loading) return <Spin />;
 
-  const collections = API.system
-    .getItemsFromStore(Domains.Collection)
-    .filter(
-      (c) => c.id !== collectionId && c.parentCollectionId === collectionId
-    );
-  const collection = API.system.getItem(Domains.Collection, collectionId);
+  if (loading) return null;
 
-  const programs = API.system
-    .getItemsFromStore(Domains.Program)
-    .filter(
-      (program) =>
-        program.collectionId === collectionId &&
-        program.targetStyle !== TargetStyle.Behavior
-    );
+  const collections =
+    passedCollections ||
+    API.system
+      .getItemsFromStore(Domains.Collection)
+      .filter(
+        (c) => c.id !== collectionId && c.parentCollectionId === collectionId
+      );
 
-  const behaviors = API.system
-    .getItemsFromStore(Domains.Program)
-    .filter(
-      (program) =>
-        program.collectionId === collectionId &&
-        program.targetStyle === TargetStyle.Behavior
-    );
+  const allPrograms =
+    passedPrograms || API.system.getItemsFromStore(Domains.Program);
+
+  const programs = allPrograms.filter(
+    (program) =>
+      program.collectionId === collectionId &&
+      program.targetStyle !== TargetStyle.Behavior
+  );
+
+  const behaviors = allPrograms.filter(
+    (program) =>
+      program.collectionId === collectionId &&
+      program.targetStyle === TargetStyle.Behavior
+  );
 
   const programColumns: IColumns[] = [
     { key: "title", title: "title" },
@@ -80,13 +90,23 @@ const CollectionViewerContainer = ({
     }
   ];
 
+  const renderCollectionHeader = (collectionId: string) => {
+    const collection = API.system.getItem(Domains.Collection, collectionId);
+    return (
+      <>
+        {header && <Header text={collection.title || ""} size="table" />}
+        <AncestorNavigationContainer
+          collection={collection}
+          onClick={ancestorAction}
+          rootText={ancestorRootText}
+        />
+      </>
+    );
+  };
+
   return (
     <>
-      {header && <Header text={collection.title || ""} size="table" />}
-      <AncestorNavigationContainer
-        collection={collection}
-        onClick={ancestorAction}
-      />
+      {collectionId && renderCollectionHeader(collectionId)}
       <Header text="Collections" size="table" />
       <CollectionTable collections={collections} actions={collectionActions} />
       <Header text="Programs" size="table" />

@@ -43,7 +43,7 @@ import { Container as DI } from "typedi";
 import { useAsync } from "react-use";
 import UIApi from "../domains/uiApi/uiApi.Service";
 import CollectionViewerContainer from "../containers/collection/collecitonViewer.container";
-import { CollectionTable } from "../containers";
+import { CollectionTable, ProgramTable } from "../containers";
 
 const User = () => {
   const API = DI.get(UIApi);
@@ -58,6 +58,15 @@ const User = () => {
   const { loading } = useAsync(async () => {
     await API.system.makeRequest({
       domain: Domains.Collection,
+      requestType: "getAllByRelationship",
+      payload: {
+        relationshipProperty: "clientId",
+        id: userId
+      }
+    });
+
+    await API.system.makeRequest({
+      domain: Domains.Program,
       requestType: "getAllByRelationship",
       payload: {
         relationshipProperty: "clientId",
@@ -82,6 +91,10 @@ const User = () => {
   const topLevelCollections = API.system
     .getItemsFromStore(Domains.Collection)
     .filter((c) => c.clientId === userId && !c.ancestors?.length);
+
+  const topLevelPrograms = API.system
+    .getItemsFromStore(Domains.Program)
+    .filter((c) => c.clientId === userId && !c.collectionId);
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -171,6 +184,9 @@ const User = () => {
       }
     }
   ];
+
+  const ancestorAction = (c?: Collection) =>
+    c ? updateSelectedCollection(c.id) : updateSelectedCollection(undefined);
 
   if (!user || !localState) return null;
   return (
@@ -268,24 +284,21 @@ const User = () => {
       )}
       {selectedCollection ? (
         <CollectionViewerContainer
+          ancestorRootText={`${getFullName(user)} Collections`}
           header={true}
           collectionId={selectedCollection}
           collectionActions={collectionActions}
           programActions={actions}
-          ancestorAction={(c?: Collection) =>
-            c
-              ? updateSelectedCollection(c.id)
-              : updateSelectedCollection(undefined)
-          }
+          ancestorAction={ancestorAction}
         />
       ) : (
-        <>
-          <Header text="Collections" size="table" />
-          <CollectionTable
-            collections={topLevelCollections}
-            actions={mainCollectionActions}
-          />
-        </>
+        <CollectionViewerContainer
+          header={true}
+          collectionActions={collectionActions}
+          programActions={actions}
+          passedCollections={topLevelCollections}
+          passedPrograms={topLevelPrograms}
+        />
       )}
     </>
   );

@@ -9,10 +9,12 @@ import { useAsync } from "react-use";
 export type AncestorOnClickAction = (c?: Collection) => void;
 const AncestorNavigationContainer = ({
   collection,
-  onClick
+  onClick,
+  rootText
 }: {
   collection: Collection;
-  onClick: AncestorOnClickAction;
+  onClick?: AncestorOnClickAction;
+  rootText?: string;
 }) => {
   const API = Container.get(UIApi);
 
@@ -27,27 +29,33 @@ const AncestorNavigationContainer = ({
           })
       )
     );
-  }, [collection]);
+  });
 
   const ancestors =
     collection.ancestors?.map((id) =>
       API.system.getItem(Domains.Collection, id || "")
     ) || [];
 
-  return (
+  return ancestors ? (
     <div className="flex-row ancestor-navigation parsimony-container">
       <div className="flex-row">
-        <a onClick={() => onClick()}>Books</a>
-        <p>{`>`}</p>
+        <p>{`<`}</p>
+        <a onClick={() => onClick && onClick()}>{rootText}</a>
       </div>
-      {ancestors?.map((c) => (
-        <div className="flex-row">
-          <a onClick={() => onClick(c)}>{c?.title}</a>
-          <p>{`>`}</p>
+      {ancestors?.map((c, i) => (
+        <div key={i} className="flex-row">
+          <p>{`<`}</p>
+          <a
+            onClick={() => {
+              onClick && onClick(c);
+            }}
+          >
+            {c?.title}
+          </a>
         </div>
       ))}
     </div>
-  );
+  ) : null;
 };
 
 export default AncestorNavigationContainer;
