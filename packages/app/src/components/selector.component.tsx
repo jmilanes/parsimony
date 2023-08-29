@@ -75,11 +75,7 @@ export const Selector = ({
       margin={readOnly ? 0 : CONTAINER_INPUT_MARGIN}
     >
       {readOnly ? (
-        <ReadOnly
-          metaTestId={metaId}
-          value={value}
-          title={formatFormHeader(title)}
-        />
+        <ReadOnly metaTestId={metaId} value={value} title={title} />
       ) : (
         <Options />
       )}

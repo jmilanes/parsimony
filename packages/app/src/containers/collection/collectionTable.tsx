@@ -7,7 +7,7 @@ import {
   ProgramsPageMetaTestIds
 } from "@parsimony/types";
 
-import { IColumns, ITableAction, Table } from "../../components";
+import { IColumns, ISelectable, ITableAction, Table } from "../../components";
 
 import { Container } from "typedi";
 import { navigateToRoute } from "../../utils";
@@ -16,30 +16,16 @@ import { createBulkOrderSelectable } from "../bulkPrograms/helpers";
 
 export type ICollectionTableProps = React.PropsWithChildren<{
   collections: Collection[];
+  actions: ITableAction[];
 }>;
 
-export const CollectionTable = ({ collections }: ICollectionTableProps) => {
+export const CollectionTable = ({
+  collections,
+  actions
+}: ICollectionTableProps) => {
   const API = Container.get(UIApi);
-  const navigate = navigateToRoute();
 
   const columns: IColumns[] = [{ key: "title", title: "title" }];
-  const actions: ITableAction[] = [
-    {
-      name: "Open",
-      method: (collection: Collection) => navigate(`/books/${collection.id}`)
-    },
-    {
-      name: "Delete",
-      method: async (collection: Required<Collection>) => {
-        await API.system.makeRequest({
-          domain: Domains.Collection,
-          requestType: "delete",
-          //TODO Better Types on this
-          payload: { id: collection.id }
-        });
-      }
-    }
-  ];
 
   const bulkOrder = API.system.getAppState("bulkPrograms");
   const { onChange, selected } = useMemo(() => {

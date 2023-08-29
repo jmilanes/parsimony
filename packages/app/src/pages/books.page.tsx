@@ -1,12 +1,14 @@
 import React from "react";
 
-import { Button, Header } from "../components";
+import { Button, Header, ITableAction } from "../components";
 import {
   BookPageMetaTestIds,
+  Collection,
   CollectionCategories,
   CollectionTypes,
   Domains,
-  Pages
+  Pages,
+  Program
 } from "@parsimony/types";
 import {
   CollectionAddForm,
@@ -19,10 +21,12 @@ import { Container } from "typedi";
 import { useAsync } from "react-use";
 import { Spin } from "antd";
 import UIApi from "../domains/uiApi/uiApi.Service";
+import { navigateToRoute } from "../utils";
 
 const Books = () => {
   const API = Container.get(UIApi);
   const [showAddForm, setShowAddForm] = React.useState(false);
+  const navigate = navigateToRoute();
 
   const { loading } = useAsync(async () => {
     await API.system.makeRequest({
@@ -44,6 +48,23 @@ const Books = () => {
         x.type === CollectionTypes.Main
     );
 
+  const collectionActions: ITableAction[] = [
+    {
+      name: "Open",
+      method: (collection: Collection) => navigate(`/books/${collection.id}`)
+    },
+    {
+      name: "Delete",
+      method: async (collection: Required<Collection>) => {
+        await API.system.makeRequest({
+          domain: Domains.Collection,
+          requestType: "delete",
+          payload: { id: collection.id }
+        });
+      }
+    }
+  ];
+
   return (
     <>
       <Header
@@ -61,7 +82,7 @@ const Books = () => {
         ]}
       />
 
-      <CollectionTable collections={collections} />
+      <CollectionTable collections={collections} actions={collectionActions} />
       <CollectionAddForm
         show={showAddForm}
         setShowCb={setShowAddForm}

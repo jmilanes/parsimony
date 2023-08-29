@@ -444,9 +444,30 @@ hr {
     display: flex;
 }
 
+.parsimony-container {
+    max-width: 1200px;
+    padding: 0 24px;
+    margin: auto;
+}
+
 .table-header-container {
     display: block;
     margin: auto;
     padding: 32px 24px 8px 24px;
     max-width: 1200px;
+}
+
+
+.ancestor-navigation div {
+    align-content: center;
+    color: var(--black);
+}
+
+.ancestor-navigation p {
+    margin: 0 4px;
+}
+
+.ancestor-navigation a {
+    margin: 0 4px;
+    color: var(--black);
 }

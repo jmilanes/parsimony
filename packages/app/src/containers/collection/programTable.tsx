@@ -13,39 +13,16 @@ import { createBulkOrderSelectable } from "../bulkPrograms/helpers";
 
 export type IProgramTableProps = React.PropsWithChildren<{
   programs: Program[];
+  actions: ITableAction[];
+  columns: IColumns[];
 }>;
 
-export const ProgramTable = ({ programs }: IProgramTableProps) => {
+export const ProgramTable = ({
+  programs,
+  actions,
+  columns
+}: IProgramTableProps) => {
   const API = Container.get(UIApi);
-  const navigate = navigateToRoute();
-
-  const columns: IColumns[] = [
-    { key: "title", title: "title" },
-    { key: "description", title: "Description" },
-    { key: "targetStyle", title: "Program Style" },
-    {
-      key: "chaining.type",
-      title: "Chaining",
-      displayFn: (v) => (v ? v : "N/A")
-    }
-  ];
-
-  const actions: ITableAction[] = [
-    {
-      name: "View",
-      method: (program: Program) => navigate(`/programs/${program.id}`)
-    },
-    {
-      name: "Delete",
-      method: async (program: Required<Program>) => {
-        await API.system.makeRequest({
-          domain: Domains.Program,
-          requestType: "delete",
-          payload: { id: program.id }
-        });
-      }
-    }
-  ];
 
   const bulkOrder = API.system.getAppState("bulkPrograms");
 

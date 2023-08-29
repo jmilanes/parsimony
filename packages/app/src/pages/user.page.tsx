@@ -42,6 +42,8 @@ import { message, Spin } from "antd";
 import { Container as DI } from "typedi";
 import { useAsync } from "react-use";
 import UIApi from "../domains/uiApi/uiApi.Service";
+import CollectionViewerContainer from "../containers/collection/collecitonViewer.container";
+import { CollectionTable } from "../containers";
 
 const User = () => {
   const API = DI.get(UIApi);
@@ -49,18 +51,11 @@ const User = () => {
   const { userId } = getRouterParams();
   const navigate = API.Navigation;
   const [mode, updateMode] = React.useState<IModes>("readOnly");
+  const [selectedCollection, updateSelectedCollection] =
+    React.useState<string>();
   const [localState, updateLocalState] = React.useState<User>();
 
   const { loading } = useAsync(async () => {
-    await API.system.makeRequest({
-      domain: Domains.Program,
-      requestType: "getAllByRelationship",
-      payload: {
-        relationshipProperty: "clientId",
-        id: userId
-      }
-    });
-
     await API.system.makeRequest({
       domain: Domains.Collection,
       requestType: "getAllByRelationship",
@@ -84,13 +79,9 @@ const User = () => {
 
   const user = API.system.getItem(Domains.User, userId);
 
-  const clientPrograms = API.system
-    .getItemsFromStore(Domains.Program)
-    .filter((p) => p.clientId === userId);
-
-  const clientCollections = API.system
+  const topLevelCollections = API.system
     .getItemsFromStore(Domains.Collection)
-    .filter((p) => p.clientId === userId);
+    .filter((c) => c.clientId === userId && !c.ancestors?.length);
 
   const updateState = stateManager.updateLocalState({
     localState,
@@ -112,16 +103,6 @@ const User = () => {
     updateMode("readOnly");
   };
 
-  const columns: IColumns[] = [
-    {
-      key: "title",
-      title: "title"
-    },
-    { key: "description", title: "description" },
-    { key: "targetStyle", title: "Style" },
-    { key: "chaining.type", title: "Chaining" }
-  ];
-
   const actions: ITableAction[] = [
     {
       name: "Start Observing",
@@ -132,7 +113,7 @@ const User = () => {
       method: (program: Program) => navigate(`/results/${program.id}`)
     },
     {
-      name: "View Program",
+      name: "Edit",
       method: (program: Program) => navigate(`/programs/${program.id}`)
     },
     {
@@ -149,8 +130,35 @@ const User = () => {
 
   const collectionActions: ITableAction[] = [
     {
-      name: "View Program",
-      method: (program: Program) => navigate(`/programs/${program.id}`)
+      name: "Select",
+      method: (collection: Collection) =>
+        updateSelectedCollection(collection?.id)
+    },
+    {
+      name: "Edit",
+      method: (collection: Collection) => navigate(`/books/${collection.id}`)
+    },
+    {
+      name: "Delete",
+      method: async (collection: Required<Collection>) => {
+        await API.system.makeRequest({
+          domain: Domains.Collection,
+          requestType: "delete",
+          payload: { id: collection.id }
+        });
+      }
+    }
+  ];
+
+  const mainCollectionActions: ITableAction[] = [
+    {
+      name: "Select",
+      method: (collection: Collection) =>
+        updateSelectedCollection(collection?.id)
+    },
+    {
+      name: "Edit",
+      method: (collection: Collection) => navigate(`/books/${collection?.id}`)
     },
     {
       name: "Delete",
@@ -166,7 +174,7 @@ const User = () => {
 
   if (!user || !localState) return null;
   return (
-    <Container>
+    <>
       <Header
         text={getFullName(user)}
         size="page"
@@ -258,30 +266,28 @@ const User = () => {
           metaTestId={UserPageMetaTestIds.serviceProviderSelector}
         />
       )}
-
-      <Row>
-        <Header text="Collections:" size="sm" />
-      </Row>
-      <Table<Collection>
-        data={clientCollections}
-        columns={columns}
-        actions={collectionActions}
-        name="user-program-table"
-        metaTestId={UserPageMetaTestIds.programsTable}
-      ></Table>
-
-      <Row>
-        <Header text="Programs:" size="sm" />
-      </Row>
-      {/*TODO This should be a better expereince*/}
-      <Table<Program>
-        data={clientPrograms}
-        columns={columns}
-        actions={actions}
-        name="user-program-table"
-        metaTestId={UserPageMetaTestIds.programsTable}
-      ></Table>
-    </Container>
+      {selectedCollection ? (
+        <CollectionViewerContainer
+          header={true}
+          collectionId={selectedCollection}
+          collectionActions={collectionActions}
+          programActions={actions}
+          ancestorAction={(c?: Collection) =>
+            c
+              ? updateSelectedCollection(c.id)
+              : updateSelectedCollection(undefined)
+          }
+        />
+      ) : (
+        <>
+          <Header text="Collections" size="table" />
+          <CollectionTable
+            collections={topLevelCollections}
+            actions={mainCollectionActions}
+          />
+        </>
+      )}
+    </>
   );
 };
 

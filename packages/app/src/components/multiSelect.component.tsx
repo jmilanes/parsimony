@@ -79,7 +79,7 @@ export const MultiSelect = ({
         <ReadOnly
           metaTestId={metaId}
           value={values?.join(", ")}
-          title={formatFormHeader(title)}
+          title={title}
         />
       ) : (
         <Options />
