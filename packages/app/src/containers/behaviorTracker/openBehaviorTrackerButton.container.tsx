@@ -11,7 +11,7 @@ export const OpenBehaviorButton = () => {
   const API = Container.get(UIApi);
 
   const openBulkPrograms = () => {
-    API.actions.drawer.setDrawerActive(DrawerContentTypes.BehaviorViewer);
+    API.actions.drawer.open(DrawerContentTypes.BehaviorViewer);
     API.system.updateAppState("drawer", { placement: "right" });
   };
 

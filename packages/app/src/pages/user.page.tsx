@@ -126,20 +126,6 @@ const User = () => {
     {
       name: "View Data",
       method: (program: Program) => navigate(`/results/${program.id}`)
-    },
-    {
-      name: "Edit",
-      method: (program: Program) => navigate(`/programs/${program.id}`)
-    },
-    {
-      name: "Delete",
-      method: async (program: Required<Program>) => {
-        await API.system.makeRequest({
-          domain: Domains.Program,
-          requestType: "delete",
-          payload: { id: program.id }
-        });
-      }
     }
   ];
 
@@ -152,16 +138,6 @@ const User = () => {
     {
       name: "Edit",
       method: (collection: Collection) => navigate(`/books/${collection.id}`)
-    },
-    {
-      name: "Delete",
-      method: async (collection: Required<Collection>) => {
-        await API.system.makeRequest({
-          domain: Domains.Collection,
-          requestType: "delete",
-          payload: { id: collection.id }
-        });
-      }
     }
   ];
 

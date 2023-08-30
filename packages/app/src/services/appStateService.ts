@@ -107,7 +107,7 @@ export type Notification = {
 
 export type CollectionSelector = {
   selectedId?: string;
-  program?: Program;
+  idToUpdate?: string;
 };
 
 export type AppState = {

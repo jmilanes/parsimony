@@ -25,7 +25,7 @@ import CollectionViewerContainer from "../containers/collection/collecitonViewer
 const Collection = () => {
   const API = Container.get(UIApi);
   const { collectionId } = getRouterParams();
-  const navigate = navigateToRoute();
+  const navigate = API.Navigation;
   const [showProgramAddForm, setShowProductionForm] = React.useState(false);
   const [showCollectionAddForm, setCollectionShowAddForm] =
     React.useState(false);
@@ -48,34 +48,6 @@ const Collection = () => {
     {
       name: "Open",
       method: toCollection
-    },
-    {
-      name: "Delete",
-      method: async (collection: Required<Collection>) => {
-        await API.system.makeRequest({
-          domain: Domains.Collection,
-          requestType: "delete",
-          //TODO Better Types on this
-          payload: { id: collection.id }
-        });
-      }
-    }
-  ];
-
-  const programActions: ITableAction[] = [
-    {
-      name: "View",
-      method: (program: Program) => navigate(`/programs/${program.id}`)
-    },
-    {
-      name: "Delete",
-      method: async (program: Required<Program>) => {
-        await API.system.makeRequest({
-          domain: Domains.Program,
-          requestType: "delete",
-          payload: { id: program.id }
-        });
-      }
     }
   ];
 
@@ -117,7 +89,6 @@ const Collection = () => {
         ancestorRootText={"Books"}
         collectionId={collectionId}
         collectionActions={collectionActions}
-        programActions={programActions}
         ancestorAction={toCollection}
       />
       <CollectionAddForm

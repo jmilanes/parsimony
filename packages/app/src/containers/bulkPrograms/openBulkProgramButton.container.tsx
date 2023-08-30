@@ -12,7 +12,7 @@ export const OpenBulkProgramButton = () => {
   const API = Container.get(UIApi);
 
   const openBulkPrograms = () => {
-    API.actions.drawer.setDrawerActive(DrawerContentTypes.BulkPrograms);
+    API.actions.drawer.open(DrawerContentTypes.BulkPrograms);
   };
 
   const bulkProgramActiveState = API.system.getAppState("bulkPrograms").active;

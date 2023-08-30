@@ -27,7 +27,7 @@ const CollectionViewerContainer = ({
 }: {
   collectionId?: string;
   header?: boolean;
-  programActions: ITableAction[];
+  programActions?: ITableAction[];
   collectionActions: ITableAction[];
   ancestorAction?: AncestorOnClickAction;
   ancestorRootText?: string;

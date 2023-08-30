@@ -52,16 +52,6 @@ const Books = () => {
     {
       name: "Open",
       method: (collection: Collection) => navigate(`/books/${collection.id}`)
-    },
-    {
-      name: "Delete",
-      method: async (collection: Required<Collection>) => {
-        await API.system.makeRequest({
-          domain: Domains.Collection,
-          requestType: "delete",
-          payload: { id: collection.id }
-        });
-      }
     }
   ];
 

@@ -10,7 +10,7 @@ export const OpenChatButton = () => {
   return (
     <Button
       name="Show Chat"
-      action={() => API.actions.drawer.setDrawerActive(DrawerContentTypes.Chat)}
+      action={() => API.actions.drawer.open(DrawerContentTypes.Chat)}
       icon={<Icon.Chat />}
       metaTestId={NavMetaTestIds.chatBtn}
     />

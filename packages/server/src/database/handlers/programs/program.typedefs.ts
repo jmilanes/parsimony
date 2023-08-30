@@ -76,6 +76,8 @@ export default gql`
     lastEditedBy: ID
     editedBy: [ID]
     createdBy: ID
+    updated_at: Date
+    created_at: Date
     materials: String
     trials: Int
     targetStyle: TargetStyle
@@ -112,6 +114,8 @@ export default gql`
     lastEditedBy: ID
     editedBy: [ID]
     createdBy: ID
+    updated_at: Date
+    created_at: Date
     targetStyle: TargetStyle
     trials: Int
     mastered: Boolean

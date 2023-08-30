@@ -16,10 +16,17 @@ export class DrawerActions {
     return this.#api.getAppState("drawer");
   };
 
-  public setDrawerActive = (content: DrawerContentTypes) => {
+  public open = (content: DrawerContentTypes) => {
     this.#api.updateAppState("drawer", {
       active: true,
       content
+    });
+  };
+
+  public close = () => {
+    this.#api.updateAppState("drawer", {
+      active: false,
+      content: undefined
     });
   };
 }

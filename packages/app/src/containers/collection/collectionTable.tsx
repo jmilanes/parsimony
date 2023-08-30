@@ -13,6 +13,7 @@ import { Container } from "typedi";
 import { navigateToRoute } from "../../utils";
 import UIApi from "../../domains/uiApi/uiApi.Service";
 import { createBulkOrderSelectable } from "../bulkPrograms/helpers";
+import { CollectionSelectorContainer } from "../collectionSelector.container";
 
 export type ICollectionTableProps = React.PropsWithChildren<{
   collections: Collection[];
@@ -35,11 +36,51 @@ export const CollectionTable = ({
     );
   }, []);
 
+  const body = (collection: Collection) => {
+    return <CollectionSelectorContainer entity={collection} />;
+  };
+
+  const openMoveSelectorDialog = (collection: Collection) => {
+    API.system.updateAppState("dialog", {
+      active: true,
+      title: `Move: ${collection.title}`,
+      message: body(collection),
+      actions: [
+        {
+          name: "Cancel",
+          action: API.actions.collectionRelocation.cancel
+        },
+        {
+          name: "Submit",
+          action: () =>
+            API.actions.collectionRelocation.updateEntity(Domains.Collection)
+        }
+      ]
+    });
+  };
+
+  const sharedActions = [
+    {
+      name: "Move",
+      method: openMoveSelectorDialog
+    },
+    {
+      name: "Delete",
+      method: async (collection: Required<Collection>) => {
+        await API.system.makeRequest({
+          domain: Domains.Collection,
+          requestType: "delete",
+          payload: { id: collection.id }
+        });
+      }
+    }
+  ];
+
   return (
     <Table<Collection>
       data={collections}
       columns={columns}
-      actions={actions}
+      actions={[...actions, ...sharedActions]}
       name="Programs"
       metaTestId={ProgramsPageMetaTestIds.table}
       selectable={{ visible: bulkOrder.active, selected, onChange }}

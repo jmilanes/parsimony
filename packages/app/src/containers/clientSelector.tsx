@@ -63,7 +63,7 @@ export const ClientSelector = ({
     <SelectedView />
   ) : (
     <Autocomplete
-      label="Select user User"
+      label="Select User"
       options={options}
       multiSelect={multiSelect}
       updateState={onChange}

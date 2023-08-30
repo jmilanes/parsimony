@@ -38,10 +38,10 @@ export default gql`
   input UpdateCollectionPayload {
     id: ID!
     ancestors: [ID]
-    title: String!
+    title: String
     parentCollectionId: ID
     created_by: ID
-    type: CollectionTypes!
+    type: CollectionTypes
     category: CollectionCategories
     clientId: ID
   }

@@ -471,3 +471,7 @@ hr {
     margin: 0 4px;
     color: var(--black);
 }
+
+.MuiDialog-container .MuiPaper-root {
+    min-width: 600px;
+}

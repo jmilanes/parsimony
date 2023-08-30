@@ -22,7 +22,7 @@ export const Drawer = () => {
   if (!controls) return null;
 
   const onClose = () => {
-    API.system.updateAppState("drawer", { active: false });
+    API.actions.drawer.close();
   };
 
   const onExtend = async () => {
