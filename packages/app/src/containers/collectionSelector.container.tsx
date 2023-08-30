@@ -40,6 +40,8 @@ export const CollectionSelectorContainer = ({
       value: collection.id
     }));
 
+  //upd
+
   return (
     <Autocomplete
       label="Select Collection"
