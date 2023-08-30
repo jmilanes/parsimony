@@ -184,6 +184,12 @@ export enum ChatMetaTestIds {
   chatDeleteBtn = "chat-delete-btn"
 }
 
+export enum CollectionSelector {
+  selector = "collection-selector",
+  confirm = "collection-selector-confirm",
+  cancel = "collection-selector-cancel"
+}
+
 export enum TestEntryTypes {
   DIRECTORY = "directory",
   PROGRAM = "program",
@@ -232,4 +238,5 @@ export type MetaTestIds =
   | BulKProgramMetaTestIds
   | BehaviorTracker
   | DialogMetaIds
-  | ResultsMetaTestIds;
+  | ResultsMetaTestIds
+  | CollectionSelector;

@@ -105,6 +105,11 @@ export type Notification = {
   };
 };
 
+export type CollectionSelector = {
+  selectedId?: string;
+  program?: Program;
+};
+
 export type AppState = {
   drawer: DrawerControls;
   dialog: DialogControls;
@@ -113,6 +118,7 @@ export type AppState = {
   behaviorTracker: BehaviorTracker;
   observation: Observation;
   notifications: { activeNotifications: Record<string, Notification> };
+  collectionSelector: CollectionSelector;
 };
 
 export type ControlPayloads = Partial<DrawerControls>;
@@ -162,7 +168,8 @@ export default class AppStateService {
         intervalOccurred: 0,
         intervalTotal: 0
       },
-      notifications: { activeNotifications: {} }
+      notifications: { activeNotifications: {} },
+      collectionSelector: {}
     };
   }
 

@@ -3,6 +3,7 @@ export * from "./targetForm.container";
 export * from "./observeTarget.container";
 export * from "./drawer.container";
 export * from "./dialog.container";
+export * from "./collectionSelector.container";
 export * from "./openChatButton.container";
 export * from "./chat/chat.container";
 export * from "./chat/createChat.container";
