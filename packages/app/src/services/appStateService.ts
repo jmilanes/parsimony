@@ -46,13 +46,27 @@ export type BulkProgram = {
   excludedIds: string[];
 };
 
+export type Timer = {
+  program?: Program;
+  active: boolean;
+  paused: boolean;
+  intervalId?: any;
+  time: number;
+};
+
+export type Interval = {
+  intervalId?: any;
+  active: boolean;
+  occurred: number;
+  total: number;
+  program?: Program;
+};
+
 export type BehaviorTracker = {
   counters: Record<string, number>;
+  timers: Record<string, Timer>;
+  intervals: Record<string, Interval>;
   clientId?: string;
-  timerActive: boolean;
-  timerPaused: boolean;
-  time: number;
-  activeProgram?: Program;
   activeInterval: boolean;
   intervalId?: any;
   intervalOccurred: number;
@@ -86,11 +100,18 @@ export type ProgramViewer = {
 
 type DialogActions = { name: string; action: () => void };
 
+export type DialogQueueItem = {
+  message?: React.ReactElement;
+  title?: string;
+  actions?: DialogActions[];
+};
+
 export type DialogControls = {
   active: boolean;
   message?: React.ReactElement;
   title?: string;
   actions?: DialogActions[];
+  queue: DialogQueueItem[];
 };
 
 export type Notification = {
@@ -121,18 +142,20 @@ export type AppState = {
   collectionSelector: CollectionSelector;
 };
 
-export type ControlPayloads = Partial<DrawerControls>;
-
 @Service()
 export default class AppStateService {
   store: Store;
   appState: AppState;
 
   constructor(store: Store) {
+    //@ts-ignore
+    window.getAppState = this.getAppState;
+
     this.store = store;
     this.appState = {
       dialog: {
-        active: false
+        active: false,
+        queue: []
       },
       drawer: {
         active: false,
@@ -161,9 +184,8 @@ export default class AppStateService {
       // Break each behavior into its own domain (interval and program)
       behaviorTracker: {
         counters: {},
-        timerActive: false,
-        timerPaused: false,
-        time: 0,
+        timers: {},
+        intervals: {},
         activeInterval: false,
         intervalOccurred: 0,
         intervalTotal: 0
@@ -175,6 +197,16 @@ export default class AppStateService {
 
   init = () => {
     this.store.getDomain$(Domains.AppState).next(this.appState);
+  };
+
+  public getAppState = () => {
+    return this.store.getDomainValue(Domains.AppState);
+  };
+
+  public getAppStateByKey = <K extends keyof AppState>(
+    appStateKey: K
+  ): AppState[K] => {
+    return this.store.getValueByPath(Domains.AppState, appStateKey);
   };
 
   public updateAppState = <K extends keyof AppState>(

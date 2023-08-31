@@ -11,7 +11,7 @@ export const TimerSubmitDialogMessage = ({ program }: { program: Program }) => {
       <p>
         <p>Did {user.firstName}:</p> <p>{program.description}</p>
       </p>
-      <p>{`for ${API.actions.timer.getFormattedTimerTime()}`}</p>
+      <p>{`for ${API.actions.timer.getFormattedTimerTime(program)}`}</p>
     </div>
   );
 };

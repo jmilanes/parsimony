@@ -2,6 +2,13 @@ import { Service } from "typedi";
 import { Program } from "@parsimony/types";
 import { buildCreateBehaviorRequest } from "../../utils";
 import CoreApi from "../../domains/coreApi/coreApi.service";
+import { BehaviorTracker, Interval } from "../../services/appStateService";
+
+const initialIntervalState: Interval = {
+  active: false,
+  occurred: 0,
+  total: 0
+};
 
 @Service()
 export class IntervalActions {
@@ -11,22 +18,52 @@ export class IntervalActions {
     this.#api = _api;
   }
 
-  #getIntervalState() {
+  public init = (program: Program) => {
+    this.#createIntervalState(program);
+  };
+
+  public programIsInitialized = (program: Program) => {
+    return this.getAppState().intervals[program.id];
+  };
+
+  getAppState() {
     return this.#api.getAppState("behaviorTracker");
   }
 
-  public closeIntervalDialog = () => {
-    this.#api.updateAppState("dialog", { active: false });
+  public updateAppState = (update: Partial<BehaviorTracker>) => {
+    this.#api.updateAppState("behaviorTracker", update);
   };
 
-  public resetIntervalTracking = () => {
-    const { intervalId } = this.#getIntervalState();
+  #createIntervalState(program: Program) {
+    const { intervals } = this.getAppState();
+    intervals[program.id] = { ...initialIntervalState, program };
+    this.updateAppState({ intervals });
+  }
+
+  getIntervalState(id: string) {
+    const { intervals } = this.getAppState();
+    return intervals[id];
+  }
+
+  #updateIntervalState(id: string, update: Partial<Interval>) {
+    const { intervals } = this.getAppState();
+    intervals[id] = { ...intervals[id], ...update };
+    this.updateAppState({ intervals });
+  }
+
+  public closeIntervalDialog = () => {
+    this.#api.Dialog.close();
+  };
+
+  public resetIntervalTracking = ({ id }: Program) => {
+    const { intervalId } = this.getIntervalState(id);
     clearInterval(intervalId);
     this.closeIntervalDialog();
-    this.#api.updateAppState("behaviorTracker", {
-      intervalTotal: 0,
-      intervalOccurred: 0,
-      activeInterval: undefined
+    this.#updateIntervalState(id, {
+      total: 0,
+      occurred: 0,
+      active: false,
+      intervalId: undefined
     });
   };
 
@@ -35,37 +72,44 @@ export class IntervalActions {
       const intervalId = setInterval(() => {
         onInterval();
       }, program.behavior?.alertTime * 1000);
-      this.#api.updateAppState("behaviorTracker", { intervalId });
+      this.#updateIntervalState(program.id, { intervalId });
     }
   };
 
-  public endInterval = (openDialog: () => void) => {
-    const { intervalId } = this.#getIntervalState();
+  public endInterval = ({ id }: Program, openDialog: () => void) => {
+    const { intervalId } = this.getIntervalState(id);
     clearInterval(intervalId);
     openDialog();
   };
 
   public submit = async (program: Program) => {
-    const { intervalOccurred, intervalTotal } = this.#getIntervalState();
+    const { intervalOccurred, intervalTotal } = this.getAppState();
     const result = Math.round((intervalOccurred / intervalTotal) * 100);
     await this.#api.makeRequest(
       buildCreateBehaviorRequest({ program, result })
     );
-    this.resetIntervalTracking();
+    this.resetIntervalTracking(program);
   };
 
-  public onSuccess = () => {
-    const { intervalTotal, intervalOccurred } = this.#getIntervalState();
-    this.#api.updateAppState("behaviorTracker", {
-      intervalTotal: intervalTotal + 1,
-      intervalOccurred: intervalOccurred + 1
+  //TODO Figure this out cause you can have n dialogs per ID
+  public cancelAllIntervals = () => {
+    const { intervals } = this.getAppState();
+    Object.keys(intervals).forEach((id) => this.resetIntervalTracking({ id }));
+    this.#api.Dialog.clear();
+  };
+
+  public onSuccess = ({ id }: Program) => {
+    const { total, occurred } = this.getIntervalState(id);
+    this.#updateIntervalState(id, {
+      total: total + 1,
+      occurred: occurred + 1
     });
     this.closeIntervalDialog();
   };
-  public onFail = () => {
-    const { intervalTotal } = this.#getIntervalState();
-    this.#api.updateAppState("behaviorTracker", {
-      intervalTotal: intervalTotal + 1
+  public onFail = ({ id }: Program) => {
+    const { total } = this.getIntervalState(id);
+    this.#updateIntervalState(id, {
+      total: total + 1
     });
     this.closeIntervalDialog();
   };

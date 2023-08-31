@@ -55,7 +55,6 @@ const Notification = ({
 export const NotificationContainer = () => {
   const API = Container.get(UIApi);
   const notifications = API.system.getAppState("notifications");
-  const time = API.system.getAppState("behaviorTracker").time;
   return (
     <div>
       {Object.values(notifications.activeNotifications).map(Notification)}

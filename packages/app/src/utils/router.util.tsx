@@ -19,8 +19,7 @@ import {
   AppHeader,
   Drawer,
   DialogContainer,
-  NotificationContainer,
-  TimerContainer
+  NotificationContainer
 } from "../containers";
 
 export const generateApp = (routes: IRoute[]) => {
@@ -46,7 +45,6 @@ export const generateApp = (routes: IRoute[]) => {
             />
           ))}
         </Routes>
-        <TimerContainer />
         <NotificationContainer />
         <Drawer />
         <DialogContainer />

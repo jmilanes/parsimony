@@ -34,7 +34,7 @@ export class CollectionRelocationActions {
   };
 
   public reset = () => {
-    this.#api.updateAppState("dialog", { active: false });
+    this.#api.Dialog.close();
     this.updateState({
       selectedId: undefined,
       idToUpdate: undefined
@@ -42,7 +42,7 @@ export class CollectionRelocationActions {
   };
 
   public cancel = () => {
-    this.#api.updateAppState("dialog", { active: false });
+    this.#api.Dialog.close();
     this.updateState({
       selectedId: undefined
     });
