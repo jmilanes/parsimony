@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { BehaviorTracker, Domains, Program } from "@parsimony/types";
 import { Button, Icon } from "../../../components";
@@ -8,18 +8,20 @@ import { TimerSubmitDialogMessage } from "../dialogMessages/timer.dialog.message
 
 export const TimeBehaviorInput = ({ program }: { program: Program }) => {
   const API = Container.get(UIApi);
+  useEffect(() => {
+    API.actions.timer.init(program);
+  }, []);
+
+  if (!API.actions.timer.getAppState().timers[program.id]) {
+    return null;
+  }
   return (
     <div className="behavior-input-container" key={program.id}>
       <div className="flex-row">
         <Button
           metaTestId={BehaviorTracker.startTimer}
           name="Start Timer"
-          action={() => {
-            API.system.updateAppState("behaviorTracker", {
-              activeProgram: program
-            });
-            API.actions.timer.start();
-          }}
+          action={() => API.actions.timer.start(program)}
           icon={<Icon.BehaviorTime />}
         />
         <Button
@@ -33,14 +35,9 @@ export const TimeBehaviorInput = ({ program }: { program: Program }) => {
           }
           icon={<Icon.BehaviorIntervalStop />}
         />
-        <Button
-          metaTestId={BehaviorTracker.submitZero}
-          name="Zero"
-          action={() => API.actions.timer.submit(program)}
-          icon={<Icon.BehaviorTimeZero />}
-        />
         <p>{program.title}</p>
       </div>
+      <p>{API.actions.timer.getFormattedTimerTime(program)}</p>
     </div>
   );
 };

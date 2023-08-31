@@ -18,4 +18,3 @@ export * from "./clientSelector";
 export * from "./appHeader.container";
 export * from "./prgramViewer";
 export * from "./notifications.container";
-export * from "./timer.container";

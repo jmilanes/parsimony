@@ -64,10 +64,12 @@ export const BehaviorTrackerContainer = () => {
     );
   });
 
-  const reset = () =>
+  const reset = () => {
     API.system.updateAppState("behaviorTracker", {
       clientId: undefined
     });
+    API.actions.timer.cancelAllTimers();
+  };
 
   const onChange = (option: IOption) => {
     reset();

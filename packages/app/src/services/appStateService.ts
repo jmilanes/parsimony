@@ -46,13 +46,18 @@ export type BulkProgram = {
   excludedIds: string[];
 };
 
+export type Timer = {
+  program?: Program;
+  active: boolean;
+  paused: boolean;
+  intervalId?: any;
+  time: number;
+};
+
 export type BehaviorTracker = {
   counters: Record<string, number>;
+  timers: Record<string, Timer>;
   clientId?: string;
-  timerActive: boolean;
-  timerPaused: boolean;
-  time: number;
-  activeProgram?: Program;
   activeInterval: boolean;
   intervalId?: any;
   intervalOccurred: number;
@@ -121,8 +126,6 @@ export type AppState = {
   collectionSelector: CollectionSelector;
 };
 
-export type ControlPayloads = Partial<DrawerControls>;
-
 @Service()
 export default class AppStateService {
   store: Store;
@@ -161,9 +164,7 @@ export default class AppStateService {
       // Break each behavior into its own domain (interval and program)
       behaviorTracker: {
         counters: {},
-        timerActive: false,
-        timerPaused: false,
-        time: 0,
+        timers: {},
         activeInterval: false,
         intervalOccurred: 0,
         intervalTotal: 0
