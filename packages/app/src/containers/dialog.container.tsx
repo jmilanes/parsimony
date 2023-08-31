@@ -15,14 +15,9 @@ import { DialogMetaIds } from "@parsimony/types";
 
 export const DialogContainer = () => {
   const API = Container.get(UIApi);
-  const controls = API.system.getAppState("dialog");
+  const { active, title, actions, message } = API.system.getAppState("dialog");
 
-  const handleClose = () => {
-    API.system.updateAppState("dialog", { active: false });
-    // TODO Fix reseting
-  };
-
-  const actions = controls.actions?.map((x) => {
+  const buttons = actions?.map((x) => {
     return (
       <Button
         name={x.name}
@@ -33,13 +28,18 @@ export const DialogContainer = () => {
     );
   });
 
+  const stackedDialogs = API.system.Dialog.getQueueLength();
+
   return (
-    <Dialog open={controls.active} onClose={handleClose}>
-      <DialogTitle>{controls.title}</DialogTitle>
+    <Dialog open={active} onClose={API.system.Dialog.close}>
+      {stackedDialogs ? (
+        <div className="dialog-stack-indicator">{stackedDialogs}</div>
+      ) : null}
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{controls.message}</DialogContentText>
+        <DialogContentText>{message}</DialogContentText>
       </DialogContent>
-      <DialogActions>{actions}</DialogActions>
+      <DialogActions>{buttons}</DialogActions>
     </Dialog>
   );
 };

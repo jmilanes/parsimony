@@ -12,7 +12,7 @@ export const TimeBehaviorInput = ({ program }: { program: Program }) => {
     API.actions.timer.init(program);
   }, []);
 
-  if (!API.actions.timer.getAppState().timers[program.id]) {
+  if (!API.actions.timer.programIsInitialized(program)) {
     return null;
   }
   return (

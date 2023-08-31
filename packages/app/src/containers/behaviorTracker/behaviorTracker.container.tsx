@@ -69,6 +69,7 @@ export const BehaviorTrackerContainer = () => {
       clientId: undefined
     });
     API.actions.timer.cancelAllTimers();
+    API.actions.interval.cancelAllIntervals();
   };
 
   const onChange = (option: IOption) => {

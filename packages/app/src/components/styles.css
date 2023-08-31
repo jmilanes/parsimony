@@ -474,4 +474,21 @@ hr {
 
 .MuiDialog-container .MuiPaper-root {
     min-width: 600px;
+    overflow: visible;
+}
+
+
+.dialog-stack-indicator {
+    position: absolute;
+    right: -20px;
+    top: -18px;
+    border-radius: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--purple);
+    color: white;
+    font-size: 16px;
 }

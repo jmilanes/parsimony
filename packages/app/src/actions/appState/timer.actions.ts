@@ -26,6 +26,10 @@ export class TimerActions {
     this.#createTimer(program);
   };
 
+  public programIsInitialized = (program: Program) => {
+    return this.getAppState().timers[program.id];
+  };
+
   public getAppState = () => {
     return this.#api.getAppState("behaviorTracker");
   };
@@ -54,7 +58,7 @@ export class TimerActions {
   public start = ({ id }: Program) => {
     const { active, paused } = this.#getTimerState(id);
     if (!active || paused) {
-      this.#api.updateAppState("dialog", { active: false });
+      this.#api.Dialog.close();
       const intervalId = setInterval(() => {
         const { time } = this.#getTimerState(id);
         this.#updateTimeState(id, { time: time + 1000 });
@@ -75,7 +79,7 @@ export class TimerActions {
   public cancel = ({ id }: Program | { id: string }) => {
     const { intervalId } = this.#getTimerState(id);
     clearInterval(intervalId);
-    this.#api.updateAppState("dialog", { active: false });
+    this.#api.Dialog.close();
     this.#updateTimeState(id, {
       time: 0,
       paused: false,
@@ -92,8 +96,7 @@ export class TimerActions {
     const { intervalId } = this.#getTimerState(program.id);
     this.#updateTimeState(program.id, { paused: true });
     clearInterval(intervalId);
-    this.#api.updateAppState("dialog", {
-      active: true,
+    this.#api.Dialog.push({
       title: program.title as string,
       message: message,
       actions: [

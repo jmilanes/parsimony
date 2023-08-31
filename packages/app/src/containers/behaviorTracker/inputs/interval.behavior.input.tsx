@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { BehaviorTracker, Domains, Program } from "@parsimony/types";
 import { Button, Icon } from "../../../components";
@@ -8,13 +8,21 @@ import UIApi from "../../../domains/uiApi/uiApi.Service";
 export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
   const API = Container.get(UIApi);
 
-  const getBehaviorTrackerState = () =>
-    API.system.getAppState("behaviorTracker");
+  useEffect(() => {
+    API.actions.interval.init(program);
+  }, []);
+
+  if (!API.actions.interval.programIsInitialized(program)) {
+    return null;
+  }
+
+  const getBehaviorTrackerState = () => {
+    return API.actions.interval.getIntervalState(program.id);
+  };
   const user = API.system.getItem(Domains.User, program.clientId || "");
 
   const openIntervalDialog = () => {
-    API.system.updateAppState("dialog", {
-      active: true,
+    API.system.Dialog.push({
       title: program.title as string,
       message: (
         <div>
@@ -24,41 +32,42 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
       actions: [
         {
           name: "Occurred",
-          action: API.actions.interval.onSuccess
+          action: () => API.actions.interval.onSuccess(program)
         },
         {
           name: "Did Not Occur",
-          action: API.actions.interval.onFail
+          action: () => API.actions.interval.onFail(program)
         }
       ]
     });
   };
 
   const submitMessage = () => {
-    const { intervalOccurred, intervalTotal } = getBehaviorTrackerState();
-    const percent = (intervalOccurred / intervalTotal) * 100;
+    const { occurred, total } = getBehaviorTrackerState();
+    const percent = (occurred / total) * 100;
     return (
       <div>
         <p>{`Results ${Math.round(percent) || 0}`}%</p>
-        <p>{`Occurred ${intervalOccurred} of ${intervalTotal} times`}</p>
+        <p>{`Occurred ${occurred} of ${total} times`}</p>
       </div>
     );
   };
 
   const openEndIntervalDialog = () => {
-    API.system.updateAppState("dialog", {
-      active: true,
+    API.system.Dialog.push({
       title: program.title as string,
       message: submitMessage(),
       actions: [
         {
           name: "Continue",
-          action: () =>
-            API.actions.interval.startInterval(program, openIntervalDialog)
+          action: () => {
+            API.system.Dialog.close();
+            API.actions.interval.startInterval(program, openIntervalDialog);
+          }
         },
         {
           name: "Cancel",
-          action: API.actions.interval.resetIntervalTracking
+          action: () => API.actions.interval.resetIntervalTracking(program)
         },
         { name: "Submit", action: () => API.actions.interval.submit(program) }
       ]
@@ -80,9 +89,11 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
           icon={<Icon.BehaviorInterval />}
         />
         <Button
-          metaTestId={BehaviorTracker.startInterval}
+          metaTestId={BehaviorTracker.stopInterval}
           name="Interval"
-          action={() => API.actions.interval.endInterval(openEndIntervalDialog)}
+          action={() =>
+            API.actions.interval.endInterval(program, openEndIntervalDialog)
+          }
           icon={<Icon.BehaviorIntervalStop />}
         />
         <p>{program.title}</p>

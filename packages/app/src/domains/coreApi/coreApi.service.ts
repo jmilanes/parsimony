@@ -11,6 +11,7 @@ import AppStateService, { AppState } from "../../services/appStateService";
 import RequestService, { RequestsTypeMap } from "../requests/request.Service";
 import AuthService from "../../services/auth.service";
 import StateService from "../../services/state.service";
+import { DialogActions } from "../controls/dialog.actions";
 
 /**
  * API Between service and UI Layer
@@ -23,12 +24,14 @@ export default class CoreApi {
   #ass: AppStateService;
   #rs: RequestService;
   #store: Store;
+  #dialog: DialogActions;
   #auth: AuthService;
   #ss: StateService;
 
   constructor(
     os: OrchestrationService,
     s: Store,
+    d: DialogActions,
     ass: AppStateService,
     rs: RequestService,
     auth: AuthService,
@@ -40,6 +43,7 @@ export default class CoreApi {
     this.#rs = rs;
     this.#auth = auth;
     this.#ss = ss;
+    this.#dialog = d;
   }
 
   public get Auth() {
@@ -52,6 +56,10 @@ export default class CoreApi {
 
   public get OrchestrationService() {
     return this.#os;
+  }
+
+  public get Dialog() {
+    return this.#dialog;
   }
 
   public setUpDataFor = async <K extends DATA_HANDLERS>(
@@ -95,7 +103,7 @@ export default class CoreApi {
   public getAppState = <K extends keyof AppState>(
     appStateKey: K
   ): AppState[K] => {
-    return this.#store.getValueByPath(Domains.AppState, appStateKey);
+    return this.#ass.getAppStateByKey(appStateKey);
   };
 
   public makeRequest = async <K extends Domains>({
