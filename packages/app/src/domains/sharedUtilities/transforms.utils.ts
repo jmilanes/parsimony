@@ -10,6 +10,8 @@ import { get, set } from "lodash";
 export default class TransformsUtils {
   constructor() {}
 
+  //com
+
   public parseIntByPath = (obj: Record<string, any>, paths: string[]) => {
     for (const path of paths) {
       const val = get(obj, path);
