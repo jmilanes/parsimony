@@ -60,16 +60,16 @@ export const ProgramAddForm = ({
   });
 
   const submitAddForm = async () => {
+    const payload = API.utils.transform.parseIntByPath(localState, [
+      "masteryConsecutiveTargets",
+      "masteryTarget"
+    ]);
     await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "create",
       payload: removeMongoIds({
-        ...localState,
-        collectionId,
-        masteryConsecutiveTargets: parseInt(
-          localState?.masteryConsecutiveTargets as unknown as string
-        ),
-        masteryTarget: parseInt(localState?.masteryTarget as unknown as string)
+        ...payload,
+        collectionId
       })
     });
     setShowCb(false);

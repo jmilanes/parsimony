@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ActionDomainService } from "../../actions/action.domain.service";
 import CoreApi from "../coreApi/coreApi.service";
+import SharedUtilitiesService from "../sharedUtilities/sharedUtilities.service";
 
 /**
  * API Between service and UI Layer
@@ -14,10 +15,16 @@ import CoreApi from "../coreApi/coreApi.service";
 export default class UIApi {
   #coreApi: CoreApi;
   #actions: ActionDomainService;
+  #utils: SharedUtilitiesService;
 
-  constructor(coreApi: CoreApi, actions: ActionDomainService) {
+  constructor(
+    coreApi: CoreApi,
+    actions: ActionDomainService,
+    utils: SharedUtilitiesService
+  ) {
     this.#coreApi = coreApi;
     this.#actions = actions;
+    this.#utils = utils;
   }
 
   public get system() {
@@ -30,5 +37,9 @@ export default class UIApi {
 
   public get actions() {
     return this.#actions;
+  }
+
+  public get utils() {
+    return this.#utils;
   }
 }

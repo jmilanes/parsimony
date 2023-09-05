@@ -50,19 +50,18 @@ export const BehaviorAddForm = ({
   });
 
   const submitAddForm = async () => {
+    const payload = API.utils.transform.parseIntByPath(localState, [
+      "masteryConsecutiveTargets",
+      "masteryTarget",
+      "behavior.alertTime"
+    ]);
+
     await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "create",
       payload: removeMongoIds({
-        ...localState,
-        collectionId: collectionId,
-        behavior: {
-          ...localState.behavior,
-          //TODO Fix
-          alertTime: parseInt(
-            localState?.behavior?.alertTime as unknown as string
-          )
-        }
+        ...payload,
+        collectionId
       })
     });
     setShowCb(false);
