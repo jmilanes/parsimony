@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/cypress",
-  "version": "0.94.0",
+  "version": "0.95.0",
   "private": true,
   "scripts": {
     "cypress:open": "cypress open",
@@ -11,7 +11,7 @@
     "dotenv": "^16.0.3"
   },
   "devDependencies": {
-    "@parsimony/bal": "^0.94.0",
+    "@parsimony/bal": "^0.95.0",
     "@parsimony/types": "^0.9.0",
     "cypress": "^12.2.0",
     "typescript": "^4.6.4"
