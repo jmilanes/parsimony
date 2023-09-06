@@ -1,11 +1,10 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
+
 import Box from "@mui/material/Box";
-import TreeItem, { TreeItemProps, treeItemClasses } from "@mui/lab/TreeItem";
+import TreeItem, { TreeItemProps } from "@mui/lab/TreeItem";
 import Typography from "@mui/material/Typography";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import CloseIcon from "@mui/icons-material/Close";
-import { TreeActions } from "./tree.componet";
 
 type StyledTreeItemProps = TreeItemProps & {
   bgColor?: string;
