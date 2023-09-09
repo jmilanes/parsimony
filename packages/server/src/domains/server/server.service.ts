@@ -10,6 +10,7 @@ const { ApolloServer } = require("apollo-server");
 import { BroadcastService, models } from "../database";
 import TokensService from "../database/token.service";
 import { AppDB } from "../app/app.database";
+import { AppService } from "../app/app.service";
 
 const ignoredAuthorizationQueries = [
   "me(",
@@ -22,20 +23,20 @@ const ignoredAuthorizationQueries = [
 @Service()
 export default class ServerService {
   server: any;
-  #appDb: AppDB;
+  #as: AppService;
   #ts: TokensService;
   #bs: BroadcastService;
   #qs: QueryService;
   #ss: SchoolService;
 
   constructor(
-    appDB: AppDB,
+    as: AppService,
     ts: TokensService,
     bs: BroadcastService,
     qs: QueryService,
     ss: SchoolService
   ) {
-    this.#appDb = appDB;
+    this.#as = as;
     this.#ts = ts;
     this.#bs = bs;
     this.#qs = qs;
@@ -43,7 +44,7 @@ export default class ServerService {
   }
 
   public start = async () => {
-    await this.#appDb.init("parsimonyapp01", models);
+    await this.#as.init();
     await this.#ss.init();
     this.#bs.init();
     await this.#createServer();
