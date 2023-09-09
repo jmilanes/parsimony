@@ -3,7 +3,6 @@ import "reflect-metadata";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { Container } from "typedi";
 
-import { DataBaseService } from "../../dataBase.service";
 import { modelTypes } from "../../models";
 import { ProgramResolvers } from "./program.resolvers";
 import {
@@ -22,6 +21,7 @@ import {
   disconnectFromDB,
   setupDB
 } from "../../../testUtils/db.test.utils";
+import { AppDB } from "../../app.database";
 
 const generateProgramJSON = (title: string, collectionId?: String) => {
   return {
@@ -70,7 +70,7 @@ const generateBehaviorJSON = (title: string, collectionId?: String) => {
     subscribers: [new ObjectId(1)],
     behavior: {
       alertTime: 0,
-      type: BehaviorType.Tally,
+      type: BehaviorType.Frequency,
       active: true
     }
   };
@@ -117,7 +117,7 @@ const generateCollection = (
   };
 };
 
-const setUpBulkProgramAdditions = async (db: DataBaseService) => {
+const setUpBulkProgramAdditions = async (db: AppDB) => {
   const book = await db.createEntry(
     modelTypes.collection,
     generateCollection("Book")
@@ -149,9 +149,7 @@ const setUpBulkProgramAdditions = async (db: DataBaseService) => {
   return { program1, program2, program3, book, collection, behavior };
 };
 
-const setUpBulkProgramMultiLevelCategoryAdditions = async (
-  db: DataBaseService
-) => {
+const setUpBulkProgramMultiLevelCategoryAdditions = async (db: AppDB) => {
   const book = await db.createEntry(
     modelTypes.collection,
     generateCollection("Book")
@@ -173,11 +171,11 @@ const setUpBulkProgramMultiLevelCategoryAdditions = async (
   return { book, collectionL1, collectionL2 };
 };
 
-const createUser = async (db: DataBaseService, name: string) =>
+const createUser = async (db: AppDB, name: string) =>
   await db.createEntry(modelTypes.user, generateUserPayload(name));
 
 describe("Program Resolver Tests", () => {
-  let db: DataBaseService;
+  let db: AppDB;
   let mongo: MongoMemoryServer;
   let programResolver: ProgramResolvers;
   let s: any;

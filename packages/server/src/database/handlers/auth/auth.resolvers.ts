@@ -1,14 +1,14 @@
 import { modelTypes } from "../../models";
 import { Service } from "typedi";
-import { DataBaseService } from "../../index";
 import TokensService from "../../token.service";
+import { AppDB } from "../../app.database";
 
 @Service()
 export class AuthResolvers {
-  #db: DataBaseService;
+  #db: AppDB;
   #ts: TokensService;
 
-  constructor(db: DataBaseService, ts: TokensService) {
+  constructor(db: AppDB, ts: TokensService) {
     this.#db = db;
     this.#ts = ts;
   }

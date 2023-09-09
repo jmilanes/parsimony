@@ -1,45 +1,40 @@
 require("dotenv").config();
-import { WithEmptyObj } from "@parsimony/types";
-import { models, modelTypes } from "./models";
 import { Service } from "typedi";
 import { envIs } from "@parsimony/utilities/dist";
 import * as mongoose from "mongoose";
 
-const DEV_CONNECTION_STRING = "mongodb://127.0.0.1:27017/parsimony-02";
-const PROD_CONNECTION_STRING = `mongodb+srv://jmilanes:${process.env.MONGO_PW}@parsimonyapp01.xmune.mongodb.net/parsimony?retryWrites=true&w=majority`;
+export const getConnectionStringByEnv = (name: string) => {
+  const DEV_CONNECTION_STRING = `mongodb://127.0.0.1:27017/${
+    // TODO: Remove this hack
+    name === "parsimonyapp01" ? "parsimony-02" : name
+  }`;
+  const PROD_CONNECTION_STRING = `mongodb+srv://jmilanes:${process.env.MONGO_PW}@${name}.xmune.mongodb.net/parsimony?retryWrites=true&w=majority`;
 
-export const CONNECTION_STRING = envIs("prod")
-  ? PROD_CONNECTION_STRING
-  : DEV_CONNECTION_STRING;
+  return envIs("prod") ? PROD_CONNECTION_STRING : DEV_CONNECTION_STRING;
+};
+
+type EnumType<T> = {
+  [K in keyof T]: { value: T[K]; label: string };
+};
 
 @Service()
-export class DataBaseService {
+export class DataBaseService<T, modelTypes = EnumType<T>> {
   dataBase: any;
-  models: WithEmptyObj<Record<modelTypes, any>> = {};
-  #connectionString?: string;
+  models: Partial<Record<string, any>> = {};
 
-  constructor() {}
-
-  init = async (cs: string) => {
-    this.#connectionString = cs;
-    this.dataBase = mongoose;
+  init = async (cs: string, models: Record<string, any>) => {
+    this.models = models;
+    await this.#connectDataBase(getConnectionStringByEnv(cs));
     this.applyModels(models);
-    await this.#connectDataBase();
   };
 
-  #connectDataBase = async () => {
-    await this.dataBase.connect(this.#connectionString, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
+  #connectDataBase = async (cs: string) => {
+    this.dataBase = mongoose.createConnection(cs);
   };
 
-  applyModels = (models: Record<modelTypes, any>) => {
+  applyModels = (models: Record<string, any>) => {
     Object.entries(models).forEach(([modelType, model]) => {
-      this.models[modelType as modelTypes] = this.dataBase.model(
-        modelType,
-        model
-      );
+      this.models[modelType] = this.dataBase.model(modelType, model);
     });
   };
 

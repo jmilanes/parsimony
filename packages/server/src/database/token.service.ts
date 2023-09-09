@@ -5,15 +5,15 @@ import { Service } from "typedi";
 
 import { User } from "@parsimony/types";
 import jwt from "jsonwebtoken";
-import { DataBaseService } from "./dataBase.service";
 import { modelTypes } from "./models";
+import { AppDB } from "./app.database";
 
 @Service()
 export default class TokensService {
   refreshTokens: string[];
-  private _db: DataBaseService;
+  private _db: AppDB;
 
-  constructor(db: DataBaseService) {
+  constructor(db: AppDB) {
     // This will be DB
     this.refreshTokens = [];
     this._db = db;

@@ -1,7 +1,7 @@
 import { modelTypes } from "../../models";
 import { BaseCrudResolvers } from "../baseCrudResolver";
 import { Service } from "typedi";
-import { BroadcastService, DataBaseService } from "../../index";
+import { BroadcastService } from "../../index";
 import {
   Collection,
   CollectionTypes,
@@ -9,6 +9,7 @@ import {
   ProgramTypes,
   TargetStyle
 } from "@parsimony/types";
+import { AppDB } from "../../app.database";
 
 type CollectionUpdates = {
   clientId: string;
@@ -38,9 +39,9 @@ const createMapFromStringArray = (arr: string[]) =>
 
 @Service()
 export class ProgramResolvers extends BaseCrudResolvers {
-  #db: DataBaseService;
+  #db: AppDB;
 
-  constructor(db: DataBaseService, bs: BroadcastService) {
+  constructor(db: AppDB, bs: BroadcastService) {
     super(db, bs);
     this.#db = db;
     this.model = modelTypes.program;

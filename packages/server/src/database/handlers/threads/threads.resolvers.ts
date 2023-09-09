@@ -1,14 +1,15 @@
 import { BaseCrudResolvers } from "../baseCrudResolver";
-import { BroadcastService, DataBaseService, modelTypes } from "../../index";
+import { BroadcastService, modelTypes } from "../../index";
 import { ChatActionTypes } from "@parsimony/types";
 import { Service } from "typedi";
+import { AppDB } from "../../app.database";
 
 @Service()
 export class ThreadResolver extends BaseCrudResolvers {
   #bs: BroadcastService;
-  #db: DataBaseService;
+  #db: AppDB;
 
-  constructor(db: DataBaseService, bs: BroadcastService) {
+  constructor(db: AppDB, bs: BroadcastService) {
     super(db, bs);
     this.model = modelTypes.thread;
     this.shouldBroadcast = true;

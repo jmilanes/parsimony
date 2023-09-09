@@ -1,12 +1,15 @@
+import { SchoolService } from "../school/school.service";
+
 require("dotenv").config();
 import { QueryService } from "../../database/handlers";
 
-import { Inject, Service } from "typedi";
+import { Service } from "typedi";
 
 const { ApolloServer } = require("apollo-server");
 
-import { BroadcastService, DataBaseService } from "../../database";
+import { BroadcastService, models } from "../../database";
 import TokensService from "../../database/token.service";
+import { AppDB } from "../../database/app.database";
 
 const ignoredAuthorizationQueries = [
   "me(",
@@ -19,38 +22,30 @@ const ignoredAuthorizationQueries = [
 @Service()
 export default class ServerService {
   server: any;
-
-  // @ts-ignore
-  @Inject(() => DataBaseService)
-  readonly db: DataBaseService;
-
-  // @ts-ignore
-  @Inject(() => TokensService)
-  readonly ts: TokensService;
-
-  // @ts-ignore
-  @Inject(() => BroadcastService)
-  readonly bs: BroadcastService;
-
-  // @ts-ignore
-  @Inject(() => QueryService)
-  readonly qs: QueryService;
+  #appDb: AppDB;
+  #ts: TokensService;
+  #bs: BroadcastService;
+  #qs: QueryService;
+  #ss: SchoolService;
 
   constructor(
-    db: DataBaseService,
+    appDB: AppDB,
     ts: TokensService,
     bs: BroadcastService,
-    qs: QueryService
+    qs: QueryService,
+    ss: SchoolService
   ) {
-    this.db = db;
-    this.ts = ts;
-    this.bs = bs;
-    this.qs = qs;
+    this.#appDb = appDB;
+    this.#ts = ts;
+    this.#bs = bs;
+    this.#qs = qs;
+    this.#ss = ss;
   }
 
-  public start = async (connectionString: string) => {
-    await this.db.init(connectionString);
-    this.bs.init();
+  public start = async () => {
+    await this.#appDb.init("parsimonyapp01", models);
+    await this.#ss.init();
+    this.#bs.init();
     await this.#createServer();
     await this.#listen();
   };
@@ -67,8 +62,8 @@ export default class ServerService {
     const context = this.#authContext;
     this.server = new ApolloServer({
       namespace: "Parsimony",
-      typeDefs: this.qs.getTypeDefs(),
-      resolvers: this.qs.getResolvers(),
+      typeDefs: this.#qs.getTypeDefs(),
+      resolvers: this.#qs.getResolvers(),
       context
     });
   };
@@ -82,7 +77,7 @@ export default class ServerService {
     }
 
     const accessToken = req.headers.authorization.split(" ")[1];
-    const currentUser = await this.ts.verifyAccessToken(accessToken);
+    const currentUser = await this.#ts.verifyAccessToken(accessToken);
     return currentUser;
   };
 }

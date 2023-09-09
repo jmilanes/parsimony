@@ -1,7 +1,8 @@
-import { BroadcastService, DataBaseService, modelTypes } from "../index";
+import { BroadcastService, modelTypes } from "../index";
 import { Service } from "typedi";
 import { validateRole } from "../../domains/autherization/validateRole";
 import { UserRoles } from "@parsimony/types";
+import { AppDB } from "../app.database";
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -13,9 +14,9 @@ export class BaseCrudResolvers {
   mutations: Record<string, IReducer> = {};
   shouldBroadcast: boolean = false;
   #bs: BroadcastService;
-  #db: DataBaseService;
+  #db: AppDB;
 
-  constructor(db: DataBaseService, bs: BroadcastService) {
+  constructor(db: AppDB, bs: BroadcastService) {
     this.#bs = bs;
     this.#db = db;
   }
