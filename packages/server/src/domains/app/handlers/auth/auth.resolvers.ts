@@ -1,6 +1,6 @@
 import { modelTypes } from "../../models";
 import { Service } from "typedi";
-import TokensService from "../../token.service";
+import TokensService from "../../../database/token.service";
 import { AppDB } from "../../app.database";
 
 @Service()

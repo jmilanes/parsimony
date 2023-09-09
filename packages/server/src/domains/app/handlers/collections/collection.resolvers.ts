@@ -1,7 +1,7 @@
 import { modelTypes } from "../../models";
 import { BaseCrudResolvers } from "../baseCrudResolver";
 import { Service } from "typedi";
-import { BroadcastService } from "../../index";
+import { BroadcastService } from "../../../database";
 import { AppDB } from "../../app.database";
 
 @Service()

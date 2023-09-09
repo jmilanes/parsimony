@@ -20,7 +20,7 @@ import {
   cleanCollections,
   disconnectFromDB,
   setupDB
-} from "../../../testUtils/db.test.utils";
+} from "../../../../testUtils/db.test.utils";
 import { AppDB } from "../../app.database";
 
 const generateProgramJSON = (title: string, collectionId?: String) => {

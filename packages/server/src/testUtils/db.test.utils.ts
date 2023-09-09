@@ -1,7 +1,7 @@
 import { Container } from "typedi";
 import ServerService from "../domains/server/server.service";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { AppDB } from "../database/app.database";
+import { AppDB } from "../domains/app/app.database";
 
 export const setupDB = async () => {
   const server = Container.get(ServerService);

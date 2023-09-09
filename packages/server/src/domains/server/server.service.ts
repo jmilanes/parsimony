@@ -1,15 +1,15 @@
 import { SchoolService } from "../school/school.service";
 
 require("dotenv").config();
-import { QueryService } from "../../database/handlers";
+import { QueryService } from "../app/handlers";
 
 import { Service } from "typedi";
 
 const { ApolloServer } = require("apollo-server");
 
-import { BroadcastService, models } from "../../database";
-import TokensService from "../../database/token.service";
-import { AppDB } from "../../database/app.database";
+import { BroadcastService, models } from "../database";
+import TokensService from "../database/token.service";
+import { AppDB } from "../app/app.database";
 
 const ignoredAuthorizationQueries = [
   "me(",

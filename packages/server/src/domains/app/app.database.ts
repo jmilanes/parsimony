@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 
-import { DataBaseService } from "./dataBase.service";
+import { DataBaseService } from "../database/dataBase.service";
 import { modelTypes } from "./models";
 
 @Service()

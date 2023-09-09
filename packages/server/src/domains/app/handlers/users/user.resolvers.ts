@@ -1,4 +1,4 @@
-import { BroadcastService, modelTypes } from "../../index";
+import { BroadcastService, modelTypes } from "../../../database";
 import { BaseCrudResolvers } from "../baseCrudResolver";
 import { Service } from "typedi";
 import { AppDB } from "../../app.database";

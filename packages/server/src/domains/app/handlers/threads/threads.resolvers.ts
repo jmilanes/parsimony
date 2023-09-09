@@ -1,5 +1,5 @@
 import { BaseCrudResolvers } from "../baseCrudResolver";
-import { BroadcastService, modelTypes } from "../../index";
+import { BroadcastService, modelTypes } from "../../../database";
 import { ChatActionTypes } from "@parsimony/types";
 import { Service } from "typedi";
 import { AppDB } from "../../app.database";

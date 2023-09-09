@@ -1,12 +1,12 @@
-import { serverToken } from "../sever.token";
+import { serverToken } from "../../sever.token";
 
 require("dotenv").config();
 import { Service } from "typedi";
 
 import { User } from "@parsimony/types";
 import jwt from "jsonwebtoken";
-import { modelTypes } from "./models";
-import { AppDB } from "./app.database";
+import { modelTypes } from "../app/models";
+import { AppDB } from "../app/app.database";
 
 @Service()
 export default class TokensService {

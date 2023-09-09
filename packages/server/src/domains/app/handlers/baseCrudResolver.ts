@@ -1,6 +1,6 @@
-import { BroadcastService, modelTypes } from "../index";
+import { BroadcastService, modelTypes } from "../../database";
 import { Service } from "typedi";
-import { validateRole } from "../../domains/autherization/validateRole";
+import { validateRole } from "../../autherization/validateRole";
 import { UserRoles } from "@parsimony/types";
 import { AppDB } from "../app.database";
 
