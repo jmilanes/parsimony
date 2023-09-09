@@ -11,7 +11,7 @@ export class SchoolService {
   }
 
   init = async () => {
-    await this.#db.init("parsimony_schools", {
+    await this.#db.init("parsimonySchools", {
       [SCHOOL_MODELS.school]: SchoolModel
     });
   };
