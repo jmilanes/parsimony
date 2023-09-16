@@ -16,7 +16,8 @@ export class SchoolService {
     });
   };
 
-  // THIS WOULD BE A GREAT PLACE TO ADD TYPE DI (or something else to see what that would look like in a control space)
+  // THIS WOULD BE A GREAT PLACE TO ADD TYPE DI
+  // (or something else to see what that would look like in a control space)
   public addSchool = async () => {
     await this.#db.createEntry(SCHOOL_MODELS.school, {
       name: "test_01",
