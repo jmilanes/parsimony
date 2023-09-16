@@ -3,14 +3,14 @@ import { Service } from "typedi";
 import { envIs } from "@parsimony/utilities/dist";
 import * as mongoose from "mongoose";
 
-export const getConnectionStringByEnv = (name: string) => {
-  const DEV_CONNECTION_STRING = `mongodb://127.0.0.1:27017/${
-    // TODO: Remove this hack
-    name === "parsimonyapp01" ? "parsimony-02" : name
-  }`;
-  const PROD_CONNECTION_STRING = `mongodb+srv://jmilanes:${process.env.MONGO_PW}@${name}.xmune.mongodb.net/parsimony?retryWrites=true&w=majority`;
-
-  return envIs("prod") ? PROD_CONNECTION_STRING : DEV_CONNECTION_STRING;
+export const getConnectionStringByEnv = (name: string, driverId: string) => {
+  if (!envIs("prod")) {
+    return `mongodb://127.0.0.1:27017/${
+      // TODO: Remove this hack
+      name === "parsimonyapp01" ? "parsimony-02" : name
+    }`;
+  }
+  return `mongodb+srv://jmilanes:${process.env.MONGO_PW}@${name}.${driverId}.mongodb.net/parsimony?retryWrites=true&w=majority`;
 };
 
 type EnumType<T> = {
@@ -22,9 +22,9 @@ export class DataBaseService<T, modelTypes = EnumType<T>> {
   dataBase: any;
   models: Partial<Record<string, any>> = {};
 
-  init = async (cs: string, models: Record<string, any>) => {
+  init = async (cs: string, models: Record<string, any>, driverId: string) => {
     this.models = models;
-    await this.#connectDataBase(getConnectionStringByEnv(cs));
+    await this.#connectDataBase(getConnectionStringByEnv(cs, driverId));
     this.applyModels(models);
   };
 

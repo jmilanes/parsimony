@@ -11,9 +11,13 @@ export class SchoolService {
   }
 
   init = async () => {
-    await this.#db.init("parsimonySchools", {
-      [SCHOOL_MODELS.school]: SchoolModel
-    });
+    await this.#db.init(
+      "parsimonySchools",
+      {
+        [SCHOOL_MODELS.school]: SchoolModel
+      },
+      "f034n9b"
+    );
   };
 
   // THIS WOULD BE A GREAT PLACE TO ADD TYPE DI

@@ -79,6 +79,7 @@ export class BaseCrudResolvers {
   }
 
   create = async (_: any, { payload }: { payload: any }) => {
+    console.log("CONTEXT MAYBE", _);
     try {
       const entry = await this.#db.createEntry(this.model, {
         ...payload
