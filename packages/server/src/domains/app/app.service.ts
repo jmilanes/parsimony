@@ -11,6 +11,6 @@ export class AppService {
   }
 
   init = async () => {
-    await this.#db.init("parsimonyapp01", models, "xmune");
+    await this.#db.init("xmune.parsimonyapp01", models);
   };
 }

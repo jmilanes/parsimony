@@ -11,13 +11,9 @@ export class SchoolService {
   }
 
   init = async () => {
-    await this.#db.init(
-      "parsimonySchools",
-      {
-        [SCHOOL_MODELS.school]: SchoolModel
-      },
-      "f034n9b"
-    );
+    await this.#db.init("f034n9b.parsimonySchools", {
+      [SCHOOL_MODELS.school]: SchoolModel
+    });
   };
 
   // THIS WOULD BE A GREAT PLACE TO ADD TYPE DI
@@ -25,9 +21,10 @@ export class SchoolService {
   public addSchool = async () => {
     await this.#db.createEntry(SCHOOL_MODELS.school, {
       name: "test_01",
+      primaryEmail: "joey@parsimony.app",
       refreshToken: "fake_01",
       accessToken: "fake_02",
-      connectionString: "test_01",
+      dbConnection: "test_01",
       clientSeats: 20
     });
   };

@@ -3,7 +3,6 @@ import {
   IId,
   Program,
   Result,
-  School,
   User,
   Collection,
   Thread
@@ -19,7 +18,6 @@ export interface DomainReturnTypeMap {
   [Domains.Program]: Program;
   [Domains.Collection]: Collection;
   [Domains.User]: User;
-  [Domains.School]: School;
   [Domains.Result]: Result;
   [Domains.Thread]: Thread;
   [Domains.AppState]: AppState;
@@ -28,13 +26,10 @@ export interface DomainReturnTypeMap {
 type UserStoreValue = Record<IId, User>;
 type ProgramStoreValue = Record<IId, Program>;
 type ResultStoreValue = Record<IId, Result>;
-type SchoolStoreValue = Record<IId, School>;
-type ThreadStoreValue = Record<IId, School>;
+type ThreadStoreValue = Record<IId, Thread>;
 
 //TODO: THink about removing these
-type EventStoreValue = Record<IId, Event>;
-type DocumentStoreValue = Record<IId, Document>;
-type FileStoreValue = Record<IId, File>;
+
 type CollectionStoreValue = Record<IId, Collection>;
 
 //TODO: idea maybe the store can be turned into async then we can check if its not inclued we can go fetch
@@ -57,7 +52,6 @@ export default class Store {
       [Domains.User]: new BehaviorSubject<UserStoreValue>({}),
       [Domains.Program]: new BehaviorSubject<ProgramStoreValue>({}),
       [Domains.Result]: new BehaviorSubject<ResultStoreValue>({}),
-      [Domains.School]: new BehaviorSubject<SchoolStoreValue>({}),
       [Domains.Thread]: new BehaviorSubject<ThreadStoreValue>({}),
       [Domains.Collection]: new BehaviorSubject<CollectionStoreValue>({}),
       //TODO: This is only clientside so need to make it clearer maybe this is all just one store

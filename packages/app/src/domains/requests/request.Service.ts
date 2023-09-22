@@ -4,7 +4,7 @@ import { Domains } from "@parsimony/types";
 import { ProgramRequestHandler } from "./requestHandlers/program.request.handler";
 import { UserRequestHandler } from "./requestHandlers/user.request.handler";
 import { ResultRequestHandler } from "./requestHandlers/result.request.handler";
-import { SchoolRequestHandler } from "./requestHandlers/school.request.handler";
+
 import { ThreadRequestHandler } from "./requestHandlers/thread.request.handler";
 import { CollectionRequestHandler } from "./requestHandlers/collection.request.handler";
 import { IRequestHandler } from "./IRequestHandler";
@@ -13,7 +13,6 @@ export interface RequestsTypeMap {
   [Domains.Program]: ProgramRequestHandler;
   [Domains.User]: UserRequestHandler;
   [Domains.Result]: ResultRequestHandler;
-  [Domains.School]: SchoolRequestHandler;
   [Domains.Thread]: ThreadRequestHandler;
   [Domains.Collection]: CollectionRequestHandler;
   [Domains.AppState]: ThreadRequestHandler;
@@ -30,7 +29,6 @@ export default class RequestService {
       [Domains.Program]: Container.get(ProgramRequestHandler),
       [Domains.User]: Container.get(UserRequestHandler),
       [Domains.Result]: Container.get(ResultRequestHandler),
-      [Domains.School]: Container.get(SchoolRequestHandler),
       [Domains.Collection]: Container.get(CollectionRequestHandler),
       [Domains.Thread]: Container.get(ThreadRequestHandler)
     };
