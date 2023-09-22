@@ -5,6 +5,5 @@ export { default as User } from "./user.page";
 export { default as Results } from "./results.page";
 export { default as Observe } from "./observe.page";
 export { default as Login } from "./login.page";
-export { default as School } from "./school.page";
 export { default as Books } from "./books.page";
 export { default as Collection } from "./collection.page";

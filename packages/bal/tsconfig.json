@@ -8,9 +8,16 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "allowJs": true,
-    "lib": ["ES2021", "ES2017", "dom"],
+    "lib": [
+      "ES2021",
+      "ES2017",
+      "dom"
+    ],
     "outDir": "dist",
-    "types": ["node", "jest"],
+    "types": [
+      "node",
+      "jest"
+    ],
     "declaration": true,
     "declarationMap": true
   }
