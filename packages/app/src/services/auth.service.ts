@@ -30,7 +30,11 @@ export default class AuthService {
     }
     if (localStorage.getItem("isLoggedIn") === "true") {
       try {
-        const meResponse = await me({ refreshToken: this.getRefreshToken() });
+        // This should pull schoolId from local storage
+        const meResponse = await me({
+          refreshToken: this.getRefreshToken(),
+          schoolId: "Molly School"
+        });
         this.currentUser = meResponse.user as User;
         this.setAccessToken(meResponse.accessToken as string);
         localStorage.setItem("currentUserId", this.currentUser.id);
@@ -40,10 +44,14 @@ export default class AuthService {
     }
   }
 
-  logIn = async (email: string, password: string) => {
+  logIn = async (email: string, password: string, schoolId?: string) => {
     const hashedPassword = encrypt(password);
     try {
-      const loginResponse = await login({ email, password: hashedPassword });
+      const loginResponse = await login({
+        email,
+        password: hashedPassword,
+        schoolId: schoolId || "Molly School"
+      });
       if (!loginResponse) return;
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("accessToken", loginResponse.accessToken as string);
@@ -63,7 +71,9 @@ export default class AuthService {
     }
     try {
       await logout({
-        refreshToken: this.getRefreshToken()
+        refreshToken: this.getRefreshToken(),
+        // This should pull from local storage
+        schoolId: "Molly School"
       });
       this._clearAuthData();
     } catch (e) {
@@ -72,9 +82,18 @@ export default class AuthService {
     }
   };
 
-  resetPassword = async (email: string, password: string) => {
+  resetPassword = async (
+    email: string,
+    password: string,
+    schoolId?: string
+  ) => {
+    // TODO: PASS with JWT
     const hashedPassword = encrypt(password);
-    await resetPassword({ email, password: hashedPassword });
+    await resetPassword({
+      email,
+      password: hashedPassword,
+      schoolId: schoolId || "Molly School"
+    });
   };
 
   setPreviousPage = (page: string) => (this.previousPage = page);

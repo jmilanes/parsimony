@@ -6,17 +6,24 @@ import { Service } from "typedi";
 import { User } from "@parsimony/types";
 import jwt from "jsonwebtoken";
 import { modelTypes } from "../app/models";
-import { AppDB } from "../app/app.database";
+import { AppDataGateway } from "../app/app.data.gateway";
+import { DataBaseService } from "./dataBase.service";
 
 @Service()
 export default class TokensService {
   refreshTokens: string[];
-  private _db: AppDB;
+  #db: DataBaseService<modelTypes>;
+  #adg: AppDataGateway;
 
-  constructor(db: AppDB) {
+  constructor(adg: AppDataGateway) {
     // This will be DB
     this.refreshTokens = [];
-    this._db = db;
+    this.#adg = adg;
+  }
+
+  public init() {
+    // We can do this where we have a token service per school or
+    this.#db = this.#adg.dbBySchoolId("650d055b6f9b9ff059c61caf");
   }
 
   /**
@@ -98,7 +105,7 @@ export default class TokensService {
       }
     );
 
-    const user = await this._db.findEntry(modelTypes.user, { _id: userId });
+    const user = await this.#db.findEntry(modelTypes.user, { _id: userId });
     const accessToken = this.generateAccessToken(user.toObject());
 
     return { accessToken, user };
@@ -129,7 +136,7 @@ export default class TokensService {
    * @param {String} token
    */
   public saveRefreshToken = async (token: string, userId: string) => {
-    await this._db.createEntry(modelTypes.refreshToken, { token, userId });
+    await this.#db.createEntry(modelTypes.refreshToken, { token, userId });
   };
 
   /**
@@ -139,10 +146,10 @@ export default class TokensService {
    * @param {String} token
    */
   public deleteRefreshToken = async (token: string) => {
-    const foundToken = await this._db.findEntry(modelTypes.refreshToken, {
+    const foundToken = await this.#db.findEntry(modelTypes.refreshToken, {
       token
     });
-    await this._db.deleteEntry(modelTypes.refreshToken, foundToken._id);
+    await this.#db.deleteEntry(modelTypes.refreshToken, foundToken._id);
   };
 
   /**
@@ -153,7 +160,7 @@ export default class TokensService {
    * @returns {Boolean}
    */
   public isRefreshTokenValid = async (token: string): Promise<boolean> => {
-    return await this._db.findEntry(modelTypes.refreshToken, {
+    return await this.#db.findEntry(modelTypes.refreshToken, {
       token
     });
   };

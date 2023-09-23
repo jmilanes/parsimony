@@ -1,16 +1,19 @@
 import { modelTypes } from "../../models";
 import { Service } from "typedi";
 import TokensService from "../../../database/token.service";
-import { AppDB } from "../../app.database";
+import { AppDataGateway } from "../../app.data.gateway";
+import { SchoolService } from "../../../school/school.service";
 
 @Service()
 export class AuthResolvers {
-  #db: AppDB;
+  #adg: AppDataGateway;
   #ts: TokensService;
+  #ss: SchoolService;
 
-  constructor(db: AppDB, ts: TokensService) {
-    this.#db = db;
+  constructor(adg: AppDataGateway, ts: TokensService, ss: SchoolService) {
+    this.#adg = adg;
     this.#ts = ts;
+    this.#ss = ss;
   }
 
   me = async (
@@ -24,10 +27,24 @@ export class AuthResolvers {
   login = async (
     _: any,
     {
-      payload: { email, password }
-    }: { payload: { email: string; password: string } }
+      payload: { email, password, schoolId }
+    }: {
+      payload: { email: string; password: string; schoolId: string };
+    }
   ) => {
-    const user = await this.#db.findEntry(modelTypes.user, {
+    // When you have no way of knowing the id you can accept a school name maybe we name it better
+    const foundID = this.#ss
+      .getSchools()
+      .find((x) => x.name === schoolId || x._id === schoolId)
+      ?._id.toString();
+
+    if (!foundID) {
+      throw new Error("School Not Found");
+    }
+
+    const db = this.#adg.dbBySchoolId(foundID);
+    console.log(db);
+    const user = await db.findEntry(modelTypes.user, {
       email: email.toLowerCase()
     });
 
@@ -53,16 +70,25 @@ export class AuthResolvers {
   resetPassword = async (
     _: any,
     {
-      payload: { email, password }
-    }: { payload: { email: string; password: string } }
+      payload: { email, password, schoolId }
+    }: { payload: { email: string; password: string; schoolId: string } }
   ) => {
-    const user = await this.#db.findEntry(modelTypes.user, { email });
+    const foundID = this.#ss
+      .getSchools()
+      .find((x) => x.name === schoolId || x._id === schoolId)?._id;
+
+    if (!foundID) {
+      throw new Error("School Not Found");
+    }
+
+    const db = this.#adg.dbBySchoolId(foundID);
+    const user = await db.findEntry(modelTypes.user, { email });
 
     if (!user) {
       throw Error("Invalid Email");
     }
 
-    await this.#db.updateEntry(user, { password: password });
+    await db.updateEntry(user, { password: password });
 
     return {
       passwordReset: true

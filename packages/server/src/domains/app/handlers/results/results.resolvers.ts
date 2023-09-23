@@ -2,11 +2,11 @@ import { modelTypes } from "../../models";
 import { BaseCrudResolvers } from "../baseCrudResolver";
 import { Service } from "typedi";
 import { BroadcastService } from "../../../database";
-import { AppDB } from "../../app.database";
+import { AppDataGateway } from "../../app.data.gateway";
 
 @Service()
 export class ResultResolvers extends BaseCrudResolvers {
-  constructor(db: AppDB, bs: BroadcastService) {
+  constructor(db: AppDataGateway, bs: BroadcastService) {
     super(db, bs);
     this.model = modelTypes.result;
   }

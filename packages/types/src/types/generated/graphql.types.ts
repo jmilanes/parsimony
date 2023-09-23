@@ -40,6 +40,7 @@ export type AddProgramsToClientPayload = {
 
 export type AuthPayload = {
   accessToken: Scalars["String"];
+  schoolId: Scalars["String"];
 };
 
 export type BehaviorData = {
@@ -257,6 +258,7 @@ export type LogOutResponse = {
 export type LoginPayload = {
   email: Scalars["String"];
   password: Scalars["String"];
+  schoolId: Scalars["String"];
 };
 
 export type LoginResponse = {
@@ -268,10 +270,12 @@ export type LoginResponse = {
 
 export type LogoutPayload = {
   refreshToken: Scalars["String"];
+  schoolId: Scalars["String"];
 };
 
 export type MePayload = {
   refreshToken: Scalars["String"];
+  schoolId: Scalars["String"];
 };
 
 export type MeResponse = {
@@ -555,6 +559,7 @@ export type QueryMeArgs = {
 export type ResetPasswordPayload = {
   email: Scalars["String"];
   password: Scalars["String"];
+  schoolId: Scalars["String"];
 };
 
 export type ResetPasswordResponse = {
