@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb";
 
 export default {
-  schoolId: String,
   timeZone: String,
   roles: [String],
   type: String,
@@ -21,5 +20,6 @@ export default {
   threadDisplayNameName: String,
   avatar: String,
   color: String,
-  serviceProvider: String
+  serviceProvider: String,
+  schoolId: String
 };

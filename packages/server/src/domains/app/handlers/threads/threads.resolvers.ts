@@ -1,19 +1,19 @@
-import { BaseCrudResolvers } from "../baseCrudResolver";
+import { AuthContext, BaseCrudResolvers } from "../baseCrudResolver";
 import { BroadcastService, modelTypes } from "../../../database";
 import { ChatActionTypes } from "@parsimony/types";
 import { Service } from "typedi";
-import { AppDB } from "../../app.database";
+import { AppDataGateway } from "../../app.data.gateway";
 
 @Service()
 export class ThreadResolver extends BaseCrudResolvers {
   #bs: BroadcastService;
-  #db: AppDB;
+  #adg: AppDataGateway;
 
-  constructor(db: AppDB, bs: BroadcastService) {
-    super(db, bs);
+  constructor(adg: AppDataGateway, bs: BroadcastService) {
+    super(adg, bs);
     this.model = modelTypes.thread;
     this.shouldBroadcast = true;
-    this.#db = db;
+    this.#adg = adg;
     this.#bs = bs;
     this.initTreadMutations();
   }
@@ -24,11 +24,15 @@ export class ThreadResolver extends BaseCrudResolvers {
     this.setMutation("editMessage", this.editMessage);
   }
 
-  addMessage = async (_: any, { payload }: { payload: any }) => {
-    const thread = await this._findThread(payload.threadId);
+  addMessage = async (
+    _: any,
+    { payload }: { payload: any },
+    { currentUser }: AuthContext
+  ) => {
+    const thread = await this._findThread(payload.threadId, _);
     const message = { ...payload.message, timeStamp: new Date() };
     thread.messages.push(message);
-    await this.#db.saveEntry(thread);
+    await this.#adg.dbBySchoolId(currentUser.schoolId).saveEntry(thread);
     const messageId = this._getLastItem(thread.messages)._id;
 
     this.#bs.broadcast({
@@ -45,10 +49,14 @@ export class ThreadResolver extends BaseCrudResolvers {
     return thread;
   };
 
-  deleteMessage = async (_: any, { payload }: { payload: any }) => {
-    const thread = await this._findThread(payload.threadId);
+  deleteMessage = async (
+    _: any,
+    { payload }: { payload: any },
+    { currentUser }: AuthContext
+  ) => {
+    const thread = await this._findThread(payload.threadId, _);
     await thread.messages.id(payload.messageId).remove();
-    await this.#db.saveEntry(thread);
+    await this.#adg.dbBySchoolId(currentUser.schoolId).saveEntry(thread);
     this.#bs.broadcast({
       type: ChatActionTypes.DELETE_MESSAGE,
       payload
@@ -57,10 +65,14 @@ export class ThreadResolver extends BaseCrudResolvers {
     return payload.messageId;
   };
 
-  editMessage = async (_: any, { payload }: { payload: any }) => {
-    const thread = await this._findThread(payload.threadId);
+  editMessage = async (
+    _: any,
+    { payload }: { payload: any },
+    { currentUser }: AuthContext
+  ) => {
+    const thread = await this._findThread(payload.threadId, currentUser);
     thread.messages.id(payload.messageId).value = payload.value;
-    await this.#db.saveEntry(thread);
+    await this.#adg.dbBySchoolId(currentUser.schoolId).saveEntry(thread);
     this.#bs.broadcast({
       type: ChatActionTypes.UPDATE_MESSAGE,
       payload: payload
@@ -68,10 +80,15 @@ export class ThreadResolver extends BaseCrudResolvers {
     return payload.messageId;
   };
 
-  private _findThread = async (threadId: string) =>
-    await this.#db.findEntry(modelTypes.thread, {
-      _id: threadId
-    });
+  private _findThread = async (
+    threadId: string,
+    currentUser: AuthContext["currentUser"]
+  ) =>
+    await this.#adg
+      .dbBySchoolId(currentUser.schoolId)
+      .findEntry(modelTypes.thread, {
+        _id: threadId
+      });
 
   private _getLastItem = (arr: any[]) => arr[arr.length - 1];
 }

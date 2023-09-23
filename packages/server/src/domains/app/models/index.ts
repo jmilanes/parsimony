@@ -5,6 +5,7 @@ import user from "./user.model";
 import actionItem from "./actionItem.model";
 import refreshToken from "./refreshTokens.model";
 import collection from "./collections.model";
+import { cloneDeep } from "lodash";
 
 export enum modelTypes {
   thread = "thread",
@@ -24,4 +25,8 @@ export const models = {
   [modelTypes.actionItem]: actionItem,
   [modelTypes.refreshToken]: refreshToken,
   [modelTypes.collection]: collection
+};
+
+export const getFreshModels = () => {
+  return cloneDeep(models);
 };

@@ -1,12 +1,17 @@
 import { BroadcastService, modelTypes } from "../../database";
 import { Service } from "typedi";
 import { validateRole } from "../../autherization/validateRole";
-import { UserRoles } from "@parsimony/types";
-import { AppDB } from "../app.database";
+import { User, UserRoles } from "@parsimony/types";
+import { AppDataGateway } from "../app.data.gateway";
+import Require = NodeJS.Require;
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-type IReducer = (_: any, payload: any) => Promise<any>;
+export type AuthContext = {
+  currentUser: Omit<User, "schoolId"> & { schoolId: string };
+};
+
+type IReducer = (_: any, payload: any, context: AuthContext) => Promise<any>;
 
 @Service()
 export class BaseCrudResolvers {
@@ -14,11 +19,11 @@ export class BaseCrudResolvers {
   mutations: Record<string, IReducer> = {};
   shouldBroadcast: boolean = false;
   #bs: BroadcastService;
-  #db: AppDB;
+  #adg: AppDataGateway;
 
-  constructor(db: AppDB, bs: BroadcastService) {
+  constructor(adg: AppDataGateway, bs: BroadcastService) {
     this.#bs = bs;
-    this.#db = db;
+    this.#adg = adg;
   }
 
   propWithModel(action: string, suffix?: boolean) {
@@ -69,8 +74,8 @@ export class BaseCrudResolvers {
     const ret: any = {};
     for (const key of keys) {
       ret[key] = validateRole([UserRoles.Admin, UserRoles.Director])(
-        (_: any, args: any) => {
-          return mutations[key](_, args);
+        (_: any, args: any, context: AuthContext) => {
+          return mutations[key](_, args, context);
         }
       );
     }
@@ -78,12 +83,17 @@ export class BaseCrudResolvers {
     return ret;
   }
 
-  create = async (_: any, { payload }: { payload: any }) => {
-    console.log("CONTEXT MAYBE", _);
+  create = async (
+    _: any,
+    { payload }: { payload: any },
+    { currentUser }: AuthContext
+  ) => {
     try {
-      const entry = await this.#db.createEntry(this.model, {
-        ...payload
-      });
+      const entry = await this.#adg
+        .dbBySchoolId(currentUser.schoolId)
+        .createEntry(this.model, {
+          ...payload
+        });
       this.broadcast("CREATE", {
         ...entry.toJSON(),
         id: entry._id
@@ -94,17 +104,29 @@ export class BaseCrudResolvers {
     }
   };
 
-  delete = async (_: any, { payload }: { payload: any }) => {
-    await this.#db.deleteEntry(this.model, payload.id);
+  delete = async (
+    _: any,
+    { payload }: { payload: any },
+    { currentUser }: AuthContext
+  ) => {
+    await this.#adg
+      .dbBySchoolId(currentUser.schoolId)
+      .deleteEntry(this.model, payload.id);
     this.broadcast("DELETE", {
       id: payload.id
     });
     return payload.id;
   };
 
-  update = async (_: any, { payload }: { payload: any }) => {
-    await this.#db.findAndUpdateEntry(this.model, { _id: payload.id }, payload);
-    const updatedEntry = await this.#db.findEntry(this.model, {
+  update = async (
+    _: any,
+    { payload }: { payload: any },
+    { currentUser }: AuthContext
+  ) => {
+    const db = this.#adg.dbBySchoolId(currentUser.schoolId);
+
+    await db.findAndUpdateEntry(this.model, { _id: payload.id }, payload);
+    const updatedEntry = await db.findEntry(this.model, {
       _id: payload.id
     });
     this.broadcast("UPDATE", {
@@ -114,20 +136,33 @@ export class BaseCrudResolvers {
     return updatedEntry;
   };
 
-  getAll = async () => await this.#db.findAllEntries(this.model);
+  getAll = async (_: any, _p: any, { currentUser }: AuthContext) => {
+    return await this.#adg
+      .dbBySchoolId(currentUser.schoolId)
+      .findAllEntries(this.model);
+  };
 
-  get = async (_: any, { payload }: { payload: { id: string } }) => {
-    return await this.#db.findEntry(this.model, {
-      _id: payload.id
-    });
+  get = async (
+    _: any,
+    { payload }: { payload: { id: string } },
+    { currentUser }: AuthContext
+  ) => {
+    return await this.#adg
+      .dbBySchoolId(currentUser.schoolId)
+      .findEntry(this.model, {
+        _id: payload.id
+      });
   };
 
   getAllByRelationship = async (
     _: any,
-    { payload }: { payload: { relationshipProperty: string; id: string } }
+    { payload }: { payload: { relationshipProperty: string; id: string } },
+    { currentUser }: AuthContext
   ) => {
+    const db = this.#adg.dbBySchoolId(currentUser.schoolId);
+
     // Matches any direct ids or matches an id in an array
-    const model = await this.#db.getModel(this.model);
+    const model = await db.getModel(this.model);
     const propertyInstance =
       model.schema.paths[payload.relationshipProperty].instance;
     const match =
@@ -139,7 +174,7 @@ export class BaseCrudResolvers {
           }
         : { [payload.relationshipProperty]: payload.id };
 
-    const ret = await this.#db.findEntries(this.model, {
+    const ret = await db.findEntries(this.model, {
       // In some cases we are fetching an ID of something we need clientside so we also want to return the item that we are matching
       $or: [match]
     });

@@ -1,7 +1,7 @@
 import { modelTypes } from "../../models";
-import { BaseCrudResolvers } from "../baseCrudResolver";
+import { AuthContext, BaseCrudResolvers } from "../baseCrudResolver";
 import { Service } from "typedi";
-import { BroadcastService } from "../../../database";
+import { BroadcastService, DataBaseService } from "../../../database";
 import {
   Collection,
   CollectionTypes,
@@ -9,7 +9,7 @@ import {
   ProgramTypes,
   TargetStyle
 } from "@parsimony/types";
-import { AppDB } from "../../app.database";
+import { AppDataGateway } from "../../app.data.gateway";
 
 type CollectionUpdates = {
   clientId: string;
@@ -39,11 +39,11 @@ const createMapFromStringArray = (arr: string[]) =>
 
 @Service()
 export class ProgramResolvers extends BaseCrudResolvers {
-  #db: AppDB;
+  #adg: AppDataGateway;
 
-  constructor(db: AppDB, bs: BroadcastService) {
-    super(db, bs);
-    this.#db = db;
+  constructor(adg: AppDataGateway, bs: BroadcastService) {
+    super(adg, bs);
+    this.#adg = adg;
     this.model = modelTypes.program;
     this.initMutations();
   }
@@ -57,7 +57,7 @@ export class ProgramResolvers extends BaseCrudResolvers {
     console.log(
       "FROM Program Delete Extension will need to delete all results"
     );
-    await this.#db.deleteEntry(this.model, payload.id);
+    await this.#adg.dbBySchoolId(_.context).deleteEntry(this.model, payload.id);
     return payload.id;
   };
 
@@ -65,11 +65,13 @@ export class ProgramResolvers extends BaseCrudResolvers {
     _: any,
     {
       payload: { collectionIds, programIds, clientId, excludedIds }
-    }: AddToClientsPayLoad
+    }: AddToClientsPayLoad,
+    { currentUser }: AuthContext
   ) => {
     const createdPrograms: Record<string, true> = {};
     const createdCollections: Record<string, true> = {};
     const excludedIdsMap = createMapFromStringArray(excludedIds);
+    const db = this.#adg.dbBySchoolId(currentUser.schoolId);
     await this.#copyCollectionByIds(
       collectionIds,
       {
@@ -77,12 +79,14 @@ export class ProgramResolvers extends BaseCrudResolvers {
         excludedIds: excludedIdsMap
       },
       createdPrograms,
-      createdCollections
+      createdCollections,
+      db
     );
     await this.#copyProgramsByIds(
       programIds,
       { clientId, excludedIds: excludedIdsMap },
-      createdPrograms
+      createdPrograms,
+      db
     );
   };
 
@@ -90,7 +94,8 @@ export class ProgramResolvers extends BaseCrudResolvers {
     collectionIds: string[],
     updates: CollectionUpdates,
     programCache: Record<string, true>,
-    collectionCache: Record<string, true>
+    collectionCache: Record<string, true>,
+    db: DataBaseService<modelTypes>
   ) => {
     for (const originalCollectionId of collectionIds) {
       if (
@@ -102,7 +107,8 @@ export class ProgramResolvers extends BaseCrudResolvers {
 
       const payload = await this.#createCollectionPayload(
         originalCollectionId,
-        updates
+        updates,
+        db
       );
 
       if (
@@ -116,7 +122,7 @@ export class ProgramResolvers extends BaseCrudResolvers {
         return;
       }
 
-      const newCollection = await this.#db.createEntry(
+      const newCollection = await db.createEntry(
         modelTypes.collection,
         payload
       );
@@ -125,7 +131,10 @@ export class ProgramResolvers extends BaseCrudResolvers {
       const newCollectionId = newCollection.id;
       const newCollectionAncestors = newCollection.ancestors;
 
-      const children = await this.#getChildCollectionIds(originalCollectionId);
+      const children = await this.#getChildCollectionIds(
+        originalCollectionId,
+        db
+      );
 
       await this.#copyCollectionByIds(
         children,
@@ -136,10 +145,11 @@ export class ProgramResolvers extends BaseCrudResolvers {
           excludedIds: updates.excludedIds
         },
         programCache,
-        collectionCache
+        collectionCache,
+        db
       );
 
-      const programs = await this.#getProgramIds(originalCollectionId);
+      const programs = await this.#getProgramIds(originalCollectionId, db);
       await this.#copyProgramsByIds(
         programs,
         {
@@ -147,13 +157,18 @@ export class ProgramResolvers extends BaseCrudResolvers {
           clientId: updates.clientId,
           excludedIds: updates.excludedIds
         },
-        programCache
+        programCache,
+        db
       );
     }
   };
 
-  #createCollectionPayload = async (id: string, updates: CollectionUpdates) => {
-    const collection = await this.#db.findEntry(modelTypes.collection, {
+  #createCollectionPayload = async (
+    id: string,
+    updates: CollectionUpdates,
+    db: DataBaseService<modelTypes>
+  ) => {
+    const collection = await db.findEntry(modelTypes.collection, {
       _id: id
     });
 
@@ -171,16 +186,18 @@ export class ProgramResolvers extends BaseCrudResolvers {
     return copyPayload;
   };
 
-  #getChildCollectionIds = async (id: string) => {
-    const children: Collection[] = await this.#db.findEntries(
-      modelTypes.collection,
-      { parentCollectionId: id }
-    );
+  #getChildCollectionIds = async (
+    id: string,
+    db: DataBaseService<modelTypes>
+  ) => {
+    const children: Collection[] = await db.findEntries(modelTypes.collection, {
+      parentCollectionId: id
+    });
     return children.map((child) => child.id);
   };
 
-  #getProgramIds = async (id: string) => {
-    const programs: Program[] = await this.#db.findEntries(modelTypes.program, {
+  #getProgramIds = async (id: string, db: DataBaseService<modelTypes>) => {
+    const programs: Program[] = await db.findEntries(modelTypes.program, {
       collectionId: id
     });
 
@@ -190,7 +207,8 @@ export class ProgramResolvers extends BaseCrudResolvers {
   #copyProgramsByIds = async (
     programIds: string[],
     update: ProgramUpdates,
-    cache: Record<string, true>
+    cache: Record<string, true>,
+    db: DataBaseService<modelTypes>
   ) => {
     for (const originalProgramId of programIds) {
       const shouldAddProgram =
@@ -198,7 +216,7 @@ export class ProgramResolvers extends BaseCrudResolvers {
         !update.excludedIds?.has(originalProgramId);
 
       if (shouldAddProgram) {
-        const program = await this.#db.findEntry(modelTypes.program, {
+        const program = await db.findEntry(modelTypes.program, {
           _id: originalProgramId
         });
 
@@ -216,7 +234,7 @@ export class ProgramResolvers extends BaseCrudResolvers {
         }
 
         try {
-          await this.#db.createEntry(modelTypes.program, copyPayload);
+          await db.createEntry(modelTypes.program, copyPayload);
         } catch (e) {
           console.error(e);
           console.error("ERROR IN PROGRAM COPY");

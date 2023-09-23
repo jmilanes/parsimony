@@ -1,11 +1,9 @@
 require("dotenv").config();
-import { Service } from "typedi";
+import { Container, Service } from "typedi";
 import { envIs } from "@parsimony/utilities/dist";
 import * as mongoose from "mongoose";
 
 const DEV_DBS = {
-  //This one can get removed once it is in the school version
-  "xmune.parsimonyapp01": "parsimony-02",
   "f034n9b.parsimonySchools": "parsimonySchools"
 };
 
@@ -22,14 +20,25 @@ type EnumType<T> = {
   [K in keyof T]: { value: T[K]; label: string };
 };
 
+export const TEST_MEMORY_SERVER_TOKEN = "TEST_MEMORY_SERVER_TOKEN";
+
 @Service()
 export class DataBaseService<T, modelTypes = EnumType<T>> {
   dataBase: any;
   models: Partial<Record<string, any>> = {};
 
   init = async (cs: string, models: Record<string, any>) => {
+    // TODO: PUT THIS BACK BUT LIKE BETTER...
+    // const testConnectionString = Container.get(
+    //   TEST_MEMORY_SERVER_TOKEN
+    // ) as string;
+
     this.models = models;
-    await this.#connectDataBase(getConnectionStringByEnv(cs));
+    await this.#connectDataBase(
+      getConnectionStringByEnv(cs)
+      // testConnectionString || getConnectionStringByEnv(cs)
+    );
+
     this.applyModels(models);
   };
 

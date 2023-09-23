@@ -1,7 +1,12 @@
-import { Default, Description, Example, Required } from "@tsed/schema";
+import { Description, Example, Required } from "@tsed/schema";
+import { ObjectID } from "@tsed/mongoose";
 
 @Description("Details on each school in parsimony")
 export class School {
+  @Description("The mongo id of a school")
+  @Required()
+  _id: string;
+
   @Example("School of Parsimony")
   @Description("The name of a school")
   @Required()
