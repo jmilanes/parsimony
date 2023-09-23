@@ -1,6 +1,6 @@
 {
   "name": "@parsimony/types",
-  "version": "0.103.0",
+  "version": "0.104.0",
   "description": "Parsimony Types Library",
   "license": "UNLICENSED",
   "main": "src/index.ts",
@@ -14,17 +14,17 @@
     "dist/**/**.js"
   ],
   "dependencies": {
-    "react": "^18.2.0",
-    "typescript": "^4.6.4",
-    "@tsed/schema": "^7.18.2",
     "@tsed/ajv": "^7.18.2",
     "@tsed/core": "^7.18.2",
     "@tsed/di": "^7.18.2",
-    "@tsed/mongoose": "^7.18.2",
     "@tsed/exceptions": "^7.18.2",
     "@tsed/logger": "^6.3.4",
+    "@tsed/mongoose": "^7.18.2",
+    "@tsed/schema": "^7.18.2",
     "ajv": "^8.12.0",
-    "graphql": "^16.6.0"
+    "graphql": "^16.6.0",
+    "react": "^18.2.0",
+    "typescript": "^4.6.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.27"
