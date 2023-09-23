@@ -39,6 +39,7 @@
     "@parsimony/types": "^0.102.0",
     "@types/jest": "^28.1.2",
     "@types/jsonwebtoken": "^9.0.1",
+    "@types/lodash": "^4.14.199",
     "jest": "^28.1.1",
     "supertest": "^6.2.3",
     "ts-jest": "^28.0.5",
