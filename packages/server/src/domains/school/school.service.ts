@@ -13,7 +13,7 @@ export class SchoolService {
   }
 
   init = async () => {
-    await this.#db.init("f034n9b.parsimonySchools", {
+    await this.#db.init("parsimonyschools.f034n9b", {
       [SCHOOL_MODELS.school]: SchoolModel
     });
     await this.#setupMap();

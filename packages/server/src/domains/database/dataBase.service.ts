@@ -4,7 +4,7 @@ import { envIs } from "@parsimony/utilities/dist";
 import * as mongoose from "mongoose";
 
 const DEV_DBS = {
-  "f034n9b.parsimonySchools": "parsimonySchools"
+  "parsimonyschools.f034n9b": "parsimonySchools"
 };
 
 export const getConnectionStringByEnv = (dbConnection: string) => {
