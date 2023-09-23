@@ -266,6 +266,7 @@ export type LoginResponse = {
   accessToken?: Maybe<Scalars["String"]>;
   isLoggedIn?: Maybe<Scalars["Boolean"]>;
   refreshToken?: Maybe<Scalars["String"]>;
+  schoolName?: Maybe<Scalars["String"]>;
 };
 
 export type LogoutPayload = {
@@ -1167,6 +1168,11 @@ export type LoginResponseResolvers<
     ContextType
   >;
   refreshToken?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  schoolName?: Resolver<
     Maybe<ResolversTypes["String"]>,
     ParentType,
     ContextType

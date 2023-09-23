@@ -36,7 +36,8 @@ export enum AuthPageMetaTestIds {
   cancelBtn = "cancel",
   resetPasswordBtn = "reset-password",
   emailField = "email",
-  passwordField = "password"
+  passwordField = "password",
+  schoolField = "school"
 }
 
 export enum DirectoryPageMetaTestIds {

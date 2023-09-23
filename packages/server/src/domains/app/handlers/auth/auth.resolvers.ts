@@ -18,9 +18,12 @@ export class AuthResolvers {
 
   me = async (
     _: any,
-    { payload: { refreshToken } }: { payload: { refreshToken: string } }
+    {
+      payload: { refreshToken, schoolId }
+    }: { payload: { refreshToken: string; schoolId: string } }
   ) => {
-    return await this.#ts.verifyRefreshToken(refreshToken);
+    const foundID = this.#safeSchoolID(schoolId);
+    return await this.#ts.verifyRefreshToken(refreshToken, foundID);
   };
 
   // logs in user registers new auth token and returns
@@ -33,17 +36,9 @@ export class AuthResolvers {
     }
   ) => {
     // When you have no way of knowing the id you can accept a school name maybe we name it better
-    const foundID = this.#ss
-      .getSchools()
-      .find((x) => x.name === schoolId || x._id === schoolId)
-      ?._id.toString();
-
-    if (!foundID) {
-      throw new Error("School Not Found");
-    }
-
+    const foundID = this.#safeSchoolID(schoolId);
     const db = this.#adg.dbBySchoolId(foundID);
-    console.log(db);
+
     const user = await db.findEntry(modelTypes.user, {
       email: email.toLowerCase()
     });
@@ -58,12 +53,13 @@ export class AuthResolvers {
 
     const userObj = user.toObject();
     const accessToken = this.#ts.generateAccessToken(userObj);
-    const refreshToken = this.#ts.generateRefreshToke(userObj);
+    const refreshToken = this.#ts.generateRefreshToke(userObj, foundID);
 
     return {
       isLoggedIn: true,
       accessToken,
-      refreshToken
+      refreshToken,
+      schoolName: this.#ss.getSchoolById(foundID).name
     };
   };
 
@@ -73,13 +69,7 @@ export class AuthResolvers {
       payload: { email, password, schoolId }
     }: { payload: { email: string; password: string; schoolId: string } }
   ) => {
-    const foundID = this.#ss
-      .getSchools()
-      .find((x) => x.name === schoolId || x._id === schoolId)?._id;
-
-    if (!foundID) {
-      throw new Error("School Not Found");
-    }
+    const foundID = this.#safeSchoolID(schoolId);
 
     const db = this.#adg.dbBySchoolId(foundID);
     const user = await db.findEntry(modelTypes.user, { email });
@@ -97,9 +87,12 @@ export class AuthResolvers {
 
   logout = async (
     _: any,
-    { payload: { refreshToken } }: { payload: { refreshToken: string } }
+    {
+      payload: { refreshToken, schoolId }
+    }: { payload: { refreshToken: string; schoolId: string } }
   ) => {
-    await this.#ts.deleteRefreshToken(refreshToken);
+    const foundID = this.#safeSchoolID(schoolId);
+    await this.#ts.deleteRefreshToken(refreshToken, foundID);
     return {
       isLoggedIn: false
     };
@@ -115,4 +108,12 @@ export class AuthResolvers {
       logout: this.logout
     }
   });
+
+  #safeSchoolID(schoolId: string) {
+    const foundID = this.#ss.getSchoolIdByNameOrId(schoolId);
+    if (!foundID) {
+      throw new Error("School Not Found");
+    }
+    return foundID;
+  }
 }

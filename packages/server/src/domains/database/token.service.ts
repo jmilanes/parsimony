@@ -12,18 +12,12 @@ import { DataBaseService } from "./dataBase.service";
 @Service()
 export default class TokensService {
   refreshTokens: string[];
-  #db: DataBaseService<modelTypes>;
   #adg: AppDataGateway;
 
   constructor(adg: AppDataGateway) {
     // This will be DB
     this.refreshTokens = [];
     this.#adg = adg;
-  }
-
-  public init() {
-    // We can do this where we have a token service per school or
-    this.#db = this.#adg.dbBySchoolId("650d055b6f9b9ff059c61caf");
   }
 
   /**
@@ -46,12 +40,12 @@ export default class TokensService {
    *
    * @param {User} user
    */
-  public generateRefreshToke = (user: User) => {
+  public generateRefreshToke = (user: User, schoolId: string) => {
     const refreshToken = jwt.sign(
       user,
       process.env.REFRESH_TOKEN_SECRET as string
     );
-    this.saveRefreshToken(refreshToken, user.id);
+    void this.saveRefreshToken(refreshToken, user.id, schoolId);
     return refreshToken;
   };
 
@@ -87,8 +81,8 @@ export default class TokensService {
    * @param {string} token
    * @param {(error: any, payload: any) => void} cb
    */
-  public verifyRefreshToken = async (token: string) => {
-    const isRefreshTokenValid = await this.isRefreshTokenValid(token);
+  public verifyRefreshToken = async (token: string, schoolId: string) => {
+    const isRefreshTokenValid = await this.isRefreshTokenValid(token, schoolId);
     if (!isRefreshTokenValid) {
       throw new Error("Invalid Refresh Token");
     }
@@ -105,7 +99,9 @@ export default class TokensService {
       }
     );
 
-    const user = await this.#db.findEntry(modelTypes.user, { _id: userId });
+    const user = await this.#adg
+      .dbBySchoolId(schoolId)
+      .findEntry(modelTypes.user, { _id: userId });
     const accessToken = this.generateAccessToken(user.toObject());
 
     return { accessToken, user };
@@ -135,8 +131,14 @@ export default class TokensService {
    *
    * @param {String} token
    */
-  public saveRefreshToken = async (token: string, userId: string) => {
-    await this.#db.createEntry(modelTypes.refreshToken, { token, userId });
+  public saveRefreshToken = async (
+    token: string,
+    userId: string,
+    schoolId: string
+  ) => {
+    await this.#adg
+      .dbBySchoolId(schoolId)
+      .createEntry(modelTypes.refreshToken, { token, userId });
   };
 
   /**
@@ -145,11 +147,12 @@ export default class TokensService {
    *
    * @param {String} token
    */
-  public deleteRefreshToken = async (token: string) => {
-    const foundToken = await this.#db.findEntry(modelTypes.refreshToken, {
+  public deleteRefreshToken = async (token: string, schoolId: string) => {
+    const db = this.#adg.dbBySchoolId(schoolId);
+    const foundToken = await db.findEntry(modelTypes.refreshToken, {
       token
     });
-    await this.#db.deleteEntry(modelTypes.refreshToken, foundToken._id);
+    await db.deleteEntry(modelTypes.refreshToken, foundToken._id);
   };
 
   /**
@@ -159,9 +162,14 @@ export default class TokensService {
    * @param {String} token
    * @returns {Boolean}
    */
-  public isRefreshTokenValid = async (token: string): Promise<boolean> => {
-    return await this.#db.findEntry(modelTypes.refreshToken, {
-      token
-    });
+  public isRefreshTokenValid = async (
+    token: string,
+    schoolId: string
+  ): Promise<boolean> => {
+    return await this.#adg
+      .dbBySchoolId(schoolId)
+      .findEntry(modelTypes.refreshToken, {
+        token
+      });
   };
 }

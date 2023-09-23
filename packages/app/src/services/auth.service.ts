@@ -33,7 +33,7 @@ export default class AuthService {
         // This should pull schoolId from local storage
         const meResponse = await me({
           refreshToken: this.getRefreshToken(),
-          schoolId: "Molly School"
+          schoolId: this.getSchoolName()
         });
         this.currentUser = meResponse.user as User;
         this.setAccessToken(meResponse.accessToken as string);
@@ -50,9 +50,10 @@ export default class AuthService {
       const loginResponse = await login({
         email,
         password: hashedPassword,
-        schoolId: schoolId || "Molly School"
+        schoolId: schoolId || this.getSchoolName()
       });
       if (!loginResponse) return;
+      localStorage.setItem("schoolName", loginResponse.schoolName as string);
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("accessToken", loginResponse.accessToken as string);
       localStorage.setItem(
@@ -73,7 +74,7 @@ export default class AuthService {
       await logout({
         refreshToken: this.getRefreshToken(),
         // This should pull from local storage
-        schoolId: "Molly School"
+        schoolId: this.getSchoolName()
       });
       this._clearAuthData();
     } catch (e) {
@@ -102,6 +103,9 @@ export default class AuthService {
 
   getRefreshToken = (): string =>
     localStorage.getItem("refreshToken") as string;
+
+  // TODO: Find a better place for this
+  getSchoolName = (): string => localStorage.getItem("schoolName") || "";
 
   getAccessToken = (): string => localStorage.getItem("accessToken") as string;
 

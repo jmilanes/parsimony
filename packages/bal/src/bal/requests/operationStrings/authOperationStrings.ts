@@ -17,6 +17,7 @@ query login($payload: LoginPayload) {
     isLoggedIn
     accessToken
     refreshToken
+    schoolName
   }
 }
 `;

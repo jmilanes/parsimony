@@ -12,9 +12,10 @@ const Login = ({ from }: { from: string }) => {
   const [resetPasswordMode, setResetPasswordMode] = useState(Boolean);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [schoolName, setSchoolName] = useState(authService.getSchoolName);
 
   const onLogin = async () => {
-    await authService.logIn(userName.toLowerCase(), password);
+    await authService.logIn(userName.toLowerCase(), password, schoolName);
   };
   // createShortCut("Enter", login);
 
@@ -35,6 +36,12 @@ const Login = ({ from }: { from: string }) => {
   return (
     <div>
       <Header text="Login" size="md" />
+      <Field
+        updateState={(_, value) => setSchoolName(value)}
+        placeHolderText="School"
+        value={schoolName}
+        metaTestId={AuthPageMetaTestIds.schoolField}
+      />
       <Field
         updateState={(_, value) => setUserName(value)}
         placeHolderText="Email"
