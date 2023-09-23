@@ -40,6 +40,7 @@ export type AddProgramsToClientPayload = {
 
 export type AuthPayload = {
   accessToken: Scalars["String"];
+  schoolId: Scalars["String"];
 };
 
 export type BehaviorData = {
@@ -109,6 +110,7 @@ export type CreateProgramPayload = {
   clientId?: InputMaybe<Scalars["ID"]>;
   collectionId?: InputMaybe<Scalars["ID"]>;
   createdBy?: InputMaybe<Scalars["ID"]>;
+  created_at?: InputMaybe<Scalars["Date"]>;
   description?: InputMaybe<Scalars["String"]>;
   editedBy?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   lastEditedBy?: InputMaybe<Scalars["ID"]>;
@@ -125,6 +127,7 @@ export type CreateProgramPayload = {
   title?: InputMaybe<Scalars["String"]>;
   trials?: InputMaybe<Scalars["Int"]>;
   type?: InputMaybe<ProgramTypes>;
+  updated_at?: InputMaybe<Scalars["Date"]>;
   writeAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
 };
 
@@ -137,13 +140,6 @@ export type CreateResultPayload = {
   programCompleteness: Scalars["Float"];
   programId: Scalars["ID"];
   updated_at?: InputMaybe<Scalars["Date"]>;
-};
-
-export type CreateSchoolPayload = {
-  accessTokens?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  domain?: InputMaybe<Scalars["String"]>;
-  name?: InputMaybe<Scalars["String"]>;
-  userCount?: InputMaybe<Scalars["Int"]>;
 };
 
 export type CreateThreadPayload = {
@@ -190,10 +186,6 @@ export type DeleteResultPayload = {
   id: Scalars["ID"];
 };
 
-export type DeleteSchoolPayload = {
-  id: Scalars["ID"];
-};
-
 export type DeleteThreadPayload = {
   id: Scalars["ID"];
 };
@@ -223,11 +215,6 @@ export type GetAllResultsByRelationshipPayload = {
   relationshipProperty: Scalars["String"];
 };
 
-export type GetAllSchoolByRelationshipPayload = {
-  id: Scalars["ID"];
-  relationshipProperty: Scalars["String"];
-};
-
 export type GetAllThreadsByRelationshipPayload = {
   id: Scalars["ID"];
   relationshipProperty: Scalars["String"];
@@ -247,10 +234,6 @@ export type GetProgramPayload = {
 };
 
 export type GetResultPayload = {
-  id: Scalars["ID"];
-};
-
-export type GetSchoolPayload = {
   id: Scalars["ID"];
 };
 
@@ -275,6 +258,7 @@ export type LogOutResponse = {
 export type LoginPayload = {
   email: Scalars["String"];
   password: Scalars["String"];
+  schoolId: Scalars["String"];
 };
 
 export type LoginResponse = {
@@ -282,14 +266,17 @@ export type LoginResponse = {
   accessToken?: Maybe<Scalars["String"]>;
   isLoggedIn?: Maybe<Scalars["Boolean"]>;
   refreshToken?: Maybe<Scalars["String"]>;
+  schoolName?: Maybe<Scalars["String"]>;
 };
 
 export type LogoutPayload = {
   refreshToken: Scalars["String"];
+  schoolId: Scalars["String"];
 };
 
 export type MePayload = {
   refreshToken: Scalars["String"];
+  schoolId: Scalars["String"];
 };
 
 export type MeResponse = {
@@ -322,14 +309,12 @@ export type Mutation = {
   createCollection?: Maybe<Collection>;
   createProgram?: Maybe<Program>;
   createResult?: Maybe<Result>;
-  createSchool?: Maybe<School>;
   createThread?: Maybe<Thread>;
   createUser?: Maybe<User>;
   deleteCollection?: Maybe<Scalars["ID"]>;
   deleteMessage?: Maybe<Scalars["ID"]>;
   deleteProgram?: Maybe<Scalars["ID"]>;
   deleteResult?: Maybe<Scalars["ID"]>;
-  deleteSchool?: Maybe<Scalars["ID"]>;
   deleteThread?: Maybe<Scalars["ID"]>;
   deleteUser?: Maybe<Scalars["ID"]>;
   editMessage?: Maybe<Scalars["ID"]>;
@@ -337,7 +322,6 @@ export type Mutation = {
   updateCollection?: Maybe<Collection>;
   updateProgram?: Maybe<Program>;
   updateResult?: Maybe<Result>;
-  updateSchool?: Maybe<School>;
   updateThread?: Maybe<Thread>;
   updateUser?: Maybe<User>;
 };
@@ -362,10 +346,6 @@ export type MutationCreateResultArgs = {
   payload?: InputMaybe<CreateResultPayload>;
 };
 
-export type MutationCreateSchoolArgs = {
-  payload?: InputMaybe<CreateSchoolPayload>;
-};
-
 export type MutationCreateThreadArgs = {
   payload?: InputMaybe<CreateThreadPayload>;
 };
@@ -388,10 +368,6 @@ export type MutationDeleteProgramArgs = {
 
 export type MutationDeleteResultArgs = {
   payload?: InputMaybe<DeleteResultPayload>;
-};
-
-export type MutationDeleteSchoolArgs = {
-  payload?: InputMaybe<DeleteSchoolPayload>;
 };
 
 export type MutationDeleteThreadArgs = {
@@ -420,10 +396,6 @@ export type MutationUpdateProgramArgs = {
 
 export type MutationUpdateResultArgs = {
   payload?: InputMaybe<UpdateResultPayload>;
-};
-
-export type MutationUpdateSchoolArgs = {
-  payload?: InputMaybe<UpdateSchoolPayload>;
 };
 
 export type MutationUpdateThreadArgs = {
@@ -519,8 +491,6 @@ export type Query = {
   getAllProgramsByRelationship?: Maybe<Array<Maybe<Program>>>;
   getAllResults?: Maybe<Array<Maybe<Result>>>;
   getAllResultsByRelationship?: Maybe<Array<Maybe<Result>>>;
-  getAllSchools?: Maybe<Array<Maybe<School>>>;
-  getAllSchoolsByRelationship?: Maybe<Array<Maybe<School>>>;
   getAllThreads?: Maybe<Array<Maybe<Thread>>>;
   getAllThreadsByRelationship?: Maybe<Array<Maybe<Thread>>>;
   getAllUsers?: Maybe<Array<Maybe<User>>>;
@@ -528,7 +498,6 @@ export type Query = {
   getCollection?: Maybe<Collection>;
   getProgram?: Maybe<Program>;
   getResult?: Maybe<Result>;
-  getSchool?: Maybe<School>;
   getThread?: Maybe<Thread>;
   getUser?: Maybe<User>;
   login?: Maybe<LoginResponse>;
@@ -546,10 +515,6 @@ export type QueryGetAllProgramsByRelationshipArgs = {
 
 export type QueryGetAllResultsByRelationshipArgs = {
   payload?: InputMaybe<GetAllResultsByRelationshipPayload>;
-};
-
-export type QueryGetAllSchoolsByRelationshipArgs = {
-  payload?: InputMaybe<GetAllSchoolByRelationshipPayload>;
 };
 
 export type QueryGetAllThreadsByRelationshipArgs = {
@@ -570,10 +535,6 @@ export type QueryGetProgramArgs = {
 
 export type QueryGetResultArgs = {
   payload?: InputMaybe<GetResultPayload>;
-};
-
-export type QueryGetSchoolArgs = {
-  payload?: InputMaybe<GetSchoolPayload>;
 };
 
 export type QueryGetThreadArgs = {
@@ -599,6 +560,7 @@ export type QueryMeArgs = {
 export type ResetPasswordPayload = {
   email: Scalars["String"];
   password: Scalars["String"];
+  schoolId: Scalars["String"];
 };
 
 export type ResetPasswordResponse = {
@@ -637,17 +599,6 @@ export enum ResultType {
   Behavior = "BEHAVIOR",
   Trial = "TRIAL"
 }
-
-export type School = {
-  __typename?: "School";
-  accessTokens?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  created_at?: Maybe<Scalars["Date"]>;
-  domain?: Maybe<Scalars["String"]>;
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
-  updated_at?: Maybe<Scalars["Date"]>;
-  userCount?: Maybe<Scalars["Int"]>;
-};
 
 export type Subscriber = {
   __typename?: "Subscriber";
@@ -752,8 +703,8 @@ export type UpdateCollectionPayload = {
   created_by?: InputMaybe<Scalars["ID"]>;
   id: Scalars["ID"];
   parentCollectionId?: InputMaybe<Scalars["ID"]>;
-  title: Scalars["String"];
-  type: CollectionTypes;
+  title?: InputMaybe<Scalars["String"]>;
+  type?: InputMaybe<CollectionTypes>;
 };
 
 export type UpdateProgramPayload = {
@@ -763,6 +714,7 @@ export type UpdateProgramPayload = {
   clientId?: InputMaybe<Scalars["ID"]>;
   collectionId?: InputMaybe<Scalars["ID"]>;
   createdBy?: InputMaybe<Scalars["ID"]>;
+  created_at?: InputMaybe<Scalars["Date"]>;
   description?: InputMaybe<Scalars["String"]>;
   editedBy?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   id: Scalars["ID"];
@@ -780,6 +732,7 @@ export type UpdateProgramPayload = {
   title?: InputMaybe<Scalars["String"]>;
   trials?: InputMaybe<Scalars["Int"]>;
   type?: InputMaybe<ProgramTypes>;
+  updated_at?: InputMaybe<Scalars["Date"]>;
   writeAccess?: InputMaybe<Array<InputMaybe<UserRoles>>>;
 };
 
@@ -791,14 +744,6 @@ export type UpdateResultPayload = {
   observerId?: InputMaybe<Scalars["ID"]>;
   programCompleteness: Scalars["Float"];
   programId: Scalars["ID"];
-};
-
-export type UpdateSchoolPayload = {
-  accessTokens?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  domain?: InputMaybe<Scalars["String"]>;
-  id: Scalars["ID"];
-  name?: InputMaybe<Scalars["String"]>;
-  userCount?: InputMaybe<Scalars["Int"]>;
 };
 
 export type UpdateThreadPayload = {
@@ -986,7 +931,6 @@ export type ResolversTypes = {
   CreateCollectionPayload: CreateCollectionPayload;
   CreateProgramPayload: CreateProgramPayload;
   CreateResultPayload: CreateResultPayload;
-  CreateSchoolPayload: CreateSchoolPayload;
   CreateThreadPayload: CreateThreadPayload;
   CreateUserPayload: CreateUserPayload;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
@@ -994,7 +938,6 @@ export type ResolversTypes = {
   DeleteMessagePayload: DeleteMessagePayload;
   DeleteProgramPayload: DeleteProgramPayload;
   DeleteResultPayload: DeleteResultPayload;
-  DeleteSchoolPayload: DeleteSchoolPayload;
   DeleteThreadPayload: DeleteThreadPayload;
   DeleteUserPayload: DeleteUserPayload;
   EditMessagePayload: EditMessagePayload;
@@ -1002,13 +945,11 @@ export type ResolversTypes = {
   GetAllCollectionsByRelationshipPayload: GetAllCollectionsByRelationshipPayload;
   GetAllProgramsByRelationshipPayload: GetAllProgramsByRelationshipPayload;
   GetAllResultsByRelationshipPayload: GetAllResultsByRelationshipPayload;
-  GetAllSchoolByRelationshipPayload: GetAllSchoolByRelationshipPayload;
   GetAllThreadsByRelationshipPayload: GetAllThreadsByRelationshipPayload;
   GetAllUsersByRelationshipPayload: GetAllUsersByRelationshipPayload;
   GetCollectionPayload: GetCollectionPayload;
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
-  GetSchoolPayload: GetSchoolPayload;
   GetThreadPayload: GetThreadPayload;
   GetUserPayload: GetUserPayload;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
@@ -1036,7 +977,6 @@ export type ResolversTypes = {
   ResultData: ResolverTypeWrapper<ResultData>;
   ResultDataInput: ResultDataInput;
   ResultType: ResultType;
-  School: ResolverTypeWrapper<School>;
   String: ResolverTypeWrapper<Scalars["String"]>;
   Subscriber: ResolverTypeWrapper<Subscriber>;
   SubscriberInput: SubscriberInput;
@@ -1054,7 +994,6 @@ export type ResolversTypes = {
   UpdateCollectionPayload: UpdateCollectionPayload;
   UpdateProgramPayload: UpdateProgramPayload;
   UpdateResultPayload: UpdateResultPayload;
-  UpdateSchoolPayload: UpdateSchoolPayload;
   UpdateThreadPayload: UpdateThreadPayload;
   UpdateUserPayload: UpdateUserPayload;
   User: ResolverTypeWrapper<User>;
@@ -1075,7 +1014,6 @@ export type ResolversParentTypes = {
   CreateCollectionPayload: CreateCollectionPayload;
   CreateProgramPayload: CreateProgramPayload;
   CreateResultPayload: CreateResultPayload;
-  CreateSchoolPayload: CreateSchoolPayload;
   CreateThreadPayload: CreateThreadPayload;
   CreateUserPayload: CreateUserPayload;
   Date: Scalars["Date"];
@@ -1083,7 +1021,6 @@ export type ResolversParentTypes = {
   DeleteMessagePayload: DeleteMessagePayload;
   DeleteProgramPayload: DeleteProgramPayload;
   DeleteResultPayload: DeleteResultPayload;
-  DeleteSchoolPayload: DeleteSchoolPayload;
   DeleteThreadPayload: DeleteThreadPayload;
   DeleteUserPayload: DeleteUserPayload;
   EditMessagePayload: EditMessagePayload;
@@ -1091,13 +1028,11 @@ export type ResolversParentTypes = {
   GetAllCollectionsByRelationshipPayload: GetAllCollectionsByRelationshipPayload;
   GetAllProgramsByRelationshipPayload: GetAllProgramsByRelationshipPayload;
   GetAllResultsByRelationshipPayload: GetAllResultsByRelationshipPayload;
-  GetAllSchoolByRelationshipPayload: GetAllSchoolByRelationshipPayload;
   GetAllThreadsByRelationshipPayload: GetAllThreadsByRelationshipPayload;
   GetAllUsersByRelationshipPayload: GetAllUsersByRelationshipPayload;
   GetCollectionPayload: GetCollectionPayload;
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
-  GetSchoolPayload: GetSchoolPayload;
   GetThreadPayload: GetThreadPayload;
   GetUserPayload: GetUserPayload;
   ID: Scalars["ID"];
@@ -1120,7 +1055,6 @@ export type ResolversParentTypes = {
   Result: Result;
   ResultData: ResultData;
   ResultDataInput: ResultDataInput;
-  School: School;
   String: Scalars["String"];
   Subscriber: Subscriber;
   SubscriberInput: SubscriberInput;
@@ -1136,7 +1070,6 @@ export type ResolversParentTypes = {
   UpdateCollectionPayload: UpdateCollectionPayload;
   UpdateProgramPayload: UpdateProgramPayload;
   UpdateResultPayload: UpdateResultPayload;
-  UpdateSchoolPayload: UpdateSchoolPayload;
   UpdateThreadPayload: UpdateThreadPayload;
   UpdateUserPayload: UpdateUserPayload;
   User: User;
@@ -1239,6 +1172,11 @@ export type LoginResponseResolvers<
     ParentType,
     ContextType
   >;
+  schoolName?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1301,12 +1239,6 @@ export type MutationResolvers<
     ContextType,
     Partial<MutationCreateResultArgs>
   >;
-  createSchool?: Resolver<
-    Maybe<ResolversTypes["School"]>,
-    ParentType,
-    ContextType,
-    Partial<MutationCreateSchoolArgs>
-  >;
   createThread?: Resolver<
     Maybe<ResolversTypes["Thread"]>,
     ParentType,
@@ -1342,12 +1274,6 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     Partial<MutationDeleteResultArgs>
-  >;
-  deleteSchool?: Resolver<
-    Maybe<ResolversTypes["ID"]>,
-    ParentType,
-    ContextType,
-    Partial<MutationDeleteSchoolArgs>
   >;
   deleteThread?: Resolver<
     Maybe<ResolversTypes["ID"]>,
@@ -1390,12 +1316,6 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     Partial<MutationUpdateResultArgs>
-  >;
-  updateSchool?: Resolver<
-    Maybe<ResolversTypes["School"]>,
-    ParentType,
-    ContextType,
-    Partial<MutationUpdateSchoolArgs>
   >;
   updateThread?: Resolver<
     Maybe<ResolversTypes["Thread"]>,
@@ -1583,17 +1503,6 @@ export type QueryResolvers<
     ContextType,
     Partial<QueryGetAllResultsByRelationshipArgs>
   >;
-  getAllSchools?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["School"]>>>,
-    ParentType,
-    ContextType
-  >;
-  getAllSchoolsByRelationship?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["School"]>>>,
-    ParentType,
-    ContextType,
-    Partial<QueryGetAllSchoolsByRelationshipArgs>
-  >;
   getAllThreads?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Thread"]>>>,
     ParentType,
@@ -1633,12 +1542,6 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     Partial<QueryGetResultArgs>
-  >;
-  getSchool?: Resolver<
-    Maybe<ResolversTypes["School"]>,
-    ParentType,
-    ContextType,
-    Partial<QueryGetSchoolArgs>
   >;
   getThread?: Resolver<
     Maybe<ResolversTypes["Thread"]>,
@@ -1728,24 +1631,6 @@ export type ResultDataResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type SchoolResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["School"] = ResolversParentTypes["School"]
-> = {
-  accessTokens?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["String"]>>>,
-    ParentType,
-    ContextType
-  >;
-  created_at?: Resolver<Maybe<ResolversTypes["Date"]>, ParentType, ContextType>;
-  domain?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  updated_at?: Resolver<Maybe<ResolversTypes["Date"]>, ParentType, ContextType>;
-  userCount?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1953,7 +1838,6 @@ export type Resolvers<ContextType = any> = {
   ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
   Result?: ResultResolvers<ContextType>;
   ResultData?: ResultDataResolvers<ContextType>;
-  School?: SchoolResolvers<ContextType>;
   Subscriber?: SubscriberResolvers<ContextType>;
   Target?: TargetResolvers<ContextType>;
   TargetOption?: TargetOptionResolvers<ContextType>;

@@ -30,7 +30,11 @@ export default class AuthService {
     }
     if (localStorage.getItem("isLoggedIn") === "true") {
       try {
-        const meResponse = await me({ refreshToken: this.getRefreshToken() });
+        // This should pull schoolId from local storage
+        const meResponse = await me({
+          refreshToken: this.getRefreshToken(),
+          schoolId: this.getSchoolName()
+        });
         this.currentUser = meResponse.user as User;
         this.setAccessToken(meResponse.accessToken as string);
         localStorage.setItem("currentUserId", this.currentUser.id);
@@ -40,11 +44,16 @@ export default class AuthService {
     }
   }
 
-  logIn = async (email: string, password: string) => {
+  logIn = async (email: string, password: string, schoolId?: string) => {
     const hashedPassword = encrypt(password);
     try {
-      const loginResponse = await login({ email, password: hashedPassword });
+      const loginResponse = await login({
+        email,
+        password: hashedPassword,
+        schoolId: schoolId || this.getSchoolName()
+      });
       if (!loginResponse) return;
+      localStorage.setItem("schoolName", loginResponse.schoolName as string);
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("accessToken", loginResponse.accessToken as string);
       localStorage.setItem(
@@ -63,7 +72,9 @@ export default class AuthService {
     }
     try {
       await logout({
-        refreshToken: this.getRefreshToken()
+        refreshToken: this.getRefreshToken(),
+        // This should pull from local storage
+        schoolId: this.getSchoolName()
       });
       this._clearAuthData();
     } catch (e) {
@@ -72,9 +83,18 @@ export default class AuthService {
     }
   };
 
-  resetPassword = async (email: string, password: string) => {
+  resetPassword = async (
+    email: string,
+    password: string,
+    schoolId?: string
+  ) => {
+    // TODO: PASS with JWT
     const hashedPassword = encrypt(password);
-    await resetPassword({ email, password: hashedPassword });
+    await resetPassword({
+      email,
+      password: hashedPassword,
+      schoolId: schoolId || "Molly School"
+    });
   };
 
   setPreviousPage = (page: string) => (this.previousPage = page);
@@ -83,6 +103,9 @@ export default class AuthService {
 
   getRefreshToken = (): string =>
     localStorage.getItem("refreshToken") as string;
+
+  // TODO: Find a better place for this
+  getSchoolName = (): string => localStorage.getItem("schoolName") || "";
 
   getAccessToken = (): string => localStorage.getItem("accessToken") as string;
 

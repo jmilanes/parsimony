@@ -1,30 +1,44 @@
 require("dotenv").config();
-import { Service } from "typedi";
+import { Container, Service } from "typedi";
 import { envIs } from "@parsimony/utilities/dist";
 import * as mongoose from "mongoose";
 
-export const getConnectionStringByEnv = (name: string, driverId: string) => {
+const DEV_DBS = {
+  "f034n9b.parsimonySchools": "parsimonySchools"
+};
+
+export const getConnectionStringByEnv = (dbConnection: string) => {
   if (!envIs("prod")) {
-    return `mongodb://127.0.0.1:27017/${
-      // TODO: Remove this hack
-      name === "parsimonyapp01" ? "parsimony-02" : name
-    }`;
+    //@ts-ignore
+    const devDb = DEV_DBS[dbConnection];
+    return `mongodb://127.0.0.1:27017/${devDb ? devDb : dbConnection}`;
   }
-  return `mongodb+srv://jmilanes:${process.env.MONGO_PW}@${name}.${driverId}.mongodb.net/parsimony?retryWrites=true&w=majority`;
+  return `mongodb+srv://jmilanes:${process.env.MONGO_PW}@${dbConnection}.mongodb.net/parsimony?retryWrites=true&w=majority`;
 };
 
 type EnumType<T> = {
   [K in keyof T]: { value: T[K]; label: string };
 };
 
+export const TEST_MEMORY_SERVER_TOKEN = "TEST_MEMORY_SERVER_TOKEN";
+
 @Service()
 export class DataBaseService<T, modelTypes = EnumType<T>> {
   dataBase: any;
   models: Partial<Record<string, any>> = {};
 
-  init = async (cs: string, models: Record<string, any>, driverId: string) => {
+  init = async (cs: string, models: Record<string, any>) => {
+    // TODO: PUT THIS BACK BUT LIKE BETTER...
+    // const testConnectionString = Container.get(
+    //   TEST_MEMORY_SERVER_TOKEN
+    // ) as string;
+
     this.models = models;
-    await this.#connectDataBase(getConnectionStringByEnv(cs, driverId));
+    await this.#connectDataBase(
+      getConnectionStringByEnv(cs)
+      // testConnectionString || getConnectionStringByEnv(cs)
+    );
+
     this.applyModels(models);
   };
 

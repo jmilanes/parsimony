@@ -12,7 +12,7 @@ export const AppHeader = ({ routes }: { routes: IRoute[] }) => {
   return (
     <div className="header">
       <h1 className="logo" onClick={() => navigate("/")}>
-        <span>P</span>arsimony
+        <span>P</span>arsimony: {authService.getSchoolName()}
       </h1>
 
       {authService.isLoggedIn && <Nav routes={routes} />}

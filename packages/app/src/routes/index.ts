@@ -8,7 +8,6 @@ import {
   Observe,
   Login,
   Results,
-  School,
   Books,
   Collection
 } from "../pages";
@@ -54,10 +53,6 @@ const routes: IRoute[] = [
   {
     path: Routes.Login,
     element: Login
-  },
-  {
-    path: Routes.School,
-    element: School
   }
 ];
 

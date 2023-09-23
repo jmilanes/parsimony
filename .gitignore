@@ -4,6 +4,7 @@ node_modules
 /deploy-scripts
 /packages/e2e/cypress/videos/
 /packages/e2e/cypress/screenshots/
+/internalData
 .env
 .env.productio
 .mp4

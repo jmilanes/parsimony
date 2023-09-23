@@ -1,5 +1,4 @@
 export enum Domains {
-  School = "school",
   User = "user",
   Program = "program",
   Result = "result",

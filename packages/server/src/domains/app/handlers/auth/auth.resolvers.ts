@@ -1,33 +1,45 @@
 import { modelTypes } from "../../models";
 import { Service } from "typedi";
 import TokensService from "../../../database/token.service";
-import { AppDB } from "../../app.database";
+import { AppDataGateway } from "../../app.data.gateway";
+import { SchoolService } from "../../../school/school.service";
 
 @Service()
 export class AuthResolvers {
-  #db: AppDB;
+  #adg: AppDataGateway;
   #ts: TokensService;
+  #ss: SchoolService;
 
-  constructor(db: AppDB, ts: TokensService) {
-    this.#db = db;
+  constructor(adg: AppDataGateway, ts: TokensService, ss: SchoolService) {
+    this.#adg = adg;
     this.#ts = ts;
+    this.#ss = ss;
   }
 
   me = async (
     _: any,
-    { payload: { refreshToken } }: { payload: { refreshToken: string } }
+    {
+      payload: { refreshToken, schoolId }
+    }: { payload: { refreshToken: string; schoolId: string } }
   ) => {
-    return await this.#ts.verifyRefreshToken(refreshToken);
+    const foundID = this.#safeSchoolID(schoolId);
+    return await this.#ts.verifyRefreshToken(refreshToken, foundID);
   };
 
   // logs in user registers new auth token and returns
   login = async (
     _: any,
     {
-      payload: { email, password }
-    }: { payload: { email: string; password: string } }
+      payload: { email, password, schoolId }
+    }: {
+      payload: { email: string; password: string; schoolId: string };
+    }
   ) => {
-    const user = await this.#db.findEntry(modelTypes.user, {
+    // When you have no way of knowing the id you can accept a school name maybe we name it better
+    const foundID = this.#safeSchoolID(schoolId);
+    const db = this.#adg.dbBySchoolId(foundID);
+
+    const user = await db.findEntry(modelTypes.user, {
       email: email.toLowerCase()
     });
 
@@ -41,28 +53,32 @@ export class AuthResolvers {
 
     const userObj = user.toObject();
     const accessToken = this.#ts.generateAccessToken(userObj);
-    const refreshToken = this.#ts.generateRefreshToke(userObj);
+    const refreshToken = this.#ts.generateRefreshToke(userObj, foundID);
 
     return {
       isLoggedIn: true,
       accessToken,
-      refreshToken
+      refreshToken,
+      schoolName: this.#ss.getSchoolById(foundID).name
     };
   };
 
   resetPassword = async (
     _: any,
     {
-      payload: { email, password }
-    }: { payload: { email: string; password: string } }
+      payload: { email, password, schoolId }
+    }: { payload: { email: string; password: string; schoolId: string } }
   ) => {
-    const user = await this.#db.findEntry(modelTypes.user, { email });
+    const foundID = this.#safeSchoolID(schoolId);
+
+    const db = this.#adg.dbBySchoolId(foundID);
+    const user = await db.findEntry(modelTypes.user, { email });
 
     if (!user) {
       throw Error("Invalid Email");
     }
 
-    await this.#db.updateEntry(user, { password: password });
+    await db.updateEntry(user, { password: password });
 
     return {
       passwordReset: true
@@ -71,9 +87,12 @@ export class AuthResolvers {
 
   logout = async (
     _: any,
-    { payload: { refreshToken } }: { payload: { refreshToken: string } }
+    {
+      payload: { refreshToken, schoolId }
+    }: { payload: { refreshToken: string; schoolId: string } }
   ) => {
-    await this.#ts.deleteRefreshToken(refreshToken);
+    const foundID = this.#safeSchoolID(schoolId);
+    await this.#ts.deleteRefreshToken(refreshToken, foundID);
     return {
       isLoggedIn: false
     };
@@ -89,4 +108,12 @@ export class AuthResolvers {
       logout: this.logout
     }
   });
+
+  #safeSchoolID(schoolId: string) {
+    const foundID = this.#ss.getSchoolIdByNameOrId(schoolId);
+    if (!foundID) {
+      throw new Error("School Not Found");
+    }
+    return foundID;
+  }
 }

@@ -18,10 +18,11 @@ import {
 import { ObjectId } from "mongodb";
 import {
   cleanCollections,
+  closeServer,
   disconnectFromDB,
   setupDB
 } from "../../../../testUtils/db.test.utils";
-import { AppDB } from "../../app.database";
+import { AppDataGateway } from "../../app.data.gateway";
 
 const generateProgramJSON = (title: string, collectionId?: String) => {
   return {
@@ -117,7 +118,7 @@ const generateCollection = (
   };
 };
 
-const setUpBulkProgramAdditions = async (db: AppDB) => {
+const setUpBulkProgramAdditions = async (db: AppDataGateway) => {
   const book = await db.createEntry(
     modelTypes.collection,
     generateCollection("Book")
@@ -149,7 +150,9 @@ const setUpBulkProgramAdditions = async (db: AppDB) => {
   return { program1, program2, program3, book, collection, behavior };
 };
 
-const setUpBulkProgramMultiLevelCategoryAdditions = async (db: AppDB) => {
+const setUpBulkProgramMultiLevelCategoryAdditions = async (
+  db: AppDataGateway
+) => {
   const book = await db.createEntry(
     modelTypes.collection,
     generateCollection("Book")
@@ -171,11 +174,11 @@ const setUpBulkProgramMultiLevelCategoryAdditions = async (db: AppDB) => {
   return { book, collectionL1, collectionL2 };
 };
 
-const createUser = async (db: AppDB, name: string) =>
+const createUser = async (db: AppDataGateway, name: string) =>
   await db.createEntry(modelTypes.user, generateUserPayload(name));
 
 describe("Program Resolver Tests", () => {
-  let db: AppDB;
+  let db: AppDataGateway;
   let mongo: MongoMemoryServer;
   let programResolver: ProgramResolvers;
   let s: any;
@@ -188,7 +191,11 @@ describe("Program Resolver Tests", () => {
     programResolver = Container.get(ProgramResolvers);
   });
 
-  afterEach(async () => cleanCollections(db, s));
+  afterEach(async () => {
+    await cleanCollections(db);
+    await closeServer(s);
+  });
+
   afterAll(async () => disconnectFromDB(db, mongo));
 
   it("Should work with the Create Program Resolver", async () => {
