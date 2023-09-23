@@ -68,7 +68,10 @@ const Users = () => {
     await API.system.makeRequest({
       domain: Domains.User,
       requestType: "create",
-      payload: localState
+      payload: {
+        ...localState,
+        schoolId: API.system.Auth.currentUser?.schoolId
+      }
     });
 
     setShowAddForm(false);

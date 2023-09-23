@@ -10,7 +10,6 @@ export const initialUserData: Partial<User> = {
   clients: [],
   programs: [],
   actionItems: [],
-  schoolId: "School_01",
   roles: [UserRoles.Director],
   type: UserRoles.Director,
   email: "",
