@@ -22,6 +22,7 @@ export class AuthResolvers {
       payload: { refreshToken, schoolId }
     }: { payload: { refreshToken: string; schoolId: string } }
   ) => {
+    // TODO: I Think this on should be the only one that is SchoolName (consider all)
     const foundID = this.#safeSchoolID(schoolId);
     return await this.#ts.verifyRefreshToken(refreshToken, foundID);
   };
