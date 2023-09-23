@@ -32,6 +32,7 @@ export default gql`
     isLoggedIn: Boolean
     accessToken: String
     refreshToken: String
+    schoolName: String
   }
 
   type LogOutResponse {

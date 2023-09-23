@@ -45,7 +45,6 @@ export default class ServerService {
   public start = async () => {
     await this.#ss.init();
     await this.#adg.init();
-    this.#ts.init();
     this.#bs.init();
     await this.#createServer();
     await this.#listen();

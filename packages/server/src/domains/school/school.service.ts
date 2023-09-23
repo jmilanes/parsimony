@@ -27,6 +27,12 @@ export class SchoolService {
     return Object.values(this.#map);
   }
 
+  getSchoolIdByNameOrId = (idOrName: string) => {
+    return this.getSchools()
+      .find((x) => x.name === idOrName || x._id === idOrName)
+      ?._id.toString();
+  };
+
   async #setupMap() {
     const schools = await this.#getAllSchools();
     const map: Record<string, School> = {};
