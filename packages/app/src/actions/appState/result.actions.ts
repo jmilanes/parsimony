@@ -138,6 +138,11 @@ export class ResultActions {
     if (this.#isPercentage(program)) {
       return this.#round(value) + "%";
     }
+
+    if (this.#isDuration(program)) {
+      return value / 1000 + "s";
+    }
+
     return value;
   };
 
@@ -157,5 +162,9 @@ export class ResultActions {
       program.targetStyle !== TargetStyle.Behavior ||
       program.behavior?.type === BehaviorType.Interval
     );
+  }
+
+  #isDuration(program: Program) {
+    return program.behavior?.type === BehaviorType.Duration;
   }
 }
