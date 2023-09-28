@@ -127,6 +127,8 @@ export class ResultActions {
     return "behaviorData.result";
   };
 
+  //ddd
+
   public getYAxisCallback = (program: Program) => (value: any) => {
     if (this.#isPercentage(program)) {
       return value + "%";
