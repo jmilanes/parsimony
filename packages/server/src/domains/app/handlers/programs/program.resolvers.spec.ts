@@ -1,124 +1,26 @@
-import "reflect-metadata";
-
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { Container } from "typedi";
 
 import { modelTypes } from "../../models";
 import { ProgramResolvers } from "./program.resolvers";
-import {
-  BehaviorType,
-  CollectionCategories,
-  CollectionTypes,
-  ProgramCategories,
-  ProgramTypes,
-  TargetStyle,
-  TrialChainingDirections,
-  UserRoles
-} from "@parsimony/types";
-import { ObjectId } from "mongodb";
+
 import {
   cleanCollections,
   closeServer,
   disconnectFromDB,
-  setupDB
+  setupAppDBForMockSchool
 } from "../../../../testUtils/db.test.utils";
-import { AppDataGateway } from "../../app.data.gateway";
 
-const generateProgramJSON = (title: string, collectionId?: String) => {
-  return {
-    title,
-    collectionId,
-    description: "",
-    materials: "",
-    writeAccess: [],
-    readAccess: [],
-    type: ProgramTypes.Main,
-    lastEditedBy: new ObjectId(1),
-    editedBy: [new ObjectId(1)],
-    createdBy: new ObjectId(1),
-    trials: 1,
-    targets: [],
-    mastered: false,
-    category: ProgramCategories.Aba,
-    targetOptions: [],
-    chainingDirection: TrialChainingDirections.Forward,
-    currentChainTarget: null,
-    masteryTarget: 100,
-    masteryConsecutiveTargets: 3,
-    subscribers: [new ObjectId(1)]
-  };
-};
+import {
+  createCurrentUser,
+  createUser,
+  generateBehaviorJSON,
+  generateCollection,
+  generateProgramJSON
+} from "../../../../testUtils/creators.test.utils";
+import { DataBaseService } from "../../../database";
 
-const generateBehaviorJSON = (title: string, collectionId?: String) => {
-  return {
-    title,
-    collectionId,
-    description: "",
-    materials: "",
-    writeAccess: [],
-    readAccess: [],
-    type: ProgramTypes.Main,
-    lastEditedBy: new ObjectId(1),
-    editedBy: [new ObjectId(1)],
-    createdBy: new ObjectId(1),
-    trials: 1,
-    mastered: false,
-    targetOptions: [],
-    currentChainTarget: null,
-    targetStyle: TargetStyle.Behavior,
-    masteryTarget: 100,
-    masteryConsecutiveTargets: 3,
-    subscribers: [new ObjectId(1)],
-    behavior: {
-      alertTime: 0,
-      type: BehaviorType.Frequency,
-      active: true
-    }
-  };
-};
-
-const generateUserPayload = (user: string) => {
-  return {
-    schoolId: "",
-    timeZone: "",
-    roles: [UserRoles.Client],
-    type: "",
-    documents: [],
-    password: "hello",
-    email: "test@",
-    firstName: "Test",
-    lastName: `User ${0}`,
-    dateOfBirth: new Date(),
-    phone: "test phone",
-    contacts: [],
-    actionItems: [],
-    programs: [],
-    clients: [],
-    threadDisplayNameName: "Test User",
-    avatar: "",
-    color: "red",
-    serviceProvider: ""
-  };
-};
-
-const generateCollection = (
-  title: string,
-  collectionId?: string,
-  ancestors: string[] = []
-) => {
-  return {
-    title: title,
-    parentCollectionId: collectionId,
-    ancestors: ancestors,
-    created_by: new ObjectId(1),
-    type: CollectionTypes.Main,
-    category: collectionId
-      ? CollectionCategories.Sub
-      : CollectionCategories.Book
-  };
-};
-
-const setUpBulkProgramAdditions = async (db: AppDataGateway) => {
+const setUpBulkProgramAdditions = async (db: DataBaseService<modelTypes>) => {
   const book = await db.createEntry(
     modelTypes.collection,
     generateCollection("Book")
@@ -151,7 +53,7 @@ const setUpBulkProgramAdditions = async (db: AppDataGateway) => {
 };
 
 const setUpBulkProgramMultiLevelCategoryAdditions = async (
-  db: AppDataGateway
+  db: DataBaseService<modelTypes>
 ) => {
   const book = await db.createEntry(
     modelTypes.collection,
@@ -174,17 +76,14 @@ const setUpBulkProgramMultiLevelCategoryAdditions = async (
   return { book, collectionL1, collectionL2 };
 };
 
-const createUser = async (db: AppDataGateway, name: string) =>
-  await db.createEntry(modelTypes.user, generateUserPayload(name));
-
 describe("Program Resolver Tests", () => {
-  let db: AppDataGateway;
+  let db: DataBaseService<modelTypes>;
   let mongo: MongoMemoryServer;
   let programResolver: ProgramResolvers;
   let s: any;
 
   beforeAll(async () => {
-    const { mockMongo, mockDB, server } = await setupDB();
+    const { mockMongo, mockDB, server } = await setupAppDBForMockSchool();
     db = mockDB;
     mongo = mockMongo;
     s = server;
@@ -199,11 +98,14 @@ describe("Program Resolver Tests", () => {
   afterAll(async () => disconnectFromDB(db, mongo));
 
   it("Should work with the Create Program Resolver", async () => {
+    const currentUser = await createCurrentUser(db);
     const program = await programResolver.create(
       {},
       {
         payload: generateProgramJSON("Test Program")
-      }
+      },
+      //@ts-ignore
+      { currentUser: currentUser }
     );
     expect(program.title).toBe("Test Program");
 
@@ -233,6 +135,7 @@ describe("Program Resolver Tests", () => {
   it("Should preform bulk program addition from book id", async () => {
     const { book } = await setUpBulkProgramAdditions(db);
     const client = await createUser(db, "Joey");
+    const currentUser = await createCurrentUser(db);
 
     await programResolver.addProgramsToClient(
       {},
@@ -244,7 +147,9 @@ describe("Program Resolver Tests", () => {
           excludedIds: [],
           subscribers: []
         }
-      }
+      },
+      //@ts-ignore
+      { currentUser: currentUser }
     );
 
     const collections = await db.findEntries(modelTypes.collection, {
@@ -268,6 +173,7 @@ describe("Program Resolver Tests", () => {
   it("Should preform bulk program addition from collection id", async () => {
     const { collection } = await setUpBulkProgramAdditions(db);
     const client = await createUser(db, "Joey");
+    const currentUser = await createCurrentUser(db);
 
     await programResolver.addProgramsToClient(
       {},
@@ -279,7 +185,9 @@ describe("Program Resolver Tests", () => {
           excludedIds: [],
           subscribers: []
         }
-      }
+      },
+      //@ts-ignore
+      { currentUser: currentUser }
     );
 
     const programs = await db.findEntries(modelTypes.program, {
@@ -294,6 +202,7 @@ describe("Program Resolver Tests", () => {
       db
     );
     const client = await createUser(db, "Joey");
+    const currentUser = await createCurrentUser(db);
 
     await programResolver.addProgramsToClient(
       {},
@@ -305,7 +214,9 @@ describe("Program Resolver Tests", () => {
           excludedIds: [],
           subscribers: []
         }
-      }
+      },
+      //@ts-ignore
+      { currentUser: currentUser }
     );
 
     const programs = await db.findEntries(modelTypes.program, {
@@ -319,6 +230,7 @@ describe("Program Resolver Tests", () => {
     const { book, program1 } = await setUpBulkProgramAdditions(db);
 
     const client = await createUser(db, "Joey");
+    const currentUser = await createCurrentUser(db);
 
     await programResolver.addProgramsToClient(
       {},
@@ -330,7 +242,9 @@ describe("Program Resolver Tests", () => {
           excludedIds: [program1.id],
           subscribers: []
         }
-      }
+      },
+      //@ts-ignore
+      { currentUser: currentUser }
     );
 
     const programs = await db.findEntries(modelTypes.program, {
@@ -349,6 +263,7 @@ describe("Program Resolver Tests", () => {
     const { book, collection } = await setUpBulkProgramAdditions(db);
 
     const client = await createUser(db, "Joey");
+    const currentUser = await createCurrentUser(db);
 
     await programResolver.addProgramsToClient(
       {},
@@ -360,7 +275,9 @@ describe("Program Resolver Tests", () => {
           excludedIds: [collection.id],
           subscribers: []
         }
-      }
+      },
+      //@ts-ignore
+      { currentUser: currentUser }
     );
 
     const programs = await db.findEntries(modelTypes.program, {
@@ -380,6 +297,7 @@ describe("Program Resolver Tests", () => {
       await setUpBulkProgramMultiLevelCategoryAdditions(db);
 
     const client = await createUser(db, "Joey");
+    const currentUser = await createCurrentUser(db);
 
     await programResolver.addProgramsToClient(
       {},
@@ -391,7 +309,9 @@ describe("Program Resolver Tests", () => {
           excludedIds: [],
           subscribers: []
         }
-      }
+      },
+      //@ts-ignore
+      { currentUser: currentUser }
     );
 
     const collections = await db.findEntries(modelTypes.collection, {
@@ -404,6 +324,7 @@ describe("Program Resolver Tests", () => {
   it("Should work with nested collection in reverse order", async () => {
     const { book, collectionL1, collectionL2 } =
       await setUpBulkProgramMultiLevelCategoryAdditions(db);
+    const currentUser = await createCurrentUser(db);
 
     const client = await createUser(db, "Joey");
 
@@ -417,7 +338,9 @@ describe("Program Resolver Tests", () => {
           excludedIds: [],
           subscribers: []
         }
-      }
+      },
+      //@ts-ignore
+      { currentUser: currentUser }
     );
 
     const collections = await db.findEntries(modelTypes.collection, {
@@ -431,6 +354,8 @@ describe("Program Resolver Tests", () => {
     const { book, collectionL1, collectionL2 } =
       await setUpBulkProgramMultiLevelCategoryAdditions(db);
 
+    const currentUser = await createCurrentUser(db);
+
     const client = await createUser(db, "Joey");
 
     await programResolver.addProgramsToClient(
@@ -443,7 +368,8 @@ describe("Program Resolver Tests", () => {
           excludedIds: [],
           subscribers: []
         }
-      }
+      }, //@ts-ignore
+      { currentUser: currentUser }
     );
 
     const collections = await db.findEntries(modelTypes.collection, {

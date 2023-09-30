@@ -1,29 +1,18 @@
-import "reflect-metadata";
-
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { Container } from "typedi";
+
 import {
   cleanCollections,
-  disconnectFromDB
+  disconnectFromDB,
+  setupSchoolDB
 } from "../../testUtils/db.test.utils";
 import { SchoolDB } from "./school.db";
 
 import { SchoolService } from "./school.service";
-import { TEST_MEMORY_SERVER_TOKEN } from "../database";
+
 import {
   school1Data,
   school2Data
 } from "../../testUtils/fixtures/school.fixture";
-
-export const setupDB = async () => {
-  const mockDB = Container.get(SchoolDB);
-  const mockMongo = await MongoMemoryServer.create();
-  const MEMORY_SERVER_CONNECTION_STRING = mockMongo.getUri();
-  // Container.set(TEST_MEMORY_SERVER_TOKEN, MEMORY_SERVER_CONNECTION_STRING);
-  const schoolService = Container.get(SchoolService);
-  await schoolService.init();
-  return { mockDB, mockMongo, schoolService };
-};
 
 describe("School Service Test", () => {
   let db: SchoolDB;
@@ -31,7 +20,7 @@ describe("School Service Test", () => {
   let ss: SchoolService;
 
   beforeAll(async () => {
-    const { mockMongo, mockDB, schoolService } = await setupDB();
+    const { mockMongo, mockDB, schoolService } = await setupSchoolDB();
     db = mockDB;
     mongo = mockMongo;
     ss = schoolService;

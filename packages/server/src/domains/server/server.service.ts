@@ -10,6 +10,7 @@ const { ApolloServer } = require("apollo-server");
 import { BroadcastService, models } from "../database";
 import TokensService from "../database/token.service";
 import { AppDataGateway } from "../app/app.data.gateway";
+import { DBConnectionService } from "../database/dbConnecitonService.service";
 
 const ignoredAuthorizationQueries = [
   "me(",
@@ -27,22 +28,26 @@ export default class ServerService {
   #bs: BroadcastService;
   #qs: QueryService;
   #ss: SchoolService;
+  #cs: DBConnectionService;
 
   constructor(
     ss: SchoolService,
     adg: AppDataGateway,
     ts: TokensService,
     bs: BroadcastService,
-    qs: QueryService
+    qs: QueryService,
+    cs: DBConnectionService
   ) {
     this.#adg = adg;
     this.#ts = ts;
     this.#bs = bs;
     this.#qs = qs;
     this.#ss = ss;
+    this.#cs = cs;
   }
 
   public start = async () => {
+    await this.#cs.init();
     await this.#ss.init();
     await this.#adg.init();
     this.#bs.init();

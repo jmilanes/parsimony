@@ -7,13 +7,19 @@ import { School } from "@parsimony/types";
 export class SchoolService {
   #map: Record<string, School> = {};
   #db: SchoolDB;
+  #connectionPath: string;
 
   constructor(db: SchoolDB) {
     this.#db = db;
+    this.#connectionPath = "parsimonyschools.f034n9b";
+  }
+
+  set connectionPath(uri: string) {
+    this.#connectionPath = uri;
   }
 
   init = async () => {
-    await this.#db.init("parsimonyschools.f034n9b", {
+    await this.#db.init(this.#connectionPath, {
       [SCHOOL_MODELS.school]: SchoolModel
     });
     await this.#setupMap();
@@ -21,6 +27,10 @@ export class SchoolService {
 
   get map() {
     return this.#map;
+  }
+
+  set map(map: Record<string, School>) {
+    this.#map = map;
   }
 
   getSchools() {
