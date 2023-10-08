@@ -50,6 +50,7 @@ export class SchoolService {
       map[school._id] = school;
     }
     this.#map = map;
+    this.#performActionAtMidnight();
   }
 
   public getSchoolById = (id: string) => {
@@ -79,4 +80,23 @@ export class SchoolService {
   public refreshSchools = async () => {
     await this.#setupMap();
   };
+
+  #performActionAtMidnight() {
+    const now = new Date();
+    const midnight = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1,
+      0,
+      0,
+      0
+    );
+
+    //@ts-ignore
+    const timeUntilMidnight = midnight - now;
+
+    setTimeout(() => {
+      this.refreshSchools();
+    }, timeUntilMidnight);
+  }
 }
