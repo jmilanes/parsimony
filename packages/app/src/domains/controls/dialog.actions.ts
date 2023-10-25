@@ -1,12 +1,9 @@
 import AppStateService, {
   DialogControls,
-  DialogQueueItem,
-  DrawerContentTypes
+  DialogQueueItem
 } from "../../services/appStateService";
-import { Container } from "typedi";
 
 import { Service } from "typedi";
-import CoreApi from "../coreApi/coreApi.service";
 
 //TODO This should go in system domain
 @Service()

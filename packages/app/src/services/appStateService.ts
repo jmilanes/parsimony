@@ -2,7 +2,8 @@ import {
   Domains,
   ICompletenessState,
   IResultsState,
-  Program
+  Program,
+  User
 } from "@parsimony/types";
 import { clone } from "../utils";
 import Store from "../domains/store/store";
@@ -131,6 +132,15 @@ export type CollectionSelector = {
   idToUpdate?: string;
 };
 
+export type LoginViewTypes = "login" | "requestReset" | "resetPassword";
+
+export type Login = {
+  view: LoginViewTypes;
+  tempPassword: string;
+  requestedEmail: string;
+  previousPage: string;
+};
+
 export type AppState = {
   drawer: DrawerControls;
   dialog: DialogControls;
@@ -140,6 +150,57 @@ export type AppState = {
   observation: Observation;
   notifications: { activeNotifications: Record<string, Notification> };
   collectionSelector: CollectionSelector;
+  forms: Record<string, any>;
+  login: Login;
+};
+
+const APP_STATE: AppState = {
+  dialog: {
+    active: false,
+    queue: []
+  },
+  drawer: {
+    active: false,
+    width: 500,
+    placement: "left",
+    content: DrawerContentTypes.Chat
+  },
+  bulkPrograms: {
+    active: false,
+    collectionIds: [],
+    programIds: [],
+    subscribers: [],
+    excludedIds: []
+  },
+  observation: {
+    dateStarted: new Date(),
+    stated: false,
+    currentTrial: 0,
+    programCompleteness: 0,
+    results: {},
+    resultsData: {},
+    isLoaded: false,
+    targetStates: {}
+  },
+  programViewer: {},
+  // Break each behavior into its own domain (interval and program)
+  behaviorTracker: {
+    counters: {},
+    timers: {},
+    intervals: {},
+    activeInterval: false,
+    intervalOccurred: 0,
+    intervalTotal: 0
+  },
+  notifications: { activeNotifications: {} },
+  collectionSelector: {},
+  forms: {},
+  login: {
+    view: "login",
+    requestedEmail: "",
+    tempPassword: "",
+    previousPage: ""
+  }
 };
 
 @Service()
@@ -152,47 +213,7 @@ export default class AppStateService {
     window.getAppState = this.getAppState;
 
     this.store = store;
-    this.appState = {
-      dialog: {
-        active: false,
-        queue: []
-      },
-      drawer: {
-        active: false,
-        width: 500,
-        placement: "left",
-        content: DrawerContentTypes.Chat
-      },
-      bulkPrograms: {
-        active: false,
-        collectionIds: [],
-        programIds: [],
-        subscribers: [],
-        excludedIds: []
-      },
-      observation: {
-        dateStarted: new Date(),
-        stated: false,
-        currentTrial: 0,
-        programCompleteness: 0,
-        results: {},
-        resultsData: {},
-        isLoaded: false,
-        targetStates: {}
-      },
-      programViewer: {},
-      // Break each behavior into its own domain (interval and program)
-      behaviorTracker: {
-        counters: {},
-        timers: {},
-        intervals: {},
-        activeInterval: false,
-        intervalOccurred: 0,
-        intervalTotal: 0
-      },
-      notifications: { activeNotifications: {} },
-      collectionSelector: {}
-    };
+    this.appState = APP_STATE;
   }
 
   init = () => {
@@ -221,6 +242,12 @@ export default class AppStateService {
       ...update
     };
 
+    this.store.getDomain$(Domains.AppState).next({ ...currentControls });
+  };
+
+  public resetAppStateByKey = (appStateKey: keyof AppState) => {
+    const currentControls = clone(this.store.getDomainValue(Domains.AppState));
+    currentControls[appStateKey] = APP_STATE[appStateKey];
     this.store.getDomain$(Domains.AppState).next({ ...currentControls });
   };
 }

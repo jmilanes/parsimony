@@ -18,6 +18,8 @@ query login($payload: LoginPayload) {
     accessToken
     refreshToken
     schoolName
+    resetPassword
+    tempPassword
   }
 }
 `;
@@ -33,7 +35,14 @@ query logout($payload: LogoutPayload) {
 const resetPassword = `
 mutation resetPassword($payload: ResetPasswordPayload) {
   resetPassword(payload: $payload) {
-    passwordReset
+    success
+  }
+}
+  `;
+
+const requestReset = `query requestPasswordReset($payload: RequestPasswordResetPayload) {
+  requestPasswordReset(payload: $payload) {
+    success
   }
 }
   `;
@@ -42,5 +51,6 @@ export default {
   me,
   login,
   logout,
-  resetPassword
+  resetPassword,
+  requestReset
 };

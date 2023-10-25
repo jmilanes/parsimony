@@ -12,6 +12,7 @@ import RequestService, { RequestsTypeMap } from "../requests/request.Service";
 import AuthService from "../../services/auth.service";
 import StateService from "../../services/state.service";
 import { DialogActions } from "../controls/dialog.actions";
+import { FormService } from "../forms/form.service";
 
 /**
  * API Between service and UI Layer
@@ -27,6 +28,7 @@ export default class CoreApi {
   #dialog: DialogActions;
   #auth: AuthService;
   #ss: StateService;
+  #fs: FormService;
 
   constructor(
     os: OrchestrationService,
@@ -35,7 +37,8 @@ export default class CoreApi {
     ass: AppStateService,
     rs: RequestService,
     auth: AuthService,
-    ss: StateService
+    ss: StateService,
+    fs: FormService
   ) {
     this.#os = os;
     this.#store = s;
@@ -44,6 +47,7 @@ export default class CoreApi {
     this.#auth = auth;
     this.#ss = ss;
     this.#dialog = d;
+    this.#fs = fs;
   }
 
   public get Auth() {
@@ -60,6 +64,10 @@ export default class CoreApi {
 
   public get Dialog() {
     return this.#dialog;
+  }
+
+  public get Form() {
+    return this.#fs;
   }
 
   public setUpDataFor = async <K extends DATA_HANDLERS>(

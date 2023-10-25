@@ -1,29 +1,38 @@
-import { User } from "@parsimony/types";
-import { encrypt, envIs } from "@parsimony/utilities";
-import { login, logout, me, resetPassword } from "@parsimony/bal";
+import {
+  LoginPayload,
+  RequestPasswordResetPayload,
+  ResetPasswordPayload,
+  User
+} from "@parsimony/types";
+
+import {
+  login,
+  logout,
+  me,
+  resetPassword,
+  requestPasswordReset
+} from "@parsimony/bal";
 import { Service } from "typedi";
+import AppStateService, { LoginViewTypes } from "./appStateService";
 
-// This is needed for encrypt to work for creating users in cypress with requests
-const applyEncryptionToCypressWindow = () =>
-  //@ts-ignore
-  !envIs("prod") && (window.testEncrypt = (val: string) => encrypt(val));
-
+//auth n
 @Service()
 export default class AuthService {
+  #ass: AppStateService;
+  // #na: NotificationsActions;
+  #currentUser: User;
   isLoggedIn: boolean;
-  previousPage: string;
-  currentUser?: User;
+  schoolCached: boolean;
 
-  constructor() {
-    this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    this.previousPage = "";
+  constructor(ass: AppStateService) {
+    this.#ass = ass;
+    this.isLoggedIn = this.#getPersistentData("isLoggedIn") === "true";
+    this.schoolCached = !!localStorage.getItem("schoolName");
   }
 
-  // Address your async concerns with this. Understand the order and fix it then write tests
-  async init() {
-    applyEncryptionToCypressWindow();
+  public async init() {
     if (
-      !this.getAccessToken() &&
+      !this.#getAccessToken() &&
       localStorage.getItem("isLoggedIn") === "true"
     ) {
       await this.logOut();
@@ -32,92 +41,157 @@ export default class AuthService {
       try {
         // This should pull schoolId from local storage
         const meResponse = await me({
-          refreshToken: this.getRefreshToken(),
+          refreshToken: this.#getRefreshToken(),
           schoolId: this.getSchoolName()
         });
-        this.currentUser = meResponse.user as User;
-        this.setAccessToken(meResponse.accessToken as string);
-        localStorage.setItem("currentUserId", this.currentUser.id);
+
+        this.#currentUser = meResponse.user as User;
+        this.#setAccessToken(meResponse.accessToken as string);
+        // Need to find out why I used this and move on from it
+        localStorage.setItem("currentUserId", meResponse?.user?.id as string);
       } catch (e) {
-        this._clearAuthData();
+        this.#clearAuthData();
       }
     }
   }
 
-  logIn = async (email: string, password: string, schoolId?: string) => {
-    const hashedPassword = encrypt(password);
+  async logIn(payload: LoginPayload) {
     try {
-      const loginResponse = await login({
-        email,
-        password: hashedPassword,
-        schoolId: schoolId || this.getSchoolName()
-      });
-      if (!loginResponse) return;
-      localStorage.setItem("schoolName", loginResponse.schoolName as string);
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("accessToken", loginResponse.accessToken as string);
-      localStorage.setItem(
-        "refreshToken",
-        loginResponse.refreshToken as string
-      );
-      window.location.reload();
-    } catch (e) {
-      this._clearAuthData();
-    }
-  };
+      const loginResponse = await login(payload);
+      if (loginResponse.resetPassword && loginResponse.tempPassword) {
+        this.#ass.updateAppState("login", {
+          view: "resetPassword",
+          requestedEmail: payload.email,
+          tempPassword: loginResponse.tempPassword
+        });
+      }
 
-  logOut = async () => {
-    if (!this.getRefreshToken()) {
-      this._clearAuthData();
+      if (!loginResponse) return;
+
+      this.#setSchoolName(loginResponse.schoolName as string);
+      this.#setLoggedIn(true);
+      this.#setAccessToken(loginResponse.accessToken as string);
+      this.#setRefreshToken(loginResponse.refreshToken as string);
+
+      if (!loginResponse.resetPassword) {
+        this.#reload();
+      }
+    } catch (e) {
+      this.#clearAuthData();
+    }
+  }
+
+  public async logOut() {
+    if (!this.#getRefreshToken()) {
+      this.#clearAuthData();
     }
     try {
       await logout({
-        refreshToken: this.getRefreshToken(),
+        refreshToken: this.#getRefreshToken(),
         // This should pull from local storage
         schoolId: this.getSchoolName()
       });
-      this._clearAuthData();
+      this.#clearAuthData();
     } catch (e) {
-      // TODO: Add simple Error Handling
       console.error("Error Logging out");
     }
+  }
+
+  public async resetPassword(payload: ResetPasswordPayload) {
+    const { success } = await resetPassword(payload);
+    if (success) {
+      this.#ass.updateAppState("login", {
+        view: "login",
+        tempPassword: "",
+        requestedEmail: ""
+      });
+    } else {
+      console.error("Reset Fail");
+    }
+  }
+
+  public async requestPasswordReset(payload: RequestPasswordResetPayload) {
+    const { success } = await requestPasswordReset(payload);
+    if (success) {
+      // emmit success message
+      console.info("Reset Success");
+      this.#setLoginView("login");
+      return;
+    } else {
+      console.error("Reset request  Fail");
+    }
+    // emit error
+  }
+
+  public setRequestPasswordScreen = () => {
+    this.#setLoginView("requestReset");
   };
 
-  resetPassword = async (
-    email: string,
-    password: string,
-    schoolId?: string
-  ) => {
-    // TODO: PASS with JWT
-    const hashedPassword = encrypt(password);
-    await resetPassword({
-      email,
-      password: hashedPassword,
-      schoolId: schoolId || "Molly School"
-    });
-  };
+  #setLoginView(view: LoginViewTypes) {
+    this.#ass.updateAppState("login", { view });
+  }
 
-  setPreviousPage = (page: string) => (this.previousPage = page);
+  public setPreviousPage(previousPage: string) {
+    this.#ass.updateAppState("login", { previousPage });
+  }
 
-  getCurrentUser = () => this.currentUser;
+  public getCurrentUser() {
+    return this.#currentUser;
+  }
 
-  getRefreshToken = (): string =>
-    localStorage.getItem("refreshToken") as string;
+  public getLoginState() {
+    return this.#ass.getAppStateByKey("login");
+  }
 
-  // TODO: Find a better place for this
-  getSchoolName = (): string => localStorage.getItem("schoolName") || "";
+  public getSchoolName() {
+    return this.#getPersistentData("schoolName");
+  }
 
-  getAccessToken = (): string => localStorage.getItem("accessToken") as string;
+  #getRefreshToken() {
+    return this.#getPersistentData("refreshToken");
+  }
 
-  setAccessToken = (accessToken: string) =>
-    localStorage.setItem("accessToken", accessToken);
+  #getAccessToken() {
+    return this.#getPersistentData("accessToken");
+  }
 
-  private _clearAuthData = () => {
-    this.currentUser = undefined;
-    localStorage.setItem("isLoggedIn", "false");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("currentUserId");
+  #setAccessToken(accessToken: string) {
+    this.#setPersistentData("accessToken", accessToken);
+  }
+
+  #setRefreshToken = (accessToken: string) =>
+    this.#setPersistentData("refreshToken", accessToken);
+
+  #setLoggedIn(state: boolean) {
+    this.#setPersistentData("isLoggedIn", state ? "true" : "false");
+  }
+
+  #setSchoolName(name: string) {
+    this.#setPersistentData("schoolName", name);
+  }
+
+  #clearAuthData() {
+    this.#currentUser = {} as User;
+    this.#setLoggedIn(false);
+    this.#removePersistentData("accessToken");
+    this.#removePersistentData("refreshToken");
+    this.#removePersistentData("currentUserId");
+    this.#reload();
+  }
+
+  #getPersistentData(item: string) {
+    return localStorage.getItem(item) || "";
+  }
+
+  #setPersistentData(item: string, value: string) {
+    localStorage.setItem(item, value);
+  }
+
+  #removePersistentData(item: string) {
+    localStorage.removeItem(item);
+  }
+
+  #reload() {
     window.location.reload();
-  };
+  }
 }

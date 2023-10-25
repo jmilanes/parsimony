@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <>
       <Header
-        text={`Welcome Back, ${authService.currentUser?.firstName}!`}
+        text={`Welcome Back, ${authService.getCurrentUser()?.firstName}!`}
         size="md"
       />
       <div className="demo-container">

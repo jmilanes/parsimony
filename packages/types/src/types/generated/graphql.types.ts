@@ -158,7 +158,6 @@ export type CreateUserPayload = {
   email?: InputMaybe<Scalars["String"]>;
   firstName?: InputMaybe<Scalars["String"]>;
   lastName?: InputMaybe<Scalars["String"]>;
-  password?: InputMaybe<Scalars["String"]>;
   phone?: InputMaybe<Scalars["String"]>;
   programs?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   roles?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -266,7 +265,10 @@ export type LoginResponse = {
   accessToken?: Maybe<Scalars["String"]>;
   isLoggedIn?: Maybe<Scalars["Boolean"]>;
   refreshToken?: Maybe<Scalars["String"]>;
+  resetPassword?: Maybe<Scalars["Boolean"]>;
   schoolName?: Maybe<Scalars["String"]>;
+  shouldResetPassword?: Maybe<Scalars["Boolean"]>;
+  tempPassword?: Maybe<Scalars["String"]>;
 };
 
 export type LogoutPayload = {
@@ -503,6 +505,7 @@ export type Query = {
   login?: Maybe<LoginResponse>;
   logout?: Maybe<LogOutResponse>;
   me?: Maybe<MeResponse>;
+  requestPasswordReset?: Maybe<RequestPasswordResetResponse>;
 };
 
 export type QueryGetAllCollectionsByRelationshipArgs = {
@@ -557,15 +560,29 @@ export type QueryMeArgs = {
   payload?: InputMaybe<MePayload>;
 };
 
+export type QueryRequestPasswordResetArgs = {
+  payload?: InputMaybe<RequestPasswordResetPayload>;
+};
+
+export type RequestPasswordResetPayload = {
+  email: Scalars["String"];
+};
+
+export type RequestPasswordResetResponse = {
+  __typename?: "RequestPasswordResetResponse";
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 export type ResetPasswordPayload = {
   email: Scalars["String"];
-  password: Scalars["String"];
+  newPassword: Scalars["String"];
   schoolId: Scalars["String"];
+  tempPassword: Scalars["String"];
 };
 
 export type ResetPasswordResponse = {
   __typename?: "ResetPasswordResponse";
-  passwordReset?: Maybe<Scalars["Boolean"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 export type Result = {
@@ -764,7 +781,6 @@ export type UpdateUserPayload = {
   firstName?: InputMaybe<Scalars["String"]>;
   id: Scalars["ID"];
   lastName?: InputMaybe<Scalars["String"]>;
-  password?: InputMaybe<Scalars["String"]>;
   phone?: InputMaybe<Scalars["String"]>;
   programs?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   roles?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -971,6 +987,8 @@ export type ResolversTypes = {
   ProgramTypes: ProgramTypes;
   ProgramValueTypes: ProgramValueTypes;
   Query: ResolverTypeWrapper<{}>;
+  RequestPasswordResetPayload: RequestPasswordResetPayload;
+  RequestPasswordResetResponse: ResolverTypeWrapper<RequestPasswordResetResponse>;
   ResetPasswordPayload: ResetPasswordPayload;
   ResetPasswordResponse: ResolverTypeWrapper<ResetPasswordResponse>;
   Result: ResolverTypeWrapper<Result>;
@@ -1050,6 +1068,8 @@ export type ResolversParentTypes = {
   ProgramBehavior: ProgramBehavior;
   ProgramBehaviorInput: ProgramBehaviorInput;
   Query: {};
+  RequestPasswordResetPayload: RequestPasswordResetPayload;
+  RequestPasswordResetResponse: RequestPasswordResetResponse;
   ResetPasswordPayload: ResetPasswordPayload;
   ResetPasswordResponse: ResetPasswordResponse;
   Result: Result;
@@ -1172,7 +1192,22 @@ export type LoginResponseResolvers<
     ParentType,
     ContextType
   >;
+  resetPassword?: Resolver<
+    Maybe<ResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType
+  >;
   schoolName?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  shouldResetPassword?: Resolver<
+    Maybe<ResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType
+  >;
+  tempPassword?: Resolver<
     Maybe<ResolversTypes["String"]>,
     ParentType,
     ContextType
@@ -1573,17 +1608,27 @@ export type QueryResolvers<
     ContextType,
     Partial<QueryMeArgs>
   >;
+  requestPasswordReset?: Resolver<
+    Maybe<ResolversTypes["RequestPasswordResetResponse"]>,
+    ParentType,
+    ContextType,
+    Partial<QueryRequestPasswordResetArgs>
+  >;
+};
+
+export type RequestPasswordResetResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RequestPasswordResetResponse"] = ResolversParentTypes["RequestPasswordResetResponse"]
+> = {
+  success?: Resolver<Maybe<ResolversTypes["Boolean"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ResetPasswordResponseResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["ResetPasswordResponse"] = ResolversParentTypes["ResetPasswordResponse"]
 > = {
-  passwordReset?: Resolver<
-    Maybe<ResolversTypes["Boolean"]>,
-    ParentType,
-    ContextType
-  >;
+  success?: Resolver<Maybe<ResolversTypes["Boolean"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1835,6 +1880,7 @@ export type Resolvers<ContextType = any> = {
   Program?: ProgramResolvers<ContextType>;
   ProgramBehavior?: ProgramBehaviorResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RequestPasswordResetResponse?: RequestPasswordResetResponseResolvers<ContextType>;
   ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
   Result?: ResultResolvers<ContextType>;
   ResultData?: ResultDataResolvers<ContextType>;

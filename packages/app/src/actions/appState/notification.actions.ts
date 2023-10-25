@@ -5,10 +5,11 @@ import { Notification } from "../../services/appStateService";
 import CoreApi from "../../domains/coreApi/coreApi.service";
 
 @Service()
-export class NotifcationActions {
+export class NotificationActions {
   #api: CoreApi;
 
   constructor(_api: CoreApi) {
+    console.log("test", _api);
     this.#api = _api;
   }
 

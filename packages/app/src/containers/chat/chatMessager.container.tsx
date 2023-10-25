@@ -46,7 +46,7 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
     setSelectedMessage(null);
   };
 
-  const currentUser = authService.currentUser;
+  const currentUser = authService.getCurrentUser();
 
   const onDelete = async (id: string) => {
     await API.system.makeRequest({

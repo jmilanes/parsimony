@@ -4,7 +4,7 @@ import { TallyActions } from "./appState/tally.actions";
 import { TimerActions } from "./appState/timer.actions";
 import { IntervalActions } from "./appState/interval.actions";
 import { DrawerActions } from "./appState/drawer.actions";
-import { NotifcationActions } from "./appState/notifcation.actions";
+import { NotificationActions } from "./appState/notification.actions";
 import { BulkProgramsActions } from "./appState/bulkPrograms.actions";
 import { ObservationActions } from "./appState/observations.actions";
 import { ProgramViewerActions } from "./appState/programViewer.actions";
@@ -17,7 +17,7 @@ export class ActionDomainService {
   #timerActions: TimerActions;
   #intervalActions: IntervalActions;
   #programViewer: ProgramViewerActions;
-  #notifactionActions: NotifcationActions;
+  #notificationActions: NotificationActions;
   #drawerActions: DrawerActions;
   #bulkProgramsActions: BulkProgramsActions;
   #observationActions: ObservationActions;
@@ -28,7 +28,7 @@ export class ActionDomainService {
     resultActions: ResultActions,
     timerActions: TimerActions,
     tallyActions: TallyActions,
-    notificationActions: NotifcationActions,
+    notificationActions: NotificationActions,
     drawerActions: DrawerActions,
     bulkProgramActions: BulkProgramsActions,
     observationActions: ObservationActions,
@@ -39,7 +39,7 @@ export class ActionDomainService {
     this.#resultActions = resultActions;
     this.#tallyActions = tallyActions;
     this.#timerActions = timerActions;
-    this.#notifactionActions = notificationActions;
+    this.#notificationActions = notificationActions;
     this.#drawerActions = drawerActions;
     this.#bulkProgramsActions = bulkProgramActions;
     this.#observationActions = observationActions;
@@ -64,7 +64,7 @@ export class ActionDomainService {
   }
 
   get notifications() {
-    return this.#notifactionActions;
+    return this.#notificationActions;
   }
 
   get bulkPrograms() {

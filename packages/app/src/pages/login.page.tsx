@@ -1,33 +1,15 @@
-import { AuthPageMetaTestIds } from "@parsimony/types";
-import React, { useEffect, useState } from "react";
-
-import { Button, Field, Header } from "../components";
+import React, { useEffect } from "react";
 
 import { Container } from "typedi";
 import UIApi from "../domains/uiApi/uiApi.Service";
+import { LoginForm } from "../containers/auth/login.form.contianer";
+import { RequestPasswordRequestForm } from "../containers/auth/request.form.contianer";
+import { ResetPasswordForm } from "../containers/auth/resetPassword.form.contianer";
 
-const Login = ({ from }: { from: string }) => {
+const LoginPage = ({ from }: { from: string }) => {
   const API = Container.get(UIApi);
   const authService = API.system.Auth;
-  const [resetPasswordMode, setResetPasswordMode] = useState(Boolean);
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [schoolName, setSchoolName] = useState(authService.getSchoolName);
-
-  const onLogin = async () => {
-    await authService.logIn(userName.toLowerCase(), password, schoolName);
-  };
-  // createShortCut("Enter", login);
-
-  const onResetPassword = async () => {
-    await authService.resetPassword(userName.toLowerCase(), password);
-    setResetPasswordMode(false);
-  };
-
-  const toggleRestPassword = (val: boolean) => () => {
-    setResetPasswordMode(val);
-    setPassword("");
-  };
+  const { view } = authService.getLoginState();
 
   useEffect(() => {
     authService.setPreviousPage(from);
@@ -35,54 +17,10 @@ const Login = ({ from }: { from: string }) => {
 
   return (
     <div>
-      <Header text="Login" size="md" />
-      <Field
-        updateState={(_, value) => setSchoolName(value)}
-        placeHolderText="School"
-        value={schoolName}
-        metaTestId={AuthPageMetaTestIds.schoolField}
-      />
-      <Field
-        updateState={(_, value) => setUserName(value)}
-        placeHolderText="Email"
-        value={userName}
-        metaTestId={AuthPageMetaTestIds.emailField}
-      />
-      <Field
-        placeHolderText="password"
-        type="password"
-        value={password}
-        updateState={(_, value) => setPassword(value)}
-        metaTestId={AuthPageMetaTestIds.passwordField}
-      />
-      {resetPasswordMode ? (
-        <Button
-          name="Reset"
-          action={onResetPassword}
-          metaTestId={AuthPageMetaTestIds.resetBtn}
-        />
-      ) : (
-        <Button
-          name="Login"
-          action={onLogin}
-          metaTestId={AuthPageMetaTestIds.loginBtn}
-        />
-      )}
-      {!resetPasswordMode && (
-        <Button
-          name="Reset Password"
-          action={toggleRestPassword(true)}
-          metaTestId={AuthPageMetaTestIds.resetPasswordBtn}
-        />
-      )}
-      {resetPasswordMode && (
-        <Button
-          name="Cancel"
-          action={toggleRestPassword(false)}
-          metaTestId={AuthPageMetaTestIds.cancelBtn}
-        />
-      )}
+      {view === "login" && <LoginForm />}
+      {view === "requestReset" && <RequestPasswordRequestForm />}
+      {view === "resetPassword" && <ResetPasswordForm />}
     </div>
   );
 };
-export default Login;
+export default LoginPage;

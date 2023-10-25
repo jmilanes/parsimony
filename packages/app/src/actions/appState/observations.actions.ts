@@ -473,7 +473,7 @@ export class ObservationActions {
       ...results,
       data: this.#getResultData(),
       programCompleteness: programCompleteness,
-      observerId: this.#api.Auth.currentUser?.id,
+      observerId: this.#api.Auth.getCurrentUser()?.id,
       created_at: date,
       updated_at: date
     });

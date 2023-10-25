@@ -36,14 +36,13 @@ import {
   omitMongoKeys
 } from "../utils";
 
-import { IColumns, ITableAction } from "../components/table.component";
+import { ITableAction } from "../components/table.component";
 
 import { message, Spin } from "antd";
 import { Container as DI } from "typedi";
 import { useAsync } from "react-use";
 import UIApi from "../domains/uiApi/uiApi.Service";
 import CollectionViewerContainer from "../containers/collection/collecitonViewer.container";
-import { CollectionTable, ProgramTable } from "../containers";
 
 const User = () => {
   const API = DI.get(UIApi);

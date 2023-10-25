@@ -16,7 +16,7 @@ const ignoredAuthorizationQueries = [
   "me(",
   "login(",
   "logout(",
-  "resetPassword(",
+  "requestPasswordReset(",
   "query IntrospectionQuery"
 ];
 

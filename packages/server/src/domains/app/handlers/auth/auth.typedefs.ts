@@ -14,7 +14,8 @@ export default gql`
 
   input ResetPasswordPayload {
     email: String!
-    password: String!
+    newPassword: String!
+    tempPassword: String!
     schoolId: String!
   }
 
@@ -28,11 +29,18 @@ export default gql`
     schoolId: String!
   }
 
+  input RequestPasswordResetPayload {
+    email: String!
+  }
+
   type LoginResponse {
     isLoggedIn: Boolean
+    resetPassword: Boolean
+    tempPassword: String
     accessToken: String
     refreshToken: String
     schoolName: String
+    shouldResetPassword: Boolean
   }
 
   type LogOutResponse {
@@ -40,7 +48,11 @@ export default gql`
   }
 
   type ResetPasswordResponse {
-    passwordReset: Boolean
+    success: Boolean
+  }
+
+  type RequestPasswordResetResponse {
+    success: Boolean
   }
 
   type MeResponse {
@@ -52,6 +64,9 @@ export default gql`
     me(payload: MePayload): MeResponse
     login(payload: LoginPayload): LoginResponse
     logout(payload: LogoutPayload): LogOutResponse
+    requestPasswordReset(
+      payload: RequestPasswordResetPayload
+    ): RequestPasswordResetResponse
   }
   type Mutation {
     resetPassword(payload: ResetPasswordPayload): ResetPasswordResponse

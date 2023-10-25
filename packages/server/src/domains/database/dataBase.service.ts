@@ -7,8 +7,6 @@ type EnumType<T> = {
   [K in keyof T]: { value: T[K]; label: string };
 };
 
-export const TEST_MEMORY_SERVER_TOKEN = "TEST_MEMORY_SERVER_TOKEN";
-
 @Service()
 export class DataBaseService<T, modelTypes = EnumType<T>> {
   #cs: DBConnectionService;

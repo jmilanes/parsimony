@@ -35,6 +35,7 @@ export enum AuthPageMetaTestIds {
   resetBtn = "reset",
   cancelBtn = "cancel",
   resetPasswordBtn = "reset-password",
+  requestPasswordReset = "request-reset-password",
   emailField = "email",
   passwordField = "password",
   schoolField = "school"

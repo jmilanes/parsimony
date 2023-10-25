@@ -13,8 +13,8 @@ export const CreateChat = () => {
   const API = Container.get(UIApi);
 
   const authService = API.system.Auth;
-  const currentUserId = authService.currentUser?.id as string;
-  const currentName = getFullName(authService.currentUser);
+  const currentUserId = authService.getCurrentUser()?.id as string;
+  const currentName = getFullName(authService.getCurrentUser());
 
   const currentUserSubscriber = { id: currentUserId, displayName: currentName };
   const [subscribers, updateSubscribers] = useState<Subscriber[]>([

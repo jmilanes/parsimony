@@ -5,14 +5,7 @@ import UIApi from "../../domains/uiApi/uiApi.Service";
 import { Button, Header, Icon, IOption } from "../../components";
 import { ClientSelector } from "../clientSelector";
 import { useAsync } from "react-use";
-import {
-  BehaviorTracker,
-  BehaviorType,
-  Domains,
-  Program,
-  ProgramBehavior,
-  TargetStyle
-} from "@parsimony/types";
+import { BehaviorType, Domains, Program, TargetStyle } from "@parsimony/types";
 import { Spin } from "antd";
 import { TallyBehaviorInput } from "./inputs/tally.behavior.input";
 import { TimeBehaviorInput } from "./inputs/time.behavior.input";

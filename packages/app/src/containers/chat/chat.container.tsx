@@ -22,7 +22,8 @@ export const Chat = () => {
 
   const ChatList = ({ threads }: { threads: Thread[] }) => {
     const threadListItems = threads.map((thread) => {
-      const value = getThreadName(thread, authService.currentUser);
+      //@ts-ignore
+      const value = getThreadName(thread, authService.getCurrentUser());
       return {
         value,
         action: () => setCurrentThread(thread.id)

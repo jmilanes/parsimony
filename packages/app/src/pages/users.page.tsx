@@ -26,7 +26,6 @@ import {
 } from "../fixtures";
 import { IColumns, ITableAction } from "../components/table.component";
 
-import { encrypt } from "@parsimony/utilities";
 import { message } from "antd";
 import { Container } from "typedi";
 
@@ -48,15 +47,6 @@ const Users = () => {
   const isNotClient = localState.type !== UserRoles.Client;
 
   const submitAddForm = async () => {
-    if (!localState.password && isNotClient) {
-      console.error("YOU NEED A PASSWORD");
-      return;
-    }
-    //com
-    localState.password = localState.password
-      ? encrypt(localState.password)
-      : undefined;
-
     if (!localState.email && isNotClient) {
       message.error("Please provide email");
     }
@@ -71,7 +61,7 @@ const Users = () => {
       requestType: "create",
       payload: {
         ...localState,
-        schoolId: API.system.Auth.currentUser?.schoolId
+        schoolId: API.system.Auth.getCurrentUser()?.schoolId
       }
     });
 
@@ -160,15 +150,6 @@ const Users = () => {
           updateState={updateState}
           metaTestId={DirectoryPageMetaTestIds.emailField}
         />
-        {isNotClient && (
-          <Field
-            placeHolderText="Password"
-            pathToState="password"
-            value={localState.password}
-            updateState={updateState}
-            metaTestId={DirectoryPageMetaTestIds.passwordField}
-          />
-        )}
         <Selector
           title="Type"
           options={userRoleOptionsWithStringValues}

@@ -1,5 +1,4 @@
 import { DrawerContentTypes } from "../../services/appStateService";
-import { Container } from "typedi";
 
 import { Service } from "typedi";
 import CoreApi from "../../domains/coreApi/coreApi.service";
@@ -9,6 +8,7 @@ export class DrawerActions {
   #api: CoreApi;
 
   constructor(_api: CoreApi) {
+    console.log("TEST", _api);
     this.#api = _api;
   }
 

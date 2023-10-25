@@ -13,7 +13,6 @@ export const initialUserData: Partial<User> = {
   roles: [UserRoles.Director],
   type: UserRoles.Director,
   email: "",
-  password: "",
   serviceProvider: ""
 };
 

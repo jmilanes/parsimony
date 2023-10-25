@@ -27,7 +27,7 @@ export const ClientSelector = ({
 }: ClientSelectorProps) => {
   const API = Container.get(UIApi);
 
-  const currentUserId = API.system.Auth.currentUser?.id as string;
+  const currentUserId = API.system.Auth.getCurrentUser()?.id as string;
   const clients = API.system.getItemsFromStore(Domains.User);
 
   const selectedUser = selected

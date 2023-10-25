@@ -9,7 +9,6 @@ export default gql`
     roles: [String]
     type: String
     documents: [String]
-    password: String
     email: String
     firstName: String
     lastName: String
@@ -31,7 +30,6 @@ export default gql`
     roles: [String]
     type: String
     documents: [String]
-    password: String
     email: String
     firstName: String
     lastName: String
@@ -58,7 +56,6 @@ export default gql`
     roles: [String]
     type: String
     documents: [String]
-    password: String
     email: String
     firstName: String
     lastName: String

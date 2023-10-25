@@ -3,17 +3,32 @@ import { Service } from "typedi";
 import TokensService from "../../../database/token.service";
 import { AppDataGateway } from "../../app.data.gateway";
 import { SchoolService } from "../../../school/school.service";
+import { TemporaryPasswordService } from "../../../authentication/temporaryPassword.service";
+
+import { EmailService } from "../../../communication/email.service";
+import { EMAIL_TEMPLATES } from "../../../communication/emails/emails";
+import { encrypt } from "@parsimony/utilities";
 
 @Service()
 export class AuthResolvers {
   #adg: AppDataGateway;
   #ts: TokensService;
   #ss: SchoolService;
+  #tpw: TemporaryPasswordService;
+  #es: EmailService;
 
-  constructor(adg: AppDataGateway, ts: TokensService, ss: SchoolService) {
+  constructor(
+    adg: AppDataGateway,
+    ts: TokensService,
+    ss: SchoolService,
+    tpw: TemporaryPasswordService,
+    es: EmailService
+  ) {
     this.#adg = adg;
     this.#ts = ts;
     this.#ss = ss;
+    this.#tpw = tpw;
+    this.#es = es;
   }
 
   me = async (
@@ -48,7 +63,9 @@ export class AuthResolvers {
       throw Error("Invalid Email");
     }
 
-    if (password !== user.password) {
+    const validTempPw = this.#tpw.validate(email, password);
+    // Check real PW vrs the encrypted one we store
+    if (encrypt(password) !== user.password && !validTempPw) {
       throw Error("Invalid Password");
     }
 
@@ -58,19 +75,37 @@ export class AuthResolvers {
 
     return {
       isLoggedIn: true,
+      resetPassword: validTempPw,
+      tempPassword: validTempPw ? password : undefined,
       accessToken,
       refreshToken,
-      schoolName: this.#ss.getSchoolById(foundID).name
+      schoolName: this.#ss.getSchoolById(foundID).name,
+      shouldPasswordReset: validTempPw
     };
   };
 
   resetPassword = async (
     _: any,
     {
-      payload: { email, password, schoolId }
-    }: { payload: { email: string; password: string; schoolId: string } }
+      payload: { email, newPassword, schoolId, tempPassword }
+    }: {
+      payload: {
+        email: string;
+        tempPassword: string;
+        newPassword: string;
+        schoolId: string;
+      };
+    }
   ) => {
     const foundID = this.#safeSchoolID(schoolId);
+
+    const validTempPw = this.#tpw.validate(email, tempPassword);
+
+    if (!validTempPw) {
+      throw Error(
+        "The temporary password you have requested is expired. Please Request another one."
+      );
+    }
 
     const db = this.#adg.dbBySchoolId(foundID);
     const user = await db.findEntry(modelTypes.user, { email });
@@ -79,8 +114,10 @@ export class AuthResolvers {
       throw Error("Invalid Email");
     }
 
-    await db.updateEntry(user, { password: password });
+    await db.updateEntry(user, { password: encrypt(newPassword) });
+    this.#tpw.delete(email);
 
+    // Log user out
     return {
       passwordReset: true
     };
@@ -99,6 +136,24 @@ export class AuthResolvers {
     };
   };
 
+  requestPasswordReset = async (
+    _: any,
+    { payload: { email } }: { payload: { email: string } }
+  ) => {
+    try {
+      const tpw = this.#tpw.create(email);
+      this.#es.sendByTemplate(EMAIL_TEMPLATES.tempPassword, {
+        tpw,
+        email
+      });
+    } catch (e) {
+      throw new Error("Error Sending Temp Email!");
+    }
+    return {
+      success: true
+    };
+  };
+
   getResolver = () => ({
     Mutation: {
       resetPassword: this.resetPassword
@@ -106,7 +161,8 @@ export class AuthResolvers {
     Query: {
       me: this.me,
       login: this.login,
-      logout: this.logout
+      logout: this.logout,
+      requestPasswordReset: this.requestPasswordReset
     }
   });
 
@@ -116,5 +172,17 @@ export class AuthResolvers {
       throw new Error("School Not Found");
     }
     return foundID;
+  }
+
+  #requestTempPassword(email: string) {
+    const tpw = this.#tpw.create(email);
+    this.#es.sendByTemplate(EMAIL_TEMPLATES.tempPassword, {
+      email,
+      tpw
+    });
+  }
+
+  #validateTempPassword(email: string, tpw: string) {
+    return this.#tpw.validate(email, tpw);
   }
 }
