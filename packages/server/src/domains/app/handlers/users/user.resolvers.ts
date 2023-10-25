@@ -39,11 +39,11 @@ export class UserResolvers extends BaseCrudResolvers {
         });
 
       const isNotClient = entry.type !== UserRoles.Client;
-      console.log(entry.email);
+
       if (isNotClient) {
         const tpw = this.#tpw.create(entry.email);
         // This could be a welcome email
-        this.#es.sendByTemplate(EMAIL_TEMPLATES.tempPassword, {
+        this.#es.sendByTemplate(EMAIL_TEMPLATES.createUser, {
           tpw,
           email: entry.email
         });

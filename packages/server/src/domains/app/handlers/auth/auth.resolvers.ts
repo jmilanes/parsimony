@@ -119,7 +119,7 @@ export class AuthResolvers {
 
     // Log user out
     return {
-      passwordReset: true
+      success: true
     };
   };
 
@@ -141,6 +141,7 @@ export class AuthResolvers {
     { payload: { email } }: { payload: { email: string } }
   ) => {
     try {
+      // TODO Figure out a way to make sure the email is valid
       const tpw = this.#tpw.create(email);
       this.#es.sendByTemplate(EMAIL_TEMPLATES.tempPassword, {
         tpw,

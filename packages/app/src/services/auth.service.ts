@@ -28,6 +28,11 @@ export default class AuthService {
     this.#ass = ass;
     this.isLoggedIn = this.#getPersistentData("isLoggedIn") === "true";
     this.schoolCached = !!localStorage.getItem("schoolName");
+    window.onbeforeunload = (event) => {
+      if (this.getLoginState().view === "resetPassword") {
+        this.#clearAuthData();
+      }
+    };
   }
 
   public async init() {

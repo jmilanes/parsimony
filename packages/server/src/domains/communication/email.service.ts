@@ -1,7 +1,15 @@
+import { TempPasswordEmail } from "./emails/email.tempPassword";
+
 require("dotenv").config();
 import { Service } from "typedi";
 import nodemailer, { Transporter, SendMailOptions } from "nodemailer";
-import { EMAIL_TEMPLATES, emailGenerators } from "./emails/emails";
+import {
+  Email,
+  EMAIL_TEMPLATES,
+  emailInstances,
+  EmailOptions
+} from "./emails/emails";
+import { CreatedUserEmail } from "./emails/email.createUser";
 
 /**
  * The `EmailService` class is a service that allows sending emails using the
@@ -12,8 +20,9 @@ import { EMAIL_TEMPLATES, emailGenerators } from "./emails/emails";
 export class EmailService {
   #senderEmail: string = process.env.EMAIL_SERVICE_SENDER_EMAIL || "";
   #transporter: Transporter;
+  #emails: Record<EMAIL_TEMPLATES, Email>;
 
-  constructor() {
+  constructor(tempEmail: TempPasswordEmail, createUserEmail: CreatedUserEmail) {
     this.#transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
@@ -21,15 +30,16 @@ export class EmailService {
         pass: process.env.EMAIL_SERVICE_PASSWORD
       }
     });
+
+    this.#emails = {
+      [EMAIL_TEMPLATES.tempPassword]: tempEmail,
+      [EMAIL_TEMPLATES.createUser]: createUserEmail
+    };
   }
 
-  public sendByTemplate<K = EMAIL_TEMPLATES>(
-    template: K,
-    // @ts-ignore
-    ...options: Parameters<(typeof emailGenerators)[K]>
-  ) {
-    // @ts-ignore
-    this.#send(emailGenerators[template](...options));
+  public sendByTemplate(template: EMAIL_TEMPLATES, options: EmailOptions) {
+    const payload = this.#emails[template].createPayload(options);
+    this.#send(payload);
   }
 
   #send(options: SendMailOptions) {
