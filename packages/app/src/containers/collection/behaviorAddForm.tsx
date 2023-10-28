@@ -15,7 +15,7 @@ import {
   initialProgramData,
   programTypes
 } from "../../fixtures";
-import { Field, Selector } from "../../components";
+import { Field, RichText, Selector } from "../../components";
 import { AddForm } from "../addForm.container";
 
 import { Container } from "typedi";
@@ -85,10 +85,10 @@ export const BehaviorAddForm = ({
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
-      <Field
+      <RichText
         placeHolderText="Description"
         pathToState="description"
-        value={localState.description}
+        content={localState.description}
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.descriptionField}
       />
@@ -135,31 +135,31 @@ export const BehaviorAddForm = ({
         metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
       />
 
-      <Field
+      <RichText
         placeHolderText="Operational Definition"
         pathToState="behavior.operationalDefinition"
-        value={localState.behavior?.operationalDefinition}
+        content={localState.behavior?.operationalDefinition}
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
-      <Field
+      <RichText
         placeHolderText="Precursor Behaviors"
         pathToState="behavior.precursorBehaviors"
-        value={localState.behavior?.precursorBehaviors}
+        content={localState.behavior?.precursorBehaviors}
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
-      <Field
+      <RichText
         placeHolderText="Proactive Strategies"
         pathToState="behavior.proactiveStrategies"
-        value={localState.behavior?.proactiveStrategies}
+        content={localState.behavior?.proactiveStrategies}
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
-      <Field
+      <RichText
         placeHolderText="Reactive Strategies"
         pathToState="behavior.reactiveStrategies"
-        value={localState.behavior?.reactiveStrategies}
+        content={localState.behavior?.reactiveStrategies}
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />

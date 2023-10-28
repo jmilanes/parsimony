@@ -1,14 +1,6 @@
 import React from "react";
-import {
-  Field,
-  Selector,
-  Checkbox,
-  Repeater,
-  Button,
-  Row,
-  Col
-} from "../components";
-import { initialTargetData, inputTypes, programValueTypes } from "../fixtures";
+import { Field, Repeater, Button, Row, Col, RichText } from "../components";
+import { initialTargetData } from "../fixtures";
 
 import { Program, TargetFormMetaTestIds, Target } from "@parsimony/types";
 import { generateKey, removeItemByIndex } from "../utils";
@@ -54,10 +46,10 @@ export const TargetForm = ({
           />
         </Col>
         <Col xs={12}>
-          <Field
+          <RichText
             placeHolderText="Description"
             pathToState={`targets[${index}].description`}
-            value={target.description}
+            content={target.description}
             updateState={updateState}
             readOnly={readOnly}
             metaTestId={TargetFormMetaTestIds.descriptionField}

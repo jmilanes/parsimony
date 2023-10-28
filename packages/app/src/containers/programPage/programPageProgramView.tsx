@@ -10,7 +10,7 @@ import {
   TargetStyle,
   User
 } from "@parsimony/types";
-import { Checkbox, Field, Selector } from "../../components";
+import { Checkbox, Field, RichText, Selector } from "../../components";
 import { getFullName, isReadOnlyMode } from "../../utils";
 import {
   chainingTypesOptions,
@@ -58,18 +58,18 @@ export const ProgramPageProgramView = ({
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.titleField}
       />
-      <Field
+      <RichText
         placeHolderText="Description"
         pathToState="description"
-        value={localState.description}
+        content={localState.description}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.descriptionField}
       />
-      <Field
+      <RichText
         placeHolderText="Materials"
         pathToState="materials"
-        value={localState.materials}
+        content={localState.materials}
         updateState={updateState}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.materialsField}

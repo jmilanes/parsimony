@@ -16,7 +16,7 @@ import {
   targetStyles,
   trialOptions
 } from "../../fixtures";
-import { Field, Selector } from "../../components";
+import { Field, RichText, Selector } from "../../components";
 import { TargetOptionSelector } from "../targetOptionsSelector.container";
 import { TargetForm } from "../targetForm.container";
 import { AddForm } from "../addForm.container";
@@ -93,17 +93,17 @@ export const ProgramAddForm = ({
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
-      <Field
+      <RichText
         placeHolderText="Description"
         pathToState="description"
-        value={localState.description}
+        content={localState.description}
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.descriptionField}
       />
-      <Field
+      <RichText
         placeHolderText="Materials"
         pathToState="materials"
-        value={localState.materials}
+        content={localState.materials}
         updateState={updateState}
         metaTestId={ProgramsPageMetaTestIds.materialsField}
       />

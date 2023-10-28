@@ -8,7 +8,7 @@ import {
   ProgramsPageMetaTestIds,
   User
 } from "@parsimony/types";
-import { Checkbox, Field, Selector } from "../../components";
+import { Checkbox, Field, RichText, Selector } from "../../components";
 import { getFullName, isReadOnlyMode } from "../../utils";
 import { behaviorTypes } from "../../fixtures";
 import { Container as DI } from "typedi";
@@ -69,10 +69,10 @@ export const ProgramPageBehaviorView = ({
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.titleField}
       />
-      <Field
+      <RichText
         placeHolderText="Description"
         pathToState="description"
-        value={localState.description}
+        content={localState.description}
         updateState={updateState}
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.descriptionField}
@@ -112,34 +112,34 @@ export const ProgramPageBehaviorView = ({
         readOnly={readOnly}
         metaTestId={ProgramsPageMetaTestIds.descriptionField}
       />
-      <Field
+      <RichText
         placeHolderText="Operational Definition"
         pathToState="behavior.operationalDefinition"
-        value={localState.behavior?.operationalDefinition}
+        content={localState.behavior?.operationalDefinition}
         updateState={updateState}
         readOnly={readOnly}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
-      <Field
+      <RichText
         placeHolderText="Precursor Behaviors"
         pathToState="behavior.precursorBehaviors"
-        value={localState.behavior?.precursorBehaviors}
+        content={localState.behavior?.precursorBehaviors}
         updateState={updateState}
         readOnly={readOnly}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
-      <Field
+      <RichText
         placeHolderText="Proactive Strategies"
         pathToState="behavior.proactiveStrategies"
-        value={localState.behavior?.proactiveStrategies}
+        content={localState.behavior?.proactiveStrategies}
         updateState={updateState}
         readOnly={readOnly}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
-      <Field
+      <RichText
         placeHolderText="Reactive Strategies"
         pathToState="behavior.reactiveStrategies"
-        value={localState.behavior?.reactiveStrategies}
+        content={localState.behavior?.reactiveStrategies}
         updateState={updateState}
         readOnly={readOnly}
         metaTestId={ProgramsPageMetaTestIds.titleField}

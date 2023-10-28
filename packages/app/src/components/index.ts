@@ -18,3 +18,4 @@ export * from "./list.component";
 export * from "./icons.component";
 export * from "./menu.component";
 export * from "./readOnly.component";
+export * from "./richText.component";
