@@ -55,6 +55,7 @@ export class ActionDomainService {
     return this.#tallyActions;
   }
 
+  //
   get interval() {
     return this.#intervalActions;
   }
