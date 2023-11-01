@@ -1,7 +1,7 @@
 import React from "react";
 import StarterKit from "@tiptap/starter-kit";
 import { Container, ReadOnly } from "../components";
-import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 
 import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types";
 import { generateMetaTestId } from "../utils";
@@ -45,7 +45,7 @@ export const RichText = ({
   return readOnly ? (
     <div key={key}>
       <p>{placeHolderText}</p>
-      {ReactHtmlParser(content || "")}
+      {parse(content || "")}
     </div>
   ) : (
     <Container flexDirection="column" key={key} margin={CONTAINER_INPUT_MARGIN}>
