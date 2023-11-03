@@ -3,7 +3,7 @@ import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 import { Container } from "typedi";
-import { Notification } from "../../../domains/state/appStateService";
+import { Notification } from "../../../domains/state/appState/appState.types";
 
 import { Button, Icon } from "../../components";
 import { BehaviorTracker } from "@parsimony/types/dist";

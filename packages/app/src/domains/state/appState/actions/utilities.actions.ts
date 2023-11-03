@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
-import { Domains } from "@parsimony/types/dist";
+import { Domains } from "@parsimony/types";
 
 @Service()
 export class ActionUtiltites {

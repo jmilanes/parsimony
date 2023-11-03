@@ -1,9 +1,10 @@
-import AppStateService, {
+import {
   DialogControls,
   DialogQueueItem
-} from "../state/appStateService";
+} from "../state/appState/appState.types";
 
 import { Service } from "typedi";
+import AppStateService from "../state/appState/appStateService";
 
 @Service()
 export class DialogControlService {

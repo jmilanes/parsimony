@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 
-import { Program } from "@parsimony/types/dist";
+import { Program } from "@parsimony/types";
 import { buildCreateBehaviorRequest, clone, uuid } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 

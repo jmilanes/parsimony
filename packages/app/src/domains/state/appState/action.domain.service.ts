@@ -1,14 +1,14 @@
 import { Service } from "typedi";
-import { ResultActions } from "./appState/result.actions";
-import { TallyActions } from "./appState/tally.actions";
-import { TimerActions } from "./appState/timer.actions";
-import { IntervalActions } from "./appState/interval.actions";
-import { DrawerActions } from "./appState/drawer.actions";
-import { NotificationActions } from "./appState/notification.actions";
-import { BulkProgramsActions } from "./appState/bulkPrograms.actions";
-import { ObservationActions } from "./appState/observations.actions";
-import { ProgramViewerActions } from "./appState/programViewer.actions";
-import { CollectionRelocationActions } from "./appState/collection.relocation.actions";
+import { ResultActions } from "./actions/result.actions";
+import { TallyActions } from "./actions/tally.actions";
+import { TimerActions } from "./actions/timer.actions";
+import { IntervalActions } from "./actions/interval.actions";
+import { DrawerActions } from "./actions/drawer.actions";
+import { NotificationActions } from "./actions/notification.actions";
+import { BulkProgramsActions } from "./actions/bulkPrograms.actions";
+import { ObservationActions } from "./actions/observations.actions";
+import { ProgramViewerActions } from "./actions/programViewer.actions";
+import { CollectionRelocationActions } from "./actions/collection.relocation.actions";
 
 @Service()
 export class ActionDomainService {

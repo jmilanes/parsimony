@@ -4,7 +4,7 @@ import { Container as DI } from "typedi";
 import { ObservationMetaTestIds, Target } from "@parsimony/types/dist";
 import { compileStyles } from "../../../utils";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
-import { Discrete_Trial_ID } from "../../../domains/state/actions/appState/observations.actions";
+import { Discrete_Trial_ID } from "../../../domains/state/appState/actions/observations.actions";
 import { InactiveTarget } from "./inactiveTarget.container";
 import { ActiveTarget } from "./activeTarget.container";
 import { DiscreteTrialsControlsContainer } from "./discreteTrialsControlsContainer";

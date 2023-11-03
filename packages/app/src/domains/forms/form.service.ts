@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 import { InputForm } from "./form";
 
-import AppStateService from "../state/appStateService";
+import AppStateService from "../state/appState/appStateService";
 
 @Service()
 export class FormService {

@@ -1,5 +1,5 @@
 import deepmerge from "deepmerge";
-import AppStateService from "../state/appStateService";
+import AppStateService from "../state/appState/appStateService";
 import { uuid } from "../../utils";
 
 export class InputForm<D = Record<string, any>> {

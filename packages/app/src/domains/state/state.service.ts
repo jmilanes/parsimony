@@ -12,6 +12,8 @@ export interface IStateService {
   updateState: () => void;
 }
 
+//TODO lets try to kill this and do a use observable pattern.
+
 @Service()
 class StateService implements IStateService {
   store: Store;

@@ -6,10 +6,10 @@ import {
   User,
   Collection,
   Thread
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../../../utils";
-import { AppState } from "../appStateService";
+import { AppState } from "../appState/appState.types";
 import { Service } from "typedi";
 
 import { get } from "lodash";

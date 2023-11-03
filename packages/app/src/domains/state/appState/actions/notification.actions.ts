@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 
 import { uuid } from "../../../../utils";
-import { Notification } from "../../appStateService";
+import { Notification } from "../appState.types";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 
 @Service()

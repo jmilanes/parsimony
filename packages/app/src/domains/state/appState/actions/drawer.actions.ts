@@ -1,4 +1,4 @@
-import { DrawerContentTypes } from "../../appStateService";
+import { DrawerContentTypes } from "../appState.types";
 
 import { Service } from "typedi";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";

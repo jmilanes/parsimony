@@ -8,7 +8,7 @@ import React, { useState } from "react";
 
 import { Button, Col, Field, Header, Row } from "../../components";
 
-import { DrawerContentTypes } from "../../../domains/state/appStateService";
+import { DrawerContentTypes } from "../../../domains/state/appState/appState.types";
 import { getFullName } from "../../../utils";
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";

@@ -5,8 +5,8 @@ import {
   OrchestrationHandlerOptionsTypeMap
 } from "../../orchestration/orchestrationHandlers/handlers.typemap";
 import Store, { DomainReturnTypeMap } from "../../state/store/store";
-import { Domains } from "@parsimony/types/dist";
-import AppStateService, { AppState } from "../../state/appStateService";
+import { Domains } from "@parsimony/types";
+import { AppState } from "../../state/appState/appState.types";
 
 import RequestService, {
   RequestsTypeMap
@@ -15,6 +15,7 @@ import AuthService from "../../services/auth.service";
 import StateService from "../../state/state.service";
 import { DialogControlService } from "../../controls/dialogControl.service";
 import { FormService } from "../../forms/form.service";
+import AppStateService from "../../state/appState/appStateService";
 
 /**
  * API Between service and UI Layer

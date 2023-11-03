@@ -6,7 +6,7 @@ import {
   Program,
   Result,
   TargetStyle
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import { getFullDate } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 

@@ -2,7 +2,7 @@ import { Service } from "typedi";
 
 import { useNavigate } from "react-router-dom";
 
-import { ActionDomainService } from "../../state/actions/action.domain.service";
+import { ActionDomainService } from "../../state/appState/action.domain.service";
 import CoreApi from "../coreApi/coreApi.service";
 import SharedUtilitiesService from "../../sharedUtilities/sharedUtilities.service";
 

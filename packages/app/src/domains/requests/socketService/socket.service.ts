@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { envIs } from "@parsimony/utilities/dist";
+import { envIs } from "@parsimony/utilities";
 import { Observable } from "rxjs";
 
 export type Socket$ = Observable<any>;

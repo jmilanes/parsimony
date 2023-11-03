@@ -11,10 +11,10 @@ import {
   TargetResultOption,
   TargetStyle,
   TrialChainingDirections
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import { initialResultData } from "../../../../fixtures";
 import { calculateAverage, clone, removeMongoIds } from "../../../../utils";
-import { Observation, ObservationTarget } from "../../appStateService";
+import { Observation, ObservationTarget } from "../appState.types";
 
 export const Discrete_Trial_ID = "discrete";
 

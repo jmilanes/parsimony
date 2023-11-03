@@ -2,11 +2,11 @@ import { Service } from "typedi";
 
 import React from "react";
 
-import { Program } from "@parsimony/types/dist";
+import { Program } from "@parsimony/types";
 import { intervalToDuration } from "date-fns";
 import { prependZero, buildCreateBehaviorRequest } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
-import { BehaviorTracker, Timer } from "../../appStateService";
+import { BehaviorTracker, Timer } from "../appState.types";
 
 const initialTimerState: Timer = {
   active: false,

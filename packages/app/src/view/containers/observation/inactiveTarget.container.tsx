@@ -1,6 +1,6 @@
 import React from "react";
 import { ObservationMetaTestIds, Target } from "@parsimony/types/dist";
-import { Discrete_Trial_ID } from "../../../domains/state/actions/appState/observations.actions";
+import { Discrete_Trial_ID } from "../../../domains/state/appState/actions/observations.actions";
 import { compileStyles } from "../../../utils";
 import { Button, Icon } from "../../components";
 import { Container as DI } from "typedi";
