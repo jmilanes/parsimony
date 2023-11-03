@@ -17,7 +17,7 @@ import { calculateAverage, clone, removeMongoIds } from "../../../../utils";
 import {
   Observation,
   ObservationTarget
-} from "../../../../services/appStateService";
+} from "../../../services/appStateService";
 
 export const Discrete_Trial_ID = "discrete";
 

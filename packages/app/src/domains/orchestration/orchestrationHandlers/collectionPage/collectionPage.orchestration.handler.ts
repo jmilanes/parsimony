@@ -2,8 +2,8 @@ import { Service } from "typedi";
 
 import { IOrchestrationHandler } from "../orchestrationHandler.interface";
 import RequestService from "../../../requests/request.Service";
-import ChatService from "../../../../services/chat.service";
-import AppStateService from "../../../../services/appStateService";
+import ChatService from "../../../services/chat.service";
+import AppStateService from "../../../services/appStateService";
 
 export interface CollectionPageOrchestrationHandlerOptions {
   collectionId?: string;

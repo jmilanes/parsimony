@@ -6,7 +6,7 @@ import { Program } from "@parsimony/types/dist";
 import { intervalToDuration } from "date-fns";
 import { prependZero, buildCreateBehaviorRequest } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
-import { BehaviorTracker, Timer } from "../../../../services/appStateService";
+import { BehaviorTracker, Timer } from "../../../services/appStateService";
 
 const initialTimerState: Timer = {
   active: false,

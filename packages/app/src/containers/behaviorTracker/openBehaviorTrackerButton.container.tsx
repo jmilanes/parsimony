@@ -4,7 +4,7 @@ import { Button, Icon } from "../../components";
 import { ProgramsPageMetaTestIds } from "@parsimony/types";
 import { Container } from "typedi";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
-import { DrawerContentTypes } from "../../services/appStateService";
+import { DrawerContentTypes } from "../../domains/services/appStateService";
 
 // TODO MAKE THIS GENERIC
 export const OpenBehaviorButton = () => {

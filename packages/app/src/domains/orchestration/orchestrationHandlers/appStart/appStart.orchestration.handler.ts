@@ -2,10 +2,8 @@ import { Service } from "typedi";
 
 import { IOrchestrationHandler } from "../orchestrationHandler.interface";
 import RequestService from "../../../requests/request.Service";
-import ChatService from "../../../../services/chat.service";
-import AppStateService, {
-  AppState
-} from "../../../../services/appStateService";
+import ChatService from "../../../services/chat.service";
+import AppStateService, { AppState } from "../../../services/appStateService";
 
 export interface AppStartOrchestrationOptions {}
 

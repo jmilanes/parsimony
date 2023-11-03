@@ -5,7 +5,7 @@ import ReactDom from "react-dom";
 
 import { generateApp } from "./utils";
 import routes from "./routes";
-import AppController from "./services/app.service";
+import AppController from "./domains/services/app.service";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";

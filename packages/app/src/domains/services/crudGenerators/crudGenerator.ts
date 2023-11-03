@@ -1,5 +1,5 @@
-import { Domains } from "@parsimony/types";
-import { ICrudGenerator, IId } from "@parsimony/types";
+import { Domains } from "@parsimony/types/dist";
+import { ICrudGenerator, IId } from "@parsimony/types/dist";
 
 const crudGenerator = <Schema>(domainName: Domains) => {
   return class Service implements ICrudGenerator<Schema> {

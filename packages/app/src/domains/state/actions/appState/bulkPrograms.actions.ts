@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 
-import { BulkProgram } from "../../../../services/appStateService";
+import { BulkProgram } from "../../../services/appStateService";
 import { exactIncludes } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 import { Domains } from "@parsimony/types/dist";

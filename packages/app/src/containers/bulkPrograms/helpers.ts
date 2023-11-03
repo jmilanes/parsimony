@@ -1,7 +1,7 @@
 import { Container } from "typedi";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
-import { BulkProgram } from "../../services/appStateService";
+import { BulkProgram } from "../../domains/services/appStateService";
 
 //TODO MOVE TO ACTIONS
 export const createBulkOrderSelectable = <E extends { id: string }>(

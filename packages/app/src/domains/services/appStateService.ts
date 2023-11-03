@@ -2,13 +2,11 @@ import {
   Domains,
   ICompletenessState,
   IResultsState,
-  Program,
-  User
+  Program
 } from "@parsimony/types";
-import { clone } from "../utils";
-import Store from "../domains/state/store/store";
+import { clone } from "../../utils";
+import Store from "../state/store/store";
 import { Service } from "typedi";
-import { useState } from "react";
 
 type Subset<K> = {
   [attr in keyof K]?: K[attr] extends object

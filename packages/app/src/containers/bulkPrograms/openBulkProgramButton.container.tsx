@@ -6,7 +6,7 @@ import {
 } from "@parsimony/types";
 import { Container } from "typedi";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
-import { DrawerContentTypes } from "../../services/appStateService";
+import { DrawerContentTypes } from "../../domains/services/appStateService";
 
 export const OpenBulkProgramButton = () => {
   const API = Container.get(UIApi);

@@ -6,13 +6,13 @@ import {
 } from "../../orchestration/orchestrationHandlers/handlers.typemap";
 import Store, { DomainReturnTypeMap } from "../../state/store/store";
 import { Domains } from "@parsimony/types/dist";
-import AppStateService, { AppState } from "../../../services/appStateService";
+import AppStateService, { AppState } from "../../services/appStateService";
 
 import RequestService, {
   RequestsTypeMap
 } from "../../requests/request.Service";
-import AuthService from "../../../services/auth.service";
-import StateService from "../../../services/state.service";
+import AuthService from "../../services/auth.service";
+import StateService from "../../services/state.service";
 import { DialogControlService } from "../../controls/dialogControl.service";
 import { FormService } from "../../forms/form.service";
 

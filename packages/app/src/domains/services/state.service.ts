@@ -1,5 +1,5 @@
-import { clone, setDataWithPath } from "../utils";
-import Store from "../domains/state/store/store";
+import { clone, setDataWithPath } from "../../utils";
+import Store from "../state/store/store";
 import { Service } from "typedi";
 
 export type IUpdateLocalStatePayload = {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ChatMetaTestIds, Domains, Thread } from "@parsimony/types";
-import { DrawerContentTypes } from "../../services/appStateService";
+import { DrawerContentTypes } from "../../domains/services/appStateService";
 import { Button, Col, List, Row } from "../../components";
 import { ChatMessager } from "../index";
 import { getThreadName } from "../../utils";
