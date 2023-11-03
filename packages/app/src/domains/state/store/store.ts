@@ -48,7 +48,6 @@ export default class Store {
     // this.#chatService = cs;
     // domains
     this.store$ = {
-      // TODO: Current User
       [Domains.User]: new BehaviorSubject<UserStoreValue>({}),
       [Domains.Program]: new BehaviorSubject<ProgramStoreValue>({}),
       [Domains.Result]: new BehaviorSubject<ResultStoreValue>({}),

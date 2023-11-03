@@ -8,18 +8,16 @@ import { APP_STATE } from "./initialAppStateTree";
 @Service()
 export default class AppStateService {
   store: Store;
-  appState: AppState;
 
   constructor(store: Store) {
     //@ts-ignore
     window.getAppState = this.getAppState;
 
     this.store = store;
-    this.appState = APP_STATE;
   }
 
   init = () => {
-    this.store.getDomain$(Domains.AppState).next(this.appState);
+    this.store.getDomain$(Domains.AppState).next(APP_STATE);
   };
 
   public getAppState = () => {
