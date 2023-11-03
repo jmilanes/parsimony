@@ -1,4 +1,4 @@
-import { IOptionMultiSelect } from "../components/multiSelect.component";
+import { IOptionMultiSelect } from "../view/components/multiSelect.component";
 
 import {
   BehaviorType,
@@ -15,7 +15,7 @@ import {
   TrialChainingDirections,
   UserRoles
 } from "@parsimony/types";
-import { IOption } from "../components";
+import { IOption } from "../view/components";
 
 export const currentUserLS = localStorage.getItem("currentUserId");
 

@@ -9,10 +9,10 @@ import {
   useSearchParams,
   HashRouter
 } from "react-router-dom";
-import { Button, Nav } from "../components";
+import { Button, Nav } from "../view/components";
 import { uuid } from ".";
 import { IRoute } from "@parsimony/types";
-import { Login } from "../pages";
+import { Login } from "../view/pages";
 import { Container as DI } from "typedi";
 import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 import {
@@ -20,7 +20,7 @@ import {
   Drawer,
   DialogContainer,
   NotificationContainer
-} from "../containers";
+} from "../view/containers";
 
 export const generateApp = (routes: IRoute[]) => {
   const API = DI.get(UIApi);

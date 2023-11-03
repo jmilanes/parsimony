@@ -1,5 +1,5 @@
 import { ServiceProviders, User, UserRoles } from "@parsimony/types";
-import { IOption } from "../components";
+import { IOption } from "../view/components";
 
 export const initialUserData: Partial<User> = {
   firstName: "",
