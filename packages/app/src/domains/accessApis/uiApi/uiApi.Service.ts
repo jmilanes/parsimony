@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ActionDomainService } from "../../state/actions/action.domain.service";
 import CoreApi from "../coreApi/coreApi.service";
-import SharedUtilitiesService from "../../utils/sharedUtilities/sharedUtilities.service";
+import SharedUtilitiesService from "../../sharedUtilities/sharedUtilities.service";
 
 /**
  * API Between service and UI Layer
