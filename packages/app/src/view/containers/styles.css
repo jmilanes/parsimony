@@ -1,7 +1,0 @@
-.observeTarget {
-  border: 1px solid black;
-}
-
-.observeTarget.complete {
-  border: 1px solid green;
-}

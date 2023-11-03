@@ -12,8 +12,8 @@ import { Container } from "typedi";
 
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 
-import { createBulkOrderSelectable } from "../bulkPrograms/helpers";
-import { CollectionSelectorContainer } from "../collectionSelector.container";
+import { createBulkOrderSelectable } from "../program/bulkPrograms/helpers";
+import { CollectionSelectorContainer } from "./collectionSelector.container";
 import { clone, omitMongoKeys, removeMongoIds } from "../../../utils";
 
 export type IProgramTableProps = React.PropsWithChildren<{

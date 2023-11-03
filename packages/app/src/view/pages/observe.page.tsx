@@ -9,8 +9,8 @@ import { Container } from "typedi";
 import { useAsyncRetry } from "react-use";
 import { message, Spin } from "antd";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
-import { DiscreteTrial } from "../containers/observations/discreteTrial.container";
-import { TaskAnalysis } from "../containers/observations/taskAnalysis.container";
+import { DiscreteTrial } from "../containers/observation/discreteTrial.container";
+import { TaskAnalysis } from "../containers/observation/taskAnalysis.container";
 import { DatePicker } from "@mui/x-date-pickers";
 
 const Observe = () => {

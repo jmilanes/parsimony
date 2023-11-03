@@ -16,7 +16,7 @@ import {
   programTypes
 } from "../../../fixtures";
 import { Field, RichText, Selector } from "../../components";
-import { AddForm } from "../addForm.container";
+import { AddForm } from "../shared/addForm.container";
 
 import { Container } from "typedi";
 import { getFullName, removeMongoIds } from "../../../utils";

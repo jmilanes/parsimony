@@ -1,7 +1,7 @@
 import AppStateService, {
   DialogControls,
   DialogQueueItem
-} from "../services/appStateService";
+} from "../state/appStateService";
 
 import { Service } from "typedi";
 

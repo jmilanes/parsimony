@@ -13,7 +13,7 @@ import {
   requestPasswordReset
 } from "@parsimony/bal";
 import { Service } from "typedi";
-import AppStateService, { LoginViewTypes } from "./appStateService";
+import AppStateService, { LoginViewTypes } from "../state/appStateService";
 
 //auth n
 @Service()

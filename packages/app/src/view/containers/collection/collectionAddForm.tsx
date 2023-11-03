@@ -9,7 +9,7 @@ import {
 
 import { initialCollectionData } from "../../../fixtures";
 import { Field } from "../../components";
-import { AddForm } from "../addForm.container";
+import { AddForm } from "../shared/addForm.container";
 
 import { Container } from "typedi";
 

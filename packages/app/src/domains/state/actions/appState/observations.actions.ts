@@ -14,10 +14,7 @@ import {
 } from "@parsimony/types/dist";
 import { initialResultData } from "../../../../fixtures";
 import { calculateAverage, clone, removeMongoIds } from "../../../../utils";
-import {
-  Observation,
-  ObservationTarget
-} from "../../../services/appStateService";
+import { Observation, ObservationTarget } from "../../appStateService";
 
 export const Discrete_Trial_ID = "discrete";
 

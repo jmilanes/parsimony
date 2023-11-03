@@ -8,11 +8,11 @@ import React, { useState } from "react";
 
 import { Button, Col, Field, Header, Row } from "../../components";
 
-import { DrawerContentTypes } from "../../../domains/services/appStateService";
+import { DrawerContentTypes } from "../../../domains/state/appStateService";
 import { getFullName } from "../../../utils";
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
-import { ClientSelector } from "../clientSelector";
+import { ClientSelector } from "../shared/clientSelector";
 
 export const CreateChat = () => {
   const API = Container.get(UIApi);

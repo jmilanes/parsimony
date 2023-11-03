@@ -17,9 +17,9 @@ import {
   trialOptions
 } from "../../../fixtures";
 import { Field, RichText, Selector } from "../../components";
-import { TargetOptionSelector } from "../targetOptionsSelector.container";
-import { TargetForm } from "../targetForm.container";
-import { AddForm } from "../addForm.container";
+import { TargetOptionSelector } from "../observation/targetOptionsSelector.container";
+import { TargetForm } from "../observation/targetForm.container";
+import { AddForm } from "../shared/addForm.container";
 
 import { Container } from "typedi";
 import { removeMongoIds } from "../../../utils";

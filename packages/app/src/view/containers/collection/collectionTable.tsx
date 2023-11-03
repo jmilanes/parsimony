@@ -12,8 +12,8 @@ import { IColumns, ISelectable, ITableAction, Table } from "../../components";
 import { Container } from "typedi";
 import { navigateToRoute } from "../../../utils";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
-import { createBulkOrderSelectable } from "../bulkPrograms/helpers";
-import { CollectionSelectorContainer } from "../collectionSelector.container";
+import { createBulkOrderSelectable } from "../program/bulkPrograms/helpers";
+import { CollectionSelectorContainer } from "./collectionSelector.container";
 
 export type ICollectionTableProps = React.PropsWithChildren<{
   collections: Collection[];
