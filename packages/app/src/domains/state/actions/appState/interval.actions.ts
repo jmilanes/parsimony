@@ -1,8 +1,11 @@
 import { Service } from "typedi";
-import { Program } from "@parsimony/types";
-import { buildCreateBehaviorRequest } from "../../utils";
-import CoreApi from "../../domains/coreApi/coreApi.service";
-import { BehaviorTracker, Interval } from "../../services/appStateService";
+import { Program } from "@parsimony/types/dist";
+import { buildCreateBehaviorRequest } from "../../../../utils";
+import CoreApi from "../../../accessApis/coreApi/coreApi.service";
+import {
+  BehaviorTracker,
+  Interval
+} from "../../../../services/appStateService";
 
 const initialIntervalState: Interval = {
   active: false,

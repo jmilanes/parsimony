@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "../components";
 import { Container as DI } from "typedi";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 
 const Home = () => {
   const API = DI.get(UIApi);

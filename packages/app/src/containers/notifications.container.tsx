@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Snackbar from "@mui/material/Snackbar";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 import { Container } from "typedi";
 import { Notification } from "../services/appStateService";
 

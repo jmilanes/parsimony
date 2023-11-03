@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Container } from "typedi";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 import { LoginForm } from "../containers/auth/login.form.contianer";
 import { RequestPasswordRequestForm } from "../containers/auth/request.form.contianer";
 import { ResetPasswordForm } from "../containers/auth/resetPassword.form.contianer";

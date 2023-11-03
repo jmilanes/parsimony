@@ -14,7 +14,7 @@ import { uuid } from ".";
 import { IRoute } from "@parsimony/types";
 import { Login } from "../pages";
 import { Container as DI } from "typedi";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 import {
   AppHeader,
   Drawer,

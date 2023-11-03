@@ -23,7 +23,7 @@ import {
 import { Container as DI } from "typedi";
 import { useAsync } from "react-use";
 import { Spin } from "antd";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 
 const Program = () => {
   //TODO fix the container collision

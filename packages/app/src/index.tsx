@@ -13,7 +13,7 @@ import "antd/dist/antd.css";
 import { useAsync } from "react-use";
 import { Container as DI, Container } from "typedi";
 import { Spin } from "antd";
-import UIApi from "./domains/uiApi/uiApi.Service";
+import UIApi from "./domains/accessApis/uiApi/uiApi.Service";
 
 const app = document.getElementById("app");
 

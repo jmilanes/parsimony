@@ -7,7 +7,7 @@ import { compileStyles, generateKey } from "../../utils";
 import { Button } from "../../components";
 import React from "react";
 import { Container as DI } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
 export const ActiveTarget = ({
   target,

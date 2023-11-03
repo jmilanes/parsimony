@@ -20,7 +20,7 @@ import { Container } from "typedi";
 
 import { useAsync } from "react-use";
 import { Spin } from "antd";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 import { navigateToRoute } from "../utils";
 
 const Books = () => {

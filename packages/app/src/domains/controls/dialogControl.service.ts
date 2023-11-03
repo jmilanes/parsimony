@@ -5,9 +5,8 @@ import AppStateService, {
 
 import { Service } from "typedi";
 
-//TODO This should go in system domain
 @Service()
-export class DialogActions {
+export class DialogControlService {
   #ass: AppStateService;
 
   constructor(ass: AppStateService) {

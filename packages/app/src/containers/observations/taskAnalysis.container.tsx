@@ -4,7 +4,7 @@ import { ObserveTarget } from "../observeTarget.container";
 import { Program } from "@parsimony/types";
 import { compileStyles, generateKey } from "../../utils";
 import { Container } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
 export const TaskAnalysis = ({ program }: { program: Program }) => {
   const API = Container.get(UIApi);

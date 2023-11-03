@@ -18,7 +18,7 @@ import { Line } from "react-chartjs-2";
 import { Container as DI } from "typedi";
 import { useAsync, useAsyncRetry } from "react-use";
 import { Spin } from "antd";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 
 ChartJS.register(
   CategoryScale,

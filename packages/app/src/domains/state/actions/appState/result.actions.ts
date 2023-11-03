@@ -6,9 +6,9 @@ import {
   Program,
   Result,
   TargetStyle
-} from "@parsimony/types";
-import { getFullDate } from "../../utils";
-import CoreApi from "../../domains/coreApi/coreApi.service";
+} from "@parsimony/types/dist";
+import { getFullDate } from "../../../../utils";
+import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 
 const chartDefaults = {
   fill: false,

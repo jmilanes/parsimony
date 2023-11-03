@@ -13,7 +13,7 @@ import { omit } from "ramda";
 import { debounceTime, distinctUntilChanged, fromEvent } from "rxjs";
 import { format, intervalToDuration } from "date-fns";
 import { Container } from "typedi";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 
 export const filterByProp = <T>(domain: T[], prop: keyof T): T[] =>
   domain.filter((c: T) => c[prop]);

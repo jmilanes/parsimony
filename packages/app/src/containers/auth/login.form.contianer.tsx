@@ -4,7 +4,7 @@ import { AuthPageMetaTestIds, LoginPayload } from "@parsimony/types";
 import { Button, Field } from "../../components";
 
 import { Container } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
 export const LoginForm = () => {
   const API = Container.get(UIApi);

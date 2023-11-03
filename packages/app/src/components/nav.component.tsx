@@ -10,7 +10,7 @@ import {
   OpenProgramViewButton
 } from "../containers";
 import { Container as DI } from "typedi";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 
 export type INavProps = {
   routes: IRoute[];

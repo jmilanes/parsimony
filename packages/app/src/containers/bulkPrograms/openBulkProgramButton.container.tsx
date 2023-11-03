@@ -5,7 +5,7 @@ import {
   ProgramsPageMetaTestIds
 } from "@parsimony/types";
 import { Container } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 import { DrawerContentTypes } from "../../services/appStateService";
 
 export const OpenBulkProgramButton = () => {

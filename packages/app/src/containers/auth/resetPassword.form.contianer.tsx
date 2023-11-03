@@ -8,7 +8,7 @@ import {
 import { Button, Field } from "../../components";
 
 import { Container } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
 export const ResetPasswordForm = () => {
   const API = Container.get(UIApi);

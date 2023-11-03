@@ -1,7 +1,7 @@
 import { Service } from "typedi";
-import CoreApi from "../../domains/coreApi/coreApi.service";
-import { Collection, Domains, Program } from "@parsimony/types";
-import { CollectionSelector } from "../../services/appStateService";
+import CoreApi from "../../../accessApis/coreApi/coreApi.service";
+import { Collection, Domains, Program } from "@parsimony/types/dist";
+import { CollectionSelector } from "../../../../services/appStateService";
 
 @Service()
 export class CollectionRelocationActions {

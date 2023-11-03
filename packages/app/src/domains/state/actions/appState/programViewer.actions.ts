@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 
-import CoreApi from "../../domains/coreApi/coreApi.service";
+import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 import { ActionUtiltites } from "./utilities.actions";
 
 @Service()

@@ -1,18 +1,20 @@
 import { Service } from "typedi";
-import OrchestrationService from "../orchestration/orchestration.service";
+import OrchestrationService from "../../orchestration/orchestration.service";
 import {
   DATA_HANDLERS,
   OrchestrationHandlerOptionsTypeMap
-} from "../orchestration/orchestrationHandlers/handlers.typemap";
-import Store, { DomainReturnTypeMap } from "../store/store";
-import { Domains } from "@parsimony/types";
-import AppStateService, { AppState } from "../../services/appStateService";
+} from "../../orchestration/orchestrationHandlers/handlers.typemap";
+import Store, { DomainReturnTypeMap } from "../../state/store/store";
+import { Domains } from "@parsimony/types/dist";
+import AppStateService, { AppState } from "../../../services/appStateService";
 
-import RequestService, { RequestsTypeMap } from "../requests/request.Service";
-import AuthService from "../../services/auth.service";
-import StateService from "../../services/state.service";
-import { DialogActions } from "../controls/dialog.actions";
-import { FormService } from "../forms/form.service";
+import RequestService, {
+  RequestsTypeMap
+} from "../../requests/request.Service";
+import AuthService from "../../../services/auth.service";
+import StateService from "../../../services/state.service";
+import { DialogControlService } from "../../controls/dialogControl.service";
+import { FormService } from "../../forms/form.service";
 
 /**
  * API Between service and UI Layer
@@ -25,7 +27,7 @@ export default class CoreApi {
   #ass: AppStateService;
   #rs: RequestService;
   #store: Store;
-  #dialog: DialogActions;
+  #dcs: DialogControlService;
   #auth: AuthService;
   #ss: StateService;
   #fs: FormService;
@@ -33,7 +35,7 @@ export default class CoreApi {
   constructor(
     os: OrchestrationService,
     s: Store,
-    d: DialogActions,
+    dcs: DialogControlService,
     ass: AppStateService,
     rs: RequestService,
     auth: AuthService,
@@ -46,7 +48,7 @@ export default class CoreApi {
     this.#rs = rs;
     this.#auth = auth;
     this.#ss = ss;
-    this.#dialog = d;
+    this.#dcs = dcs;
     this.#fs = fs;
   }
 
@@ -63,7 +65,7 @@ export default class CoreApi {
   }
 
   public get Dialog() {
-    return this.#dialog;
+    return this.#dcs;
   }
 
   public get Form() {

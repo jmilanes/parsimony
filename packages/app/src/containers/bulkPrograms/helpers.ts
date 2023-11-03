@@ -1,5 +1,5 @@
 import { Container } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
 import { BulkProgram } from "../../services/appStateService";
 

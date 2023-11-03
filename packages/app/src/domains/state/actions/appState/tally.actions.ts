@@ -1,8 +1,8 @@
 import { Service } from "typedi";
 
-import { Program } from "@parsimony/types";
-import { buildCreateBehaviorRequest, clone, uuid } from "../../utils";
-import CoreApi from "../../domains/coreApi/coreApi.service";
+import { Program } from "@parsimony/types/dist";
+import { buildCreateBehaviorRequest, clone, uuid } from "../../../../utils";
+import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 
 // MAke Actions pattern better...
 @Service()

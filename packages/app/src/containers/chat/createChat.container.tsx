@@ -6,7 +6,7 @@ import { Button, Col, Field, Header, Row } from "../../components";
 import { DrawerContentTypes } from "../../services/appStateService";
 import { getFullName } from "../../utils";
 import { Container } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 import { ClientSelector } from "../clientSelector";
 
 export const CreateChat = () => {

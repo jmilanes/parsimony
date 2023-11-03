@@ -12,7 +12,7 @@ import { useAsync } from "react-use";
 import { Spin } from "antd";
 
 import { DATA_HANDLERS } from "../../domains/orchestration/orchestrationHandlers/handlers.typemap";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 import AncestorNavigationContainer from "./ancestorNavigation.container";
 
 const CollectionViewerContainer = ({

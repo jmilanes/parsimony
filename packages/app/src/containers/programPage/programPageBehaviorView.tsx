@@ -12,7 +12,7 @@ import { Checkbox, Field, RichText, Selector } from "../../components";
 import { getFullName, isReadOnlyMode } from "../../utils";
 import { behaviorTypes } from "../../fixtures";
 import { Container as DI } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
 export const ProgramPageBehaviorView = ({
   localState,

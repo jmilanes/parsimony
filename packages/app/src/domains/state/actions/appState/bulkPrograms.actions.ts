@@ -1,9 +1,9 @@
 import { Service } from "typedi";
 
-import { BulkProgram } from "../../services/appStateService";
-import { exactIncludes } from "../../utils";
-import CoreApi from "../../domains/coreApi/coreApi.service";
-import { Domains } from "@parsimony/types";
+import { BulkProgram } from "../../../../services/appStateService";
+import { exactIncludes } from "../../../../utils";
+import CoreApi from "../../../accessApis/coreApi/coreApi.service";
+import { Domains } from "@parsimony/types/dist";
 import { omit } from "ramda";
 import { message } from "antd";
 import { ActionUtiltites } from "./utilities.actions";

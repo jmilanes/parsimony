@@ -1,7 +1,7 @@
 import { Inject, Service } from "typedi";
 
 import { DATA_HANDLERS } from "../domains/orchestration/orchestrationHandlers/handlers.typemap";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 
 @Service()
 export default class AppController {

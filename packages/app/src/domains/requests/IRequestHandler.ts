@@ -1,7 +1,7 @@
 import { Domains, ICrudRequests, IId } from "@parsimony/types";
 import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../../utils";
-import Store from "../store/store";
+import Store from "../state/store/store";
 import { Service } from "typedi";
 import { message } from "antd";
 

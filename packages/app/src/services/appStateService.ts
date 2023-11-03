@@ -6,7 +6,7 @@ import {
   User
 } from "@parsimony/types";
 import { clone } from "../utils";
-import Store from "../domains/store/store";
+import Store from "../domains/state/store/store";
 import { Service } from "typedi";
 import { useState } from "react";
 

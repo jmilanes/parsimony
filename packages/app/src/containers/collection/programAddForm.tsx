@@ -23,7 +23,7 @@ import { AddForm } from "../addForm.container";
 
 import { Container } from "typedi";
 import { removeMongoIds } from "../../utils";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
 export type IProgramAddFormProps = React.PropsWithChildren<{
   show: boolean;

@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 
-import CoreApi from "../../domains/coreApi/coreApi.service";
+import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 import {
   Domains,
   ICompletenessState,
@@ -11,10 +11,13 @@ import {
   TargetResultOption,
   TargetStyle,
   TrialChainingDirections
-} from "@parsimony/types";
-import { initialResultData } from "../../fixtures";
-import { calculateAverage, clone, removeMongoIds } from "../../utils";
-import { Observation, ObservationTarget } from "../../services/appStateService";
+} from "@parsimony/types/dist";
+import { initialResultData } from "../../../../fixtures";
+import { calculateAverage, clone, removeMongoIds } from "../../../../utils";
+import {
+  Observation,
+  ObservationTarget
+} from "../../../../services/appStateService";
 
 export const Discrete_Trial_ID = "discrete";
 

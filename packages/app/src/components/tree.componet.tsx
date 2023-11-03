@@ -9,7 +9,7 @@ import { StyledTreeItem } from "./styledTreeItem.component";
 import DescriptionIcon from "@mui/icons-material/Description";
 import Collections from "@mui/icons-material/Collections";
 import { Container } from "typedi";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 
 export type TreeActions = {
   onClose?: (id: string, isProgram?: boolean) => void;

@@ -1,9 +1,9 @@
 import React from "react";
 import { ObservationMetaTestIds, Target } from "@parsimony/types";
-import { Discrete_Trial_ID } from "../../actions/appState/observations.actions";
+import { Discrete_Trial_ID } from "../../domains/state/actions/appState/observations.actions";
 import { Button } from "../../components";
 import { Container } from "typedi";
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
 export const DiscreteTrialsControlsContainer = () => {
   const API = Container.get(UIApi);

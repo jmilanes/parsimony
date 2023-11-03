@@ -41,7 +41,7 @@ import { ITableAction } from "../components/table.component";
 import { message, Spin } from "antd";
 import { Container as DI } from "typedi";
 import { useAsync } from "react-use";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 import CollectionViewerContainer from "../containers/collection/collecitonViewer.container";
 
 const User = () => {

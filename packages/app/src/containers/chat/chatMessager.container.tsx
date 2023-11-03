@@ -7,7 +7,7 @@ import { ChatMetaTestIds, Message, Domains, Thread } from "@parsimony/types";
 import { getThreadName } from "../../utils";
 import { Container } from "typedi";
 
-import UIApi from "../../domains/uiApi/uiApi.Service";
+import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
 type IChatMessageRProps = {
   thread?: Thread;

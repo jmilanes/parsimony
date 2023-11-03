@@ -7,7 +7,7 @@ import {
   Program
 } from "@parsimony/types";
 import { Container } from "typedi";
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 
 import { useAsync } from "react-use";
 

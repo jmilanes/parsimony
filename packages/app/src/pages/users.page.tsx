@@ -29,7 +29,7 @@ import { IColumns, ITableAction } from "../components/table.component";
 import { message } from "antd";
 import { Container } from "typedi";
 
-import UIApi from "../domains/uiApi/uiApi.Service";
+import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
 
 const Users = () => {
   const API = Container.get(UIApi);
