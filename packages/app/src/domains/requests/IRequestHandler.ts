@@ -44,7 +44,7 @@ export class IRequestHandler<
     const item = (await this.requests.create(
       payload
     )) as AwaitedSchemaWithId<Schema>;
-    this.#store.addItemToDomain(this.domainName, item);
+    this.#store.addItemByDomain(this.domainName, item);
     return item;
   };
 
@@ -52,7 +52,7 @@ export class IRequestHandler<
     // TODO: Make a better version of this
     if (window.confirm(`Are you sure you want to Delete this Item?`)) {
       const id = await this.requests.delete(payload);
-      this.#store.deleteItemFromStore(this.domainName, id);
+      this.#store.deleteItemByDomain(this.domainName, id);
       return id;
     }
   };
@@ -61,7 +61,7 @@ export class IRequestHandler<
     const item = (await this.requests.update(
       payload
     )) as AwaitedSchemaWithId<Schema>;
-    this.#store.updateDomainListItem(this.domainName, item);
+    this.#store.updateItemByDomain(this.domainName, item);
     return item;
   };
 
@@ -80,14 +80,14 @@ export class IRequestHandler<
     const item = (await this.requests.get(
       payload
     )) as AwaitedSchemaWithId<Schema>;
-    this.#store.addItemToDomain(this.domainName, item);
+    this.#store.addItemByDomain(this.domainName, item);
   };
 
   getAllByRelationship = async (payload: GetAllByRelationshipPayload) => {
     try {
       const newItems = await this.requests.getAllByRelationship(payload);
       if (newItems) {
-        this.#store.addItemsToDomain(this.domainName, arrayToObj(newItems));
+        this.#store.addItemsByDomain(this.domainName, arrayToObj(newItems));
       }
     } catch (e) {
       console.error(e);

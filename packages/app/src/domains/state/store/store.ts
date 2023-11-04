@@ -7,7 +7,7 @@ import {
   Collection,
   Thread
 } from "@parsimony/types";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, merge } from "rxjs";
 import { arrayToObj } from "../../../utils";
 import { AppState } from "../appState/appState.types";
 import { Service } from "typedi";
@@ -31,6 +31,16 @@ type ThreadStoreValue = Record<IId, Thread>;
 //TODO: THink about removing these
 
 type CollectionStoreValue = Record<IId, Collection>;
+
+type StoreValues = {
+  [Domains.User]: UserStoreValue;
+  [Domains.Program]: ProgramStoreValue;
+  [Domains.Result]: ResultStoreValue;
+  [Domains.Thread]: ThreadStoreValue;
+  [Domains.Collection]: CollectionStoreValue;
+  //TODO: This is only clientside so need to make it clearer maybe this is all just one store
+  [Domains.AppState]: AppState;
+};
 
 //TODO: idea maybe the store can be turned into async then we can check if its not inclued we can go fetch
 // Also have an option for allways fetching
@@ -82,29 +92,27 @@ export default class Store {
 
   // Used to connect all domains to the state manager updated
   public subscribeToStore(next: any) {
-    Object.values(this.store$).forEach((domain$) => {
-      domain$.subscribe({ next });
-    });
+    merge(Object.values(this.store$)).subscribe({ next });
   }
 
-  public addItemToDomain<T>(domainName: Domains, item: T & { id?: IId }) {
+  public addItemByDomain<T>(domainName: Domains, item: T & { id?: IId }) {
     if (!item?.id) return;
     const newStore$ = { ...this.store$[domainName].value, [item.id]: item };
     this.store$[domainName].next(newStore$);
   }
 
-  public addItemsToDomain<T>(domainName: Domains, items: T[] = []) {
+  public addItemsByDomain<T>(domainName: Domains, items: T[] = []) {
     const newStore$ = { ...this.store$[domainName].value, ...items };
     this.store$[domainName].next(newStore$);
   }
 
-  public deleteItemFromStore(domainName: Domains, id: IId) {
-    const domain = { ...this.getDomainValue(domainName) };
+  public deleteItemByDomain(domainName: Domains, id: IId) {
+    const domain = { ...this.getCurrentValueByDomain(domainName) };
     delete domain[id];
     this.store$[domainName].next(domain);
   }
 
-  public updateDomainListItem<T>(
+  public updateItemByDomain<T>(
     domainName: Domains,
     updatedItem: T & { id?: IId }
   ) {
@@ -117,19 +125,18 @@ export default class Store {
   }
 
   // Returns an object
-  public getDomainValue = (domainName: Domains) => {
+  public getCurrentValueByDomain = (domainName: Domains) => {
     return this.store$[domainName].value;
   };
 
-  public getDomainItem = <T>(domainName: Domains, id?: IId) => {
+  public getItemByDomain = <T>(domainName: Domains, id?: IId) => {
     if (!id) {
       throw new Error("No id Proved getDomainIntem");
     }
     return this.store$[domainName].value[id];
   };
 
-  // Returns an array
-  public getCurrentDomainItems = <T>(domainName: Domains): T[] => {
+  public getAllItemsByDomain = <T>(domainName: Domains): T[] => {
     return Object.values(this.store$[domainName].value);
   };
 
@@ -139,6 +146,6 @@ export default class Store {
   };
 
   public getValueByPath = (domainName: Domains, path: string) => {
-    return get(this.getDomainValue(domainName), path);
+    return get(this.getCurrentValueByDomain(domainName), path);
   };
 }

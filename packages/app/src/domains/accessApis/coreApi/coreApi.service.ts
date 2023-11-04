@@ -86,7 +86,7 @@ export default class CoreApi {
   >(
     d: K
   ): RT[] => {
-    return this.#store.getCurrentDomainItems<RT>(d);
+    return this.#store.getAllItemsByDomain<RT>(d);
   };
 
   public getItem = <K extends Domains, RT extends DomainReturnTypeMap[K]>(
@@ -96,7 +96,7 @@ export default class CoreApi {
     if (!id) {
       throw new Error("Undefined id passed to getItem in UI API");
     }
-    return this.#store.getDomainItem<RT>(d, id);
+    return this.#store.getItemByDomain<RT>(d, id);
   };
 
   public getStoreValueByPath = (d: Domains, path: string) => {
