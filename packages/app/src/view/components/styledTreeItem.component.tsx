@@ -5,7 +5,6 @@ import TreeItem, { TreeItemProps } from "@mui/lab/TreeItem";
 import Typography from "@mui/material/Typography";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import CloseIcon from "@mui/icons-material/Close";
-import { Ref } from "react";
 
 type StyledTreeItemProps = TreeItemProps & {
   bgColor?: string;
@@ -17,7 +16,6 @@ type StyledTreeItemProps = TreeItemProps & {
   labelText: string;
   onClose?: () => void;
   onClick?: () => void;
-  ref?: Ref<HTMLLIElement>;
 };
 
 export const StyledTreeItem = (props: StyledTreeItemProps) => {
