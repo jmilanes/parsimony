@@ -44,5 +44,5 @@ export const createRequest = <P, R>(mutation: string) => {
 const parseResponseJson = <R>(response: {
   data: Record<string, unknown>;
 }): R => {
-  return Object.values(response.data)[0] as R;
+  return Object.values(response?.data || {})[0] as R;
 };

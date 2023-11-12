@@ -92,7 +92,7 @@ export default class Store {
 
   // Used to connect all domains to the state manager updated
   public subscribeToStore(next: any) {
-    merge(Object.values(this.store$)).subscribe({ next });
+    merge(...Object.values(this.store$)).subscribe({ next });
   }
 
   public addItemByDomain<T>(domainName: Domains, item: T & { id?: IId }) {

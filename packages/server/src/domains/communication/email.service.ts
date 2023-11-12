@@ -18,7 +18,7 @@ import { CreatedUserEmail } from "./emails/email.createUser";
  */
 @Service()
 export class EmailService {
-  #senderEmail: string = process.env.EMAIL_SERVICE_SENDER_EMAIL || "";
+  #senderEmail: string = "services@parsimony.app";
   #transporter: Transporter;
   #emails: Record<EMAIL_TEMPLATES, Email>;
 

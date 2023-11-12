@@ -37,6 +37,7 @@ jobs:
            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
           --build-arg ACCESS_TOKEN_SECRET="${{ secrets.ACCESS_TOKEN_SECRET }}" \
           --build-arg REFRESH_TOKEN_SECRET="${{ secrets.REFRESH_TOKEN_SECRET }}" \
+          --build-arg EMAIL_SERVICE_PASSWORD="${{ secrets.EMAIL_SERVICE_PASSWORD }}" \
           --build-arg MONGO_PW="${{ secrets.MONGO_PW }}" \
           --no-cache .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

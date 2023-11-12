@@ -6,7 +6,6 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { generateMetaTestId } from "../../utils";
 import { CONTAINER_INPUT_MARGIN } from "../../constants";
 
-//TODO: Exten the textfield props
 export type IFieldProps = TextFieldProps & {
   key?: string;
   readOnly?: boolean;
