@@ -62,8 +62,6 @@ const CollectionViewerContainer = ({
       .getItemsFromStore(Domains.Program)
       .filter((program) => program.collectionId === collectionId);
 
-  console.log("ALL", allPrograms);
-
   const programs = allPrograms.filter(
     (program) => program.targetStyle !== TargetStyle.Behavior
   );

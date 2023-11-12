@@ -9,7 +9,6 @@ export class NotificationActions {
   #api: CoreApi;
 
   constructor(_api: CoreApi) {
-    console.log("test", _api);
     this.#api = _api;
   }
 

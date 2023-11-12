@@ -95,8 +95,6 @@ const User = () => {
     .getItemsFromStore(Domains.Program)
     .filter((c) => c.clientId === userId);
 
-  console.log(topLevelPrograms);
-
   const updateState = stateManager.updateLocalState({
     localState,
     updateLocalState

@@ -8,7 +8,6 @@ export class DrawerActions {
   #api: CoreApi;
 
   constructor(_api: CoreApi) {
-    console.log("TEST", _api);
     this.#api = _api;
   }
 

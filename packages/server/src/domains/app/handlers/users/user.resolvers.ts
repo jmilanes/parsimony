@@ -56,7 +56,7 @@ export class UserResolvers extends BaseCrudResolvers {
 
       return entry;
     } catch (error) {
-      console.log("Create User error", error);
+      console.error("Create User error", error);
     }
   };
 }

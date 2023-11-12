@@ -25,7 +25,6 @@ export const LoginForm = () => {
     await authService.logIn(form.Data);
   };
 
-  console.log("Data", form.Data);
   return (
     <div>
       {!authService.schoolCached && (

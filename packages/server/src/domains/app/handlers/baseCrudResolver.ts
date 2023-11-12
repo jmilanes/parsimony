@@ -100,7 +100,7 @@ export class BaseCrudResolvers {
       });
       return entry;
     } catch (error) {
-      console.log("Create error", error);
+      console.error("Create error", error);
     }
   };
 
