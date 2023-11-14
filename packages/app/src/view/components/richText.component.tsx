@@ -43,8 +43,8 @@ export const RichText = ({
     metaTestQualifier
   );
   return readOnly ? (
-    <div key={key}>
-      <p>{placeHolderText}</p>
+    <div className="richTextContainer" key={key}>
+      <p>{placeHolderText}:</p>
       {parse(content || "")}
     </div>
   ) : (

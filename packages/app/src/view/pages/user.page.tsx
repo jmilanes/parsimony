@@ -5,23 +5,13 @@ import {
   userRoleOptionsWithStringValues
 } from "../../fixtures";
 
-import {
-  Button,
-  Container,
-  Field,
-  Header,
-  MultiSelect,
-  Row,
-  Selector,
-  Table
-} from "../components";
+import { Button, Field, Header, MultiSelect, Selector } from "../components";
 
 import {
   Collection,
   Domains,
   IModes,
   Program,
-  Routes,
   User,
   UserPageMetaTestIds,
   UserRoles
@@ -50,11 +40,15 @@ const User = () => {
   const { userId } = getRouterParams();
   const navigate = API.Navigation;
   const [mode, updateMode] = React.useState<IModes>("readOnly");
+
   const [selectedCollection, updateSelectedCollection] =
     React.useState<string>();
   const [localState, updateLocalState] = React.useState<User>();
 
   const { loading } = useAsync(async () => {
+    // Feels like this should move to orcestration
+    // This is why you would want a better accessor pattern
+    /// API.actions.collection.fetchByClientId
     await API.system.makeRequest({
       domain: Domains.Collection,
       requestType: "getAllByRelationship",
@@ -64,6 +58,7 @@ const User = () => {
       }
     });
 
+    /// API.actions.program.fetchByClientId
     await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "getAllByRelationship",
@@ -73,12 +68,14 @@ const User = () => {
       }
     });
 
+    /// API.actions.program.fetchByClientId
     await API.system.makeRequest({
       domain: Domains.User,
       requestType: "get",
       payload: { id: userId }
     });
 
+    //
     const user = API.system.getItem(Domains.User, userId);
     updateLocalState(clone(user) as User);
   });

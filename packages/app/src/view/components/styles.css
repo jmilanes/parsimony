@@ -236,6 +236,7 @@ hr {
     text-align: left;
 }
 
+
 .styled-table th,
 .styled-table td {
     padding: 12px 15px;
@@ -243,6 +244,10 @@ hr {
 
 .styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody .inactiveRow {
+    opacity: .60;
 }
 
 .styled-table tbody tr:nth-of-type(even) {
@@ -491,4 +496,11 @@ hr {
     background-color: var(--purple);
     color: white;
     font-size: 16px;
+}
+
+.richTextContainer {
+    border-bottom: 1px solid var(--purple);
+    border-top: 1px solid var(--purple);
+    padding-block-start: 12px;
+    margin-bottom: 12px;
 }

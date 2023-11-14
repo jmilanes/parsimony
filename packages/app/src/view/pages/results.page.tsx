@@ -16,7 +16,7 @@ import {
 import { Line } from "react-chartjs-2";
 
 import { Container as DI } from "typedi";
-import { useAsync, useAsyncRetry } from "react-use";
+import { useAsyncRetry } from "react-use";
 import { Spin } from "antd";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
@@ -45,7 +45,7 @@ const Results = () => {
     .getItemsFromStore(Domains.Result)
     .filter((r) => r.programId === programId)
     //@ts-ignore
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    .sort((a, b) => new Date(b.created_at) + new Date(a.created_at));
 
   // TODO make sorting better
 

@@ -9,6 +9,7 @@ import { BulkProgramsActions } from "./actions/bulkPrograms.actions";
 import { ObservationActions } from "./actions/observations.actions";
 import { ProgramViewerActions } from "./actions/programViewer.actions";
 import { CollectionRelocationActions } from "./actions/collection.relocation.actions";
+import { ToggleActions } from "./actions/toggle.actions";
 
 @Service()
 export class ActionDomainService {
@@ -22,6 +23,7 @@ export class ActionDomainService {
   #bulkProgramsActions: BulkProgramsActions;
   #observationActions: ObservationActions;
   #collectionRelocation: CollectionRelocationActions;
+  #toggleActions: ToggleActions;
 
   constructor(
     intervalActions: IntervalActions,
@@ -33,7 +35,10 @@ export class ActionDomainService {
     bulkProgramActions: BulkProgramsActions,
     observationActions: ObservationActions,
     programViewer: ProgramViewerActions,
-    collectionRelocation: CollectionRelocationActions
+    // TODO: Collections should be a class with two sub classes
+    // (same with program and behavior)
+    collectionRelocation: CollectionRelocationActions,
+    toggle: ToggleActions
   ) {
     this.#intervalActions = intervalActions;
     this.#resultActions = resultActions;
@@ -45,6 +50,7 @@ export class ActionDomainService {
     this.#observationActions = observationActions;
     this.#programViewer = programViewer;
     this.#collectionRelocation = collectionRelocation;
+    this.#toggleActions = toggle;
   }
 
   get timer() {
@@ -86,5 +92,9 @@ export class ActionDomainService {
 
   get collectionRelocation() {
     return this.#collectionRelocation;
+  }
+
+  get toggle() {
+    return this.#toggleActions;
   }
 }

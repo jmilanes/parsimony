@@ -10,11 +10,10 @@ import {
   Collection,
   CollectionCategories,
   Domains,
-  Program,
   ProgramsPageMetaTestIds
 } from "@parsimony/types/dist";
 
-import { getRouterParams, navigateToRoute } from "../../utils";
+import { getRouterParams } from "../../utils";
 
 import { Container } from "typedi";
 import { useAsync } from "react-use";
@@ -24,19 +23,20 @@ import CollectionViewerContainer from "../containers/collection/collecitonViewer
 
 const Collection = () => {
   const API = Container.get(UIApi);
+
   const { collectionId } = getRouterParams();
+
   const navigate = API.Navigation;
-  const [showProgramAddForm, setShowProductionForm] = React.useState(false);
-  const [showCollectionAddForm, setCollectionShowAddForm] =
-    React.useState(false);
-  const [showBehaviorAddForm, setBehaviorAShowAddForm] = React.useState(false);
+
   const { loading } = useAsync(async () => {
+    //TODO: Need to figure out how I want to access Domains stuff ()
     await API.system.makeRequest({
       domain: Domains.Collection,
       requestType: "get",
       payload: { id: collectionId }
     });
   }, [collectionId]);
+
   if (loading) return <Spin />;
 
   const toCollection = (collection?: Collection) => {
@@ -64,22 +64,28 @@ const Collection = () => {
           <Button
             key="add-program"
             name="Add Program"
-            action={() => setShowProductionForm(true)}
-            hidden={showProgramAddForm}
+            action={() =>
+              API.actions.toggle.setToggleActiveState("programForm", true)
+            }
+            hidden={API.actions.toggle.getToggleActiveState("programForm")}
             metaTestId={ProgramsPageMetaTestIds.addBtn}
           />,
           <Button
             key="add-behavior"
             name="Add Behavior"
-            action={() => setBehaviorAShowAddForm(true)}
-            hidden={showProgramAddForm}
+            action={() =>
+              API.actions.toggle.setToggleActiveState("behaviorForm", true)
+            }
+            hidden={API.actions.toggle.getToggleActiveState("behaviorForm")}
             metaTestId={ProgramsPageMetaTestIds.addBehaviror}
           />,
           <Button
             key="add-collection"
             name="Add Collection"
-            action={() => setCollectionShowAddForm(true)}
-            hidden={showProgramAddForm}
+            action={() =>
+              API.actions.toggle.setToggleActiveState("collectionForm", true)
+            }
+            hidden={API.actions.toggle.getToggleActiveState("collectionForm")}
             metaTestId={ProgramsPageMetaTestIds.addCollection}
           />,
           <OpenBulkProgramButton />
@@ -92,18 +98,24 @@ const Collection = () => {
         ancestorAction={toCollection}
       />
       <CollectionAddForm
-        show={showCollectionAddForm}
-        setShowCb={setCollectionShowAddForm}
+        show={API.actions.toggle.getToggleActiveState("collectionForm")}
+        setShowCb={(b) =>
+          API.actions.toggle.setToggleActiveState("collectionForm", b)
+        }
         parentId={collectionId}
       ></CollectionAddForm>
       <ProgramAddForm
-        show={showProgramAddForm}
-        setShowCb={setShowProductionForm}
+        show={API.actions.toggle.getToggleActiveState("programForm")}
+        setShowCb={(b) =>
+          API.actions.toggle.setToggleActiveState("programForm", b)
+        }
         collectionId={collectionId || ""}
       />
       <BehaviorAddForm
-        show={showBehaviorAddForm}
-        setShowCb={setBehaviorAShowAddForm}
+        show={API.actions.toggle.getToggleActiveState("behaviorForm")}
+        setShowCb={(b) =>
+          API.actions.toggle.setToggleActiveState("behaviorForm", b)
+        }
         collectionId={collectionId || ""}
       />
     </>

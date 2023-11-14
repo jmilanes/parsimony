@@ -13,7 +13,7 @@ import {
 } from "../pages";
 import { IRoute } from "@parsimony/types/dist";
 
-const routes: IRoute[] = [
+export const routes: IRoute[] = [
   {
     path: Routes.Home,
     element: Home
@@ -55,5 +55,3 @@ const routes: IRoute[] = [
     element: Login
   }
 ];
-
-export default routes;

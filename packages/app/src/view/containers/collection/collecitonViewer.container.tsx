@@ -1,5 +1,11 @@
-import React from "react";
-import { Header, IColumns, ITableAction } from "../../components";
+import React, { useState } from "react";
+import {
+  Button,
+  Checkbox,
+  Header,
+  IColumns,
+  ITableAction
+} from "../../components";
 import { AncestorOnClickAction, CollectionTable, ProgramTable } from "../index";
 import {
   Collection,
@@ -10,12 +16,31 @@ import {
 
 import { Container } from "typedi";
 import { useAsync } from "react-use";
-import { Spin } from "antd";
 
 import { DATA_HANDLERS } from "../../../domains/orchestration/orchestrationHandlers/handlers.typemap";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 import AncestorNavigationContainer from "./ancestorNavigation.container";
+import parse from "html-react-parser";
 
+const programColumns: IColumns[] = [
+  { key: "title", title: "title" },
+  { key: "description", title: "Description", displayFn: (v) => parse(v) },
+  {
+    key: "chaining.type",
+    title: "Chaining",
+    displayFn: (v) => (v ? v : "N/A")
+  }
+];
+
+const behaviorColumns: IColumns[] = [
+  { key: "title", title: "title" },
+  { key: "description", title: "Description", displayFn: (v) => parse(v) },
+  {
+    key: "behavior.type",
+    title: "Type",
+    displayFn: (v) => (v ? v : "N/A")
+  }
+];
 const CollectionViewerContainer = ({
   collectionId,
   header,
@@ -69,26 +94,6 @@ const CollectionViewerContainer = ({
   const behaviors = allPrograms.filter(
     (program) => program.targetStyle === TargetStyle.Behavior
   );
-
-  const programColumns: IColumns[] = [
-    { key: "title", title: "title" },
-    { key: "description", title: "Description" },
-    {
-      key: "chaining.type",
-      title: "Chaining",
-      displayFn: (v) => (v ? v : "N/A")
-    }
-  ];
-
-  const behaviorColumns: IColumns[] = [
-    { key: "title", title: "title" },
-    { key: "description", title: "Description" },
-    {
-      key: "behavior.type",
-      title: "Type",
-      displayFn: (v) => (v ? v : "N/A")
-    }
-  ];
 
   const renderCollectionHeader = (collectionId: string) => {
     const collection = API.system.getItem(Domains.Collection, collectionId);

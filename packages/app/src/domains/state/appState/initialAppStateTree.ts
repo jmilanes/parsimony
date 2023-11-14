@@ -46,5 +46,10 @@ export const APP_STATE: AppState = {
     requestedEmail: "",
     tempPassword: "",
     previousPage: ""
+  },
+  toggles: {
+    programForm: false,
+    behaviorForm: false,
+    collectionForm: false
   }
 };

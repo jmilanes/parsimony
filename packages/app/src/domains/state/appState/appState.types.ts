@@ -121,6 +121,12 @@ export type Login = {
   previousPage: string;
 };
 
+export type Toggles = {
+  programForm: boolean;
+  behaviorForm: boolean;
+  collectionForm: boolean;
+};
+
 export type AppState = {
   drawer: DrawerControls;
   dialog: DialogControls;
@@ -130,6 +136,7 @@ export type AppState = {
   observation: Observation;
   notifications: { activeNotifications: Record<string, Notification> };
   collectionSelector: CollectionSelector;
+  toggles: Toggles;
   forms: Record<string, any>;
   login: Login;
 };

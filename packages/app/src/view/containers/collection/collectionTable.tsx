@@ -7,10 +7,10 @@ import {
   ProgramsPageMetaTestIds
 } from "@parsimony/types/dist";
 
-import { IColumns, ISelectable, ITableAction, Table } from "../../components";
+import { IColumns, ITableAction, Table } from "../../components";
 
 import { Container } from "typedi";
-import { navigateToRoute } from "../../../utils";
+
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 import { createBulkOrderSelectable } from "../program/bulkPrograms/helpers";
 import { CollectionSelectorContainer } from "./collectionSelector.container";

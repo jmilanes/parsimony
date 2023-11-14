@@ -33,6 +33,7 @@ const Program = () => {
   const navigate = navigateToRoute();
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
+
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
   );
@@ -147,7 +148,7 @@ const Program = () => {
           />,
           <Button
             name="View Data"
-            action={() => navigate(`/results/${program.clientId}`)}
+            action={() => navigate(`/results/${program.id}`)}
             hidden={isEditMode(mode) || program.type !== ProgramTypes.Client}
             metaTestId={
               ProgramPageMetaTestIds.clientProgramActionViewProgramData

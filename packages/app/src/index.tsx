@@ -4,7 +4,7 @@ import React from "react";
 import ReactDom from "react-dom";
 
 import { generateApp } from "./utils";
-import routes from "./view/routes";
+import { routes } from "./view/routes";
 import AppController from "./domains/orchestration/app.service";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
