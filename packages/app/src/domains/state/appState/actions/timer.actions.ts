@@ -7,6 +7,7 @@ import { intervalToDuration } from "date-fns";
 import { prependZero, buildCreateBehaviorRequest } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 import { BehaviorTracker, Timer } from "../appState.types";
+import { id } from "date-fns/locale";
 
 const initialTimerState: Timer = {
   active: false,
@@ -44,48 +45,51 @@ export class TimerActions {
     this.updateAppState({ timers });
   }
 
-  #getTimerState(id: string) {
+  public getTimerState(id: string) {
     const { timers } = this.getAppState();
     return timers[id];
   }
 
-  #updateTimeState(id: string, update: Partial<Timer>) {
+  public updateTimeState(id: string, update: Partial<Timer>) {
     const { timers } = this.getAppState();
     timers[id] = { ...timers[id], ...update };
     this.updateAppState({ timers });
   }
 
   public start = ({ id }: Program) => {
-    const { active, paused } = this.#getTimerState(id);
+    const { active, paused } = this.getTimerState(id);
     if (!active || paused) {
       this.#api.Dialog.close();
       const intervalId = setInterval(() => {
-        const { time } = this.#getTimerState(id);
-        this.#updateTimeState(id, { time: time + 1000 });
+        const { time } = this.getTimerState(id);
+        this.updateTimeState(id, { time: time + 1000 });
       }, 1000);
 
-      this.#updateTimeState(id, { intervalId });
+      this.updateTimeState(id, { intervalId });
     }
   };
 
   public pause = ({ id }: Program) => {
-    const { intervalId } = this.#getTimerState(id);
-    clearInterval(intervalId);
-    this.#updateTimeState(id, {
+    this.stopIntervalById(id);
+    this.updateTimeState(id, {
       paused: true
     });
   };
 
   public cancel = ({ id }: Program | { id: string }) => {
-    const { intervalId } = this.#getTimerState(id);
-    clearInterval(intervalId);
+    this.stopIntervalById(id);
     this.#api.Dialog.close();
-    this.#updateTimeState(id, {
+    this.updateTimeState(id, {
       time: 0,
       paused: false,
       active: false
     });
   };
+
+  public stopIntervalById(id: string) {
+    const { intervalId } = this.getTimerState(id);
+    clearInterval(intervalId);
+  }
 
   public cancelAllTimers = () => {
     const { timers } = this.getAppState();
@@ -93,9 +97,8 @@ export class TimerActions {
   };
 
   public complete = (program: Program, message: React.ReactElement) => {
-    const { intervalId } = this.#getTimerState(program.id);
-    this.#updateTimeState(program.id, { paused: true });
-    clearInterval(intervalId);
+    this.updateTimeState(program.id, { paused: true });
+    this.stopIntervalById(program.id);
     this.#api.Dialog.push({
       title: program.title as string,
       message: message,
@@ -117,20 +120,29 @@ export class TimerActions {
   };
 
   public getFormattedTimerTime = ({ id }: Program) => {
-    const { time } = this.#getTimerState(id);
+    const { time } = this.getTimerState(id);
+    debugger;
+    return this.formatTime(time);
+  };
 
+  public formatTime = (time: number) => {
     const { hours, minutes, seconds } = intervalToDuration({
       start: 0,
       end: time
     });
-    return `${prependZero(hours)} : ${prependZero(minutes)} : ${prependZero(
+    return `${prependZero(hours)}:${prependZero(minutes)}:${prependZero(
       seconds
     )}`;
   };
 
+  public resolveFormattedTIme = (formattedTime: string) => {
+    const [h, m, s] = formattedTime.split(":");
+    return parseInt(h) * 3600000 + parseInt(m) * 60000 + parseInt(s) * 1000;
+  };
+
   // This can be generic to all three once the behavior data is aligned
   public submit = async (program: Program) => {
-    const { time } = this.#getTimerState(program.id);
+    const { time } = this.getTimerState(program.id);
     await this.#api.makeRequest(
       buildCreateBehaviorRequest({ program, result: time })
     );
