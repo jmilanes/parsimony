@@ -1,18 +1,9 @@
-import { clone, setDataWithPath } from "../../utils";
 import Store from "./store/store";
 import { Service } from "typedi";
-
-export type IUpdateLocalStatePayload = {
-  localState: Record<string, unknown>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  updateLocalState: (value: any) => void;
-};
 
 export interface IStateService {
   updateState: () => void;
 }
-
-//TODO lets try to kill this and do a use observable pattern.
 
 @Service()
 class StateService implements IStateService {
@@ -28,14 +19,6 @@ class StateService implements IStateService {
     this.updateState = updateFn;
     this.store.subscribeToStore(updateFn);
   };
-
-  updateLocalState =
-    ({ localState, updateLocalState }: IUpdateLocalStatePayload) =>
-    (path: string, value: unknown) => {
-      const newState = clone(localState);
-      setDataWithPath(newState, path, value);
-      updateLocalState(newState);
-    };
 }
 
 export default StateService;

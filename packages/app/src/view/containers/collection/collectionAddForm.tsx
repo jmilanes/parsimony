@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 
 import {
   BookPageMetaTestIds,
@@ -31,17 +31,6 @@ export const CollectionAddForm = ({
 }: ICollectionAddFormProps) => {
   const API = Container.get(UIApi);
 
-  const stateManager = API.system.StateService;
-
-  const [initialData, updateInitialData] = React.useState<Collection>(
-    initialCollectionData
-  );
-
-  // TODO In general We need to rename localState to something else and make better. It really is just the form state
-  const [localState, updateLocalState] = React.useState<Collection>(
-    initialCollectionData
-  );
-
   const getCollectionInitialData = () => {
     const parent = API.system.getItem(Domains.Collection, parentId);
     return {
@@ -52,32 +41,23 @@ export const CollectionAddForm = ({
     };
   };
 
-  useEffect(() => {
-    // Need to make this better but if book or parent ID changes we need to reset the the initial data
-    if (book) {
-      updateLocalState(initialCollectionData);
-      updateInitialData(initialCollectionData);
-      return;
-    } else {
-      const collectionInitialData = getCollectionInitialData();
-      updateLocalState(collectionInitialData);
-      updateInitialData(collectionInitialData);
-    }
-  }, [parentId, book]);
-
-  const updateState = stateManager.updateLocalState({
-    localState,
-    updateLocalState
-  });
+  const form = useMemo(
+    () =>
+      //Need to destroy on use effect / CLEAN UP here especailly
+      API.system.Form.create<Collection>(
+        book ? initialCollectionData : getCollectionInitialData()
+      ),
+    [parentId, book]
+  );
 
   const submitAddForm = async () => {
     await API.system.makeRequest({
       domain: Domains.Collection,
       requestType: "create",
-      payload: removeMongoIds(localState)
+      payload: removeMongoIds(form.Data)
     });
     setShowCb(false);
-    updateLocalState(initialData);
+    form.reset();
   };
 
   return (
@@ -89,9 +69,8 @@ export const CollectionAddForm = ({
     >
       <Field
         placeHolderText="Book Tile"
-        pathToState="title"
-        value={localState.title}
-        updateState={updateState}
+        value={form.Data.title}
+        updateState={(_, value) => form.updateData({ title: value })}
         metaTestId={BookPageMetaTestIds.nameField}
       />
     </AddForm>

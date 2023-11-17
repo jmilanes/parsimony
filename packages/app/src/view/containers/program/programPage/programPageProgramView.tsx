@@ -4,14 +4,16 @@ import {
   Domains,
   IModes,
   Program,
+  ProgramCategories,
   ProgramPageMetaTestIds,
   ProgramsPageMetaTestIds,
+  ProgramTypes,
   TargetOption,
   TargetStyle,
-  User
+  TrialChainingDirections
 } from "@parsimony/types/dist";
 import { Checkbox, Field, RichText, Selector } from "../../../components";
-import { getFullName, isReadOnlyMode } from "../../../../utils";
+import { isReadOnlyMode } from "../../../../utils";
 import {
   chainingTypesOptions,
   programCategories,
@@ -21,83 +23,80 @@ import {
 } from "../../../../fixtures";
 import { TargetOptionSelector } from "../../observation/targetOptionsSelector.container";
 import { TargetForm } from "../../observation/targetForm.container";
+import { InputForm } from "../../../../domains/forms/form";
 
 export const ProgramPageProgramView = ({
-  localState,
-  updateState,
+  form,
   mode
 }: {
-  localState: Program;
+  form: InputForm<Program>;
   mode: IModes;
-  updateState: any;
 }) => {
   return (
     <>
       <div>
         <h4>Mastery Criteria:</h4>
         <p>
-          Student will complete this program with {localState.masteryTarget}%
-          independence across {localState.masteryConsecutiveTargets} consecutive
+          Student will complete this program with {form.Data.masteryTarget}%
+          independence across {form.Data.masteryConsecutiveTargets} consecutive
           session.{" "}
         </p>
         <hr />
       </div>
       <Checkbox
         title="Mastered"
-        pathToState={"mastered"}
-        value={!!localState.mastered}
-        updateState={updateState}
+        value={!!form.Data.mastered}
+        updateState={(_, value) => form.updateData({ mastered: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.masteredCheckbox}
       />
       <Field
         placeHolderText="Title"
-        pathToState="title"
-        value={localState.title}
-        updateState={updateState}
+        value={form.Data.title}
+        updateState={(_, value) => form.updateData({ title: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.titleField}
       />
       <RichText
         placeHolderText="Description"
         pathToState="description"
-        content={localState.description}
-        updateState={updateState}
+        updateState={(_, value) => form.updateData({ description: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.descriptionField}
       />
       <RichText
         placeHolderText="Materials"
-        pathToState="materials"
-        content={localState.materials}
-        updateState={updateState}
+        content={form.Data.materials}
+        updateState={(_, value) => form.updateData({ materials: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.materialsField}
       />
       <Selector
         title="Type"
-        pathToState="type"
-        value={localState.type}
+        value={form.Data.type}
         options={programTypes}
-        updateState={updateState}
+        updateState={(_, value) =>
+          form.updateData({ type: value as ProgramTypes })
+        }
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.typeSelector}
       />
       <Selector
         title="Category"
-        pathToState="category"
-        value={localState.category}
+        value={form.Data.category}
         options={programCategories}
-        updateState={updateState}
+        updateState={(_, value) =>
+          form.updateData({ category: value as ProgramCategories })
+        }
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.categorySelector}
       />
+      {/*{TODO: SELECTORS SHOULD HAVE GENERICS }*/}
       <Selector
         title="Trials"
-        pathToState="trials"
-        value={localState.trials}
+        value={form.Data.trials}
         options={trialOptions}
-        updateState={updateState}
+        updateState={(_, value) => form.updateData({ trials: value as number })}
         isNumber={true}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.stepsSelector}
@@ -105,53 +104,60 @@ export const ProgramPageProgramView = ({
       <Selector
         title="Target Style"
         pathToState="targetStyle"
-        value={localState.targetStyle}
+        value={form.Data.targetStyle}
         options={targetStyles}
-        updateState={updateState}
+        updateState={(_, value) =>
+          form.updateData({ targetStyle: value as TargetStyle })
+        }
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.ruleStyleSelector}
       />
       <Field
         placeHolderText="Mastery Independence Target (%)"
         pathToState="masteryTarget"
-        value={localState.masteryTarget?.toString()}
-        updateState={updateState}
+        value={form.Data.masteryTarget?.toString()}
+        updateState={(_, value) =>
+          form.updateData({ masteryTarget: parseInt(value) })
+        }
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramsPageMetaTestIds.masteryTarget}
       />
       <Field
         placeHolderText="Mastery Consecutive Requriement"
         pathToState="masteryConsecutiveTargets"
-        value={localState.masteryConsecutiveTargets?.toString()}
-        updateState={updateState}
+        value={form.Data.masteryConsecutiveTargets?.toString()}
+        updateState={(_, value) =>
+          form.updateData({ masteryConsecutiveTargets: parseInt(value) })
+        }
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
       />
 
-      {localState.targetStyle === TargetStyle.TaskAnalysis && (
+      {form.Data.targetStyle === TargetStyle.TaskAnalysis && (
         <Selector
           title="Chaining Style"
           pathToState="chaining.type"
-          value={localState.chaining?.type}
+          value={form.Data.chaining?.type}
           options={chainingTypesOptions}
-          updateState={updateState}
+          updateState={(_, value) =>
+            form.updateData(
+              { chaining: { type: value as TrialChainingDirections } },
+              true
+            )
+          }
           readOnly={isReadOnlyMode(mode)}
           metaTestId={ProgramPageMetaTestIds.chaingDirections}
         />
       )}
-      {Array.isArray(localState.targetOptions) && (
+      {Array.isArray(form.Data.targetOptions) && (
         <TargetOptionSelector
-          targetOptions={localState.targetOptions as TargetOption[]}
-          updateState={updateState}
+          form={form}
+          targetOptions={form.Data.targetOptions as TargetOption[]}
           readOnly={isReadOnlyMode(mode)}
         />
       )}
-      {Array.isArray(localState.targets) && (
-        <TargetForm
-          localState={localState}
-          updateState={updateState}
-          readOnly={isReadOnlyMode(mode)}
-        />
+      {Array.isArray(form.Data.targets) && (
+        <TargetForm form={form} readOnly={isReadOnlyMode(mode)} />
       )}
     </>
   );

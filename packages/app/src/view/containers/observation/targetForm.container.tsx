@@ -3,33 +3,37 @@ import { Field, Repeater, Button, Row, Col, RichText } from "../../components";
 import { initialTargetData } from "../../../fixtures";
 
 import { Program, TargetFormMetaTestIds, Target } from "@parsimony/types/dist";
-import { generateKey, removeItemByIndex } from "../../../utils";
+import { clone, generateKey, removeItemByIndex } from "../../../utils";
+import { InputForm } from "../../../domains/forms/form";
+import { cloneDeep } from "lodash";
 
 type TargetFormProps = {
-  localState: Program;
+  form: InputForm<Program>;
   readOnly?: boolean;
-  //TODO Name this better / just move to a better service
-  updateState: (path: string, value: unknown) => void;
 };
 
-export const TargetForm = ({
-  localState,
-  readOnly = false,
-  updateState
-}: TargetFormProps) => {
-  const deleteItem = (arr: any[], index: number, path: string) =>
-    updateState(path, removeItemByIndex(arr, index));
+export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
+  const deleteItem = (arr: any[], index: number) => {
+    form.updateData({ targets: removeItemByIndex(arr, index) as Target[] });
+  };
+
+  const updateItem = (index: number, prop: keyof Target, value: string) => {
+    const copy = cloneDeep<Target[]>(form.Data.targets);
+    //@ts-ignore
+    copy[index][prop] = value;
+    form.updateData({ targets: copy });
+  };
 
   const target = (index: number) => {
-    if (!localState.targets) return null;
-    const target = localState.targets[index] as Target;
+    if (!form.Data.targets) return null;
+    const target = form.Data.targets[index] as Target;
     const metaQualifier = index.toString();
     return (
       <Row className="add-target-row" key={generateKey("target", index)}>
         <Button
           name="Delete Target"
           disabled={readOnly}
-          action={() => deleteItem(localState.targets || [], index, "targets")}
+          action={() => deleteItem(form.Data.targets || [], index)}
           metaTestId={TargetFormMetaTestIds.deleteRuleBtn}
           metaTestQualifier={metaQualifier}
         />
@@ -38,7 +42,9 @@ export const TargetForm = ({
             placeHolderText="Title"
             pathToState={`targets[${index}].title`}
             value={target.title}
-            updateState={updateState}
+            updateState={(_, value) => {
+              updateItem(index, "title", value);
+            }}
             readOnly={readOnly}
             metaTestId={TargetFormMetaTestIds.questionField}
             metaTestQualifier={metaQualifier}
@@ -49,7 +55,9 @@ export const TargetForm = ({
             placeHolderText="Description"
             pathToState={`targets[${index}].description`}
             content={target.description}
-            updateState={updateState}
+            updateState={(_, value) => {
+              updateItem(index, "description", value);
+            }}
             readOnly={readOnly}
             metaTestId={TargetFormMetaTestIds.descriptionField}
             metaTestQualifier={metaQualifier}
@@ -62,9 +70,8 @@ export const TargetForm = ({
   return (
     <Repeater
       title="Targets"
-      items={localState.targets || []}
-      pathToState={`targets`}
-      updateState={updateState}
+      form={form}
+      items={form.Data.targets || []}
       generateRow={target}
       initialData={initialTargetData}
       readOnly={readOnly}

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
+  initialUserData,
   serviceProviderOptions,
   userRoleOptions,
   userRoleOptionsWithStringValues
@@ -36,14 +37,13 @@ import CollectionViewerContainer from "../containers/collection/collecitonViewer
 
 const User = () => {
   const API = DI.get(UIApi);
-  const stateManager = API.system.StateService;
+
   const { userId } = getRouterParams();
   const navigate = API.Navigation;
   const [mode, updateMode] = React.useState<IModes>("readOnly");
 
   const [selectedCollection, updateSelectedCollection] =
     React.useState<string>();
-  const [localState, updateLocalState] = React.useState<User>();
 
   const { loading } = useAsync(async () => {
     // Feels like this should move to orcestration
@@ -74,13 +74,17 @@ const User = () => {
       requestType: "get",
       payload: { id: userId }
     });
-
-    //
-    const user = API.system.getItem(Domains.User, userId);
-    updateLocalState(clone(user) as User);
   });
 
-  if (loading || !localState) return <Spin />;
+  const form = useMemo(() => {
+    if (!loading) {
+      const user = API.system.getItem(Domains.User, userId);
+      //Need to destroy on use effect
+      return API.system.Form.create<User>(user);
+    }
+  }, [loading]);
+
+  if (!form) return <Spin />;
 
   const user = API.system.getItem(Domains.User, userId);
 
@@ -92,21 +96,16 @@ const User = () => {
     .getItemsFromStore(Domains.Program)
     .filter((c) => c.clientId === userId);
 
-  const updateState = stateManager.updateLocalState({
-    localState,
-    updateLocalState
-  });
-
   const submitForm = async () => {
     // TODO: Make an error interface
-    if (!localState.email) message.error("Please provide email");
+    if (!form.Data.email) message.error("Please provide email");
     // TODO: Make this better
-    localState.email = localState.email?.toLowerCase();
+    form.Data.email = form.Data.email?.toLowerCase();
 
     await API.system.makeRequest({
       domain: Domains.User,
       requestType: "update",
-      payload: omitMongoKeys(localState)
+      payload: omitMongoKeys(form.Data)
     });
 
     updateMode("readOnly");
@@ -138,7 +137,7 @@ const User = () => {
   const ancestorAction = (c?: Collection) =>
     c ? updateSelectedCollection(c.id) : updateSelectedCollection(undefined);
 
-  if (!user || !localState) return null;
+  if (!user || !form) return null;
   return (
     <>
       <Header
@@ -157,7 +156,7 @@ const User = () => {
             name="Cancel"
             action={() => {
               updateMode("readOnly");
-              updateLocalState(user);
+              form.reset();
             }}
             hidden={isReadOnlyMode(mode)}
             metaTestId={UserPageMetaTestIds.cancelEdit}
@@ -173,51 +172,47 @@ const User = () => {
       />
       <Field
         placeHolderText="First Name"
-        pathToState="firstName"
-        value={localState.firstName}
-        updateState={updateState}
+        value={form.Data.firstName}
+        updateState={(_, value) => form.updateData({ firstName: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.firstNameField}
       />
       <Field
         placeHolderText="Last Name"
-        pathToState="lastName"
-        value={localState.lastName}
-        updateState={updateState}
+        value={form.Data.lastName}
+        updateState={(_, value) => form.updateData({ lastName: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.lastNameField}
       />
       <Field
         placeHolderText="Phone Number"
-        pathToState="phone"
-        value={localState.phone}
-        updateState={updateState}
+        value={form.Data.phone}
+        updateState={(_, value) => form.updateData({ phone: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.phoneNumberField}
       />
       <Field
         placeHolderText="Email"
-        pathToState="email"
-        value={localState.email}
-        updateState={updateState}
+        value={form.Data.email}
+        updateState={(_, value) => form.updateData({ email: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.emailField}
       />
       <Selector
         title="Type"
         options={userRoleOptionsWithStringValues}
-        pathToState="type"
-        value={localState.type}
-        updateState={updateState}
+        value={form.Data.type}
+        updateState={(_, value) =>
+          form.updateData({ type: value as UserRoles })
+        }
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.typeSelector}
       />
       <MultiSelect
         title="Role"
         options={userRoleOptions}
-        pathToState="roles"
-        values={localState.roles as string[]}
-        updateState={updateState}
+        values={form.Data.roles as string[]}
+        updateState={(_, value) => form.updateData({ roles: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.roleMultiSelector}
       />
@@ -225,9 +220,10 @@ const User = () => {
         <Selector
           title="Service Provider"
           options={serviceProviderOptions}
-          pathToState="serviceProvider"
-          value={localState.serviceProvider}
-          updateState={updateState}
+          value={form.Data.serviceProvider}
+          updateState={(_, value) =>
+            form.updateData({ serviceProvider: value as string })
+          }
           readOnly={isReadOnlyMode(mode)}
           metaTestId={UserPageMetaTestIds.serviceProviderSelector}
         />

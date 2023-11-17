@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { AuthPageMetaTestIds, LoginPayload } from "@parsimony/types/dist";
 
 import { Button, Field } from "../../components";
@@ -23,6 +23,7 @@ export const LoginForm = () => {
 
   const onLogin = async () => {
     await authService.logIn(form.Data);
+    form.reset();
   };
 
   return (
@@ -36,6 +37,7 @@ export const LoginForm = () => {
         />
       )}
       <Field
+        // ONCE PATTERN IS DONE WE CAN REMOVE path to state stuff
         updateState={(_, value) => form.updateData({ email: value })}
         placeHolderText="Email"
         value={form.Data.email}

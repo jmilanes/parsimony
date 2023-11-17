@@ -1,16 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import {
   Domains,
   Program,
+  ProgramCategories,
   ProgramsPageMetaTestIds,
+  ProgramTypes,
   TargetOption,
-  TargetStyle
+  TargetStyle,
+  TrialChainingDirections,
+  User
 } from "@parsimony/types/dist";
 
 import {
   chainingTypesOptions,
   initialProgramData,
+  initialUserData,
   programCategories,
   programTypes,
   targetStyles,
@@ -37,43 +42,33 @@ export const ProgramAddForm = ({
   collectionId
 }: IProgramAddFormProps) => {
   const API = Container.get(UIApi);
-  const stateManager = API.system.StateService;
 
-  const [localState, updateLocalState] =
-    React.useState<Program>(initialProgramData);
+  const form = useMemo(
+    () =>
+      //Need to destroy on use effect
+      API.system.Form.create<Program>(initialProgramData),
+    []
+  );
 
   useEffect(() => {
-    if (localState.targetStyle === TargetStyle.DiscreteTrials) {
-      const copy = { ...localState };
-      delete copy.chaining;
-      updateLocalState(copy);
+    if (form.Data.targetStyle === TargetStyle.DiscreteTrials) {
+      form.updateData({ chaining: undefined });
     } else {
-      const copy = { ...localState };
-      copy.chaining = initialProgramData.chaining;
-      updateLocalState(copy);
+      form.updateData({ chaining: initialProgramData.chaining });
     }
-  }, [localState.targetStyle]);
-
-  const updateState = stateManager.updateLocalState({
-    localState,
-    updateLocalState
-  });
+  }, [form.Data.targetStyle]);
 
   const submitAddForm = async () => {
-    const payload = API.utils.transform.parseIntByPath(localState, [
-      "masteryConsecutiveTargets",
-      "masteryTarget"
-    ]);
     await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "create",
       payload: removeMongoIds({
-        ...payload,
+        ...form.Data,
         collectionId
       })
     });
     setShowCb(false);
-    updateLocalState(initialProgramData);
+    form.reset();
   };
 
   return (
@@ -82,98 +77,104 @@ export const ProgramAddForm = ({
       onCreate={submitAddForm}
       onCancel={() => {
         setShowCb(false);
-        updateLocalState(initialProgramData);
+        form.reset();
       }}
       title="Add Program"
     >
       <Field
         placeHolderText="Title"
-        pathToState="title"
-        value={localState.title}
-        updateState={updateState}
+        value={form.Data.title}
+        updateState={(_, value) => form.updateData({ title: value })}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
       <RichText
         placeHolderText="Description"
-        pathToState="description"
-        content={localState.description}
-        updateState={updateState}
+        content={form.Data.description}
+        updateState={(_, value) => form.updateData({ description: value })}
         metaTestId={ProgramsPageMetaTestIds.descriptionField}
       />
       <RichText
         placeHolderText="Materials"
-        pathToState="materials"
-        content={localState.materials}
-        updateState={updateState}
+        content={form.Data.materials}
+        updateState={(_, value) => form.updateData({ materials: value })}
         metaTestId={ProgramsPageMetaTestIds.materialsField}
       />
       <Selector
         title="Type"
-        pathToState="type"
-        value={localState.type}
+        value={form.Data.type}
         options={programTypes}
-        updateState={updateState}
+        updateState={(_, value) =>
+          form.updateData({ type: value as ProgramTypes })
+        }
         metaTestId={ProgramsPageMetaTestIds.typeSelector}
       />
       <Field
         placeHolderText="Mastery Independence Target (%)"
-        pathToState="masteryTarget"
-        value={localState.masteryTarget?.toString()}
-        updateState={updateState}
+        value={form.Data.masteryTarget?.toString()}
+        updateState={(_, value) =>
+          form.updateData({ masteryTarget: parseInt(value) })
+        }
         metaTestId={ProgramsPageMetaTestIds.masteryTarget}
       />
       <Field
         placeHolderText="Mastery Consecutive Requriement"
-        pathToState="masteryConsecutiveTargets"
-        value={localState.masteryConsecutiveTargets?.toString()}
-        updateState={updateState}
+        value={form.Data.masteryConsecutiveTargets?.toString()}
+        updateState={(_, value) =>
+          form.updateData({ masteryConsecutiveTargets: parseInt(value) })
+        }
         metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
       />
 
       <Selector
         title="Trials"
         pathToState="trials"
-        value={localState.trials}
+        value={form.Data.trials}
         options={trialOptions}
-        updateState={updateState}
+        updateState={(_, value) => form.updateData({ trials: value as number })}
         isNumber={true}
         metaTestId={ProgramsPageMetaTestIds.stepsSelector}
       />
 
       <Selector
         title="Target Style"
-        pathToState="targetStyle"
-        value={localState.targetStyle}
+        value={form.Data.targetStyle}
         options={targetStyles}
-        updateState={updateState}
+        updateState={(_, value) =>
+          form.updateData({ targetStyle: value as TargetStyle })
+        }
         metaTestId={ProgramsPageMetaTestIds.ruleStyleSelector}
       />
-      {localState.targetStyle === TargetStyle.TaskAnalysis && (
+      {form.Data.targetStyle === TargetStyle.TaskAnalysis && (
         <Selector
           title="Chainging"
-          pathToState="chaining.type"
-          value={localState.chaining?.type}
+          value={form.Data.chaining?.type}
           options={chainingTypesOptions}
-          updateState={updateState}
+          updateState={(_, value) =>
+            form.updateData(
+              { chaining: { type: value as TrialChainingDirections } },
+              true
+            )
+          }
           metaTestId={ProgramsPageMetaTestIds.chainingSelector}
         />
       )}
       <Selector
         title="Category"
-        pathToState="category"
-        value={localState.category}
+        value={form.Data.category}
         options={programCategories}
-        updateState={updateState}
+        updateState={(_, value) =>
+          form.updateData({ category: value as ProgramCategories })
+        }
         metaTestId={ProgramsPageMetaTestIds.categorySelector}
       />
       <div className="add-form-spacer">
         <TargetOptionSelector
-          targetOptions={localState.targetOptions as TargetOption[]}
-          updateState={updateState}
+          targetOptions={form.Data.targetOptions}
+          form={form}
         />
       </div>
       <div className="add-form-spacer">
-        <TargetForm localState={localState} updateState={updateState} />
+        <TargetForm form={form} />
       </div>
     </AddForm>
   );

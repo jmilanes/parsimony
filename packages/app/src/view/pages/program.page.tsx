@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { ProgramPageBehaviorView, ProgramPageProgramView } from "../containers";
 import { Button, Container, Header } from "../components";
 import {
@@ -29,7 +29,6 @@ const Program = () => {
   //TODO fix the container collision
   const API = DI.get(UIApi);
 
-  const stateManager = API.system.StateService;
   const navigate = navigateToRoute();
   const { programId } = getRouterParams();
   let [searchParams] = getSearchParams();
@@ -37,40 +36,30 @@ const Program = () => {
   const [mode, updateMode] = React.useState<IModes>(
     (searchParams.get("mode") as IModes) || "readOnly"
   );
-  const [localState, updateLocalState] = React.useState<Program>();
-  //comment
+
   const { loading } = useAsync(async () => {
     await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "get",
       payload: { id: programId }
     });
-
-    if (programId) {
-      const program = API.system.getItem(Domains.Program, programId);
-      updateLocalState(program);
-    }
   });
 
-  if (loading || !localState || !programId) return <Spin />;
+  const form = useMemo(() => {
+    if (!loading) {
+      const program = API.system.getItem(Domains.Program, programId);
+      return API.system.Form.create<Program>(program);
+    }
+  }, [loading]);
+
+  if (!form) return <Spin />;
 
   const program = API.system.getItem(Domains.Program, programId);
   const client =
     program?.clientId && API.system.getItem(Domains.User, program?.clientId);
 
-  const updateState = stateManager.updateLocalState({
-    localState,
-    updateLocalState
-  });
-
   const submitForm = async () => {
-    const payload = omitMongoKeys(
-      API.utils.transform.parseIntByPath(localState, [
-        "masteryConsecutiveTargets",
-        "masteryTarget",
-        "behavior.alertTime"
-      ])
-    );
+    const payload = omitMongoKeys(form.Data);
 
     await API.system.makeRequest({
       domain: Domains.Program,
@@ -89,8 +78,6 @@ const Program = () => {
     navigate(`/programs`);
   };
 
-  if (!program || !localState) return null;
-
   return (
     <Container>
       <Header
@@ -102,7 +89,7 @@ const Program = () => {
             name="Edit"
             action={() => {
               updateMode("edit");
-              updateLocalState(program);
+              form.reset();
             }}
             hidden={isEditMode(mode)}
             metaTestId={ProgramPageMetaTestIds.editBtn}
@@ -112,7 +99,7 @@ const Program = () => {
             name="Cancel"
             action={() => {
               updateMode("readOnly");
-              updateLocalState(program);
+              form.reset();
             }}
             hidden={isReadOnlyMode(mode)}
             metaTestId={ProgramPageMetaTestIds.cancelEditBtn}
@@ -159,17 +146,9 @@ const Program = () => {
 
       {client && <Header text={`Client: ${getFullName(client)}`} size="sm" />}
       {program.behavior?.type ? (
-        <ProgramPageBehaviorView
-          localState={localState}
-          updateState={updateState}
-          mode={mode}
-        />
+        <ProgramPageBehaviorView form={form} mode={mode} />
       ) : (
-        <ProgramPageProgramView
-          localState={localState}
-          updateState={updateState}
-          mode={mode}
-        />
+        <ProgramPageProgramView form={form} mode={mode} />
       )}
     </Container>
   );

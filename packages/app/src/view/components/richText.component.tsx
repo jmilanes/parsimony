@@ -1,6 +1,6 @@
 import React from "react";
 import StarterKit from "@tiptap/starter-kit";
-import { Container, ReadOnly } from "./index";
+import { Container } from "./index";
 import parse from "html-react-parser";
 
 import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types/dist";
@@ -18,7 +18,7 @@ import {
 export type IRichTextProps = {
   key?: string;
   readOnly?: boolean;
-  pathToState: string;
+  pathToState?: string;
   placeHolderText: string;
   //TODO: This should prob be better
   updateState: (path: string, value: string) => void;
@@ -42,6 +42,7 @@ export const RichText = ({
     metaTestId,
     metaTestQualifier
   );
+
   return readOnly ? (
     <div className="richTextContainer" key={key}>
       <p>{placeHolderText}:</p>
@@ -52,10 +53,10 @@ export const RichText = ({
       <p>{placeHolderText}:</p>
       <RichTextEditor
         extensions={[StarterKit]}
-        content={content} // Initial content for the editor
+        content={content || ""} // Initial content for the editor
         // Optionally include `renderControls` for a menu-bar atop the editor:
         onUpdate={(v) => {
-          updateState(pathToState, v.editor.getHTML());
+          updateState(pathToState || "", v.editor.getHTML());
         }}
         renderControls={() => (
           <MenuControlsContainer>

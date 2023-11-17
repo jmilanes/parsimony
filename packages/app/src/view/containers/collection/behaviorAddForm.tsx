@@ -1,25 +1,23 @@
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 
 import {
   BehaviorType,
   Domains,
   Program,
   ProgramsPageMetaTestIds,
-  ProgramTypes,
-  User
-} from "@parsimony/types/dist";
+  ProgramTypes
+} from "@parsimony/types";
 
 import {
   behaviorTypes,
   initialBehaviorData,
-  initialProgramData,
   programTypes
 } from "../../../fixtures";
 import { Field, RichText, Selector } from "../../components";
 import { AddForm } from "../shared/addForm.container";
 
 import { Container } from "typedi";
-import { getFullName, removeMongoIds } from "../../../utils";
+import { removeMongoIds } from "../../../utils";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 
 export type IBehaviorAddFormProps = React.PropsWithChildren<{
@@ -34,38 +32,25 @@ export const BehaviorAddForm = ({
   collectionId
 }: IBehaviorAddFormProps) => {
   const API = Container.get(UIApi);
-  const stateManager = API.system.StateService;
-  const [localState, updateLocalState] = useState<Program>(initialBehaviorData);
 
-  const clients = API.system.getItemsFromStore(Domains.User);
-
-  const clientDataOptions = clients.map((client: User) => ({
-    name: getFullName(client),
-    value: client?.id
-  }));
-
-  const updateState = stateManager.updateLocalState({
-    localState,
-    updateLocalState
-  });
+  const form = useMemo(
+    () =>
+      //Need to destroy on use effect
+      API.system.Form.create<Program>(initialBehaviorData),
+    []
+  );
 
   const submitAddForm = async () => {
-    const payload = API.utils.transform.parseIntByPath(localState, [
-      "masteryConsecutiveTargets",
-      "masteryTarget",
-      "behavior.alertTime"
-    ]);
-
     await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "create",
       payload: removeMongoIds({
-        ...payload,
+        ...form.Data,
         collectionId
       })
     });
     setShowCb(false);
-    updateLocalState(initialBehaviorData);
+    form.reset();
   };
 
   return (
@@ -74,93 +59,146 @@ export const BehaviorAddForm = ({
       onCreate={submitAddForm}
       onCancel={() => {
         setShowCb(false);
-        updateLocalState(initialProgramData);
+        form.reset();
       }}
       title="Add Program"
     >
       <Field
         placeHolderText="Title"
-        pathToState="title"
-        value={localState.title}
-        updateState={updateState}
+        value={form.Data.title}
+        updateState={(_, value) => form.updateData({ title: value })}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
       <RichText
         placeHolderText="Description"
-        pathToState="description"
-        content={localState.description}
-        updateState={updateState}
+        content={form.Data.description}
+        updateState={(_, value) => form.updateData({ description: value })}
         metaTestId={ProgramsPageMetaTestIds.descriptionField}
       />
       <Selector
         title="Type"
-        pathToState="type"
-        value={localState.type}
+        value={form.Data.type}
         options={programTypes}
-        updateState={updateState}
+        updateState={(_, value) =>
+          form.updateData({ type: value as ProgramTypes })
+        }
         metaTestId={ProgramsPageMetaTestIds.typeSelector}
       />
       <Selector
         title="Behavior Type"
-        pathToState="behavior.type"
-        value={localState.behavior?.type}
+        value={form.Data.behavior?.type}
         options={behaviorTypes}
-        updateState={updateState}
+        updateState={(_, value) =>
+          form.updateData(
+            {
+              behavior: {
+                type: value as BehaviorType
+              }
+            },
+            true
+          )
+        }
         metaTestId={ProgramsPageMetaTestIds.typeSelector}
       />
 
-      {localState.behavior?.type === BehaviorType.Interval && (
+      {form.Data.behavior?.type === BehaviorType.Interval && (
         <Field
           placeHolderText="Alert Duration (Seconds)"
-          pathToState="behavior.alertTime"
           //TODO Figure this out
-          value={localState.behavior?.alertTime?.toString()}
-          updateState={updateState}
+          value={form.Data.behavior?.alertTime?.toString()}
+          updateState={(_, value) =>
+            form.updateData(
+              {
+                behavior: {
+                  alertTime: parseInt(value)
+                }
+              },
+              true
+            )
+          }
           metaTestId={ProgramsPageMetaTestIds.descriptionField}
         />
       )}
 
       <Field
         placeHolderText="Mastery Independence Target"
-        pathToState="masteryTarget"
-        value={localState.masteryTarget?.toString()}
-        updateState={updateState}
+        value={form.Data.masteryTarget?.toString()}
+        updateState={(_, value) =>
+          form.updateData({
+            masteryTarget: parseInt(value)
+          })
+        }
         metaTestId={ProgramsPageMetaTestIds.masteryTarget}
       />
       <Field
         placeHolderText="Mastery Consecutive Requriement"
-        pathToState="masteryConsecutiveTargets"
-        value={localState.masteryConsecutiveTargets?.toString()}
-        updateState={updateState}
+        value={form.Data.masteryConsecutiveTargets?.toString()}
+        updateState={(_, value) =>
+          form.updateData({
+            masteryConsecutiveTargets: parseInt(value)
+          })
+        }
         metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
       />
 
       <RichText
         placeHolderText="Operational Definition"
-        pathToState="behavior.operationalDefinition"
-        content={localState.behavior?.operationalDefinition}
-        updateState={updateState}
+        content={form.Data.behavior?.operationalDefinition}
+        updateState={(_, value) =>
+          form.updateData(
+            {
+              behavior: {
+                operationalDefinition: value
+              }
+            },
+            true
+          )
+        }
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
       <RichText
         placeHolderText="Precursor Behaviors"
-        pathToState="behavior.precursorBehaviors"
-        content={localState.behavior?.precursorBehaviors}
-        updateState={updateState}
+        content={form.Data.behavior?.precursorBehaviors}
+        updateState={(_, value) =>
+          form.updateData(
+            {
+              behavior: {
+                precursorBehaviors: value
+              }
+            },
+            true
+          )
+        }
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
       <RichText
         placeHolderText="Proactive Strategies"
-        pathToState="behavior.proactiveStrategies"
-        content={localState.behavior?.proactiveStrategies}
-        updateState={updateState}
+        content={form.Data.behavior?.proactiveStrategies}
+        updateState={(_, value) =>
+          form.updateData(
+            {
+              behavior: {
+                proactiveStrategies: value
+              }
+            },
+            true
+          )
+        }
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
       <RichText
         placeHolderText="Reactive Strategies"
-        pathToState="behavior.reactiveStrategies"
-        content={localState.behavior?.reactiveStrategies}
-        updateState={updateState}
+        content={form.Data.behavior?.reactiveStrategies}
+        updateState={(_, value) =>
+          form.updateData(
+            {
+              behavior: {
+                reactiveStrategies: value
+              }
+            },
+            true
+          )
+        }
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
     </AddForm>

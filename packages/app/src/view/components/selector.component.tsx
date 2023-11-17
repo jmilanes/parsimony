@@ -13,7 +13,7 @@ export type IOption = { name: string; value: string | number };
 export type ISelectorProps = {
   title: string;
   options: IOption[];
-  pathToState: string;
+  pathToState?: string;
   updateState: (path: string, value: string | number) => void;
   readOnly?: boolean;
   value?: Maybe<string | number>;
@@ -50,7 +50,7 @@ export const Selector = ({
         value={value || "Please select an option"}
         onChange={({ target: { value } }) =>
           updateState(
-            pathToState,
+            pathToState || "",
             isNumber && typeof value === "string" ? parseInt(value) : value
           )
         }

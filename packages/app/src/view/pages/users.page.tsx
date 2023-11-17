@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import {
   Button,
@@ -15,7 +15,8 @@ import {
   Pages,
   User,
   UserPageMetaTestIds,
-  UserRoles
+  UserRoles,
+  LoginPayload
 } from "@parsimony/types/dist";
 import { AddForm } from "../containers";
 import {
@@ -33,40 +34,39 @@ import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
 const Users = () => {
   const API = Container.get(UIApi);
-  const stateManager = API.system.StateService;
   const navigate = navigateToRoute();
   const [showAddForm, setShowAddForm] = React.useState(false);
-  const [localState, updateLocalState] =
-    React.useState<Partial<User>>(initialUserData);
+
   const users = API.system.getItemsFromStore(Domains.User);
 
-  const updateState = stateManager.updateLocalState({
-    localState,
-    updateLocalState
-  });
-  const isNotClient = localState.type !== UserRoles.Client;
+  const form = useMemo(
+    () =>
+      //Need to destroy on use effect
+      API.system.Form.create<Partial<User>>(initialUserData),
+    []
+  );
 
   const submitAddForm = async () => {
-    if (!localState.email && isNotClient) {
+    const isNotClient = form.Data.type !== UserRoles.Client;
+
+    if (!form.Data.email && isNotClient) {
       message.error("Please provide email");
+      return;
     }
 
-    // TODO: Make this better
-    localState.email = localState.email
-      ? localState.email?.toLowerCase()
-      : undefined;
+    form.Data.email = form.Data.email?.toLowerCase();
 
     await API.system.makeRequest({
       domain: Domains.User,
       requestType: "create",
       payload: {
-        ...localState,
+        ...form.Data,
         schoolId: API.system.Auth.getCurrentUser()?.schoolId
       }
     });
 
     setShowAddForm(false);
-    updateLocalState(initialUserData);
+    form.reset();
   };
 
   const columns: IColumns[] = [
@@ -120,60 +120,60 @@ const Users = () => {
         showForm={showAddForm}
         onCreate={submitAddForm}
         title="Add User"
-        onCancel={() => setShowAddForm(false)}
+        onCancel={() => {
+          setShowAddForm(false);
+          form.reset();
+        }}
       >
         <Field
           placeHolderText="First Name"
-          pathToState="firstName"
-          value={localState.firstName}
-          updateState={updateState}
+          value={form.Data.firstName}
+          updateState={(_, value) => form.updateData({ firstName: value })}
           metaTestId={DirectoryPageMetaTestIds.firstNameField}
         />
         <Field
           placeHolderText="Last Name"
-          pathToState="lastName"
-          value={localState.lastName}
-          updateState={updateState}
+          value={form.Data.lastName}
+          updateState={(_, value) => form.updateData({ lastName: value })}
           metaTestId={DirectoryPageMetaTestIds.lastNameField}
         />
         <Field
           placeHolderText="Phone Number"
-          pathToState="phone"
-          value={localState.phone}
-          updateState={updateState}
+          value={form.Data.phone}
+          updateState={(_, value) => form.updateData({ phone: value })}
           metaTestId={DirectoryPageMetaTestIds.phoneNumberField}
         />
         <Field
           placeHolderText="Email"
-          pathToState="email"
-          value={localState.email}
-          updateState={updateState}
+          value={form.Data.email}
+          updateState={(_, value) => form.updateData({ email: value })}
           metaTestId={DirectoryPageMetaTestIds.emailField}
         />
         <Selector
           title="Type"
           options={userRoleOptionsWithStringValues}
-          pathToState="type"
-          value={localState.type}
-          updateState={updateState}
+          value={form.Data.type}
+          updateState={(_, value) => form.updateData({ type: value as string })}
           metaTestId={DirectoryPageMetaTestIds.typeSelector}
         />
         <MultiSelect
           title="Roles"
           options={userRoleOptions}
-          pathToState="roles"
-          values={localState.roles as string[]}
-          updateState={updateState}
+          values={form.Data.roles as string[]}
+          updateState={(_, value) => {
+            form.updateData({ roles: value });
+          }}
           metaTestId={DirectoryPageMetaTestIds.roleMultiSelector}
         />
-        {localState.roles?.length &&
-          !localState.roles?.includes(UserRoles.Client) && (
+        {form.Data.roles?.length &&
+          !form.Data.roles?.includes(UserRoles.Client) && (
             <Selector
               title="Service Provider"
               options={serviceProviderOptions}
-              pathToState="serviceProvider"
-              value={localState.serviceProvider}
-              updateState={updateState}
+              value={form.Data.serviceProvider}
+              updateState={(_, value) =>
+                form.updateData({ serviceProvider: value as string })
+              }
               metaTestId={UserPageMetaTestIds.serviceProviderSelector}
             />
           )}

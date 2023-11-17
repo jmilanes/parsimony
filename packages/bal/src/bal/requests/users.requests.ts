@@ -19,7 +19,6 @@ export const fullSchema = `
   roles
   type
   documents
-  password
   email
   firstName
   lastName

@@ -18,9 +18,9 @@ export type IMultiSelectProps = {
   readOnly?: boolean;
   options: IOptionMultiSelect[];
   values?: string[];
-  pathToState: string;
+  pathToState?: string;
   title: string;
-  updateState: (path: string, value: unknown) => void;
+  updateState: (path: string, value: string[]) => void;
   metaTestId: MetaTestIds;
   metaTestQualifier?: string;
 };
@@ -40,8 +40,8 @@ export const MultiSelect = ({
     metaTestId,
     metaTestQualifier
   );
-  const updateSelectionsAndState = (values: unknown[]) =>
-    updateState(pathToState, values);
+  const updateSelectionsAndState = (values: string[]) =>
+    updateState(pathToState || "", values);
 
   const Options = () => {
     return (

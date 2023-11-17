@@ -4,11 +4,11 @@ import { uuid } from "../../utils";
 
 export class InputForm<D = Record<string, any>> {
   #id: string = uuid();
-  #initalData: D;
+  #initialData: D;
   #ass: AppStateService;
 
   constructor(data: D, ass: AppStateService) {
-    this.#initalData = data;
+    this.#initialData = data;
     this.#ass = ass;
     this.#ass.updateAppState("forms", { [this.#id]: data });
   }
@@ -17,12 +17,22 @@ export class InputForm<D = Record<string, any>> {
     return this.#ass.getAppState().forms[this.#id];
   }
 
-  public updateData = (update: Partial<D>) => {
-    const data = deepmerge(this.#ass.getAppState().forms[this.#id], update);
+  public updateData = (update: Partial<D>, deep?: boolean) => {
+    const form = this.#ass.getAppState().forms[this.#id];
+    const data = deep
+      ? deepmerge(form, update)
+      : {
+          ...this.#ass.getAppState().forms[this.#id],
+          ...update
+        };
     this.#ass.updateAppState("forms", { [this.#id]: data });
   };
 
   public reset = () => {
-    this.#ass.updateAppState("forms", { [this.#id]: this.#initalData });
+    this.#ass.updateAppState("forms", { [this.#id]: this.#initialData });
+  };
+
+  public destroy = () => {
+    // DElete the ID at the form
   };
 }

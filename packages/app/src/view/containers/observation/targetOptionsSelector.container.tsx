@@ -5,18 +5,22 @@ import { Field, Repeater, Button, Row, Col, Header } from "../../components";
 import { message } from "antd";
 
 import {
+  Program,
   PromptTypes,
+  Target,
   TargetFormMetaTestIds,
   TargetOption
 } from "@parsimony/types/dist";
 
 import { generateKey, removeItemByIndex } from "../../../utils";
 import { promptsByType } from "../../../fixtures";
+import { InputForm } from "../../../domains/forms/form";
+import { cloneDeep } from "lodash";
 
 type TargetOptionSelectorProps = {
+  form: InputForm<Program>;
   targetOptions: TargetOption[];
   readOnly?: boolean;
-  updateState: (path: string, value: unknown) => void;
 };
 
 const prefilledPromptBtnMetaTestIds = {
@@ -26,12 +30,26 @@ const prefilledPromptBtnMetaTestIds = {
 };
 
 export const TargetOptionSelector = ({
+  form,
   targetOptions,
-  readOnly = false,
-  updateState
+  readOnly = false
 }: TargetOptionSelectorProps) => {
-  const deleteItem = (arr: any[], index: number, path: string) =>
-    updateState(path, removeItemByIndex(arr, index));
+  const deleteItem = (arr: any[], index: number) => {
+    form.updateData({
+      targetOptions: removeItemByIndex(arr, index) as TargetOption[]
+    });
+  };
+
+  const updateItem = (
+    index: number,
+    prop: keyof TargetOption,
+    value: string
+  ) => {
+    const copy = cloneDeep<Target[]>(form.Data.targets);
+    //@ts-ignore
+    copy[index][prop] = value;
+    form.updateData({ targets: copy });
+  };
 
   const setTargetOption = (options: TargetOption[], targetName: string) => {
     if (!targetName) {
@@ -51,16 +69,18 @@ export const TargetOptionSelector = ({
     const metaTestQualifier = `target-option-${optionIndex}`;
 
     const setOptionToTarget = () =>
-      updateState(
-        `targetOptions`,
-        setTargetOption(targetOptions as TargetOption[], option.name || "")
-      );
+      form.updateData({
+        targetOptions: setTargetOption(
+          targetOptions as TargetOption[],
+          option.name || ""
+        )
+      });
     const removeOption = () => {
       if (option.target) {
         message.error("You can't delete the target program!");
         return;
       }
-      deleteItem(targetOptions || [], optionIndex, `targetOptions`);
+      deleteItem(targetOptions || [], optionIndex);
     };
 
     return (
@@ -68,9 +88,10 @@ export const TargetOptionSelector = ({
         <div>
           <Field
             placeHolderText="Prompt Name"
-            pathToState={`targetOptions[${optionIndex}].name`}
             value={option.name}
-            updateState={updateState}
+            updateState={(_, v) => {
+              updateItem(optionIndex, "name", v);
+            }}
             readOnly={readOnly}
             metaTestId={TargetFormMetaTestIds.promptNameField}
             metaTestQualifier={metaTestQualifier}
@@ -107,7 +128,7 @@ export const TargetOptionSelector = ({
               <Button
                 key={generateKey("pre-filled-prompt-button", key)}
                 name={key}
-                action={() => updateState(`targetOptions`, value)}
+                action={() => form.updateData({ targetOptions: value })}
                 metaTestId={prefilledPromptBtnMetaTestIds[key as PromptTypes]}
               />
             );
@@ -116,10 +137,9 @@ export const TargetOptionSelector = ({
       </div>
       <div className={"add-form-spacer"}>
         <Repeater
+          form={form}
           title="Target Options"
           items={targetOptions || []}
-          pathToState={`targetOptions`}
-          updateState={updateState}
           generateRow={generateOption}
           initialData={{ name: "", target: targetOptions?.length === 0 }}
           readOnly={readOnly}

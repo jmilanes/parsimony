@@ -22,9 +22,15 @@ import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 import AncestorNavigationContainer from "./ancestorNavigation.container";
 import parse from "html-react-parser";
 
+export const parseHTMLObj = (v: any) => parse(v?.editor?.getHTML() || "");
+
 const programColumns: IColumns[] = [
   { key: "title", title: "title" },
-  { key: "description", title: "Description", displayFn: (v) => parse(v) },
+  {
+    key: "description",
+    title: "Description",
+    displayFn: parseHTMLObj
+  },
   {
     key: "chaining.type",
     title: "Chaining",
@@ -34,7 +40,11 @@ const programColumns: IColumns[] = [
 
 const behaviorColumns: IColumns[] = [
   { key: "title", title: "title" },
-  { key: "description", title: "Description", displayFn: (v) => parse(v) },
+  {
+    key: "description",
+    title: "Description",
+    displayFn: parseHTMLObj
+  },
   {
     key: "behavior.type",
     title: "Type",

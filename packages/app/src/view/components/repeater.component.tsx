@@ -1,13 +1,14 @@
 import React from "react";
 import { Header, Button, Row, Col } from "./index";
 import { clone } from "../../utils";
+import { InputForm } from "../../domains/forms/form";
+import { Program } from "@parsimony/types/dist";
 
 // These any's might be able to be generics
-export type IRepeaterProps = {
+export type IRepeaterProps<> = {
   title: string;
   items: unknown[];
-  pathToState: string;
-  updateState: (path: string, value: unknown) => void;
+  form: InputForm<Program>;
   generateRow: (index: number) => JSX.Element | null;
   initialData: Record<string, unknown>;
   readOnly: boolean;
@@ -16,15 +17,19 @@ export type IRepeaterProps = {
 
 export const Repeater = ({
   items,
+  form,
   title,
   generateRow,
-  updateState,
-  pathToState,
   initialData,
   readOnly,
   renderAddButton
 }: IRepeaterProps) => {
-  const addRow = () => updateState(pathToState, [...items, clone(initialData)]);
+  const addRow = () => {
+    form.updateData({
+      // @ts-ignore
+      targets: [...items, clone(initialData)]
+    });
+  };
 
   return readOnly ? (
     <>{items.map((_: any, index) => generateRow(index))}</>
