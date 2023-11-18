@@ -1,4 +1,4 @@
-import { Routes, NavTitles, NavMetaTestIds } from "@parsimony/types/dist";
+import { Routes, NavTitles, NavMetaTestIds } from "@parsimony/types";
 
 import {
   Home,
@@ -11,7 +11,7 @@ import {
   Books,
   Collection
 } from "../pages";
-import { IRoute } from "@parsimony/types/dist";
+import { IRoute } from "@parsimony/types";
 
 export const routes: IRoute[] = [
   {

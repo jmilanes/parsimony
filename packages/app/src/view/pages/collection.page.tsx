@@ -11,7 +11,7 @@ import {
   CollectionCategories,
   Domains,
   ProgramsPageMetaTestIds
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 
 import { getRouterParams } from "../../utils";
 

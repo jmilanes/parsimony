@@ -7,12 +7,7 @@ import {
   ITableAction
 } from "../../components";
 import { AncestorOnClickAction, CollectionTable, ProgramTable } from "../index";
-import {
-  Collection,
-  Domains,
-  Program,
-  TargetStyle
-} from "@parsimony/types/dist";
+import { Collection, Domains, Program, TargetStyle } from "@parsimony/types";
 
 import { Container } from "typedi";
 import { useAsync } from "react-use";

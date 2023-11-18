@@ -4,7 +4,7 @@ import { Container } from "typedi";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 import { useAsync } from "react-use";
 import { DATA_HANDLERS } from "../../domains/orchestration/orchestrationHandlers/handlers.typemap";
-import { Domains } from "@parsimony/types/dist";
+import { Domains } from "@parsimony/types";
 import { StyledTreeItem } from "./styledTreeItem.component";
 import Collections from "@mui/icons-material/Collections";
 import DescriptionIcon from "@mui/icons-material/Description";

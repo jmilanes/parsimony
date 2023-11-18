@@ -16,7 +16,7 @@ import {
   User,
   UserPageMetaTestIds,
   UserRoles
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 
 import {
   clone,

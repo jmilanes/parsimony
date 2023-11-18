@@ -1,9 +1,4 @@
-import {
-  ChatMetaTestIds,
-  Domains,
-  Subscriber,
-  User
-} from "@parsimony/types/dist";
+import { ChatMetaTestIds, Domains, Subscriber, User } from "@parsimony/types";
 import React, { useState } from "react";
 
 import { Button, Col, Field, Header, Row } from "../../components";

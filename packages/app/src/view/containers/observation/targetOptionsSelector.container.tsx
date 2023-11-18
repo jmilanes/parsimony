@@ -10,7 +10,7 @@ import {
   Target,
   TargetFormMetaTestIds,
   TargetOption
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 
 import { generateKey, removeItemByIndex } from "../../../utils";
 import { promptsByType } from "../../../fixtures";

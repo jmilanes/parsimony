@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import {
   AuthPageMetaTestIds,
   RequestPasswordResetPayload
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 
 import { Button, Field } from "../../components";
 

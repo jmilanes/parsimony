@@ -2,7 +2,7 @@ import React from "react";
 import { Header, Button, Row, Col } from "./index";
 import { clone } from "../../utils";
 import { InputForm } from "../../domains/forms/form";
-import { Program } from "@parsimony/types/dist";
+import { Program } from "@parsimony/types";
 
 // These any's might be able to be generics
 export type IRepeaterProps<> = {

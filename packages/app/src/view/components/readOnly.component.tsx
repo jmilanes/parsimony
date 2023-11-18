@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "./index";
 import { formatFormHeader } from "../../utils";
-import { Maybe } from "@parsimony/types/dist";
+import { Maybe } from "@parsimony/types";
 
 export type IReadOnlyProps = {
   title?: string;

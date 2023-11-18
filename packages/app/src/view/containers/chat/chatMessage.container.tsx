@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Menu } from "../../components";
-import { ChatMetaTestIds, Message, Domains } from "@parsimony/types/dist";
+import { ChatMetaTestIds, Message, Domains } from "@parsimony/types";
 
 import { Container } from "typedi";
 

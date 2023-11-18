@@ -8,7 +8,7 @@ import {
   ProgramPageMetaTestIds,
   ProgramsPageMetaTestIds,
   User
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import { Checkbox, Field, RichText, Selector } from "../../../components";
 import { getFullName, isReadOnlyMode } from "../../../../utils";
 import { behaviorTypes } from "../../../../fixtures";

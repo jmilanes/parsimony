@@ -9,7 +9,7 @@ import {
   Domains,
   Pages,
   Program
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import {
   CollectionAddForm,
   CollectionTable,

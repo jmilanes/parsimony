@@ -9,7 +9,7 @@ import {
   CollectionCategories,
   CollectionTypes,
   Domains
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import { CollectionTree } from "../../../components/tree.componet";
 import { findTopLevelCollection } from "../../../../utils";
 import { useAsync } from "react-use";

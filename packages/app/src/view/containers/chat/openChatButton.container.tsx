@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Icon } from "../../components";
-import { NavMetaTestIds } from "@parsimony/types/dist";
+import { NavMetaTestIds } from "@parsimony/types";
 import { DrawerContentTypes } from "../../../domains/state/appState/appState.types";
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Collection, Program } from "@parsimony/types/dist";
+import { Collection, Program } from "@parsimony/types";
 import { TreeView } from "@mui/lab";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";

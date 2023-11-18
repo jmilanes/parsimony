@@ -3,7 +3,7 @@ import {
   AuthPageMetaTestIds,
   LoginPayload,
   ResetPasswordPayload
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 
 import { Button, Field } from "../../components";
 

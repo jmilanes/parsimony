@@ -11,7 +11,7 @@ import {
   TargetOption,
   TargetStyle,
   TrialChainingDirections
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import { Checkbox, Field, RichText, Selector } from "../../../components";
 import { isReadOnlyMode } from "../../../../utils";
 import {

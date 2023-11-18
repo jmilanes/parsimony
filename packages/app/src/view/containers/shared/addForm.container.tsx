@@ -1,4 +1,4 @@
-import { AddModalControls } from "@parsimony/types/dist";
+import { AddModalControls } from "@parsimony/types";
 import { Modal } from "antd";
 import React from "react";
 import { Button } from "../../components";

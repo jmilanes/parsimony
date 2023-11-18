@@ -2,7 +2,7 @@ import {
   ObservationMetaTestIds,
   Target,
   TargetResultOption
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import { compileStyles, generateKey } from "../../../utils";
 import { Button } from "../../components";
 import React from "react";

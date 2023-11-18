@@ -2,7 +2,7 @@ import React from "react";
 import { Field, Repeater, Button, Row, Col, RichText } from "../../components";
 import { initialTargetData } from "../../../fixtures";
 
-import { Program, TargetFormMetaTestIds, Target } from "@parsimony/types/dist";
+import { Program, TargetFormMetaTestIds, Target } from "@parsimony/types";
 import { clone, generateKey, removeItemByIndex } from "../../../utils";
 import { InputForm } from "../../../domains/forms/form";
 import { cloneDeep } from "lodash";

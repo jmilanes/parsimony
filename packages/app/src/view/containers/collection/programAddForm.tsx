@@ -10,7 +10,7 @@ import {
   TargetStyle,
   TrialChainingDirections,
   User
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 
 import {
   chainingTypesOptions,

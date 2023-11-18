@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../../components";
 import { Container as DI } from "typedi";
-import { ObservationMetaTestIds, Target } from "@parsimony/types/dist";
+import { ObservationMetaTestIds, Target } from "@parsimony/types";
 import { compileStyles } from "../../../utils";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 import { Discrete_Trial_ID } from "../../../domains/state/appState/actions/observations.actions";

@@ -6,7 +6,7 @@ import {
   Domains,
   Program,
   ProgramsPageMetaTestIds
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import { Button, Field } from "../../../components";
 
 export const TimerSubmitDialogMessage = ({ program }: { program: Program }) => {

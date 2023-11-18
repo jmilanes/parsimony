@@ -1,4 +1,4 @@
-import { MetaTestIds } from "@parsimony/types/dist";
+import { MetaTestIds } from "@parsimony/types";
 import { message, Upload } from "antd";
 import React from "react";
 

@@ -4,7 +4,7 @@ import { Container } from "typedi";
 import UIApi from "../../../../domains/accessApis/uiApi/uiApi.Service";
 import { Button, Header, IOption } from "../../../components";
 import { ClientSelector } from "../../shared/clientSelector";
-import { BulKProgramMetaTestIds, Domains } from "@parsimony/types/dist";
+import { BulKProgramMetaTestIds, Domains } from "@parsimony/types";
 import { CollectionTree } from "../../../components/tree.componet";
 import { findTopLevelCollection } from "../../../../utils";
 

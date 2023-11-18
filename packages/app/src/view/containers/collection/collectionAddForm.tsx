@@ -5,7 +5,7 @@ import {
   Collection,
   CollectionCategories,
   Domains
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 
 import { initialCollectionData } from "../../../fixtures";
 import { Field } from "../../components";

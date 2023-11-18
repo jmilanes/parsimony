@@ -1,6 +1,6 @@
 import React from "react";
 import { createLink, filterByProp } from "../../utils";
-import { IRoute, NavMetaTestIds } from "@parsimony/types/dist";
+import { IRoute, NavMetaTestIds } from "@parsimony/types";
 
 import { Button } from "./index";
 import {

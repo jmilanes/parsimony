@@ -8,7 +8,7 @@ import {
   ProgramPageMetaTestIds,
   ProgramTypes,
   Routes
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 
 import {
   getFullName,

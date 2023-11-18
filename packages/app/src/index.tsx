@@ -34,7 +34,7 @@ const AppContent = () => {
   return <div>{generateApp(routes)}</div>;
 };
 
-const App = () => {
+export const App = () => {
   const { loading } = useAsync(async () => {
     const appController = Container.get(AppController);
     await appController.init();

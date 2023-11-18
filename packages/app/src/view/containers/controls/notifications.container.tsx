@@ -6,7 +6,7 @@ import { Container } from "typedi";
 import { Notification } from "../../../domains/state/appState/appState.types";
 
 import { Button, Icon } from "../../components";
-import { BehaviorTracker } from "@parsimony/types/dist";
+import { BehaviorTracker } from "@parsimony/types";
 
 //TODO: Breakl this up
 

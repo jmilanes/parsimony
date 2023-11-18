@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ObserveTarget } from "./observeTarget.container";
-import { Program } from "@parsimony/types/dist";
+import { Program } from "@parsimony/types";
 import { compileStyles, generateKey } from "../../../utils";
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";

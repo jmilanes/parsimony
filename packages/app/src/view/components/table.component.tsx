@@ -3,7 +3,7 @@ import React from "react";
 import { flattenObject, generateKey } from "../../utils";
 import { Content, Button, Checkbox } from "./index";
 
-import { MetaTestIds, RepeatableMetaTestIds } from "@parsimony/types/dist";
+import { MetaTestIds, RepeatableMetaTestIds } from "@parsimony/types";
 import MaterialCheckbox from "@mui/material/Checkbox";
 import { get } from "lodash";
 
@@ -35,6 +35,7 @@ export type ITableRowProps<Data> = {
   columns: IColumns[];
   actions: ITableAction[];
   selectable?: ISelectable<Data>;
+  index: number;
 };
 
 export type ISelectable<Data> = {
@@ -49,7 +50,8 @@ const TableRow = <Data extends { id: string }>({
   metaTestId,
   columns,
   actions,
-  selectable
+  selectable,
+  index
 }: ITableRowProps<Data>) => {
   const SelectBox = () => {
     if (!selectable || !selectable.visible) {
@@ -76,7 +78,7 @@ const TableRow = <Data extends { id: string }>({
         return (
           <td
             key={`${tableName}-row-${source.id}-col-${col.key}`}
-            data-test-id={`${metaTestId}-row-${source.id}-col-${col.key}`}
+            data-test-id={`${metaTestId}-row-${index}-col-${col.key}`}
           >
             {source[col.key]}
           </td>
@@ -90,7 +92,7 @@ const TableRow = <Data extends { id: string }>({
               key={generateKey(`table-action-${action.name}`, source.id)}
               action={() => action.method(source)}
               metaTestId={metaTestId}
-              metaTestQualifier={`row-${source.id}-col-${action.name
+              metaTestQualifier={`row-${index}-col-${action.name
                 .toLowerCase()
                 .replaceAll(" ", "")}-table-action`}
             />
@@ -136,8 +138,9 @@ export const Table = <Data extends { id: string }>({
           </tr>
         </thead>
         <tbody>
-          {processedData.map((source) => (
+          {processedData.map((source, index) => (
             <TableRow<Data>
+              index={index}
               key={source.id}
               source={source}
               tableName={name}

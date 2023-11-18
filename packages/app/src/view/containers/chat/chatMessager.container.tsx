@@ -2,12 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { Col, Header, Icon, Menu, Row } from "../../components";
 import { ChatMessage, ChatMessageInput } from "../index";
-import {
-  ChatMetaTestIds,
-  Message,
-  Domains,
-  Thread
-} from "@parsimony/types/dist";
+import { ChatMetaTestIds, Message, Domains, Thread } from "@parsimony/types";
 
 import { getThreadName } from "../../../utils";
 import { Container } from "typedi";

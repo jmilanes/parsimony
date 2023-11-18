@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Drawer as ADrawer } from "antd";
-import { Domains, DrawerMetaTestIds } from "@parsimony/types/dist";
+import { Domains, DrawerMetaTestIds } from "@parsimony/types";
 import { DrawerContentTypes } from "../../../domains/state/appState/appState.types";
 import {
   BehaviorTrackerContainer,

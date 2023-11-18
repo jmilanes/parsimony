@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { AuthPageMetaTestIds, LoginPayload } from "@parsimony/types/dist";
+import { AuthPageMetaTestIds, LoginPayload } from "@parsimony/types";
 
 import { Button, Field } from "../../components";
 

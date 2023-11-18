@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Header } from "../components";
 import { getRouterParams, navigateToRoute } from "../../utils";
 
-import { Domains, ObservationMetaTestIds } from "@parsimony/types/dist";
+import { Domains, ObservationMetaTestIds } from "@parsimony/types";
 
 import { Container } from "typedi";
 

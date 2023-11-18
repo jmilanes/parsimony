@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Container, ReadOnly } from "./index";
-import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types/dist";
+import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { generateMetaTestId } from "../../utils";
 import { CONTAINER_INPUT_MARGIN } from "../../constants";

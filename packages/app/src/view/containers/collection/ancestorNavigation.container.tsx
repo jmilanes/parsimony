@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Collection, Domains } from "@parsimony/types/dist";
+import { Collection, Domains } from "@parsimony/types";
 
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";

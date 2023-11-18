@@ -5,7 +5,7 @@ import {
   CollectionSelector,
   Domains,
   Program
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 

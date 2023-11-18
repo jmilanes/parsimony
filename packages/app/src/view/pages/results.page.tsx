@@ -1,5 +1,5 @@
 import React from "react";
-import { Domains, Result, ResultsMetaTestIds } from "@parsimony/types/dist";
+import { Domains, Result, ResultsMetaTestIds } from "@parsimony/types";
 import { Header, IColumns, ITableAction, Table } from "../components";
 import { getFullDate, getFullName, getRouterParams } from "../../utils";
 

@@ -17,7 +17,7 @@ import {
   UserPageMetaTestIds,
   UserRoles,
   LoginPayload
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import { AddForm } from "../containers";
 import {
   initialUserData,

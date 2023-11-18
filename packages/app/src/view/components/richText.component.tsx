@@ -3,7 +3,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { Container } from "./index";
 import parse from "html-react-parser";
 
-import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types/dist";
+import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types";
 import { generateMetaTestId } from "../../utils";
 import { CONTAINER_INPUT_MARGIN } from "../../constants";
 import {

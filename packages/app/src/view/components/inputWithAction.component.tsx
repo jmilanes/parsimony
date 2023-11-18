@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "./index";
-import { MetaTestIds } from "@parsimony/types/dist";
+import { MetaTestIds } from "@parsimony/types";
 
 export type IInputWithActionProps = {
   defaultValue?: string;

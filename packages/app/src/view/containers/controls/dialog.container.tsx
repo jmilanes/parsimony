@@ -11,7 +11,7 @@ import { Button } from "../../components";
 
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
-import { DialogMetaIds } from "@parsimony/types/dist";
+import { DialogMetaIds } from "@parsimony/types";
 
 export const DialogContainer = () => {
   const API = Container.get(UIApi);
