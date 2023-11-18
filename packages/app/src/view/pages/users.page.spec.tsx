@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 // import { graphql, HttpResponse } from "msw";
 // import { setupServer } from "msw/node";
-import { initialUserData } from "../../fixtures";
+// import { initialUserData } from "../../fixtures";
 import { App } from "../../index";
 import { NavMetaTestIds } from "@parsimony/types";
 

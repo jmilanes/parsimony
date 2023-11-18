@@ -1,3 +1,4 @@
+import { createRequest } from "../../utils";
 import {
   Domains,
   CreateUserPayload,
@@ -7,7 +8,6 @@ import {
   UpdateUserPayload,
   User
 } from "@parsimony/types";
-import { createRequest } from "../../utils";
 import generateCrudOperationStrings from "./operationStrings/generateCrudOperationStrings";
 
 export const fullSchema = `
