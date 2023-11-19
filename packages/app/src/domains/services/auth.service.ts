@@ -43,7 +43,7 @@ export default class AuthService {
     ) {
       await this.logOut();
     }
-    if (localStorage.getItem("isLoggedIn") === "true") {
+    if (localStorage?.getItem("isLoggedIn") === "true") {
       try {
         // This should pull schoolId from local storage
         const meResponse = await me({
