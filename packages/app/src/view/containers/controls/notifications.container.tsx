@@ -35,7 +35,7 @@ const Notification = ({
     <Button
       metaTestId={BehaviorTracker.stopTime}
       name="Stop Durration"
-      action={() => handleClose({} as Event, "")}
+      onClick={() => handleClose({} as Event, "")}
       icon={<Icon.Close />}
     />
   );

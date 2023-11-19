@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import {
-  initialUserData,
   serviceProviderOptions,
   userRoleOptions,
   userRoleOptionsWithStringValues
@@ -147,14 +146,14 @@ const User = () => {
           <Button
             key="edit"
             name="Edit"
-            action={() => updateMode("edit")}
+            onClick={() => updateMode("edit")}
             hidden={isEditMode(mode)}
             metaTestId={UserPageMetaTestIds.edit}
           />,
           <Button
             key="cancel"
             name="Cancel"
-            action={() => {
+            onClick={() => {
               updateMode("readOnly");
               form.reset();
             }}
@@ -164,7 +163,7 @@ const User = () => {
           <Button
             key="save"
             name="Save"
-            action={submitForm}
+            onClick={submitForm}
             hidden={isReadOnlyMode(mode)}
             metaTestId={UserPageMetaTestIds.submitEdit}
           />
@@ -173,28 +172,28 @@ const User = () => {
       <Field
         placeHolderText="First Name"
         value={form.Data.firstName}
-        updateState={(_, value) => form.updateData({ firstName: value })}
+        onChange={(value) => form.updateData({ firstName: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.firstNameField}
       />
       <Field
         placeHolderText="Last Name"
         value={form.Data.lastName}
-        updateState={(_, value) => form.updateData({ lastName: value })}
+        onChange={(value) => form.updateData({ lastName: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.lastNameField}
       />
       <Field
         placeHolderText="Phone Number"
         value={form.Data.phone}
-        updateState={(_, value) => form.updateData({ phone: value })}
+        onChange={(value) => form.updateData({ phone: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.phoneNumberField}
       />
       <Field
         placeHolderText="Email"
         value={form.Data.email}
-        updateState={(_, value) => form.updateData({ email: value })}
+        onChange={(value) => form.updateData({ email: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.emailField}
       />
@@ -202,9 +201,7 @@ const User = () => {
         title="Type"
         options={userRoleOptionsWithStringValues}
         value={form.Data.type}
-        updateState={(_, value) =>
-          form.updateData({ type: value as UserRoles })
-        }
+        onChange={(value) => form.updateData({ type: value as UserRoles })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.typeSelector}
       />
@@ -212,7 +209,7 @@ const User = () => {
         title="Role"
         options={userRoleOptions}
         values={form.Data.roles as string[]}
-        updateState={(_, value) => form.updateData({ roles: value })}
+        onChange={(value) => form.updateData({ roles: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.roleMultiSelector}
       />
@@ -221,7 +218,7 @@ const User = () => {
           title="Service Provider"
           options={serviceProviderOptions}
           value={form.Data.serviceProvider}
-          updateState={(_, value) =>
+          onChange={(value) =>
             form.updateData({ serviceProvider: value as string })
           }
           readOnly={isReadOnlyMode(mode)}

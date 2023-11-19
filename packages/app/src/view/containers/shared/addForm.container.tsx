@@ -27,13 +27,13 @@ export const AddForm = ({
           metaTestId={AddModalControls.cancelBtn}
           key="modal-cancel"
           name="Cancel"
-          action={onCancel}
+          onClick={onCancel}
         />,
         <Button
           metaTestId={AddModalControls.createBtn}
           key="modal-create"
           name="Create"
-          action={onCreate}
+          onClick={onCreate}
         />
       ]}
       onCancel={onCancel}

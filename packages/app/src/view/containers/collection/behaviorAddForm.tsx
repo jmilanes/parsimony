@@ -66,29 +66,27 @@ export const BehaviorAddForm = ({
       <Field
         placeHolderText="Title"
         value={form.Data.title}
-        updateState={(_, value) => form.updateData({ title: value })}
+        onChange={(value) => form.updateData({ title: value })}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
       <RichText
         placeHolderText="Description"
         content={form.Data.description}
-        updateState={(_, value) => form.updateData({ description: value })}
+        onChange={(value) => form.updateData({ description: value })}
         metaTestId={ProgramsPageMetaTestIds.descriptionField}
       />
       <Selector
         title="Type"
         value={form.Data.type}
         options={programTypes}
-        updateState={(_, value) =>
-          form.updateData({ type: value as ProgramTypes })
-        }
+        onChange={(value) => form.updateData({ type: value as ProgramTypes })}
         metaTestId={ProgramsPageMetaTestIds.typeSelector}
       />
       <Selector
         title="Behavior Type"
         value={form.Data.behavior?.type}
         options={behaviorTypes}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData(
             {
               behavior: {
@@ -106,7 +104,7 @@ export const BehaviorAddForm = ({
           placeHolderText="Alert Duration (Seconds)"
           //TODO Figure this out
           value={form.Data.behavior?.alertTime?.toString()}
-          updateState={(_, value) =>
+          onChange={(value) =>
             form.updateData(
               {
                 behavior: {
@@ -123,7 +121,7 @@ export const BehaviorAddForm = ({
       <Field
         placeHolderText="Mastery Independence Target"
         value={form.Data.masteryTarget?.toString()}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({
             masteryTarget: parseInt(value)
           })
@@ -133,7 +131,7 @@ export const BehaviorAddForm = ({
       <Field
         placeHolderText="Mastery Consecutive Requriement"
         value={form.Data.masteryConsecutiveTargets?.toString()}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({
             masteryConsecutiveTargets: parseInt(value)
           })
@@ -144,7 +142,7 @@ export const BehaviorAddForm = ({
       <RichText
         placeHolderText="Operational Definition"
         content={form.Data.behavior?.operationalDefinition}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData(
             {
               behavior: {
@@ -159,7 +157,7 @@ export const BehaviorAddForm = ({
       <RichText
         placeHolderText="Precursor Behaviors"
         content={form.Data.behavior?.precursorBehaviors}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData(
             {
               behavior: {
@@ -174,7 +172,7 @@ export const BehaviorAddForm = ({
       <RichText
         placeHolderText="Proactive Strategies"
         content={form.Data.behavior?.proactiveStrategies}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData(
             {
               behavior: {
@@ -189,7 +187,7 @@ export const BehaviorAddForm = ({
       <RichText
         placeHolderText="Reactive Strategies"
         content={form.Data.behavior?.reactiveStrategies}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData(
             {
               behavior: {

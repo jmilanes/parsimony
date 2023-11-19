@@ -42,7 +42,7 @@ export const Drawer = () => {
       extra={
         <Button
           metaTestId={DrawerMetaTestIds.extendBtn}
-          action={onExtend}
+          onClick={onExtend}
           name={extended ? "collapse" : "extend"}
           icon={extended ? <Icon.Collapse /> : <Icon.Expand />}
         />

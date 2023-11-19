@@ -15,8 +15,7 @@ import {
   Pages,
   User,
   UserPageMetaTestIds,
-  UserRoles,
-  LoginPayload
+  UserRoles
 } from "@parsimony/types";
 import { AddForm } from "../containers";
 import {
@@ -104,7 +103,7 @@ const Users = () => {
             metaTestId={DirectoryPageMetaTestIds.addUserBtn}
             key="add"
             name="Add"
-            action={() => setShowAddForm(true)}
+            onClick={() => setShowAddForm(true)}
             hidden={showAddForm}
           />
         ]}
@@ -128,39 +127,39 @@ const Users = () => {
         <Field
           placeHolderText="First Name"
           value={form.Data.firstName}
-          updateState={(_, value) => form.updateData({ firstName: value })}
+          onChange={(value) => form.updateData({ firstName: value })}
           metaTestId={DirectoryPageMetaTestIds.firstNameField}
         />
         <Field
           placeHolderText="Last Name"
           value={form.Data.lastName}
-          updateState={(_, value) => form.updateData({ lastName: value })}
+          onChange={(value) => form.updateData({ lastName: value })}
           metaTestId={DirectoryPageMetaTestIds.lastNameField}
         />
         <Field
           placeHolderText="Phone Number"
           value={form.Data.phone}
-          updateState={(_, value) => form.updateData({ phone: value })}
+          onChange={(value) => form.updateData({ phone: value })}
           metaTestId={DirectoryPageMetaTestIds.phoneNumberField}
         />
         <Field
           placeHolderText="Email"
           value={form.Data.email}
-          updateState={(_, value) => form.updateData({ email: value })}
+          onChange={(value) => form.updateData({ email: value })}
           metaTestId={DirectoryPageMetaTestIds.emailField}
         />
         <Selector
           title="Type"
           options={userRoleOptionsWithStringValues}
           value={form.Data.type}
-          updateState={(_, value) => form.updateData({ type: value as string })}
+          onChange={(value) => form.updateData({ type: value as string })}
           metaTestId={DirectoryPageMetaTestIds.typeSelector}
         />
         <MultiSelect
           title="Roles"
           options={userRoleOptions}
           values={form.Data.roles as string[]}
-          updateState={(_, value) => {
+          onChange={(value) => {
             form.updateData({ roles: value });
           }}
           metaTestId={DirectoryPageMetaTestIds.roleMultiSelector}
@@ -171,7 +170,7 @@ const Users = () => {
               title="Service Provider"
               options={serviceProviderOptions}
               value={form.Data.serviceProvider}
-              updateState={(_, value) =>
+              onChange={(value) =>
                 form.updateData({ serviceProvider: value as string })
               }
               metaTestId={UserPageMetaTestIds.serviceProviderSelector}

@@ -65,23 +65,21 @@ export const CreateChat = () => {
         <Col xs={2}>
           <Button
             name="Cancel"
-            action={setToChatDrawer}
+            onClick={setToChatDrawer}
             metaTestId={ChatMetaTestIds.cancelCreateChatBtn}
           />
         </Col>
       </Row>
       <Field
         value={name}
-        // TODO This should be easier lol but fine
-        updateState={(path, value) => updateName(value)}
-        pathToState=""
+        onChange={updateName}
         placeHolderText="Chat name"
         metaTestId={ChatMetaTestIds.createChatNameField}
       />
       <ClientSelector multiSelect={true} onChange={onUpdateSubscribers} />
       <Button
         name="Create"
-        action={onCreateThread}
+        onClick={onCreateThread}
         metaTestId={ChatMetaTestIds.createChatSubmitBtn}
       />
     </div>

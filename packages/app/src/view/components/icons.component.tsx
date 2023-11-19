@@ -13,7 +13,6 @@ import {
   AddAlarm,
   RemoveCircleOutline,
   StopCircle,
-  Close,
   Lock,
   Flare,
   Cancel,

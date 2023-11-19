@@ -37,7 +37,7 @@ export const InactiveTarget = ({
           name="Observe"
           // SPOT TO ADD CHAIN BLOCK
           disabled={disabled}
-          action={() =>
+          onClick={() =>
             !disabled &&
             API.actions.observations.updateTargetState(id, {
               active: true

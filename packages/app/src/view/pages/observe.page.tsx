@@ -62,7 +62,7 @@ const Observe = () => {
         name="Submit Observation"
         type={validResults ? "contained" : "outlined"}
         disabled={!validResults}
-        action={() =>
+        onClick={() =>
           validResults &&
           API.actions.observations.submit().finally(() => {
             message.success("Program Results Submitted");
@@ -73,7 +73,7 @@ const Observe = () => {
       />
       <Button
         name="View Results"
-        action={() => navigate(`/results/${program.id}`)}
+        onClick={() => navigate(`/results/${program.id}`)}
         metaTestId={ObservationMetaTestIds.viewResultsBtn}
       />
     </>

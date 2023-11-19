@@ -3,7 +3,7 @@ import { Field, Repeater, Button, Row, Col, RichText } from "../../components";
 import { initialTargetData } from "../../../fixtures";
 
 import { Program, TargetFormMetaTestIds, Target } from "@parsimony/types";
-import { clone, generateKey, removeItemByIndex } from "../../../utils";
+import { generateKey, removeItemByIndex } from "../../../utils";
 import { InputForm } from "../../../domains/forms/form";
 import { cloneDeep } from "lodash";
 
@@ -33,16 +33,15 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
         <Button
           name="Delete Target"
           disabled={readOnly}
-          action={() => deleteItem(form.Data.targets || [], index)}
+          onClick={() => deleteItem(form.Data.targets || [], index)}
           metaTestId={TargetFormMetaTestIds.deleteRuleBtn}
           metaTestQualifier={metaQualifier}
         />
         <Col xs={12}>
           <Field
             placeHolderText="Title"
-            pathToState={`targets[${index}].title`}
             value={target.title}
-            updateState={(_, value) => {
+            onChange={(value) => {
               updateItem(index, "title", value);
             }}
             readOnly={readOnly}
@@ -53,9 +52,8 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
         <Col xs={12}>
           <RichText
             placeHolderText="Description"
-            pathToState={`targets[${index}].description`}
             content={target.description}
-            updateState={(_, value) => {
+            onChange={(value) => {
               updateItem(index, "description", value);
             }}
             readOnly={readOnly}
@@ -80,7 +78,7 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
           <Button
             type={"contained"}
             name="Add Target"
-            action={addFn}
+            onClick={addFn}
             metaTestId={TargetFormMetaTestIds.addRuleBtn}
           />
         );

@@ -1,9 +1,5 @@
 import React, { useMemo } from "react";
-import {
-  AuthPageMetaTestIds,
-  LoginPayload,
-  ResetPasswordPayload
-} from "@parsimony/types";
+import { AuthPageMetaTestIds, ResetPasswordPayload } from "@parsimony/types";
 
 import { Button, Field } from "../../components";
 
@@ -37,12 +33,12 @@ export const ResetPasswordForm = () => {
         placeHolderText="password"
         type="password"
         value={form.Data.newPassword}
-        updateState={(_, value) => form.updateData({ newPassword: value })}
+        onChange={(value) => form.updateData({ newPassword: value })}
         metaTestId={AuthPageMetaTestIds.passwordField}
       />
       <Button
         name="Update Password"
-        action={onResetPassword}
+        onClick={onResetPassword}
         metaTestId={AuthPageMetaTestIds.resetPasswordBtn}
       />
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, ReadOnly } from "./index";
-import { formatFormHeader, generateMetaTestId } from "../../utils";
+import { generateMetaTestId } from "../../utils";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -18,9 +18,8 @@ export type IMultiSelectProps = {
   readOnly?: boolean;
   options: IOptionMultiSelect[];
   values?: string[];
-  pathToState?: string;
   title: string;
-  updateState: (path: string, value: string[]) => void;
+  onChange: (value: string[]) => void;
   metaTestId: MetaTestIds;
   metaTestQualifier?: string;
 };
@@ -28,8 +27,7 @@ export type IMultiSelectProps = {
 export const MultiSelect = ({
   readOnly,
   options,
-  updateState,
-  pathToState,
+  onChange,
   values,
   title,
   metaTestId,
@@ -40,8 +38,7 @@ export const MultiSelect = ({
     metaTestId,
     metaTestQualifier
   );
-  const updateSelectionsAndState = (values: string[]) =>
-    updateState(pathToState || "", values);
+  const updateSelectionsAndState = (values: string[]) => onChange(values);
 
   const Options = () => {
     return (

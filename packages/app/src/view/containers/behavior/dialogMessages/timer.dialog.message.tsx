@@ -1,13 +1,8 @@
 import React from "react";
 import { Container } from "typedi";
 import UIApi from "../../../../domains/accessApis/uiApi/uiApi.Service";
-import {
-  AddModalControls,
-  Domains,
-  Program,
-  ProgramsPageMetaTestIds
-} from "@parsimony/types";
-import { Button, Field } from "../../../components";
+import { Domains, Program, ProgramsPageMetaTestIds } from "@parsimony/types";
+import { Field } from "../../../components";
 
 export const TimerSubmitDialogMessage = ({ program }: { program: Program }) => {
   const API = Container.get(UIApi);
@@ -21,10 +16,10 @@ export const TimerSubmitDialogMessage = ({ program }: { program: Program }) => {
       <Field
         placeHolderText="Update Time"
         value={localTime}
-        updateState={(_p, v) => {
-          updateLocalTime(v);
+        onChange={(value) => {
+          updateLocalTime(value);
           API.actions.timer.updateTimeState(program.id, {
-            time: API.actions.timer.resolveFormattedTIme(v)
+            time: API.actions.timer.resolveFormattedTIme(value)
           });
         }}
         metaTestId={ProgramsPageMetaTestIds.titleField}

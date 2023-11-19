@@ -10,9 +10,8 @@ export type ICheckBoxProps = {
   key?: string;
   readOnly?: boolean;
   value: boolean;
-  pathToState?: string;
   title: string;
-  updateState: (path: string, value: boolean) => void;
+  onChange: (value: boolean) => void;
   metaTestId: MetaTestIds;
   metaTestQualifier?: string;
 };
@@ -20,8 +19,7 @@ export type ICheckBoxProps = {
 export const Checkbox = ({
   readOnly,
   value,
-  updateState,
-  pathToState,
+  onChange,
   title,
   key,
   metaTestId,
@@ -39,7 +37,7 @@ export const Checkbox = ({
               metaTestId,
               metaTestQualifier
             )}
-            onChange={() => updateState(pathToState || "", !value)}
+            onChange={() => onChange(!value)}
           />
         }
         label={title}

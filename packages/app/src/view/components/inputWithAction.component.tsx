@@ -30,7 +30,7 @@ export const InputWithAction = ({
       <Button
         disabled={val.length === 0}
         name={buttonText}
-        action={() => {
+        onClick={() => {
           action(val);
           setVal("");
         }}

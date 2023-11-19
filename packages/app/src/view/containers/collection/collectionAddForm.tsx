@@ -70,7 +70,7 @@ export const CollectionAddForm = ({
       <Field
         placeHolderText="Book Tile"
         value={form.Data.title}
-        updateState={(_, value) => form.updateData({ title: value })}
+        onChange={(value) => form.updateData({ title: value })}
         metaTestId={BookPageMetaTestIds.nameField}
       />
     </AddForm>

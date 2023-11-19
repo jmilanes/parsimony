@@ -1,7 +1,7 @@
 import React from "react";
 
-import { flattenObject, generateKey } from "../../utils";
-import { Content, Button, Checkbox } from "./index";
+import { generateKey } from "../../utils";
+import { Content, Button } from "./index";
 
 import { MetaTestIds, RepeatableMetaTestIds } from "@parsimony/types";
 import MaterialCheckbox from "@mui/material/Checkbox";
@@ -90,7 +90,7 @@ const TableRow = <Data extends { id: string }>({
             <Button
               name={action.name}
               key={generateKey(`table-action-${action.name}`, source.id)}
-              action={() => action.method(source)}
+              onClick={() => action.method(source)}
               metaTestId={metaTestId}
               metaTestQualifier={`row-${index}-col-${action.name
                 .toLowerCase()

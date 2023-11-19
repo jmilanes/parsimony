@@ -54,7 +54,7 @@ export const ObserveTarget = ({
           <Button
             name="Observe"
             type="contained"
-            action={() =>
+            onClick={() =>
               API.actions.observations.updateTargetState(Discrete_Trial_ID, {
                 active: true
               })

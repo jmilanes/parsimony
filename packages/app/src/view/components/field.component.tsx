@@ -6,14 +6,12 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { generateMetaTestId } from "../../utils";
 import { CONTAINER_INPUT_MARGIN } from "../../constants";
 
-export type IFieldProps = TextFieldProps & {
+export type IFieldProps = Omit<TextFieldProps, "onChange"> & {
   key?: string;
   readOnly?: boolean;
   value?: Maybe<string>;
-  pathToState?: string;
   placeHolderText: string;
-  //TODO: This should prob be better
-  updateState: (path: string, value: string) => void;
+  onChange: (value: string) => void;
   metaTestId: MetaTestIds;
   metaTestQualifier?: string;
 };
@@ -21,8 +19,7 @@ export type IFieldProps = TextFieldProps & {
 export const Field = ({
   readOnly,
   value,
-  updateState,
-  pathToState,
+  onChange,
   placeHolderText,
   key,
   metaTestId,
@@ -45,7 +42,7 @@ export const Field = ({
         label={placeHolderText}
         placeholder={placeHolderText}
         value={value || ""}
-        onChange={(e) => updateState(pathToState || "", e.currentTarget.value)}
+        onChange={(e) => onChange(e.currentTarget.value)}
         {...rest}
       />
     </Container>

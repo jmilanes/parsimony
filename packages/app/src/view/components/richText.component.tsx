@@ -18,10 +18,8 @@ import {
 export type IRichTextProps = {
   key?: string;
   readOnly?: boolean;
-  pathToState?: string;
   placeHolderText: string;
-  //TODO: This should prob be better
-  updateState: (path: string, value: string) => void;
+  onChange: (value: string) => void;
   metaTestId: MetaTestIds;
   metaTestQualifier?: string;
   content?: Maybe<string>;
@@ -29,8 +27,7 @@ export type IRichTextProps = {
 
 export const RichText = ({
   readOnly,
-  updateState,
-  pathToState,
+  onChange,
   placeHolderText,
   key,
   metaTestId,
@@ -52,11 +49,12 @@ export const RichText = ({
     <Container flexDirection="column" key={key} margin={CONTAINER_INPUT_MARGIN}>
       <p>{placeHolderText}:</p>
       <RichTextEditor
+        data-test-id={metaId}
         extensions={[StarterKit]}
         content={content || ""} // Initial content for the editor
         // Optionally include `renderControls` for a menu-bar atop the editor:
         onUpdate={(v) => {
-          updateState(pathToState || "", v.editor.getHTML());
+          onChange(v.editor.getHTML());
         }}
         renderControls={() => (
           <MenuControlsContainer>

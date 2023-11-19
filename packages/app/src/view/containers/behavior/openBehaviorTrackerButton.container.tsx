@@ -20,7 +20,7 @@ export const OpenBehaviorButton = () => {
   return (
     <Button
       name="Track Behavior"
-      action={openBulkPrograms}
+      onClick={openBulkPrograms}
       icon={<Icon.BehaviorTracker />}
       metaTestId={ProgramsPageMetaTestIds.addProgramToClient}
     />

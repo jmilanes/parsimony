@@ -41,7 +41,7 @@ export const Chat = () => {
         <Col xs={4}>
           <Button
             name="Create Chat"
-            action={showCreateChat}
+            onClick={showCreateChat}
             metaTestId={ChatMetaTestIds.createChatBtn}
           />
           <ChatList threads={Object.values(threads)} />

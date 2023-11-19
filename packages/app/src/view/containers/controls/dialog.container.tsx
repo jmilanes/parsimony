@@ -21,7 +21,7 @@ export const DialogContainer = () => {
     return (
       <Button
         name={x.name}
-        action={x.action}
+        onClick={x.action}
         metaTestId={DialogMetaIds.action}
         metaTestQualifier={x.name}
       ></Button>

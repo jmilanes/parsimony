@@ -64,7 +64,7 @@ const Books = () => {
           <Button
             key="add"
             name="Add"
-            action={() => setShowAddForm(true)}
+            onClick={() => setShowAddForm(true)}
             hidden={showAddForm}
             metaTestId={BookPageMetaTestIds.addBtn}
           />,

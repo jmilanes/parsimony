@@ -11,7 +11,9 @@ export const OpenProgramViewButton = () => {
   return (
     <Button
       name="Show Programs"
-      action={() => API.actions.drawer.open(DrawerContentTypes.ProgramSelector)}
+      onClick={() =>
+        API.actions.drawer.open(DrawerContentTypes.ProgramSelector)
+      }
       icon={<Icon.ProgramViewer />}
       metaTestId={ProgramsPageMetaTestIds.addProgramToClient}
     />

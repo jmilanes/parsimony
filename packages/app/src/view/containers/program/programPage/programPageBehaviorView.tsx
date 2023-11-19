@@ -2,18 +2,15 @@ import React from "react";
 
 import {
   BehaviorType,
-  Domains,
   IModes,
   Program,
   ProgramPageMetaTestIds,
-  ProgramsPageMetaTestIds,
-  User
+  ProgramsPageMetaTestIds
 } from "@parsimony/types";
 import { Checkbox, Field, RichText, Selector } from "../../../components";
-import { getFullName, isReadOnlyMode } from "../../../../utils";
+import { isReadOnlyMode } from "../../../../utils";
 import { behaviorTypes } from "../../../../fixtures";
-import { Container as DI } from "typedi";
-import UIApi from "../../../../domains/accessApis/uiApi/uiApi.Service";
+
 import { InputForm } from "../../../../domains/forms/form";
 
 export const ProgramPageBehaviorView = ({
@@ -23,14 +20,6 @@ export const ProgramPageBehaviorView = ({
   form: InputForm<Program>;
   mode: IModes;
 }) => {
-  const API = DI.get(UIApi);
-  const allClients = API.system.getItemsFromStore(Domains.User);
-  //comment
-  const options = allClients.map((user: User) => ({
-    name: getFullName(user),
-    value: user.id
-  }));
-
   const readOnly = isReadOnlyMode(mode);
   return (
     <>
@@ -47,14 +36,14 @@ export const ProgramPageBehaviorView = ({
         <Checkbox
           title="Mastered"
           value={!!form.Data.mastered}
-          updateState={(_, value) => form.updateData({ mastered: value })}
+          onChange={(value) => form.updateData({ mastered: value })}
           readOnly={isReadOnlyMode(mode)}
           metaTestId={ProgramPageMetaTestIds.masteredCheckbox}
         />
         <Checkbox
           title="Active"
           value={!!form.Data.behavior?.active}
-          updateState={(_, value) =>
+          onChange={(value) =>
             form.updateData({ behavior: { active: value } }, true)
           }
           readOnly={readOnly}
@@ -64,14 +53,14 @@ export const ProgramPageBehaviorView = ({
       <Field
         placeHolderText="Title"
         value={form.Data.title}
-        updateState={(_, value) => form.updateData({ title: value })}
+        onChange={(value) => form.updateData({ title: value })}
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.titleField}
       />
       <RichText
         placeHolderText="Description"
         content={form.Data.description}
-        updateState={(_, value) => form.updateData({ description: value })}
+        onChange={(value) => form.updateData({ description: value })}
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.descriptionField}
       />
@@ -79,7 +68,7 @@ export const ProgramPageBehaviorView = ({
         title="Behavior Type"
         value={form.Data.behavior?.type}
         options={behaviorTypes}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ behavior: { type: value as BehaviorType } }, true)
         }
         readOnly={readOnly}
@@ -88,7 +77,7 @@ export const ProgramPageBehaviorView = ({
       <Field
         placeHolderText="Mastery Independence Target"
         value={form.Data.masteryTarget?.toString()}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ masteryTarget: parseInt(value) })
         }
         readOnly={isReadOnlyMode(mode)}
@@ -97,7 +86,7 @@ export const ProgramPageBehaviorView = ({
       <Field
         placeHolderText="Mastery Consecutive Requriement"
         value={form.Data.masteryConsecutiveTargets?.toString()}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ masteryConsecutiveTargets: parseInt(value) })
         }
         readOnly={isReadOnlyMode(mode)}
@@ -107,7 +96,7 @@ export const ProgramPageBehaviorView = ({
       <Field
         placeHolderText="Alert Duration"
         value={form.Data.behavior?.alertTime?.toString()}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ behavior: { alertTime: parseInt(value) } }, true)
         }
         readOnly={readOnly}
@@ -116,7 +105,7 @@ export const ProgramPageBehaviorView = ({
       <RichText
         placeHolderText="Operational Definition"
         content={form.Data.behavior?.operationalDefinition}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ behavior: { operationalDefinition: value } }, true)
         }
         readOnly={readOnly}
@@ -125,7 +114,7 @@ export const ProgramPageBehaviorView = ({
       <RichText
         placeHolderText="Precursor Behaviors"
         content={form.Data.behavior?.precursorBehaviors}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ behavior: { precursorBehaviors: value } }, true)
         }
         readOnly={readOnly}
@@ -134,7 +123,7 @@ export const ProgramPageBehaviorView = ({
       <RichText
         placeHolderText="Proactive Strategies"
         content={form.Data.behavior?.proactiveStrategies}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ behavior: { proactiveStrategies: value } }, true)
         }
         readOnly={readOnly}
@@ -143,7 +132,7 @@ export const ProgramPageBehaviorView = ({
       <RichText
         placeHolderText="Reactive Strategies"
         content={form.Data.behavior?.reactiveStrategies}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ behavior: { reactiveStrategies: value } }, true)
         }
         readOnly={readOnly}

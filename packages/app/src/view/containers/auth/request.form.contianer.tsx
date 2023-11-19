@@ -28,14 +28,14 @@ export const RequestPasswordRequestForm = () => {
   return (
     <div>
       <Field
-        updateState={(_, value) => form.updateData({ email: value })}
+        onChange={(value) => form.updateData({ email: value })}
         placeHolderText="Email"
         value={form.Data.email}
         metaTestId={AuthPageMetaTestIds.emailField}
       />
       <Button
         name="Request Password Reset"
-        action={request}
+        onClick={request}
         metaTestId={AuthPageMetaTestIds.requestPasswordReset}
       />
     </div>

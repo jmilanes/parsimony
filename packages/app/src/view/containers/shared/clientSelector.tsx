@@ -52,7 +52,7 @@ export const ClientSelector = ({
         <Header text={selectedName || ""} size="sm" />
         <Button
           name="Cancel"
-          action={onCancel}
+          onClick={onCancel}
           metaTestId={ProgramPageMetaTestIds.clientSelector}
         />
       </div>
@@ -66,7 +66,7 @@ export const ClientSelector = ({
       label="Select User"
       options={options}
       multiSelect={multiSelect}
-      updateState={onChange}
+      onChange={onChange}
       metaTestId={ChatMetaTestIds.createChatNameField}
     />
   );

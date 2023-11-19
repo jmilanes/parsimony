@@ -17,13 +17,13 @@ export const TallyBehaviorInput = ({ program }: { program: Program }) => {
           <Button
             metaTestId={BehaviorTracker.tallyBtn}
             name="Tally"
-            action={() => API.actions.tally.decrement(program)}
+            onClick={() => API.actions.tally.decrement(program)}
             icon={<Icon.BehaviorTallyRemove />}
           />
           <Button
             metaTestId={BehaviorTracker.tallyBtn}
             name="Frequency"
-            action={() => API.actions.tally.increment(program)}
+            onClick={() => API.actions.tally.increment(program)}
             icon={<Icon.BehaviorTallyAdd />}
           />
         </div>
@@ -35,7 +35,7 @@ export const TallyBehaviorInput = ({ program }: { program: Program }) => {
           <Button
             metaTestId={BehaviorTracker.tallyBtn}
             name="Submit"
-            action={() => API.actions.tally.submit(program, count)}
+            onClick={() => API.actions.tally.submit(program, count)}
           />
         </div>
       )}

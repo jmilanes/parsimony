@@ -18,7 +18,7 @@ export const DiscreteTrialsControlsContainer = () => {
         {currentStep > 1 && (
           <Button
             name="Back"
-            action={() => {
+            onClick={() => {
               API.actions.observations.decrementStep(Discrete_Trial_ID);
               program?.targets?.forEach((target) => {
                 API.actions.observations.decrementStep(target?.id || "");
@@ -29,7 +29,7 @@ export const DiscreteTrialsControlsContainer = () => {
         )}
         <Button
           name="Next Step"
-          action={() => {
+          onClick={() => {
             API.actions.observations.incrementStep(Discrete_Trial_ID);
             program?.targets?.forEach((target) => {
               API.actions.observations.incrementStep(target?.id || "");
@@ -39,7 +39,7 @@ export const DiscreteTrialsControlsContainer = () => {
         />
         <Button
           name="Close"
-          action={() =>
+          onClick={() =>
             API.actions.observations.updateTargetState(Discrete_Trial_ID, {
               active: false
             })

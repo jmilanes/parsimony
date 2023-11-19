@@ -83,7 +83,7 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
         <Button
           metaTestId={BehaviorTracker.startInterval}
           name="Interval"
-          action={() =>
+          onClick={() =>
             API.actions.interval.startInterval(program, openIntervalDialog)
           }
           icon={<Icon.BehaviorInterval />}
@@ -91,7 +91,7 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
         <Button
           metaTestId={BehaviorTracker.stopInterval}
           name="Interval"
-          action={() =>
+          onClick={() =>
             API.actions.interval.endInterval(program, openEndIntervalDialog)
           }
           icon={<Icon.BehaviorIntervalStop />}

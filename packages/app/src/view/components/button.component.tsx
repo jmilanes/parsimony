@@ -7,7 +7,7 @@ import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 export type IButtonProps = {
   key?: string;
   name: string;
-  action?: (payload: unknown | undefined) => void;
+  onClick?: (payload: unknown | undefined) => void;
   hidden?: boolean;
   disabled?: boolean;
   type?: "outlined" | "contained" | "text";
@@ -18,7 +18,7 @@ export type IButtonProps = {
 
 export const Button = ({
   name,
-  action,
+  onClick,
   hidden,
   disabled,
   type = "outlined",
@@ -27,15 +27,17 @@ export const Button = ({
   metaTestQualifier
 }: IButtonProps) => {
   if (hidden) return <></>;
+
   const metaId = `${generateMetaTestId(
     UIMetaTargetTypes.Button,
     metaTestId,
     metaTestQualifier
   )}`;
+
   if (icon) {
     return (
       <IconButton
-        onClick={action}
+        onClick={onClick}
         edge="end"
         aria-label={name}
         data-test-id={metaId}
@@ -52,7 +54,7 @@ export const Button = ({
         type === "contained" ? "parsimony-btn-contained" : "parsimony-btn"
       }
       variant={type}
-      onClick={action}
+      onClick={onClick}
     >
       {name}
     </MaterialButton>

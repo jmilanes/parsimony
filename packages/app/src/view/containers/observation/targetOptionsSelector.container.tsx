@@ -89,8 +89,8 @@ export const TargetOptionSelector = ({
           <Field
             placeHolderText="Prompt Name"
             value={option.name}
-            updateState={(_, v) => {
-              updateItem(optionIndex, "name", v);
+            onChange={(value) => {
+              updateItem(optionIndex, "name", value);
             }}
             readOnly={readOnly}
             metaTestId={TargetFormMetaTestIds.promptNameField}
@@ -101,14 +101,14 @@ export const TargetOptionSelector = ({
           <Button
             disabled={readOnly}
             name="Delete Prompt"
-            action={removeOption}
+            onClick={removeOption}
             metaTestId={TargetFormMetaTestIds.deletePromptBtn}
             metaTestQualifier={metaTestQualifier}
           />
           <Button
             disabled={readOnly}
             name="Set to Target"
-            action={setOptionToTarget}
+            onClick={setOptionToTarget}
             metaTestId={TargetFormMetaTestIds.setToTargetBtn}
             metaTestQualifier={metaTestQualifier}
           />
@@ -128,7 +128,7 @@ export const TargetOptionSelector = ({
               <Button
                 key={generateKey("pre-filled-prompt-button", key)}
                 name={key}
-                action={() => form.updateData({ targetOptions: value })}
+                onClick={() => form.updateData({ targetOptions: value })}
                 metaTestId={prefilledPromptBtnMetaTestIds[key as PromptTypes]}
               />
             );
@@ -148,7 +148,7 @@ export const TargetOptionSelector = ({
               <Button
                 type={"contained"}
                 name="Add Target Option"
-                action={addFn}
+                onClick={addFn}
                 metaTestId={TargetFormMetaTestIds.addPromptBtn}
               />
             );

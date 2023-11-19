@@ -1,7 +1,6 @@
 import React from "react";
 
 import {
-  Domains,
   IModes,
   Program,
   ProgramCategories,
@@ -46,28 +45,27 @@ export const ProgramPageProgramView = ({
       <Checkbox
         title="Mastered"
         value={!!form.Data.mastered}
-        updateState={(_, value) => form.updateData({ mastered: value })}
+        onChange={(value) => form.updateData({ mastered: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.masteredCheckbox}
       />
       <Field
         placeHolderText="Title"
         value={form.Data.title}
-        updateState={(_, value) => form.updateData({ title: value })}
+        onChange={(value) => form.updateData({ title: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.titleField}
       />
       <RichText
         placeHolderText="Description"
-        pathToState="description"
-        updateState={(_, value) => form.updateData({ description: value })}
+        onChange={(value) => form.updateData({ description: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.descriptionField}
       />
       <RichText
         placeHolderText="Materials"
         content={form.Data.materials}
-        updateState={(_, value) => form.updateData({ materials: value })}
+        onChange={(value) => form.updateData({ materials: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.materialsField}
       />
@@ -75,9 +73,7 @@ export const ProgramPageProgramView = ({
         title="Type"
         value={form.Data.type}
         options={programTypes}
-        updateState={(_, value) =>
-          form.updateData({ type: value as ProgramTypes })
-        }
+        onChange={(value) => form.updateData({ type: value as ProgramTypes })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.typeSelector}
       />
@@ -85,7 +81,7 @@ export const ProgramPageProgramView = ({
         title="Category"
         value={form.Data.category}
         options={programCategories}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ category: value as ProgramCategories })
         }
         readOnly={isReadOnlyMode(mode)}
@@ -96,17 +92,16 @@ export const ProgramPageProgramView = ({
         title="Trials"
         value={form.Data.trials}
         options={trialOptions}
-        updateState={(_, value) => form.updateData({ trials: value as number })}
+        onChange={(value) => form.updateData({ trials: value as number })}
         isNumber={true}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.stepsSelector}
       />
       <Selector
         title="Target Style"
-        pathToState="targetStyle"
         value={form.Data.targetStyle}
         options={targetStyles}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ targetStyle: value as TargetStyle })
         }
         readOnly={isReadOnlyMode(mode)}
@@ -114,9 +109,8 @@ export const ProgramPageProgramView = ({
       />
       <Field
         placeHolderText="Mastery Independence Target (%)"
-        pathToState="masteryTarget"
         value={form.Data.masteryTarget?.toString()}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ masteryTarget: parseInt(value) })
         }
         readOnly={isReadOnlyMode(mode)}
@@ -124,9 +118,8 @@ export const ProgramPageProgramView = ({
       />
       <Field
         placeHolderText="Mastery Consecutive Requriement"
-        pathToState="masteryConsecutiveTargets"
         value={form.Data.masteryConsecutiveTargets?.toString()}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ masteryConsecutiveTargets: parseInt(value) })
         }
         readOnly={isReadOnlyMode(mode)}
@@ -136,10 +129,9 @@ export const ProgramPageProgramView = ({
       {form.Data.targetStyle === TargetStyle.TaskAnalysis && (
         <Selector
           title="Chaining Style"
-          pathToState="chaining.type"
           value={form.Data.chaining?.type}
           options={chainingTypesOptions}
-          updateState={(_, value) =>
+          onChange={(value) =>
             form.updateData(
               { chaining: { type: value as TrialChainingDirections } },
               true

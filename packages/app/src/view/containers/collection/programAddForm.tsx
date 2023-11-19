@@ -6,16 +6,13 @@ import {
   ProgramCategories,
   ProgramsPageMetaTestIds,
   ProgramTypes,
-  TargetOption,
   TargetStyle,
-  TrialChainingDirections,
-  User
+  TrialChainingDirections
 } from "@parsimony/types";
 
 import {
   chainingTypesOptions,
   initialProgramData,
-  initialUserData,
   programCategories,
   programTypes,
   targetStyles,
@@ -84,34 +81,32 @@ export const ProgramAddForm = ({
       <Field
         placeHolderText="Title"
         value={form.Data.title}
-        updateState={(_, value) => form.updateData({ title: value })}
+        onChange={(value) => form.updateData({ title: value })}
         metaTestId={ProgramsPageMetaTestIds.titleField}
       />
       <RichText
         placeHolderText="Description"
         content={form.Data.description}
-        updateState={(_, value) => form.updateData({ description: value })}
+        onChange={(value) => form.updateData({ description: value })}
         metaTestId={ProgramsPageMetaTestIds.descriptionField}
       />
       <RichText
         placeHolderText="Materials"
         content={form.Data.materials}
-        updateState={(_, value) => form.updateData({ materials: value })}
+        onChange={(value) => form.updateData({ materials: value })}
         metaTestId={ProgramsPageMetaTestIds.materialsField}
       />
       <Selector
         title="Type"
         value={form.Data.type}
         options={programTypes}
-        updateState={(_, value) =>
-          form.updateData({ type: value as ProgramTypes })
-        }
+        onChange={(value) => form.updateData({ type: value as ProgramTypes })}
         metaTestId={ProgramsPageMetaTestIds.typeSelector}
       />
       <Field
         placeHolderText="Mastery Independence Target (%)"
         value={form.Data.masteryTarget?.toString()}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ masteryTarget: parseInt(value) })
         }
         metaTestId={ProgramsPageMetaTestIds.masteryTarget}
@@ -119,7 +114,7 @@ export const ProgramAddForm = ({
       <Field
         placeHolderText="Mastery Consecutive Requriement"
         value={form.Data.masteryConsecutiveTargets?.toString()}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ masteryConsecutiveTargets: parseInt(value) })
         }
         metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
@@ -127,10 +122,9 @@ export const ProgramAddForm = ({
 
       <Selector
         title="Trials"
-        pathToState="trials"
         value={form.Data.trials}
         options={trialOptions}
-        updateState={(_, value) => form.updateData({ trials: value as number })}
+        onChange={(value) => form.updateData({ trials: value as number })}
         isNumber={true}
         metaTestId={ProgramsPageMetaTestIds.stepsSelector}
       />
@@ -139,7 +133,7 @@ export const ProgramAddForm = ({
         title="Target Style"
         value={form.Data.targetStyle}
         options={targetStyles}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ targetStyle: value as TargetStyle })
         }
         metaTestId={ProgramsPageMetaTestIds.ruleStyleSelector}
@@ -149,7 +143,7 @@ export const ProgramAddForm = ({
           title="Chainging"
           value={form.Data.chaining?.type}
           options={chainingTypesOptions}
-          updateState={(_, value) =>
+          onChange={(value) =>
             form.updateData(
               { chaining: { type: value as TrialChainingDirections } },
               true
@@ -162,7 +156,7 @@ export const ProgramAddForm = ({
         title="Category"
         value={form.Data.category}
         options={programCategories}
-        updateState={(_, value) =>
+        onChange={(value) =>
           form.updateData({ category: value as ProgramCategories })
         }
         metaTestId={ProgramsPageMetaTestIds.categorySelector}

@@ -28,7 +28,7 @@ export const Nav = ({ routes }: INavProps) => {
       <a className="nav-item">
         <Button
           name="Log Out"
-          action={async () => await authService.logOut()}
+          onClick={async () => await authService.logOut()}
           metaTestId={NavMetaTestIds.logoutBtn}
         />
       </a>

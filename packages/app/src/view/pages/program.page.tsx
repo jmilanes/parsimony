@@ -87,7 +87,7 @@ const Program = () => {
           <Button
             key="edit"
             name="Edit"
-            action={() => {
+            onClick={() => {
               updateMode("edit");
               form.reset();
             }}
@@ -97,7 +97,7 @@ const Program = () => {
           <Button
             key="cancel"
             name="Cancel"
-            action={() => {
+            onClick={() => {
               updateMode("readOnly");
               form.reset();
             }}
@@ -107,27 +107,27 @@ const Program = () => {
           <Button
             key="save"
             name="Save"
-            action={submitForm}
+            onClick={submitForm}
             hidden={isReadOnlyMode(mode)}
             metaTestId={ProgramPageMetaTestIds.submitEditBtn}
           />,
           <Button
             key="delete"
             name="Delete"
-            action={deleteProgram}
+            onClick={deleteProgram}
             hidden={isEditMode(mode)}
             metaTestId={ProgramPageMetaTestIds.deleteProgramBtn}
           />,
 
           <Button
             name="View Client"
-            action={() => navigate(`/${Routes.Users}/${program.clientId}`)}
+            onClick={() => navigate(`/${Routes.Users}/${program.clientId}`)}
             hidden={isEditMode(mode) || program.type !== ProgramTypes.Client}
             metaTestId={ProgramPageMetaTestIds.clientProgramActionViewClient}
           />,
           <Button
             name="Start Observation"
-            action={() => navigate(`/programs/${program.id}/observe`)}
+            onClick={() => navigate(`/programs/${program.id}/observe`)}
             hidden={isEditMode(mode) || program.type !== ProgramTypes.Client}
             metaTestId={
               ProgramPageMetaTestIds.clientProgramActionStartObservation
@@ -135,7 +135,7 @@ const Program = () => {
           />,
           <Button
             name="View Data"
-            action={() => navigate(`/results/${program.id}`)}
+            onClick={() => navigate(`/results/${program.id}`)}
             hidden={isEditMode(mode) || program.type !== ProgramTypes.Client}
             metaTestId={
               ProgramPageMetaTestIds.clientProgramActionViewProgramData

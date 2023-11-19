@@ -56,7 +56,7 @@ export const ActiveTarget = ({
         {currentStep > 1 && (
           <Button
             name="Back"
-            action={() =>
+            onClick={() =>
               API.actions.observations.decrementStep(target.id || "")
             }
             metaTestId={ObservationMetaTestIds.revertStepBtn}
@@ -65,7 +65,7 @@ export const ActiveTarget = ({
         {isTaskAnalysis && (
           <Button
             name="Close"
-            action={() =>
+            onClick={() =>
               API.actions.observations.updateTargetState(target.id || "", {
                 active: false
               })
@@ -80,7 +80,7 @@ export const ActiveTarget = ({
           <Button
             key={generateKey("optionButton", i)}
             name={option?.name as string}
-            action={() =>
+            onClick={() =>
               API.actions.observations.selectOption(
                 option as TargetResultOption,
                 target

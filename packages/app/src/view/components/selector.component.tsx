@@ -13,8 +13,7 @@ export type IOption = { name: string; value: string | number };
 export type ISelectorProps = {
   title: string;
   options: IOption[];
-  pathToState?: string;
-  updateState: (path: string, value: string | number) => void;
+  onChange: (value: string | number) => void;
   readOnly?: boolean;
   value?: Maybe<string | number>;
   isNumber?: boolean;
@@ -25,8 +24,7 @@ export type ISelectorProps = {
 
 export const Selector = ({
   options,
-  pathToState,
-  updateState,
+  onChange,
   value,
   readOnly,
   title,
@@ -41,6 +39,9 @@ export const Selector = ({
     metaTestQualifier
   );
 
+  const processValue = (value: string | number) =>
+    isNumber && typeof value === "string" ? parseInt(value) : value;
+
   const Options = () => (
     <FormControl fullWidth>
       <InputLabel>{title}</InputLabel>
@@ -48,12 +49,7 @@ export const Selector = ({
         data-test-id={metaId}
         label={title}
         value={value || "Please select an option"}
-        onChange={({ target: { value } }) =>
-          updateState(
-            pathToState || "",
-            isNumber && typeof value === "string" ? parseInt(value) : value
-          )
-        }
+        onChange={({ target: { value } }) => onChange(processValue(value))}
       >
         {options.map((opt) => (
           <MenuItem

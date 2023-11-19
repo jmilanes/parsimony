@@ -47,8 +47,10 @@ export const CollectionSelectorContainer = ({
       label="Select Collection"
       options={options}
       multiSelect={false}
-      updateState={(opt) => {
-        API.actions.collectionRelocation.setActiveCollection(opt?.value);
+      onChange={(opt) => {
+        API.actions.collectionRelocation.setActiveCollection(
+          opt?.value as string
+        );
       }}
       metaTestId={CollectionSelector.selector}
     />

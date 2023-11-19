@@ -55,7 +55,7 @@ export const BulkProgramsContainer = () => {
           name="Add"
           type="contained"
           metaTestId={BulKProgramMetaTestIds.addToClientBtn}
-          action={API.actions.bulkPrograms.submitBulkPrograms}
+          onClick={API.actions.bulkPrograms.submitBulkPrograms}
         />
       </div>
       <ClientSelector

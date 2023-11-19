@@ -71,13 +71,13 @@ export const ChatMessageInput = ({
       <Button
         disabled={val.length === 0}
         name={buttonText}
-        action={handleAction}
+        onClick={handleAction}
         metaTestId={ChatMetaTestIds.chatMessageBarSubmit}
       />
       {onCancel && (
         <Button
           name="Cancel"
-          action={handleCancel}
+          onClick={handleCancel}
           metaTestId={ChatMetaTestIds.chatMessageBarCancel}
         />
       )}

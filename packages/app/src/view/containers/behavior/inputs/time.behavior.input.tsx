@@ -21,13 +21,13 @@ export const TimeBehaviorInput = ({ program }: { program: Program }) => {
         <Button
           metaTestId={BehaviorTracker.startTimer}
           name="Start Timer"
-          action={() => API.actions.timer.start(program)}
+          onClick={() => API.actions.timer.start(program)}
           icon={<Icon.BehaviorTime />}
         />
         <Button
           metaTestId={BehaviorTracker.stopTime}
           name="Stop Duration"
-          action={() =>
+          onClick={() =>
             API.actions.timer.complete(
               program,
               <TimerSubmitDialogMessage program={program} />

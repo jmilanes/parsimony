@@ -25,7 +25,7 @@ export const OpenBulkProgramButton = () => {
     <div className="bulk-program-buttons">
       <Button
         name={name}
-        action={openBulkPrograms}
+        onClick={openBulkPrograms}
         metaTestId={ProgramsPageMetaTestIds.addProgramToClient}
       />
       {bulkProgramActiveState && (
@@ -33,7 +33,7 @@ export const OpenBulkProgramButton = () => {
           name="Add Selected"
           type="contained"
           metaTestId={BulKProgramMetaTestIds.addToClientBtn}
-          action={API.actions.bulkPrograms.submitBulkPrograms}
+          onClick={API.actions.bulkPrograms.submitBulkPrograms}
         />
       )}
     </div>

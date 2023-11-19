@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { AuthPageMetaTestIds, LoginPayload } from "@parsimony/types";
 
 import { Button, Field } from "../../components";
@@ -30,7 +30,7 @@ export const LoginForm = () => {
     <div>
       {!authService.schoolCached && (
         <Field
-          updateState={(_, value) => form.updateData({ schoolId: value })}
+          onChange={(value) => form.updateData({ schoolId: value })}
           placeHolderText="School"
           value={form.Data.schoolId}
           metaTestId={AuthPageMetaTestIds.schoolField}
@@ -38,7 +38,7 @@ export const LoginForm = () => {
       )}
       <Field
         // ONCE PATTERN IS DONE WE CAN REMOVE path to state stuff
-        updateState={(_, value) => form.updateData({ email: value })}
+        onChange={(value) => form.updateData({ email: value })}
         placeHolderText="Email"
         value={form.Data.email}
         metaTestId={AuthPageMetaTestIds.emailField}
@@ -47,12 +47,12 @@ export const LoginForm = () => {
         placeHolderText="password"
         type="password"
         value={form.Data.password}
-        updateState={(_, value) => form.updateData({ password: value })}
+        onChange={(value) => form.updateData({ password: value })}
         metaTestId={AuthPageMetaTestIds.passwordField}
       />
       <Button
         name="Login"
-        action={onLogin}
+        onClick={onLogin}
         metaTestId={AuthPageMetaTestIds.loginBtn}
       />
       <a onClick={authService.setRequestPasswordScreen}>Reset Password</a>

@@ -1,7 +1,6 @@
 export * from "./nav.component";
 export * from "./table.component";
 export * from "./field.component";
-export * from "./fileUpload.component";
 export * from "./button.component";
 export * from "./container.component";
 export * from "./selector.component";

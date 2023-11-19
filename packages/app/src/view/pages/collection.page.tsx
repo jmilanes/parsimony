@@ -64,7 +64,7 @@ const Collection = () => {
           <Button
             key="add-program"
             name="Add Program"
-            action={() =>
+            onClick={() =>
               API.actions.toggle.setToggleActiveState("programForm", true)
             }
             hidden={API.actions.toggle.getToggleActiveState("programForm")}
@@ -73,7 +73,7 @@ const Collection = () => {
           <Button
             key="add-behavior"
             name="Add Behavior"
-            action={() =>
+            onClick={() =>
               API.actions.toggle.setToggleActiveState("behaviorForm", true)
             }
             hidden={API.actions.toggle.getToggleActiveState("behaviorForm")}
@@ -82,7 +82,7 @@ const Collection = () => {
           <Button
             key="add-collection"
             name="Add Collection"
-            action={() =>
+            onClick={() =>
               API.actions.toggle.setToggleActiveState("collectionForm", true)
             }
             hidden={API.actions.toggle.getToggleActiveState("collectionForm")}
