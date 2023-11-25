@@ -16,6 +16,8 @@ jobs:
           persist-credentials: false
       - name: Authenticate with private NPM package
         run: echo "//registry.npmjs.org/:_authToken=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" > ~/.npmrc
+      - name: Install Yarn
+        run: npm install -g yarn@3.3.0
       - name: yarn
         run: yarn install
       - name: Git Identification
