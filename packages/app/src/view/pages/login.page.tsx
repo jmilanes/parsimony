@@ -19,6 +19,9 @@ const LoginPage = ({ from }: { from: string }) => {
   return (
     <div className="authContainer">
       <Header text="Parsimony" size="md" />
+      {authService.schoolCached && (
+        <Header text={authService.getSchoolName()} size="sm" />
+      )}
       {view === "login" && <LoginForm />}
       {view === "requestReset" && <RequestPasswordRequestForm />}
       {view === "resetPassword" && <ResetPasswordForm />}

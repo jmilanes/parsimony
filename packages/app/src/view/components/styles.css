@@ -522,7 +522,7 @@ hr {
     margin-top: 10px;
 }
 
-.authContainer h5 {
+.authContainer h5, h6 {
     text-align: center;
 }
 
