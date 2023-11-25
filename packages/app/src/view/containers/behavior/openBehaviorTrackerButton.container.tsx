@@ -6,7 +6,7 @@ import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 import { DrawerContentTypes } from "../../../domains/state/appState/appState.types";
 
-// TODO MAKE THIS GENERIC
+// TODO MAKE TOGGLE BUTTON THIS GENERIC
 export const OpenBehaviorButton = () => {
   const API = Container.get(UIApi);
 
@@ -14,8 +14,6 @@ export const OpenBehaviorButton = () => {
     API.actions.drawer.open(DrawerContentTypes.BehaviorViewer);
     API.system.updateAppState("drawer", { placement: "right" });
   };
-
-  const BulkProgramActiveState = API.system.getAppState("bulkPrograms").active;
 
   return (
     <Button

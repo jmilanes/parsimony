@@ -83,8 +83,8 @@ export class IntervalActions {
   };
 
   public submit = async (program: Program) => {
-    const { intervalOccurred, intervalTotal } = this.getAppState();
-    const result = Math.round((intervalOccurred / intervalTotal) * 100);
+    const { occurred, total } = this.getIntervalState(program.id);
+    const result = Math.round((occurred / total) * 100);
     await this.#api.makeRequest(
       buildCreateBehaviorRequest({ program, result })
     );
@@ -96,6 +96,11 @@ export class IntervalActions {
     const { intervals } = this.getAppState();
     Object.keys(intervals).forEach((id) => this.resetIntervalTracking({ id }));
     this.#api.Dialog.clear();
+  };
+
+  public destroyIntervals = () => {
+    this.cancelAllIntervals();
+    this.updateAppState({ intervals: {} });
   };
 
   public onSuccess = ({ id }: Program) => {

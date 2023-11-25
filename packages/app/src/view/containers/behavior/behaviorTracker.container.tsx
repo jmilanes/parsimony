@@ -1,87 +1,79 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
-import { Button, Header, Icon, IOption } from "../../components";
+import { Button, Header, IOption } from "../../components";
 import { ClientSelector } from "../shared/clientSelector";
-import { useAsync } from "react-use";
-import { BehaviorType, Domains, Program, TargetStyle } from "@parsimony/types";
-import { Spin } from "antd";
-import { TallyBehaviorInput } from "./inputs/tally.behavior.input";
-import { TimeBehaviorInput } from "./inputs/time.behavior.input";
-import { IntervalBehaviorInput } from "./inputs/interval.behavior.input";
-
-const behaviorInputFactory = (program: Program) => {
-  if (!program.behavior?.type) {
-    console.warn(`No behavior associated with ${program.title}`);
-    return;
-  }
-
-  const behaviorInputMap: Record<BehaviorType, any> = {
-    [BehaviorType.Frequency]: TallyBehaviorInput,
-    [BehaviorType.Duration]: TimeBehaviorInput,
-    [BehaviorType.Interval]: IntervalBehaviorInput
-  };
-
-  const Comp = behaviorInputMap[program.behavior?.type];
-  return <Comp key={program.id} program={program} />;
-};
+import { BehaviorMetaTestIds } from "@parsimony/types";
+import { BehaviorClientView } from "./behaviorClientView.container";
 
 export const BehaviorTrackerContainer = () => {
   const API = Container.get(UIApi);
 
-  const selectedUserId = API.system.getAppState("behaviorTracker").clientId;
+  const selectedClients = API.actions.behaviorTracker.currentValues();
 
-  const { loading } = useAsync(async () => {
-    if (selectedUserId) {
-      await API.system.makeRequest({
-        domain: Domains.Program,
-        requestType: "getAllByRelationship",
-        payload: {
-          relationshipProperty: "clientId",
-          id: selectedUserId
-        }
-      });
-    }
-  }, [selectedUserId]);
-
-  if (loading) return <Spin />;
-
-  const programs = API.system.getItemsFromStore(Domains.Program);
-
-  const behaviors = programs.filter((program) => {
-    return (
-      program.targetStyle === TargetStyle.Behavior &&
-      program.behavior?.active &&
-      program.clientId === selectedUserId
-    );
-  });
-
-  const reset = () => {
-    API.system.updateAppState("behaviorTracker", {
-      clientId: undefined
-    });
-    API.actions.timer.cancelAllTimers();
-    API.actions.interval.cancelAllIntervals();
+  const showClientSelector = () => {
+    API.actions.toggle.setTrue("showBehaviorClientSelector");
   };
 
-  const onChange = (option: IOption) => {
-    reset();
-    API.system.updateAppState("behaviorTracker", {
-      clientId: (option.value as string) || undefined
+  useEffect(() => {
+    if (selectedClients.length === 0) {
+      showClientSelector();
+    }
+  }, [selectedClients.length]);
+
+  const showSelector = API.actions.toggle.getToggleActiveState(
+    "showBehaviorClientSelector"
+  );
+
+  const resetAll = () => {
+    // This needs to be another client
+    API.actions.timer.destroyAllTimers();
+    API.actions.interval.destroyIntervals();
+    API.actions.tally.destroyAllCounters();
+    API.actions.behaviorTracker.destroyClients();
+    showClientSelector();
+  };
+
+  const onChange = (options: IOption[]) => {
+    options.forEach((opt) => {
+      const id = opt.value as string;
+      API.actions.behaviorTracker.addClient(id);
     });
+    const selectedClients = API.actions.behaviorTracker.clientCount();
+    if (selectedClients > 0) {
+      API.actions.toggle.setFalse("showBehaviorClientSelector");
+    }
   };
 
   return (
     <div>
-      <Header text="Behaviors" size="md" />
-      <ClientSelector
-        onChange={onChange}
-        multiSelect={false}
-        onCancel={reset}
-        selected={selectedUserId}
-      />
-      {selectedUserId && behaviors.map(behaviorInputFactory)}
+      <div className="behaviorHeader">
+        <Header text="Behaviors" size="md" />
+        <div className="flex-row">
+          <Button
+            name="Reset All"
+            onClick={resetAll}
+            metaTestId={BehaviorMetaTestIds.restAll}
+          />
+          <Button
+            name="Add Client"
+            onClick={showClientSelector}
+            metaTestId={BehaviorMetaTestIds.addClient}
+          />
+        </div>
+      </div>
+      {showSelector && (
+        <ClientSelector
+          onChange={onChange}
+          multiSelect={true}
+          selected={selectedClients.map((x) => x.id)}
+        />
+      )}
+
+      {selectedClients.map((selectedClient) => (
+        <BehaviorClientView client={selectedClient} />
+      ))}
     </div>
   );
 };

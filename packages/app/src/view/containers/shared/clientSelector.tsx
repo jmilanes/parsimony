@@ -16,7 +16,7 @@ type ClientSelectorProps = {
   onChange: (value: any) => void;
   onCancel?: () => void;
   multiSelect: boolean;
-  selected?: string;
+  selected?: string | string[];
 };
 
 export const ClientSelector = ({
@@ -30,16 +30,19 @@ export const ClientSelector = ({
   const currentUserId = API.system.Auth.getCurrentUser()?.id as string;
   const clients = API.system.getItemsFromStore(Domains.User);
 
-  const selectedUser = selected
-    ? API.system.getItem(Domains.User, selected)
-    : undefined;
+  const selectedUser =
+    typeof selected === "string"
+      ? API.system.getItem(Domains.User, selected)
+      : undefined;
 
   const selectedName = selected ? getFullName(selectedUser) : undefined;
 
   const options = clients
     .filter(
       (user: User) =>
-        user.id !== currentUserId && user.type === UserRoles.Client
+        user.id !== currentUserId &&
+        user.type === UserRoles.Client &&
+        !selected?.includes(user.id)
     )
     .map((user: User) => ({
       label: getFullName(user),
@@ -59,7 +62,7 @@ export const ClientSelector = ({
     );
   };
 
-  return selected ? (
+  return selected && onCancel ? (
     <SelectedView />
   ) : (
     <Autocomplete

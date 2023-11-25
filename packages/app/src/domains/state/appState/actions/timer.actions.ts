@@ -96,6 +96,11 @@ export class TimerActions {
     Object.keys(timers).forEach((id) => this.cancel({ id }));
   };
 
+  public destroyAllTimers = () => {
+    this.cancelAllTimers();
+    this.updateAppState({ timers: {} });
+  };
+
   public complete = (program: Program, message: React.ReactElement) => {
     this.updateTimeState(program.id, { paused: true });
     this.stopIntervalById(program.id);
@@ -121,7 +126,6 @@ export class TimerActions {
 
   public getFormattedTimerTime = ({ id }: Program) => {
     const { time } = this.getTimerState(id);
-    debugger;
     return this.formatTime(time);
   };
 

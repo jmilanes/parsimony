@@ -12,7 +12,6 @@ export default class AppStateService {
   constructor(store: Store) {
     //@ts-ignore
     window.getAppState = this.getAppState;
-
     this.store = store;
   }
 
@@ -35,7 +34,9 @@ export default class AppStateService {
     update: Partial<AppState[K]>
   ) => {
     // TODO: Make this better
-    const currentControls = clone(this.store.getCurrentValueByDomain(Domains.AppState));
+    const currentControls = clone(
+      this.store.getCurrentValueByDomain(Domains.AppState)
+    );
 
     currentControls[appStateKey] = {
       ...(currentControls[appStateKey] as Record<string, any>),
@@ -46,7 +47,9 @@ export default class AppStateService {
   };
 
   public resetAppStateByKey = (appStateKey: keyof AppState) => {
-    const currentControls = clone(this.store.getCurrentValueByDomain(Domains.AppState));
+    const currentControls = clone(
+      this.store.getCurrentValueByDomain(Domains.AppState)
+    );
     currentControls[appStateKey] = APP_STATE[appStateKey];
     this.store.getDomain$(Domains.AppState).next({ ...currentControls });
   };

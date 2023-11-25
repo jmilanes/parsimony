@@ -10,6 +10,7 @@ import { ObservationActions } from "./actions/observations.actions";
 import { ProgramViewerActions } from "./actions/programViewer.actions";
 import { CollectionRelocationActions } from "./actions/collection.relocation.actions";
 import { ToggleActions } from "./actions/toggle.actions";
+import { BehaviorTrackerActions } from "./actions/bahaviorTracker.actions";
 
 @Service()
 export class ActionDomainService {
@@ -24,6 +25,7 @@ export class ActionDomainService {
   #observationActions: ObservationActions;
   #collectionRelocation: CollectionRelocationActions;
   #toggleActions: ToggleActions;
+  #behaviorTracker: BehaviorTrackerActions;
 
   constructor(
     intervalActions: IntervalActions,
@@ -38,7 +40,8 @@ export class ActionDomainService {
     // TODO: Collections should be a class with two sub classes
     // (same with program and behavior)
     collectionRelocation: CollectionRelocationActions,
-    toggle: ToggleActions
+    toggle: ToggleActions,
+    behaviorTracker: BehaviorTrackerActions
   ) {
     this.#intervalActions = intervalActions;
     this.#resultActions = resultActions;
@@ -51,6 +54,7 @@ export class ActionDomainService {
     this.#programViewer = programViewer;
     this.#collectionRelocation = collectionRelocation;
     this.#toggleActions = toggle;
+    this.#behaviorTracker = behaviorTracker;
   }
 
   get timer() {
@@ -96,5 +100,9 @@ export class ActionDomainService {
 
   get toggle() {
     return this.#toggleActions;
+  }
+
+  get behaviorTracker() {
+    return this.#behaviorTracker;
   }
 }

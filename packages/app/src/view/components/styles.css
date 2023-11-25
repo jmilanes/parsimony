@@ -525,3 +525,29 @@ hr {
 .authContainer h5 {
     text-align: center;
 }
+
+.behaviorHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.behaviorClientView {
+    padding: 12px 0;
+    margin-top: 16px;
+    border-top: 1px solid var(--purple);
+}
+
+.behaviorClientView h4 {
+    font-size: 18px;
+}
+
+.behaviorClientView .clientHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.behaviorClientView .clientHeader .clientHeaderBtns {
+
+}

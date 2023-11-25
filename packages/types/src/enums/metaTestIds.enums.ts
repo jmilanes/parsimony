@@ -115,6 +115,14 @@ export enum ProgramsPageMetaTestIds {
   masteryConsecutive = "mastery-consecutive-field"
 }
 
+export enum BehaviorMetaTestIds {
+  restAll = "reset-all-behaviors",
+  addClient = "add-client-to-behavior-tracker",
+  hideClient = "hide-cleint",
+  showClient = "show-cleint",
+  removeClient = "remove-cleint"
+}
+
 export enum ProgramPageMetaTestIds {
   editBtn = "edit-program-btn",
   deleteProgramBtn = "delete-program-btn",
@@ -241,4 +249,5 @@ export type MetaTestIds =
   | BehaviorTracker
   | DialogMetaIds
   | ResultsMetaTestIds
-  | CollectionSelector;
+  | CollectionSelector
+  | BehaviorMetaTestIds;

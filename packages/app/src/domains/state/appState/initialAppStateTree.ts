@@ -31,12 +31,10 @@ export const APP_STATE: AppState = {
   programViewer: {},
   // Break each behavior into its own domain (interval and program)
   behaviorTracker: {
+    clients: {},
     counters: {},
     timers: {},
-    intervals: {},
-    activeInterval: false,
-    intervalOccurred: 0,
-    intervalTotal: 0
+    intervals: {}
   },
   notifications: { activeNotifications: {} },
   collectionSelector: {},
@@ -50,6 +48,7 @@ export const APP_STATE: AppState = {
   toggles: {
     programForm: false,
     behaviorForm: false,
-    collectionForm: false
+    collectionForm: false,
+    showBehaviorClientSelector: true
   }
 };

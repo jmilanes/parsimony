@@ -35,4 +35,12 @@ export class ToggleActions {
       [toggle]: update
     });
   }
+
+  public setFalse(toggle: keyof Toggles) {
+    this.setToggleActiveState(toggle, false);
+  }
+
+  public setTrue(toggle: keyof Toggles) {
+    this.setToggleActiveState(toggle, true);
+  }
 }

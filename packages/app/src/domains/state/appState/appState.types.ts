@@ -43,15 +43,21 @@ export type Interval = {
   program?: Program;
 };
 
+export type ClientId = string;
+
+export type BehaviorClient = {
+  active: boolean;
+  createdBehaviorIds: string[];
+  id: ClientId;
+};
+
+export type BehaviorClients = Record<ClientId, BehaviorClient>;
+
 export type BehaviorTracker = {
   counters: Record<string, number>;
   timers: Record<string, Timer>;
   intervals: Record<string, Interval>;
-  clientId?: string;
-  activeInterval: boolean;
-  intervalId?: any;
-  intervalOccurred: number;
-  intervalTotal: number;
+  clients: BehaviorClients;
 };
 
 export type ObservationTarget = {
@@ -125,6 +131,7 @@ export type Toggles = {
   programForm: boolean;
   behaviorForm: boolean;
   collectionForm: boolean;
+  showBehaviorClientSelector: boolean;
 };
 
 export type AppState = {

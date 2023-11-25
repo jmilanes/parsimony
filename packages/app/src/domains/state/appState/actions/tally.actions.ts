@@ -27,6 +27,10 @@ export class TallyActions {
     this.#api.updateAppState("behaviorTracker", { counters: update });
   };
 
+  public destroyAllCounters = () => {
+    this.#api.updateAppState("behaviorTracker", { counters: {} });
+  };
+
   public increment = (program: Program) => {
     const update = clone(this.#getCounters());
     update[program.id] =
