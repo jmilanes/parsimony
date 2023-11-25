@@ -9,7 +9,8 @@ export const AppHeader = ({ routes }: { routes: IRoute[] }) => {
   const API = Container.get(UIApi);
   const authService = API.system.Auth;
   const navigate = API.Navigation;
-  return (
+
+  return !authService.isLoggedIn ? null : (
     <div className="header">
       <h1 className="logo" onClick={() => navigate("/")}>
         <span>P</span>arsimony: {authService.getSchoolName()}

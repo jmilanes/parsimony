@@ -28,7 +28,7 @@ export const ResetPasswordForm = () => {
   //TODO: Add confirmation
 
   return (
-    <div>
+    <>
       <Field
         placeHolderText="password"
         type="password"
@@ -41,6 +41,6 @@ export const ResetPasswordForm = () => {
         onClick={onResetPassword}
         metaTestId={AuthPageMetaTestIds.resetPasswordBtn}
       />
-    </div>
+    </>
   );
 };

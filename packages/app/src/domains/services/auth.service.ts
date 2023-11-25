@@ -129,6 +129,11 @@ export default class AuthService {
     // emit error
   }
 
+  public changeSchool = () => {
+    this.#setSchoolName("");
+    this.#clearAuthData();
+  };
+
   public setRequestPasswordScreen = () => {
     this.#setLoginView("requestReset");
   };

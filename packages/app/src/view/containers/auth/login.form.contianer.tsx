@@ -27,7 +27,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <div>
+    <>
       {!authService.schoolCached && (
         <Field
           onChange={(value) => form.updateData({ schoolId: value })}
@@ -55,7 +55,10 @@ export const LoginForm = () => {
         onClick={onLogin}
         metaTestId={AuthPageMetaTestIds.loginBtn}
       />
-      <a onClick={authService.setRequestPasswordScreen}>Reset Password</a>
-    </div>
+      <div className="flex-col">
+        <a onClick={authService.setRequestPasswordScreen}>Reset Password</a>
+        <a onClick={authService.changeSchool}>Change School</a>
+      </div>
+    </>
   );
 };

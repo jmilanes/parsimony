@@ -5,6 +5,7 @@ import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 import { LoginForm } from "../containers/auth/login.form.contianer";
 import { RequestPasswordRequestForm } from "../containers/auth/request.form.contianer";
 import { ResetPasswordForm } from "../containers/auth/resetPassword.form.contianer";
+import { Header } from "../components";
 
 const LoginPage = ({ from }: { from: string }) => {
   const API = Container.get(UIApi);
@@ -16,7 +17,8 @@ const LoginPage = ({ from }: { from: string }) => {
   }, []);
 
   return (
-    <div>
+    <div className="authContainer">
+      <Header text="Parsimony" size="md" />
       {view === "login" && <LoginForm />}
       {view === "requestReset" && <RequestPasswordRequestForm />}
       {view === "resetPassword" && <ResetPasswordForm />}

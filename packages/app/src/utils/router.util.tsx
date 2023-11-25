@@ -29,7 +29,7 @@ export const generateApp = (routes: IRoute[]) => {
   return (
     <HashRouter>
       <AppHeader routes={routes} />
-      <div className={"innerContent"}>
+      <div className={!authService.isLoggedIn ? "" : "innerContent"}>
         <Routes>
           {routes.map((route) => (
             <Route

@@ -26,7 +26,7 @@ export const RequestPasswordRequestForm = () => {
   };
 
   return (
-    <div>
+    <>
       <Field
         onChange={(value) => form.updateData({ email: value })}
         placeHolderText="Email"
@@ -38,6 +38,6 @@ export const RequestPasswordRequestForm = () => {
         onClick={request}
         metaTestId={AuthPageMetaTestIds.requestPasswordReset}
       />
-    </div>
+    </>
   );
 };
