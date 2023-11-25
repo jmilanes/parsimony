@@ -29,6 +29,5 @@
   "dependencies": {
     "@yarnpkg/plugin-workspace-tools": "4.0.0-rc.40",
     "prettier": "^2.8.7"
-  },
-  "packageManager": "yarn@3.3.0"
+  }
 }
