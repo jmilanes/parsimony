@@ -45,10 +45,11 @@ export const TargetOptionSelector = ({
     prop: keyof TargetOption,
     value: string
   ) => {
-    const copy = cloneDeep<Target[]>(form.Data.targets);
+    debugger;
+    const copy = cloneDeep<TargetOption[]>(form.Data.targetOptions);
     //@ts-ignore
-    copy[index][prop] = value;
-    form.updateData({ targets: copy });
+    copy[index] = value;
+    form.updateData({ targetOptions: copy });
   };
 
   const setTargetOption = (options: TargetOption[], targetName: string) => {
@@ -67,7 +68,6 @@ export const TargetOptionSelector = ({
   const generateOption = (optionIndex: number) => {
     const option = targetOptions[optionIndex] as TargetOption;
     const metaTestQualifier = `target-option-${optionIndex}`;
-
     const setOptionToTarget = () =>
       form.updateData({
         targetOptions: setTargetOption(
@@ -137,8 +137,9 @@ export const TargetOptionSelector = ({
       </div>
       <div className={"add-form-spacer"}>
         <Repeater
+          dataProp="targetOptions"
           form={form}
-          title="Target Options"
+          title="Prompts"
           items={targetOptions || []}
           generateRow={generateOption}
           initialData={{ name: "", target: targetOptions?.length === 0 }}
@@ -147,7 +148,7 @@ export const TargetOptionSelector = ({
             return (
               <Button
                 type={"contained"}
-                name="Add Target Option"
+                name="Add Prompt"
                 onClick={addFn}
                 metaTestId={TargetFormMetaTestIds.addPromptBtn}
               />

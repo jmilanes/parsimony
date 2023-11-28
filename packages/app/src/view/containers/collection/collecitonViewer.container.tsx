@@ -17,7 +17,9 @@ import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 import AncestorNavigationContainer from "./ancestorNavigation.container";
 import parse from "html-react-parser";
 
-export const parseHTMLObj = (v: any) => parse(v?.editor?.getHTML() || "");
+export const parseHTMLObj = (v: any) => {
+  return parse(v?.editor?.getHTML() || (v.length && v) || "");
+};
 
 const programColumns: IColumns[] = [
   { key: "title", title: "title" },

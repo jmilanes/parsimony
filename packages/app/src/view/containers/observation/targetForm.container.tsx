@@ -68,6 +68,7 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
   return (
     <Repeater
       title="Targets"
+      dataProp="targets"
       form={form}
       items={form.Data.targets || []}
       generateRow={target}

@@ -57,6 +57,7 @@ export const ProgramPageProgramView = ({
         metaTestId={ProgramPageMetaTestIds.titleField}
       />
       <RichText
+        content={form.Data.description}
         placeHolderText="Description"
         onChange={(value) => form.updateData({ description: value })}
         readOnly={isReadOnlyMode(mode)}

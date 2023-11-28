@@ -12,6 +12,7 @@ export type IRepeaterProps<> = {
   generateRow: (index: number) => JSX.Element | null;
   initialData: Record<string, unknown>;
   readOnly: boolean;
+  dataProp: string;
   renderAddButton: (addFn: () => void) => React.ReactElement;
 };
 
@@ -22,12 +23,13 @@ export const Repeater = ({
   generateRow,
   initialData,
   readOnly,
-  renderAddButton
+  renderAddButton,
+  dataProp
 }: IRepeaterProps) => {
   const addRow = () => {
     form.updateData({
       // @ts-ignore
-      targets: [...items, clone(initialData)]
+      [dataProp]: [...items, clone(initialData)]
     });
   };
 
