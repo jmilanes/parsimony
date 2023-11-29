@@ -162,10 +162,7 @@ export const ProgramAddForm = ({
         metaTestId={ProgramsPageMetaTestIds.categorySelector}
       />
       <div className="add-form-spacer">
-        <TargetOptionSelector
-          targetOptions={form.Data.targetOptions}
-          form={form}
-        />
+        <TargetOptionSelector form={form} />
       </div>
       <div className="add-form-spacer">
         <TargetForm form={form} />

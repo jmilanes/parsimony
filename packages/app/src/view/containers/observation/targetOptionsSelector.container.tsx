@@ -19,7 +19,6 @@ import { cloneDeep } from "lodash";
 
 type TargetOptionSelectorProps = {
   form: InputForm<Program>;
-  targetOptions: TargetOption[];
   readOnly?: boolean;
 };
 
@@ -31,7 +30,6 @@ const prefilledPromptBtnMetaTestIds = {
 
 export const TargetOptionSelector = ({
   form,
-  targetOptions,
   readOnly = false
 }: TargetOptionSelectorProps) => {
   const deleteItem = (arr: any[], index: number) => {
@@ -45,10 +43,8 @@ export const TargetOptionSelector = ({
     prop: keyof TargetOption,
     value: string
   ) => {
-    debugger;
     const copy = cloneDeep<TargetOption[]>(form.Data.targetOptions);
-    //@ts-ignore
-    copy[index] = value;
+    copy[index].name = value;
     form.updateData({ targetOptions: copy });
   };
 
@@ -66,12 +62,12 @@ export const TargetOptionSelector = ({
   };
 
   const generateOption = (optionIndex: number) => {
-    const option = targetOptions[optionIndex] as TargetOption;
+    const option = form.Data.targetOptions[optionIndex] as TargetOption;
     const metaTestQualifier = `target-option-${optionIndex}`;
     const setOptionToTarget = () =>
       form.updateData({
         targetOptions: setTargetOption(
-          targetOptions as TargetOption[],
+          form.Data.targetOptions,
           option.name || ""
         )
       });
@@ -80,7 +76,7 @@ export const TargetOptionSelector = ({
         message.error("You can't delete the target program!");
         return;
       }
-      deleteItem(targetOptions || [], optionIndex);
+      deleteItem(form.Data.targetOptions || [], optionIndex);
     };
 
     return (
@@ -140,9 +136,12 @@ export const TargetOptionSelector = ({
           dataProp="targetOptions"
           form={form}
           title="Prompts"
-          items={targetOptions || []}
+          items={form.Data.targetOptions || []}
           generateRow={generateOption}
-          initialData={{ name: "", target: targetOptions?.length === 0 }}
+          initialData={{
+            name: "",
+            target: form.Data.targetOptions?.length === 0
+          }}
           readOnly={readOnly}
           renderAddButton={(addFn) => {
             return (

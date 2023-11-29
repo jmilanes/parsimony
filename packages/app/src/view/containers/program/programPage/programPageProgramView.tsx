@@ -142,16 +142,8 @@ export const ProgramPageProgramView = ({
           metaTestId={ProgramPageMetaTestIds.chaingDirections}
         />
       )}
-      {Array.isArray(form.Data.targetOptions) && (
-        <TargetOptionSelector
-          form={form}
-          targetOptions={form.Data.targetOptions as TargetOption[]}
-          readOnly={isReadOnlyMode(mode)}
-        />
-      )}
-      {Array.isArray(form.Data.targets) && (
-        <TargetForm form={form} readOnly={isReadOnlyMode(mode)} />
-      )}
+      <TargetOptionSelector form={form} readOnly={isReadOnlyMode(mode)} />
+      <TargetForm form={form} readOnly={isReadOnlyMode(mode)} />
     </>
   );
 };
