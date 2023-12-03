@@ -24,7 +24,7 @@ export const ProgramTable = ({
   columns
 }: IProgramTableProps) => {
   const API = Container.get(UIApi);
-  const navigate = API.Navigation;
+  const navigate = API.Navigate;
 
   const bulkOrder = API.system.getAppState("bulkPrograms");
 

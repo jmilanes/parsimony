@@ -7,3 +7,4 @@ export { default as Observe } from "./observe.page";
 export { default as Login } from "./login.page";
 export { default as Books } from "./books.page";
 export { default as Collection } from "./collection.page";
+export { default as Result } from "./result.page";

@@ -2,6 +2,7 @@ import React from "react";
 import { Domains, Result, ResultsMetaTestIds } from "@parsimony/types";
 import { Header, IColumns, ITableAction, Table } from "../components";
 import { getFullDate, getFullName, getRouterParams } from "../../utils";
+import parse from "html-react-parser";
 
 import {
   CategoryScale,
@@ -33,6 +34,7 @@ ChartJS.register(
 const Results = () => {
   const API = DI.get(UIApi);
   const { programId } = getRouterParams();
+  const navigate = API.Navigate;
 
   const { loading, retry } = useAsyncRetry(async () => {
     await API.actions.result.init(programId || "");
@@ -88,10 +90,15 @@ const Results = () => {
             retry();
           });
       }
+    },
+    {
+      name: "Edit",
+      method: (result: Required<Result>) => {
+        navigate(`/result/${result.id}`);
+      }
     }
   ];
 
-  // @ts-ignore
   return (
     <>
       <Header text={header} size="page" />

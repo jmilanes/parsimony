@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Header } from "../components";
+import { Button, Header, RichText } from "../components";
 import { getRouterParams, navigateToRoute } from "../../utils";
 
 import { Domains, ObservationMetaTestIds } from "@parsimony/types";
@@ -58,6 +58,11 @@ const Observe = () => {
       ) : (
         <TaskAnalysis program={program} />
       )}
+      <RichText
+        placeHolderText="Notes"
+        onChange={(n) => API.actions.observations.updateNote(n)}
+        metaTestId={ObservationMetaTestIds.notes}
+      />
       <Button
         name="Submit Observation"
         type={validResults ? "contained" : "outlined"}

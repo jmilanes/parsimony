@@ -37,7 +37,11 @@ export const DialogContainer = () => {
       ) : null}
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{message}</DialogContentText>
+        {typeof message === "string" ? (
+          <DialogContentText>{message}</DialogContentText>
+        ) : (
+          message
+        )}
       </DialogContent>
       <DialogActions>{buttons}</DialogActions>
     </Dialog>

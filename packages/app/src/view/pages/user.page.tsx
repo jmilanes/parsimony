@@ -38,7 +38,7 @@ const User = () => {
   const API = DI.get(UIApi);
 
   const { userId } = getRouterParams();
-  const navigate = API.Navigation;
+  const navigate = API.Navigate;
   const [mode, updateMode] = React.useState<IModes>("readOnly");
 
   const [selectedCollection, updateSelectedCollection] =

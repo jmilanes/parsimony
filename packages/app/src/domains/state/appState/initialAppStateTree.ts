@@ -19,6 +19,7 @@ export const APP_STATE: AppState = {
     excludedIds: []
   },
   observation: {
+    notes: "",
     dateStarted: new Date(),
     stated: false,
     currentTrial: 0,

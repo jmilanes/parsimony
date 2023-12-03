@@ -31,7 +31,7 @@ export default class UIApi {
     return this.#coreApi;
   }
 
-  public get Navigation() {
+  public get Navigate() {
     return useNavigate();
   }
 

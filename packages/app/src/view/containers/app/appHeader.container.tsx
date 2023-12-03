@@ -8,7 +8,7 @@ import { Nav } from "../../components";
 export const AppHeader = ({ routes }: { routes: IRoute[] }) => {
   const API = Container.get(UIApi);
   const authService = API.system.Auth;
-  const navigate = API.Navigation;
+  const navigate = API.Navigate;
 
   return !authService.isLoggedIn ? null : (
     <div className="header">

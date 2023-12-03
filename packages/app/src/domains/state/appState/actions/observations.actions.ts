@@ -61,7 +61,8 @@ export class ObservationActions {
       resultsData: {},
       isLoaded: false,
       targetStates: {},
-      dateStarted: new Date()
+      dateStarted: new Date(),
+      notes: ""
     });
   };
 
@@ -232,6 +233,10 @@ export class ObservationActions {
 
   onChange() {
     this.updateProgramCompleteness();
+  }
+
+  updateNote(notes: String) {
+    this.#updateObservationState({ notes });
   }
 
   /**
@@ -468,14 +473,15 @@ export class ObservationActions {
    */
   getResultsForCreation() {
     const date = this.getDateStarted();
-    const { results, programCompleteness } = this.state();
+    const { results, programCompleteness, notes } = this.state();
     return removeMongoIds({
       ...results,
       data: this.#getResultData(),
       programCompleteness: programCompleteness,
       observerId: this.#api.Auth.getCurrentUser()?.id,
       created_at: date,
-      updated_at: date
+      updated_at: date,
+      notes
     });
   }
 

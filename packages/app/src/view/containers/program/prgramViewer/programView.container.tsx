@@ -17,7 +17,7 @@ import { Spin } from "antd";
 
 export const ProgramViewContainer = () => {
   const API = Container.get(UIApi);
-  const navigate = API.Navigation;
+  const navigate = API.Navigate;
 
   const selectedClientId = API.system.getAppState("programViewer").clientId;
 

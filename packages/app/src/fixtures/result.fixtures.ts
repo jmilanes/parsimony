@@ -5,5 +5,6 @@ export const initialResultData: Result = {
   programId: "",
   clientId: "",
   programCompleteness: 0,
-  data: []
+  data: [],
+  notes: ""
 };

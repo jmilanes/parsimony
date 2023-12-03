@@ -27,6 +27,7 @@ export default {
   programCompleteness: Number,
   behaviorData: BehaviorData,
   data: [ResultData],
+  notes: String,
   updated_at: Date,
   created_at: Date
 };

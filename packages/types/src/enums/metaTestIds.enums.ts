@@ -88,6 +88,13 @@ export enum BookPageMetaTestIds {
   table = "books-table"
 }
 
+export enum ResultPageMetaTestIds {
+  edit = "edit-result",
+  cancel = "cancel-result",
+  save = "save-result",
+  notes = "result-notes"
+}
+
 export enum BulKProgramMetaTestIds {
   addToClientBtn = "add-to-client-btn"
 }
@@ -156,7 +163,8 @@ export enum ObservationMetaTestIds {
   closeGroupedRuleBtn = "close-group-rule-btn",
   nextRuleBtn = "next-rule-btn",
   revertRuleBtn = "revert-rule-btn",
-  selectGroupedRuleBtn = "select-grouped-rule-btn"
+  selectGroupedRuleBtn = "select-grouped-rule-btn",
+  notes = "notes-rich-text"
 }
 
 // TODO: will need to have a way to get prompts by each and prompts
@@ -250,4 +258,5 @@ export type MetaTestIds =
   | DialogMetaIds
   | ResultsMetaTestIds
   | CollectionSelector
-  | BehaviorMetaTestIds;
+  | BehaviorMetaTestIds
+  | ResultPageMetaTestIds;

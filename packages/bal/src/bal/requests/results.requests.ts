@@ -33,6 +33,7 @@ const fullSchema = `
     type
     result
   }
+  notes
   updated_at
   created_at
 `;

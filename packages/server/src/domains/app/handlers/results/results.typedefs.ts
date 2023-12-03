@@ -1,5 +1,3 @@
-import { ObjectId } from "mongodb";
-
 const { gql } = require("apollo-server");
 export default gql`
   scalar Date
@@ -13,6 +11,7 @@ export default gql`
     programCompleteness: Float
     behaviorData: BehaviorData
     data: [ResultData]
+    notes: String
     updated_at: Date
     created_at: Date
   }
@@ -69,11 +68,13 @@ export default gql`
     programId: ID!
     clientId: ID!
     observerId: ID
+    type: ResultType
     programCompleteness: Float!
     behaviorData: BehaviorDataInput
     data: [ResultDataInput]
     updated_at: Date
     created_at: Date
+    notes: String
   }
 
   input DeleteResultPayload {
@@ -87,10 +88,12 @@ export default gql`
   input UpdateResultPayload {
     id: ID!
     programId: ID!
+    type: ResultType
     clientId: ID!
     observerId: ID
     programCompleteness: Float!
     behaviorData: BehaviorDataInput
+    notes: String
     data: [ResultDataInput]
   }
 
@@ -112,8 +115,8 @@ export default gql`
   }
 
   enum BehaviorType {
-    TIME
-    TALLY
+    DURATION
+    FREQUENCY
     INTERVAL
   }
   enum ResultType {

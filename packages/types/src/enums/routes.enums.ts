@@ -7,6 +7,7 @@ export enum Routes {
   Users = "/directory",
   User = "/directory/:userId",
   Results = "/results/:programId",
+  Result = "/result/:resultId",
   Login = "/login",
   School = "/schools"
 }
@@ -18,6 +19,7 @@ export enum Pages {
   Observe = "Observe",
   Users = "Directory",
   User = "User",
+  Result = "Result",
   Results = "Results",
   Login = "Login",
   School = "School",

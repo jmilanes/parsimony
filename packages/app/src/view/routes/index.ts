@@ -9,7 +9,8 @@ import {
   Login,
   Results,
   Books,
-  Collection
+  Collection,
+  Result
 } from "../pages";
 import { IRoute } from "@parsimony/types";
 
@@ -45,6 +46,10 @@ export const routes: IRoute[] = [
   {
     path: Routes.Results,
     element: Results
+  },
+  {
+    path: Routes.Result,
+    element: Result
   },
   {
     path: Routes.Observe,

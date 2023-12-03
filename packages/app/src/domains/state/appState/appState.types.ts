@@ -76,6 +76,7 @@ export type Observation = {
   results: Record<string, unknown>;
   resultsData: Record<string, unknown>;
   isLoaded: boolean;
+  notes: String;
   program?: Program;
   // TODO Figure out why this cant just be an object
   targetStates: Record<string, ObservationTarget>;

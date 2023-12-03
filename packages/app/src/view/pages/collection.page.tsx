@@ -26,7 +26,7 @@ const Collection = () => {
 
   const { collectionId } = getRouterParams();
 
-  const navigate = API.Navigation;
+  const navigate = API.Navigate;
 
   const { loading } = useAsync(async () => {
     //TODO: Need to figure out how I want to access Domains stuff ()
