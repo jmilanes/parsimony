@@ -95,6 +95,8 @@ export default gql`
     behaviorData: BehaviorDataInput
     notes: String
     data: [ResultDataInput]
+    updated_at: Date
+    created_at: Date
   }
 
   input GetAllResultsByRelationshipPayload {

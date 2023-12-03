@@ -129,6 +129,7 @@ export type CreateResultPayload = {
   observerId?: InputMaybe<Scalars['ID']>;
   programCompleteness: Scalars['Float'];
   programId: Scalars['ID'];
+  type?: InputMaybe<ResultType>;
   updated_at?: InputMaybe<Scalars['Date']>;
 };
 
@@ -781,12 +782,15 @@ export type UpdateProgramPayload = {
 export type UpdateResultPayload = {
   behaviorData?: InputMaybe<BehaviorDataInput>;
   clientId: Scalars['ID'];
+  created_at?: InputMaybe<Scalars['Date']>;
   data?: InputMaybe<Array<InputMaybe<ResultDataInput>>>;
   id: Scalars['ID'];
   notes?: InputMaybe<Scalars['String']>;
   observerId?: InputMaybe<Scalars['ID']>;
   programCompleteness: Scalars['Float'];
   programId: Scalars['ID'];
+  type?: InputMaybe<ResultType>;
+  updated_at?: InputMaybe<Scalars['Date']>;
 };
 
 export type UpdateThreadPayload = {

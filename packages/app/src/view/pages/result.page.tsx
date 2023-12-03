@@ -6,20 +6,19 @@ import {
   IModes,
   Pages,
   ResultPageMetaTestIds,
-  Result,
-  UserPageMetaTestIds
+  Result
 } from "@parsimony/types";
 
 import { Container } from "typedi";
 
 import { useAsync } from "react-use";
-import { message, Spin } from "antd";
+import { Spin } from "antd";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 import {
+  addTimeStamp,
   getRouterParams,
   isEditMode,
-  isReadOnlyMode,
-  omitMongoKeys
+  isReadOnlyMode
 } from "../../utils";
 import { format } from "date-fns";
 
@@ -61,7 +60,7 @@ const Result = () => {
     await API.system.makeRequest({
       domain: Domains.Result,
       requestType: "update",
-      payload: omitMongoKeys(form.Data)
+      payload: addTimeStamp(form.Data)
     });
 
     updateMode("readOnly");
@@ -70,7 +69,6 @@ const Result = () => {
   const program = API.system.getItem(Domains.Program, result.programId || "");
 
   console.log(result);
-
   return (
     <>
       <Header

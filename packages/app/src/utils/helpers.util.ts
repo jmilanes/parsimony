@@ -113,6 +113,11 @@ export const arrayToObj = (arr: any[]) =>
 export const omitMongoKeys = <R>(obj: any): R =>
   omit(["updated_at", "created_at"], obj) as R;
 
+export const addTimeStamp = <R>(obj: any): R => ({
+  ...obj,
+  updated_at: new Date()
+});
+
 export const removeMongoIds = (obj: any) => {
   if (typeof obj !== "object" || !!obj === false || Array.isArray(obj)) {
     return obj;
