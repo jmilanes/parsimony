@@ -22,8 +22,7 @@ import {
   getFullName,
   getRouterParams,
   isEditMode,
-  isReadOnlyMode,
-  omitMongoKeys
+  isReadOnlyMode
 } from "../../utils";
 
 import { ITableAction } from "../components/table.component";
@@ -104,7 +103,7 @@ const User = () => {
     await API.system.makeRequest({
       domain: Domains.User,
       requestType: "update",
-      payload: omitMongoKeys(form.Data)
+      payload: form.Data
     });
 
     updateMode("readOnly");

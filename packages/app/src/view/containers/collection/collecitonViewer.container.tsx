@@ -16,8 +16,12 @@ import { DATA_HANDLERS } from "../../../domains/orchestration/orchestrationHandl
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 import AncestorNavigationContainer from "./ancestorNavigation.container";
 import parse from "html-react-parser";
+import { isArray } from "chart.js/helpers";
 
 export const parseHTMLObj = (v: any) => {
+  if (isArray(v)) {
+    return "";
+  }
   return parse(v?.editor?.getHTML() || (v.length && v) || "");
 };
 

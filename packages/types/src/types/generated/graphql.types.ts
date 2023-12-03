@@ -144,6 +144,7 @@ export type CreateUserPayload = {
   clients?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   color?: InputMaybe<Scalars['String']>;
   contacts?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  created_at?: InputMaybe<Scalars['Date']>;
   dateOfBirth?: InputMaybe<Scalars['Date']>;
   documents?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   email?: InputMaybe<Scalars['String']>;
@@ -157,6 +158,7 @@ export type CreateUserPayload = {
   threadDisplayNameName?: InputMaybe<Scalars['String']>;
   timeZone?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['Date']>;
 };
 
 export type DeleteCollectionPayload = {
@@ -805,6 +807,7 @@ export type UpdateUserPayload = {
   clients?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   color?: InputMaybe<Scalars['String']>;
   contacts?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  created_at?: InputMaybe<Scalars['Date']>;
   dateOfBirth?: InputMaybe<Scalars['Date']>;
   documents?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   email?: InputMaybe<Scalars['String']>;
@@ -819,6 +822,7 @@ export type UpdateUserPayload = {
   threadDisplayNameName?: InputMaybe<Scalars['String']>;
   timeZone?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['Date']>;
 };
 
 export type User = {

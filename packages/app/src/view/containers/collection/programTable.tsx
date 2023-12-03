@@ -10,7 +10,7 @@ import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 
 import { createBulkOrderSelectable } from "../program/bulkPrograms/helpers";
 import { CollectionSelectorContainer } from "./collectionSelector.container";
-import { clone, omitMongoKeys, removeMongoIds } from "../../../utils";
+import { clone, removeMongoIds } from "../../../utils";
 
 export type IProgramTableProps = React.PropsWithChildren<{
   programs: Program[];

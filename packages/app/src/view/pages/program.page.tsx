@@ -16,8 +16,7 @@ import {
   getSearchParams,
   isEditMode,
   isReadOnlyMode,
-  navigateToRoute,
-  omitMongoKeys
+  navigateToRoute
 } from "../../utils";
 
 import { Container as DI } from "typedi";
@@ -59,12 +58,10 @@ const Program = () => {
     program?.clientId && API.system.getItem(Domains.User, program?.clientId);
 
   const submitForm = async () => {
-    const payload = omitMongoKeys(form.Data);
-
     await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "update",
-      payload
+      payload: form.Data
     });
     updateMode("readOnly");
   };

@@ -21,6 +21,8 @@ export default gql`
     threadDisplayNameName: String
     avatar: String
     color: String
+    updated_at: Date
+    created_at: Date
     serviceProvider: String
   }
 
@@ -42,6 +44,8 @@ export default gql`
     threadDisplayNameName: String
     avatar: String
     color: String
+    updated_at: Date
+    created_at: Date
     serviceProvider: String
   }
 
@@ -69,6 +73,8 @@ export default gql`
     avatar: String
     color: String
     serviceProvider: String
+    updated_at: Date
+    created_at: Date
   }
 
   input GetAllUsersByRelationshipPayload {
