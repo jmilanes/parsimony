@@ -216,6 +216,9 @@ export enum TestEntryTypes {
 
 export enum BehaviorTracker {
   tallyBtn = "tally-btn",
+  showNoteEditor = "hide-note-editor-btn",
+  hideNoteEditor = "show-note-editor-btn",
+  noteEditor = "note-editor",
   startTimer = "start-timer",
   stopTime = "stop-timer",
   submitZero = "submit-zero",

@@ -7,7 +7,9 @@ import { BehaviorTracker, Interval } from "../appState.types";
 const initialIntervalState: Interval = {
   active: false,
   occurred: 0,
-  total: 0
+  total: 0,
+  notes: "",
+  showNoteEditor: false
 };
 
 @Service()
@@ -40,6 +42,7 @@ export class IntervalActions {
     this.updateAppState({ intervals });
   }
 
+  // TODO: Need to align all the patterns of the actions (repository) especally behvaios
   getIntervalState(id: string) {
     const { intervals } = this.getAppState();
     return intervals[id];
@@ -63,7 +66,9 @@ export class IntervalActions {
       total: 0,
       occurred: 0,
       active: false,
-      intervalId: undefined
+      intervalId: undefined,
+      notes: "",
+      showNoteEditor: false
     });
   };
 
@@ -83,10 +88,10 @@ export class IntervalActions {
   };
 
   public submit = async (program: Program) => {
-    const { occurred, total } = this.getIntervalState(program.id);
+    const { occurred, total, notes } = this.getIntervalState(program.id);
     const result = Math.round((occurred / total) * 100);
     await this.#api.makeRequest(
-      buildCreateBehaviorRequest({ program, result })
+      buildCreateBehaviorRequest({ program, result, notes })
     );
     this.resetIntervalTracking(program);
   };
@@ -117,5 +122,23 @@ export class IntervalActions {
       total: total + 1
     });
     this.closeIntervalDialog();
+  };
+
+  public addNotes = ({ id }: Program, notes: string) => {
+    const update = this.getIntervalState(id);
+    update.notes = notes;
+    this.#updateIntervalState(id, update);
+  };
+
+  public showNoteEditor = ({ id }: Program) => {
+    const update = this.getIntervalState(id);
+    update.showNoteEditor = true;
+    this.#updateIntervalState(id, update);
+  };
+
+  public hideNoteEditor = ({ id }: Program) => {
+    const update = this.getIntervalState(id);
+    update.showNoteEditor = false;
+    this.#updateIntervalState(id, update);
   };
 }

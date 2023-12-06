@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { BehaviorTracker, Domains, Program } from "@parsimony/types";
-import { Button, Icon } from "../../../components";
+import { Button, Icon, RichText } from "../../../components";
 import { Container } from "typedi";
 import UIApi from "../../../../domains/accessApis/uiApi/uiApi.Service";
 
@@ -53,6 +53,9 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
     );
   };
 
+  const { notes, showNoteEditor } = API.actions.interval.getIntervalState(
+    program.id
+  );
   const openEndIntervalDialog = () => {
     API.system.Dialog.push({
       title: program.title as string,
@@ -75,29 +78,55 @@ export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
   };
 
   return (
-    <div
-      className="behavior-input-container"
-      key={`behavior-input-container-${program.id}`}
-    >
-      <div className="flex-row">
-        <Button
-          metaTestId={BehaviorTracker.startInterval}
-          name="Interval"
-          onClick={() =>
-            API.actions.interval.startInterval(program, openIntervalDialog)
-          }
-          icon={<Icon.BehaviorInterval />}
-        />
-        <Button
-          metaTestId={BehaviorTracker.stopInterval}
-          name="Interval"
-          onClick={() =>
-            API.actions.interval.endInterval(program, openEndIntervalDialog)
-          }
-          icon={<Icon.BehaviorIntervalStop />}
-        />
-        <p>{program.title}</p>
+    <div>
+      <div
+        className="behavior-input-container"
+        key={`behavior-input-container-${program.id}`}
+      >
+        <div className="flex-row">
+          <Button
+            metaTestId={BehaviorTracker.showNoteEditor}
+            name="Note"
+            hidden={showNoteEditor}
+            onClick={() => API.actions.interval.showNoteEditor(program)}
+            icon={<Icon.Note />}
+          />
+          <Button
+            metaTestId={BehaviorTracker.hideNoteEditor}
+            name="hideNote"
+            hidden={!showNoteEditor}
+            onClick={() => API.actions.interval.hideNoteEditor(program)}
+            icon={<Icon.Close />}
+          />
+          <Button
+            metaTestId={BehaviorTracker.startInterval}
+            name="Interval"
+            onClick={() =>
+              API.actions.interval.startInterval(program, openIntervalDialog)
+            }
+            icon={<Icon.BehaviorInterval />}
+          />
+          <Button
+            metaTestId={BehaviorTracker.stopInterval}
+            name="Interval"
+            onClick={() =>
+              API.actions.interval.endInterval(program, openEndIntervalDialog)
+            }
+            icon={<Icon.BehaviorIntervalStop />}
+          />
+          <p>{program.title}</p>
+        </div>
       </div>
+      {showNoteEditor && (
+        <div>
+          <RichText
+            placeHolderText="Notes"
+            content={notes}
+            onChange={(v) => API.actions.interval.addNotes(program, v)}
+            metaTestId={BehaviorTracker.noteEditor}
+          />
+        </div>
+      )}
     </div>
   );
 };

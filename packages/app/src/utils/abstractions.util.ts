@@ -19,10 +19,12 @@ export const compileStyles = (classes: Record<string, boolean>) => cn(classes);
 
 export const buildCreateBehaviorRequest = ({
   program,
-  result
+  result,
+  notes
 }: {
   program: Program;
   result: number;
+  notes: string;
 }) => {
   const date = new Date();
   return {
@@ -38,7 +40,8 @@ export const buildCreateBehaviorRequest = ({
         result
       },
       created_at: date,
-      updated_at: date
+      updated_at: date,
+      notes
     }
   };
 };

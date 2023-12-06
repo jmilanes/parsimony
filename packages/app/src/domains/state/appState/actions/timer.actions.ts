@@ -4,15 +4,20 @@ import React from "react";
 
 import { Program } from "@parsimony/types";
 import { intervalToDuration } from "date-fns";
-import { prependZero, buildCreateBehaviorRequest } from "../../../../utils";
+import {
+  prependZero,
+  buildCreateBehaviorRequest,
+  clone
+} from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 import { BehaviorTracker, Timer } from "../appState.types";
-import { id } from "date-fns/locale";
 
 const initialTimerState: Timer = {
   active: false,
   paused: false,
-  time: 0
+  time: 0,
+  notes: "",
+  showNoteEditor: false
 };
 
 @Service()
@@ -82,7 +87,9 @@ export class TimerActions {
     this.updateTimeState(id, {
       time: 0,
       paused: false,
-      active: false
+      active: false,
+      showNoteEditor: false,
+      notes: ""
     });
   };
 
@@ -146,10 +153,28 @@ export class TimerActions {
 
   // This can be generic to all three once the behavior data is aligned
   public submit = async (program: Program) => {
-    const { time } = this.getTimerState(program.id);
+    const { time, notes } = this.getTimerState(program.id);
     await this.#api.makeRequest(
-      buildCreateBehaviorRequest({ program, result: time })
+      buildCreateBehaviorRequest({ program, result: time, notes })
     );
     this.cancel(program);
+  };
+
+  public addNotes = ({ id }: Program, notes: string) => {
+    const update = this.getTimerState(id);
+    update.notes = notes;
+    this.updateTimeState(id, update);
+  };
+
+  public showNoteEditor = ({ id }: Program) => {
+    const update = this.getTimerState(id);
+    update.showNoteEditor = true;
+    this.updateTimeState(id, update);
+  };
+
+  public hideNoteEditor = ({ id }: Program) => {
+    const update = this.getTimerState(id);
+    update.showNoteEditor = false;
+    this.updateTimeState(id, update);
   };
 }

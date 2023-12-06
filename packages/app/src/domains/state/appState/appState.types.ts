@@ -33,6 +33,8 @@ export type Timer = {
   paused: boolean;
   intervalId?: any;
   time: number;
+  notes: string;
+  showNoteEditor: boolean;
 };
 
 export type Interval = {
@@ -41,6 +43,14 @@ export type Interval = {
   occurred: number;
   total: number;
   program?: Program;
+  notes: string;
+  showNoteEditor: boolean;
+};
+
+export type Counter = {
+  count: number;
+  notes: string;
+  showNoteEditor: boolean;
 };
 
 export type ClientId = string;
@@ -54,7 +64,7 @@ export type BehaviorClient = {
 export type BehaviorClients = Record<ClientId, BehaviorClient>;
 
 export type BehaviorTracker = {
-  counters: Record<string, number>;
+  counters: Record<string, Counter>;
   timers: Record<string, Timer>;
   intervals: Record<string, Interval>;
   clients: BehaviorClients;

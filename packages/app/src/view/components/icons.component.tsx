@@ -17,7 +17,8 @@ import {
   Flare,
   Cancel,
   PlayCircle,
-  PauseCircle
+  PauseCircle,
+  EditNote
 } from "@mui/icons-material";
 
 export const Icon = {
@@ -36,5 +37,6 @@ export const Icon = {
   Play: () => <PlayCircle />,
   Pause: () => <PauseCircle />,
   Lock: () => <Lock />,
+  Note: () => <EditNote />,
   BehaviorTimeZero: () => <Flare />
 };
