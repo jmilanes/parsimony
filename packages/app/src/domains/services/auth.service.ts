@@ -16,7 +16,6 @@ import { Service } from "typedi";
 import { LoginViewTypes } from "../state/appState/appState.types";
 import AppStateService from "../state/appState/appStateService";
 
-//auth n
 @Service()
 export default class AuthService {
   #ass: AppStateService;
@@ -73,8 +72,8 @@ export default class AuthService {
       }
 
       if (!loginResponse) return;
-
-      this.#setSchoolName(loginResponse.schoolName as string);
+      debugger;
+      this.setSchoolName(loginResponse.schoolName as string);
       this.#setLoggedIn(true);
       this.#setAccessToken(loginResponse.accessToken as string);
       this.#setRefreshToken(loginResponse.refreshToken as string);
@@ -130,7 +129,7 @@ export default class AuthService {
   }
 
   public changeSchool = () => {
-    this.#setSchoolName("");
+    this.setSchoolName("");
     this.#clearAuthData();
   };
 
@@ -177,7 +176,7 @@ export default class AuthService {
     this.#setPersistentData("isLoggedIn", state ? "true" : "false");
   }
 
-  #setSchoolName(name: string) {
+  setSchoolName(name: string) {
     this.#setPersistentData("schoolName", name);
   }
 

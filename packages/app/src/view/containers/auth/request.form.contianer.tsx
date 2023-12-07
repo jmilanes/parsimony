@@ -30,6 +30,7 @@ export const RequestPasswordRequestForm = () => {
       <Field
         onChange={(value) => form.updateData({ email: value })}
         placeHolderText="Email"
+        type="email"
         value={form.Data.email}
         metaTestId={AuthPageMetaTestIds.emailField}
       />

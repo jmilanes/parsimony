@@ -1,10 +1,15 @@
 import React, { useMemo } from "react";
-import { AuthPageMetaTestIds, LoginPayload } from "@parsimony/types";
+import {
+  AuthPageMetaTestIds,
+  ChatMetaTestIds,
+  LoginPayload
+} from "@parsimony/types";
 
-import { Button, Field } from "../../components";
+import { Autocomplete, Button, Field } from "../../components";
 
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
+import { schoolOptions } from "../../../fixtures/schools.fixtures";
 
 export const LoginForm = () => {
   const API = Container.get(UIApi);
@@ -29,10 +34,14 @@ export const LoginForm = () => {
   return (
     <>
       {!authService.schoolCached && (
-        <Field
-          onChange={(value) => form.updateData({ schoolId: value })}
-          placeHolderText="School"
-          value={form.Data.schoolId}
+        <Autocomplete
+          label="Select School"
+          options={schoolOptions}
+          multiSelect={false}
+          onChange={(value) => {
+            form.updateData({ schoolId: value?.label || "" });
+            authService.setSchoolName(value?.label || "");
+          }}
           metaTestId={AuthPageMetaTestIds.schoolField}
         />
       )}
@@ -40,6 +49,7 @@ export const LoginForm = () => {
         // ONCE PATTERN IS DONE WE CAN REMOVE path to state stuff
         onChange={(value) => form.updateData({ email: value })}
         placeHolderText="Email"
+        type="email"
         value={form.Data.email}
         metaTestId={AuthPageMetaTestIds.emailField}
       />

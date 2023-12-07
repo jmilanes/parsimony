@@ -1,10 +1,12 @@
 import React, { useMemo } from "react";
 import { AuthPageMetaTestIds, ResetPasswordPayload } from "@parsimony/types";
 
-import { Button, Field } from "../../components";
+import { Autocomplete, Button, Field } from "../../components";
 
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
+import { schoolOptions } from "../../../fixtures/schools.fixtures";
+import { message } from "antd";
 
 export const ResetPasswordForm = () => {
   const API = Container.get(UIApi);
@@ -12,28 +14,53 @@ export const ResetPasswordForm = () => {
 
   const form = useMemo(
     () =>
-      API.system.Form.create<ResetPasswordPayload>({
+      API.system.Form.create<
+        ResetPasswordPayload & { confirmPassword: string }
+      >({
         email: authService.getLoginState()?.requestedEmail,
         newPassword: "",
         tempPassword: authService.getLoginState().tempPassword,
-        schoolId: authService.getSchoolName()
+        schoolId: authService.getSchoolName() || "",
+        confirmPassword: ""
       }),
     []
   );
 
   const onResetPassword = async () => {
+    const data = form.Data;
+    if (data.confirmPassword !== data.newPassword) {
+      message.error("Passwords Must Match!");
+      return;
+    }
+    delete data.confirmPassword;
     await authService.resetPassword(form.Data);
+    message.success("Passwords Reset!");
   };
-
-  //TODO: Add confirmation
 
   return (
     <>
+      <Autocomplete
+        label="Select School"
+        options={schoolOptions}
+        multiSelect={false}
+        onChange={(value) => {
+          form.updateData({ schoolId: value?.label || "" });
+          authService.setSchoolName(value.label || "");
+        }}
+        metaTestId={AuthPageMetaTestIds.schoolField}
+      />
       <Field
         placeHolderText="password"
         type="password"
         value={form.Data.newPassword}
         onChange={(value) => form.updateData({ newPassword: value })}
+        metaTestId={AuthPageMetaTestIds.passwordField}
+      />
+      <Field
+        placeHolderText="confrim password"
+        type="password"
+        value={form.Data.confirmPassword}
+        onChange={(value) => form.updateData({ confirmPassword: value })}
         metaTestId={AuthPageMetaTestIds.passwordField}
       />
       <Button

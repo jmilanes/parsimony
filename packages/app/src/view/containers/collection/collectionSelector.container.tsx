@@ -48,9 +48,7 @@ export const CollectionSelectorContainer = ({
       options={options}
       multiSelect={false}
       onChange={(opt) => {
-        API.actions.collectionRelocation.setActiveCollection(
-          opt?.value as string
-        );
+        API.actions.collectionRelocation.setActiveCollection(opt?.label);
       }}
       metaTestId={CollectionSelector.selector}
     />

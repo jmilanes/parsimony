@@ -6,12 +6,14 @@ import MaterialAutocomplete from "@mui/material/Autocomplete";
 import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 import { generateMetaTestId } from "../../utils";
 
+type TRUE_OPTION = { label: string; value: string };
+
 export type IAutoCompleteProps = {
-  options: { label: string }[];
+  options: TRUE_OPTION[];
   width?: number;
   label: string;
   multiSelect: boolean;
-  onChange: (value: IOption) => void;
+  onChange: (value: TRUE_OPTION) => void;
   metaTestId: MetaTestIds;
 };
 
