@@ -15,6 +15,7 @@ import {
 import { Service } from "typedi";
 import { LoginViewTypes } from "../state/appState/appState.types";
 import AppStateService from "../state/appState/appStateService";
+import { message } from "antd";
 
 @Service()
 export default class AuthService {
@@ -27,7 +28,7 @@ export default class AuthService {
   constructor(ass: AppStateService) {
     this.#ass = ass;
     this.isLoggedIn = this.#getPersistentData("isLoggedIn") === "true";
-    this.schoolCached = !!localStorage.getItem("schoolName");
+    this.schoolCached = !!this.getSchoolName();
     window.onbeforeunload = (event) => {
       if (this.getLoginState().view === "resetPassword") {
         this.#clearAuthData();
@@ -72,8 +73,9 @@ export default class AuthService {
       }
 
       if (!loginResponse) return;
-      debugger;
-      this.setSchoolName(loginResponse.schoolName as string);
+      this.setSchoolName(
+        this.getSchoolName() || (loginResponse.schoolName as string)
+      );
       this.#setLoggedIn(true);
       this.#setAccessToken(loginResponse.accessToken as string);
       this.#setRefreshToken(loginResponse.refreshToken as string);
@@ -103,29 +105,26 @@ export default class AuthService {
   }
 
   public async resetPassword(payload: ResetPasswordPayload) {
-    const { success } = await resetPassword(payload);
-    if (success) {
+    try {
+      await resetPassword(payload);
       this.#ass.updateAppState("login", {
         view: "login",
         tempPassword: "",
         requestedEmail: ""
       });
-    } else {
-      console.error("Reset Fail");
+    } catch (e) {
+      console.log(e);
+      message.error("Reset Fail");
     }
   }
 
   public async requestPasswordReset(payload: RequestPasswordResetPayload) {
-    const { success } = await requestPasswordReset(payload);
-    if (success) {
-      // emmit success message
-      console.info("Reset Success");
+    try {
+      await requestPasswordReset(payload);
       this.#setLoginView("login");
-      return;
-    } else {
-      console.error("Reset request  Fail");
+    } catch (_e) {
+      message.error("Request For Reset Password Failed");
     }
-    // emit error
   }
 
   public changeSchool = () => {

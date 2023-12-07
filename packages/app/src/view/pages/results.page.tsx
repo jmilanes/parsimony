@@ -20,6 +20,7 @@ import { Container as DI } from "typedi";
 import { useAsyncRetry } from "react-use";
 import { Spin } from "antd";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
+import { parseHTMLObj } from "../containers";
 
 ChartJS.register(
   CategoryScale,
@@ -68,6 +69,11 @@ const Results = () => {
       displayFn: API.actions.result.getDisplayValueForTable(program)
     },
     {
+      key: "notes",
+      title: "Notes",
+      displayFn: parseHTMLObj
+    },
+    {
       key: "observerId",
       title: "Observed By:",
       displayFn: (v: any) => {
@@ -92,7 +98,7 @@ const Results = () => {
       }
     },
     {
-      name: "Edit",
+      name: "View",
       method: (result: Required<Result>) => {
         navigate(`/result/${result.id}`);
       }

@@ -19,7 +19,7 @@ import parse from "html-react-parser";
 import { isArray } from "chart.js/helpers";
 
 export const parseHTMLObj = (v: any) => {
-  if (isArray(v)) {
+  if (isArray(v) || !v) {
     return "";
   }
   return parse(v?.editor?.getHTML() || (v.length && v) || "");

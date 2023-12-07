@@ -170,7 +170,7 @@ export class AuthResolvers {
   #safeSchoolID(schoolId: string) {
     const foundID = this.#ss.getSchoolIdByNameOrId(schoolId);
     if (!foundID) {
-      throw new Error("School Not Found");
+      throw new Error(`School Not Found ${schoolId}`);
     }
     return foundID;
   }

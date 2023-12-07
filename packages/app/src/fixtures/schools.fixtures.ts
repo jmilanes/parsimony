@@ -8,7 +8,11 @@ const productionSchools = [
   "Design Academy"
 ];
 
-const localSchools = ["Joey Test", "parsimony-local-new-school"];
+const localSchools = [
+  "Joey Test",
+  "parsimony-local-new-school",
+  "NOT A SCHOOL"
+];
 
 const schools =
   process.env.NODE_ENV === "development" ? localSchools : productionSchools;
