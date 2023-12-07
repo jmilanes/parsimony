@@ -57,7 +57,7 @@ export const ResetPasswordForm = () => {
         metaTestId={AuthPageMetaTestIds.passwordField}
       />
       <Field
-        placeHolderText="confrim password"
+        placeHolderText="confirm password"
         type="password"
         value={form.Data.confirmPassword}
         onChange={(value) => form.updateData({ confirmPassword: value })}
