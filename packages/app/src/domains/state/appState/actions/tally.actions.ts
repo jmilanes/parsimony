@@ -65,6 +65,8 @@ export class TallyActions {
     });
   };
 
+  //com
+
   public decrement = (program: Program) => {
     const prev = this.getCounter(program);
     if (prev.count > 0) {
