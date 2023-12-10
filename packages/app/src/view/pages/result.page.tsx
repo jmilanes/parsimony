@@ -21,6 +21,7 @@ import {
   isReadOnlyMode
 } from "../../utils";
 import { format } from "date-fns";
+import { ResultFormFactory } from "../containers/result/resultForm.factory";
 
 const Result = () => {
   const API = Container.get(UIApi);
@@ -101,6 +102,11 @@ const Result = () => {
           />
         ]}
       />
+      <ResultFormFactory
+        program={program}
+        form={form}
+        isReadonly={isReadOnlyMode(mode)}
+      />
       <RichText
         placeHolderText="Notes"
         content={form.Data.notes}
@@ -113,3 +119,7 @@ const Result = () => {
 };
 
 export default Result;
+
+// Behavior input (single input)
+// Trials
+//  make sure completness is being calculated properly

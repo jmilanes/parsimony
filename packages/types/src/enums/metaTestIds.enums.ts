@@ -92,7 +92,11 @@ export enum ResultPageMetaTestIds {
   edit = "edit-result",
   cancel = "cancel-result",
   save = "save-result",
-  notes = "result-notes"
+  notes = "result-notes",
+  frequencyTextField = "frequency-text-field",
+  durationTextField = "duration-text-field",
+  intervalTextField = "interval-text-field",
+  trialSelector = "trial-selector"
 }
 
 export enum BulKProgramMetaTestIds {

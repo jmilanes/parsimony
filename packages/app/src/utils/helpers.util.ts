@@ -3,6 +3,8 @@ import {
   Collection,
   IObject,
   IObjectValues,
+  Result,
+  TargetResult,
   Thread,
   User
 } from "@parsimony/types";
@@ -100,6 +102,14 @@ export const getMax = (path?: string) => (a: any, c: any) => {
 
 export const calculateAverage = (data: any[], path?: string) => {
   return data.reduce(getSum(path), 0) / data.length;
+};
+
+export const calculateCompletenessForTargetResults = (
+  results: TargetResult[]
+) => {
+  const max = results.length;
+  const resultSum = results.filter((result) => !!result.completed).length;
+  return (resultSum / max) * 100;
 };
 
 export const formatFormHeader = (text: string) => `${text}:`;

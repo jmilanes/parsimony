@@ -13,7 +13,12 @@ import {
   TrialChainingDirections
 } from "@parsimony/types";
 import { initialResultData } from "../../../../fixtures";
-import { calculateAverage, clone, removeMongoIds } from "../../../../utils";
+import {
+  calculateAverage,
+  calculateCompletenessForTargetResults,
+  clone,
+  removeMongoIds
+} from "../../../../utils";
 import { Observation, ObservationTarget } from "../appState.types";
 
 export const Discrete_Trial_ID = "discrete";
@@ -539,9 +544,7 @@ export class ObservationActions {
     results: TargetResult[],
     completenessObj: ICompletenessState
   ) => {
-    const max = results.length;
-    const resultSum = results.filter((result) => !!result.completed).length;
-    const completenessTotal = (resultSum / max) * 100;
+    const completenessTotal = calculateCompletenessForTargetResults(results);
     completenessObj[target.id as string] = completenessTotal;
     return completenessTotal;
   };
