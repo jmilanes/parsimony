@@ -13,6 +13,8 @@ export class InputForm<D = Record<string, any>> {
     this.#ass.updateAppState("forms", { [this.#id]: data });
   }
 
+  //com
+
   get Data() {
     return this.#ass.getAppState().forms[this.#id];
   }
