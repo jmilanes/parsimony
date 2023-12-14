@@ -53,9 +53,15 @@ export class ProgramResolvers extends BaseCrudResolvers {
   }
 
   //TODO Archive all Program results when a program is deleted
-  delete = async (_: any, { payload }: { payload: any }) => {
+  delete = async (
+    _: any,
+    { payload }: { payload: any },
+    { currentUser }: AuthContext
+  ) => {
     // FROM Program Delete Extension will need to delete all results
-    await this.#adg.dbBySchoolId(_.context).deleteEntry(this.model, payload.id);
+    await this.#adg
+      .dbBySchoolId(currentUser.schoolId)
+      .deleteEntry(this.model, payload.id);
     return payload.id;
   };
 
