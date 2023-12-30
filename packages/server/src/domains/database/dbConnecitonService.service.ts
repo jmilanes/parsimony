@@ -6,6 +6,9 @@ const DEV_DBS = {
   "parsimonyschools.f034n9b": "parsimonySchools"
 };
 
+export const applyProductionURI = (connectionPath: string) =>
+  `mongodb+srv://jmilanes:${process.env.MONGO_PW}@${connectionPath}.mongodb.net/parsimony?retryWrites=true&w=majority`;
+
 @Service()
 export class DBConnectionService {
   #connection: any;
@@ -30,6 +33,6 @@ export class DBConnectionService {
   };
 
   #getProdConnectionString(connectionPath: string) {
-    return `mongodb+srv://jmilanes:${process.env.MONGO_PW}@${connectionPath}.mongodb.net/parsimony?retryWrites=true&w=majority`;
+    return applyProductionURI(connectionPath);
   }
 }
