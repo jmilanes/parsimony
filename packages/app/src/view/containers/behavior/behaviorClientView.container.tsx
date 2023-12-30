@@ -52,7 +52,7 @@ export const BehaviorClientView = ({ client }: { client: BehaviorClient }) => {
   const behaviors = programs.filter((program) => {
     return (
       program.targetStyle === TargetStyle.Behavior &&
-      program.behavior?.active &&
+      program.active &&
       program.clientId === client.id
     );
   });

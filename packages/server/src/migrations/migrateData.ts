@@ -1,3 +1,5 @@
+import { updateActive } from "./migrationSpecs/migrationsSpecs";
+
 const readline = require("readline");
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
@@ -91,10 +93,6 @@ async function migrateToAllSchools(props: MigrateDataProps) {
 // Execute the script
 migrateToAllSchools({
   collection: "programs",
-  updateOp: {
-    $unset: {
-      newField: ""
-      // You can add more fields here if needed
-    }
-  }
+  updateOp: updateActive,
+  prod: true
 });

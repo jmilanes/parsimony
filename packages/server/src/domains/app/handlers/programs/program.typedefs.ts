@@ -5,6 +5,7 @@ export default gql`
 
   type Program {
     id: ID!
+    active: Boolean
     mainProgramId: ID
     title: String
     clientId: ID
@@ -66,6 +67,7 @@ export default gql`
 
   input CreateProgramPayload {
     title: String
+    active: Boolean
     mainProgramId: ID
     clientId: ID
     targets: [TargetInput]
@@ -102,6 +104,7 @@ export default gql`
 
   input UpdateProgramPayload {
     id: ID!
+    active: Boolean
     title: String
     mainProgramId: ID
     clientId: ID

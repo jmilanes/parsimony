@@ -93,6 +93,7 @@ export type CreateCollectionPayload = {
 };
 
 export type CreateProgramPayload = {
+  active?: InputMaybe<Scalars['Boolean']>;
   behavior?: InputMaybe<ProgramBehaviorInput>;
   category?: InputMaybe<ProgramCategories>;
   chaining?: InputMaybe<ChainingInput>;
@@ -423,6 +424,7 @@ export type MutationUpdateUserArgs = {
 
 export type Program = {
   __typename?: 'Program';
+  active?: Maybe<Scalars['Boolean']>;
   behavior?: Maybe<ProgramBehavior>;
   category?: Maybe<ProgramCategories>;
   chaining?: Maybe<Chaining>;
@@ -753,6 +755,7 @@ export type UpdateCollectionPayload = {
 };
 
 export type UpdateProgramPayload = {
+  active?: InputMaybe<Scalars['Boolean']>;
   behavior?: InputMaybe<ProgramBehaviorInput>;
   category?: InputMaybe<ProgramCategories>;
   chaining?: InputMaybe<ChainingInput>;
@@ -1174,6 +1177,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type ProgramResolvers<ContextType = any, ParentType extends ResolversParentTypes['Program'] = ResolversParentTypes['Program']> = {
+  active?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   behavior?: Resolver<Maybe<ResolversTypes['ProgramBehavior']>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['ProgramCategories']>, ParentType, ContextType>;
   chaining?: Resolver<Maybe<ResolversTypes['Chaining']>, ParentType, ContextType>;

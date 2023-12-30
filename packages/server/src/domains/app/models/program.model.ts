@@ -42,6 +42,7 @@ const Chaining = {
 };
 
 export default {
+  active: Boolean,
   title: String,
   mainProgramId: ObjectId,
   clientId: { type: ObjectId, ref: "User" },
@@ -70,3 +71,13 @@ export default {
   behavior: Behavior,
   chaining: Chaining
 };
+
+// export enum PROGRAM_VIEW_TYPES {
+//   DiscreteTrials = "DISCRETE_TRIALS",
+//   TaskAnalysisBackward = "TASK_ANALYSIS_BACKWARD",
+//   TaskAnalysisForward = "TASK_ANALYSIS_FORWARD",
+//   TaskAnalysisTotal = "TASK_ANALYSIS_TOTAL",
+//   BehaviorDuration = "BEHAVIOR_DURATION",
+//   BehaviorFrequency = "BEHAVIOR_FREQUENCY",
+//   BehaviorInterval = "BEHAVIOR_INTERVAL"
+// }

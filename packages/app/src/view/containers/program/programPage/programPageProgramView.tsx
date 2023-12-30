@@ -42,13 +42,22 @@ export const ProgramPageProgramView = ({
         </p>
         <hr />
       </div>
-      <Checkbox
-        title="Mastered"
-        value={!!form.Data.mastered}
-        onChange={(value) => form.updateData({ mastered: value })}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.masteredCheckbox}
-      />
+      <div className="flex-row">
+        <Checkbox
+          title="Masteredddd "
+          value={!!form.Data.mastered}
+          onChange={(value) => form.updateData({ mastered: value })}
+          readOnly={isReadOnlyMode(mode)}
+          metaTestId={ProgramPageMetaTestIds.masteredCheckbox}
+        />
+        <Checkbox
+          title="Active"
+          value={!!form.Data.active}
+          onChange={(value) => form.updateData({ active: value }, true)}
+          readOnly={isReadOnlyMode(mode)}
+          metaTestId={ProgramPageMetaTestIds.behaviorActiveCheckBok}
+        />
+      </div>
       <Field
         placeHolderText="Title"
         value={form.Data.title}

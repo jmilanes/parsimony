@@ -42,10 +42,8 @@ export const ProgramPageBehaviorView = ({
         />
         <Checkbox
           title="Active"
-          value={!!form.Data.behavior?.active}
-          onChange={(value) =>
-            form.updateData({ behavior: { active: value } }, true)
-          }
+          value={!!form.Data.active}
+          onChange={(value) => form.updateData({ active: value }, true)}
           readOnly={readOnly}
           metaTestId={ProgramPageMetaTestIds.behaviorActiveCheckBok}
         />

@@ -13,6 +13,7 @@ import generateCrudOperationStrings from "./operationStrings/generateCrudOperati
 
 const fullSchema = `
   id
+  active
   mainProgramId
   clientId
   targets {

@@ -72,7 +72,7 @@ const TableRow = <Data extends { id: string }>({
   };
 
   return (
-    <tr className={source?.behavior?.active === false ? "inactiveRow" : ""}>
+    <tr className={source?.active === false ? "inactiveRow" : ""}>
       <SelectBox />
       {columns.map((col) => {
         return (
