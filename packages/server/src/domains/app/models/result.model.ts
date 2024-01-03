@@ -28,6 +28,7 @@ export default {
   behaviorData: BehaviorData,
   data: [ResultData],
   notes: String,
+  result: Number,
   updated_at: Date,
   created_at: Date
 };

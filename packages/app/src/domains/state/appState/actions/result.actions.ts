@@ -93,9 +93,7 @@ export class ResultActions {
   }
 
   #calculateTrialResults(program: Program, results: Result[]) {
-    const programCompletenessData = results?.map(
-      (result) => result.programCompleteness
-    );
+    const programCompletenessData = results?.map((result) => result.result);
 
     const programDateLabels = results.map((result) => {
       return getFullDate(new Date(result.created_at));

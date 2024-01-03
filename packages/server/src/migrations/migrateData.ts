@@ -1,4 +1,7 @@
-import { updateActive } from "./migrationSpecs/migrationsSpecs";
+import {
+  resultInResults,
+  updateActive
+} from "./migrationSpecs/migrationsSpecs";
 
 const readline = require("readline");
 require("dotenv").config();
@@ -92,7 +95,5 @@ async function migrateToAllSchools(props: MigrateDataProps) {
 
 // Execute the script
 migrateToAllSchools({
-  collection: "programs",
-  updateOp: updateActive,
-  prod: true
+  ...resultInResults
 });

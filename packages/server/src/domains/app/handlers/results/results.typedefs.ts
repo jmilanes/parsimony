@@ -12,6 +12,7 @@ export default gql`
     behaviorData: BehaviorData
     data: [ResultData]
     notes: String
+    result: Float
     updated_at: Date
     created_at: Date
   }
@@ -68,6 +69,7 @@ export default gql`
     programId: ID!
     clientId: ID!
     observerId: ID
+    result: Float
     type: ResultType
     programCompleteness: Float!
     behaviorData: BehaviorDataInput
@@ -89,6 +91,7 @@ export default gql`
     id: ID!
     programId: ID!
     type: ResultType
+    result: Float
     clientId: ID!
     observerId: ID
     programCompleteness: Float!
@@ -123,7 +126,9 @@ export default gql`
   }
   enum ResultType {
     TRIAL
-    BEHAVIOR
+    DURATION
+    FREQUENCY
+    INTERVAL
   }
 
   type Query {

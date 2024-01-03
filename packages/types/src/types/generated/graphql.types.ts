@@ -130,6 +130,7 @@ export type CreateResultPayload = {
   observerId?: InputMaybe<Scalars['ID']>;
   programCompleteness: Scalars['Float'];
   programId: Scalars['ID'];
+  result?: InputMaybe<Scalars['Float']>;
   type?: InputMaybe<ResultType>;
   updated_at?: InputMaybe<Scalars['Date']>;
 };
@@ -625,6 +626,7 @@ export type Result = {
   observerId?: Maybe<Scalars['ID']>;
   programCompleteness?: Maybe<Scalars['Float']>;
   programId?: Maybe<Scalars['ID']>;
+  result?: Maybe<Scalars['Float']>;
   type?: Maybe<ResultType>;
   updated_at?: Maybe<Scalars['Date']>;
 };
@@ -643,7 +645,9 @@ export type ResultDataInput = {
 };
 
 export enum ResultType {
-  Behavior = 'BEHAVIOR',
+  Duration = 'DURATION',
+  Frequency = 'FREQUENCY',
+  Interval = 'INTERVAL',
   Trial = 'TRIAL'
 }
 
@@ -794,6 +798,7 @@ export type UpdateResultPayload = {
   observerId?: InputMaybe<Scalars['ID']>;
   programCompleteness: Scalars['Float'];
   programId: Scalars['ID'];
+  result?: InputMaybe<Scalars['Float']>;
   type?: InputMaybe<ResultType>;
   updated_at?: InputMaybe<Scalars['Date']>;
 };
@@ -1260,6 +1265,7 @@ export type ResultResolvers<ContextType = any, ParentType extends ResolversParen
   observerId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   programCompleteness?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   programId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  result?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['ResultType']>, ParentType, ContextType>;
   updated_at?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
