@@ -12,6 +12,7 @@
     "build": "cd packages/app/ && yarn build",
     "deploy:prd": "cd deploy-scripts/ && python3 deploy.py && cd ../",
     "start:server": "cd packages/server/ && yarn start",
+    "start:server:test": "cd packages/server/ && yarn start:test",
     "start:app": "cd packages/app/ && yarn start",
     "build:types": "cd packages/server/ && yarn build:types",
     "start": "concurrently \"yarn start:server\" \"yarn start:app\"",

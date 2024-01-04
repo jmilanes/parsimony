@@ -13,9 +13,9 @@ export const applyProductionURI = (connectionPath: string) =>
 export class DBConnectionService {
   #connection: any;
 
-  public async init() {
+  public async init(connection: string) {
     if (!envIs("prod")) {
-      this.#connection = `mongodb://127.0.0.1:27017/`;
+      this.#connection = connection;
     }
   }
 

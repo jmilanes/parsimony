@@ -1,6 +1,14 @@
 import "reflect-metadata";
-import ServerService from "./domains/server/server.service";
-import { Container } from "typedi";
+import { makeMockServer } from "./testUtils/makeMockServer";
+import { makeServer } from "./domains/server/makeServer";
 
-const server = Container.get(ServerService);
-server.start();
+export const getParam = (param: string) =>
+  process.argv[process.argv.indexOf(param) + 1];
+
+const mode = getParam("--mode");
+
+if (mode === "test") {
+  void makeMockServer();
+} else {
+  void makeServer();
+}

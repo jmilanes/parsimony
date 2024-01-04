@@ -6,6 +6,7 @@
   "scripts": {
     "mongo:start": "sudo mongod && sudo brew services start mongodb-community@5.0",
     "start": "nodemon src/index.ts",
+    "start:test": "nodemon src/index.ts --mode test",
     "start:prd": "nodemon dist/index.js",
     "build": "tsc --build",
     "publish": "echo 'run'",

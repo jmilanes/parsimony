@@ -18,7 +18,7 @@ export const setupAppDBForMockSchool = async () => {
   cs.connection = MEMORY_SERVER_CONNECTION_STRING;
   ss.connectionPath = "mock";
 
-  await server.start();
+  await server.start(MEMORY_SERVER_CONNECTION_STRING);
   ss.map = {
     mockSchoolId: {
       dbConnection: "appDataUri",

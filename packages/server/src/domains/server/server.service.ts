@@ -11,6 +11,8 @@ import { BroadcastService, models } from "../database";
 import TokensService from "../database/token.service";
 import { AppDataGateway } from "../app/app.data.gateway";
 import { DBConnectionService } from "../database/dbConnecitonService.service";
+import { MongoMemoryServer } from "mongodb-memory-server";
+import EncryptionService from "../database/encryption.service";
 
 const ignoredAuthorizationQueries = [
   "me(",
@@ -20,11 +22,17 @@ const ignoredAuthorizationQueries = [
   "query IntrospectionQuery"
 ];
 
+export type ServerParams = {
+  uri: string;
+  encryptionMethod: (pw: string) => string;
+};
+
 @Service()
 export default class ServerService {
   server: any;
   #adg: AppDataGateway;
   #ts: TokensService;
+  #es: EncryptionService;
   #bs: BroadcastService;
   #qs: QueryService;
   #ss: SchoolService;
@@ -36,7 +44,8 @@ export default class ServerService {
     ts: TokensService,
     bs: BroadcastService,
     qs: QueryService,
-    cs: DBConnectionService
+    cs: DBConnectionService,
+    es: EncryptionService
   ) {
     this.#adg = adg;
     this.#ts = ts;
@@ -44,10 +53,12 @@ export default class ServerService {
     this.#qs = qs;
     this.#ss = ss;
     this.#cs = cs;
+    this.#es = es;
   }
 
-  public start = async () => {
-    await this.#cs.init();
+  public start = async ({ uri, encryptionMethod }: ServerParams) => {
+    await this.#cs.init(uri);
+    this.#es.setEncryptMethod(encryptionMethod);
     await this.#ss.init();
     await this.#adg.init();
     this.#bs.init();

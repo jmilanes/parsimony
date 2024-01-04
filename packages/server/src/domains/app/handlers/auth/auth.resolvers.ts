@@ -7,13 +7,14 @@ import { TemporaryPasswordService } from "../../../authentication/temporaryPassw
 
 import { EmailService } from "../../../communication/email.service";
 import { EMAIL_TEMPLATES } from "../../../communication/emails/emails";
-import { encrypt } from "@parsimony/utilities";
+import EncryptionService from "../../../database/encryption.service";
 
 @Service()
 export class AuthResolvers {
   #adg: AppDataGateway;
   #ts: TokensService;
   #ss: SchoolService;
+  #ens: EncryptionService;
   #tpw: TemporaryPasswordService;
   #es: EmailService;
 
@@ -22,16 +23,18 @@ export class AuthResolvers {
     ts: TokensService,
     ss: SchoolService,
     tpw: TemporaryPasswordService,
-    es: EmailService
+    es: EmailService,
+    ens: EncryptionService
   ) {
     this.#adg = adg;
     this.#ts = ts;
     this.#ss = ss;
     this.#tpw = tpw;
     this.#es = es;
+    this.#ens = ens;
   }
 
-  me = async (
+  public me = async (
     _: any,
     {
       payload: { refreshToken, schoolId }
@@ -43,7 +46,7 @@ export class AuthResolvers {
   };
 
   // logs in user registers new auth token and returns
-  login = async (
+  public login = async (
     _: any,
     {
       payload: { email, password, schoolId }
@@ -65,7 +68,7 @@ export class AuthResolvers {
 
     const validTempPw = this.#tpw.validate(email, password);
     // Check real PW vrs the encrypted one we store
-    if (encrypt(password) !== user.password && !validTempPw) {
+    if (this.#ens.encrypt(password) !== user.password && !validTempPw) {
       throw Error("Invalid Password");
     }
 
@@ -84,7 +87,7 @@ export class AuthResolvers {
     };
   };
 
-  resetPassword = async (
+  public resetPassword = async (
     _: any,
     {
       payload: { email, newPassword, schoolId, tempPassword }
@@ -114,7 +117,7 @@ export class AuthResolvers {
       throw Error("Invalid Email");
     }
 
-    await db.updateEntry(user, { password: encrypt(newPassword) });
+    await db.updateEntry(user, { password: this.#ens.encrypt(newPassword) });
     this.#tpw.delete(email);
 
     // Log user out
@@ -123,7 +126,7 @@ export class AuthResolvers {
     };
   };
 
-  logout = async (
+  public logout = async (
     _: any,
     {
       payload: { refreshToken, schoolId }
@@ -136,7 +139,7 @@ export class AuthResolvers {
     };
   };
 
-  requestPasswordReset = async (
+  public requestPasswordReset = async (
     _: any,
     { payload: { email } }: { payload: { email: string } }
   ) => {
@@ -155,7 +158,7 @@ export class AuthResolvers {
     };
   };
 
-  getResolver = () => ({
+  public getResolver = () => ({
     Mutation: {
       resetPassword: this.resetPassword
     },
