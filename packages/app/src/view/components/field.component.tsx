@@ -1,9 +1,8 @@
 import React from "react";
 
 import { Container, ReadOnly } from "./index";
-import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types";
+import { Maybe } from "@parsimony/types";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
-import { generateMetaTestId } from "../../utils";
 import { CONTAINER_INPUT_MARGIN } from "../../constants";
 
 export type IFieldProps = Omit<TextFieldProps, "onChange"> & {
@@ -12,8 +11,7 @@ export type IFieldProps = Omit<TextFieldProps, "onChange"> & {
   value?: Maybe<string>;
   placeHolderText: string;
   onChange: (value: string) => void;
-  metaTestId: MetaTestIds;
-  metaTestQualifier?: string;
+  metaTestId: string;
 };
 
 export const Field = ({
@@ -23,7 +21,6 @@ export const Field = ({
   placeHolderText,
   key,
   metaTestId,
-  metaTestQualifier,
   ...rest
 }: IFieldProps) => {
   const metaId = `${metaTestId}`;

@@ -5,7 +5,6 @@ import { IRoute, NavMetaTestIds } from "@parsimony/types";
 import { Button } from "./index";
 import {
   OpenBehaviorButton,
-  OpenBulkProgramButton,
   OpenChatButton,
   OpenProgramViewButton
 } from "../containers";

@@ -23,7 +23,7 @@ export type ITableProps<Data> = {
   data: Data[];
   columns: IColumns[];
   name: string;
-  metaTestId: MetaTestIds;
+  metaTestId: string;
   actions?: ITableAction[];
   selectable?: ISelectable<Data>;
 };
@@ -31,7 +31,7 @@ export type ITableProps<Data> = {
 export type ITableRowProps<Data> = {
   source: any;
   tableName: string;
-  metaTestId: MetaTestIds;
+  metaTestId: string;
   columns: IColumns[];
   actions: ITableAction[];
   selectable?: ISelectable<Data>;

@@ -3,8 +3,6 @@ import IconButton from "@mui/material/IconButton";
 import MaterialMenu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
-import { generateMetaTestId } from "../../utils";
 
 const ITEM_HEIGHT = 48;
 
@@ -12,12 +10,12 @@ export type IMenuOption = {
   label: string;
   icon?: React.ReactNode;
   action: () => void;
-  metaTestId: MetaTestIds;
+  metaTestId: string;
 };
 
 export type IMenuProps = {
   options: IMenuOption[];
-  metaTestId: MetaTestIds;
+  metaTestId: string;
 };
 
 export const Menu = ({ options, metaTestId }: IMenuProps) => {
@@ -39,7 +37,7 @@ export const Menu = ({ options, metaTestId }: IMenuProps) => {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleClick}
-        data-test-id={generateMetaTestId(UIMetaTargetTypes.Button, metaTestId)}
+        data-testid={metaTestId}
       >
         <MoreVertIcon />
       </IconButton>
@@ -65,10 +63,7 @@ export const Menu = ({ options, metaTestId }: IMenuProps) => {
               option.action();
               handleClose();
             }}
-            data-test-id={generateMetaTestId(
-              UIMetaTargetTypes.Button,
-              option.metaTestId
-            )}
+            data-testid={option.metaTestId}
           >
             {option.icon}
             {option.label}

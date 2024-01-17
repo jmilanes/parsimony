@@ -13,7 +13,6 @@ export type IButtonProps = {
   type?: "outlined" | "contained" | "text";
   icon?: React.ReactNode;
   metaTestId: string;
-  metaTestQualifier?: string;
 };
 
 export const Button = ({

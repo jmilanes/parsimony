@@ -20,8 +20,7 @@ export type IMultiSelectProps = {
   values?: string[];
   title: string;
   onChange: (value: string[]) => void;
-  metaTestId: MetaTestIds;
-  metaTestQualifier?: string;
+  metaTestId: string;
 };
 
 export const MultiSelect = ({
@@ -30,14 +29,8 @@ export const MultiSelect = ({
   onChange,
   values,
   title,
-  metaTestId,
-  metaTestQualifier
+  metaTestId
 }: IMultiSelectProps) => {
-  const metaId = generateMetaTestId(
-    UIMetaTargetTypes.Selector,
-    metaTestId,
-    metaTestQualifier
-  );
   const updateSelectionsAndState = (values: string[]) => onChange(values);
 
   const Options = () => {
@@ -45,7 +38,7 @@ export const MultiSelect = ({
       <FormControl fullWidth>
         <InputLabel>{title}</InputLabel>
         <MaterialSelect
-          data-test-id={metaId}
+          data-testid={metaTestId}
           label={title}
           multiple
           value={values}
@@ -57,7 +50,7 @@ export const MultiSelect = ({
             <MenuItem
               key={opt.name}
               value={opt.value}
-              data-test-id={`${metaId}-option-${opt.value}`}
+              data-testid={`${metaTestId}-option-${opt.value}`}
             >
               {opt.name}
             </MenuItem>
@@ -74,7 +67,7 @@ export const MultiSelect = ({
     >
       {readOnly ? (
         <ReadOnly
-          metaTestId={metaId}
+          metaTestId={metaTestId}
           value={values?.join(", ")}
           title={title}
         />

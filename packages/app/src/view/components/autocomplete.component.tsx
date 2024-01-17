@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-import { Container, IOption } from "./index";
+import { Container } from "./index";
 import TextField from "@mui/material/TextField";
 import MaterialAutocomplete from "@mui/material/Autocomplete";
-import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
-import { generateMetaTestId } from "../../utils";
 
 type TRUE_OPTION = { label: string; value: string };
 
@@ -14,7 +12,7 @@ export type IAutoCompleteProps = {
   label: string;
   multiSelect: boolean;
   onChange: (value: TRUE_OPTION) => void;
-  metaTestId: MetaTestIds;
+  metaTestId: string;
 };
 
 export function Autocomplete({
@@ -37,10 +35,7 @@ export function Autocomplete({
         onChange={(event: any, newValue: any) => {
           onChange(newValue);
         }}
-        data-test-id={generateMetaTestId(
-          UIMetaTargetTypes.Selector,
-          metaTestId
-        )}
+        data-testid={metaTestId}
         renderInput={(params) => <TextField {...params} label={label} />}
       />
     </Container>

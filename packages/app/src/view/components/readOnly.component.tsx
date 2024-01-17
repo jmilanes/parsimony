@@ -13,7 +13,7 @@ export const ReadOnly = ({ title, value, metaTestId }: IReadOnlyProps) => {
   return (
     <Container flexDirection="row" margin={1}>
       <p>{formatFormHeader(title || "")}</p>
-      <p data-test-id={`${metaTestId}-read-only`}>{value || ""}</p>
+      <p data-testid={`${metaTestId}-read-only`}>{value || ""}</p>
     </Container>
   );
 };

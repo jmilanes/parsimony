@@ -20,8 +20,7 @@ export type IRichTextProps = {
   readOnly?: boolean;
   placeHolderText: string;
   onChange: (value: string) => void;
-  metaTestId: MetaTestIds;
-  metaTestQualifier?: string;
+  metaTestId: string;
   content?: Maybe<string>;
 };
 
@@ -31,15 +30,8 @@ export const RichText = ({
   placeHolderText,
   key,
   metaTestId,
-  metaTestQualifier,
   content = ""
 }: IRichTextProps) => {
-  const metaId = generateMetaTestId(
-    UIMetaTargetTypes.Field,
-    metaTestId,
-    metaTestQualifier
-  );
-
   return readOnly ? (
     <div className="richTextContainer" key={key}>
       <p>{placeHolderText}:</p>
@@ -49,7 +41,7 @@ export const RichText = ({
     <Container flexDirection="column" key={key} margin={CONTAINER_INPUT_MARGIN}>
       <p>{placeHolderText}:</p>
       <RichTextEditor
-        data-test-id={metaId}
+        data-testid={metaTestId}
         extensions={[StarterKit]}
         content={content || ""} // Initial content for the editor
         // Optionally include `renderControls` for a menu-bar atop the editor:

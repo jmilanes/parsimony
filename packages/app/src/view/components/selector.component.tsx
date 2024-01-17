@@ -18,8 +18,7 @@ export type ISelectorProps = {
   value?: Maybe<string | number>;
   isNumber?: boolean;
   key?: string;
-  metaTestId: MetaTestIds;
-  metaTestQualifier?: string;
+  metaTestId: string;
 };
 
 export const Selector = ({
@@ -30,15 +29,8 @@ export const Selector = ({
   title,
   key,
   isNumber,
-  metaTestId,
-  metaTestQualifier
+  metaTestId
 }: ISelectorProps) => {
-  const metaId = generateMetaTestId(
-    UIMetaTargetTypes.Selector,
-    metaTestId,
-    metaTestQualifier
-  );
-
   const processValue = (value: string | number) =>
     isNumber && typeof value === "string" ? parseInt(value) : value;
 
@@ -71,7 +63,7 @@ export const Selector = ({
       margin={readOnly ? 0 : CONTAINER_INPUT_MARGIN}
     >
       {readOnly ? (
-        <ReadOnly metaTestId={metaId} value={value} title={title} />
+        <ReadOnly metaTestId={metaTestId} value={value} title={title} />
       ) : (
         <Options />
       )}
