@@ -20,7 +20,7 @@ export const TaskAnalysis = ({ program }: { program: Program }) => {
           <ObserveTarget
             key={generateKey("observeTarget", i)}
             target={target}
-            metaQualifierIndex={i}
+            index={i}
           />
         ) : null;
       })}

@@ -34,8 +34,7 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
           name="Delete Target"
           disabled={readOnly}
           onClick={() => deleteItem(form.Data.targets || [], index)}
-          metaTestId={TargetFormMetaTestIds.deleteRuleBtn}
-          metaTestQualifier={metaQualifier}
+          metaTestId={`${TargetFormMetaTestIds.deleteRuleBtn}-${metaQualifier}`}
         />
         <Col xs={12}>
           <Field
@@ -45,8 +44,7 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
               updateItem(index, "title", value);
             }}
             readOnly={readOnly}
-            metaTestId={TargetFormMetaTestIds.questionField}
-            metaTestQualifier={metaQualifier}
+            metaTestId={`${TargetFormMetaTestIds.questionField}-${metaQualifier}`}
           />
         </Col>
         <Col xs={12}>
@@ -57,8 +55,7 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
               updateItem(index, "description", value);
             }}
             readOnly={readOnly}
-            metaTestId={TargetFormMetaTestIds.descriptionField}
-            metaTestQualifier={metaQualifier}
+            metaTestId={`${TargetFormMetaTestIds.descriptionField}-${metaQualifier}`}
           />
         </Col>
       </Row>

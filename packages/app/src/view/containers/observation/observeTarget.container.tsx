@@ -11,13 +11,10 @@ import { DiscreteTrialsControlsContainer } from "./discreteTrialsControlsContain
 
 export type IObserverTargetProps = React.PropsWithChildren<{
   target: Target | Target[];
-  metaQualifierIndex?: number;
+  index?: number;
 }>;
 
-export const ObserveTarget = ({
-  target,
-  metaQualifierIndex
-}: IObserverTargetProps) => {
+export const ObserveTarget = ({ target, index }: IObserverTargetProps) => {
   const API = DI.get(UIApi);
 
   const isDiscreteTrial = Array.isArray(target);
@@ -69,6 +66,6 @@ export const ObserveTarget = ({
   return isDiscreteTrial ? (
     <DiscreteTrialContainer />
   ) : (
-    <Target target={target} index={metaQualifierIndex || 0} />
+    <Target target={target} index={index || 0} />
   );
 };

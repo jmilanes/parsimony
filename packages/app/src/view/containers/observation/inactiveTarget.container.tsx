@@ -45,8 +45,7 @@ export const InactiveTarget = ({
           }
           icon={disabled ? <Icon.Lock /> : undefined}
           type={disabled ? "outlined" : "contained"}
-          metaTestId={ObservationMetaTestIds.selectRuleBtn}
-          metaTestQualifier={`target-${index}`}
+          metaTestId={`${ObservationMetaTestIds.selectRuleBtn}-target-${index}`}
         />
       )}
     </div>

@@ -89,8 +89,7 @@ export const TargetOptionSelector = ({
               updateItem(optionIndex, "name", value);
             }}
             readOnly={readOnly}
-            metaTestId={TargetFormMetaTestIds.promptNameField}
-            metaTestQualifier={metaTestQualifier}
+            metaTestId={`${TargetFormMetaTestIds.promptNameField}-${metaTestQualifier}`}
           />
         </div>
         <div>
@@ -98,15 +97,13 @@ export const TargetOptionSelector = ({
             disabled={readOnly}
             name="Delete Prompt"
             onClick={removeOption}
-            metaTestId={TargetFormMetaTestIds.deletePromptBtn}
-            metaTestQualifier={metaTestQualifier}
+            metaTestId={`${TargetFormMetaTestIds.deletePromptBtn}-${metaTestQualifier}`}
           />
           <Button
             disabled={readOnly}
             name="Set to Target"
             onClick={setOptionToTarget}
-            metaTestId={TargetFormMetaTestIds.setToTargetBtn}
-            metaTestQualifier={metaTestQualifier}
+            metaTestId={`${TargetFormMetaTestIds.setToTargetBtn}-${metaTestQualifier}`}
           />
         </div>
         <Col xs={2}>{option.target ? <p>Target Prompt</p> : null}</Col>

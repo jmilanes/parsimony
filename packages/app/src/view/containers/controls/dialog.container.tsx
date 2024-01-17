@@ -22,8 +22,7 @@ export const DialogContainer = () => {
       <Button
         name={x.name}
         onClick={x.action}
-        metaTestId={DialogMetaIds.action}
-        metaTestQualifier={x.name}
+        metaTestId={`${DialogMetaIds.action}-${x.name}`}
       ></Button>
     );
   });

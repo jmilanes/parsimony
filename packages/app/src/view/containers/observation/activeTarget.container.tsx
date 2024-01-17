@@ -87,8 +87,9 @@ export const ActiveTarget = ({
               )
             }
             type={selectedId === option?.id ? "contained" : "outlined"}
-            metaTestId={ObservationMetaTestIds.ruleOptionSelectBtn}
-            metaTestQualifier={`target-${index.toString()}-prompt-${i}`}
+            metaTestId={`${
+              ObservationMetaTestIds.ruleOptionSelectBtn
+            }-target-${index.toString()}-prompt-${i}`}
           />
         ))}
       </div>
