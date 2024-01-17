@@ -26,17 +26,14 @@ export const Field = ({
   metaTestQualifier,
   ...rest
 }: IFieldProps) => {
-  const metaId = generateMetaTestId(
-    UIMetaTargetTypes.Field,
-    metaTestId,
-    metaTestQualifier
-  );
+  const metaId = `${metaTestId}`;
+
   return readOnly ? (
     <ReadOnly metaTestId={metaId} value={value} title={placeHolderText} />
   ) : (
     <Container flexDirection="column" key={key} margin={CONTAINER_INPUT_MARGIN}>
       <TextField
-        data-test-id={metaId}
+        inputProps={{ "data-testid": metaTestId }}
         size="small"
         key={key}
         label={placeHolderText}

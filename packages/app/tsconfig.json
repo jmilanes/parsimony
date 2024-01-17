@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "types": [
+      "jest",
+      "@testing-library/jest-dom"
+    ],
     "baseUrl": "./",
     "strict": true,
     "module": "ESNext",

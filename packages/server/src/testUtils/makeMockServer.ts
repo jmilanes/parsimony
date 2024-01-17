@@ -42,7 +42,11 @@ export const makeMockServer = async () => {
   const adg = Container.get(AppDataGateway);
   const mockUri = mockMongo.getUri();
   const server = Container.get(ServerService);
-  await server.start({ uri: mockUri, encryptionMethod: (pw: string) => pw });
+  await server.start({
+    uri: mockUri,
+    encryptionMethod: (pw: string) => pw,
+    mockAuthContext: true
+  });
 
   ss.map = {
     mockSchoolId: {

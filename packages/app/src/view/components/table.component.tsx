@@ -78,7 +78,7 @@ const TableRow = <Data extends { id: string }>({
         return (
           <td
             key={`${tableName}-row-${source.id}-col-${col.key}`}
-            data-test-id={`${metaTestId}-row-${index}-col-${col.key}`}
+            data-testid={`${metaTestId}-row-${index}-col-${col.key}`}
           >
             {source[col.key]}
           </td>
@@ -91,8 +91,7 @@ const TableRow = <Data extends { id: string }>({
               name={action.name}
               key={generateKey(`table-action-${action.name}`, source.id)}
               onClick={() => action.method(source)}
-              metaTestId={metaTestId}
-              metaTestQualifier={`row-${index}-col-${action.name
+              metaTestId={`row-${index}-col-${action.name
                 .toLowerCase()
                 .replaceAll(" ", "")}-table-action`}
             />
@@ -124,7 +123,7 @@ export const Table = <Data extends { id: string }>({
     <Content>
       <table className="styled-table">
         <thead>
-          <tr data-test-id={RepeatableMetaTestIds.tableHeader}>
+          <tr data-testid={RepeatableMetaTestIds.tableHeader}>
             {selectable?.visible ? <th>Add To Client</th> : null}
             {columns.map((column) => (
               <th

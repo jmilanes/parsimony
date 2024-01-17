@@ -75,7 +75,6 @@ export class AuthResolvers {
     const userObj = user.toObject();
     const accessToken = this.#ts.generateAccessToken(userObj);
     const refreshToken = this.#ts.generateRefreshToke(userObj, foundID);
-
     return {
       isLoggedIn: true,
       resetPassword: validTempPw,

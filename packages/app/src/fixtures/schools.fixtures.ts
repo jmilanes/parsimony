@@ -1,5 +1,3 @@
-import { IOption } from "../view/components";
-import { TrialChainingDirections } from "@parsimony/types/dist";
 import * as process from "process";
 
 const productionSchools = [
@@ -14,8 +12,15 @@ const localSchools = [
   "NOT A SCHOOL"
 ];
 
-const schools =
-  process.env.NODE_ENV === "development" ? localSchools : productionSchools;
+const mockSchools = ["mockSchool"];
+
+let schools = productionSchools;
+// TODO: Lets add a simple endpoint that gets us this list
+if (process.env.NODE_ENV === "development") {
+  schools = localSchools;
+} else if (process.env.NODE_ENV === "test") {
+  schools = mockSchools;
+}
 
 export const schoolOptions = schools.map((x) => ({
   label: x,

@@ -12,7 +12,7 @@ export type IButtonProps = {
   disabled?: boolean;
   type?: "outlined" | "contained" | "text";
   icon?: React.ReactNode;
-  metaTestId: MetaTestIds;
+  metaTestId: string;
   metaTestQualifier?: string;
 };
 
@@ -23,16 +23,9 @@ export const Button = ({
   disabled,
   type = "outlined",
   icon,
-  metaTestId,
-  metaTestQualifier
+  metaTestId
 }: IButtonProps) => {
   if (hidden) return <></>;
-
-  const metaId = `${generateMetaTestId(
-    UIMetaTargetTypes.Button,
-    metaTestId,
-    metaTestQualifier
-  )}`;
 
   if (icon) {
     return (
@@ -40,7 +33,7 @@ export const Button = ({
         onClick={onClick}
         edge="end"
         aria-label={name}
-        data-test-id={metaId}
+        data-testid={metaTestId}
       >
         {icon}
       </IconButton>
@@ -48,7 +41,7 @@ export const Button = ({
   }
   return (
     <MaterialButton
-      data-test-id={metaId}
+      data-testid={metaTestId}
       disabled={disabled}
       className={
         type === "contained" ? "parsimony-btn-contained" : "parsimony-btn"

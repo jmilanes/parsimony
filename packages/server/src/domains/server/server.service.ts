@@ -25,6 +25,7 @@ const ignoredAuthorizationQueries = [
 export type ServerParams = {
   uri: string;
   encryptionMethod: (pw: string) => string;
+  mockAuthContext?: boolean;
 };
 
 @Service()
@@ -37,6 +38,7 @@ export default class ServerService {
   #qs: QueryService;
   #ss: SchoolService;
   #cs: DBConnectionService;
+  #mockAuthContext: boolean;
 
   constructor(
     ss: SchoolService,
@@ -56,7 +58,14 @@ export default class ServerService {
     this.#es = es;
   }
 
-  public start = async ({ uri, encryptionMethod }: ServerParams) => {
+  public start = async ({
+    uri,
+    encryptionMethod,
+    mockAuthContext = false
+  }: ServerParams) => {
+    if (mockAuthContext) {
+      this.#mockAuthContext = true;
+    }
     await this.#cs.init(uri);
     this.#es.setEncryptMethod(encryptionMethod);
     await this.#ss.init();
@@ -85,6 +94,9 @@ export default class ServerService {
   };
 
   #authContext = async ({ req }: { req: any }) => {
+    if (this.#mockAuthContext) {
+      return { currentUser: { schoolId: "mockSchoolId" } };
+    }
     const isIgnoredAuthorizationQuery = ignoredAuthorizationQueries.some(
       (ignoredQuery) => req.body.query.includes(ignoredQuery)
     );

@@ -46,7 +46,7 @@ export const Selector = ({
     <FormControl fullWidth>
       <InputLabel>{title}</InputLabel>
       <MaterialSelect
-        data-test-id={metaId}
+        inputProps={{ "data-testid": metaTestId }}
         label={title}
         value={value || "Please select an option"}
         onChange={({ target: { value } }) => onChange(processValue(value))}
@@ -55,7 +55,7 @@ export const Selector = ({
           <MenuItem
             key={opt.name}
             value={opt.value}
-            data-test-id={`${metaId}-option-${opt.value}`}
+            data-testid={`${metaTestId}-option-${opt.value}`}
           >
             {opt.name}
           </MenuItem>

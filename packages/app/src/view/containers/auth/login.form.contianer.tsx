@@ -21,7 +21,7 @@ export const LoginForm = () => {
       API.system.Form.create<LoginPayload>({
         email: "",
         password: "",
-        schoolId: authService.getSchoolName()
+        schoolId: authService.getSchoolName() || "mockSchool"
       }),
     []
   );
