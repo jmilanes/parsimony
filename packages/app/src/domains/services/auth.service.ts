@@ -36,6 +36,10 @@ export default class AuthService {
     };
   }
 
+  setLoggedIn(isLoggedIn: boolean) {
+    this.isLoggedIn = isLoggedIn;
+  }
+
   public async init() {
     if (
       !this.#getAccessToken() &&

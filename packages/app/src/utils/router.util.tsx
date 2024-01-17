@@ -6,8 +6,7 @@ import {
   useParams,
   Link,
   useNavigate,
-  useSearchParams,
-  HashRouter
+  useSearchParams
 } from "react-router-dom";
 import { Button, Nav } from "../view/components";
 import { uuid } from ".";
@@ -27,7 +26,7 @@ export const generateApp = (routes: IRoute[]) => {
   const authService = API.system.Auth;
 
   return (
-    <HashRouter>
+    <>
       <AppHeader routes={routes} />
       <div className={!authService.isLoggedIn ? "" : "innerContent"}>
         <Routes>
@@ -49,7 +48,7 @@ export const generateApp = (routes: IRoute[]) => {
         <Drawer />
         <DialogContainer />
       </div>
-    </HashRouter>
+    </>
   );
 };
 

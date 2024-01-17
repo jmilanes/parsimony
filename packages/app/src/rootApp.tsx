@@ -8,6 +8,7 @@ import AppController from "./domains/orchestration/app.service";
 import { Spin } from "antd";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { HashRouter } from "react-router-dom";
 
 const AppContent = () => {
   const API = DI.get(UIApi);
@@ -23,7 +24,7 @@ const AppContent = () => {
     });
   }, [updateState]);
 
-  return <div>{generateApp(routes)}</div>;
+  return <HashRouter>{generateApp(routes)}</HashRouter>;
 };
 
 export const App = () => {

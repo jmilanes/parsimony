@@ -1,22 +1,14 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-import { Container } from "typedi";
-import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
-import AppController from "../../../domains/orchestration/app.service";
-import UsersPage from "../users.page";
-import { MemoryRouter } from "react-router-dom";
+
 import userEvent from "@testing-library/user-event";
-import { DirectoryPageMetaTestIds } from "@parsimony/types/dist/enums/metaTestIds.enums";
+import { DirectoryPageMetaTestIds } from "@parsimony/types";
+import { makeTestApp } from "../../../testUtils/makeTestApp";
 
 test("Renders Parsimony Directory", async () => {
-  const API = Container.get(UIApi);
-  const appC = new AppController(API);
-  await appC.init();
-  render(
-    <MemoryRouter initialEntries={["/users"]}>
-      <UsersPage />
-    </MemoryRouter>
-  );
+  const { app } = await makeTestApp({ initialRoute: "/directory" });
+
+  render(app);
   await waitFor(async () => {
     const rowOneFirstName = screen.getByTestId(
       "directory-table-row-0-col-firstName"
