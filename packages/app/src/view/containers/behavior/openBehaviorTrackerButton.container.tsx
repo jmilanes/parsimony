@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button, Icon } from "../../components";
-import { ProgramsPageMetaTestIds } from "@parsimony/types";
+import { NavMetaTestIds } from "@parsimony/types";
 import { Container } from "typedi";
 import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 import { DrawerContentTypes } from "../../../domains/state/appState/appState.types";
@@ -20,7 +20,7 @@ export const OpenBehaviorButton = () => {
       name="Track Behavior"
       onClick={openBulkPrograms}
       icon={<Icon.BehaviorTracker />}
-      metaTestId={ProgramsPageMetaTestIds.addProgramToClient}
+      metaTestId={NavMetaTestIds.openBehhaviorSideBar}
     />
   );
 };

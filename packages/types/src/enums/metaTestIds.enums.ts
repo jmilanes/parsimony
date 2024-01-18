@@ -11,6 +11,7 @@ export enum NavMetaTestIds {
   logoutBtn = "logout-nav-button",
   programBtn = "program-nav-button",
   booksBtn = "book-nav-button",
+  openBehhaviorSideBar = "open-behavior-side-bar",
   directoryBtn = "directory-nav-button",
   schoolBtn = "school-nav-button",
   chatBtn = "chat-nav-button",

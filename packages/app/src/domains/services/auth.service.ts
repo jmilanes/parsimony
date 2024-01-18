@@ -19,10 +19,12 @@ import { message } from "antd";
 
 @Service()
 export default class AuthService {
+  //TODO All be move to App State Service
   #ass: AppStateService;
   // #na: NotificationsActions;
   #currentUser: User;
   isLoggedIn: boolean;
+  schoolName: string;
   schoolCached: boolean;
 
   constructor(ass: AppStateService) {
@@ -38,6 +40,14 @@ export default class AuthService {
 
   setLoggedIn(isLoggedIn: boolean) {
     this.isLoggedIn = isLoggedIn;
+  }
+
+  setSchool(name: string) {
+    this.schoolName = name;
+  }
+
+  setCurrentUser(user: User) {
+    this.#currentUser = user;
   }
 
   public async init() {
@@ -157,7 +167,7 @@ export default class AuthService {
   }
 
   public getSchoolName() {
-    return this.#getPersistentData("schoolName");
+    return this.#getPersistentData("schoolName") || this.schoolName;
   }
 
   #getRefreshToken() {

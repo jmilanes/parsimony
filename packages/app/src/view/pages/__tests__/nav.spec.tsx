@@ -4,6 +4,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
   AuthPageMetaTestIds,
+  BehaviorMetaTestIds,
   BookPageMetaTestIds,
   DirectoryPageMetaTestIds,
   NavMetaTestIds
@@ -74,6 +75,17 @@ describe("Parsimony Navigation Tests", () => {
       );
       expect(booksAddButton).not.toBeInTheDocument();
       expect(directoryAddBtn).toBeVisible();
+    });
+  });
+
+  test("Should Open behaviors sidebar", async () => {
+    const { app } = await makeTestApp();
+    render(app);
+    const navBtn = screen.getByTestId(NavMetaTestIds.openBehhaviorSideBar);
+    await userEvent.click(navBtn);
+    await waitFor(async () => {
+      const addButton = screen.getByTestId(BehaviorMetaTestIds.addClient);
+      expect(addButton).toBeVisible();
     });
   });
 });

@@ -13,6 +13,8 @@ import { AppDataGateway } from "../app/app.data.gateway";
 import { DBConnectionService } from "../database/dbConnecitonService.service";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import EncryptionService from "../database/encryption.service";
+import { UserRoles } from "@parsimony/types/dist";
+import { MOCK_USER } from "../../testUtils/makeMockServer";
 
 const ignoredAuthorizationQueries = [
   "me(",
@@ -95,7 +97,9 @@ export default class ServerService {
 
   #authContext = async ({ req }: { req: any }) => {
     if (this.#mockAuthContext) {
-      return { currentUser: { schoolId: "mockSchoolId" } };
+      //TODO: Figure out how make driven from FE
+      // Would be good to test different roles
+      return { currentUser: MOCK_USER };
     }
     const isIgnoredAuthorizationQuery = ignoredAuthorizationQueries.some(
       (ignoredQuery) => req.body.query.includes(ignoredQuery)

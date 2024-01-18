@@ -3,6 +3,7 @@ import { BehaviorSubject } from "rxjs";
 import { arrayToObj } from "../../utils";
 import Store from "../state/store/store";
 import { Service } from "typedi";
+import * as process from "process";
 
 type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
   id?: string | undefined;
@@ -48,8 +49,12 @@ export class IRequestHandler<
   };
 
   delete = async (payload: DeleteThreadPayload) => {
-    // TODO: Make a better version of this
-    if (window.confirm(`Are you sure you want to Delete this Item?`)) {
+    // TODO: Make a better version of this this should be something built not
+    // Relying on window so we can have a better ux and easier to tests.
+    if (
+      process.env.NODE_ENV === "test" ||
+      window.confirm(`Are you sure you want to Delete this Item?`)
+    ) {
       const id = await this.requests.delete(payload);
       this.#store.deleteItemByDomain(this.domainName, id);
       return id;

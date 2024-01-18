@@ -6,6 +6,31 @@ import { AppDataGateway } from "../domains/app/app.data.gateway";
 import { modelTypes } from "../domains/app/models";
 import { generateUserPayload } from "./creators.test.utils";
 import { DataBaseService } from "../domains/database";
+import { UserRoles } from "@parsimony/types/dist";
+
+export const MOCK_USER = {
+  id: "11111",
+  schoolId: "mockSchoolId",
+  timeZone: "",
+  roles: [UserRoles.Director],
+  // TODO: Reduce this to one thing
+  type: UserRoles.Director,
+  documents: [],
+  password: "hello",
+  email: "test@test.com",
+  firstName: "Test",
+  lastName: `User ${0}`,
+  dateOfBirth: new Date(),
+  phone: "1111111111",
+  contacts: [],
+  actionItems: [],
+  programs: [],
+  clients: [],
+  threadDisplayNameName: "Test User",
+  avatar: "",
+  color: "red",
+  serviceProvider: ""
+};
 
 const initialMockCollections = {
   users: {

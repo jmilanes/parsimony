@@ -131,7 +131,7 @@ export default class Store {
 
   public getItemByDomain = <T>(domainName: Domains, id?: IId) => {
     if (!id) {
-      throw new Error("No id Proved getDomainIntem");
+      throw new Error("No id Proved getItemByDomain");
     }
     return this.store$[domainName].value[id];
   };
