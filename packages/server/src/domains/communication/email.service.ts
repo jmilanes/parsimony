@@ -3,13 +3,9 @@ import { TempPasswordEmail } from "./emails/email.tempPassword";
 require("dotenv").config();
 import { Service } from "typedi";
 import nodemailer, { Transporter, SendMailOptions } from "nodemailer";
-import {
-  Email,
-  EMAIL_TEMPLATES,
-  emailInstances,
-  EmailOptions
-} from "./emails/emails";
+import { Email, EMAIL_TEMPLATES, EmailOptions } from "./emails/emails";
 import { CreatedUserEmail } from "./emails/email.createUser";
+import { envIs } from "@parsimony/utilities";
 
 /**
  * The `EmailService` class is a service that allows sending emails using the
@@ -43,6 +39,9 @@ export class EmailService {
   }
 
   #send(options: SendMailOptions) {
+    if (envIs("test")) {
+      return;
+    }
     this.#transporter.sendMail(
       { from: this.#senderEmail, ...options },
       (error, _info) => {

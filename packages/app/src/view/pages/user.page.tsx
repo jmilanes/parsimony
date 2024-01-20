@@ -200,7 +200,9 @@ const User = () => {
         title="Type"
         options={userRoleOptionsWithStringValues}
         value={form.Data.type}
-        onChange={(value) => form.updateData({ type: value as UserRoles })}
+        onChange={(value) => {
+          form.updateData({ type: value as UserRoles });
+        }}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.typeSelector}
       />

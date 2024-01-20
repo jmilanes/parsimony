@@ -38,7 +38,7 @@ export const MultiSelect = ({
       <FormControl fullWidth>
         <InputLabel>{title}</InputLabel>
         <MaterialSelect
-          data-testid={metaTestId}
+          inputProps={{ "data-testid": metaTestId }}
           label={title}
           multiple
           value={values}

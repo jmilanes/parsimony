@@ -5,12 +5,44 @@ import userEvent from "@testing-library/user-event";
 import {
   AddModalControls,
   DirectoryPageMetaTestIds,
-  UserPageMetaTestIds
+  UserRoles
 } from "@parsimony/types";
 import { makeTestApp } from "../../../testUtils/makeTestApp";
 import { getTableAction, getTableData } from "../../../testUtils/selectors";
+import { createUserPayload } from "../../../testUtils/dataCreation";
+import { Container } from "typedi";
+import MockDBService from "../../../testUtils/mockDBService";
+
+const setupData = {
+  user: [
+    createUserPayload({
+      firstName: "Tom",
+      lastName: "Smith",
+      email: "ts@g.com",
+      roles: [UserRoles.Director],
+      type: UserRoles.Director
+    }),
+    createUserPayload({
+      firstName: "John",
+      lastName: "Smith",
+      email: "js@g.com",
+      roles: [UserRoles.Director],
+      type: UserRoles.Director
+    })
+  ]
+};
 
 describe("Directory Page Tests", () => {
+  const mockDbService = Container.get(MockDBService);
+  beforeEach(async () => {
+    await mockDbService.cleanUp();
+    await mockDbService.setUpData(setupData);
+  });
+
+  afterEach(async () => {
+    await mockDbService.cleanUp();
+  });
+
   test("Renders Parsimony Directory", async () => {
     const { app } = await makeTestApp({ initialRoute: "/directory" });
     render(app);

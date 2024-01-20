@@ -73,6 +73,10 @@ export default class CoreApi {
     return this.#fs;
   }
 
+  public get Requests() {
+    return this.#rs;
+  }
+
   public setUpDataFor = async <K extends DATA_HANDLERS>(
     dh: DATA_HANDLERS,
     opts: OrchestrationHandlerOptionsTypeMap[K]

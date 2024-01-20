@@ -3,9 +3,7 @@ import { Container } from "typedi";
 import ServerService from "../domains/server/server.service";
 import { SchoolService } from "../domains/school/school.service";
 import { AppDataGateway } from "../domains/app/app.data.gateway";
-import { modelTypes } from "../domains/app/models";
-import { generateUserPayload } from "./creators.test.utils";
-import { DataBaseService } from "../domains/database";
+
 import { UserRoles } from "@parsimony/types/dist";
 
 export const MOCK_USER = {
@@ -30,35 +28,6 @@ export const MOCK_USER = {
   avatar: "",
   color: "red",
   serviceProvider: ""
-};
-
-const initialMockCollections = {
-  users: {
-    model: modelTypes.user,
-    data: [
-      generateUserPayload({
-        firstName: "Tom",
-        lastName: "Smith",
-        email: "ts@g.com",
-        password: "12345"
-      }),
-      generateUserPayload({
-        firstName: "John",
-        lastName: "Smith",
-        email: "js@g.com",
-        password: "12345"
-      })
-    ]
-  }
-};
-
-const generateMockData = async (db: DataBaseService<modelTypes>) => {
-  const mockCollections = Object.values(initialMockCollections) || [];
-  for (const mockCollection of mockCollections) {
-    for (const d of mockCollection.data) {
-      await db.createEntry(mockCollection.model, d);
-    }
-  }
 };
 
 export const makeMockServer = async () => {
@@ -86,6 +55,4 @@ export const makeMockServer = async () => {
   };
 
   await adg.init();
-  const mockDB = adg.dbBySchoolId("mockSchoolId");
-  await generateMockData(mockDB);
 };

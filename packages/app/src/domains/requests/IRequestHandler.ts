@@ -13,7 +13,7 @@ type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
 export class IRequestHandler<
   Schema,
   CreatePayload,
-  DeleteThreadPayload,
+  DeletePayload,
   UpdatePayload,
   GetPayload,
   GetAllByRelationshipPayload
@@ -24,7 +24,7 @@ export class IRequestHandler<
   requests: ICrudRequests<
     Schema,
     CreatePayload,
-    DeleteThreadPayload,
+    DeletePayload,
     UpdatePayload,
     GetPayload,
     GetAllByRelationshipPayload
@@ -48,7 +48,7 @@ export class IRequestHandler<
     return item;
   };
 
-  delete = async (payload: DeleteThreadPayload) => {
+  delete = async (payload: DeletePayload) => {
     // TODO: Make a better version of this this should be something built not
     // Relying on window so we can have a better ux and easier to tests.
     if (
