@@ -1,4 +1,5 @@
 import { Service } from "typedi";
+import { envIs } from "@parsimony/utilities/dist";
 
 const WS = require("ws");
 
@@ -9,10 +10,11 @@ export class BroadcastService {
 
   constructor() {
     this.webSocket = {};
-    this.webSocketServer = new WS.Server({ port: 8080 });
   }
 
-  public init = (isServer?: boolean) => {
+  // TODO: See if still need is Server
+  public init = (isServer?: boolean, port: number = 8080) => {
+    this.webSocketServer = new WS.Server({ port });
     this.webSocketServer.on("connection", (socket: any) => {
       console.log(`${new Date()} Connection accepted.`);
       socket.on("message", (payload: string) =>
@@ -22,7 +24,7 @@ export class BroadcastService {
     });
     this.webSocket = isServer
       ? new WS(`wss://broadcast.parsimony.app`)
-      : new WS(`ws://localhost:8080`);
+      : new WS(`ws://localhost:${port}`);
   };
 
   private _broadcastPayloadToClients = (clients: any[], payload: any) =>

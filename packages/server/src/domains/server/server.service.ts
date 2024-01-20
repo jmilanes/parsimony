@@ -7,14 +7,15 @@ import { Service } from "typedi";
 
 const { ApolloServer } = require("apollo-server");
 
-import { BroadcastService, models } from "../database";
+import { BroadcastService } from "../database";
 import TokensService from "../database/token.service";
 import { AppDataGateway } from "../app/app.data.gateway";
 import { DBConnectionService } from "../database/dbConnecitonService.service";
-import { MongoMemoryServer } from "mongodb-memory-server";
+
 import EncryptionService from "../database/encryption.service";
-import { UserRoles } from "@parsimony/types/dist";
+
 import { MOCK_USER } from "../../testUtils/makeMockServer";
+import { envIs } from "@parsimony/utilities/dist";
 
 const ignoredAuthorizationQueries = [
   "me(",
@@ -28,6 +29,8 @@ export type ServerParams = {
   uri: string;
   encryptionMethod: (pw: string) => string;
   mockAuthContext?: boolean;
+  port?: number;
+  broadCastPort?: number;
 };
 
 @Service()
@@ -63,7 +66,9 @@ export default class ServerService {
   public start = async ({
     uri,
     encryptionMethod,
-    mockAuthContext = false
+    mockAuthContext = false,
+    port,
+    broadCastPort
   }: ServerParams) => {
     if (mockAuthContext) {
       this.#mockAuthContext = true;
@@ -72,17 +77,17 @@ export default class ServerService {
     this.#es.setEncryptMethod(encryptionMethod);
     await this.#ss.init();
     await this.#adg.init();
-    this.#bs.init();
+    this.#bs.init(envIs("prod"), broadCastPort);
     await this.#createServer();
-    await this.#listen();
+    await this.#listen(port);
   };
 
   public close = async () => {
     await this.server.stop();
   };
 
-  #listen = async () => {
-    await this.server.listen();
+  #listen = async (port: number = 4000) => {
+    await this.server.listen(port);
   };
 
   #createServer = async () => {

@@ -1,10 +1,19 @@
 import { IObject } from "@parsimony/types";
 import { envIs } from "@parsimony/utilities";
 
-const LOCAL_URL = "http://localhost:4000";
+const DEV_URL = "http://localhost:4000";
+const TEST_URL = "http://localhost:4444";
 const PRODUCTION_URL = "https://api.parsimony.app/";
 
-const SERVER_URL = envIs("prod") ? PRODUCTION_URL : LOCAL_URL;
+const getServerUrl = () => {
+  if (envIs("prod")) {
+    return PRODUCTION_URL;
+  }
+  if (envIs("test")) {
+    return TEST_URL;
+  }
+  return DEV_URL;
+};
 
 export const createBody = (query: string, variables?: IObject) => {
   const body = {
@@ -33,7 +42,7 @@ export const createRequestOptions = <P>(mutation: string, payload?: P) => {
 export const createRequest = <P, R>(mutation: string) => {
   return async (payload?: P): Promise<R> => {
     const response = await fetch(
-      SERVER_URL,
+      getServerUrl(),
       createRequestOptions<P>(mutation, payload)
     );
 

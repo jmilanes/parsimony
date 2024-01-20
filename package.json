@@ -13,7 +13,7 @@
     "start:server": "cd packages/server/ && yarn start",
     "start:server:test": "cd packages/server/ && yarn start:test",
     "test": "concurrently \"yarn start:server:test\" \"yarn test:app\"",
-    "test:app": "cd packages/app/ && yarn jest --onComplete=\"kill -2 $(pgrep -f 'start:test') || true\" --runInBand --silent",
+    "test:app": "cd packages/app/ && yarn jest --runInBand --silent",
     "start:app": "cd packages/app/ && yarn start",
     "build:types": "cd packages/server/ && yarn build:types",
     "start": "concurrently \"yarn start:server\" \"yarn start:app\"",
