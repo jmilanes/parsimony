@@ -13,10 +13,11 @@ export type IOption = { name: string; value: string | number };
 export type ISelectorProps = {
   title: string;
   options: IOption[];
-  onChange: (value: string | number) => void;
+  onChange: (value: string | number | string[]) => void;
   readOnly?: boolean;
-  value?: Maybe<string | number>;
+  value?: Maybe<string | number> | string[];
   isNumber?: boolean;
+  multiple?: boolean;
   key?: string;
   metaTestId: string;
 };
@@ -27,23 +28,24 @@ export const Selector = ({
   value,
   readOnly,
   title,
+  multiple,
   key,
   isNumber,
   metaTestId
 }: ISelectorProps) => {
-  const processValue = (value: string | number) =>
+  const processValue = (value: string | number | string[]) =>
     isNumber && typeof value === "string" ? parseInt(value) : value;
 
   const Options = () => (
     <FormControl fullWidth>
       <InputLabel>{title}</InputLabel>
       <MaterialSelect
-        inputProps={{ "data-testid": `${metaTestId}-input` }}
+        inputProps={{ "data-testid": metaTestId }}
         label={title}
         value={value || "Please select an option"}
-        data-testid={metaTestId}
-        onChange={({ target: { value } }) => {
-          onChange(processValue(value));
+        multiple={multiple}
+        onChange={({ target: { value: v } }) => {
+          onChange(processValue(v));
         }}
       >
         {options.map((opt) => (
@@ -66,7 +68,11 @@ export const Selector = ({
       margin={readOnly ? 0 : CONTAINER_INPUT_MARGIN}
     >
       {readOnly ? (
-        <ReadOnly metaTestId={metaTestId} value={value} title={title} />
+        <ReadOnly
+          metaTestId={metaTestId}
+          value={typeof value === "object" ? value?.join(", ") : value}
+          title={title}
+        />
       ) : (
         <Options />
       )}

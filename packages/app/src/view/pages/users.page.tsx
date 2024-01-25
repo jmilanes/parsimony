@@ -1,13 +1,6 @@
 import React, { useMemo } from "react";
 
-import {
-  Button,
-  Field,
-  Header,
-  MultiSelect,
-  Selector,
-  Table
-} from "../components";
+import { Button, Field, Header, Selector, Table } from "../components";
 import { navigateToRoute } from "../../utils";
 import {
   Domains,
@@ -155,12 +148,13 @@ const Users = () => {
           onChange={(value) => form.updateData({ type: value as string })}
           metaTestId={DirectoryPageMetaTestIds.typeSelector}
         />
-        <MultiSelect
+        <Selector
           title="Roles"
           options={userRoleOptions}
-          values={form.Data.roles as string[]}
+          multiple={true}
+          value={form.Data.roles as UserRoles[]}
           onChange={(value) => {
-            form.updateData({ roles: value });
+            form.updateData({ roles: value as UserRoles[] });
           }}
           metaTestId={DirectoryPageMetaTestIds.roleMultiSelector}
         />

@@ -1,5 +1,3 @@
-import { IOptionMultiSelect } from "../view/components/multiSelect.component";
-
 import {
   BehaviorType,
   InputTypes,
@@ -190,7 +188,7 @@ export const trialOptions: IOption[] = [
   { name: "10", value: 10 }
 ];
 
-export const userRoleOptions: IOptionMultiSelect[] = [
+export const userRoleOptions: IOption[] = [
   { name: UserRoles.Admin, value: UserRoles.Admin },
   { name: UserRoles.Client, value: UserRoles.Client },
   { name: UserRoles.Director, value: UserRoles.Director },

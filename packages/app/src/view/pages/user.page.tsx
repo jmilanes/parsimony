@@ -5,7 +5,7 @@ import {
   userRoleOptionsWithStringValues
 } from "../../fixtures";
 
-import { Button, Field, Header, MultiSelect, Selector } from "../components";
+import { Button, Field, Header, Selector } from "../components";
 
 import {
   Collection,
@@ -18,7 +18,6 @@ import {
 } from "@parsimony/types";
 
 import {
-  clone,
   getFullName,
   getRouterParams,
   isEditMode,
@@ -43,7 +42,7 @@ const User = () => {
   const [selectedCollection, updateSelectedCollection] =
     React.useState<string>();
 
-  const { loading } = useAsync(async () => {
+  const { loading, value: form } = useAsync(async () => {
     // Feels like this should move to orcestration
     // This is why you would want a better accessor pattern
     /// API.actions.collection.fetchByClientId
@@ -72,17 +71,15 @@ const User = () => {
       requestType: "get",
       payload: { id: userId }
     });
+
+    const user = API.system.getItem(Domains.User, userId);
+    //Need to destroy on use effect
+    return API.system.Form.create<User>(user);
   });
 
-  const form = useMemo(() => {
-    if (!loading) {
-      const user = API.system.getItem(Domains.User, userId);
-      //Need to destroy on use effect
-      return API.system.Form.create<User>(user);
-    }
-  }, [loading]);
-
-  if (!form) return <Spin />;
+  if (!form || loading) {
+    return <Spin />;
+  }
 
   const user = API.system.getItem(Domains.User, userId);
 
@@ -206,11 +203,14 @@ const User = () => {
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.typeSelector}
       />
-      <MultiSelect
+      <Selector
         title="Role"
         options={userRoleOptions}
-        values={form.Data.roles as string[]}
-        onChange={(value) => form.updateData({ roles: value })}
+        multiple={true}
+        value={form.Data.roles}
+        onChange={(value) => {
+          form.updateData({ roles: value as UserRoles[] });
+        }}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={UserPageMetaTestIds.roleMultiSelector}
       />

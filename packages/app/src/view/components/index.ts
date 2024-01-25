@@ -6,7 +6,6 @@ export * from "./container.component";
 export * from "./selector.component";
 export * from "./repeater.component";
 export * from "./checkbox.component";
-export * from "./multiSelect.component";
 export * from "./header.component";
 export * from "./content.component";
 export * from "./col.component";
