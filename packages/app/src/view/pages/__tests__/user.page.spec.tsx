@@ -2,10 +2,14 @@ import React from "react";
 import { Container } from "typedi";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { UserPageMetaTestIds, UserRoles } from "@parsimony/types";
+import {
+  DirectoryPageMetaTestIds,
+  UserPageMetaTestIds,
+  UserRoles
+} from "@parsimony/types";
 import { makeTestApp } from "../../../testUtils/makeTestApp";
 import { getTableAction } from "../../../testUtils/selectors";
-import MockDBService from "../../../testUtils/mockDBService";
+import { MockDBService } from "../../../testUtils/mockDBService";
 
 import {
   checkReadOnlySelectorValue,
@@ -14,7 +18,7 @@ import {
   clickTarget,
   selectOption
 } from "../../../testUtils/actions.spec";
-import { initialUserPageTestData } from "./fixtures/userPage.fixtures";
+import { initialUserPageTestData } from "./fixtures/user.page.fixtures";
 
 describe("User Page Tests", () => {
   const mockDbService = Container.get(MockDBService);
@@ -30,7 +34,13 @@ describe("User Page Tests", () => {
   test("Should go to user page", async () => {
     const { app } = await makeTestApp({ initialRoute: "/directory" });
     render(app);
-    await clickTarget(getTableAction(0, "view"));
+    await clickTarget(
+      getTableAction({
+        tableName: DirectoryPageMetaTestIds.table,
+        rowIndex: 0,
+        action: "view"
+      })
+    );
 
     await waitFor(async () => {
       await checkReadOnlySelectorValue(
@@ -56,7 +66,13 @@ describe("User Page Tests", () => {
   test("Should edit user Director view", async () => {
     const { app } = await makeTestApp({ initialRoute: "/directory" });
     render(app);
-    await clickTarget(getTableAction(0, "view"));
+    await clickTarget(
+      getTableAction({
+        tableName: DirectoryPageMetaTestIds.table,
+        rowIndex: 0,
+        action: "view"
+      })
+    );
 
     await waitFor(async () => {
       // Make Edits
@@ -125,7 +141,13 @@ describe("User Page Tests", () => {
   test("Should work with selects", async () => {
     const { app } = await makeTestApp({ initialRoute: "/directory" });
     render(app);
-    await clickTarget(getTableAction(0, "view"));
+    await clickTarget(
+      getTableAction({
+        tableName: DirectoryPageMetaTestIds.table,
+        rowIndex: 0,
+        action: "view"
+      })
+    );
 
     await waitFor(async () => {
       // Make Edits

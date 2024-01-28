@@ -46,7 +46,6 @@ export type ISelectable<Data> = {
 
 const TableRow = <Data extends { id: string }>({
   source,
-  tableName,
   metaTestId,
   columns,
   actions,
@@ -77,7 +76,7 @@ const TableRow = <Data extends { id: string }>({
       {columns.map((col) => {
         return (
           <td
-            key={`${tableName}-row-${source.id}-col-${col.key}`}
+            key={`${metaTestId}-row-${source.id}-col-${col.key}`}
             data-testid={`${metaTestId}-row-${index}-col-${col.key}`}
           >
             {source[col.key]}
@@ -91,7 +90,7 @@ const TableRow = <Data extends { id: string }>({
               name={action.name}
               key={generateKey(`table-action-${action.name}`, source.id)}
               onClick={() => action.method(source)}
-              metaTestId={`row-${index}-col-${action.name
+              metaTestId={`${metaTestId}-row-${index}-col-${action.name
                 .toLowerCase()
                 .replaceAll(" ", "")}-table-action`}
             />

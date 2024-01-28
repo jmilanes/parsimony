@@ -105,7 +105,7 @@ const Users = () => {
         data={users}
         columns={columns}
         actions={actions}
-        name="Directory"
+        name="directory"
         metaTestId={DirectoryPageMetaTestIds.table}
       />
       <AddForm

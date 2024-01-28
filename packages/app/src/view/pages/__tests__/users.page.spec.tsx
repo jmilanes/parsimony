@@ -6,8 +6,8 @@ import { makeTestApp } from "../../../testUtils/makeTestApp";
 import { getTableAction, getTableData } from "../../../testUtils/selectors";
 
 import { Container } from "typedi";
-import MockDBService from "../../../testUtils/mockDBService";
-import { initialUsersPageData } from "./fixtures/usersPage.fixtures";
+import { MockDBService } from "../../../testUtils/mockDBService";
+import { initialUsersPageData } from "./fixtures/users.page.fixtures";
 import {
   checkNotInDocument,
   checkSelectorTextContent,
@@ -32,8 +32,20 @@ describe("Directory Page Tests", () => {
     const { app } = await makeTestApp({ initialRoute: "/directory" });
     render(app);
     await waitFor(async () => {
-      await checkVisibility(getTableData("directory", 0, "firstName"));
-      await checkVisibility(getTableData("directory", 1, "firstName"));
+      await checkVisibility(
+        getTableData({
+          tableName: DirectoryPageMetaTestIds.table,
+          rowIndex: 0,
+          colName: "firstName"
+        })
+      );
+      await checkVisibility(
+        getTableData({
+          tableName: DirectoryPageMetaTestIds.table,
+          rowIndex: 1,
+          colName: "firstName"
+        })
+      );
       await clickTarget(DirectoryPageMetaTestIds.addUserBtn);
       await checkVisibility(DirectoryPageMetaTestIds.firstNameField);
     });
@@ -43,9 +55,27 @@ describe("Directory Page Tests", () => {
     const { app } = await makeTestApp({ initialRoute: "/directory" });
     render(app);
 
-    await checkVisibility(getTableData("directory", 0, "firstName"));
-    await checkVisibility(getTableData("directory", 1, "firstName"));
-    await checkNotInDocument(getTableData("directory", 2, "firstName"));
+    await checkVisibility(
+      getTableData({
+        tableName: DirectoryPageMetaTestIds.table,
+        rowIndex: 0,
+        colName: "firstName"
+      })
+    );
+    await checkVisibility(
+      getTableData({
+        tableName: DirectoryPageMetaTestIds.table,
+        rowIndex: 1,
+        colName: "firstName"
+      })
+    );
+    await checkNotInDocument(
+      getTableData({
+        tableName: DirectoryPageMetaTestIds.table,
+        rowIndex: 2,
+        colName: "firstName"
+      })
+    );
 
     // Open Add User Modal
     await clickTarget(DirectoryPageMetaTestIds.addUserBtn);
@@ -76,16 +106,32 @@ describe("Directory Page Tests", () => {
     await clickTarget(AddModalControls.createBtn);
     // Check if added
     await waitFor(async () => {
-      const thirdRowSelector = getTableData("directory", 2, "firstName");
+      const thirdRowSelector = getTableData({
+        tableName: DirectoryPageMetaTestIds.table,
+        rowIndex: 2,
+        colName: "firstName"
+      });
       await checkVisibility(thirdRowSelector);
       await checkSelectorTextContent(thirdRowSelector, "Jimmy");
     });
 
-    await clickTarget(getTableAction(2, "delete"));
+    await clickTarget(
+      getTableAction({
+        tableName: DirectoryPageMetaTestIds.table,
+        rowIndex: 2,
+        action: "delete"
+      })
+    );
 
     //Check if delete
     await waitFor(async () => {
-      await checkNotInDocument(getTableData("directory", 2, "firstName"));
+      await checkNotInDocument(
+        getTableData({
+          tableName: DirectoryPageMetaTestIds.table,
+          rowIndex: 2,
+          colName: "firstName"
+        })
+      );
     });
   });
 });

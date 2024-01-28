@@ -1,4 +1,12 @@
-import { User, UserRoles } from "@parsimony/types";
+import {
+  Collection,
+  CollectionCategories,
+  CollectionTypes,
+  Program,
+  User,
+  UserRoles
+} from "@parsimony/types";
+import { ObjectId } from "mongodb";
 
 export const createUserPayload = (
   user?: Partial<Omit<User, "id">>
@@ -25,3 +33,15 @@ export const createUserPayload = (
     ...user
   };
 };
+
+export const creatCollectionPayload = (colelction?: Partial<Collection>) => {
+  return {
+    title: "Test1",
+    ancestors: [],
+    type: CollectionTypes.Main,
+    category: CollectionCategories.Book,
+    ...colelction
+  };
+};
+
+export const creatProgramPayload = (program?: Partial<Program>) => {};

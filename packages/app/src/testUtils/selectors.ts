@@ -1,7 +1,21 @@
-export const getReadOnlySelector = (seletor: string) => `${seletor}-read-only`;
+export const getReadOnlySelector = (target: string) => `${target}-read-only`;
 
-export const getTableAction = (rowIndex: number, action: string) =>
-  `row-${rowIndex}-col-${action}-table-action`;
+export const getTableAction = ({
+  tableName,
+  action,
+  rowIndex
+}: {
+  tableName: string;
+  rowIndex: number;
+  action: string;
+}) => `${tableName}-row-${rowIndex}-col-${action}-table-action`;
 
-export const getTableData = (table: string, rowIndex: number, col: string) =>
-  `${table}-table-row-${rowIndex}-col-${col}`;
+export const getTableData = ({
+  tableName,
+  rowIndex,
+  colName
+}: {
+  tableName: string;
+  rowIndex: number;
+  colName: string;
+}) => `${tableName}-row-${rowIndex}-col-${colName}`;
