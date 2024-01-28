@@ -37,7 +37,7 @@ export const Selector = ({
     isNumber && typeof value === "string" ? parseInt(value) : value;
 
   const Options = () => (
-    <FormControl fullWidth>
+    <FormControl fullWidth data-testid={`${metaTestId}-select-wrapper`}>
       <InputLabel>{title}</InputLabel>
       <MaterialSelect
         inputProps={{ "data-testid": metaTestId }}

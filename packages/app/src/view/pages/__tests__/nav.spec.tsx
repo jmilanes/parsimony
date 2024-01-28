@@ -1,7 +1,6 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 
-import userEvent from "@testing-library/user-event";
 import {
   AuthPageMetaTestIds,
   BehaviorMetaTestIds,
@@ -10,22 +9,20 @@ import {
   NavMetaTestIds
 } from "@parsimony/types";
 import { makeTestApp } from "../../../testUtils/makeTestApp";
+import {
+  checkNotInDocument,
+  checkVisibility,
+  clickTarget
+} from "../../../testUtils/actions.spec";
 
 describe("Parsimony Navigation Tests", () => {
   test("Should be on login screen if not logged in", async () => {
     const { app } = await makeTestApp({ manualLogin: true });
     render(app);
     await waitFor(async () => {
-      const schoolSelector = screen.getByTestId(
-        AuthPageMetaTestIds.schoolField
-      );
-      const emailField = screen.getByTestId(AuthPageMetaTestIds.emailField);
-      const passwordField = screen.getByTestId(
-        AuthPageMetaTestIds.passwordField
-      );
-      expect(schoolSelector).toBeVisible();
-      expect(emailField).toBeVisible();
-      expect(passwordField).toBeVisible();
+      await checkVisibility(AuthPageMetaTestIds.schoolField);
+      await checkVisibility(AuthPageMetaTestIds.emailField);
+      await checkVisibility(AuthPageMetaTestIds.passwordField);
     });
   });
 
@@ -33,10 +30,8 @@ describe("Parsimony Navigation Tests", () => {
     const { app } = await makeTestApp();
     render(app);
     await waitFor(async () => {
-      const navBtn = screen.getByTestId(NavMetaTestIds.directoryBtn);
-      await userEvent.click(navBtn);
-      const addButton = screen.getByTestId(DirectoryPageMetaTestIds.addUserBtn);
-      expect(addButton).toBeVisible();
+      await clickTarget(NavMetaTestIds.directoryBtn);
+      await checkVisibility(DirectoryPageMetaTestIds.addUserBtn);
     });
   });
 
@@ -44,10 +39,8 @@ describe("Parsimony Navigation Tests", () => {
     const { app } = await makeTestApp();
     render(app);
     await waitFor(async () => {
-      const navBtn = screen.getByTestId(NavMetaTestIds.booksBtn);
-      await userEvent.click(navBtn);
-      const addButton = screen.getByTestId(BookPageMetaTestIds.addBtn);
-      expect(addButton).toBeVisible();
+      await clickTarget(NavMetaTestIds.booksBtn);
+      await checkVisibility(BookPageMetaTestIds.addBtn);
     });
   });
 
@@ -55,37 +48,25 @@ describe("Parsimony Navigation Tests", () => {
     const { app } = await makeTestApp();
     render(app);
 
-    const booksNavBtn = screen.getByTestId(NavMetaTestIds.booksBtn);
-    await userEvent.click(booksNavBtn);
+    await clickTarget(NavMetaTestIds.booksBtn);
     await waitFor(async () => {
-      const booksAddButton = screen.getByTestId(BookPageMetaTestIds.addBtn);
-      const directoryAddBtn = screen.queryByTestId(
-        DirectoryPageMetaTestIds.addUserBtn
-      );
-      expect(booksAddButton).toBeVisible();
-      expect(directoryAddBtn).not.toBeInTheDocument();
+      await checkVisibility(BookPageMetaTestIds.addBtn);
+      await checkNotInDocument(DirectoryPageMetaTestIds.addUserBtn);
     });
 
-    const directoryNavBtn = screen.getByTestId(NavMetaTestIds.directoryBtn);
-    await userEvent.click(directoryNavBtn);
+    await clickTarget(NavMetaTestIds.directoryBtn);
     await waitFor(async () => {
-      const booksAddButton = screen.queryByTestId(BookPageMetaTestIds.addBtn);
-      const directoryAddBtn = screen.getByTestId(
-        DirectoryPageMetaTestIds.addUserBtn
-      );
-      expect(booksAddButton).not.toBeInTheDocument();
-      expect(directoryAddBtn).toBeVisible();
+      await checkVisibility(DirectoryPageMetaTestIds.addUserBtn);
+      await checkNotInDocument(BookPageMetaTestIds.addBtn);
     });
   });
 
   test("Should Open behaviors sidebar", async () => {
     const { app } = await makeTestApp();
     render(app);
-    const navBtn = screen.getByTestId(NavMetaTestIds.openBehhaviorSideBar);
-    await userEvent.click(navBtn);
+    await clickTarget(NavMetaTestIds.openBehhaviorSideBar);
     await waitFor(async () => {
-      const addButton = screen.getByTestId(BehaviorMetaTestIds.addClient);
-      expect(addButton).toBeVisible();
+      await checkVisibility(BehaviorMetaTestIds.addClient);
     });
   });
 });
