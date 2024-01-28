@@ -207,10 +207,11 @@ export enum ChatMetaTestIds {
   chatDeleteBtn = "chat-delete-btn"
 }
 
-export enum CollectionSelector {
+export enum CollectionMetaTestIds {
   selector = "collection-selector",
   confirm = "collection-selector-confirm",
-  cancel = "collection-selector-cancel"
+  cancel = "collection-selector-cancel",
+  table = "collections-table"
 }
 
 export enum TestEntryTypes {
@@ -243,7 +244,7 @@ export enum DialogMetaIds {
 
 export enum ResultsMetaTestIds {
   deleteBtn = "results-delete-btn",
-  resultsTable = "results-table"
+  table = "results-table"
 }
 
 export type MetaTestIds =
@@ -265,6 +266,6 @@ export type MetaTestIds =
   | BehaviorTracker
   | DialogMetaIds
   | ResultsMetaTestIds
-  | CollectionSelector
+  | CollectionMetaTestIds
   | BehaviorMetaTestIds
   | ResultPageMetaTestIds;

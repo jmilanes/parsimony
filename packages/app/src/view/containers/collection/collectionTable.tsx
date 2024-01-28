@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 
 import {
   Collection,
+  CollectionMetaTestIds,
   Domains,
   Program,
   ProgramsPageMetaTestIds
@@ -81,8 +82,7 @@ export const CollectionTable = ({
       data={collections}
       columns={columns}
       actions={[...actions, ...sharedActions]}
-      name="Collections"
-      metaTestId={ProgramsPageMetaTestIds.table}
+      metaTestId={CollectionMetaTestIds.table}
       selectable={{ visible: bulkOrder.active, selected, onChange }}
     />
   );

@@ -18,7 +18,7 @@ import {
   clickTarget,
   selectOption
 } from "../../../testUtils/actions.spec";
-import { initialUserPageTestData } from "./fixtures/user.page.fixtures";
+import { initialUserPageTestData } from "../fixtures/user.page.fixtures";
 
 describe("User Page Tests", () => {
   const mockDbService = Container.get(MockDBService);

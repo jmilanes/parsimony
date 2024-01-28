@@ -3,6 +3,7 @@ import { render, waitFor } from "@testing-library/react";
 
 import {
   BookPageMetaTestIds,
+  CollectionMetaTestIds,
   NavMetaTestIds,
   ProgramsPageMetaTestIds
 } from "@parsimony/types";
@@ -10,7 +11,7 @@ import { makeTestApp } from "../../../testUtils/makeTestApp";
 import { checkVisibility, clickTarget } from "../../../testUtils/actions.spec";
 import { Container } from "typedi";
 import { MockDBService } from "../../../testUtils/mockDBService";
-import { initialCollectionPageData } from "./fixtures/collection.page.fixtures";
+import { initialCollectionPageData } from "../fixtures/collection.page.fixtures";
 import { getTableAction } from "../../../testUtils/selectors";
 
 describe("Parsimony Navigation Tests", () => {
@@ -31,7 +32,7 @@ describe("Parsimony Navigation Tests", () => {
       await checkVisibility(BookPageMetaTestIds.addBtn);
       await clickTarget(
         getTableAction({
-          tableName: "Collections",
+          tableName: CollectionMetaTestIds.table,
           rowIndex: 0,
           action: "open"
         })

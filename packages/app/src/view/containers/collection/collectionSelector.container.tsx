@@ -2,7 +2,7 @@ import React from "react";
 import { Autocomplete, Button, Header } from "../../components";
 import {
   Collection,
-  CollectionSelector,
+  CollectionMetaTestIds,
   Domains,
   Program
 } from "@parsimony/types";
@@ -50,7 +50,7 @@ export const CollectionSelectorContainer = ({
       onChange={(opt) => {
         API.actions.collectionRelocation.setActiveCollection(opt?.label);
       }}
-      metaTestId={CollectionSelector.selector}
+      metaTestId={CollectionMetaTestIds.selector}
     />
   );
 };

@@ -7,7 +7,7 @@ import { getTableAction, getTableData } from "../../../testUtils/selectors";
 
 import { Container } from "typedi";
 import { MockDBService } from "../../../testUtils/mockDBService";
-import { initialUsersPageData } from "./fixtures/users.page.fixtures";
+import { initialUsersPageData } from "../fixtures/users.page.fixtures";
 import {
   checkNotInDocument,
   checkSelectorTextContent,

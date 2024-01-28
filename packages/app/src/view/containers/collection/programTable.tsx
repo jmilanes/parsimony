@@ -109,7 +109,6 @@ export const ProgramTable = ({
       data={programs}
       columns={columns}
       actions={[...actions, ...sharedActions]}
-      name="Programs"
       metaTestId={ProgramsPageMetaTestIds.table}
       selectable={{ visible: bulkOrder.active, selected, onChange }}
     />

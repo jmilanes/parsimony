@@ -22,7 +22,6 @@ export type IColumns = {
 export type ITableProps<Data> = {
   data: Data[];
   columns: IColumns[];
-  name: string;
   metaTestId: string;
   actions?: ITableAction[];
   selectable?: ISelectable<Data>;
@@ -30,7 +29,6 @@ export type ITableProps<Data> = {
 
 export type ITableRowProps<Data> = {
   source: any;
-  tableName: string;
   metaTestId: string;
   columns: IColumns[];
   actions: ITableAction[];
@@ -105,7 +103,6 @@ export const Table = <Data extends { id: string }>({
   data,
   actions,
   columns,
-  name,
   metaTestId,
   selectable
 }: ITableProps<Data>) => {
@@ -141,7 +138,6 @@ export const Table = <Data extends { id: string }>({
               index={index}
               key={source.id}
               source={source}
-              tableName={name}
               metaTestId={metaTestId}
               actions={actions || []}
               columns={columns}

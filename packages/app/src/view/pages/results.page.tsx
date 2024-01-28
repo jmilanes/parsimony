@@ -132,8 +132,7 @@ const Results = () => {
         data={results}
         columns={columns}
         actions={actions}
-        name="All Result Entries"
-        metaTestId={ResultsMetaTestIds.resultsTable}
+        metaTestId={ResultsMetaTestIds.table}
       />
     </>
   );

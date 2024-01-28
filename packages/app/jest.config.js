@@ -15,5 +15,6 @@ module.exports = {
   },
   testEnvironmentOptions: {
     customExportConditions: ["node"]
-  }
+  },
+  testPathIgnorePatterns: ["<rootDir>/src/testUtils"]
 };
