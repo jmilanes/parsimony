@@ -24,6 +24,10 @@ export class MockDBService {
     this.#rs = rs;
   }
 
+  public getUuidByKey(key: string) {
+    return this.#uuidMap[key];
+  }
+
   public async setUpData(data: Partial<Record<Domains, PAYLOAD[]>>) {
     const domainsToSetUp = Object.entries(data);
     for (const [key, payloads] of domainsToSetUp) {

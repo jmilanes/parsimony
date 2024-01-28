@@ -11,7 +11,8 @@ export enum NavMetaTestIds {
   logoutBtn = "logout-nav-button",
   programBtn = "program-nav-button",
   booksBtn = "book-nav-button",
-  openBehhaviorSideBar = "open-behavior-side-bar",
+  openBehaviorSideBar = "open-behavior-side-bar",
+  openAddProgramToClientSideBar = "open-add-client-side-bar",
   directoryBtn = "directory-nav-button",
   schoolBtn = "school-nav-button",
   chatBtn = "chat-nav-button",
@@ -123,6 +124,7 @@ export enum ProgramsPageMetaTestIds {
   tableActionView = "view-program",
   tableActionCopy = "copy-program",
   table = "programs-table",
+  behaviorTable = "behavior-table",
   masteryTarget = "mastery-target-field",
   masteryConsecutive = "mastery-consecutive-field"
 }

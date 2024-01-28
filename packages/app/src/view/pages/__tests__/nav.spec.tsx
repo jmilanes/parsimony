@@ -64,7 +64,7 @@ describe("Parsimony Navigation Tests", () => {
   test("Should Open behaviors sidebar", async () => {
     const { app } = await makeTestApp();
     render(app);
-    await clickTarget(NavMetaTestIds.openBehhaviorSideBar);
+    await clickTarget(NavMetaTestIds.openBehaviorSideBar);
     await waitFor(async () => {
       await checkVisibility(BehaviorMetaTestIds.addClient);
     });

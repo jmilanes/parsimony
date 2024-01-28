@@ -16,12 +16,14 @@ export type IProgramTableProps = React.PropsWithChildren<{
   programs: Program[];
   actions?: ITableAction[];
   columns: IColumns[];
+  metaTestId: string;
 }>;
 
 export const ProgramTable = ({
   programs,
   actions = [],
-  columns
+  columns,
+  metaTestId
 }: IProgramTableProps) => {
   const API = Container.get(UIApi);
   const navigate = API.Navigate;
@@ -109,7 +111,7 @@ export const ProgramTable = ({
       data={programs}
       columns={columns}
       actions={[...actions, ...sharedActions]}
-      metaTestId={ProgramsPageMetaTestIds.table}
+      metaTestId={metaTestId}
       selectable={{ visible: bulkOrder.active, selected, onChange }}
     />
   );

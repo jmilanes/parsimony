@@ -3,10 +3,11 @@ import {
   CollectionCategories,
   CollectionTypes,
   Program,
+  ProgramCategories,
+  ProgramTypes,
   User,
   UserRoles
 } from "@parsimony/types";
-import { ObjectId } from "mongodb";
 
 export const createUserPayload = (
   user?: Partial<Omit<User, "id">>
@@ -44,4 +45,30 @@ export const creatCollectionPayload = (colelction?: Partial<Collection>) => {
   };
 };
 
-export const creatProgramPayload = (program?: Partial<Program>) => {};
+export const createProgramPayload = (
+  program:
+    | Required<Pick<Program, "title" | "collectionId" | "targetStyle">> &
+        Partial<Omit<Program, "title" | "collectionId" | "targetStyle">>
+): Omit<Program, "id"> => {
+  return {
+    description: "",
+    materials: "",
+    writeAccess: [],
+    readAccess: [],
+    type: ProgramTypes.Main,
+    lastEditedBy: "",
+    editedBy: [],
+    createdBy: "",
+    trials: 1,
+    targets: [],
+    mastered: false,
+    category: ProgramCategories.Aba,
+    targetOptions: [],
+    chaining: {},
+    behavior: {},
+    masteryTarget: 100,
+    masteryConsecutiveTargets: 3,
+    subscribers: [],
+    ...program
+  };
+};

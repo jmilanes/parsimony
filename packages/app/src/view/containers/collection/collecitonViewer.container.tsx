@@ -7,7 +7,13 @@ import {
   ITableAction
 } from "../../components";
 import { AncestorOnClickAction, CollectionTable, ProgramTable } from "../index";
-import { Collection, Domains, Program, TargetStyle } from "@parsimony/types";
+import {
+  Collection,
+  Domains,
+  Program,
+  ProgramsPageMetaTestIds,
+  TargetStyle
+} from "@parsimony/types";
 
 import { Container } from "typedi";
 import { useAsync } from "react-use";
@@ -127,12 +133,14 @@ const CollectionViewerContainer = ({
       <CollectionTable collections={collections} actions={collectionActions} />
       <Header text="Programs" size="table" />
       <ProgramTable
+        metaTestId={ProgramsPageMetaTestIds.table}
         programs={programs}
         actions={programActions}
         columns={programColumns}
       />
       <Header text="Behaviors" size="table" />
       <ProgramTable
+        metaTestId={ProgramsPageMetaTestIds.behaviorTable}
         programs={behaviors}
         actions={programActions}
         columns={behaviorColumns}
