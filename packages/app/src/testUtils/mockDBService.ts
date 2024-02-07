@@ -2,6 +2,7 @@ import RequestService from "../domains/requests/request.Service";
 
 import { Service } from "typedi";
 import { Domains } from "@parsimony/types/dist";
+import { cloneDeep } from "lodash";
 
 type CreateItems = { domain: Domains; id: string };
 type PAYLOAD = any;
@@ -29,7 +30,7 @@ export class MockDBService {
   }
 
   public async setUpData(data: Partial<Record<Domains, PAYLOAD[]>>) {
-    const domainsToSetUp = Object.entries(data);
+    const domainsToSetUp = Object.entries(cloneDeep(data));
     for (const [key, payloads] of domainsToSetUp) {
       for (const i in payloads) {
         const domain = key as unknown as Domains;

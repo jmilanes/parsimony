@@ -136,9 +136,6 @@ export const initialCollectionPageData = {
 
 // TODO: consolidate the program and collection selectors
 
-// Test
-// All things render
-
 // Add each type of program, view, check read only values match, delete
 // Collection
 // All 3 behaviors
@@ -146,6 +143,3 @@ export const initialCollectionPageData = {
 // With multiple
 
 // Cancel (one is good)
-
-// Event eventually need to test the add program and move functionality
-// But those are more in depth lol

@@ -5,7 +5,7 @@ import {
   IModes,
   Program,
   ProgramPageMetaTestIds,
-  ProgramsPageMetaTestIds
+  CollectionPageMetaTestIds
 } from "@parsimony/types";
 import { Checkbox, Field, RichText, Selector } from "../../../components";
 import { isReadOnlyMode } from "../../../../utils";
@@ -26,9 +26,9 @@ export const ProgramPageBehaviorView = ({
       <div>
         <h4>Mastery Criteria:</h4>
         <p>
-          Mastery criteria: student will engage in {form.Data.masteryTarget} or
-          less instances of behavior across{" "}
-          {form.Data.masteryConsecutiveTargets} consecutive sessions.
+          Mastery criteria: student will engage in{" "}
+          {form.Data.addProgramFormMasteryTarget} or less instances of behavior
+          across {form.Data.masteryConsecutiveTargets} consecutive sessions.
         </p>
         <hr />
       </div>
@@ -70,16 +70,16 @@ export const ProgramPageBehaviorView = ({
           form.updateData({ behavior: { type: value as BehaviorType } }, true)
         }
         readOnly={readOnly}
-        metaTestId={ProgramsPageMetaTestIds.typeSelector}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTypeSelector}
       />
       <Field
         placeHolderText="Mastery Independence Target"
-        value={form.Data.masteryTarget?.toString()}
+        value={form.Data.addProgramFormMasteryTarget?.toString()}
         onChange={(value) =>
           form.updateData({ masteryTarget: parseInt(value) })
         }
         readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramsPageMetaTestIds.masteryTarget}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormMasteryTarget}
       />
       <Field
         placeHolderText="Mastery Consecutive Requriement"
@@ -88,7 +88,7 @@ export const ProgramPageBehaviorView = ({
           form.updateData({ masteryConsecutiveTargets: parseInt(value) })
         }
         readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormMasteryConsecutive}
       />
 
       <Field
@@ -98,7 +98,7 @@ export const ProgramPageBehaviorView = ({
           form.updateData({ behavior: { alertTime: parseInt(value) } }, true)
         }
         readOnly={readOnly}
-        metaTestId={ProgramsPageMetaTestIds.descriptionField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormDescriptionField}
       />
       <RichText
         placeHolderText="Operational Definition"
@@ -107,7 +107,7 @@ export const ProgramPageBehaviorView = ({
           form.updateData({ behavior: { operationalDefinition: value } }, true)
         }
         readOnly={readOnly}
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
       <RichText
         placeHolderText="Precursor Behaviors"
@@ -116,7 +116,7 @@ export const ProgramPageBehaviorView = ({
           form.updateData({ behavior: { precursorBehaviors: value } }, true)
         }
         readOnly={readOnly}
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
       <RichText
         placeHolderText="Proactive Strategies"
@@ -125,7 +125,7 @@ export const ProgramPageBehaviorView = ({
           form.updateData({ behavior: { proactiveStrategies: value } }, true)
         }
         readOnly={readOnly}
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
       <RichText
         placeHolderText="Reactive Strategies"
@@ -134,7 +134,7 @@ export const ProgramPageBehaviorView = ({
           form.updateData({ behavior: { reactiveStrategies: value } }, true)
         }
         readOnly={readOnly}
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
     </>
   );

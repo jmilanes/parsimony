@@ -105,28 +105,26 @@ export enum BulKProgramMetaTestIds {
   addToClientBtn = "add-to-client-btn"
 }
 
-export enum ProgramsPageMetaTestIds {
-  addBtn = "add-program",
-  addBehaviror = "add-behavior",
-  addCollection = "add-collection",
-  addProgramToClient = "add-program-to-client",
-  titleField = "add-program-title-field",
-  descriptionField = "add-program-description-field",
-  materialsField = "update-program-materials-field",
-  typeSelector = "add-program-type-selector",
-  chainingSelector = "chaining-selecto",
-  categorySelector = "add-program-type-category",
-  clientSelector = "add-program-client-selector",
-  stepsSelector = "add-steps-selector",
-  ruleStyleSelector = "add-program-rule-style-selector",
-  writeAccessMultiSelector = "add-program-write-access-selector",
-  readAccessMultiSelector = "add-program-read-access-selector",
+export enum CollectionPageMetaTestIds {
+  addProgramBtn = "add-program",
+  addBehaviorBtn = "add-behavior",
+  addCollectionBtn = "add-collection",
+  addProgramToClientBtn = "add-program-to-client",
+  addProgramFormTitleField = "add-program-title-field",
+  addProgramFormDescriptionField = "add-program-description-field",
+  addProgramFormFormMaterialsField = "update-program-materials-field",
+  addProgramFormTypeSelector = "add-program-type-selector",
+  addProgramFormChainingSelector = "chaining-selecto",
+  addProgramFormCategorySelector = "add-program-type-category",
+  addProgramFormClientSelector = "add-program-client-selector",
+  addProgramFormStepsSelector = "add-steps-selector",
+  addProgramFormRuleStyleSelector = "add-program-rule-style-selector",
+  addProgramFormMasteryTarget = "mastery-target-field",
+  addProgramFormMasteryConsecutive = "mastery-consecutive-field",
   tableActionView = "view-program",
   tableActionCopy = "copy-program",
   table = "programs-table",
-  behaviorTable = "behavior-table",
-  masteryTarget = "mastery-target-field",
-  masteryConsecutive = "mastery-consecutive-field"
+  behaviorTable = "behavior-table"
 }
 
 export enum BehaviorMetaTestIds {
@@ -251,7 +249,7 @@ export enum ResultsMetaTestIds {
 
 export type MetaTestIds =
   | ChatMetaTestIds
-  | ProgramsPageMetaTestIds
+  | CollectionPageMetaTestIds
   | SchoolPageMetaTestIds
   | UserPageMetaTestIds
   | DirectoryPageMetaTestIds

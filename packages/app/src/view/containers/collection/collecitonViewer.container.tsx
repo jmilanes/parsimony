@@ -11,7 +11,7 @@ import {
   Collection,
   Domains,
   Program,
-  ProgramsPageMetaTestIds,
+  CollectionPageMetaTestIds,
   TargetStyle
 } from "@parsimony/types";
 
@@ -133,14 +133,14 @@ const CollectionViewerContainer = ({
       <CollectionTable collections={collections} actions={collectionActions} />
       <Header text="Programs" size="table" />
       <ProgramTable
-        metaTestId={ProgramsPageMetaTestIds.table}
+        metaTestId={CollectionPageMetaTestIds.table}
         programs={programs}
         actions={programActions}
         columns={programColumns}
       />
       <Header text="Behaviors" size="table" />
       <ProgramTable
-        metaTestId={ProgramsPageMetaTestIds.behaviorTable}
+        metaTestId={CollectionPageMetaTestIds.behaviorTable}
         programs={behaviors}
         actions={programActions}
         columns={behaviorColumns}

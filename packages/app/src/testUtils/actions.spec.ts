@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 
 import userEvent from "@testing-library/user-event";
 import { getReadOnlySelector } from "./selectors";
@@ -17,6 +17,19 @@ export const selectOption = async ({
   await userEvent.click(
     screen.getByTestId(`${target}-option-${selectedOption}`)
   );
+};
+
+export const typeRichTextEditior = async (target: string, value: string) => {
+  const selector = screen.getByTestId(target).querySelector(".ProseMirror");
+
+  if (!selector) {
+    throw new Error(`Rich Text Editor Not Found: ${target} `);
+  }
+
+  // @ts-ignore
+  fireEvent.change(selector.querySelector("p"), {
+    target: { textContent: value }
+  });
 };
 
 export const checkReadOnlySelectorValue = async (

@@ -10,7 +10,7 @@ import {
   Collection,
   CollectionCategories,
   Domains,
-  ProgramsPageMetaTestIds
+  CollectionPageMetaTestIds
 } from "@parsimony/types";
 
 import { getRouterParams } from "../../utils";
@@ -55,7 +55,7 @@ const Collection = () => {
     <>
       <Header
         text={`${
-          collection.category === CollectionCategories.Book
+          collection?.category === CollectionCategories.Book
             ? "Book"
             : "Collection"
         }: ${collection?.title}`}
@@ -68,7 +68,7 @@ const Collection = () => {
               API.actions.toggle.setToggleActiveState("programForm", true)
             }
             hidden={API.actions.toggle.getToggleActiveState("programForm")}
-            metaTestId={ProgramsPageMetaTestIds.addBtn}
+            metaTestId={CollectionPageMetaTestIds.addProgramBtn}
           />,
           <Button
             key="add-behavior"
@@ -77,7 +77,7 @@ const Collection = () => {
               API.actions.toggle.setToggleActiveState("behaviorForm", true)
             }
             hidden={API.actions.toggle.getToggleActiveState("behaviorForm")}
-            metaTestId={ProgramsPageMetaTestIds.addBehaviror}
+            metaTestId={CollectionPageMetaTestIds.addBehaviorBtn}
           />,
           <Button
             key="add-collection"
@@ -86,7 +86,7 @@ const Collection = () => {
               API.actions.toggle.setToggleActiveState("collectionForm", true)
             }
             hidden={API.actions.toggle.getToggleActiveState("collectionForm")}
-            metaTestId={ProgramsPageMetaTestIds.addCollection}
+            metaTestId={CollectionPageMetaTestIds.addCollectionBtn}
           />,
           <OpenBulkProgramButton />
         ]}

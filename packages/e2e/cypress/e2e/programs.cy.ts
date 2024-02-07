@@ -2,7 +2,7 @@ import {
   AddModalControls,
   TestEntryTypes,
   Program,
-  ProgramsPageMetaTestIds,
+  CollectionPageMetaTestIds,
   TargetFormMetaTestIds
 } from "@parsimony/types";
 
@@ -21,23 +21,38 @@ import { API_URL, program1, program2, ROUTES } from "../fixtures";
 
 const createProgramHelper = (program: Partial<Program>) => {
   cy.visit(ROUTES.programs);
-  getButton(ProgramsPageMetaTestIds.addBtn).click();
-  getField(ProgramsPageMetaTestIds.titleField).type(program.title);
-  getField(ProgramsPageMetaTestIds.descriptionField).type(program.description);
-  getField(ProgramsPageMetaTestIds.materialsField).type(program.materials);
-  selectOption(ProgramsPageMetaTestIds.typeSelector, program.type);
+  getButton(CollectionPageMetaTestIds.addProgramBtn).click();
+  getField(CollectionPageMetaTestIds.addProgramFormTitleField).type(
+    program.title
+  );
+  getField(CollectionPageMetaTestIds.addProgramFormDescriptionField).type(
+    program.description
+  );
+  getField(CollectionPageMetaTestIds.addProgramFormFormMaterialsField).type(
+    program.materials
+  );
   selectOption(
-    `${ProgramsPageMetaTestIds.stepsSelector}`,
+    CollectionPageMetaTestIds.addProgramFormTypeSelector,
+    program.type
+  );
+  selectOption(
+    `${CollectionPageMetaTestIds.addProgramFormStepsSelector}`,
     program.trials.toString()
   );
-  selectOption(ProgramsPageMetaTestIds.ruleStyleSelector, program.targetStyle);
-  selectOption(ProgramsPageMetaTestIds.categorySelector, program.category);
+  selectOption(
+    CollectionPageMetaTestIds.addProgramFormRuleStyleSelector,
+    program.targetStyle
+  );
+  selectOption(
+    CollectionPageMetaTestIds.addProgramFormCategorySelector,
+    program.category
+  );
   selectMultipleOptions(
-    ProgramsPageMetaTestIds.readAccessMultiSelector,
+    CollectionPageMetaTestIds.readAccessMultiSelector,
     program.readAccess
   );
   selectMultipleOptions(
-    ProgramsPageMetaTestIds.writeAccessMultiSelector,
+    CollectionPageMetaTestIds.writeAccessMultiSelector,
     program.writeAccess
   );
 
@@ -98,25 +113,26 @@ afterEach(() => {
 describe("Programs Page Tests", () => {
   it("should add program to programs", () => {
     createProgramHelper(program1).then((id) => {
-      getTableRowAction(ProgramsPageMetaTestIds.table, id, "view").should(
+      getTableRowAction(CollectionPageMetaTestIds.table, id, "view").should(
         "exist"
       );
-      getTableRowAction(ProgramsPageMetaTestIds.table, id, "delete").should(
+      getTableRowAction(CollectionPageMetaTestIds.table, id, "delete").should(
         "exist"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "title").should(
+      getTableRowItem(CollectionPageMetaTestIds.table, id, "title").should(
         "have.text",
         "Brushing Teeth"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "type").should(
+      getTableRowItem(CollectionPageMetaTestIds.table, id, "type").should(
         "have.text",
         "MAIN"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "description").should(
-        "have.text",
-        "Client needs to brush their teeth"
-      );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "targets").should(
+      getTableRowItem(
+        CollectionPageMetaTestIds.table,
+        id,
+        "description"
+      ).should("have.text", "Client needs to brush their teeth");
+      getTableRowItem(CollectionPageMetaTestIds.table, id, "targets").should(
         "have.text",
         "1"
       );
@@ -124,50 +140,52 @@ describe("Programs Page Tests", () => {
   });
   it("should add multiple program to programs", () => {
     createProgramHelper(program1).then((id) => {
-      getTableRowAction(ProgramsPageMetaTestIds.table, id, "view").should(
+      getTableRowAction(CollectionPageMetaTestIds.table, id, "view").should(
         "exist"
       );
-      getTableRowAction(ProgramsPageMetaTestIds.table, id, "delete").should(
+      getTableRowAction(CollectionPageMetaTestIds.table, id, "delete").should(
         "exist"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "title").should(
+      getTableRowItem(CollectionPageMetaTestIds.table, id, "title").should(
         "have.text",
         "Brushing Teeth"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "type").should(
+      getTableRowItem(CollectionPageMetaTestIds.table, id, "type").should(
         "have.text",
         "MAIN"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "description").should(
-        "have.text",
-        "Client needs to brush their teeth"
-      );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "targets").should(
+      getTableRowItem(
+        CollectionPageMetaTestIds.table,
+        id,
+        "description"
+      ).should("have.text", "Client needs to brush their teeth");
+      getTableRowItem(CollectionPageMetaTestIds.table, id, "targets").should(
         "have.text",
         "1"
       );
     });
 
     createProgramHelper(program2).then((id) => {
-      getTableRowAction(ProgramsPageMetaTestIds.table, id, "view").should(
+      getTableRowAction(CollectionPageMetaTestIds.table, id, "view").should(
         "exist"
       );
-      getTableRowAction(ProgramsPageMetaTestIds.table, id, "delete").should(
+      getTableRowAction(CollectionPageMetaTestIds.table, id, "delete").should(
         "exist"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "title").should(
+      getTableRowItem(CollectionPageMetaTestIds.table, id, "title").should(
         "have.text",
         "Eat Breakfast"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "type").should(
+      getTableRowItem(CollectionPageMetaTestIds.table, id, "type").should(
         "have.text",
         "MAIN"
       );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "description").should(
-        "have.text",
-        "Client needs to eat breakfast"
-      );
-      getTableRowItem(ProgramsPageMetaTestIds.table, id, "targets").should(
+      getTableRowItem(
+        CollectionPageMetaTestIds.table,
+        id,
+        "description"
+      ).should("have.text", "Client needs to eat breakfast");
+      getTableRowItem(CollectionPageMetaTestIds.table, id, "targets").should(
         "have.text",
         "3"
       );
@@ -176,21 +194,27 @@ describe("Programs Page Tests", () => {
 
   it("should clear values on cancel", () => {
     cy.visit(ROUTES.programs);
-    getButton(ProgramsPageMetaTestIds.addBtn).click();
-    getField(ProgramsPageMetaTestIds.titleField).type(program1.title);
-    getField(ProgramsPageMetaTestIds.descriptionField).type(program1.description);
-    getField(ProgramsPageMetaTestIds.materialsField).type(program1.materials);
+    getButton(CollectionPageMetaTestIds.addProgramBtn).click();
+    getField(CollectionPageMetaTestIds.addProgramFormTitleField).type(
+      program1.title
+    );
+    getField(CollectionPageMetaTestIds.addProgramFormDescriptionField).type(
+      program1.description
+    );
+    getField(CollectionPageMetaTestIds.addProgramFormFormMaterialsField).type(
+      program1.materials
+    );
     getButton(AddModalControls.cancelBtn).click();
-    getButton(ProgramsPageMetaTestIds.addBtn).click();
-    getField(ProgramsPageMetaTestIds.titleField).should(
+    getButton(CollectionPageMetaTestIds.addProgramBtn).click();
+    getField(CollectionPageMetaTestIds.addProgramFormTitleField).should(
       "have.value",
       ""
     );
-    getField(ProgramsPageMetaTestIds.descriptionField).should(
+    getField(CollectionPageMetaTestIds.addProgramFormDescriptionField).should(
       "have.value",
       ""
     );
-    getField(ProgramsPageMetaTestIds.materialsField).should(
+    getField(CollectionPageMetaTestIds.addProgramFormFormMaterialsField).should(
       "have.value",
       ""
     );

@@ -67,12 +67,12 @@ const Program = () => {
   };
 
   const deleteProgram = async () => {
+    navigate(`/books`);
     await API.system.makeRequest({
       domain: Domains.Program,
       requestType: "delete",
       payload: { id: program.id }
     });
-    navigate(`/programs`);
   };
 
   return (

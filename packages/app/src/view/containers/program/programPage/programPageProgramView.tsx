@@ -5,7 +5,7 @@ import {
   Program,
   ProgramCategories,
   ProgramPageMetaTestIds,
-  ProgramsPageMetaTestIds,
+  CollectionPageMetaTestIds,
   ProgramTypes,
   TargetOption,
   TargetStyle,
@@ -36,9 +36,9 @@ export const ProgramPageProgramView = ({
       <div>
         <h4>Mastery Criteria:</h4>
         <p>
-          Student will complete this program with {form.Data.masteryTarget}%
-          independence across {form.Data.masteryConsecutiveTargets} consecutive
-          session.{" "}
+          Student will complete this program with{" "}
+          {form.Data.addProgramFormMasteryTarget}% independence across{" "}
+          {form.Data.masteryConsecutiveTargets} consecutive session.{" "}
         </p>
         <hr />
       </div>
@@ -119,12 +119,12 @@ export const ProgramPageProgramView = ({
       />
       <Field
         placeHolderText="Mastery Independence Target (%)"
-        value={form.Data.masteryTarget?.toString()}
+        value={form.Data.addProgramFormMasteryTarget?.toString()}
         onChange={(value) =>
           form.updateData({ masteryTarget: parseInt(value) })
         }
         readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramsPageMetaTestIds.masteryTarget}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormMasteryTarget}
       />
       <Field
         placeHolderText="Mastery Consecutive Requriement"
@@ -133,7 +133,7 @@ export const ProgramPageProgramView = ({
           form.updateData({ masteryConsecutiveTargets: parseInt(value) })
         }
         readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormMasteryConsecutive}
       />
 
       {form.Data.targetStyle === TargetStyle.TaskAnalysis && (

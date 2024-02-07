@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "typedi";
 import UIApi from "../../../../domains/accessApis/uiApi/uiApi.Service";
-import { Domains, Program, ProgramsPageMetaTestIds } from "@parsimony/types";
+import { Domains, Program, CollectionPageMetaTestIds } from "@parsimony/types";
 import { Field } from "../../../components";
 
 export const TimerSubmitDialogMessage = ({ program }: { program: Program }) => {
@@ -22,7 +22,7 @@ export const TimerSubmitDialogMessage = ({ program }: { program: Program }) => {
             time: API.actions.timer.resolveFormattedTIme(value)
           });
         }}
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
     </div>
   );

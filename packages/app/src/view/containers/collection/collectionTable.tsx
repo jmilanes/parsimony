@@ -5,7 +5,7 @@ import {
   CollectionMetaTestIds,
   Domains,
   Program,
-  ProgramsPageMetaTestIds
+  CollectionPageMetaTestIds
 } from "@parsimony/types";
 
 import { IColumns, ITableAction, Table } from "../../components";

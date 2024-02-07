@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "../../../components";
 import {
   BulKProgramMetaTestIds,
-  ProgramsPageMetaTestIds
+  CollectionPageMetaTestIds
 } from "@parsimony/types";
 import { Container } from "typedi";
 import UIApi from "../../../../domains/accessApis/uiApi/uiApi.Service";
@@ -26,7 +26,7 @@ export const OpenBulkProgramButton = () => {
       <Button
         name={name}
         onClick={openBulkPrograms}
-        metaTestId={ProgramsPageMetaTestIds.addProgramToClient}
+        metaTestId={CollectionPageMetaTestIds.addProgramToClientBtn}
       />
       {bulkProgramActiveState && (
         <Button

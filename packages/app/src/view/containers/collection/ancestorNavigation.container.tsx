@@ -32,7 +32,7 @@ const AncestorNavigationContainer = ({
   });
 
   const ancestors =
-    collection.ancestors?.map((id) =>
+    collection?.ancestors?.map((id) =>
       API.system.getItem(Domains.Collection, id || "")
     ) || [];
 

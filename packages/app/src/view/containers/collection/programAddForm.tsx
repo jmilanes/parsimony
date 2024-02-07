@@ -4,7 +4,7 @@ import {
   Domains,
   Program,
   ProgramCategories,
-  ProgramsPageMetaTestIds,
+  CollectionPageMetaTestIds,
   ProgramTypes,
   TargetStyle,
   TrialChainingDirections
@@ -82,34 +82,34 @@ export const ProgramAddForm = ({
         placeHolderText="Title"
         value={form.Data.title}
         onChange={(value) => form.updateData({ title: value })}
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
       <RichText
         placeHolderText="Description"
         content={form.Data.description}
         onChange={(value) => form.updateData({ description: value })}
-        metaTestId={ProgramsPageMetaTestIds.descriptionField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormDescriptionField}
       />
       <RichText
         placeHolderText="Materials"
         content={form.Data.materials}
         onChange={(value) => form.updateData({ materials: value })}
-        metaTestId={ProgramsPageMetaTestIds.materialsField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormFormMaterialsField}
       />
       <Selector
         title="Type"
         value={form.Data.type}
         options={programTypes}
         onChange={(value) => form.updateData({ type: value as ProgramTypes })}
-        metaTestId={ProgramsPageMetaTestIds.typeSelector}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTypeSelector}
       />
       <Field
         placeHolderText="Mastery Independence Target (%)"
-        value={form.Data.masteryTarget?.toString()}
+        value={form.Data.addProgramFormMasteryTarget?.toString()}
         onChange={(value) =>
           form.updateData({ masteryTarget: parseInt(value) })
         }
-        metaTestId={ProgramsPageMetaTestIds.masteryTarget}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormMasteryTarget}
       />
       <Field
         placeHolderText="Mastery Consecutive Requriement"
@@ -117,7 +117,7 @@ export const ProgramAddForm = ({
         onChange={(value) =>
           form.updateData({ masteryConsecutiveTargets: parseInt(value) })
         }
-        metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormMasteryConsecutive}
       />
 
       <Selector
@@ -126,7 +126,7 @@ export const ProgramAddForm = ({
         options={trialOptions}
         onChange={(value) => form.updateData({ trials: value as number })}
         isNumber={true}
-        metaTestId={ProgramsPageMetaTestIds.stepsSelector}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormStepsSelector}
       />
 
       <Selector
@@ -136,7 +136,7 @@ export const ProgramAddForm = ({
         onChange={(value) =>
           form.updateData({ targetStyle: value as TargetStyle })
         }
-        metaTestId={ProgramsPageMetaTestIds.ruleStyleSelector}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormRuleStyleSelector}
       />
       {form.Data.targetStyle === TargetStyle.TaskAnalysis && (
         <Selector
@@ -149,7 +149,7 @@ export const ProgramAddForm = ({
               true
             )
           }
-          metaTestId={ProgramsPageMetaTestIds.chainingSelector}
+          metaTestId={CollectionPageMetaTestIds.addProgramFormChainingSelector}
         />
       )}
       <Selector
@@ -159,7 +159,7 @@ export const ProgramAddForm = ({
         onChange={(value) =>
           form.updateData({ category: value as ProgramCategories })
         }
-        metaTestId={ProgramsPageMetaTestIds.categorySelector}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormCategorySelector}
       />
       <div className="add-form-spacer">
         <TargetOptionSelector form={form} />

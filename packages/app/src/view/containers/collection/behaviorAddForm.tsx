@@ -4,7 +4,7 @@ import {
   BehaviorType,
   Domains,
   Program,
-  ProgramsPageMetaTestIds,
+  CollectionPageMetaTestIds,
   ProgramTypes
 } from "@parsimony/types";
 
@@ -67,20 +67,20 @@ export const BehaviorAddForm = ({
         placeHolderText="Title"
         value={form.Data.title}
         onChange={(value) => form.updateData({ title: value })}
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
       <RichText
         placeHolderText="Description"
         content={form.Data.description}
         onChange={(value) => form.updateData({ description: value })}
-        metaTestId={ProgramsPageMetaTestIds.descriptionField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormDescriptionField}
       />
       <Selector
         title="Type"
         value={form.Data.type}
         options={programTypes}
         onChange={(value) => form.updateData({ type: value as ProgramTypes })}
-        metaTestId={ProgramsPageMetaTestIds.typeSelector}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTypeSelector}
       />
       <Selector
         title="Behavior Type"
@@ -96,7 +96,7 @@ export const BehaviorAddForm = ({
             true
           )
         }
-        metaTestId={ProgramsPageMetaTestIds.typeSelector}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTypeSelector}
       />
 
       {form.Data.behavior?.type === BehaviorType.Interval && (
@@ -114,19 +114,19 @@ export const BehaviorAddForm = ({
               true
             )
           }
-          metaTestId={ProgramsPageMetaTestIds.descriptionField}
+          metaTestId={CollectionPageMetaTestIds.addProgramFormDescriptionField}
         />
       )}
 
       <Field
         placeHolderText="Mastery Independence Target"
-        value={form.Data.masteryTarget?.toString()}
+        value={form.Data.addProgramFormMasteryTarget?.toString()}
         onChange={(value) =>
           form.updateData({
             masteryTarget: parseInt(value)
           })
         }
-        metaTestId={ProgramsPageMetaTestIds.masteryTarget}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormMasteryTarget}
       />
       <Field
         placeHolderText="Mastery Consecutive Requriement"
@@ -136,7 +136,7 @@ export const BehaviorAddForm = ({
             masteryConsecutiveTargets: parseInt(value)
           })
         }
-        metaTestId={ProgramsPageMetaTestIds.masteryConsecutive}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormMasteryConsecutive}
       />
 
       <RichText
@@ -152,7 +152,7 @@ export const BehaviorAddForm = ({
             true
           )
         }
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
       <RichText
         placeHolderText="Precursor Behaviors"
@@ -167,7 +167,7 @@ export const BehaviorAddForm = ({
             true
           )
         }
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
       <RichText
         placeHolderText="Proactive Strategies"
@@ -182,7 +182,7 @@ export const BehaviorAddForm = ({
             true
           )
         }
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
       <RichText
         placeHolderText="Reactive Strategies"
@@ -197,7 +197,7 @@ export const BehaviorAddForm = ({
             true
           )
         }
-        metaTestId={ProgramsPageMetaTestIds.titleField}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTitleField}
       />
     </AddForm>
   );

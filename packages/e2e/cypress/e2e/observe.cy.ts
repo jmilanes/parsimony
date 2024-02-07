@@ -2,7 +2,7 @@ import {
   NavMetaTestIds,
   ObservationMetaTestIds,
   ProgramPageMetaTestIds,
-  ProgramsPageMetaTestIds,
+  CollectionPageMetaTestIds,
   TestEntryTypes,
   UserPageMetaTestIds
 } from "@parsimony/types";
@@ -42,7 +42,7 @@ describe("Observe Tests Page Tests", () => {
     DB_ACTIONS.createUserRequest(user1).then((userId) => {
       DB_ACTIONS.createProgramRequest(programWithoutPrompts).then((id) => {
         cy.visit(`${ROUTES.programs}`);
-        getTableRowAction(ProgramsPageMetaTestIds.table, id, "addtoclient")
+        getTableRowAction(CollectionPageMetaTestIds.table, id, "addtoclient")
           .should("exist")
           .click();
 
@@ -68,7 +68,7 @@ describe("Observe Tests Page Tests", () => {
         cy.visit(`${ROUTES.directory}/${userId}`);
         getButton(UserPageMetaTestIds.addProgram).click();
 
-        getTableRowAction(ProgramsPageMetaTestIds.table, id, "addtoclient")
+        getTableRowAction(CollectionPageMetaTestIds.table, id, "addtoclient")
           .should("exist")
           .click();
 

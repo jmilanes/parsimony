@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 
-import { Domains, Program, ProgramsPageMetaTestIds } from "@parsimony/types";
+import { Domains, Program, CollectionPageMetaTestIds } from "@parsimony/types";
 
 import { IColumns, ITableAction, Table } from "../../components";
 
