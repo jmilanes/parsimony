@@ -72,7 +72,11 @@ const Books = () => {
         ]}
       />
 
-      <CollectionTable collections={collections} actions={collectionActions} />
+      <CollectionTable
+        collections={collections}
+        actions={collectionActions}
+        metaTestId={BookPageMetaTestIds.table}
+      />
       <CollectionAddForm
         show={showAddForm}
         setShowCb={setShowAddForm}

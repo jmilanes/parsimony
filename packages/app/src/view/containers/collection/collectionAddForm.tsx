@@ -64,11 +64,11 @@ export const CollectionAddForm = ({
     <AddForm
       showForm={show}
       onCreate={submitAddForm}
-      title="Add Book"
+      title={parentId ? "Add Collection" : "Add Book"}
       onCancel={() => setShowCb(false)}
     >
       <Field
-        placeHolderText="Book Tile"
+        placeHolderText={parentId ? "Collection Title" : "Book Tile"}
         value={form.Data.title}
         onChange={(value) => form.updateData({ title: value })}
         metaTestId={BookPageMetaTestIds.nameField}

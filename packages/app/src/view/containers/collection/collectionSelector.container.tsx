@@ -1,5 +1,5 @@
 import React from "react";
-import { Autocomplete, Button, Header } from "../../components";
+import { Autocomplete } from "../../components";
 import {
   Collection,
   CollectionMetaTestIds,
@@ -39,8 +39,6 @@ export const CollectionSelectorContainer = ({
       label: collection.title || "",
       value: collection.id
     }));
-
-  //upd
 
   return (
     <Autocomplete

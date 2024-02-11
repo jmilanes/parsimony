@@ -1,12 +1,6 @@
 import React, { useMemo } from "react";
 
-import {
-  Collection,
-  CollectionMetaTestIds,
-  Domains,
-  Program,
-  CollectionPageMetaTestIds
-} from "@parsimony/types";
+import { Collection, Domains } from "@parsimony/types";
 
 import { IColumns, ITableAction, Table } from "../../components";
 
@@ -19,11 +13,13 @@ import { CollectionSelectorContainer } from "./collectionSelector.container";
 export type ICollectionTableProps = React.PropsWithChildren<{
   collections: Collection[];
   actions: ITableAction[];
+  metaTestId: string;
 }>;
 
 export const CollectionTable = ({
   collections,
-  actions
+  actions,
+  metaTestId
 }: ICollectionTableProps) => {
   const API = Container.get(UIApi);
 
@@ -82,7 +78,7 @@ export const CollectionTable = ({
       data={collections}
       columns={columns}
       actions={[...actions, ...sharedActions]}
-      metaTestId={CollectionMetaTestIds.table}
+      metaTestId={metaTestId}
       selectable={{ visible: bulkOrder.active, selected, onChange }}
     />
   );

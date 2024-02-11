@@ -136,7 +136,7 @@ export const ProgramAddForm = ({
         onChange={(value) =>
           form.updateData({ targetStyle: value as TargetStyle })
         }
-        metaTestId={CollectionPageMetaTestIds.addProgramFormRuleStyleSelector}
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTargetStyleSelector}
       />
       {form.Data.targetStyle === TargetStyle.TaskAnalysis && (
         <Selector

@@ -40,7 +40,7 @@ const createProgramHelper = (program: Partial<Program>) => {
     program.trials.toString()
   );
   selectOption(
-    CollectionPageMetaTestIds.addProgramFormRuleStyleSelector,
+    CollectionPageMetaTestIds.addProgramFormTargetStyleSelector,
     program.targetStyle
   );
   selectOption(

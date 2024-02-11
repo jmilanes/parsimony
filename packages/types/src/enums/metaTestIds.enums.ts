@@ -114,17 +114,32 @@ export enum CollectionPageMetaTestIds {
   addProgramFormDescriptionField = "add-program-description-field",
   addProgramFormFormMaterialsField = "update-program-materials-field",
   addProgramFormTypeSelector = "add-program-type-selector",
-  addProgramFormChainingSelector = "chaining-selecto",
+  addProgramFormChainingSelector = "chaining-selector",
   addProgramFormCategorySelector = "add-program-type-category",
   addProgramFormClientSelector = "add-program-client-selector",
   addProgramFormStepsSelector = "add-steps-selector",
-  addProgramFormRuleStyleSelector = "add-program-rule-style-selector",
+  addProgramFormTargetStyleSelector = "add-program-target-style-selector",
   addProgramFormMasteryTarget = "mastery-target-field",
   addProgramFormMasteryConsecutive = "mastery-consecutive-field",
   tableActionView = "view-program",
   tableActionCopy = "copy-program",
   table = "programs-table",
+  collectionTable = "collection-table",
   behaviorTable = "behavior-table"
+}
+
+export enum BehaviorAddFormMetaTestIds {
+  titleField = "behavior-add-form-title-field",
+  descriptionField = "behavior-add-form-description-field",
+  typeSelector = "behavior-add-form-type-selector",
+  behaviorTypeSelector = "behavior-add-form--behavior-type-selector",
+  alertDurationField = "behavior-add-form--behavior-alert-duration-field",
+  masteryTargetField = "add-behavior-mastery-target-field",
+  masteryConsecutiveField = "add-behavior-mastery-consecutive-field",
+  operationalDefinitionField = "add-behavior-operational-definition-field",
+  precursorBehaviorField = "add-behavior-precursor-behavior-field",
+  proactiveStrategiesField = "add-behavior-proactive-strategies-field",
+  reactiveStrategiesField = "add-behavior-reactive-strategies-field"
 }
 
 export enum BehaviorMetaTestIds {
@@ -208,10 +223,7 @@ export enum ChatMetaTestIds {
 }
 
 export enum CollectionMetaTestIds {
-  selector = "collection-selector",
-  confirm = "collection-selector-confirm",
-  cancel = "collection-selector-cancel",
-  table = "collections-table"
+  selector = "move-collection-selector"
 }
 
 export enum TestEntryTypes {

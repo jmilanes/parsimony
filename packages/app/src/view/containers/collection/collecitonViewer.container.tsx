@@ -130,7 +130,11 @@ const CollectionViewerContainer = ({
     <>
       {collectionId && renderCollectionHeader(collectionId)}
       <Header text="Collections" size="table" />
-      <CollectionTable collections={collections} actions={collectionActions} />
+      <CollectionTable
+        collections={collections}
+        actions={collectionActions}
+        metaTestId={CollectionPageMetaTestIds.collectionTable}
+      />
       <Header text="Programs" size="table" />
       <ProgramTable
         metaTestId={CollectionPageMetaTestIds.table}
