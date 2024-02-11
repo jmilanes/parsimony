@@ -16,7 +16,8 @@ export class InputForm<D = Record<string, any>> {
   //com
 
   get Data() {
-    return this.#ass.getAppState().forms[this.#id];
+    const data = this.#ass.getAppState().forms[this.#id];
+    return data;
   }
 
   public updateData = (update: Partial<D>, deep?: boolean) => {

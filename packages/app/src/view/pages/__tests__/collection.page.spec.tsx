@@ -423,10 +423,6 @@ describe("Parsimony Collection Page Tests", () => {
     });
   });
 
-  // test prompts and targets (multiple targets)
-  // test set targets
-  // Test when you save go to the page
-
   test("Should add/delete a Collection", async () => {
     const id = mockDbService.getUuidByKey(
       createTargetUuidKey(Domains.Collection, 1)
@@ -523,6 +519,11 @@ describe("Parsimony Collection Page Tests", () => {
       "Reactive Strategies!"
     );
 
+    await typeValueToTarget(
+      BehaviorAddFormMetaTestIds.masteryTargetField,
+      "80"
+    );
+
     await clickTarget(AddModalControls.createBtn);
 
     await waitFor(async () => {
@@ -607,6 +608,11 @@ describe("Parsimony Collection Page Tests", () => {
       "Reactive Strategies!"
     );
 
+    await typeValueToTarget(
+      BehaviorAddFormMetaTestIds.masteryTargetField,
+      "80"
+    );
+
     await clickTarget(AddModalControls.createBtn);
 
     await waitFor(async () => {
@@ -674,6 +680,11 @@ describe("Parsimony Collection Page Tests", () => {
         "10000"
       );
     });
+
+    await typeValueToTarget(
+      BehaviorAddFormMetaTestIds.masteryTargetField,
+      "80"
+    );
 
     await typeRichTextEditior(
       BehaviorAddFormMetaTestIds.operationalDefinitionField,
