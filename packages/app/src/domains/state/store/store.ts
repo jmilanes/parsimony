@@ -68,11 +68,22 @@ export default class Store {
     };
 
     this.isLoading = false;
+
+    //@ts-ignore
+    window.getStore = this.getStore;
   }
 
   setIsLoading(isLoading: boolean) {
     this.isLoading = isLoading;
   }
+
+  public getStore = () => {
+    const ret: any = {};
+    Object.keys(this.store$).forEach((k: string) => {
+      ret[k] = this.store$[k as Domains].value;
+    });
+    return ret;
+  };
 
   public async initDomainInStore(
     domainName: Domains,

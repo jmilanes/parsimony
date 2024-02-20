@@ -105,7 +105,7 @@ export const ProgramAddForm = ({
       />
       <Field
         placeHolderText="Mastery Independence Target (%)"
-        value={form.Data.addProgramFormMasteryTarget?.toString()}
+        value={form.Data.masteryTarget?.toString()}
         onChange={(value) =>
           form.updateData({ masteryTarget: parseInt(value) })
         }

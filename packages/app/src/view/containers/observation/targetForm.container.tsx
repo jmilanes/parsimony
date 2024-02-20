@@ -27,14 +27,13 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
   const target = (index: number) => {
     if (!form.Data.targets) return null;
     const target = form.Data.targets[index] as Target;
-    const metaQualifier = index.toString();
     return (
       <Row className="add-target-row" key={generateKey("target", index)}>
         <Button
           name="Delete Target"
           disabled={readOnly}
           onClick={() => deleteItem(form.Data.targets || [], index)}
-          metaTestId={`${TargetFormMetaTestIds.deleteRuleBtn}-${metaQualifier}`}
+          metaTestId={`${TargetFormMetaTestIds.deleteRuleBtn}-${index}`}
         />
         <Col xs={12}>
           <Field
@@ -44,7 +43,7 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
               updateItem(index, "title", value);
             }}
             readOnly={readOnly}
-            metaTestId={`${TargetFormMetaTestIds.questionField}-${metaQualifier}`}
+            metaTestId={`${TargetFormMetaTestIds.questionField}-${index}`}
           />
         </Col>
         <Col xs={12}>
@@ -55,7 +54,7 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
               updateItem(index, "description", value);
             }}
             readOnly={readOnly}
-            metaTestId={`${TargetFormMetaTestIds.descriptionField}-${metaQualifier}`}
+            metaTestId={`${TargetFormMetaTestIds.descriptionField}-${index}`}
           />
         </Col>
       </Row>

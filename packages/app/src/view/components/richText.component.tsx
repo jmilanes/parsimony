@@ -1,6 +1,6 @@
 import React from "react";
 import StarterKit from "@tiptap/starter-kit";
-import { Container } from "./index";
+import { Container, ReadOnly } from "./index";
 import parse from "html-react-parser";
 
 import { Maybe } from "@parsimony/types";
@@ -34,8 +34,11 @@ export const RichText = ({
 }: IRichTextProps) => {
   return readOnly ? (
     <div className="richTextContainer" key={key}>
-      <p>{placeHolderText}:</p>
-      <p>{parse(content || "")}</p>
+      <ReadOnly
+        metaTestId={metaTestId}
+        value={parse(content || "") as string}
+        title={placeHolderText}
+      />
     </div>
   ) : (
     <div data-testid={metaTestId}>

@@ -78,7 +78,6 @@ export const TargetOptionSelector = ({
       }
       deleteItem(form.Data.targetOptions || [], optionIndex);
     };
-
     return (
       <div className="flex-row" key={generateKey("option", optionIndex)}>
         <div>
@@ -120,6 +119,7 @@ export const TargetOptionSelector = ({
             return (
               <Button
                 key={generateKey("pre-filled-prompt-button", key)}
+                disabled={readOnly}
                 name={key}
                 onClick={() => form.updateData({ targetOptions: value })}
                 metaTestId={prefilledPromptBtnMetaTestIds[key as PromptTypes]}

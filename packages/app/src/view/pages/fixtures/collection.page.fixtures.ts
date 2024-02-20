@@ -133,13 +133,3 @@ export const initialCollectionPageData = {
     })
   ]
 };
-
-// TODO: consolidate the program and collection selectors
-
-// Add each type of program, view, check read only values match, delete
-// Collection
-// All 3 behaviors
-// All three program types
-// With multiple
-
-// Cancel (one is good)

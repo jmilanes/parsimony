@@ -44,7 +44,7 @@ export const ProgramPageProgramView = ({
       </div>
       <div className="flex-row">
         <Checkbox
-          title="Masteredddd "
+          title="Mastered"
           value={!!form.Data.mastered}
           onChange={(value) => form.updateData({ mastered: value })}
           readOnly={isReadOnlyMode(mode)}
@@ -79,14 +79,16 @@ export const ProgramPageProgramView = ({
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.materialsField}
       />
-      <Selector
-        title="Type"
-        value={form.Data.type}
-        options={programTypes}
-        onChange={(value) => form.updateData({ type: value as ProgramTypes })}
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.typeSelector}
-      />
+      {isReadOnlyMode(mode) && (
+        <Selector
+          title="Type"
+          value={form.Data.type}
+          options={programTypes}
+          onChange={(value) => form.updateData({ type: value as ProgramTypes })}
+          readOnly={isReadOnlyMode(mode)}
+          metaTestId={ProgramPageMetaTestIds.typeSelector}
+        />
+      )}
       <Selector
         title="Category"
         value={form.Data.category}
@@ -115,25 +117,31 @@ export const ProgramPageProgramView = ({
           form.updateData({ targetStyle: value as TargetStyle })
         }
         readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.ruleStyleSelector}
+        metaTestId={ProgramPageMetaTestIds.targetStyleSelector}
       />
       <Field
         placeHolderText="Mastery Independence Target (%)"
-        value={form.Data.addProgramFormMasteryTarget?.toString()}
+        value={
+          form.Data.masteryTarget ? form.Data.masteryTarget?.toString() : ""
+        }
         onChange={(value) =>
           form.updateData({ masteryTarget: parseInt(value) })
         }
         readOnly={isReadOnlyMode(mode)}
-        metaTestId={CollectionPageMetaTestIds.addProgramFormMasteryTarget}
+        metaTestId={ProgramPageMetaTestIds.masterTargetField}
       />
       <Field
         placeHolderText="Mastery Consecutive Requriement"
-        value={form.Data.masteryConsecutiveTargets?.toString()}
+        value={
+          form.Data.masteryConsecutiveTargets
+            ? form.Data.masteryConsecutiveTargets?.toString()
+            : ""
+        }
         onChange={(value) =>
           form.updateData({ masteryConsecutiveTargets: parseInt(value) })
         }
         readOnly={isReadOnlyMode(mode)}
-        metaTestId={CollectionPageMetaTestIds.addProgramFormMasteryConsecutive}
+        metaTestId={ProgramPageMetaTestIds.masteryConsecutiveTargetField}
       />
 
       {form.Data.targetStyle === TargetStyle.TaskAnalysis && (
@@ -148,7 +156,7 @@ export const ProgramPageProgramView = ({
             )
           }
           readOnly={isReadOnlyMode(mode)}
-          metaTestId={ProgramPageMetaTestIds.chaingDirections}
+          metaTestId={ProgramPageMetaTestIds.chainingDirections}
         />
       )}
       <TargetOptionSelector form={form} readOnly={isReadOnlyMode(mode)} />

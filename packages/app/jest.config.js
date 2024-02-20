@@ -16,5 +16,8 @@ module.exports = {
   testEnvironmentOptions: {
     customExportConditions: ["node"]
   },
-  testPathIgnorePatterns: ["<rootDir>/src/testUtils"]
+  testPathIgnorePatterns: ["<rootDir>/src/testUtils"],
+  // The app tests are integration test, so they test app/backend flow
+  // That is why this test time out has been increased
+  testTimeout: 15000
 };

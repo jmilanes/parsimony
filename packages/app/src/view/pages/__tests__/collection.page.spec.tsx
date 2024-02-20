@@ -29,6 +29,104 @@ import {
 import { initialCollectionPageData } from "../fixtures/collection.page.fixtures";
 import { getTableAction, getTableData } from "../../../testUtils/selectors";
 
+const updateProgramAddFormWithDefaultValues = async () => {
+  await typeValueToTarget(
+    CollectionPageMetaTestIds.addProgramFormTitleField,
+    "This is a test program"
+  );
+
+  await typeRichTextEditior(
+    CollectionPageMetaTestIds.addProgramFormDescriptionField,
+    "I am a description"
+  );
+};
+
+const checkDefaultProgramAddForm = async () => {
+  await waitFor(async () => {
+    await checkSelectorTextContent(
+      getTableData({
+        tableName: CollectionPageMetaTestIds.table,
+        rowIndex: 4,
+        colName: "title"
+      }),
+      "This is a test program"
+    );
+    await checkSelectorTextContent(
+      getTableData({
+        tableName: CollectionPageMetaTestIds.table,
+        rowIndex: 4,
+        colName: "description"
+      }),
+      "I am a description"
+    );
+  });
+};
+
+const deleteCreatedProgram = async (tableName: string, rowIndex: number) => {
+  await clickTarget(
+    getTableAction({
+      tableName,
+      rowIndex,
+      action: "delete"
+    })
+  );
+
+  await waitFor(async () => {
+    await checkNotInDocument(
+      getTableData({
+        tableName,
+        rowIndex,
+        colName: "title"
+      })
+    );
+  });
+};
+
+const checkProgramAddButton = async () => {
+  await waitFor(async () => {
+    await checkVisibility(CollectionPageMetaTestIds.addProgramBtn);
+  });
+};
+
+const checkBehaviorAddButton = async () => {
+  await waitFor(async () => {
+    await checkVisibility(CollectionPageMetaTestIds.addBehaviorBtn);
+  });
+};
+
+const updateBehaviorAddFormWithDefaults = async () => {
+  await typeValueToTarget(
+    BehaviorAddFormMetaTestIds.titleField,
+    "This is a test program"
+  );
+  await typeRichTextEditior(
+    BehaviorAddFormMetaTestIds.descriptionField,
+    "I am a description"
+  );
+
+  await typeRichTextEditior(
+    BehaviorAddFormMetaTestIds.operationalDefinitionField,
+    "Operational Definition!"
+  );
+
+  await typeRichTextEditior(
+    BehaviorAddFormMetaTestIds.proactiveStrategiesField,
+    "Proactive Strategies!"
+  );
+
+  await typeRichTextEditior(
+    BehaviorAddFormMetaTestIds.precursorBehaviorField,
+    "Precursor Behavior!"
+  );
+
+  await typeRichTextEditior(
+    BehaviorAddFormMetaTestIds.reactiveStrategiesField,
+    "Reactive Strategies!"
+  );
+
+  await typeValueToTarget(BehaviorAddFormMetaTestIds.masteryTargetField, "80");
+};
+
 describe("Parsimony Collection Page Tests", () => {
   const mockDbService = Container.get(MockDBService);
   beforeEach(async () => {
@@ -160,63 +258,14 @@ describe("Parsimony Collection Page Tests", () => {
       createTargetUuidKey(Domains.Collection, 1)
     );
     const { app } = await makeTestApp({ initialRoute: `/books/${id}` });
-
     render(app);
-
     // Check Buttons are visible
-    await waitFor(async () => {
-      await checkVisibility(CollectionPageMetaTestIds.addProgramBtn);
-    });
-
+    await checkProgramAddButton();
     await clickTarget(CollectionPageMetaTestIds.addProgramBtn);
-
-    await typeValueToTarget(
-      CollectionPageMetaTestIds.addProgramFormTitleField,
-      "This is a test program"
-    );
-    await typeRichTextEditior(
-      CollectionPageMetaTestIds.addProgramFormDescriptionField,
-      "I am a description"
-    );
-
+    await updateProgramAddFormWithDefaultValues();
     await clickTarget(AddModalControls.createBtn);
-
-    await waitFor(async () => {
-      await checkSelectorTextContent(
-        getTableData({
-          tableName: CollectionPageMetaTestIds.table,
-          rowIndex: 4,
-          colName: "title"
-        }),
-        "This is a test program"
-      );
-      await checkSelectorTextContent(
-        getTableData({
-          tableName: CollectionPageMetaTestIds.table,
-          rowIndex: 4,
-          colName: "description"
-        }),
-        "I am a description"
-      );
-    });
-
-    await clickTarget(
-      getTableAction({
-        tableName: CollectionPageMetaTestIds.table,
-        rowIndex: 4,
-        action: "delete"
-      })
-    );
-
-    await waitFor(async () => {
-      await checkNotInDocument(
-        getTableData({
-          tableName: CollectionPageMetaTestIds.table,
-          rowIndex: 4,
-          colName: "title"
-        })
-      );
-    });
+    await checkDefaultProgramAddForm();
+    await deleteCreatedProgram(CollectionPageMetaTestIds.table, 4);
   });
 
   test("Should add/delete a Task Analysis with Total Chaining", async () => {
@@ -227,22 +276,10 @@ describe("Parsimony Collection Page Tests", () => {
 
     render(app);
 
-    // Check Buttons are visible
-    await waitFor(async () => {
-      await checkVisibility(CollectionPageMetaTestIds.addProgramBtn);
-    });
-
+    await checkProgramAddButton();
     await clickTarget(CollectionPageMetaTestIds.addProgramBtn);
-
-    await typeValueToTarget(
-      CollectionPageMetaTestIds.addProgramFormTitleField,
-      "This is a test program"
-    );
-    await typeRichTextEditior(
-      CollectionPageMetaTestIds.addProgramFormDescriptionField,
-      "I am a description"
-    );
-
+    await updateProgramAddFormWithDefaultValues();
+    // Option is the only Difference
     await waitFor(async () => {
       await selectOption({
         target: CollectionPageMetaTestIds.addProgramFormTargetStyleSelector,
@@ -252,7 +289,7 @@ describe("Parsimony Collection Page Tests", () => {
     });
 
     await clickTarget(AddModalControls.createBtn);
-
+    await checkDefaultProgramAddForm();
     await waitFor(async () => {
       await checkSelectorTextContent(
         getTableData({
@@ -260,27 +297,10 @@ describe("Parsimony Collection Page Tests", () => {
           rowIndex: 4,
           colName: "chaining.type"
         }),
-        "TOTAL"
+        TrialChainingDirections.Total
       );
     });
-
-    await clickTarget(
-      getTableAction({
-        tableName: CollectionPageMetaTestIds.table,
-        rowIndex: 4,
-        action: "delete"
-      })
-    );
-
-    await waitFor(async () => {
-      await checkNotInDocument(
-        getTableData({
-          tableName: CollectionPageMetaTestIds.table,
-          rowIndex: 4,
-          colName: "title"
-        })
-      );
-    });
+    await deleteCreatedProgram(CollectionPageMetaTestIds.table, 4);
   });
 
   test("Should add/delete a Task Analysis with Total Backward Chaining", async () => {
@@ -288,41 +308,25 @@ describe("Parsimony Collection Page Tests", () => {
       createTargetUuidKey(Domains.Collection, 1)
     );
     const { app } = await makeTestApp({ initialRoute: `/books/${id}` });
-
     render(app);
 
-    // Check Buttons are visible
-    await waitFor(async () => {
-      await checkVisibility(CollectionPageMetaTestIds.addProgramBtn);
-    });
-
+    await checkProgramAddButton();
     await clickTarget(CollectionPageMetaTestIds.addProgramBtn);
-
-    await typeValueToTarget(
-      CollectionPageMetaTestIds.addProgramFormTitleField,
-      "This is a test program"
-    );
-    await typeRichTextEditior(
-      CollectionPageMetaTestIds.addProgramFormDescriptionField,
-      "I am a description"
-    );
-
+    await updateProgramAddFormWithDefaultValues();
     await waitFor(async () => {
       await selectOption({
         target: CollectionPageMetaTestIds.addProgramFormTargetStyleSelector,
         selectedOption: TargetStyle.TaskAnalysis,
         currentValue: TargetStyle.DiscreteTrials
       });
-
       await selectOption({
         target: CollectionPageMetaTestIds.addProgramFormChainingSelector,
         selectedOption: TrialChainingDirections.Backward,
         currentValue: TrialChainingDirections.Total
       });
     });
-
     await clickTarget(AddModalControls.createBtn);
-
+    await checkDefaultProgramAddForm();
     await waitFor(async () => {
       await checkSelectorTextContent(
         getTableData({
@@ -330,27 +334,10 @@ describe("Parsimony Collection Page Tests", () => {
           rowIndex: 4,
           colName: "chaining.type"
         }),
-        "BACKWARD"
+        TrialChainingDirections.Backward
       );
     });
-
-    await clickTarget(
-      getTableAction({
-        tableName: CollectionPageMetaTestIds.table,
-        rowIndex: 4,
-        action: "delete"
-      })
-    );
-
-    await waitFor(async () => {
-      await checkNotInDocument(
-        getTableData({
-          tableName: CollectionPageMetaTestIds.table,
-          rowIndex: 4,
-          colName: "title"
-        })
-      );
-    });
+    await deleteCreatedProgram(CollectionPageMetaTestIds.table, 4);
   });
 
   test("Should add/delete a Task Analysis with Total Forward Chaining", async () => {
@@ -360,23 +347,9 @@ describe("Parsimony Collection Page Tests", () => {
     const { app } = await makeTestApp({ initialRoute: `/books/${id}` });
 
     render(app);
-
-    // Check Buttons are visible
-    await waitFor(async () => {
-      await checkVisibility(CollectionPageMetaTestIds.addProgramBtn);
-    });
-
+    await checkProgramAddButton();
     await clickTarget(CollectionPageMetaTestIds.addProgramBtn);
-
-    await typeValueToTarget(
-      CollectionPageMetaTestIds.addProgramFormTitleField,
-      "This is a test program"
-    );
-    await typeRichTextEditior(
-      CollectionPageMetaTestIds.addProgramFormDescriptionField,
-      "I am a description"
-    );
-
+    await updateProgramAddFormWithDefaultValues();
     await waitFor(async () => {
       await selectOption({
         target: CollectionPageMetaTestIds.addProgramFormTargetStyleSelector,
@@ -390,7 +363,6 @@ describe("Parsimony Collection Page Tests", () => {
         currentValue: TrialChainingDirections.Total
       });
     });
-
     await clickTarget(AddModalControls.createBtn);
 
     await waitFor(async () => {
@@ -400,27 +372,10 @@ describe("Parsimony Collection Page Tests", () => {
           rowIndex: 4,
           colName: "chaining.type"
         }),
-        "FORWARD"
+        TrialChainingDirections.Forward
       );
     });
-
-    await clickTarget(
-      getTableAction({
-        tableName: CollectionPageMetaTestIds.table,
-        rowIndex: 4,
-        action: "delete"
-      })
-    );
-
-    await waitFor(async () => {
-      await checkNotInDocument(
-        getTableData({
-          tableName: CollectionPageMetaTestIds.table,
-          rowIndex: 4,
-          colName: "title"
-        })
-      );
-    });
+    await deleteCreatedProgram(CollectionPageMetaTestIds.table, 4);
   });
 
   test("Should add/delete a Collection", async () => {
@@ -484,46 +439,9 @@ describe("Parsimony Collection Page Tests", () => {
     render(app);
 
     // Check Buttons are visible
-    await waitFor(async () => {
-      await checkVisibility(CollectionPageMetaTestIds.addBehaviorBtn);
-    });
-
+    await checkBehaviorAddButton();
     await clickTarget(CollectionPageMetaTestIds.addBehaviorBtn);
-
-    await typeValueToTarget(
-      BehaviorAddFormMetaTestIds.titleField,
-      "This is a test program"
-    );
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.descriptionField,
-      "I am a description"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.operationalDefinitionField,
-      "Operational Definition!"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.proactiveStrategiesField,
-      "Proactive Strategies!"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.precursorBehaviorField,
-      "Precursor Behavior!"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.reactiveStrategiesField,
-      "Reactive Strategies!"
-    );
-
-    await typeValueToTarget(
-      BehaviorAddFormMetaTestIds.masteryTargetField,
-      "80"
-    );
-
+    await updateBehaviorAddFormWithDefaults();
     await clickTarget(AddModalControls.createBtn);
 
     await waitFor(async () => {
@@ -537,23 +455,7 @@ describe("Parsimony Collection Page Tests", () => {
       );
     });
 
-    await clickTarget(
-      getTableAction({
-        tableName: CollectionPageMetaTestIds.behaviorTable,
-        rowIndex: 3,
-        action: "delete"
-      })
-    );
-
-    await waitFor(async () => {
-      await checkNotInDocument(
-        getTableData({
-          tableName: CollectionPageMetaTestIds.behaviorTable,
-          rowIndex: 3,
-          colName: "title"
-        })
-      );
-    });
+    await deleteCreatedProgram(CollectionPageMetaTestIds.behaviorTable, 3);
   });
 
   test("Should add/delete a Duration Behavior", async () => {
@@ -564,22 +466,9 @@ describe("Parsimony Collection Page Tests", () => {
 
     render(app);
 
-    // Check Buttons are visible
-    await waitFor(async () => {
-      await checkVisibility(CollectionPageMetaTestIds.addBehaviorBtn);
-    });
-
+    await checkBehaviorAddButton();
     await clickTarget(CollectionPageMetaTestIds.addBehaviorBtn);
-
-    await typeValueToTarget(
-      BehaviorAddFormMetaTestIds.titleField,
-      "This is a test program"
-    );
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.descriptionField,
-      "I am a description"
-    );
-
+    await updateBehaviorAddFormWithDefaults();
     await waitFor(async () => {
       await selectOption({
         target: BehaviorAddFormMetaTestIds.behaviorTypeSelector,
@@ -587,34 +476,7 @@ describe("Parsimony Collection Page Tests", () => {
         currentValue: BehaviorType.Frequency
       });
     });
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.operationalDefinitionField,
-      "Operational Definition!"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.proactiveStrategiesField,
-      "Proactive Strategies!"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.precursorBehaviorField,
-      "Precursor Behavior!"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.reactiveStrategiesField,
-      "Reactive Strategies!"
-    );
-
-    await typeValueToTarget(
-      BehaviorAddFormMetaTestIds.masteryTargetField,
-      "80"
-    );
-
     await clickTarget(AddModalControls.createBtn);
-
     await waitFor(async () => {
       await checkSelectorTextContent(
         getTableData({
@@ -625,24 +487,7 @@ describe("Parsimony Collection Page Tests", () => {
         BehaviorType.Duration
       );
     });
-
-    await clickTarget(
-      getTableAction({
-        tableName: CollectionPageMetaTestIds.behaviorTable,
-        rowIndex: 3,
-        action: "delete"
-      })
-    );
-
-    await waitFor(async () => {
-      await checkNotInDocument(
-        getTableData({
-          tableName: CollectionPageMetaTestIds.behaviorTable,
-          rowIndex: 3,
-          colName: "title"
-        })
-      );
-    });
+    await deleteCreatedProgram(CollectionPageMetaTestIds.behaviorTable, 3);
   });
 
   test("Should add/delete a Interval Behavior", async () => {
@@ -653,22 +498,9 @@ describe("Parsimony Collection Page Tests", () => {
 
     render(app);
 
-    // Check Buttons are visible
-    await waitFor(async () => {
-      await checkVisibility(CollectionPageMetaTestIds.addBehaviorBtn);
-    });
-
+    await checkBehaviorAddButton();
     await clickTarget(CollectionPageMetaTestIds.addBehaviorBtn);
-
-    await typeValueToTarget(
-      BehaviorAddFormMetaTestIds.titleField,
-      "This is a test program"
-    );
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.descriptionField,
-      "I am a description"
-    );
-
+    await updateBehaviorAddFormWithDefaults();
     await waitFor(async () => {
       await selectOption({
         target: BehaviorAddFormMetaTestIds.behaviorTypeSelector,
@@ -680,31 +512,6 @@ describe("Parsimony Collection Page Tests", () => {
         "10000"
       );
     });
-
-    await typeValueToTarget(
-      BehaviorAddFormMetaTestIds.masteryTargetField,
-      "80"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.operationalDefinitionField,
-      "Operational Definition!"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.proactiveStrategiesField,
-      "Proactive Strategies!"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.precursorBehaviorField,
-      "Precursor Behavior!"
-    );
-
-    await typeRichTextEditior(
-      BehaviorAddFormMetaTestIds.reactiveStrategiesField,
-      "Reactive Strategies!"
-    );
 
     await clickTarget(AddModalControls.createBtn);
 
@@ -718,23 +525,6 @@ describe("Parsimony Collection Page Tests", () => {
         BehaviorType.Interval
       );
     });
-
-    await clickTarget(
-      getTableAction({
-        tableName: CollectionPageMetaTestIds.behaviorTable,
-        rowIndex: 3,
-        action: "delete"
-      })
-    );
-
-    await waitFor(async () => {
-      await checkNotInDocument(
-        getTableData({
-          tableName: CollectionPageMetaTestIds.behaviorTable,
-          rowIndex: 3,
-          colName: "title"
-        })
-      );
-    });
+    await deleteCreatedProgram(CollectionPageMetaTestIds.behaviorTable, 3);
   });
 });

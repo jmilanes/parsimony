@@ -23,10 +23,8 @@ export const Field = ({
   metaTestId,
   ...rest
 }: IFieldProps) => {
-  const metaId = `${metaTestId}`;
-
   return readOnly ? (
-    <ReadOnly metaTestId={metaId} value={value} title={placeHolderText} />
+    <ReadOnly metaTestId={metaTestId} value={value} title={placeHolderText} />
   ) : (
     <Container flexDirection="column" key={key} margin={CONTAINER_INPUT_MARGIN}>
       <TextField
