@@ -1,11 +1,13 @@
 import {
+  BehaviorType,
   CollectionCategories,
   Domains,
   InputTypes,
   ProgramCategories,
   ProgramTypes,
   ProgramValueTypes,
-  TargetStyle
+  TargetStyle,
+  TrialChainingDirections
 } from "@parsimony/types/dist";
 import {
   creatCollectionPayload,
@@ -99,6 +101,25 @@ export const initialProgramPageData = {
       masteryConsecutiveTargets: 3,
       subscribers: [USER_UUID],
       collectionId: COLLECTION_UUID
+    }),
+    createProgramPayload({
+      collectionId: COLLECTION_UUID,
+      title: "Behavior Interval 1",
+      description: "Behavior Description",
+      lastEditedBy: USER_UUID,
+      editedBy: [USER_UUID],
+      createdBy: USER_UUID,
+      chaining: {},
+      targetStyle: TargetStyle.Behavior,
+      behavior: {
+        type: BehaviorType.Interval,
+        active: true,
+        alertTime: 0,
+        operationalDefinition: "operationalDefinition",
+        precursorBehaviors: "precursorBehaviors",
+        proactiveStrategies: "proactiveStrategies",
+        reactiveStrategies: "reactiveStrategies"
+      }
     })
   ]
 };

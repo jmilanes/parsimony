@@ -2,10 +2,12 @@ import React from "react";
 import { render } from "@testing-library/react";
 
 import {
+  BehaviorType,
   Domains,
   ProgramCategories,
   ProgramPageMetaTestIds,
-  ProgramTypes
+  ProgramTypes,
+  TargetStyle
 } from "@parsimony/types";
 import { makeTestApp } from "../../../testUtils/makeTestApp";
 import { clickTarget } from "../../../testUtils/actions.spec";
@@ -93,6 +95,34 @@ const DEFAULT_UPDATED_PROGRAM_DATA = {
   ]
 };
 
+const INITIAL_BEHAVIOR_DATA = {
+  title: "Behavior Interval 1",
+  description: "Behavior Description",
+  behavior: {
+    type: BehaviorType.Interval,
+    active: true,
+    alertTime: 0,
+    operationalDefinition: "operationalDefinition",
+    precursorBehaviors: "precursorBehaviors",
+    proactiveStrategies: "proactiveStrategies",
+    reactiveStrategies: "reactiveStrategies"
+  }
+};
+
+const UPDATED_BEHVAIOR_DATA = {
+  title: "New Title",
+  description: "New Description",
+  behavior: {
+    type: BehaviorType.Interval,
+    active: true,
+    alertTime: 0,
+    operationalDefinition: "no",
+    precursorBehaviors: "np",
+    proactiveStrategies: "np2",
+    reactiveStrategies: "sr"
+  }
+};
+
 describe("Parsimony Program Page Tests", () => {
   const mockDbService = Container.get(MockDBService);
   beforeEach(async () => {
@@ -131,7 +161,34 @@ describe("Parsimony Program Page Tests", () => {
     await updateProgramPageFields(DEFAULT_UPDATED_PROGRAM_DATA);
     await clickTarget(ProgramPageMetaTestIds.cancelEditBtn);
     await checkProgramReadOnlyValues(DEFAULT_INITIAL_PROGRAM_DATA);
+  });
+
+  test("Should Render and Edit an Interval Behavior", async () => {
+    const id = mockDbService.getUuidByKey(
+      createTargetUuidKey(Domains.Program, 1)
+    );
+    const { app } = await makeTestApp({ initialRoute: `/programs/${id}` });
+    render(app);
+
+    await checkProgramReadOnlyValues(INITIAL_BEHAVIOR_DATA);
     await clickTarget(ProgramPageMetaTestIds.editBtn);
-    await updateProgramPageFields(DEFAULT_UPDATED_PROGRAM_DATA);
+    await updateProgramPageFields(UPDATED_BEHVAIOR_DATA);
+    // Test Submit Works
+    await clickTarget(ProgramPageMetaTestIds.submitEditBtn);
+    await checkProgramReadOnlyValues(UPDATED_BEHVAIOR_DATA);
+  });
+
+  test("Should Render and Cancel an Interval Behavior", async () => {
+    const id = mockDbService.getUuidByKey(
+      createTargetUuidKey(Domains.Program, 1)
+    );
+    const { app } = await makeTestApp({ initialRoute: `/programs/${id}` });
+    render(app);
+
+    await checkProgramReadOnlyValues(INITIAL_BEHAVIOR_DATA);
+    await clickTarget(ProgramPageMetaTestIds.editBtn);
+    await updateProgramPageFields(UPDATED_BEHVAIOR_DATA);
+    await clickTarget(ProgramPageMetaTestIds.cancelEditBtn);
+    await checkProgramReadOnlyValues(INITIAL_BEHAVIOR_DATA);
   });
 });

@@ -172,7 +172,13 @@ export enum ProgramPageMetaTestIds {
   clientProgramActionViewProgramData = "view-program-data",
   stepsSelector = "update-steps-selector",
   behaviorActiveCheckBok = "behavior-active-checkbox",
-  masteredCheckbox = "mastered"
+  masteredCheckbox = "mastered",
+  behaviorTypeSelector = "behavior-type-selector",
+  alertDurration = "behavior-alert-duration",
+  operationalDefinitionField = "program-page-operational-definition-field",
+  precursorBehaviorField = "program-page-precursor-behavior-field",
+  proactiveStrategiesField = "program-page-proactive-strategies-field",
+  reactiveStrategiesField = "program-page-reactive-strategies-field"
 }
 
 export enum ObservationMetaTestIds {

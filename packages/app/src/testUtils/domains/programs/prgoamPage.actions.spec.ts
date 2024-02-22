@@ -24,7 +24,8 @@ export const checkProgramReadOnlyValues = async ({
   masteryTarget,
   targetStyle,
   targetOptions,
-  targets
+  targets,
+  behavior
 }: Partial<Program>) => {
   await waitFor(async () => {
     title &&
@@ -72,6 +73,30 @@ export const checkProgramReadOnlyValues = async ({
     await checkTargetOptionsReadOnlyOptions(targetOptions);
     //@ts-ignore
     await checkTargetReadOnlyOptions(targets);
+
+    behavior?.operationalDefinition &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.operationalDefinitionField,
+        behavior?.operationalDefinition
+      ));
+
+    behavior?.proactiveStrategies &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.proactiveStrategiesField,
+        behavior?.proactiveStrategies
+      ));
+
+    behavior?.precursorBehaviors &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.precursorBehaviorField,
+        behavior?.precursorBehaviors
+      ));
+
+    behavior?.reactiveStrategies &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.reactiveStrategiesField,
+        behavior?.reactiveStrategies
+      ));
   });
 };
 
@@ -82,7 +107,8 @@ export const updateProgramPageFields = async ({
   masteryTarget,
   masteryConsecutiveTargets,
   targetOptions,
-  targets
+  targets,
+  behavior
 }: Partial<Program>) => {
   title &&
     (await clearAndTypeValueToTarget(ProgramPageMetaTestIds.titleField, title));
@@ -111,4 +137,28 @@ export const updateProgramPageFields = async ({
   targetOptions && (await updateTargetOptionsReadOnlyOptions(targetOptions));
   //@ts-ignore
   targets && (await updateTargetReadOnlyOptions(targets));
+
+  behavior?.operationalDefinition &&
+    (await typeRichTextEditior(
+      ProgramPageMetaTestIds.operationalDefinitionField,
+      behavior?.operationalDefinition
+    ));
+
+  behavior?.proactiveStrategies &&
+    (await typeRichTextEditior(
+      ProgramPageMetaTestIds.proactiveStrategiesField,
+      behavior?.proactiveStrategies
+    ));
+
+  behavior?.precursorBehaviors &&
+    (await typeRichTextEditior(
+      ProgramPageMetaTestIds.precursorBehaviorField,
+      behavior?.precursorBehaviors
+    ));
+
+  behavior?.reactiveStrategies &&
+    (await typeRichTextEditior(
+      ProgramPageMetaTestIds.reactiveStrategiesField,
+      behavior?.reactiveStrategies
+    ));
 };
