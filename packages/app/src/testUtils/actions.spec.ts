@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 
 import userEvent from "@testing-library/user-event";
-import { getReadOnlySelector } from "./selectors";
+import { getReadOnlySelector, getTableData } from "./selectors";
 
 export const selectOption = async ({
   target,
