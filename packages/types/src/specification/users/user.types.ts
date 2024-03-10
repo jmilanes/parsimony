@@ -1,5 +1,6 @@
 import { Default, Description, Optional, Required } from "@tsed/schema";
-import { Program, UserRoles } from "../types";
+import { Program } from "../../types";
+import { UserRoles } from "./user.enums";
 
 //TODO these could also follow a factory pattern
 @Description("Parsimony Users")

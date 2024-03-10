@@ -3,7 +3,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig
 } from "graphql";
-import { User } from "../../specification";
+import { User, UserRoles } from "../../specification";
 
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -810,14 +810,6 @@ export type UpdateUserPayload = {
   type?: InputMaybe<Scalars["String"]>;
   updated_at?: InputMaybe<Scalars["Date"]>;
 };
-
-export enum UserRoles {
-  Admin = "ADMIN",
-  Client = "CLIENT",
-  Director = "DIRECTOR",
-  Employee = "EMPLOYEE",
-  Guardian = "GUARDIAN"
-}
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
