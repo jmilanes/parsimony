@@ -48,7 +48,7 @@ describe("Duration Results Page Tests", () => {
         tableName: ResultsMetaTestIds.table,
         rowIndex: 0,
         colName: "behaviorData.result",
-        expectedValue: "1"
+        expectedValue: "1s"
       }
     ]);
   });
@@ -69,7 +69,7 @@ describe("Duration Results Page Tests", () => {
           createTargetUuidKey(Domains.Program, 1)
         ),
         behaviorData: {
-          result: 100,
+          result: 10000,
           type: BehaviorType.Duration
         }
       })
@@ -80,7 +80,7 @@ describe("Duration Results Page Tests", () => {
         tableName: ResultsMetaTestIds.table,
         rowIndex: 1,
         colName: "behaviorData.result",
-        expectedValue: "100"
+        expectedValue: "10s"
       }
     ]);
 

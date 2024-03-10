@@ -49,7 +49,7 @@ describe("Interval Results Page Tests", () => {
         tableName: ResultsMetaTestIds.table,
         rowIndex: 0,
         colName: "behaviorData.result",
-        expectedValue: "1"
+        expectedValue: "50%"
       }
     ]);
   });
@@ -81,7 +81,7 @@ describe("Interval Results Page Tests", () => {
         tableName: ResultsMetaTestIds.table,
         rowIndex: 1,
         colName: "behaviorData.result",
-        expectedValue: "100"
+        expectedValue: "100%"
       }
     ]);
 

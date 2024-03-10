@@ -1,14 +1,17 @@
 import {
   BehaviorType,
+  Chaining,
   CollectionCategories,
   Domains,
   Program,
   ProgramTypes,
   TargetStyle,
+  TrialChainingDirections,
   UserRoles
 } from "@parsimony/types/dist";
 import {
   creatCollectionPayload,
+  createBasicProgramPayload,
   createProgramPayload,
   createResultPayload,
   createUserPayload
@@ -31,50 +34,18 @@ export const createInitialResultFixture = (program: Partial<Program>) => ({
     })
   ],
   [Domains.Program]: [
-    createProgramPayload({
-      collectionId: COLLECTION_UUID,
-      title: "Behavior Interval 1",
-      description: "Behavior Description",
-      lastEditedBy: USER_UUID,
-      editedBy: [USER_UUID],
-      createdBy: USER_UUID,
-      chaining: {},
-      targetStyle: TargetStyle.Behavior,
-      behavior: {
-        type: BehaviorType.Frequency,
-        active: true,
-        alertTime: 0,
-        operationalDefinition: "operationalDefinition",
-        precursorBehaviors: "precursorBehaviors",
-        proactiveStrategies: "proactiveStrategies",
-        reactiveStrategies: "reactiveStrategies"
-      }
-    }),
-    createProgramPayload({
-      collectionId: COLLECTION_UUID,
-      clientId: USER_UUID,
-      title: "Behavior Interval 1",
-      description: "Behavior Description",
-      lastEditedBy: USER_UUID,
-      editedBy: [USER_UUID],
-      createdBy: USER_UUID,
-      type: ProgramTypes.Client,
-      chaining: {},
-      targetStyle: TargetStyle.Behavior,
-      behavior: {
-        type: BehaviorType.Frequency,
-        active: true,
-        alertTime: 0,
-        operationalDefinition: "operationalDefinition",
-        precursorBehaviors: "precursorBehaviors",
-        proactiveStrategies: "proactiveStrategies",
-        reactiveStrategies: "reactiveStrategies"
-      }
+    createBasicProgramPayload(program),
+    createBasicProgramPayload({
+      ...program,
+      clientId: USER_UUID
     })
   ]
 });
 
-const createInitialBehaviorResultData = (type: BehaviorType) => {
+const createInitialBehaviorResultData = (
+  type: BehaviorType,
+  result: number
+) => {
   return {
     ...createInitialResultFixture({
       collectionId: COLLECTION_UUID,
@@ -96,7 +67,7 @@ const createInitialBehaviorResultData = (type: BehaviorType) => {
         clientId: USER_UUID,
         programId: createTargetUuidKey(Domains.Program, 1),
         behaviorData: {
-          result: 1,
+          result,
           type
         }
       })
@@ -105,11 +76,118 @@ const createInitialBehaviorResultData = (type: BehaviorType) => {
 };
 
 export const frequencyBehaviorResultsFixture = createInitialBehaviorResultData(
-  BehaviorType.Frequency
+  BehaviorType.Frequency,
+  1
 );
 export const durationBehaviorResultsFixture = createInitialBehaviorResultData(
-  BehaviorType.Duration
+  BehaviorType.Duration,
+  1000
 );
 export const intervalBehaviorResultsFixture = createInitialBehaviorResultData(
-  BehaviorType.Interval
+  BehaviorType.Interval,
+  50
+);
+
+const createInitialProgramResultData = (
+  targetStyle: TargetStyle,
+  chaining: Chaining = {}
+) => {
+  return {
+    ...createInitialResultFixture({
+      collectionId: COLLECTION_UUID,
+      title: "Program Interval 1",
+      description: "Program Description",
+      lastEditedBy: USER_UUID,
+      editedBy: [USER_UUID],
+      createdBy: USER_UUID,
+      chaining,
+      targetStyle
+    }),
+    [Domains.Result]: [
+      createResultPayload({
+        programId: createTargetUuidKey(Domains.Program, 1),
+        clientId: USER_UUID,
+        programCompleteness: 75,
+        data: [
+          {
+            targetCompleteness: 50,
+            targetResults: [
+              {
+                trial: 1,
+                completed: false,
+                option: {
+                  name: "Full verbal model"
+                }
+              },
+              {
+                trial: 2,
+                completed: false,
+                option: {
+                  name: "Full verbal model"
+                }
+              },
+              {
+                trial: 3,
+                completed: true,
+                option: {
+                  name: "phonetic"
+                }
+              }
+            ]
+          },
+          {
+            targetCompleteness: 100,
+            targetResults: [
+              {
+                trial: 1,
+                completed: true,
+                option: {
+                  name: "Initial sound cue"
+                }
+              },
+              {
+                trial: 2,
+                completed: false,
+                option: {
+                  name: "Full verbal model"
+                }
+              },
+              {
+                trial: 3,
+                completed: true,
+                option: {
+                  name: "phonetic"
+                }
+              }
+            ]
+          }
+        ],
+        result: 75,
+        notes: "",
+        updated_at: "2023-08-15T03:13:24.286Z",
+        created_at: "2023-08-15T03:13:24.286Z"
+      })
+    ]
+  };
+};
+
+export const discreteTrialResultInitialFixture = createInitialProgramResultData(
+  TargetStyle.DiscreteTrials,
+  { type: TrialChainingDirections.Total, targetCompleteness: 100 }
+);
+
+export const discreteTrialForwardChainResultInitialFixture =
+  createInitialProgramResultData(TargetStyle.DiscreteTrials, {
+    type: TrialChainingDirections.Forward,
+    targetCompleteness: 100
+  });
+
+export const discreteTrialBackwardChainResultInitialFixture =
+  createInitialProgramResultData(TargetStyle.DiscreteTrials, {
+    type: TrialChainingDirections.Backward,
+    targetCompleteness: 100
+  });
+
+export const taskAnalysisResultInitialFixture = createInitialProgramResultData(
+  TargetStyle.TaskAnalysis
 );

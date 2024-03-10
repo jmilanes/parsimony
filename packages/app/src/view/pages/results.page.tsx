@@ -56,7 +56,6 @@ const Results = () => {
   const clientName = getFullName(client);
 
   const header = `${program?.title || "Untitled"}: Results for ${clientName}`;
-
   const columns: IColumns[] = [
     {
       key: "created_at",

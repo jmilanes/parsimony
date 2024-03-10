@@ -87,3 +87,27 @@ export const createResultPayload = (
     ...result
   };
 };
+
+export const createBasicProgramPayload = (program: Partial<Program>) => {
+  return {
+    description: "",
+    materials: "",
+    writeAccess: [],
+    readAccess: [],
+    type: ProgramTypes.Main,
+    lastEditedBy: "",
+    editedBy: [],
+    createdBy: "",
+    trials: 1,
+    targets: [],
+    mastered: false,
+    category: ProgramCategories.Aba,
+    targetOptions: [],
+    chaining: {},
+    behavior: {},
+    masteryTarget: 100,
+    masteryConsecutiveTargets: 3,
+    subscribers: [],
+    ...program
+  };
+};
