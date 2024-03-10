@@ -144,7 +144,7 @@ const Users = () => {
           title="Type"
           options={userRoleOptionsWithStringValues}
           value={form.Data.type}
-          onChange={(value) => form.updateData({ type: value as string })}
+          onChange={(value) => form.updateData({ type: value as UserRoles })}
           metaTestId={DirectoryPageMetaTestIds.typeSelector}
         />
         <Selector

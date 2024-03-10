@@ -15,7 +15,9 @@ export const createUserPayload = (
 ): Omit<User, "id"> => {
   return {
     schoolId: "mockSchoolId",
-    timeZone: "",
+    timezone: "",
+    updated_at: new Date(),
+    created_at: new Date(),
     roles: [UserRoles.Client],
     type: UserRoles.Client,
     documents: [],
@@ -28,7 +30,7 @@ export const createUserPayload = (
     actionItems: [],
     programs: [],
     clients: [],
-    threadDisplayNameName: "Test User",
+    threadDisplayName: "Test User",
     avatar: "",
     color: "red",
     serviceProvider: "",

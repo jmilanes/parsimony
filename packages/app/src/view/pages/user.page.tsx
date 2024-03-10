@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import {
   serviceProviderOptions,
   userRoleOptions,
@@ -12,9 +12,9 @@ import {
   Domains,
   IModes,
   Program,
-  User,
   UserPageMetaTestIds,
-  UserRoles
+  UserRoles,
+  User
 } from "@parsimony/types";
 
 import {
@@ -32,7 +32,7 @@ import { useAsync } from "react-use";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 import CollectionViewerContainer from "../containers/collection/collecitonViewer.container";
 
-const User = () => {
+const UserPage = () => {
   const API = DI.get(UIApi);
 
   const { userId } = getRouterParams();
@@ -248,4 +248,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default UserPage;

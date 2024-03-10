@@ -16,9 +16,8 @@ export type MakeTestAppArgs = {
 const DEFAULT_USER = {
   id: "11111",
   schoolId: "mockSchool",
-  timeZone: "",
   roles: [UserRoles.Director],
-  type: "",
+  type: UserRoles.Director,
   documents: [],
   password: "hello",
   email: "test@test.com",
@@ -30,11 +29,14 @@ const DEFAULT_USER = {
   actionItems: [],
   programs: [],
   clients: [],
-  threadDisplayNameName: "Test User",
+  threadDisplayName: "Test User",
   avatar: "",
   color: "red",
-  serviceProvider: ""
-};
+  serviceProvider: "",
+  timezone: "",
+  created_at: new Date(),
+  updated_at: new Date()
+} as User;
 
 export const makeTestApp = async ({
   manualLogin,
