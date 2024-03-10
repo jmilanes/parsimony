@@ -72,38 +72,6 @@ export type ChainingInput = {
   type?: InputMaybe<TrialChainingDirections>;
 };
 
-export type Collection = {
-  __typename?: "Collection";
-  ancestors?: Maybe<Array<Maybe<Scalars["ID"]>>>;
-  category?: Maybe<CollectionCategories>;
-  clientId?: Maybe<Scalars["ID"]>;
-  created_by?: Maybe<Scalars["ID"]>;
-  id: Scalars["ID"];
-  parentCollectionId?: Maybe<Scalars["ID"]>;
-  title?: Maybe<Scalars["String"]>;
-  type?: Maybe<CollectionTypes>;
-};
-
-export enum CollectionCategories {
-  Book = "BOOK",
-  Sub = "SUB"
-}
-
-export enum CollectionTypes {
-  Client = "CLIENT",
-  Main = "MAIN"
-}
-
-export type CreateCollectionPayload = {
-  ancestors?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  category?: InputMaybe<CollectionCategories>;
-  clientId?: InputMaybe<Scalars["ID"]>;
-  created_by?: InputMaybe<Scalars["ID"]>;
-  parentCollectionId?: InputMaybe<Scalars["ID"]>;
-  title: Scalars["String"];
-  type: CollectionTypes;
-};
-
 export type CreateProgramPayload = {
   active?: InputMaybe<Scalars["Boolean"]>;
   behavior?: InputMaybe<ProgramBehaviorInput>;
@@ -152,10 +120,6 @@ export type CreateThreadPayload = {
   subscribers: Array<InputMaybe<SubscriberInput>>;
 };
 
-export type DeleteCollectionPayload = {
-  id: Scalars["ID"];
-};
-
 export type DeleteMessagePayload = {
   messageId: Scalars["ID"];
   threadId: Scalars["ID"];
@@ -179,11 +143,6 @@ export type EditMessagePayload = {
   value: Scalars["String"];
 };
 
-export type GetAllCollectionsByRelationshipPayload = {
-  id?: InputMaybe<Scalars["ID"]>;
-  relationshipProperty: Scalars["String"];
-};
-
 export type GetAllProgramsByRelationshipPayload = {
   id: Scalars["ID"];
   relationshipProperty?: InputMaybe<Scalars["String"]>;
@@ -197,10 +156,6 @@ export type GetAllResultsByRelationshipPayload = {
 export type GetAllThreadsByRelationshipPayload = {
   id: Scalars["ID"];
   relationshipProperty: Scalars["String"];
-};
-
-export type GetCollectionPayload = {
-  id: Scalars["ID"];
 };
 
 export type GetProgramPayload = {
@@ -279,12 +234,10 @@ export type Mutation = {
   __typename?: "Mutation";
   addMessage?: Maybe<Thread>;
   addProgramsToClient?: Maybe<Array<Maybe<Program>>>;
-  createCollection?: Maybe<Collection>;
   createProgram?: Maybe<Program>;
   createResult?: Maybe<Result>;
   createThread?: Maybe<Thread>;
   createUser?: Maybe<User>;
-  deleteCollection?: Maybe<Scalars["ID"]>;
   deleteMessage?: Maybe<Scalars["ID"]>;
   deleteProgram?: Maybe<Scalars["ID"]>;
   deleteResult?: Maybe<Scalars["ID"]>;
@@ -292,7 +245,6 @@ export type Mutation = {
   deleteUser?: Maybe<Scalars["ID"]>;
   editMessage?: Maybe<Scalars["ID"]>;
   resetPassword?: Maybe<ResetPasswordResponse>;
-  updateCollection?: Maybe<Collection>;
   updateProgram?: Maybe<Program>;
   updateResult?: Maybe<Result>;
   updateThread?: Maybe<Thread>;
@@ -307,10 +259,6 @@ export type MutationAddProgramsToClientArgs = {
   payload?: InputMaybe<AddProgramsToClientPayload>;
 };
 
-export type MutationCreateCollectionArgs = {
-  payload?: InputMaybe<CreateCollectionPayload>;
-};
-
 export type MutationCreateProgramArgs = {
   payload?: InputMaybe<CreateProgramPayload>;
 };
@@ -321,10 +269,6 @@ export type MutationCreateResultArgs = {
 
 export type MutationCreateThreadArgs = {
   payload?: InputMaybe<CreateThreadPayload>;
-};
-
-export type MutationDeleteCollectionArgs = {
-  payload?: InputMaybe<DeleteCollectionPayload>;
 };
 
 export type MutationDeleteMessageArgs = {
@@ -349,10 +293,6 @@ export type MutationEditMessageArgs = {
 
 export type MutationResetPasswordArgs = {
   payload?: InputMaybe<ResetPasswordPayload>;
-};
-
-export type MutationUpdateCollectionArgs = {
-  payload?: InputMaybe<UpdateCollectionPayload>;
 };
 
 export type MutationUpdateProgramArgs = {
@@ -447,15 +387,13 @@ export enum ProgramValueTypes {
 
 export type Query = {
   __typename?: "Query";
-  getAllCollections?: Maybe<Array<Maybe<Collection>>>;
-  getAllCollectionsByRelationship?: Maybe<Array<Maybe<Collection>>>;
+
   getAllPrograms?: Maybe<Array<Maybe<Program>>>;
   getAllProgramsByRelationship?: Maybe<Array<Maybe<Program>>>;
   getAllResults?: Maybe<Array<Maybe<Result>>>;
   getAllResultsByRelationship?: Maybe<Array<Maybe<Result>>>;
   getAllThreads?: Maybe<Array<Maybe<Thread>>>;
   getAllThreadsByRelationship?: Maybe<Array<Maybe<Thread>>>;
-  getCollection?: Maybe<Collection>;
   getProgram?: Maybe<Program>;
   getResult?: Maybe<Result>;
   getThread?: Maybe<Thread>;
@@ -463,10 +401,6 @@ export type Query = {
   logout?: Maybe<LogOutResponse>;
   me?: Maybe<MeResponse>;
   requestPasswordReset?: Maybe<RequestPasswordResetResponse>;
-};
-
-export type QueryGetAllCollectionsByRelationshipArgs = {
-  payload?: InputMaybe<GetAllCollectionsByRelationshipPayload>;
 };
 
 export type QueryGetAllProgramsByRelationshipArgs = {
@@ -479,10 +413,6 @@ export type QueryGetAllResultsByRelationshipArgs = {
 
 export type QueryGetAllThreadsByRelationshipArgs = {
   payload?: InputMaybe<GetAllThreadsByRelationshipPayload>;
-};
-
-export type QueryGetCollectionArgs = {
-  payload?: InputMaybe<GetCollectionPayload>;
 };
 
 export type QueryGetProgramArgs = {
@@ -666,17 +596,6 @@ export enum TrialChainingDirections {
   Total = "TOTAL"
 }
 
-export type UpdateCollectionPayload = {
-  ancestors?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  category?: InputMaybe<CollectionCategories>;
-  clientId?: InputMaybe<Scalars["ID"]>;
-  created_by?: InputMaybe<Scalars["ID"]>;
-  id: Scalars["ID"];
-  parentCollectionId?: InputMaybe<Scalars["ID"]>;
-  title?: InputMaybe<Scalars["String"]>;
-  type?: InputMaybe<CollectionTypes>;
-};
-
 export type UpdateProgramPayload = {
   active?: InputMaybe<Scalars["Boolean"]>;
   behavior?: InputMaybe<ProgramBehaviorInput>;
@@ -844,26 +763,19 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   Chaining: ResolverTypeWrapper<Chaining>;
   ChainingInput: ChainingInput;
-  Collection: ResolverTypeWrapper<Collection>;
-  CollectionCategories: CollectionCategories;
-  CollectionTypes: CollectionTypes;
-  CreateCollectionPayload: CreateCollectionPayload;
   CreateProgramPayload: CreateProgramPayload;
   CreateResultPayload: CreateResultPayload;
   CreateThreadPayload: CreateThreadPayload;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
-  DeleteCollectionPayload: DeleteCollectionPayload;
   DeleteMessagePayload: DeleteMessagePayload;
   DeleteProgramPayload: DeleteProgramPayload;
   DeleteResultPayload: DeleteResultPayload;
   DeleteThreadPayload: DeleteThreadPayload;
   EditMessagePayload: EditMessagePayload;
   Float: ResolverTypeWrapper<Scalars["Float"]>;
-  GetAllCollectionsByRelationshipPayload: GetAllCollectionsByRelationshipPayload;
   GetAllProgramsByRelationshipPayload: GetAllProgramsByRelationshipPayload;
   GetAllResultsByRelationshipPayload: GetAllResultsByRelationshipPayload;
   GetAllThreadsByRelationshipPayload: GetAllThreadsByRelationshipPayload;
-  GetCollectionPayload: GetCollectionPayload;
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
   GetThreadPayload: GetThreadPayload;
@@ -908,11 +820,9 @@ export type ResolversTypes = {
   TargetStyle: TargetStyle;
   Thread: ResolverTypeWrapper<Thread>;
   TrialChainingDirections: TrialChainingDirections;
-  UpdateCollectionPayload: UpdateCollectionPayload;
   UpdateProgramPayload: UpdateProgramPayload;
   UpdateResultPayload: UpdateResultPayload;
   UpdateThreadPayload: UpdateThreadPayload;
-  User: ResolverTypeWrapper<User>;
   UserRoles: UserRoles;
 };
 
@@ -926,24 +836,19 @@ export type ResolversParentTypes = {
   Boolean: Scalars["Boolean"];
   Chaining: Chaining;
   ChainingInput: ChainingInput;
-  Collection: Collection;
-  CreateCollectionPayload: CreateCollectionPayload;
   CreateProgramPayload: CreateProgramPayload;
   CreateResultPayload: CreateResultPayload;
   CreateThreadPayload: CreateThreadPayload;
   Date: Scalars["Date"];
-  DeleteCollectionPayload: DeleteCollectionPayload;
   DeleteMessagePayload: DeleteMessagePayload;
   DeleteProgramPayload: DeleteProgramPayload;
   DeleteResultPayload: DeleteResultPayload;
   DeleteThreadPayload: DeleteThreadPayload;
   EditMessagePayload: EditMessagePayload;
   Float: Scalars["Float"];
-  GetAllCollectionsByRelationshipPayload: GetAllCollectionsByRelationshipPayload;
   GetAllProgramsByRelationshipPayload: GetAllProgramsByRelationshipPayload;
   GetAllResultsByRelationshipPayload: GetAllResultsByRelationshipPayload;
   GetAllThreadsByRelationshipPayload: GetAllThreadsByRelationshipPayload;
-  GetCollectionPayload: GetCollectionPayload;
   GetProgramPayload: GetProgramPayload;
   GetResultPayload: GetResultPayload;
   GetThreadPayload: GetThreadPayload;
@@ -981,11 +886,9 @@ export type ResolversParentTypes = {
   TargetResultOption: TargetResultOption;
   TargetResultOptionInput: TargetResultOptionInput;
   Thread: Thread;
-  UpdateCollectionPayload: UpdateCollectionPayload;
   UpdateProgramPayload: UpdateProgramPayload;
   UpdateResultPayload: UpdateResultPayload;
   UpdateThreadPayload: UpdateThreadPayload;
-  User: User;
 };
 
 export type BehaviorDataResolvers<
@@ -1012,37 +915,6 @@ export type ChainingResolvers<
   >;
   type?: Resolver<
     Maybe<ResolversTypes["TrialChainingDirections"]>,
-    ParentType,
-    ContextType
-  >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type CollectionResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["Collection"] = ResolversParentTypes["Collection"]
-> = {
-  ancestors?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ID"]>>>,
-    ParentType,
-    ContextType
-  >;
-  category?: Resolver<
-    Maybe<ResolversTypes["CollectionCategories"]>,
-    ParentType,
-    ContextType
-  >;
-  clientId?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
-  created_by?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  parentCollectionId?: Resolver<
-    Maybe<ResolversTypes["ID"]>,
-    ParentType,
-    ContextType
-  >;
-  title?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  type?: Resolver<
-    Maybe<ResolversTypes["CollectionTypes"]>,
     ParentType,
     ContextType
   >;
@@ -1117,7 +989,7 @@ export type MeResponseResolvers<
     ParentType,
     ContextType
   >;
-  user?: Resolver<Maybe<ResolversTypes["User"]>, ParentType, ContextType>;
+  user?: User;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1149,12 +1021,6 @@ export type MutationResolvers<
     ContextType,
     Partial<MutationAddProgramsToClientArgs>
   >;
-  createCollection?: Resolver<
-    Maybe<ResolversTypes["Collection"]>,
-    ParentType,
-    ContextType,
-    Partial<MutationCreateCollectionArgs>
-  >;
   createProgram?: Resolver<
     Maybe<ResolversTypes["Program"]>,
     ParentType,
@@ -1172,12 +1038,6 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     Partial<MutationCreateThreadArgs>
-  >;
-  deleteCollection?: Resolver<
-    Maybe<ResolversTypes["ID"]>,
-    ParentType,
-    ContextType,
-    Partial<MutationDeleteCollectionArgs>
   >;
   deleteMessage?: Resolver<
     Maybe<ResolversTypes["ID"]>,
@@ -1215,12 +1075,7 @@ export type MutationResolvers<
     ContextType,
     Partial<MutationResetPasswordArgs>
   >;
-  updateCollection?: Resolver<
-    Maybe<ResolversTypes["Collection"]>,
-    ParentType,
-    ContextType,
-    Partial<MutationUpdateCollectionArgs>
-  >;
+
   updateProgram?: Resolver<
     Maybe<ResolversTypes["Program"]>,
     ParentType,
@@ -1381,17 +1236,6 @@ export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = {
-  getAllCollections?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Collection"]>>>,
-    ParentType,
-    ContextType
-  >;
-  getAllCollectionsByRelationship?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Collection"]>>>,
-    ParentType,
-    ContextType,
-    Partial<QueryGetAllCollectionsByRelationshipArgs>
-  >;
   getAllPrograms?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Program"]>>>,
     ParentType,
@@ -1424,12 +1268,6 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     Partial<QueryGetAllThreadsByRelationshipArgs>
-  >;
-  getCollection?: Resolver<
-    Maybe<ResolversTypes["Collection"]>,
-    ParentType,
-    ContextType,
-    Partial<QueryGetCollectionArgs>
   >;
   getProgram?: Resolver<
     Maybe<ResolversTypes["Program"]>,
@@ -1659,79 +1497,9 @@ export type ThreadResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["User"] = ResolversParentTypes["User"]
-> = {
-  actionItems?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ID"]>>>,
-    ParentType,
-    ContextType
-  >;
-  avatar?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  clients?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ID"]>>>,
-    ParentType,
-    ContextType
-  >;
-  color?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  contacts?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ID"]>>>,
-    ParentType,
-    ContextType
-  >;
-  created_at?: Resolver<Maybe<ResolversTypes["Date"]>, ParentType, ContextType>;
-  dateOfBirth?: Resolver<
-    Maybe<ResolversTypes["Date"]>,
-    ParentType,
-    ContextType
-  >;
-  documents?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["String"]>>>,
-    ParentType,
-    ContextType
-  >;
-  email?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  firstName?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  lastName?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  password?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  phone?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  programs?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ID"]>>>,
-    ParentType,
-    ContextType
-  >;
-  roles?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["String"]>>>,
-    ParentType,
-    ContextType
-  >;
-  schoolId?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  serviceProvider?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  threadDisplayName?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  timeZone?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  type?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  updated_at?: Resolver<Maybe<ResolversTypes["Date"]>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type Resolvers<ContextType = any> = {
   BehaviorData?: BehaviorDataResolvers<ContextType>;
   Chaining?: ChainingResolvers<ContextType>;
-  Collection?: CollectionResolvers<ContextType>;
   Date?: GraphQLScalarType;
   LogOutResponse?: LogOutResponseResolvers<ContextType>;
   LoginResponse?: LoginResponseResolvers<ContextType>;
@@ -1751,5 +1519,4 @@ export type Resolvers<ContextType = any> = {
   TargetResult?: TargetResultResolvers<ContextType>;
   TargetResultOption?: TargetResultOptionResolvers<ContextType>;
   Thread?: ThreadResolvers<ContextType>;
-  User?: UserResolvers<ContextType>;
 };

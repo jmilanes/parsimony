@@ -9,7 +9,7 @@ export const initialCollectionData: Collection = {
   id: "",
   title: "",
   ancestors: [],
-  created_by: currentUserLS,
+  created_by: currentUserLS || undefined,
   type: CollectionTypes.Main,
   category: CollectionCategories.Book
 };

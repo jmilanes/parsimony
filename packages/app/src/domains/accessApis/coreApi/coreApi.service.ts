@@ -97,7 +97,6 @@ export default class CoreApi {
     d: K,
     id?: string
   ): RT => {
-    debugger;
     if (!id) {
       throw new Error("Undefined id passed to getItem in UI API");
     }

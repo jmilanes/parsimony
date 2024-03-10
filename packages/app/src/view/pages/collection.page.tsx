@@ -21,7 +21,7 @@ import { Spin } from "antd";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 import CollectionViewerContainer from "../containers/collection/collecitonViewer.container";
 
-const Collection = () => {
+const CollectionPage = () => {
   const API = Container.get(UIApi);
 
   const { collectionId } = getRouterParams();
@@ -122,4 +122,4 @@ const Collection = () => {
   );
 };
 
-export default Collection;
+export default CollectionPage;

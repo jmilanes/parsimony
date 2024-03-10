@@ -35,13 +35,13 @@ export const createUserPayload = (
   };
 };
 
-export const creatCollectionPayload = (colelction?: Partial<Collection>) => {
+export const creatCollectionPayload = (collection?: Partial<Collection>) => {
   return {
     title: "Test1",
     ancestors: [],
     type: CollectionTypes.Main,
     category: CollectionCategories.Book,
-    ...colelction
+    ...collection
   };
 };
 

@@ -15,7 +15,7 @@ import {
 } from "@parsimony/types";
 import { IOption } from "../view/components";
 
-export const currentUserLS = localStorage.getItem("currentUserId");
+export const currentUserLS = localStorage.getItem("currentUserId") || null;
 
 // TODO: need to pass in the user... or make this better
 
