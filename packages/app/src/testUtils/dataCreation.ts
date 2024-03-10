@@ -15,9 +15,6 @@ export const createUserPayload = (
 ): Omit<User, "id"> => {
   return {
     schoolId: "mockSchoolId",
-    timezone: "",
-    updated_at: new Date(),
-    created_at: new Date(),
     roles: [UserRoles.Client],
     type: UserRoles.Client,
     documents: [],

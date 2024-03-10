@@ -18,7 +18,7 @@ export default gql`
     clients: [ID]
     programs: [ID]
     actionItems: [ID]
-    threadDisplayNameName: String
+    threadDisplayName: String
     avatar: String
     color: String
     updated_at: Date
@@ -41,7 +41,7 @@ export default gql`
     clients: [ID]
     programs: [ID]
     actionItems: [ID]
-    threadDisplayNameName: String
+    threadDisplayName: String
     avatar: String
     color: String
     updated_at: Date
@@ -69,7 +69,7 @@ export default gql`
     clients: [ID]
     programs: [ID]
     actionItems: [ID]
-    threadDisplayNameName: String
+    threadDisplayName: String
     avatar: String
     color: String
     serviceProvider: String

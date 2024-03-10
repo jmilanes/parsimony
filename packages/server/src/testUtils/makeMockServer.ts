@@ -24,7 +24,7 @@ export const MOCK_USER = {
   actionItems: [],
   programs: [],
   clients: [],
-  threadDisplayNameName: "Test User",
+  threadDisplayName: "Test User",
   avatar: "",
   color: "red",
   serviceProvider: ""

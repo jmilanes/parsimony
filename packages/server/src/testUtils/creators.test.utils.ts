@@ -70,9 +70,9 @@ export const generateUserPayload = (
 ): Omit<User, "id"> => {
   return {
     schoolId: "mockSchoolId",
-    timeZone: "",
+    timezone: "",
     roles: [UserRoles.Client],
-    type: "",
+    type: UserRoles.Client,
     documents: [],
     password: "hello",
     email: "test@test.com",
@@ -84,7 +84,7 @@ export const generateUserPayload = (
     actionItems: [],
     programs: [],
     clients: [],
-    threadDisplayNameName: "Test User",
+    threadDisplayName: "Test User",
     avatar: "",
     color: "red",
     serviceProvider: "",

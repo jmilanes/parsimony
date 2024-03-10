@@ -17,7 +17,7 @@ const User = `type User {
     clients: [ID]
     programs: [ID]
     actionItems: [ID]
-    threadDisplayNameName: String
+    threadDisplayName: String
     avatar: String
     color: String
   }`;
