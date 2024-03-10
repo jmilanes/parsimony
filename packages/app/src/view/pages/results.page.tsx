@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Domains, Result, ResultsMetaTestIds } from "@parsimony/types";
 import { Header, IColumns, ITableAction, Table } from "../components";
 import { getFullDate, getFullName, getRouterParams } from "../../utils";
-import parse from "html-react-parser";
 
 import {
   CategoryScale,
@@ -22,20 +21,22 @@ import { Spin } from "antd";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 import { parseHTMLObj } from "../containers";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
 const Results = () => {
   const API = DI.get(UIApi);
   const { programId } = getRouterParams();
   const navigate = API.Navigate;
+
+  useEffect(() => {
+    ChartJS.register(
+      CategoryScale,
+      LinearScale,
+      PointElement,
+      LineElement,
+      Title,
+      Tooltip,
+      Legend
+    );
+  });
 
   const { loading, retry } = useAsyncRetry(async () => {
     await API.actions.result.init(programId || "");
@@ -51,7 +52,6 @@ const Results = () => {
     .sort((a, b) => new Date(b.created_at) + new Date(a.created_at));
 
   // TODO make sorting better
-
   const client = API.system.getItem(Domains.User, program?.clientId || "");
   const clientName = getFullName(client);
 

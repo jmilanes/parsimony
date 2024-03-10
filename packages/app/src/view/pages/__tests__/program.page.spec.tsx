@@ -6,8 +6,7 @@ import {
   Domains,
   ProgramCategories,
   ProgramPageMetaTestIds,
-  ProgramTypes,
-  TargetStyle
+  ProgramTypes
 } from "@parsimony/types";
 import { makeTestApp } from "../../../testUtils/makeTestApp";
 import { clickTarget } from "../../../testUtils/actions.spec";

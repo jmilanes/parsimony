@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import "@testing-library/jest-dom";
+import React, { forwardRef } from "react";
 
 class ClipboardEventMock extends Event {
   clipboardData: DataTransfer | null;

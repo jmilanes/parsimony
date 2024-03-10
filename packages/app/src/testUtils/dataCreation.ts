@@ -5,6 +5,7 @@ import {
   Program,
   ProgramCategories,
   ProgramTypes,
+  Result,
   User,
   UserRoles
 } from "@parsimony/types";
@@ -16,7 +17,7 @@ export const createUserPayload = (
     schoolId: "mockSchoolId",
     timeZone: "",
     roles: [UserRoles.Client],
-    type: "",
+    type: UserRoles.Client,
     documents: [],
     email: "test@test.com",
     firstName: "Test",
@@ -70,5 +71,19 @@ export const createProgramPayload = (
     masteryConsecutiveTargets: 3,
     subscribers: [],
     ...program
+  };
+};
+
+// TODO: This pattern can be replaced once we have class typings with good defaults
+export const createResultPayload = (
+  result: Partial<Result>
+): Omit<Result, "id"> => {
+  return {
+    programCompleteness: 0,
+    data: [],
+    notes: "",
+    updated_at: "2024-03-09T16:27:19.966Z",
+    created_at: "2024-03-09T16:27:19.966Z",
+    ...result
   };
 };

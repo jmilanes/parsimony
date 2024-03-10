@@ -25,6 +25,10 @@ export class MockDBService {
     this.#rs = rs;
   }
 
+  get RS() {
+    return this.#rs;
+  }
+
   public getUuidByKey(key: string) {
     return this.#uuidMap[key];
   }
