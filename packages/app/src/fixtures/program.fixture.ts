@@ -17,7 +17,7 @@ import { IOption } from "../view/components";
 
 export const currentUserLS = localStorage.getItem("currentUserId") || null;
 
-// TODO: need to pass in the user... or make this better
+// TODO: need to pass in the user... or make this better REFACTOR currentUSER....
 
 export const initialProgramData: Program = {
   id: "",
@@ -27,9 +27,9 @@ export const initialProgramData: Program = {
   writeAccess: [],
   readAccess: [],
   type: ProgramTypes.Main,
-  lastEditedBy: currentUserLS,
-  editedBy: [currentUserLS],
-  createdBy: currentUserLS,
+  lastEditedBy: currentUserLS || undefined,
+  editedBy: currentUserLS ? [currentUserLS] : [],
+  createdBy: currentUserLS || undefined,
   trials: 1,
   targets: [],
   mastered: false,
@@ -37,7 +37,7 @@ export const initialProgramData: Program = {
   targetOptions: [],
   masteryTarget: 100,
   masteryConsecutiveTargets: 3,
-  subscribers: [currentUserLS],
+  subscribers: currentUserLS ? [currentUserLS] : [],
   collectionId: "",
   targetStyle: TargetStyle.DiscreteTrials,
   chaining: {
@@ -53,16 +53,16 @@ export const initialBehaviorData: Program = {
   writeAccess: [],
   readAccess: [],
   type: ProgramTypes.Main,
-  lastEditedBy: currentUserLS,
-  editedBy: [currentUserLS],
-  createdBy: currentUserLS,
+  lastEditedBy: currentUserLS || undefined,
+  editedBy: currentUserLS ? [currentUserLS] : [],
+  createdBy: currentUserLS || undefined,
   trials: 1,
   mastered: false,
   targetOptions: [],
   targetStyle: TargetStyle.Behavior,
   masteryTarget: 100,
   masteryConsecutiveTargets: 3,
-  subscribers: [currentUserLS],
+  subscribers: currentUserLS ? [currentUserLS] : [],
   collectionId: "",
   behavior: {
     alertTime: 0,

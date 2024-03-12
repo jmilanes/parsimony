@@ -7,7 +7,7 @@ import { RequestsTypeMap } from "../domains/requests/request.Service";
 
 export const uuid = () => uuidv4();
 
-export const clone = <T>(obj: Record<string, T>) => _.clone(obj);
+export const clone = <T>(obj: any) => _.clone(obj);
 
 export const setDataWithPath = (obj: IObject, path: string, value: unknown) =>
   _.set(obj, path, value);

@@ -4,15 +4,13 @@ import {
   CollectionCategories,
   Domains,
   Program,
-  ProgramTypes,
   TargetStyle,
   TrialChainingDirections,
   UserRoles
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import {
   creatCollectionPayload,
   createBasicProgramPayload,
-  createProgramPayload,
   createResultPayload,
   createUserPayload
 } from "../../../testUtils/dataCreation";

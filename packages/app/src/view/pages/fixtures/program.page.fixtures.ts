@@ -42,9 +42,6 @@ export const initialProgramPageData = {
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
-      active: null,
-      mainProgramId: null,
-      clientId: null,
       targets: [
         {
           title: "Target 1 Title",
@@ -72,8 +69,6 @@ export const initialProgramPageData = {
       readAccess: [],
       type: ProgramTypes.Main,
       trials: 3,
-      updated_at: null,
-      created_at: null,
       category: ProgramCategories.Aba,
       targetOptions: [
         {

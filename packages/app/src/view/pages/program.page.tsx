@@ -24,7 +24,7 @@ import { useAsync } from "react-use";
 import { Spin } from "antd";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
 
-const Program = () => {
+const ProgramPage = () => {
   //TODO fix the container collision
   const API = DI.get(UIApi);
 
@@ -151,4 +151,4 @@ const Program = () => {
   );
 };
 
-export default Program;
+export default ProgramPage;

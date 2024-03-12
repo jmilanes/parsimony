@@ -10,7 +10,7 @@ export type IRepeaterProps<> = {
   items: unknown[];
   form: InputForm<Program>;
   generateRow: (index: number) => JSX.Element | null;
-  initialData: Record<string, unknown>;
+  initialData: any;
   readOnly: boolean;
   dataProp: string;
   renderAddButton: (addFn: () => void) => React.ReactElement;

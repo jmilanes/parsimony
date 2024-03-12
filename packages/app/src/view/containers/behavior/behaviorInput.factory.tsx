@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BehaviorType, Program } from "@parsimony/types/dist";
+import { BehaviorType, Program } from "@parsimony/types";
 import { TallyBehaviorInput } from "./inputs/tally.behavior.input";
 import { TimeBehaviorInput } from "./inputs/time.behavior.input";
 import { IntervalBehaviorInput } from "./inputs/interval.behavior.input";
@@ -8,7 +8,7 @@ import { IntervalBehaviorInput } from "./inputs/interval.behavior.input";
 export const behaviorInputFactory = (program: Program) => {
   if (!program.behavior?.type) {
     console.warn(`No behavior associated with ${program.title}`);
-    return;
+    return null;
   }
 
   const behaviorInputMap: Record<BehaviorType, any> = {
