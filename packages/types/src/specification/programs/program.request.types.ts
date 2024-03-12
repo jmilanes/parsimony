@@ -9,23 +9,25 @@ export type GetProgramPayload = BasicPayload;
 export type GetAllProgramsByRelationshipPayload = ByRelationshipPayload;
 
 export class AddProgramsToClientPayload {
-  @Description("Id of the associated client")
+  @Description("Id of client adding program to")
   @Optional()
   clientId?: string;
 
-  @Description("Id of the associated client")
+  @Description("Ids of collections being added")
   @Optional()
   collectionIds?: string[];
 
-  @Description("Id of the associated client")
+  @Description("Ids of any excluded program ids")
   @Optional()
   excludedIds?: string[];
 
-  @Description("Id of the associated client")
+  @Description("Ids of any leaf programs")
   @Optional()
   programIds?: string[];
 
-  @Description("Id of the associated client")
+  @Description(
+    "Subscribers to the newly created programs (TODO maybe this is just the adder...)"
+  )
   @Optional()
   subscribers?: string[];
 }

@@ -40,23 +40,23 @@ export class Program {
   @Optional()
   clientId?: string;
 
-  @Description("Id of the associated client")
+  @Description("Id of the associated collection")
   @Optional()
   collectionId?: string;
 
-  @Description("Id of the associated client")
+  @Description("Id of the user who created the program")
   @Optional()
   createdBy?: string;
 
-  @Description("Id of the associated client")
+  @Description("Date the program was created")
   @Optional()
   created_at?: Date;
 
-  @Description("Id of the associated client")
+  @Description("Description of the program")
   @Optional()
   description?: string;
 
-  @Description("Id of the associated client")
+  @Description("Ids of users who edited the programs")
   @Optional()
   editedBy?: string[];
 
@@ -64,68 +64,68 @@ export class Program {
   @Required()
   id: string;
 
-  @Description("Id of the associated client")
+  @Description("Id of the user who last edited the program")
   @Optional()
   lastEditedBy?: string;
 
-  @Description("Id of the associated client")
+  @Description("Id of main program that was copied to create a client program")
   @Optional()
   mainProgramId?: string;
 
-  @Description("Id of the associated client")
+  @Description("Boolean for when a client has fully mastered a program")
   @Optional()
   @Default(false)
   mastered?: boolean = false;
 
-  @Description("Id of the associated client")
+  @Description("Criteria for which the client must pass consecutively")
   @Optional()
   masteryConsecutiveTargets?: number;
 
-  @Description("Id of the associated client")
+  @Description("Target percentage of mastery")
   @Optional()
   masteryTarget?: number;
 
-  @Description("Id of the associated client")
+  @Description("List of materials for the program")
   @Optional()
   materials?: string;
 
-  @Description("Id of the associated client")
+  @Description("User roles that are allowed to view program")
   @Optional()
   readAccess?: UserRoles[];
 
-  @Description("Id of the associated client")
+  @Description("Ids of users who wish to get updates about programs")
   @Optional()
   subscribers?: string[];
 
-  @Description("Id of the associated client")
+  @Description("Target options for for selection")
   @Optional()
   targetOptions?: TargetOption[];
 
-  @Description("Id of the associated client")
+  @Description("Type of non behavior target (TO REFACTOR)")
   @Optional()
   targetStyle?: TargetStyle;
 
-  @Description("Id of the associated client")
+  @Description("Target Details")
   @Optional()
   targets?: Target[];
 
-  @Description("Id of the associated client")
+  @Description("Title of program")
   @Optional()
   title?: string;
 
-  @Description("Id of the associated client")
+  @Description("Number of times targets must be observed")
   @Optional()
   trials?: number;
 
-  @Description("Id of the associated client")
+  @Description("SAVE type of program")
   @Optional()
   type?: ProgramTypes;
 
-  @Description("Id of the associated client")
+  @Description("Date of last updated")
   @Optional()
   updated_at?: Date;
 
-  @Description("Id of the associated client")
+  @Description("Roles that have access to edit the program")
   @Optional()
   writeAccess?: UserRoles[];
 }
