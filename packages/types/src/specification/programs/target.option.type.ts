@@ -1,4 +1,3 @@
-import { Maybe, Scalars } from "../../types";
 import { Description, Optional } from "@tsed/schema";
 
 export class TargetOption {

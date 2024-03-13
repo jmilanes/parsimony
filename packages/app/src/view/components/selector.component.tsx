@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, ReadOnly } from "./index";
-import { formatFormHeader, generateMetaTestId } from "../../utils";
+
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { MetaTestIds, Maybe, UIMetaTargetTypes } from "@parsimony/types";
+
 import MenuItem from "@mui/material/MenuItem";
 import MaterialSelect from "@mui/material/Select";
 import { CONTAINER_INPUT_MARGIN } from "../../constants";
@@ -15,7 +15,7 @@ export type ISelectorProps = {
   options: IOption[];
   onChange: (value: string | number | string[]) => void;
   readOnly?: boolean;
-  value?: Maybe<string | number> | string[];
+  value?: string | number | string[];
   isNumber?: boolean;
   multiple?: boolean;
   key?: string;

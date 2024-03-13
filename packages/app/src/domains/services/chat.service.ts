@@ -125,7 +125,7 @@ const createThread = (
     ...payload,
     isTyping: [],
     messages: []
-  };
+  } as unknown as Thread;
   return threads;
 };
 
@@ -135,7 +135,10 @@ const deleteThread = (threads: ThreadDomain, payload: DeleteThreadPayload) => {
 };
 
 const updateThread = (threads: ThreadDomain, payload: UpdateThreadPayload) => {
-  threads[payload.id] = { ...threads[payload.id], ...payload };
+  threads[payload.id] = {
+    ...threads[payload.id],
+    ...payload
+  } as unknown as Thread;
   return threads;
 };
 

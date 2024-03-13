@@ -3,7 +3,6 @@ import {
   Collection,
   IObject,
   IObjectValues,
-  Result,
   TargetResult,
   Thread,
   User
@@ -11,11 +10,9 @@ import {
 import { Modes } from "@parsimony/types";
 import { IModes } from "@parsimony/types";
 import { getDataWithPath } from "./abstractions.util";
-import { omit } from "ramda";
-import { debounceTime, distinctUntilChanged, fromEvent } from "rxjs";
-import { format, intervalToDuration } from "date-fns";
-import { Container } from "typedi";
-import UIApi from "../domains/accessApis/uiApi/uiApi.Service";
+
+import { distinctUntilChanged, fromEvent } from "rxjs";
+import { format } from "date-fns";
 
 export const filterByProp = <T>(domain: T[], prop: keyof T): T[] =>
   domain.filter((c: T) => c[prop]);
@@ -144,10 +141,10 @@ export const removeItemByIndex = (arr: unknown[], index: number) =>
 
 export const getThreadName = (thread: Thread, currentUser?: User): string =>
   thread?.subscribers?.length > 2
-    ? thread.name
+    ? thread?.name
     : thread?.subscribers?.find(
         (subscriber) => subscriber?.id !== currentUser?.id
-      )?.displayName || thread.name;
+      )?.displayName || thread?.name;
 
 export const createShortCut = (key: string, handler: () => void) => {
   // TODO Add a way to register and unregister keyboard short cuts when you

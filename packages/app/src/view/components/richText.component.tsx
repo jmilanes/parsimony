@@ -3,8 +3,6 @@ import StarterKit from "@tiptap/starter-kit";
 import { Container, ReadOnly } from "./index";
 import parse from "html-react-parser";
 
-import { Maybe } from "@parsimony/types";
-
 import { CONTAINER_INPUT_MARGIN } from "../../constants";
 import {
   MenuButtonBold,
@@ -21,7 +19,7 @@ export type IRichTextProps = {
   placeHolderText: string;
   onChange: (value: string) => void;
   metaTestId: string;
-  content?: Maybe<string>;
+  content?: string;
 };
 
 export const RichText = ({

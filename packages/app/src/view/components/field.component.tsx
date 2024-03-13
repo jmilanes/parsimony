@@ -1,14 +1,14 @@
 import React from "react";
 
 import { Container, ReadOnly } from "./index";
-import { Maybe } from "@parsimony/types";
+
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { CONTAINER_INPUT_MARGIN } from "../../constants";
 
 export type IFieldProps = Omit<TextFieldProps, "onChange"> & {
   key?: string;
   readOnly?: boolean;
-  value?: Maybe<string>;
+  value?: string;
   placeHolderText: string;
   onChange: (value: string) => void;
   metaTestId: string;

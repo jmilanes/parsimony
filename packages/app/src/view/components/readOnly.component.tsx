@@ -1,11 +1,10 @@
 import React from "react";
 import { Container } from "./index";
 import { formatFormHeader } from "../../utils";
-import { Maybe } from "@parsimony/types";
 
 export type IReadOnlyProps = {
   title?: string;
-  value?: Maybe<string | number> | string;
+  value?: string | number;
   metaTestId: string;
 };
 
