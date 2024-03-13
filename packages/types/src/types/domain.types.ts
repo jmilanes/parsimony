@@ -1,4 +1,4 @@
-import { TargetResult, ResultData } from "./generated/graphql.types";
+import { ResultData, TargetResult } from "../specification";
 
 export type IId = string;
 

@@ -23,7 +23,7 @@ import {
 import { format } from "date-fns";
 import { ResultFormFactory } from "../containers/result/resultForm.factory";
 
-const Result = () => {
+const ResultPage = () => {
   const API = Container.get(UIApi);
   const [mode, updateMode] = React.useState<IModes>("readOnly");
   const { resultId } = getRouterParams();
@@ -74,7 +74,7 @@ const Result = () => {
     <>
       <Header
         text={`${program.title} ${Pages.Result}: ${format(
-          new Date(result.created_at),
+          new Date(result.created_at || ""),
           "MM/dd/yyyy"
         )}`}
         size="page"
@@ -118,7 +118,7 @@ const Result = () => {
   );
 };
 
-export default Result;
+export default ResultPage;
 
 // Behavior input (single input)
 // Trials

@@ -1,5 +1,4 @@
 import { Service } from "typedi";
-import { envIs } from "@parsimony/utilities/dist";
 
 const WS = require("ws");
 

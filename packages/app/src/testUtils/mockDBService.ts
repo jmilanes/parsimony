@@ -1,7 +1,7 @@
 import RequestService from "../domains/requests/request.Service";
 
 import { Service } from "typedi";
-import { Domains } from "@parsimony/types/dist";
+import { Domains } from "@parsimony/types";
 import { cloneDeep } from "lodash";
 
 type CreateItems = { domain: Domains; id: string };

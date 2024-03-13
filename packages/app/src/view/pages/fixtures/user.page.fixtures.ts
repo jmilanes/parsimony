@@ -1,4 +1,4 @@
-import { Domains, UserRoles } from "@parsimony/types/dist";
+import { Domains, UserRoles } from "@parsimony/types";
 import { createUserPayload } from "../../../testUtils/dataCreation";
 
 export const initialUserPageTestData = {

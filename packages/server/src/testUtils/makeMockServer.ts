@@ -4,7 +4,7 @@ import ServerService from "../domains/server/server.service";
 import { SchoolService } from "../domains/school/school.service";
 import { AppDataGateway } from "../domains/app/app.data.gateway";
 
-import { UserRoles } from "@parsimony/types/dist";
+import { UserRoles } from "@parsimony/types";
 
 export const MOCK_USER = {
   id: "11111",

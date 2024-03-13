@@ -1,9 +1,3 @@
-export enum BehaviorType {
-  Duration = "DURATION",
-  Frequency = "FREQUENCY",
-  Interval = "INTERVAL"
-}
-
 export enum ProgramCategories {
   Aba = "ABA",
   CounselingTherapeutic = "COUNSELING_THERAPEUTIC",

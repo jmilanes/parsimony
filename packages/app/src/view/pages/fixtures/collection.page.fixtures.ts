@@ -4,7 +4,7 @@ import {
   Domains,
   TargetStyle,
   TrialChainingDirections
-} from "@parsimony/types/dist";
+} from "@parsimony/types";
 import {
   creatCollectionPayload,
   createProgramPayload,

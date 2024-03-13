@@ -15,7 +15,7 @@ import { DBConnectionService } from "../database/dbConnecitonService.service";
 import EncryptionService from "../database/encryption.service";
 
 import { MOCK_USER } from "../../testUtils/makeMockServer";
-import { envIs } from "@parsimony/utilities/dist";
+import { envIs } from "@parsimony/utilities";
 
 const ignoredAuthorizationQueries = [
   "me(",

@@ -1,4 +1,4 @@
-import { BehaviorType, User } from "../../specification";
+import { User } from "../../specification";
 
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -23,31 +23,6 @@ export type AuthPayload = {
   schoolId: Scalars["String"];
 };
 
-export type BehaviorData = {
-  __typename?: "BehaviorData";
-  result?: Maybe<Scalars["Int"]>;
-  type?: Maybe<BehaviorType>;
-};
-
-export type BehaviorDataInput = {
-  result?: InputMaybe<Scalars["Int"]>;
-  type?: InputMaybe<BehaviorType>;
-};
-
-export type CreateResultPayload = {
-  behaviorData?: InputMaybe<BehaviorDataInput>;
-  clientId: Scalars["ID"];
-  created_at?: InputMaybe<Scalars["Date"]>;
-  data?: InputMaybe<Array<InputMaybe<ResultDataInput>>>;
-  notes?: InputMaybe<Scalars["String"]>;
-  observerId?: InputMaybe<Scalars["ID"]>;
-  programCompleteness: Scalars["Float"];
-  programId: Scalars["ID"];
-  result?: InputMaybe<Scalars["Float"]>;
-  type?: InputMaybe<ResultType>;
-  updated_at?: InputMaybe<Scalars["Date"]>;
-};
-
 export type CreateThreadPayload = {
   name: Scalars["String"];
   subscribers: Array<InputMaybe<SubscriberInput>>;
@@ -56,10 +31,6 @@ export type CreateThreadPayload = {
 export type DeleteMessagePayload = {
   messageId: Scalars["ID"];
   threadId: Scalars["ID"];
-};
-
-export type DeleteResultPayload = {
-  id: Scalars["ID"];
 };
 
 export type DeleteThreadPayload = {
@@ -72,18 +43,9 @@ export type EditMessagePayload = {
   value: Scalars["String"];
 };
 
-export type GetAllResultsByRelationshipPayload = {
-  id: Scalars["ID"];
-  relationshipProperty: Scalars["String"];
-};
-
 export type GetAllThreadsByRelationshipPayload = {
   id: Scalars["ID"];
   relationshipProperty: Scalars["String"];
-};
-
-export type GetResultPayload = {
-  id: Scalars["ID"];
 };
 
 export type GetThreadPayload = {
@@ -147,11 +109,8 @@ export type MessagePayload = {
 
 export type Query = {
   __typename?: "Query";
-  getAllResults?: Maybe<Array<Maybe<Result>>>;
-  getAllResultsByRelationship?: Maybe<Array<Maybe<Result>>>;
   getAllThreads?: Maybe<Array<Maybe<Thread>>>;
   getAllThreadsByRelationship?: Maybe<Array<Maybe<Thread>>>;
-  getResult?: Maybe<Result>;
   getThread?: Maybe<Thread>;
   login?: Maybe<LoginResponse>;
   logout?: Maybe<LogOutResponse>;
@@ -159,16 +118,8 @@ export type Query = {
   requestPasswordReset?: Maybe<RequestPasswordResetResponse>;
 };
 
-export type QueryGetAllResultsByRelationshipArgs = {
-  payload?: InputMaybe<GetAllResultsByRelationshipPayload>;
-};
-
 export type QueryGetAllThreadsByRelationshipArgs = {
   payload?: InputMaybe<GetAllThreadsByRelationshipPayload>;
-};
-
-export type QueryGetResultArgs = {
-  payload?: InputMaybe<GetResultPayload>;
 };
 
 export type QueryGetThreadArgs = {
@@ -212,42 +163,6 @@ export type ResetPasswordResponse = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-export type Result = {
-  __typename?: "Result";
-  behaviorData?: Maybe<BehaviorData>;
-  clientId?: Maybe<Scalars["ID"]>;
-  created_at?: Maybe<Scalars["Date"]>;
-  data?: Maybe<Array<Maybe<ResultData>>>;
-  id: Scalars["ID"];
-  notes?: Maybe<Scalars["String"]>;
-  observerId?: Maybe<Scalars["ID"]>;
-  programCompleteness?: Maybe<Scalars["Float"]>;
-  programId?: Maybe<Scalars["ID"]>;
-  result?: Maybe<Scalars["Float"]>;
-  type?: Maybe<ResultType>;
-  updated_at?: Maybe<Scalars["Date"]>;
-};
-
-export type ResultData = {
-  __typename?: "ResultData";
-  targetCompleteness?: Maybe<Scalars["Float"]>;
-  targetId?: Maybe<Scalars["ID"]>;
-  targetResults?: Maybe<Array<Maybe<TargetResult>>>;
-};
-
-export type ResultDataInput = {
-  targetCompleteness?: InputMaybe<Scalars["Float"]>;
-  targetId?: InputMaybe<Scalars["ID"]>;
-  targetResults?: InputMaybe<Array<InputMaybe<TargetResultInput>>>;
-};
-
-export enum ResultType {
-  Duration = "DURATION",
-  Frequency = "FREQUENCY",
-  Interval = "INTERVAL",
-  Trial = "TRIAL"
-}
-
 export type Subscriber = {
   __typename?: "Subscriber";
   displayName?: Maybe<Scalars["String"]>;
@@ -259,34 +174,6 @@ export type SubscriberInput = {
   id: Scalars["ID"];
 };
 
-export type TargetResult = {
-  __typename?: "TargetResult";
-  completed?: Maybe<Scalars["Boolean"]>;
-  option?: Maybe<TargetResultOption>;
-  targetOptionId?: Maybe<Scalars["ID"]>;
-  trial?: Maybe<Scalars["Int"]>;
-};
-
-export type TargetResultInput = {
-  completed?: InputMaybe<Scalars["Boolean"]>;
-  option?: InputMaybe<TargetResultOptionInput>;
-  targetOptionId?: InputMaybe<Scalars["ID"]>;
-  trial?: InputMaybe<Scalars["Int"]>;
-};
-
-export type TargetResultOption = {
-  __typename?: "TargetResultOption";
-  id?: Maybe<Scalars["ID"]>;
-  name?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["Boolean"]>;
-};
-
-export type TargetResultOptionInput = {
-  id?: InputMaybe<Scalars["ID"]>;
-  name?: InputMaybe<Scalars["String"]>;
-  target?: InputMaybe<Scalars["Boolean"]>;
-};
-
 export type Thread = {
   __typename?: "Thread";
   id: Scalars["ID"];
@@ -294,21 +181,6 @@ export type Thread = {
   messages: Array<Maybe<Message>>;
   name: Scalars["String"];
   subscribers: Array<Maybe<Subscriber>>;
-};
-
-export type UpdateResultPayload = {
-  behaviorData?: InputMaybe<BehaviorDataInput>;
-  clientId: Scalars["ID"];
-  created_at?: InputMaybe<Scalars["Date"]>;
-  data?: InputMaybe<Array<InputMaybe<ResultDataInput>>>;
-  id: Scalars["ID"];
-  notes?: InputMaybe<Scalars["String"]>;
-  observerId?: InputMaybe<Scalars["ID"]>;
-  programCompleteness: Scalars["Float"];
-  programId: Scalars["ID"];
-  result?: InputMaybe<Scalars["Float"]>;
-  type?: InputMaybe<ResultType>;
-  updated_at?: InputMaybe<Scalars["Date"]>;
 };
 
 export type UpdateThreadPayload = {

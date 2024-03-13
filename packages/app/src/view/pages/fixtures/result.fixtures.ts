@@ -162,8 +162,8 @@ const createInitialProgramResultData = (
         ],
         result: 75,
         notes: "",
-        updated_at: "2023-08-15T03:13:24.286Z",
-        created_at: "2023-08-15T03:13:24.286Z"
+        updated_at: new Date(),
+        created_at: new Date()
       })
     ]
   };

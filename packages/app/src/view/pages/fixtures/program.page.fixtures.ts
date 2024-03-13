@@ -6,9 +6,8 @@ import {
   ProgramCategories,
   ProgramTypes,
   ProgramValueTypes,
-  TargetStyle,
-  TrialChainingDirections
-} from "@parsimony/types/dist";
+  TargetStyle
+} from "@parsimony/types";
 import {
   creatCollectionPayload,
   createProgramPayload,

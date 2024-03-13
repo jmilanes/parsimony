@@ -81,8 +81,8 @@ export const createResultPayload = (
     programCompleteness: 0,
     data: [],
     notes: "",
-    updated_at: "2024-03-09T16:27:19.966Z",
-    created_at: "2024-03-09T16:27:19.966Z",
+    updated_at: new Date(),
+    created_at: new Date(),
     ...result
   };
 };

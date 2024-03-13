@@ -53,7 +53,7 @@ export class ResultActions {
   #calculateBehaviorResults(program: Program, results: Result[]) {
     const uniqueFullDates = [
       ...new Set(
-        results.map((result) => getFullDate(new Date(result.created_at)))
+        results.map((result) => getFullDate(new Date(result.created_at || "")))
       )
     ];
 
@@ -64,7 +64,9 @@ export class ResultActions {
 
     const processedResults = uniqueFullDates.map((uniqueFullDate) => ({
       calculatedResult: results
-        .filter((x) => getFullDate(new Date(x.created_at)) === uniqueFullDate)
+        .filter(
+          (x) => getFullDate(new Date(x.created_at || "")) === uniqueFullDate
+        )
         .reduce(calculate, 0),
       date: uniqueFullDate
     }));
@@ -96,7 +98,7 @@ export class ResultActions {
     const programCompletenessData = results?.map((result) => result.result);
 
     const programDateLabels = results.map((result) => {
-      return getFullDate(new Date(result.created_at));
+      return getFullDate(new Date(result.created_at || ""));
     });
 
     // TODO: would be really cool to have a place to add multiple data sets here

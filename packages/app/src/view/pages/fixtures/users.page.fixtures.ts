@@ -1,5 +1,5 @@
 import { createUserPayload } from "../../../testUtils/dataCreation";
-import { Domains, UserRoles } from "@parsimony/types/dist";
+import { Domains, UserRoles } from "@parsimony/types";
 
 export const initialUsersPageData = {
   [Domains.User]: [

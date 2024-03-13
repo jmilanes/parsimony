@@ -1,4 +1,4 @@
-import { Target, TargetFormMetaTestIds } from "@parsimony/types/dist";
+import { Target, TargetFormMetaTestIds } from "@parsimony/types";
 import {
   checkReadOnlySelectorValue,
   clearAndTypeValueToTarget,

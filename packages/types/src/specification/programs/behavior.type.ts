@@ -1,5 +1,5 @@
 import { Default, Description, Optional } from "@tsed/schema";
-import { BehaviorType } from "./program.enums";
+import { BehaviorType } from "../results";
 
 export class ProgramBehavior {
   @Description("Boolean to determine if program is active")
