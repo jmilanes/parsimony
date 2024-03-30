@@ -25,7 +25,8 @@ export enum TrialChainingDirections {
 
 export enum ProgramTypes {
   Client = "CLIENT",
-  Main = "MAIN"
+  // TODO: Rename this to TEMPLATE
+  Template = "MAIN"
 }
 
 export enum ProgramValueTypes {

@@ -26,7 +26,7 @@ export const initialProgramData: Program = {
   materials: "",
   writeAccess: [],
   readAccess: [],
-  type: ProgramTypes.Main,
+  type: ProgramTypes.Template,
   lastEditedBy: currentUserLS || undefined,
   editedBy: currentUserLS ? [currentUserLS] : [],
   createdBy: currentUserLS || undefined,
@@ -52,7 +52,7 @@ export const initialBehaviorData: Program = {
   materials: "",
   writeAccess: [],
   readAccess: [],
-  type: ProgramTypes.Main,
+  type: ProgramTypes.Template,
   lastEditedBy: currentUserLS || undefined,
   editedBy: currentUserLS ? [currentUserLS] : [],
   createdBy: currentUserLS || undefined,
@@ -92,7 +92,7 @@ export const initialOptionData = {
 };
 
 export const programTypes: IOption[] = [
-  { name: ProgramTypes.Main, value: ProgramTypes.Main },
+  { name: ProgramTypes.Template, value: ProgramTypes.Template },
   { name: ProgramTypes.Client, value: ProgramTypes.Client }
 ];
 

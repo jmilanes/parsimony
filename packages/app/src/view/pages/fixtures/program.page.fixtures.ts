@@ -66,7 +66,7 @@ export const initialProgramPageData = {
       materials: "<p>None</p>",
       writeAccess: [],
       readAccess: [],
-      type: ProgramTypes.Main,
+      type: ProgramTypes.Template,
       trials: 3,
       category: ProgramCategories.Aba,
       targetOptions: [

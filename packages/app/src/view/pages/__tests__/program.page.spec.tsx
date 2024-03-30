@@ -26,7 +26,7 @@ const DEFAULT_INITIAL_PROGRAM_DATA = {
   title: "Test Program",
   description: "This is a Test Program",
   materials: "None",
-  type: ProgramTypes.Main,
+  type: ProgramTypes.Template,
   masteryTarget: 100,
   masteryConsecutiveTargets: 3,
   category: ProgramCategories.Aba,
