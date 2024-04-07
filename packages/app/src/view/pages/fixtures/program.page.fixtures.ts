@@ -6,7 +6,7 @@ import {
   ProgramCategories,
   ProgramTypes,
   ProgramValueTypes,
-  TargetStyle
+  ProgramViewTypes
 } from "@parsimony/types";
 import {
   creatCollectionPayload,
@@ -37,7 +37,7 @@ export const initialProgramPageData = {
   [Domains.Program]: [
     createProgramPayload({
       title: "Test Program",
-      targetStyle: TargetStyle.TaskAnalysis,
+      targetStyle: ProgramViewTypes.TaskAnalysis,
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
@@ -104,7 +104,7 @@ export const initialProgramPageData = {
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
       chaining: {},
-      targetStyle: TargetStyle.Behavior,
+      targetStyle: ProgramViewTypes.Behavior,
       behavior: {
         type: BehaviorType.Interval,
         active: true,

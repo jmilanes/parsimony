@@ -9,8 +9,7 @@
     "start:test": "nodemon src/index.ts --mode test",
     "start:prd": "nodemon dist/index.js",
     "build": "tsc --build",
-    "publish": "echo 'run'",
-    "build:types": "graphql-codegen --config codegen.yml"
+    "publish": "echo 'run'"
   },
   "dependencies": {
     "@parsimony/utilities": "^0.139.0",

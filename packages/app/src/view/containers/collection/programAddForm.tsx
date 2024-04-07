@@ -6,7 +6,7 @@ import {
   ProgramCategories,
   CollectionPageMetaTestIds,
   ProgramTypes,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections
 } from "@parsimony/types";
 
@@ -48,7 +48,7 @@ export const ProgramAddForm = ({
   );
 
   useEffect(() => {
-    if (form.Data.targetStyle === TargetStyle.DiscreteTrials) {
+    if (form.Data.targetStyle === ProgramViewTypes.DiscreteTrials) {
       form.updateData({ chaining: undefined });
     } else {
       form.updateData({ chaining: initialProgramData.chaining });
@@ -134,11 +134,11 @@ export const ProgramAddForm = ({
         value={form.Data.targetStyle}
         options={targetStyles}
         onChange={(value) =>
-          form.updateData({ targetStyle: value as TargetStyle })
+          form.updateData({ targetStyle: value as ProgramViewTypes })
         }
         metaTestId={CollectionPageMetaTestIds.addProgramFormTargetStyleSelector}
       />
-      {form.Data.targetStyle === TargetStyle.TaskAnalysis && (
+      {form.Data.targetStyle === ProgramViewTypes.TaskAnalysis && (
         <Selector
           title="Chainging"
           value={form.Data.chaining?.type}

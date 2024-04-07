@@ -2,7 +2,7 @@ import {
   BehaviorType,
   CollectionCategories,
   Domains,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections
 } from "@parsimony/types";
 import {
@@ -35,7 +35,7 @@ export const initialCollectionPageData = {
     createProgramPayload({
       collectionId: COLLECTION_UUID,
       title: "Forward Program 1",
-      targetStyle: TargetStyle.TaskAnalysis,
+      targetStyle: ProgramViewTypes.TaskAnalysis,
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
@@ -47,7 +47,7 @@ export const initialCollectionPageData = {
     createProgramPayload({
       collectionId: COLLECTION_UUID,
       title: "Backward Program 1",
-      targetStyle: TargetStyle.TaskAnalysis,
+      targetStyle: ProgramViewTypes.TaskAnalysis,
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
@@ -59,7 +59,7 @@ export const initialCollectionPageData = {
     createProgramPayload({
       collectionId: COLLECTION_UUID,
       title: "Total Program 1",
-      targetStyle: TargetStyle.TaskAnalysis,
+      targetStyle: ProgramViewTypes.TaskAnalysis,
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
@@ -71,7 +71,7 @@ export const initialCollectionPageData = {
     createProgramPayload({
       collectionId: COLLECTION_UUID,
       title: "Discrete Trial Program 1",
-      targetStyle: TargetStyle.DiscreteTrials,
+      targetStyle: ProgramViewTypes.DiscreteTrials,
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
@@ -84,7 +84,7 @@ export const initialCollectionPageData = {
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
       chaining: {},
-      targetStyle: TargetStyle.Behavior,
+      targetStyle: ProgramViewTypes.Behavior,
       behavior: {
         type: BehaviorType.Interval,
         active: true,
@@ -102,7 +102,7 @@ export const initialCollectionPageData = {
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
       chaining: {},
-      targetStyle: TargetStyle.Behavior,
+      targetStyle: ProgramViewTypes.Behavior,
       behavior: {
         type: BehaviorType.Frequency,
         active: true,
@@ -120,7 +120,7 @@ export const initialCollectionPageData = {
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
       chaining: {},
-      targetStyle: TargetStyle.Behavior,
+      targetStyle: ProgramViewTypes.Behavior,
       behavior: {
         type: BehaviorType.Duration,
         active: true,

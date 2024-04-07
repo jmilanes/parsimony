@@ -9,7 +9,7 @@ import {
   PromptTypes,
   Target,
   TargetOption,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections,
   UserRoles
 } from "@parsimony/types";
@@ -39,7 +39,7 @@ export const initialProgramData: Program = {
   masteryConsecutiveTargets: 3,
   subscribers: currentUserLS ? [currentUserLS] : [],
   collectionId: "",
-  targetStyle: TargetStyle.DiscreteTrials,
+  targetStyle: ProgramViewTypes.DiscreteTrials,
   chaining: {
     type: TrialChainingDirections.Total
   }
@@ -59,7 +59,7 @@ export const initialBehaviorData: Program = {
   trials: 1,
   mastered: false,
   targetOptions: [],
-  targetStyle: TargetStyle.Behavior,
+  targetStyle: ProgramViewTypes.Behavior,
   masteryTarget: 100,
   masteryConsecutiveTargets: 3,
   subscribers: currentUserLS ? [currentUserLS] : [],
@@ -106,8 +106,11 @@ export const behaviorTypes: IOption[] = [
 ];
 
 export const targetStyles: IOption[] = [
-  { name: TargetStyle.DiscreteTrials, value: TargetStyle.DiscreteTrials },
-  { name: TargetStyle.TaskAnalysis, value: TargetStyle.TaskAnalysis }
+  {
+    name: ProgramViewTypes.DiscreteTrials,
+    value: ProgramViewTypes.DiscreteTrials
+  },
+  { name: ProgramViewTypes.TaskAnalysis, value: ProgramViewTypes.TaskAnalysis }
 ];
 
 export const chainingTypesOptions: IOption[] = [

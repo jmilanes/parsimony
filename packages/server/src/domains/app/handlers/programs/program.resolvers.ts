@@ -7,7 +7,7 @@ import {
   CollectionTypes,
   Program,
   ProgramTypes,
-  TargetStyle
+  ProgramViewTypes
 } from "@parsimony/types";
 import { AppDataGateway } from "../../app.data.gateway";
 
@@ -53,25 +53,25 @@ export class ProgramResolvers extends BaseCrudResolvers {
   }
 
   //TODO Archive all Program results when a program is deleted
-  delete = async (
+  async delete(
     _: any,
     { payload }: { payload: any },
     { currentUser }: AuthContext
-  ) => {
+  ) {
     // FROM Program Delete Extension will need to delete all results
     await this.#adg
       .dbBySchoolId(currentUser.schoolId)
       .deleteEntry(this.model, payload.id);
     return payload.id;
-  };
+  }
 
-  addProgramsToClient = async (
+  async addProgramsToClient(
     _: any,
     {
       payload: { collectionIds, programIds, clientId, excludedIds }
     }: AddToClientsPayLoad,
     { currentUser }: AuthContext
-  ) => {
+  ) {
     const createdPrograms: Record<string, true> = {};
     const createdCollections: Record<string, true> = {};
     const excludedIdsMap = createMapFromStringArray(excludedIds);
@@ -92,7 +92,7 @@ export class ProgramResolvers extends BaseCrudResolvers {
       createdPrograms,
       db
     );
-  };
+  }
 
   #copyCollectionByIds = async (
     collectionIds: string[],
@@ -233,7 +233,7 @@ export class ProgramResolvers extends BaseCrudResolvers {
         copyPayload.mainProgramId = originalProgramId;
 
         //TODO: Look into why this is happening for non total chains add form
-        if (copyPayload.targetStyle !== TargetStyle.Behavior) {
+        if (copyPayload.targetStyle !== ProgramViewTypes.Behavior) {
           delete copyPayload.behavior;
         }
 

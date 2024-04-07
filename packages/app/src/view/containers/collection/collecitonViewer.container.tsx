@@ -12,7 +12,7 @@ import {
   Domains,
   Program,
   CollectionPageMetaTestIds,
-  TargetStyle
+  ProgramViewTypes
 } from "@parsimony/types";
 
 import { Container } from "typedi";
@@ -105,11 +105,11 @@ const CollectionViewerContainer = ({
       .filter((program) => program.collectionId === collectionId);
 
   const programs = allPrograms.filter(
-    (program) => program.targetStyle !== TargetStyle.Behavior
+    (program) => program.targetStyle !== ProgramViewTypes.Behavior
   );
 
   const behaviors = allPrograms.filter(
-    (program) => program.targetStyle === TargetStyle.Behavior
+    (program) => program.targetStyle === ProgramViewTypes.Behavior
   );
 
   const renderCollectionHeader = (collectionId: string) => {

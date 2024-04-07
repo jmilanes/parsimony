@@ -52,14 +52,14 @@ export class BaseCrudResolvers {
     };
   }
 
-  broadcast = (type: string, payload: any) => {
+  broadcast(type: string, payload: any) {
     if (this.shouldBroadcast) {
       this.#bs.broadcast({
         type: `${type}_${this.model.toUpperCase()}`,
         payload
       });
     }
-  };
+  }
 
   getResolver() {
     return {
@@ -83,11 +83,11 @@ export class BaseCrudResolvers {
     return ret;
   }
 
-  create = async (
+  async create(
     _: any,
     { payload }: { payload: any },
     { currentUser }: AuthContext
-  ) => {
+  ) {
     try {
       const entry = await this.#adg
         .dbBySchoolId(currentUser.schoolId)
@@ -102,13 +102,13 @@ export class BaseCrudResolvers {
     } catch (error) {
       console.error("Create error", error);
     }
-  };
+  }
 
-  delete = async (
+  async delete(
     _: any,
     { payload }: { payload: any },
     { currentUser }: AuthContext
-  ) => {
+  ) {
     await this.#adg
       .dbBySchoolId(currentUser.schoolId)
       .deleteEntry(this.model, payload.id);
@@ -116,13 +116,13 @@ export class BaseCrudResolvers {
       id: payload.id
     });
     return payload.id;
-  };
+  }
 
-  update = async (
+  async update(
     _: any,
     { payload }: { payload: any },
     { currentUser }: AuthContext
-  ) => {
+  ) {
     const db = this.#adg.dbBySchoolId(currentUser.schoolId);
 
     await db.findAndUpdateEntry(this.model, { _id: payload.id }, payload);
@@ -134,31 +134,31 @@ export class BaseCrudResolvers {
       id: updatedEntry._id
     });
     return updatedEntry;
-  };
+  }
 
-  getAll = async (_: any, _p: any, { currentUser }: AuthContext) => {
+  async getAll(_: any, _p: any, { currentUser }: AuthContext) {
     return await this.#adg
       .dbBySchoolId(currentUser.schoolId)
       .findAllEntries(this.model);
-  };
+  }
 
-  get = async (
+  async get(
     _: any,
     { payload }: { payload: { id: string } },
     { currentUser }: AuthContext
-  ) => {
+  ) {
     return await this.#adg
       .dbBySchoolId(currentUser.schoolId)
       .findEntry(this.model, {
         _id: payload.id
       });
-  };
+  }
 
-  getAllByRelationship = async (
+  async getAllByRelationship(
     _: any,
     { payload }: { payload: { relationshipProperty: string; id: string } },
     { currentUser }: AuthContext
-  ) => {
+  ) {
     const db = this.#adg.dbBySchoolId(currentUser.schoolId);
 
     // Matches any direct ids or matches an id in an array
@@ -180,5 +180,5 @@ export class BaseCrudResolvers {
     });
 
     return ret;
-  };
+  }
 }

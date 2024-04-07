@@ -1,13 +1,8 @@
-import {
-  resultInResults,
-  updateActive
-} from "./migrationSpecs/migrationsSpecs";
+import { programViewTypeMigration } from "./migrationSpecs/migrationsSpecs";
 
 const readline = require("readline");
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
-
-// Ask rachna or marc how to do it safely
 
 // Connect to MongoDB Atlas
 async function connectToDatabase(prod: boolean, db?: string) {
@@ -28,15 +23,18 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-type MigrateDataProps = {
+export type MigrateDataProps = {
   collection: string;
-  updateOp: any;
+  // Update Many with mong
+  updateManyOps?: any;
+  updateEachFn?: (x: any) => any;
   prod?: boolean;
 };
 
 const migrate = async ({
   collection,
-  updateOp,
+  updateManyOps,
+  updateEachFn,
   prod = false
 }: MigrateDataProps) => {
   let client;
@@ -59,7 +57,21 @@ const migrate = async ({
       const db = prod
         ? (await connectToDatabase(prod, schoolDbConnection)).db()
         : await client.db(schoolDbConnection);
-      await db.collection(collection).updateMany({}, updateOp);
+
+      if (updateManyOps) {
+        await db.collection(collection).updateMany({}, ...updateManyOps);
+      }
+
+      if (updateEachFn) {
+        const allCollectionItems = await db.collection(collection).find({});
+        await allCollectionItems.forEach(async (doc: any) => {
+          // replaceObjectIds(doc);
+          const update = updateEachFn(doc);
+          await db
+            .collection(collection)
+            .updateOne({ _id: update._id }, { $set: update });
+        });
+      }
     }
   } finally {
     console.log(
@@ -94,6 +106,4 @@ async function migrateToAllSchools(props: MigrateDataProps) {
 }
 
 // Execute the script
-migrateToAllSchools({
-  ...resultInResults
-});
+migrateToAllSchools(programViewTypeMigration);

@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "build": "cd packages/app/ && yarn build",
+    "migrate:run": "ts-node packages/server/src/migrations/migrateData.ts",
     "deploy:prd": "cd deploy-scripts/ && python3 deploy.py && cd ../",
     "start:server": "cd packages/server/ && yarn start",
     "start:server:test": "cd packages/server/ && yarn start:test",

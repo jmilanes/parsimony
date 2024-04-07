@@ -3,7 +3,7 @@ import {
   ProgramCategories,
   ProgramTypes,
   ProgramValueTypes,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections,
   UserRoles,
   BehaviorType
@@ -63,7 +63,7 @@ export default {
     enum: ProgramCategories
   },
   targetOptions: [TargetOption],
-  targetStyle: { type: String, enum: TargetStyle },
+  targetStyle: { type: String, enum: ProgramViewTypes },
   masteryTarget: Number,
   masteryConsecutiveTargets: Number,
   subscribers: [{ type: ObjectId, ref: "User" }],

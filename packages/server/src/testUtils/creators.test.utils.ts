@@ -4,7 +4,7 @@ import {
   CollectionTypes,
   ProgramCategories,
   ProgramTypes,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections,
   User,
   UserRoles
@@ -53,7 +53,7 @@ export const generateBehaviorJSON = (title: string, collectionId?: String) => {
     mastered: false,
     targetOptions: [],
     currentChainTarget: null,
-    targetStyle: TargetStyle.Behavior,
+    targetStyle: ProgramViewTypes.Behavior,
     masteryTarget: 100,
     masteryConsecutiveTargets: 3,
     subscribers: [new ObjectId(1)],

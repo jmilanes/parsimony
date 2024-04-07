@@ -4,7 +4,7 @@ import {
   CollectionCategories,
   Domains,
   Program,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections,
   UserRoles
 } from "@parsimony/types";
@@ -53,7 +53,7 @@ const createInitialBehaviorResultData = (
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
       chaining: {},
-      targetStyle: TargetStyle.Behavior,
+      targetStyle: ProgramViewTypes.Behavior,
       behavior: {
         type,
         active: true,
@@ -87,7 +87,7 @@ export const intervalBehaviorResultsFixture = createInitialBehaviorResultData(
 );
 
 const createInitialProgramResultData = (
-  targetStyle: TargetStyle,
+  targetStyle: ProgramViewTypes,
   chaining: Chaining = {}
 ) => {
   return {
@@ -170,22 +170,22 @@ const createInitialProgramResultData = (
 };
 
 export const discreteTrialResultInitialFixture = createInitialProgramResultData(
-  TargetStyle.DiscreteTrials,
+  ProgramViewTypes.DiscreteTrials,
   { type: TrialChainingDirections.Total, targetCompleteness: 100 }
 );
 
 export const discreteTrialForwardChainResultInitialFixture =
-  createInitialProgramResultData(TargetStyle.DiscreteTrials, {
+  createInitialProgramResultData(ProgramViewTypes.DiscreteTrials, {
     type: TrialChainingDirections.Forward,
     targetCompleteness: 100
   });
 
 export const discreteTrialBackwardChainResultInitialFixture =
-  createInitialProgramResultData(TargetStyle.DiscreteTrials, {
+  createInitialProgramResultData(ProgramViewTypes.DiscreteTrials, {
     type: TrialChainingDirections.Backward,
     targetCompleteness: 100
   });
 
 export const taskAnalysisResultInitialFixture = createInitialProgramResultData(
-  TargetStyle.TaskAnalysis
+  ProgramViewTypes.TaskAnalysis
 );

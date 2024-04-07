@@ -36,8 +36,11 @@ export enum ProgramValueTypes {
   String = "STRING"
 }
 
-export enum TargetStyle {
+export enum ProgramViewTypes {
   Behavior = "BEHAVIOR",
+  DurationBehavior = "DURATION_BEHAVIOR",
+  FrequencyBehavior = "FREQUENCY_BEHAVIOR",
+  IntervalBehavior = "INTERVAL_BEHAVIOR",
   DiscreteTrials = "DISCRETE_TRIALS",
   TaskAnalysis = "TASK_ANALYSIS"
 }

@@ -8,7 +8,7 @@ import {
   CollectionPageMetaTestIds,
   ProgramTypes,
   TargetOption,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections
 } from "@parsimony/types";
 import { Checkbox, Field, RichText, Selector } from "../../../components";
@@ -114,7 +114,7 @@ export const ProgramPageProgramView = ({
         value={form.Data.targetStyle}
         options={targetStyles}
         onChange={(value) =>
-          form.updateData({ targetStyle: value as TargetStyle })
+          form.updateData({ targetStyle: value as ProgramViewTypes })
         }
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.targetStyleSelector}
@@ -144,7 +144,7 @@ export const ProgramPageProgramView = ({
         metaTestId={ProgramPageMetaTestIds.masteryConsecutiveTargetField}
       />
 
-      {form.Data.targetStyle === TargetStyle.TaskAnalysis && (
+      {form.Data.targetStyle === ProgramViewTypes.TaskAnalysis && (
         <Selector
           title="Chaining Style"
           value={form.Data.chaining?.type}

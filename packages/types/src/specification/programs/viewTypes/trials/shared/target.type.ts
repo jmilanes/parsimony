@@ -1,4 +1,4 @@
-import { InputTypes, ProgramValueTypes } from "./program.enums";
+import { InputTypes, ProgramValueTypes } from "../../../program.enums";
 import { Description, Optional } from "@tsed/schema";
 
 //TODO Revist all keys and name this better

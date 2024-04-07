@@ -3,14 +3,14 @@ import { Default, Description, Optional, Required } from "@tsed/schema";
 import {
   ProgramCategories,
   ProgramTypes,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections
 } from "./program.enums";
 import { UserRoles } from "../users";
 
 import { ProgramBehavior } from "./behavior.type";
-import { Target } from "./target.type";
-import { TargetOption } from "./target.option.type";
+import { Target } from "./viewTypes/trials/shared/target.type";
+import { TargetOption } from "./viewTypes/trials/shared/target.option.type";
 
 export class Chaining {
   //TODO REFACTOR
@@ -103,7 +103,7 @@ export class Program {
 
   @Description("Type of non behavior target (TO REFACTOR)")
   @Optional()
-  targetStyle?: TargetStyle;
+  targetStyle?: ProgramViewTypes;
 
   @Description("Target Details")
   @Optional()

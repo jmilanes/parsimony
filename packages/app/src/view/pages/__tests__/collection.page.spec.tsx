@@ -8,7 +8,7 @@ import {
   BookPageMetaTestIds,
   CollectionPageMetaTestIds,
   Domains,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections
 } from "@parsimony/types";
 import { makeTestApp } from "../../../testUtils/makeTestApp";
@@ -191,7 +191,7 @@ describe("Parsimony Collection Page Tests", () => {
     await clickTarget(CollectionPageMetaTestIds.addProgramBtn);
     await updateProgramAddFormWithDefaultValues({
       ...DEFAULT_UPDATE_VALUES,
-      targetStyle: TargetStyle.TaskAnalysis
+      targetStyle: ProgramViewTypes.TaskAnalysis
     });
     await clickTarget(AddModalControls.createBtn);
     await checkTableValues([
@@ -216,7 +216,7 @@ describe("Parsimony Collection Page Tests", () => {
     await clickTarget(CollectionPageMetaTestIds.addProgramBtn);
     await updateProgramAddFormWithDefaultValues({
       ...DEFAULT_UPDATE_VALUES,
-      targetStyle: TargetStyle.TaskAnalysis,
+      targetStyle: ProgramViewTypes.TaskAnalysis,
       chaining: { type: TrialChainingDirections.Backward }
     });
     await clickTarget(AddModalControls.createBtn);
@@ -244,7 +244,7 @@ describe("Parsimony Collection Page Tests", () => {
     await clickTarget(CollectionPageMetaTestIds.addProgramBtn);
     await updateProgramAddFormWithDefaultValues({
       ...DEFAULT_UPDATE_VALUES,
-      targetStyle: TargetStyle.TaskAnalysis,
+      targetStyle: ProgramViewTypes.TaskAnalysis,
       chaining: {
         type: TrialChainingDirections.Forward
       }

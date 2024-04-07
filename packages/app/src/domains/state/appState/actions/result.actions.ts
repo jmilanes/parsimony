@@ -5,7 +5,7 @@ import {
   Domains,
   Program,
   Result,
-  TargetStyle
+  ProgramViewTypes
 } from "@parsimony/types";
 import { getFullDate } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
@@ -43,7 +43,7 @@ export class ResultActions {
   }
 
   public calculateResult = (program: Program, results: Result[]) => {
-    if (program.targetStyle === TargetStyle.Behavior) {
+    if (program.targetStyle === ProgramViewTypes.Behavior) {
       return this.#calculateBehaviorResults(program, results);
     }
 
@@ -115,14 +115,15 @@ export class ResultActions {
   }
 
   public getYAxisLabel = (program: Program) => {
-    if (program.targetStyle !== TargetStyle.Behavior) return "Completeness";
+    if (program.targetStyle !== ProgramViewTypes.Behavior)
+      return "Completeness";
     if (program.behavior?.type === BehaviorType.Frequency) return "Frequency";
     if (program.behavior?.type === BehaviorType.Duration) return "Seconds";
     if (program.behavior?.type === BehaviorType.Interval) return "Occurrences";
   };
 
   public getKeyByProgram = (program: Program) => {
-    if (program.targetStyle !== TargetStyle.Behavior)
+    if (program.targetStyle !== ProgramViewTypes.Behavior)
       return "programCompleteness";
     return "behaviorData.result";
   };
@@ -161,7 +162,7 @@ export class ResultActions {
 
   #isPercentage(program: Program) {
     return (
-      program.targetStyle !== TargetStyle.Behavior ||
+      program.targetStyle !== ProgramViewTypes.Behavior ||
       program.behavior?.type === BehaviorType.Interval
     );
   }

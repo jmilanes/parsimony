@@ -8,7 +8,7 @@ import {
   BehaviorMetaTestIds,
   Domains,
   Program,
-  TargetStyle
+  ProgramViewTypes
 } from "@parsimony/types";
 import { Spin } from "antd";
 import { getFullName } from "../../../utils";
@@ -51,7 +51,7 @@ export const BehaviorClientView = ({ client }: { client: BehaviorClient }) => {
 
   const behaviors = programs.filter((program) => {
     return (
-      program.targetStyle === TargetStyle.Behavior &&
+      program.targetStyle === ProgramViewTypes.Behavior &&
       program.active &&
       program.clientId === client.id
     );

@@ -9,7 +9,7 @@ import {
   Target,
   TargetResult,
   TargetResultOption,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections
 } from "@parsimony/types";
 import { initialResultData } from "../../../../fixtures";
@@ -228,12 +228,12 @@ export class ObservationActions {
 
   public isDiscreteTrial = () => {
     const { program } = this.state();
-    return program?.targetStyle === TargetStyle.DiscreteTrials;
+    return program?.targetStyle === ProgramViewTypes.DiscreteTrials;
   };
 
   public isTaskAnalysis = () => {
     const { program } = this.state();
-    return program?.targetStyle === TargetStyle.TaskAnalysis;
+    return program?.targetStyle === ProgramViewTypes.TaskAnalysis;
   };
 
   onChange() {

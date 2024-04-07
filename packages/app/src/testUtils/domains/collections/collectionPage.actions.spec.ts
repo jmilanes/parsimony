@@ -10,7 +10,7 @@ import {
   BehaviorAddFormMetaTestIds,
   CollectionPageMetaTestIds,
   Program,
-  TargetStyle,
+  ProgramViewTypes,
   TrialChainingDirections
 } from "@parsimony/types";
 import { waitFor } from "@testing-library/react";
@@ -29,7 +29,7 @@ export const updateProgramAddFormWithDefaultValues = async ({
         target: CollectionPageMetaTestIds.addProgramFormTargetStyleSelector,
         selectedOption: targetStyle,
         // This is always the first item selected in the add form
-        currentValue: TargetStyle.DiscreteTrials
+        currentValue: ProgramViewTypes.DiscreteTrials
       }));
   });
 
