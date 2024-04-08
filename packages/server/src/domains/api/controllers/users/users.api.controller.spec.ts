@@ -11,9 +11,12 @@ const mockMongoId = (obj: any) => {
 
 describe("User Controller Tests", () => {
   let app: INestApplication;
+  let auth: string;
 
   beforeEach(async () => {
-    app = await makeTestApp();
+    const { testApp, mockAuthToken } = await makeTestApp();
+    app = testApp;
+    auth = `Bearer ${mockAuthToken}`;
   });
 
   afterEach(async () => {
@@ -28,6 +31,7 @@ describe("User Controller Tests", () => {
 
     const postResponse = await request(app.getHttpServer())
       .post("/users")
+      .set("Authorization", auth)
       .send(user)
       .expect(201);
 
@@ -54,6 +58,28 @@ describe("User Controller Tests", () => {
     });
   });
 
+  it(`POST: /users should not create a user without auth token`, async () => {
+    const user = new User();
+    user.schoolId = "mockSchoolId";
+    user.firstName = "Test";
+    user.lastName = "User";
+
+    await request(app.getHttpServer()).post("/users").send(user).expect(403);
+  });
+
+  it(`POST: /users should not create a user without a correct auth token `, async () => {
+    const user = new User();
+    user.schoolId = "mockSchoolId";
+    user.firstName = "Test";
+    user.lastName = "User";
+
+    await request(app.getHttpServer())
+      .post("/users")
+      .set("Authorization", "Bearer I_AM_NOT_A_VALID_TOKEN")
+      .send(user)
+      .expect(403);
+  });
+
   it(`GET: /users should get all users`, async () => {
     const user = new User();
     user.schoolId = "mockSchoolId";
@@ -62,6 +88,7 @@ describe("User Controller Tests", () => {
 
     await request(app.getHttpServer())
       .post("/users")
+      .set("Authorization", auth)
       .send({ ...user })
       .expect(201);
 
@@ -70,6 +97,7 @@ describe("User Controller Tests", () => {
 
     await request(app.getHttpServer())
       .post("/users")
+      .set("Authorization", auth)
       .send({ ...user })
       .expect(201);
 
@@ -77,11 +105,13 @@ describe("User Controller Tests", () => {
     user.lastName = "User2";
     await request(app.getHttpServer())
       .post("/users")
+      .set("Authorization", auth)
       .send({ ...user })
       .expect(201);
 
     const getResponse = await request(app.getHttpServer())
       .get("/users")
+      .set("Authorization", auth)
       .expect(200);
 
     expect(getResponse.body.map(mockMongoId)).toEqual([

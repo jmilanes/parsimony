@@ -6,6 +6,8 @@ import { encrypt } from "@parsimony/utilities/dist";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { SchoolService } from "../../school/school.service";
 import { AppDataGateway } from "../../app/app.data.gateway";
+import TokenService from "../../database/token.service";
+import { UserRoles } from "@parsimony/types/dist";
 
 export async function makeApp() {
   const app = await NestFactory.create(AppModule);
@@ -30,6 +32,23 @@ export async function makeTestApp() {
   const ss = APP.get(SchoolService);
   const adg = APP.get(AppDataGateway);
   const server = APP.get(ServerService);
+  const tokenService = APP.get(TokenService);
+
+  const authToken = tokenService.generateAccessToken({
+    id: "mockUserId",
+    schoolId: "mockSchoolId",
+    firstName: "Test",
+    lastName: "User",
+    phone: "",
+    contacts: [],
+    clients: [],
+    programs: [],
+    actionItems: [],
+    roles: [UserRoles.Admin],
+    type: UserRoles.Admin,
+    email: "",
+    serviceProvider: ""
+  });
 
   const mockUri = mockMongo.getUri();
   await server.start({
@@ -53,5 +72,5 @@ export async function makeTestApp() {
 
   await adg.init();
 
-  return APP;
+  return { testApp: APP, mockAuthToken: authToken };
 }

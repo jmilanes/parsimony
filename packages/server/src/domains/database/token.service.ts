@@ -52,7 +52,7 @@ export default class TokenService {
    * @param {(error: any, payload: any) => void} cb
    */
   public verifyAccessToken = async (token: string) => {
-    let currentUser;
+    let currentUser = {};
     this._verifyToken(
       token,
       process.env.ACCESS_TOKEN_SECRET as string,
@@ -63,7 +63,7 @@ export default class TokenService {
         currentUser = user;
       }
     );
-    return { currentUser };
+    return currentUser as User;
   };
 
   /**

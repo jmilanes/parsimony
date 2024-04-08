@@ -3,27 +3,25 @@ import { User } from "@parsimony/types/dist";
 
 import { AppDataGateway } from "../../app/app.data.gateway";
 import { Injectable } from "@nestjs/common";
-
-export type AuthContext = {
-  currentUser: Omit<User, "schoolId"> & { schoolId: string };
-};
+import { AuthContext } from "../decorators";
+import TokenService from "../../database/token.service";
 
 @Injectable()
 export class BaseCrudService {
   #adg: AppDataGateway;
+  #ts: TokenService;
 
-  constructor(adg: AppDataGateway) {
+  constructor(adg: AppDataGateway, ts: TokenService) {
     this.#adg = adg;
+    this.#ts = ts;
   }
 
-  async create(
-    model: modelTypes,
-    { payload }: { payload: any },
-    { currentUser }: AuthContext
-  ) {
+  async create(model: modelTypes, payload: any, authCtx: AuthContext) {
     try {
+      const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
+
       const entry = await this.#adg
-        .dbBySchoolId(currentUser.schoolId)
+        .dbBySchoolId(currentUser?.schoolId)
         .createEntry(model, {
           ...payload
         });
@@ -33,23 +31,17 @@ export class BaseCrudService {
     }
   }
 
-  async delete(
-    model: modelTypes,
-    { payload }: { payload: any },
-    { currentUser }: AuthContext
-  ) {
+  async delete(model: modelTypes, payload: any, authCtx: AuthContext) {
+    const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
     await this.#adg
-      .dbBySchoolId(currentUser.schoolId)
+      .dbBySchoolId(currentUser?.schoolId)
       .deleteEntry(model, payload.id);
     return payload.id;
   }
 
-  async update(
-    model: modelTypes,
-    { payload }: { payload: any },
-    { currentUser }: AuthContext
-  ) {
-    const db = this.#adg.dbBySchoolId(currentUser.schoolId);
+  async update(model: modelTypes, payload: any, authCtx: AuthContext) {
+    const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
+    const db = this.#adg.dbBySchoolId(currentUser?.schoolId);
 
     await db.findAndUpdateEntry(model, { _id: payload.id }, payload);
     const updatedEntry = await db.findEntry(model, {
@@ -58,28 +50,29 @@ export class BaseCrudService {
     return updatedEntry;
   }
 
-  async getAll(model: modelTypes, { currentUser }: AuthContext) {
+  async getAll(model: modelTypes, authCtx: AuthContext) {
+    const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
     return await this.#adg
-      .dbBySchoolId(currentUser.schoolId)
+      .dbBySchoolId(currentUser?.schoolId)
       .findAllEntries(model);
   }
 
-  async get(
-    model: modelTypes,
-    { payload }: { payload: { id: string } },
-    { currentUser }: AuthContext
-  ) {
-    return await this.#adg.dbBySchoolId(currentUser.schoolId).findEntry(model, {
-      _id: payload.id
-    });
+  async get(model: modelTypes, payload: { id: string }, authCtx: AuthContext) {
+    const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
+    return await this.#adg
+      .dbBySchoolId(currentUser?.schoolId)
+      .findEntry(model, {
+        _id: payload.id
+      });
   }
 
   async getAllByRelationship(
     model: modelTypes,
-    { payload }: { payload: { relationshipProperty: string; id: string } },
-    { currentUser }: AuthContext
+    payload: { relationshipProperty: string; id: string },
+    authCtx: AuthContext
   ) {
-    const db = this.#adg.dbBySchoolId(currentUser.schoolId);
+    const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
+    const db = this.#adg.dbBySchoolId(currentUser?.schoolId);
 
     // Matches any direct ids or matches an id in an array
     const foundModel = await db.getModel(model);

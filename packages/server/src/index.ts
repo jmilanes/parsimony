@@ -1,6 +1,5 @@
 import "reflect-metadata";
-import { makeMockServer } from "./testUtils/makeMockServer";
-import { makeServer } from "./domains/server/makeServer";
+import { makeApp, makeTestApp } from "./domains/api/server/makeApp";
 
 export const getParam = (param: string) =>
   process.argv[process.argv.indexOf(param) + 1];
@@ -8,7 +7,7 @@ export const getParam = (param: string) =>
 const mode = getParam("--mode");
 
 if (mode === "test") {
-  void makeMockServer();
+  void makeTestApp();
 } else {
-  void makeServer();
+  void makeApp();
 }

@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { CreateUserPayload, User } from "@parsimony/types";
 import { BaseCrudService } from "../../services/baseCrud.service";
 import { modelTypes } from "../../../app/models";
+import { AuthGuard } from "../../decorators";
+import { AuthContext } from "../../decorators";
 
 @Controller("users")
 export class UsersController {
@@ -12,21 +14,17 @@ export class UsersController {
   }
 
   @Get("/")
-  async getAll(): Promise<User[]> {
-    return await this.#bcs.getAll(modelTypes.user, {
-      //@ts-ignore
-      currentUser: { schoolId: "mockSchoolId" }
-    });
+  async getAll(@AuthContext() authCtx: AuthContext): Promise<User[]> {
+    return await this.#bcs.getAll(modelTypes.user, authCtx);
   }
 
   @Post("/")
-  async create(@Body() payload: CreateUserPayload): Promise<void> {
-    return await this.#bcs.create(
-      modelTypes.user,
-      { payload },
-      //@ts-ignore
-      { currentUser: { schoolId: "mockSchoolId" } }
-    );
+  @UseGuards(AuthGuard)
+  async create(
+    @Body() payload: CreateUserPayload,
+    @AuthContext() authCtx: AuthContext
+  ): Promise<void> {
+    return await this.#bcs.create(modelTypes.user, payload, authCtx);
   }
 }
 
