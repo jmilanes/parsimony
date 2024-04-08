@@ -83,7 +83,8 @@ export class User {
 
   @Description("School id associating the user with a school")
   @Optional()
-  schoolId?: string = "";
+  @Required()
+  schoolId: string = "";
 
   @Description("Service provider id of the client")
   @Optional()
