@@ -1,6 +1,6 @@
-import { Service } from "typedi";
+import { Injectable } from "@nestjs/common";
 
-@Service()
+@Injectable()
 export default class EncryptionService {
   #encryptMethod: (pw: string) => string;
 

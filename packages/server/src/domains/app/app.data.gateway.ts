@@ -1,16 +1,18 @@
-import { Container, Service } from "typedi";
-
 import { DataBaseService } from "../database/dataBase.service";
-import { getFreshModels, models, modelTypes } from "./models";
+import { getFreshModels, modelTypes } from "./models";
 import { SchoolService } from "../school/school.service";
+import { Injectable } from "@nestjs/common";
+import { DBConnectionService } from "../database/dbConnecitonService.service";
 
-@Service()
+@Injectable()
 export class AppDataGateway {
   #gateways: Record<string, DataBaseService<modelTypes>> = {};
   #ss: SchoolService;
+  #dbc: DBConnectionService;
 
-  constructor() {
-    this.#ss = Container.get(SchoolService);
+  constructor(ss: SchoolService, dbc: DBConnectionService) {
+    this.#ss = ss;
+    this.#dbc = dbc;
   }
 
   public init = async () => {
@@ -23,7 +25,7 @@ export class AppDataGateway {
 
   async #setUpGateways() {
     for (const school of this.#ss?.getSchools() || []) {
-      const db = new DataBaseService<modelTypes>();
+      const db = new DataBaseService<modelTypes>(this.#dbc);
       await db.init(school.dbConnection, getFreshModels());
       this.#gateways[school._id] = db;
     }

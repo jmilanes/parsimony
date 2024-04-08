@@ -1,7 +1,6 @@
 import { modelTypes } from "../../models";
 import { AuthContext, BaseCrudResolvers } from "../baseCrudResolver";
-import { Service } from "typedi";
-import { BroadcastService, DataBaseService } from "../../../database";
+import { DataBaseService } from "../../../database";
 import {
   Collection,
   CollectionTypes,
@@ -10,6 +9,7 @@ import {
   ProgramViewTypes
 } from "@parsimony/types";
 import { AppDataGateway } from "../../app.data.gateway";
+import { Injectable } from "@nestjs/common";
 
 type CollectionUpdates = {
   clientId: string;
@@ -37,12 +37,12 @@ type AddToClientsPayLoad = {
 const createMapFromStringArray = (arr: string[]) =>
   new Map(arr.map((x) => [x, true]));
 
-@Service()
+@Injectable()
 export class ProgramResolvers extends BaseCrudResolvers {
   #adg: AppDataGateway;
 
-  constructor(adg: AppDataGateway, bs: BroadcastService) {
-    super(adg, bs);
+  constructor(adg: AppDataGateway) {
+    super(adg);
     this.#adg = adg;
     this.model = modelTypes.program;
     this.initMutations();

@@ -1,5 +1,5 @@
-import { Service } from "typedi";
 import otpGenerator from "otp-generator";
+import { Injectable } from "@nestjs/common";
 
 /**
  * The `TemporaryPasswordService` class is responsible for generating
@@ -10,7 +10,7 @@ import otpGenerator from "otp-generator";
  * The passwords are associated with email addresses and are automatically
  * deleted after a specified duration.
  */
-@Service()
+@Injectable()
 export class TemporaryPasswordService {
   #tempPasswords: Record<string, string> = {};
 

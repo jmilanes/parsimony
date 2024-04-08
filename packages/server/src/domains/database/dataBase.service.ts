@@ -1,20 +1,20 @@
 import { DBConnectionService } from "./dbConnecitonService.service";
 
-import { Service, Container } from "typedi";
 import * as mongoose from "mongoose";
+import { Injectable } from "@nestjs/common";
 
 type EnumType<T> = {
   [K in keyof T]: { value: T[K]; label: string };
 };
 
-@Service()
+@Injectable()
 export class DataBaseService<T, modelTypes = EnumType<T>> {
   #cs: DBConnectionService;
   dataBase: any;
   models: Partial<Record<string, any>> = {};
 
-  constructor() {
-    this.#cs = Container.get(DBConnectionService);
+  constructor(cs: DBConnectionService) {
+    this.#cs = cs;
   }
 
   init = async (connectionPath: string, models: Record<string, any>) => {

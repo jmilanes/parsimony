@@ -1,9 +1,9 @@
-import { Service } from "typedi";
 import { SchoolDB } from "./school.db";
 import { SCHOOL_MODELS, SchoolModel } from "./school.model";
 import { School } from "@parsimony/types";
+import { Injectable } from "@nestjs/common";
 
-@Service()
+@Injectable()
 export class SchoolService {
   #map: Record<string, School> = {};
   #db: SchoolDB;

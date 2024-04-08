@@ -1,9 +1,8 @@
-import { BroadcastService, modelTypes } from "../../database";
-import { Service } from "typedi";
+import { modelTypes } from "../../database";
 import { validateRole } from "../../autherization/validateRole";
 import { User, UserRoles } from "@parsimony/types";
 import { AppDataGateway } from "../app.data.gateway";
-import Require = NodeJS.Require;
+import { Injectable } from "@nestjs/common";
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -13,16 +12,13 @@ export type AuthContext = {
 
 type IReducer = (_: any, payload: any, context: AuthContext) => Promise<any>;
 
-@Service()
+@Injectable()
 export class BaseCrudResolvers {
   model: modelTypes = "" as modelTypes;
   mutations: Record<string, IReducer> = {};
-  shouldBroadcast: boolean = false;
-  #bs: BroadcastService;
   #adg: AppDataGateway;
 
-  constructor(adg: AppDataGateway, bs: BroadcastService) {
-    this.#bs = bs;
+  constructor(adg: AppDataGateway) {
     this.#adg = adg;
   }
 
@@ -50,15 +46,6 @@ export class BaseCrudResolvers {
       [`${this.propWithModel("getAll", true)}ByRelationship`]:
         this.getAllByRelationship
     };
-  }
-
-  broadcast(type: string, payload: any) {
-    if (this.shouldBroadcast) {
-      this.#bs.broadcast({
-        type: `${type}_${this.model.toUpperCase()}`,
-        payload
-      });
-    }
   }
 
   getResolver() {
@@ -94,10 +81,6 @@ export class BaseCrudResolvers {
         .createEntry(this.model, {
           ...payload
         });
-      this.broadcast("CREATE", {
-        ...entry.toJSON(),
-        id: entry._id
-      });
       return entry;
     } catch (error) {
       console.error("Create error", error);
@@ -112,9 +95,6 @@ export class BaseCrudResolvers {
     await this.#adg
       .dbBySchoolId(currentUser.schoolId)
       .deleteEntry(this.model, payload.id);
-    this.broadcast("DELETE", {
-      id: payload.id
-    });
     return payload.id;
   }
 
@@ -128,10 +108,6 @@ export class BaseCrudResolvers {
     await db.findAndUpdateEntry(this.model, { _id: payload.id }, payload);
     const updatedEntry = await db.findEntry(this.model, {
       _id: payload.id
-    });
-    this.broadcast("UPDATE", {
-      ...updatedEntry,
-      id: updatedEntry._id
     });
     return updatedEntry;
   }

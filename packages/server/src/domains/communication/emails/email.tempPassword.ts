@@ -1,7 +1,8 @@
 import { Email, EmailOptions } from "./emails";
-import { Service } from "typedi";
 
-@Service()
+import { Injectable } from "@nestjs/common";
+
+@Injectable()
 export class TempPasswordEmail implements Email {
   public createPayload({ email, tpw }: EmailOptions) {
     return {

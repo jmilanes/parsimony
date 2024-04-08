@@ -1,6 +1,5 @@
 import { modelTypes } from "../../models";
-import { Service } from "typedi";
-import TokensService from "../../../database/token.service";
+import TokenService from "../../../database/token.service";
 import { AppDataGateway } from "../../app.data.gateway";
 import { SchoolService } from "../../../school/school.service";
 import { TemporaryPasswordService } from "../../../authentication/temporaryPassword.service";
@@ -8,11 +7,11 @@ import { TemporaryPasswordService } from "../../../authentication/temporaryPassw
 import { EmailService } from "../../../communication/email.service";
 import { EMAIL_TEMPLATES } from "../../../communication/emails/emails";
 import EncryptionService from "../../../database/encryption.service";
+import { Injectable } from "@nestjs/common";
 
-@Service()
 export class AuthResolvers {
   #adg: AppDataGateway;
-  #ts: TokensService;
+  #ts: TokenService;
   #ss: SchoolService;
   #ens: EncryptionService;
   #tpw: TemporaryPasswordService;
@@ -20,7 +19,7 @@ export class AuthResolvers {
 
   constructor(
     adg: AppDataGateway,
-    ts: TokensService,
+    ts: TokenService,
     ss: SchoolService,
     tpw: TemporaryPasswordService,
     es: EmailService,

@@ -1,13 +1,13 @@
-import { BroadcastService, modelTypes } from "../../../database";
+import { modelTypes } from "../../../database";
 import { AuthContext, BaseCrudResolvers } from "../baseCrudResolver";
-import { Service } from "typedi";
 import { AppDataGateway } from "../../app.data.gateway";
 import { TemporaryPasswordService } from "../../../authentication/temporaryPassword.service";
 import { EmailService } from "../../../communication/email.service";
 import { EMAIL_TEMPLATES } from "../../../communication/emails/emails";
 import { UserRoles } from "@parsimony/types";
+import { Injectable } from "@nestjs/common";
 
-@Service()
+@Injectable()
 export class UserResolvers extends BaseCrudResolvers {
   #adg: AppDataGateway;
   #tpw: TemporaryPasswordService;
@@ -15,11 +15,10 @@ export class UserResolvers extends BaseCrudResolvers {
 
   constructor(
     adg: AppDataGateway,
-    bs: BroadcastService,
     tpw: TemporaryPasswordService,
     es: EmailService
   ) {
-    super(adg, bs);
+    super(adg);
     this.#adg = adg;
     this.#tpw = tpw;
     this.#es = es;
@@ -48,11 +47,6 @@ export class UserResolvers extends BaseCrudResolvers {
           email: entry.email
         });
       }
-
-      this.broadcast("CREATE", {
-        ...entry.toJSON(),
-        id: entry._id
-      });
 
       return entry;
     } catch (error) {

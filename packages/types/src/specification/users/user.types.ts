@@ -8,25 +8,25 @@ export class User {
   @Description("Action item ids associated with this user. For admins")
   @Optional()
   @Default([])
-  actionItems?: string[];
+  actionItems?: string[] = [];
 
   @Description("URL pointing to S3 bucket to an avatar image url")
   @Optional()
-  avatar?: string;
+  avatar?: string = "";
 
   @Description("Client ids associated with this user.")
   @Optional()
   @Default([])
-  clients?: string[];
+  clients?: string[] = [];
 
   @Description("Contacts for a client")
   @Optional()
   @Default([])
-  contacts?: string[];
+  contacts?: string[] = [];
 
   @Description("UsersSelected Color")
   @Optional()
-  color?: string;
+  color?: string = "";
 
   @Description("Date user was created at")
   @Optional()
@@ -39,15 +39,15 @@ export class User {
   @Description("A list of document ids")
   @Optional()
   @Default([])
-  documents?: string[];
+  documents?: string[] = [];
 
   @Description("User's email address")
   @Optional()
-  email?: string;
+  email?: string = "";
 
   @Description("User's first name")
   @Optional()
-  firstName?: string;
+  firstName?: string = "";
 
   @Description("UUID from database")
   @Required()
@@ -55,26 +55,26 @@ export class User {
 
   @Description("User's last name")
   @Optional()
-  lastName?: string;
+  lastName?: string = "";
 
   @Description("A users encrypted password")
   @Required()
-  password?: string;
+  password?: string = "";
 
   @Description("User's phone number (only for certain types)")
   @Optional()
-  phone?: string;
+  phone?: string = "";
 
   @Description("A list of program ids associated with client")
   @Optional()
   @Default([])
-  programs: string[];
+  programs: string[] = [];
 
   //TODO Figure out Roles vs type (delete one)
   @Description("Designated Roles of the user")
   @Optional()
   @Default([])
-  roles?: UserRoles[];
+  roles?: UserRoles[] = [];
 
   @Description("Designated type of the user")
   @Optional()
@@ -83,19 +83,19 @@ export class User {
 
   @Description("School id associating the user with a school")
   @Optional()
-  schoolId?: string;
+  schoolId?: string = "";
 
   @Description("Service provider id of the client")
   @Optional()
-  serviceProvider?: string;
+  serviceProvider?: string = "";
 
   @Description("Service provider id of the client")
   @Optional()
-  threadDisplayName?: string;
+  threadDisplayName?: string = "";
 
   @Description("Timezone of the user")
   @Optional()
-  timezone?: string;
+  timezone?: string = "";
 
   @Description("Date user was last updated")
   @Optional()

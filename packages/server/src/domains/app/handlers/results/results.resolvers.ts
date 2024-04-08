@@ -1,13 +1,12 @@
 import { modelTypes } from "../../models";
 import { BaseCrudResolvers } from "../baseCrudResolver";
-import { Service } from "typedi";
-import { BroadcastService } from "../../../database";
 import { AppDataGateway } from "../../app.data.gateway";
+import { Injectable } from "@nestjs/common";
 
-@Service()
+@Injectable()
 export class ResultResolvers extends BaseCrudResolvers {
-  constructor(db: AppDataGateway, bs: BroadcastService) {
-    super(db, bs);
+  constructor(db: AppDataGateway) {
+    super(db);
     this.model = modelTypes.result;
   }
 }

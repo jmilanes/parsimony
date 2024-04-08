@@ -1,19 +1,16 @@
 require("dotenv").config();
-import { Service } from "typedi";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 
 import { User } from "@parsimony/types";
 import jwt from "jsonwebtoken";
 import { modelTypes } from "../app/models";
 import { AppDataGateway } from "../app/app.data.gateway";
 
-@Service()
-export default class TokensService {
-  refreshTokens: string[];
+@Injectable()
+export default class TokenService {
   #adg: AppDataGateway;
 
-  constructor(adg: AppDataGateway) {
-    // This will be DB
-    this.refreshTokens = [];
+  constructor(@Inject(forwardRef(() => AppDataGateway)) adg: AppDataGateway) {
     this.#adg = adg;
   }
 

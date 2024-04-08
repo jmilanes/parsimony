@@ -40,8 +40,7 @@ export const makeMockServer = async () => {
     uri: mockUri,
     encryptionMethod: (pw: string) => pw,
     mockAuthContext: true,
-    port: 4444,
-    broadCastPort: 9090
+    port: 4444
   });
 
   ss.map = {

@@ -1,5 +1,5 @@
 require("dotenv").config();
-import { Service } from "typedi";
+import { Injectable } from "@nestjs/common";
 import { envIs } from "@parsimony/utilities";
 
 const DEV_DBS = {
@@ -9,7 +9,7 @@ const DEV_DBS = {
 export const applyProductionURI = (connectionPath: string) =>
   `mongodb+srv://jmilanes:${process.env.MONGO_PW}@${connectionPath}.mongodb.net/parsimony?retryWrites=true&w=majority`;
 
-@Service()
+@Injectable()
 export class DBConnectionService {
   #connection: any;
 

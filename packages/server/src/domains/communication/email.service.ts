@@ -1,18 +1,19 @@
 import { TempPasswordEmail } from "./emails/email.tempPassword";
 
 require("dotenv").config();
-import { Service } from "typedi";
+
 import nodemailer, { Transporter, SendMailOptions } from "nodemailer";
 import { Email, EMAIL_TEMPLATES, EmailOptions } from "./emails/emails";
 import { CreatedUserEmail } from "./emails/email.createUser";
 import { envIs } from "@parsimony/utilities";
+import { Injectable } from "@nestjs/common";
 
 /**
  * The `EmailService` class is a service that allows sending emails using the
  * Nodemailer library. It is responsible for creating a transporter
  * and sending emails with the specified options.
  */
-@Service()
+@Injectable()
 export class EmailService {
   #senderEmail: string = "services@parsimony.app";
   #transporter: Transporter;
