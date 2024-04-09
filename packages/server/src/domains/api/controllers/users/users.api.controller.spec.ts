@@ -1,6 +1,5 @@
-import { INestApplication } from "@nestjs/common";
-import { makeTestApp } from "../../server/makeApp";
-import { User } from "@parsimony/types";
+import { makeTestApp, TestAppAPI } from "../../server/makeApp";
+import { User, UserRoles } from "@parsimony/types";
 
 const request = require("supertest");
 
@@ -10,17 +9,14 @@ const mockMongoId = (obj: any) => {
 };
 
 describe("User Controller Tests", () => {
-  let app: INestApplication;
-  let auth: string;
+  let testAppAPI: TestAppAPI;
 
   beforeEach(async () => {
-    const { testApp, mockAuthToken } = await makeTestApp();
-    app = testApp;
-    auth = `Bearer ${mockAuthToken}`;
+    testAppAPI = await makeTestApp();
   });
 
   afterEach(async () => {
-    await app.close();
+    await testAppAPI.app.close();
   });
 
   it(`POST: /users should create a user`, async () => {
@@ -29,9 +25,9 @@ describe("User Controller Tests", () => {
     user.firstName = "Test";
     user.lastName = "User";
 
-    const postResponse = await request(app.getHttpServer())
+    const postResponse = await request(testAppAPI.app.getHttpServer())
       .post("/users")
-      .set("Authorization", auth)
+      .set("Authorization", testAppAPI.defaultAuthorization)
       .send(user)
       .expect(201);
 
@@ -64,16 +60,35 @@ describe("User Controller Tests", () => {
     user.firstName = "Test";
     user.lastName = "User";
 
-    await request(app.getHttpServer()).post("/users").send(user).expect(403);
+    await request(testAppAPI.app.getHttpServer())
+      .post("/users")
+      .send(user)
+      .expect(403);
   });
 
-  it(`POST: /users should not create a user without a correct auth token `, async () => {
+  it(`POST: /users should not create a user without authorization type`, async () => {
     const user = new User();
     user.schoolId = "mockSchoolId";
     user.firstName = "Test";
     user.lastName = "User";
 
-    await request(app.getHttpServer())
+    const invalidAuthorizationToken = testAppAPI.createTokenWrappedUser({
+      type: UserRoles.Employee
+    });
+    await request(testAppAPI.app.getHttpServer())
+      .post("/users")
+      .set("Authorization", `Bearer ${invalidAuthorizationToken}`)
+      .send(user)
+      .expect(403);
+  });
+
+  it(`POST: /users should not create a user without a correct auth token`, async () => {
+    const user = new User();
+    user.schoolId = "mockSchoolId";
+    user.firstName = "Test";
+    user.lastName = "User";
+
+    await request(testAppAPI.app.getHttpServer())
       .post("/users")
       .set("Authorization", "Bearer I_AM_NOT_A_VALID_TOKEN")
       .send(user)
@@ -86,32 +101,32 @@ describe("User Controller Tests", () => {
     user.firstName = "Test";
     user.lastName = "User";
 
-    await request(app.getHttpServer())
+    await request(testAppAPI.app.getHttpServer())
       .post("/users")
-      .set("Authorization", auth)
+      .set("Authorization", testAppAPI.defaultAuthorization)
       .send({ ...user })
       .expect(201);
 
     user.firstName = "Test2";
     user.lastName = "User2";
 
-    await request(app.getHttpServer())
+    await request(testAppAPI.app.getHttpServer())
       .post("/users")
-      .set("Authorization", auth)
+      .set("Authorization", testAppAPI.defaultAuthorization)
       .send({ ...user })
       .expect(201);
 
     user.firstName = "Test2";
     user.lastName = "User2";
-    await request(app.getHttpServer())
+    await request(testAppAPI.app.getHttpServer())
       .post("/users")
-      .set("Authorization", auth)
+      .set("Authorization", testAppAPI.defaultAuthorization)
       .send({ ...user })
       .expect(201);
 
-    const getResponse = await request(app.getHttpServer())
+    const getResponse = await request(testAppAPI.app.getHttpServer())
       .get("/users")
-      .set("Authorization", auth)
+      .set("Authorization", testAppAPI.defaultAuthorization)
       .expect(200);
 
     expect(getResponse.body.map(mockMongoId)).toEqual([

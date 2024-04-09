@@ -55,33 +55,4 @@ export default class ServerService {
   public close = async () => {
     await this.server.stop();
   };
-
-  #authContext = async ({ req }: { req: any }) => {
-    if (this.#mockAuthContext) {
-      //TODO: Figure out how make driven from FE
-      // Would be good to test different roles
-      return { currentUser: MOCK_USER };
-    }
-    const ignoredAuthorizationQueries = [
-      "me(",
-      "login(",
-      "logout(",
-      "requestPasswordReset(",
-      "query IntrospectionQuery"
-    ];
-
-    const isIgnoredAuthorizationQuery = ignoredAuthorizationQueries.some(
-      (ignoredQuery) => req.body.query.includes(ignoredQuery)
-    );
-    if (isIgnoredAuthorizationQuery) {
-      return {};
-    }
-
-    const accessToken = req.headers.authorization.split(" ")[1];
-    const currentUser = await this.#ts.verifyAccessToken(accessToken);
-
-    // WE can still do the check for the user School
-    // DB here and users will have school
-    return currentUser;
-  };
 }

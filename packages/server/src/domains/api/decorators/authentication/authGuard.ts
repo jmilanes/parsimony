@@ -15,18 +15,12 @@ export class AuthGuard implements CanActivate {
   }
 
   #validate = async (req: any) => {
-    const accessToken = req.headers?.authorization?.split(" ")[1];
-    if (!accessToken) {
-      return false;
-    }
-
     try {
-      await this.#ts.verifyAccessToken(accessToken);
+      return await this.#ts.verifyAccessTokenFromAuthorization(
+        req.headers?.authorization
+      );
     } catch (e) {
       return false;
     }
-    // WE can still do the check for the user School
-    // DB here and users will have school
-    return true;
   };
 }

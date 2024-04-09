@@ -45,11 +45,52 @@ export default class TokenService {
 
   /**
    *
-   * Verifies a JWT Access token with no expiration
+   * Gets the user wrapped in a JWT Access token
+   *
+   *
+   * @param {string} authorization - "Bearer TOKEN"
+   */
+  public getUserFromAuthorization = async (authorization: string) => {
+    const token = this.#extractTokenFromAuthorization(authorization);
+    if (!token) {
+      throw Error("No token provided.");
+    }
+    return await this.verifyAccessToken(token);
+  };
+
+  /**
+   *
+   * Gets the user wrapped in a JWT Access token
    *
    *
    * @param {string} token
-   * @param {(error: any, payload: any) => void} cb
+   */
+  public getUserFromToken = async (token: string) => {
+    return await this.verifyAccessToken(token);
+  };
+
+  /**
+   *
+   * Verifies a JWT Access token with expiration
+   *
+   *
+   * @param {string} authorization - "Bearer TOKEN"
+   */
+  public verifyAccessTokenFromAuthorization = async (authorization: string) => {
+    const token = this.#extractTokenFromAuthorization(authorization);
+    if (!token) {
+      throw Error("No token provided.");
+    }
+    await this.verifyAccessToken(token);
+    return true;
+  };
+
+  /**
+   *
+   * Verifies a JWT Access token with expiration
+   *
+   *
+   * @param {string} token
    */
   public verifyAccessToken = async (token: string) => {
     let currentUser = {};
@@ -166,4 +207,8 @@ export default class TokenService {
         token
       });
   };
+
+  #extractTokenFromAuthorization(authorization: string) {
+    return authorization?.split(" ")[1];
+  }
 }

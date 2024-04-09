@@ -7,7 +7,8 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { SchoolService } from "../../school/school.service";
 import { AppDataGateway } from "../../app/app.data.gateway";
 import TokenService from "../../database/token.service";
-import { UserRoles } from "@parsimony/types/dist";
+import { UserRoles, User } from "@parsimony/types";
+import { INestApplication } from "@nestjs/common";
 
 export async function makeApp() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +23,33 @@ export async function makeApp() {
   await app.listen(4000);
 }
 
+const createTokenWithUser =
+  (ts: TokenService) =>
+  (user: Partial<User> = {}) => {
+    return ts.generateAccessToken({
+      id: "mockUserId",
+      schoolId: "mockSchoolId",
+      firstName: "Test",
+      lastName: "User",
+      phone: "",
+      contacts: [],
+      clients: [],
+      programs: [],
+      actionItems: [],
+      roles: [UserRoles.Admin],
+      type: UserRoles.Admin,
+      email: "",
+      serviceProvider: "",
+      ...user
+    });
+  };
+
+export type TestAppAPI = {
+  app: INestApplication;
+  defaultAuthorization: string;
+  createTokenWrappedUser: (user: Partial<User>) => string;
+};
+
 export async function makeTestApp() {
   const moduleRef = await Test.createTestingModule(APP_STRUCTURES).compile();
   const APP = moduleRef.createNestApplication();
@@ -34,23 +62,10 @@ export async function makeTestApp() {
   const server = APP.get(ServerService);
   const tokenService = APP.get(TokenService);
 
-  const authToken = tokenService.generateAccessToken({
-    id: "mockUserId",
-    schoolId: "mockSchoolId",
-    firstName: "Test",
-    lastName: "User",
-    phone: "",
-    contacts: [],
-    clients: [],
-    programs: [],
-    actionItems: [],
-    roles: [UserRoles.Admin],
-    type: UserRoles.Admin,
-    email: "",
-    serviceProvider: ""
-  });
+  const createTokenWrappedUser = createTokenWithUser(tokenService);
 
   const mockUri = mockMongo.getUri();
+
   await server.start({
     uri: mockUri,
     encryptionMethod: (pw: string) => pw,
@@ -72,5 +87,9 @@ export async function makeTestApp() {
 
   await adg.init();
 
-  return { testApp: APP, mockAuthToken: authToken };
+  return {
+    app: APP,
+    defaultAuthorization: `Bearer ${createTokenWrappedUser()}`,
+    createTokenWrappedUser
+  };
 }

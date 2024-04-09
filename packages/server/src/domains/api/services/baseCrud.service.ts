@@ -18,7 +18,9 @@ export class BaseCrudService {
 
   async create(model: modelTypes, payload: any, authCtx: AuthContext) {
     try {
-      const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
+      const currentUser = await this.#ts.getUserFromAuthorization(
+        authCtx.authorization
+      );
 
       const entry = await this.#adg
         .dbBySchoolId(currentUser?.schoolId)
@@ -32,7 +34,9 @@ export class BaseCrudService {
   }
 
   async delete(model: modelTypes, payload: any, authCtx: AuthContext) {
-    const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
+    const currentUser = await this.#ts.getUserFromAuthorization(
+      authCtx.authorization
+    );
     await this.#adg
       .dbBySchoolId(currentUser?.schoolId)
       .deleteEntry(model, payload.id);
@@ -40,7 +44,9 @@ export class BaseCrudService {
   }
 
   async update(model: modelTypes, payload: any, authCtx: AuthContext) {
-    const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
+    const currentUser = await this.#ts.getUserFromAuthorization(
+      authCtx.authorization
+    );
     const db = this.#adg.dbBySchoolId(currentUser?.schoolId);
 
     await db.findAndUpdateEntry(model, { _id: payload.id }, payload);
@@ -51,14 +57,18 @@ export class BaseCrudService {
   }
 
   async getAll(model: modelTypes, authCtx: AuthContext) {
-    const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
+    const currentUser = await this.#ts.getUserFromAuthorization(
+      authCtx.authorization
+    );
     return await this.#adg
       .dbBySchoolId(currentUser?.schoolId)
       .findAllEntries(model);
   }
 
   async get(model: modelTypes, payload: { id: string }, authCtx: AuthContext) {
-    const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
+    const currentUser = await this.#ts.getUserFromAuthorization(
+      authCtx.authorization
+    );
     return await this.#adg
       .dbBySchoolId(currentUser?.schoolId)
       .findEntry(model, {
@@ -71,7 +81,9 @@ export class BaseCrudService {
     payload: { relationshipProperty: string; id: string },
     authCtx: AuthContext
   ) {
-    const currentUser = await this.#ts.verifyAccessToken(authCtx.token);
+    const currentUser = await this.#ts.getUserFromAuthorization(
+      authCtx.authorization
+    );
     const db = this.#adg.dbBySchoolId(currentUser?.schoolId);
 
     // Matches any direct ids or matches an id in an array
