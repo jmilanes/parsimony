@@ -69,11 +69,17 @@ export class BaseCrudService {
     const currentUser = await this.#ts.getUserFromAuthorization(
       authCtx.authorization
     );
-    return await this.#adg
+    const entry = await this.#adg
       .dbBySchoolId(currentUser?.schoolId)
       .findEntry(model, {
         _id: payload.id
       });
+
+    if (!entry) {
+      throw new Error(`${model} not found`);
+    }
+
+    return entry;
   }
 
   async getAllByRelationship(

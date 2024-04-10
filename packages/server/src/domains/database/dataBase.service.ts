@@ -1,20 +1,27 @@
 import { DBConnectionService } from "./dbConnecitonService.service";
 
 import * as mongoose from "mongoose";
-import { Injectable } from "@nestjs/common";
+import { Injectable, OnModuleDestroy } from "@nestjs/common";
 
 type EnumType<T> = {
   [K in keyof T]: { value: T[K]; label: string };
 };
 
 @Injectable()
-export class DataBaseService<T, modelTypes = EnumType<T>> {
+export class DataBaseService<T, modelTypes = EnumType<T>>
+  implements OnModuleDestroy
+{
   #cs: DBConnectionService;
   dataBase: any;
   models: Partial<Record<string, any>> = {};
 
   constructor(cs: DBConnectionService) {
     this.#cs = cs;
+  }
+
+  async onModuleDestroy() {
+    // Your cleanup code here
+    // Perform cleanup tasks such as closing connections, releasing resources, etc.
   }
 
   init = async (connectionPath: string, models: Record<string, any>) => {

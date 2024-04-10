@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import TokenService from "../../../database/token.service";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuardDecorator implements CanActivate {
   #ts: TokenService;
 
   constructor(ts: TokenService) {

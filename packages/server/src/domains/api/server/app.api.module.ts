@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { UsersController } from "../controllers/users/users.api.controller";
 import { BaseCrudService } from "../services/baseCrud.service";
 import { AppDataGateway } from "../../app/app.data.gateway";

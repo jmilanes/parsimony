@@ -1,2 +1,2 @@
 export * from "./authContext.decorator";
-export * from "./authGuard";
+export * from "./authGuard.decorator";

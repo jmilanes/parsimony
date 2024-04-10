@@ -1,5 +1,5 @@
-import { makeTestApp, TestAppAPI } from "../../server/makeApp";
-import { User, UserRoles } from "@parsimony/types";
+import { User } from "@parsimony/types";
+import { makeTestApp, TestAppAPI } from "../../server/makeTestApp";
 
 const request = require("supertest");
 
@@ -16,7 +16,7 @@ describe("User Controller Tests", () => {
   });
 
   afterEach(async () => {
-    await testAppAPI.app.close();
+    await testAppAPI.stop();
   });
 
   it(`POST: /users should create a user`, async () => {
@@ -66,18 +66,15 @@ describe("User Controller Tests", () => {
       .expect(403);
   });
 
-  it(`POST: /users should not create a user without authorization type`, async () => {
+  it(`POST: /users should not create a user without proper user role`, async () => {
     const user = new User();
     user.schoolId = "mockSchoolId";
     user.firstName = "Test";
     user.lastName = "User";
 
-    const invalidAuthorizationToken = testAppAPI.createTokenWrappedUser({
-      type: UserRoles.Employee
-    });
     await request(testAppAPI.app.getHttpServer())
       .post("/users")
-      .set("Authorization", `Bearer ${invalidAuthorizationToken}`)
+      .set("Authorization", testAppAPI.defaultInvalidAuthorization)
       .send(user)
       .expect(403);
   });
@@ -194,5 +191,105 @@ describe("User Controller Tests", () => {
         type: "CLIENT"
       }
     ]);
+  });
+
+  it(`GET: /users/id should get a user`, async () => {
+    const user = new User();
+    user.schoolId = "mockSchoolId";
+    user.firstName = "Test";
+    user.lastName = "User";
+
+    const createResponse = await request(testAppAPI.app.getHttpServer())
+      .post("/users")
+      .set("Authorization", testAppAPI.defaultAuthorization)
+      .send({ ...user })
+      .expect(201);
+
+    const getResponse = await request(testAppAPI.app.getHttpServer())
+      .get(`/users/${createResponse.body._id}`)
+      .set("Authorization", testAppAPI.defaultAuthorization)
+      .expect(200);
+
+    expect(mockMongoId(getResponse.body)).toStrictEqual({
+      __v: 0,
+      _id: "MONGO_ID",
+      actionItems: [],
+      avatar: "",
+      clients: [],
+      color: "",
+      contacts: [],
+      documents: [],
+      email: "",
+      firstName: "Test",
+      lastName: "User",
+      password: "",
+      phone: "",
+      programs: [],
+      roles: [],
+      schoolId: "mockSchoolId",
+      serviceProvider: "",
+      threadDisplayName: "",
+      type: "CLIENT"
+    });
+  });
+
+  it(`GET: /users/id should get not get a user that doesn't exist`, async () => {
+    await request(testAppAPI.app.getHttpServer())
+      .get(`/users/notAnId`)
+      .set("Authorization", testAppAPI.defaultAuthorization)
+      .expect(500);
+  });
+
+  it(`DELETE: /users/id should delete a user`, async () => {
+    const user = new User();
+    user.schoolId = "mockSchoolId";
+    user.firstName = "Test";
+    user.lastName = "User";
+
+    const createResponse = await request(testAppAPI.app.getHttpServer())
+      .post("/users")
+      .set("Authorization", testAppAPI.defaultAuthorization)
+      .send({ ...user })
+      .expect(201);
+
+    await request(testAppAPI.app.getHttpServer())
+      .delete(`/users/${createResponse.body._id}`)
+      .set("Authorization", testAppAPI.defaultAuthorization)
+      .expect(200);
+
+    await request(testAppAPI.app.getHttpServer())
+      .get(`/users/${createResponse.body._id}`)
+      .set("Authorization", testAppAPI.defaultAuthorization)
+      .expect(500);
+  });
+
+  it(`DELETE: /users/id should not delete a user that doesn't exist`, async () => {
+    await request(testAppAPI.app.getHttpServer())
+      .delete(`/users/notAnId`)
+      .set("Authorization", testAppAPI.defaultAuthorization)
+      .expect(500);
+  });
+
+  it(`DELETE: /users/id should delete a user without proper user role`, async () => {
+    const user = new User();
+    user.schoolId = "mockSchoolId";
+    user.firstName = "Test";
+    user.lastName = "User";
+
+    const createResponse = await request(testAppAPI.app.getHttpServer())
+      .post("/users")
+      .set("Authorization", testAppAPI.defaultAuthorization)
+      .send({ ...user })
+      .expect(201);
+
+    await request(testAppAPI.app.getHttpServer())
+      .delete(`/users/${createResponse.body._id}`)
+      .set("Authorization", testAppAPI.defaultInvalidAuthorization)
+      .expect(403);
+
+    await request(testAppAPI.app.getHttpServer())
+      .get(`/users/${createResponse.body._id}`)
+      .set("Authorization", testAppAPI.defaultAuthorization)
+      .expect(200);
   });
 });
