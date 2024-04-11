@@ -3,7 +3,7 @@ import { AuthGuardDecorator } from "./authentication";
 import { AllowedRoles, RolesGuard } from "./authorization";
 import { UserRoles } from "@parsimony/types";
 
-export function ProtectRoute(...roles: UserRoles[]) {
+export function ProtectRoute(roles: UserRoles[] = []) {
   return applyDecorators(
     AllowedRoles(roles),
     UseGuards(AuthGuardDecorator, RolesGuard)

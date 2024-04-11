@@ -37,7 +37,7 @@ export class Result {
 
   @Description("")
   @Optional()
-  notes?: string;
+  notes?: string = "";
 
   @Description("")
   @Optional()
@@ -45,7 +45,7 @@ export class Result {
 
   @Description("")
   @Optional()
-  programCompleteness?: number;
+  programCompleteness?: number = 0;
 
   @Description("")
   @Optional()
@@ -53,11 +53,11 @@ export class Result {
 
   @Description("")
   @Optional()
-  result?: number;
+  result?: number = 0;
 
   @Description("")
   @Optional()
-  type?: ResultType;
+  type?: ResultType = ResultType.Trial;
 
   @Description("")
   @Optional()

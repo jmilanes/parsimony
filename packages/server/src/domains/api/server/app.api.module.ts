@@ -1,5 +1,5 @@
-import { MiddlewareConsumer, Module } from "@nestjs/common";
-import { UsersController } from "../controllers/users/users.api.controller";
+import { Module } from "@nestjs/common";
+import { UsersController } from "../controllers/users/users.controller";
 import { BaseCrudService } from "../services/baseCrud.service";
 import { AppDataGateway } from "../../app/app.data.gateway";
 import { DBConnectionService } from "../../database/dbConnecitonService.service";
@@ -12,10 +12,11 @@ import EncryptionService from "../../database/encryption.service";
 import { DataBaseService } from "../../database";
 import { TempPasswordEmail } from "../../communication/emails/email.tempPassword";
 import { CreatedUserEmail } from "../../communication/emails/email.createUser";
+import { ResultsController } from "../controllers/results/results.controller";
 
 // TODO These could get broken down in to modules
 export const APP_STRUCTURES = {
-  controllers: [UsersController],
+  controllers: [UsersController, ResultsController],
   providers: [
     TokenService,
     AppDataGateway,

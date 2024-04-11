@@ -8,7 +8,14 @@ import { SchoolService } from "../../school/school.service";
 import { AppDataGateway } from "../../app/app.data.gateway";
 import ServerService from "../../server/server.service";
 import * as mongoose from "mongoose";
-import { createTestUser, createTokenWithUser, mockMongoId } from "./utilties";
+import {
+  createTestCollection,
+  createTestProgram,
+  createTestResult,
+  createTestUser,
+  createTokenWithUser,
+  mockMongoId
+} from "./utilties";
 
 export type TestAppAPI = {
   app: INestApplication;
@@ -19,7 +26,10 @@ export type TestAppAPI = {
   createTokenWrappedUser: (user: Partial<User>) => string;
   stop: () => void;
   fixtures: {
-    createTestUser: (user: Partial<User>) => User;
+    createTestUser: typeof createTestUser;
+    createTestResult: typeof createTestResult;
+    createTestCollection: typeof createTestCollection;
+    createTestProgram: typeof createTestProgram;
   };
   db: {
     mockMongoId: typeof mockMongoId;
@@ -78,7 +88,10 @@ export const makeTestApp = async (): Promise<TestAppAPI> => {
       await mongoose.disconnect();
     },
     fixtures: {
-      createTestUser
+      createTestUser,
+      createTestResult,
+      createTestCollection,
+      createTestProgram
     },
     db: {
       mockMongoId

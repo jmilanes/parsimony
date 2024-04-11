@@ -3,9 +3,11 @@ import { AppModule } from "./app.api.module";
 import ServerService from "../../server/server.service";
 import { encrypt } from "@parsimony/utilities/dist";
 import { AppDataGateway } from "../../app/app.data.gateway";
+import { ValidationPipe } from "@nestjs/common";
 
 export async function makeApp() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
   const MONGO_SERVER = app.get(ServerService);
   await MONGO_SERVER.start({
     uri: `mongodb://127.0.0.1:27017/`,

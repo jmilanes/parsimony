@@ -9,6 +9,7 @@ import { EMAIL_TEMPLATES } from "../../../communication/emails/emails";
 import EncryptionService from "../../../database/encryption.service";
 import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class AuthResolvers {
   #adg: AppDataGateway;
   #ts: TokenService;
@@ -174,17 +175,5 @@ export class AuthResolvers {
       throw new Error(`School Not Found ${schoolId}`);
     }
     return foundID;
-  }
-
-  #requestTempPassword(email: string) {
-    const tpw = this.#tpw.create(email);
-    this.#es.sendByTemplate(EMAIL_TEMPLATES.tempPassword, {
-      email,
-      tpw
-    });
-  }
-
-  #validateTempPassword(email: string, tpw: string) {
-    return this.#tpw.validate(email, tpw);
   }
 }

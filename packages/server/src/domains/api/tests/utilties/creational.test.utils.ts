@@ -1,5 +1,5 @@
 import TokenService from "../../../database/token.service";
-import { User, UserRoles } from "@parsimony/types";
+import { Collection, Program, Result, User, UserRoles } from "@parsimony/types";
 
 export const createTokenWithUser =
   (ts: TokenService) =>
@@ -22,11 +22,37 @@ export const createTokenWithUser =
     });
   };
 
-export const createTestUser = (user: Partial<User>) => {
+export type CreatTestEntity<T> = (override: T) => T;
+
+export const createTestUser = (overrides?: Partial<User>) => {
   const defaults = new User();
   defaults.schoolId = "mockSchoolId";
   return {
     ...defaults,
-    ...user
+    ...overrides
+  };
+};
+
+export const createTestResult = (overrides?: Partial<Result>) => {
+  const defaults = new Result();
+  return {
+    ...defaults,
+    ...overrides
+  };
+};
+
+export const createTestCollection = (overrides?: Partial<Collection>) => {
+  const defaults = new Collection();
+  return {
+    ...defaults,
+    ...overrides
+  };
+};
+
+export const createTestProgram = (overrides?: Partial<Program>) => {
+  const defaults = new Program();
+  return {
+    ...defaults,
+    ...overrides
   };
 };

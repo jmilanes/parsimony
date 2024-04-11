@@ -1,34 +1,19 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  UseGuards
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import {
   CreateUserPayload,
-  DeleteUserPayload,
   GetAllUsersByRelationshipPayload,
-  GetUserPayload,
   UpdateUserPayload,
-  User,
-  UserRoles
+  User
 } from "@parsimony/types";
 import { BaseCrudService } from "../../services/baseCrud.service";
 import { modelTypes } from "../../../app/models";
-import {
-  AllowedRoles,
-  AuthContext,
-  AuthGuardDecorator,
-  ProtectRoute,
-  RolesGuard
-} from "../../decorators";
+import { AuthContext, ProtectRoute } from "../../decorators";
+import { ALLOWED_MUTATION_ROLES } from "../../const/api.const";
 
 @Controller("users")
 export class UsersController {
   #bcs: BaseCrudService;
+  #model: modelTypes = modelTypes.user;
 
   constructor(bcs: BaseCrudService) {
     this.#bcs = bcs;
@@ -37,25 +22,25 @@ export class UsersController {
   @Get("/")
   @ProtectRoute()
   async getAll(@AuthContext() authCtx: AuthContext): Promise<User[]> {
-    return await this.#bcs.getAll(modelTypes.user, authCtx);
+    return await this.#bcs.getAll(this.#model, authCtx);
   }
 
   @Post("/")
-  @ProtectRoute(UserRoles.Admin, UserRoles.Director)
+  @ProtectRoute(ALLOWED_MUTATION_ROLES)
   async create(
     @Body() payload: CreateUserPayload,
     @AuthContext() authCtx: AuthContext
-  ): Promise<void> {
-    return await this.#bcs.create(modelTypes.user, payload, authCtx);
+  ): Promise<User> {
+    return await this.#bcs.create(this.#model, payload, authCtx);
   }
 
   @Post("/:id")
-  @ProtectRoute(UserRoles.Admin, UserRoles.Director)
+  @ProtectRoute(ALLOWED_MUTATION_ROLES)
   async update(
     @Body() payload: UpdateUserPayload,
     @AuthContext() authCtx: AuthContext
-  ): Promise<void> {
-    return await this.#bcs.update(modelTypes.user, payload, authCtx);
+  ): Promise<User> {
+    return await this.#bcs.update(this.#model, payload, authCtx);
   }
 
   @Get("/:id")
@@ -63,29 +48,25 @@ export class UsersController {
   async get(
     @Param("id") id: string,
     @AuthContext() authCtx: AuthContext
-  ): Promise<void> {
-    return await this.#bcs.get(modelTypes.user, { id }, authCtx);
+  ): Promise<User> {
+    return await this.#bcs.get(this.#model, { id }, authCtx);
   }
 
   @Delete("/:id")
-  @ProtectRoute(UserRoles.Admin, UserRoles.Director)
+  @ProtectRoute(ALLOWED_MUTATION_ROLES)
   async delete(
     @Param("id") id: string,
     @AuthContext() authCtx: AuthContext
-  ): Promise<void> {
-    return await this.#bcs.delete(modelTypes.user, { id }, authCtx);
+  ): Promise<{ id: string }> {
+    return await this.#bcs.delete(this.#model, { id }, authCtx);
   }
 
   @Post("/byRelationShip")
-  @ProtectRoute(UserRoles.Admin, UserRoles.Director)
+  @ProtectRoute(ALLOWED_MUTATION_ROLES)
   async byRelationShip(
     @Body() payload: GetAllUsersByRelationshipPayload,
     @AuthContext() authCtx: AuthContext
-  ): Promise<void> {
-    return await this.#bcs.getAllByRelationship(
-      modelTypes.user,
-      payload,
-      authCtx
-    );
+  ): Promise<User[]> {
+    return await this.#bcs.getAllByRelationship(this.#model, payload, authCtx);
   }
 }

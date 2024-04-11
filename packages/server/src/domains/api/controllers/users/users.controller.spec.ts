@@ -99,7 +99,7 @@ describe("User Controller Tests", () => {
       .expect(201);
 
     const updateResponse = await request(testAppAPI.app.getHttpServer())
-      .post("/users")
+      .post(`/users/${postResponse.body._id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .send(
         testAppAPI.fixtures.createTestUser({
@@ -144,7 +144,7 @@ describe("User Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .post("/users")
+      .post(`/users/${postResponse.body._id}`)
       .set("Authorization", testAppAPI.authorization.employee)
       .send({ ...USER, id: postResponse.body._id, firstName: "CHANGE" })
       .expect(403);
