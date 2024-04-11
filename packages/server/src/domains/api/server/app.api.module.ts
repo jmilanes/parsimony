@@ -14,10 +14,16 @@ import { TempPasswordEmail } from "../../communication/emails/email.tempPassword
 import { CreatedUserEmail } from "../../communication/emails/email.createUser";
 import { ResultsController } from "../controllers/results/results.controller";
 import { CollectionsController } from "../controllers/collections/collections.controller";
+import { AuthController } from "../controllers/auth/auth.controller";
 
 // TODO These could get broken down in to modules
 export const APP_STRUCTURES = {
-  controllers: [UsersController, ResultsController, CollectionsController],
+  controllers: [
+    UsersController,
+    ResultsController,
+    CollectionsController,
+    AuthController
+  ],
   providers: [
     TokenService,
     AppDataGateway,
