@@ -13,10 +13,11 @@ import { DataBaseService } from "../../database";
 import { TempPasswordEmail } from "../../communication/emails/email.tempPassword";
 import { CreatedUserEmail } from "../../communication/emails/email.createUser";
 import { ResultsController } from "../controllers/results/results.controller";
+import { CollectionsController } from "../controllers/collections/collections.controller";
 
 // TODO These could get broken down in to modules
 export const APP_STRUCTURES = {
-  controllers: [UsersController, ResultsController],
+  controllers: [UsersController, ResultsController, CollectionsController],
   providers: [
     TokenService,
     AppDataGateway,
