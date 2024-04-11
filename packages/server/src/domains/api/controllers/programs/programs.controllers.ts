@@ -1,19 +1,20 @@
 import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
-import {
-  Collection,
-  CreateCollectionPayload,
-  GetAllCollectionsByRelationshipPayload,
-  UpdateCollectionPayload
-} from "@parsimony/types";
 import { BaseCrudService } from "../../services/baseCrud.service";
 import { modelTypes } from "../../../app/models";
 import { AuthContext, ProtectRoute } from "../../decorators";
+import {
+  CreateProgramPayload,
+  GetAllProgramsByRelationshipPayload,
+  Program,
+  UpdateProgramPayload,
+  User
+} from "@parsimony/types";
 import { ALLOWED_MUTATION_ROLES } from "../../const/api.const";
 
-@Controller("collections")
-export class CollectionsController {
+@Controller("programs")
+export class ProgramsControllers {
   #bcs: BaseCrudService;
-  #model: modelTypes = modelTypes.collection;
+  #model: modelTypes = modelTypes.program;
 
   constructor(bcs: BaseCrudService) {
     this.#bcs = bcs;
@@ -21,25 +22,25 @@ export class CollectionsController {
 
   @Get("/")
   @ProtectRoute()
-  async getAll(@AuthContext() authCtx: AuthContext): Promise<Collection[]> {
+  async getAll(@AuthContext() authCtx: AuthContext): Promise<Program[]> {
     return await this.#bcs.getAll(this.#model, authCtx);
   }
 
   @Post("/")
   @ProtectRoute(ALLOWED_MUTATION_ROLES)
   async create(
-    @Body() payload: CreateCollectionPayload,
+    @Body() payload: CreateProgramPayload,
     @AuthContext() authCtx: AuthContext
-  ): Promise<Collection> {
+  ): Promise<Program> {
     return await this.#bcs.create(this.#model, payload, authCtx);
   }
 
   @Post("/:id")
   @ProtectRoute(ALLOWED_MUTATION_ROLES)
   async update(
-    @Body() payload: UpdateCollectionPayload,
+    @Body() payload: UpdateProgramPayload,
     @AuthContext() authCtx: AuthContext
-  ): Promise<Collection> {
+  ): Promise<Program> {
     return await this.#bcs.update(this.#model, payload, authCtx);
   }
 
@@ -48,7 +49,7 @@ export class CollectionsController {
   async get(
     @Param("id") id: string,
     @AuthContext() authCtx: AuthContext
-  ): Promise<Collection> {
+  ): Promise<Program> {
     return await this.#bcs.get(this.#model, { id }, authCtx);
   }
 
@@ -64,9 +65,9 @@ export class CollectionsController {
   @Post("/byRelationship")
   @ProtectRoute(ALLOWED_MUTATION_ROLES)
   async byRelationShip(
-    @Body() payload: GetAllCollectionsByRelationshipPayload,
+    @Body() payload: GetAllProgramsByRelationshipPayload,
     @AuthContext() authCtx: AuthContext
-  ): Promise<Collection[]> {
+  ): Promise<Program[]> {
     return await this.#bcs.getAllByRelationship(this.#model, payload, authCtx);
   }
 }

@@ -10,6 +10,7 @@ import {
 } from "@parsimony/types";
 
 import { ObjectId } from "mongodb";
+import mongoose from "mongoose";
 
 const TargetOption = {
   name: String,
@@ -69,7 +70,8 @@ export default {
   subscribers: [{ type: ObjectId, ref: "User" }],
   collectionId: { type: ObjectId, ref: "Collection" },
   behavior: Behavior,
-  chaining: Chaining
+  chaining: Chaining,
+  view: mongoose.Schema.Types.Mixed
 };
 
 // export enum PROGRAM_VIEW_TYPES {

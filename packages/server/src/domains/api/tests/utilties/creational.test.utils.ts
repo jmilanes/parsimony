@@ -1,5 +1,7 @@
 import TokenService from "../../../database/token.service";
 import { Collection, Program, Result, User, UserRoles } from "@parsimony/types";
+import { DeepPartial } from "utility-types";
+import { merge } from "lodash";
 
 export const createTokenWithUser =
   (ts: TokenService) =>
@@ -49,10 +51,7 @@ export const createTestCollection = (overrides?: Partial<Collection>) => {
   };
 };
 
-export const createTestProgram = (overrides?: Partial<Program>) => {
+export const createTestProgram = (overrides?: DeepPartial<Program>) => {
   const defaults = new Program();
-  return {
-    ...defaults,
-    ...overrides
-  };
+  return merge(defaults, overrides);
 };

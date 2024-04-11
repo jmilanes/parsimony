@@ -15,6 +15,8 @@ import { CreatedUserEmail } from "../../communication/emails/email.createUser";
 import { ResultsController } from "../controllers/results/results.controller";
 import { CollectionsController } from "../controllers/collections/collections.controller";
 import { AuthController } from "../controllers/auth/auth.controller";
+import { TemporaryPasswordService } from "../../authentication/temporaryPassword.service";
+import { ProgramsControllers } from "../controllers/programs/programs.controllers";
 
 // TODO These could get broken down in to modules
 export const APP_STRUCTURES = {
@@ -22,6 +24,7 @@ export const APP_STRUCTURES = {
     UsersController,
     ResultsController,
     CollectionsController,
+    ProgramsControllers,
     AuthController
   ],
   providers: [
@@ -34,6 +37,7 @@ export const APP_STRUCTURES = {
     SchoolDB,
     ServerService,
     EncryptionService,
+    TemporaryPasswordService,
     EmailService,
     TempPasswordEmail,
     CreatedUserEmail

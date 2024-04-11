@@ -98,7 +98,7 @@ describe("User Controller Tests", () => {
       )
       .expect(201);
 
-    const updateResponse = await request(testAppAPI.app.getHttpServer())
+    await request(testAppAPI.app.getHttpServer())
       .post(`/users/${postResponse.body._id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .send(
@@ -109,7 +109,12 @@ describe("User Controller Tests", () => {
       )
       .expect(201);
 
-    expect(testAppAPI.db.mockMongoId(updateResponse.body)).toEqual({
+    const getResponse = await request(testAppAPI.app.getHttpServer())
+      .get(`/users/${postResponse.body._id}`)
+      .set("Authorization", testAppAPI.authorization.director)
+      .expect(200);
+
+    expect(testAppAPI.db.mockMongoId(getResponse.body)).toEqual({
       __v: 0,
       _id: "MONGO_ID",
       actionItems: [],
