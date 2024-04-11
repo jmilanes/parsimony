@@ -2,40 +2,28 @@ import TokenService from "../../database/token.service";
 import { User, UserRoles } from "@parsimony/types";
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import { APP_STRUCTURES } from "./app.api.module";
+import { APP_STRUCTURES } from "../server/app.api.module";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { SchoolService } from "../../school/school.service";
 import { AppDataGateway } from "../../app/app.data.gateway";
 import ServerService from "../../server/server.service";
 import * as mongoose from "mongoose";
-
-const createTokenWithUser =
-  (ts: TokenService) =>
-  (user: Partial<User> = {}) => {
-    return ts.generateAccessToken({
-      id: "mockUserId",
-      schoolId: "mockSchoolId",
-      firstName: "Test",
-      lastName: "User",
-      phone: "",
-      contacts: [],
-      clients: [],
-      programs: [],
-      actionItems: [],
-      roles: [UserRoles.Admin],
-      type: UserRoles.Admin,
-      email: "",
-      serviceProvider: "",
-      ...user
-    });
-  };
+import { createTestUser, createTokenWithUser, mockMongoId } from "./utilties";
 
 export type TestAppAPI = {
   app: INestApplication;
-  defaultAuthorization: string;
-  defaultInvalidAuthorization: string;
+  authorization: {
+    director: string;
+    employee: string;
+  };
   createTokenWrappedUser: (user: Partial<User>) => string;
   stop: () => void;
+  fixtures: {
+    createTestUser: (user: Partial<User>) => User;
+  };
+  db: {
+    mockMongoId: typeof mockMongoId;
+  };
 };
 
 export const makeTestApp = async (): Promise<TestAppAPI> => {
@@ -77,15 +65,23 @@ export const makeTestApp = async (): Promise<TestAppAPI> => {
 
   return {
     app: APP,
-    defaultAuthorization: `Bearer ${createTokenWrappedUser()}`,
-    defaultInvalidAuthorization: `Bearer ${createTokenWrappedUser({
-      type: UserRoles.Employee
-    })}`,
+    authorization: {
+      director: `Bearer ${createTokenWrappedUser()}`,
+      employee: `Bearer ${createTokenWrappedUser({
+        type: UserRoles.Employee
+      })}`
+    },
     createTokenWrappedUser,
     stop: async () => {
       await APP.close();
       await mockMongo.stop();
       await mongoose.disconnect();
+    },
+    fixtures: {
+      createTestUser
+    },
+    db: {
+      mockMongoId
     }
   };
 };

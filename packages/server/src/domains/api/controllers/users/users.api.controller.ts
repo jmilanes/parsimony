@@ -12,6 +12,7 @@ import {
   DeleteUserPayload,
   GetAllUsersByRelationshipPayload,
   GetUserPayload,
+  UpdateUserPayload,
   User,
   UserRoles
 } from "@parsimony/types";
@@ -46,6 +47,15 @@ export class UsersController {
     @AuthContext() authCtx: AuthContext
   ): Promise<void> {
     return await this.#bcs.create(modelTypes.user, payload, authCtx);
+  }
+
+  @Post("/:id")
+  @ProtectRoute(UserRoles.Admin, UserRoles.Director)
+  async update(
+    @Body() payload: UpdateUserPayload,
+    @AuthContext() authCtx: AuthContext
+  ): Promise<void> {
+    return await this.#bcs.update(modelTypes.user, payload, authCtx);
   }
 
   @Get("/:id")

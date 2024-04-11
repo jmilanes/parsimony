@@ -1,5 +1,4 @@
 import { modelTypes } from "../../database";
-import { User } from "@parsimony/types/dist";
 
 import { AppDataGateway } from "../../app/app.data.gateway";
 import { Injectable } from "@nestjs/common";
