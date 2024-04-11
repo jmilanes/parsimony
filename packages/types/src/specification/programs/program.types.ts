@@ -18,7 +18,7 @@ export class Chaining {
   type?: TrialChainingDirections;
 }
 
-export class Program {
+export class OldProgram {
   @Description("Boolean to determine if program is active")
   @Optional()
   @Default(true)
@@ -27,14 +27,14 @@ export class Program {
   @Description("Key for behaviors (to be refactored)")
   @Optional()
   @Default(true)
-  behavior?: ProgramBehavior;
+  behavior?: ProgramBehavior = new ProgramBehavior();
 
   @Description("Category of program")
   @Optional()
-  category?: ProgramCategories;
+  category?: ProgramCategories = ProgramCategories.Aba;
 
   @Optional()
-  chaining?: Chaining;
+  chaining?: Chaining = {};
 
   @Description("Id of the associated client")
   @Optional()

@@ -1,7 +1,7 @@
 import { Default, Description, Optional, Required } from "@tsed/schema";
-import { BaseProgram } from "./baseProgam.type";
+import { Program } from "./baseProgam.type";
 
-export class BaseBcbaProgram extends BaseProgram {
+export class BaseBcbaProgram extends Program {
   @Description("Boolean for when a client has fully mastered a program")
   @Required()
   @Default(false)

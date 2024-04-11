@@ -10,17 +10,17 @@ export class TaskAnalysisProgramViewType extends BaseProgramView {
 
   @Description("Target options for for selection")
   @Optional()
-  targetOptions?: TargetOption[];
+  targetOptions?: TargetOption[] = [];
 
   @Description("Number of times targets must be observed")
   @Optional()
-  trials?: number;
+  trials?: number = 3;
 
   @Description("Target Details")
   @Optional()
-  targets?: Target[];
+  targets?: Target[] = [];
 
   @Description("Details on chaining")
   @Optional()
-  chaining?: Chaining;
+  chaining?: Chaining = {};
 }

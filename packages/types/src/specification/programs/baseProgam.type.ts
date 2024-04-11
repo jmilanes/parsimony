@@ -2,9 +2,9 @@ import { Default, Description, Optional, Required } from "@tsed/schema";
 
 import { ProgramCategories, ProgramTypes } from "./program.enums";
 
-import { BaseProgramView } from "./viewTypes";
+import { BaseProgramView, TaskAnalysisProgramViewType } from "./viewTypes";
 
-export class BaseProgram {
+export class Program {
   @Description("UUID from database")
   @Required()
   id: string;
@@ -16,7 +16,7 @@ export class BaseProgram {
 
   @Description("Type of program")
   @Optional()
-  type?: ProgramTypes;
+  type?: ProgramTypes = ProgramTypes.Template;
 
   @Description("Category of program")
   @Optional()
@@ -58,8 +58,8 @@ export class BaseProgram {
 
   @Description("Ids of users who wish to get updates about programs")
   @Optional()
-  subscribers?: string[];
+  subscribers?: string[] = [];
 
   @Description("Details for display in the view layer")
-  view: BaseProgramView;
+  view: BaseProgramView = new TaskAnalysisProgramViewType();
 }
