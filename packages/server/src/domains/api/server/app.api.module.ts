@@ -17,6 +17,8 @@ import { CollectionsController } from "../controllers/collections/collections.co
 import { AuthController } from "../controllers/auth/auth.controller";
 import { TemporaryPasswordService } from "../../authentication/temporaryPassword.service";
 import { ProgramsControllers } from "../controllers/programs/programs.controllers";
+import { ProgramApiService } from "../services/api/prgrams/program.api.service";
+import { OperationsController } from "../controllers/operations/operations.controller";
 
 // TODO These could get broken down in to modules
 export const APP_STRUCTURES = {
@@ -25,6 +27,7 @@ export const APP_STRUCTURES = {
     ResultsController,
     CollectionsController,
     ProgramsControllers,
+    OperationsController,
     AuthController
   ],
   providers: [
@@ -40,7 +43,8 @@ export const APP_STRUCTURES = {
     TemporaryPasswordService,
     EmailService,
     TempPasswordEmail,
-    CreatedUserEmail
+    CreatedUserEmail,
+    ProgramApiService
   ]
 };
 

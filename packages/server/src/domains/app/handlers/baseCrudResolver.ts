@@ -1,14 +1,11 @@
 import { modelTypes } from "../../database";
 import { validateRole } from "../../autherization/validateRole";
-import { User, UserRoles } from "@parsimony/types";
+import { UserRoles } from "@parsimony/types";
 import { AppDataGateway } from "../app.data.gateway";
 import { Injectable } from "@nestjs/common";
+import { AuthContext } from "../../api/decorators";
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-
-export type AuthContext = {
-  currentUser: Omit<User, "schoolId"> & { schoolId: string };
-};
 
 type IReducer = (_: any, payload: any, context: AuthContext) => Promise<any>;
 

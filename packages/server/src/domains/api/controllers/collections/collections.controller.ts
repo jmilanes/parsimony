@@ -60,13 +60,4 @@ export class CollectionsController {
   ): Promise<{ id: string }> {
     return await this.#bcs.delete(this.#model, { id }, authCtx);
   }
-
-  @Post("/byRelationship")
-  @ProtectRoute(ALLOWED_MUTATION_ROLES)
-  async byRelationShip(
-    @Body() payload: GetAllCollectionsByRelationshipPayload,
-    @AuthContext() authCtx: AuthContext
-  ): Promise<Collection[]> {
-    return await this.#bcs.getAllByRelationship(this.#model, payload, authCtx);
-  }
 }

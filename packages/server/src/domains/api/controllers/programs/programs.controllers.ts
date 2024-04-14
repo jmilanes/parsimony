@@ -3,6 +3,7 @@ import { BaseCrudService } from "../../services/baseCrud.service";
 import { modelTypes } from "../../../app/models";
 import { AuthContext, ProtectRoute } from "../../decorators";
 import {
+  AddProgramsToClientPayload,
   CreateProgramPayload,
   GetAllProgramsByRelationshipPayload,
   Program,
@@ -10,14 +11,17 @@ import {
   User
 } from "@parsimony/types";
 import { ALLOWED_MUTATION_ROLES } from "../../const/api.const";
+import { ProgramApiService } from "../../services/api/prgrams/program.api.service";
 
 @Controller("programs")
 export class ProgramsControllers {
   #bcs: BaseCrudService;
+  #pas: ProgramApiService;
   #model: modelTypes = modelTypes.program;
 
-  constructor(bcs: BaseCrudService) {
+  constructor(bcs: BaseCrudService, pas: ProgramApiService) {
     this.#bcs = bcs;
+    this.#pas = pas;
   }
 
   @Get("/")
@@ -60,14 +64,5 @@ export class ProgramsControllers {
     @AuthContext() authCtx: AuthContext
   ): Promise<{ id: string }> {
     return await this.#bcs.delete(this.#model, { id }, authCtx);
-  }
-
-  @Post("/byRelationship")
-  @ProtectRoute(ALLOWED_MUTATION_ROLES)
-  async byRelationShip(
-    @Body() payload: GetAllProgramsByRelationshipPayload,
-    @AuthContext() authCtx: AuthContext
-  ): Promise<Program[]> {
-    return await this.#bcs.getAllByRelationship(this.#model, payload, authCtx);
   }
 }

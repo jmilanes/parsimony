@@ -5,6 +5,10 @@ export class ByRelationshipPayload {
   @Required()
   id: string;
 
+  @Description("Type of data")
+  @Required()
+  model: string;
+
   @Description("A property to match in the desired id")
   @Required()
   relationshipProperty: string;

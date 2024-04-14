@@ -1,6 +1,6 @@
 import { BasicPayload, ByRelationshipPayload } from "../shared";
 
-import { Description, Optional } from "@tsed/schema";
+import { Description, Optional, Required } from "@tsed/schema";
 import { Program } from "./baseProgam.type";
 
 export type UpdateProgramPayload = Program;
@@ -11,24 +11,24 @@ export type GetAllProgramsByRelationshipPayload = ByRelationshipPayload;
 
 export class AddProgramsToClientPayload {
   @Description("Id of client adding program to")
-  @Optional()
-  clientId?: string;
+  @Required()
+  clientId: string;
 
   @Description("Ids of collections being added")
-  @Optional()
-  collectionIds?: string[];
+  @Required()
+  collectionIds: string[] = [];
 
   @Description("Ids of any excluded program ids")
-  @Optional()
-  excludedIds?: string[];
+  @Required()
+  excludedIds: string[] = [];
 
   @Description("Ids of any leaf programs")
-  @Optional()
-  programIds?: string[];
+  @Required()
+  programIds: string[] = [];
 
   @Description(
     "Subscribers to the newly created programs (TODO maybe this is just the adder...)"
   )
-  @Optional()
-  subscribers?: string[];
+  @Required()
+  subscribers: string[] = [];
 }

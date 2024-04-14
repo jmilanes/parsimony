@@ -61,7 +61,7 @@ export class UsersController {
     return await this.#bcs.delete(this.#model, { id }, authCtx);
   }
 
-  @Post("/byRelationShip")
+  @Post("byRelationShip")
   @ProtectRoute(ALLOWED_MUTATION_ROLES)
   async byRelationShip(
     @Body() payload: GetAllUsersByRelationshipPayload,
