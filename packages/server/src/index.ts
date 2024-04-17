@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import { makeApp, makeTestApp } from "./domains/api/server/makeApp";
+import { makeApp } from "./server/makeApp";
+import { makeTestApp } from "./tests/makeTestApp";
 
 export const getParam = (param: string) =>
   process.argv[process.argv.indexOf(param) + 1];
