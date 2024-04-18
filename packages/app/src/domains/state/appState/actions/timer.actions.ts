@@ -4,11 +4,7 @@ import React from "react";
 
 import { Program } from "@parsimony/types";
 import { intervalToDuration } from "date-fns";
-import {
-  prependZero,
-  buildCreateBehaviorRequest,
-  clone
-} from "../../../../utils";
+import { prependZero, buildCreateBehaviorRequest } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 import { BehaviorTracker, Timer } from "../appState.types";
 

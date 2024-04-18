@@ -3,9 +3,8 @@ import {
   Result,
   Program,
   BehaviorType,
-  TaskAnalysis,
   DiscreteTrial,
-  BaseBcbaProgram
+  TaskAnalysis
 } from "@parsimony/types";
 import { InputForm } from "../../../domains/forms/form";
 import { DurationResultForm } from "./durationResult.form";
@@ -28,9 +27,15 @@ const resultForms: Record<string, React.FC<ResultFormProps>> = {
 
 export const ResultFormFactory = ({ program, ...rest }: ResultFormProps) => {
   // Type should be moved out ouf behavior and the results should be also
+  //TODO: Make this a true factory
   // Move to type of program
   if (isTrial(program)) {
-    return <TrialResultForm {...rest} program={program} />;
+    return (
+      <TrialResultForm
+        {...rest}
+        program={program as DiscreteTrial | TaskAnalysis}
+      />
+    );
   }
   const Comp = resultForms[program.viewType];
   return <Comp {...rest} program={program} />;

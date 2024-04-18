@@ -93,7 +93,7 @@ export type Observation = {
   resultsData: Record<string, unknown>;
   isLoaded: boolean;
   notes: String;
-  program: TaskAnalysis | DiscreteTrial;
+  program?: TaskAnalysis | DiscreteTrial;
   // TODO Figure out why this cant just be an object
   targetStates: Record<string, ObservationTarget>;
 };

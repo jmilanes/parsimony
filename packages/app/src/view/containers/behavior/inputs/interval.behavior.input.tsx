@@ -1,11 +1,19 @@
 import React, { useEffect } from "react";
 
-import { BehaviorTracker, Domains, Program } from "@parsimony/types";
+import {
+  BehaviorTracker,
+  Domains,
+  IntervalBehaviorType
+} from "@parsimony/types";
 import { Button, Icon, RichText } from "../../../components";
 import { Container } from "typedi";
 import UIApi from "../../../../domains/accessApis/uiApi/uiApi.Service";
 
-export const IntervalBehaviorInput = ({ program }: { program: Program }) => {
+export const IntervalBehaviorInput = ({
+  program
+}: {
+  program: IntervalBehaviorType;
+}) => {
   const API = Container.get(UIApi);
 
   useEffect(() => {

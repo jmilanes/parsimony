@@ -48,7 +48,7 @@ const ProgramPage = () => {
   const form = useMemo(() => {
     if (!loading) {
       const program = API.system.getItem(Domains.Program, programId);
-      return API.system.Form.create<Program>(program);
+      return API.system.Form.create<any>(program);
     }
   }, [loading]);
 

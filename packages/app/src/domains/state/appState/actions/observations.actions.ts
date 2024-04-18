@@ -233,12 +233,12 @@ export class ObservationActions {
 
   public isDiscreteTrial = () => {
     const { program } = this.state();
-    return program.viewType === ProgramViewTypes.DiscreteTrials;
+    return program?.viewType === ProgramViewTypes.DiscreteTrials;
   };
 
   public isTaskAnalysis = () => {
     const { program } = this.state();
-    return program.viewType === ProgramViewTypes.TaskAnalysis;
+    return program?.viewType === ProgramViewTypes.TaskAnalysis;
   };
 
   onChange() {

@@ -2,14 +2,13 @@ import React from "react";
 
 import {
   IModes,
-  Program,
   ProgramCategories,
   ProgramPageMetaTestIds,
-  CollectionPageMetaTestIds,
   ProgramTypes,
-  TargetOption,
   ProgramViewTypes,
-  TrialChainingDirections
+  TrialChainingDirections,
+  TaskAnalysis,
+  DiscreteTrial
 } from "@parsimony/types";
 import { Checkbox, Field, RichText, Selector } from "../../../components";
 import { isReadOnlyMode } from "../../../../utils";
@@ -28,7 +27,7 @@ export const ProgramPageProgramView = ({
   form,
   mode
 }: {
-  form: InputForm<Program>;
+  form: InputForm<TaskAnalysis | DiscreteTrial>;
   mode: IModes;
 }) => {
   return (
@@ -114,7 +113,7 @@ export const ProgramPageProgramView = ({
         value={form.Data.targetStyle}
         options={targetStyles}
         onChange={(value) =>
-          form.updateData({ targetStyle: value as ProgramViewTypes })
+          form.updateData({ viewType: value as ProgramViewTypes })
         }
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.targetStyleSelector}

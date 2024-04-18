@@ -1,19 +1,32 @@
 import React from "react";
 import { ResultFormProps } from "./resultForm.factory";
 import { Selector } from "../../components";
-import { Result, ResultPageMetaTestIds } from "@parsimony/types";
+import {
+  DiscreteTrial,
+  Program,
+  Result,
+  ResultPageMetaTestIds,
+  TaskAnalysis
+} from "@parsimony/types";
 import { round } from "lodash";
 import {
   calculateAverage,
   calculateCompletenessForTargetResults,
   clone
 } from "../../../utils";
+import { InputForm } from "../../../domains/forms/form";
+
+export type TrialResultFormProps = {
+  program: TaskAnalysis | DiscreteTrial;
+  form: InputForm<Result>;
+  isReadonly: boolean;
+};
 
 export const TrialResultForm = ({
   form,
   isReadonly,
   program
-}: ResultFormProps) => {
+}: TrialResultFormProps) => {
   const programTargetIndex = program.targetOptions?.findIndex(
     (x) => !!x?.target
   );

@@ -19,7 +19,6 @@ export interface DomainReturnTypeMap {
   [Domains.Collection]: Collection;
   [Domains.User]: User;
   [Domains.Result]: Result;
-  [Domains.Thread]: Thread;
   [Domains.AppState]: AppState;
 }
 
@@ -36,7 +35,6 @@ type StoreValues = {
   [Domains.User]: UserStoreValue;
   [Domains.Program]: ProgramStoreValue;
   [Domains.Result]: ResultStoreValue;
-  [Domains.Thread]: ThreadStoreValue;
   [Domains.Collection]: CollectionStoreValue;
   //TODO: This is only clientside so need to make it clearer maybe this is all just one store
   [Domains.AppState]: AppState;
@@ -61,7 +59,6 @@ export default class Store {
       [Domains.User]: new BehaviorSubject<UserStoreValue>({}),
       [Domains.Program]: new BehaviorSubject<ProgramStoreValue>({}),
       [Domains.Result]: new BehaviorSubject<ResultStoreValue>({}),
-      [Domains.Thread]: new BehaviorSubject<ThreadStoreValue>({}),
       [Domains.Collection]: new BehaviorSubject<CollectionStoreValue>({}),
       //TODO: This is only clientside so need to make it clearer maybe this is all just one store
       [Domains.AppState]: new BehaviorSubject<AppState>({} as AppState)

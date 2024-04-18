@@ -1,4 +1,10 @@
-import { Program, ProgramPageMetaTestIds } from "@parsimony/types";
+import {
+  DiscreteTrial,
+  IntervalBehaviorType,
+  Program,
+  ProgramPageMetaTestIds,
+  TaskAnalysis
+} from "@parsimony/types";
 import { waitFor } from "@testing-library/react";
 import {
   checkReadOnlySelectorValue,
@@ -13,6 +19,7 @@ import {
   checkTargetReadOnlyOptions,
   updateTargetReadOnlyOptions
 } from "./targets.actions.spec";
+import { DeepPartial } from "chart.js/types/utils";
 
 export const checkProgramReadOnlyValues = async ({
   title,
@@ -22,11 +29,10 @@ export const checkProgramReadOnlyValues = async ({
   category,
   masteryConsecutiveTargets,
   masteryTarget,
-  targetStyle,
+  viewType,
   targetOptions,
-  targets,
-  behavior
-}: Partial<Program>) => {
+  targets
+}: Partial<DiscreteTrial | TaskAnalysis>) => {
   await waitFor(async () => {
     title &&
       (await checkReadOnlySelectorValue(
@@ -53,10 +59,10 @@ export const checkProgramReadOnlyValues = async ({
         ProgramPageMetaTestIds.categorySelector,
         category
       ));
-    targetStyle &&
+    viewType &&
       (await checkReadOnlySelectorValue(
         ProgramPageMetaTestIds.targetStyleSelector,
-        targetStyle
+        viewType
       ));
     masteryTarget &&
       (await checkReadOnlySelectorValue(
@@ -73,29 +79,87 @@ export const checkProgramReadOnlyValues = async ({
     await checkTargetOptionsReadOnlyOptions(targetOptions);
     //@ts-ignore
     await checkTargetReadOnlyOptions(targets);
+  });
+};
 
-    behavior?.operationalDefinition &&
+export const checkBehaviorReadOnlyValues = async ({
+  title,
+  description,
+  materials,
+  type,
+  category,
+  masteryConsecutiveTargets,
+  masteryTarget,
+  viewType,
+  operationalDefinition,
+  precursorBehaviors,
+  proactiveStrategies,
+  reactiveStrategies
+}: Partial<IntervalBehaviorType>) => {
+  await waitFor(async () => {
+    title &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.titleField,
+        title
+      ));
+    description &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.descriptionField,
+        description
+      ));
+    materials &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.materialsField,
+        materials
+      ));
+    type &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.typeSelector,
+        type
+      ));
+    category &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.categorySelector,
+        category
+      ));
+    viewType &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.targetStyleSelector,
+        viewType
+      ));
+    masteryTarget &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.masterTargetField,
+        masteryTarget.toString()
+      ));
+    masteryConsecutiveTargets &&
+      (await checkReadOnlySelectorValue(
+        ProgramPageMetaTestIds.masteryConsecutiveTargetField,
+        masteryConsecutiveTargets.toString()
+      ));
+
+    operationalDefinition &&
       (await checkReadOnlySelectorValue(
         ProgramPageMetaTestIds.operationalDefinitionField,
-        behavior?.operationalDefinition
+        operationalDefinition
       ));
 
-    behavior?.proactiveStrategies &&
+    proactiveStrategies &&
       (await checkReadOnlySelectorValue(
         ProgramPageMetaTestIds.proactiveStrategiesField,
-        behavior?.proactiveStrategies
+        proactiveStrategies
       ));
 
-    behavior?.precursorBehaviors &&
+    precursorBehaviors &&
       (await checkReadOnlySelectorValue(
         ProgramPageMetaTestIds.precursorBehaviorField,
-        behavior?.precursorBehaviors
+        precursorBehaviors
       ));
 
-    behavior?.reactiveStrategies &&
+    reactiveStrategies &&
       (await checkReadOnlySelectorValue(
         ProgramPageMetaTestIds.reactiveStrategiesField,
-        behavior?.reactiveStrategies
+        reactiveStrategies
       ));
   });
 };
@@ -107,9 +171,8 @@ export const updateProgramPageFields = async ({
   masteryTarget,
   masteryConsecutiveTargets,
   targetOptions,
-  targets,
-  behavior
-}: Partial<Program>) => {
+  targets
+}: DeepPartial<TaskAnalysis | DiscreteTrial>) => {
   title &&
     (await clearAndTypeValueToTarget(ProgramPageMetaTestIds.titleField, title));
   description &&
@@ -137,28 +200,64 @@ export const updateProgramPageFields = async ({
   targetOptions && (await updateTargetOptionsReadOnlyOptions(targetOptions));
   //@ts-ignore
   targets && (await updateTargetReadOnlyOptions(targets));
+};
 
-  behavior?.operationalDefinition &&
+export const updateBehaviorPageFields = async ({
+  title,
+  description,
+  materials,
+  masteryTarget,
+  masteryConsecutiveTargets,
+  operationalDefinition,
+  reactiveStrategies,
+  precursorBehaviors,
+  proactiveStrategies
+}: DeepPartial<IntervalBehaviorType>) => {
+  title &&
+    (await clearAndTypeValueToTarget(ProgramPageMetaTestIds.titleField, title));
+  description &&
+    (await typeRichTextEditior(
+      ProgramPageMetaTestIds.descriptionField,
+      description
+    ));
+  materials &&
+    (await typeRichTextEditior(
+      ProgramPageMetaTestIds.materialsField,
+      materials
+    ));
+
+  masteryTarget &&
+    (await clearAndTypeValueToTarget(
+      ProgramPageMetaTestIds.masterTargetField,
+      masteryTarget.toString()
+    ));
+  masteryConsecutiveTargets &&
+    (await clearAndTypeValueToTarget(
+      ProgramPageMetaTestIds.masteryConsecutiveTargetField,
+      masteryConsecutiveTargets.toString()
+    ));
+
+  operationalDefinition &&
     (await typeRichTextEditior(
       ProgramPageMetaTestIds.operationalDefinitionField,
-      behavior?.operationalDefinition
+      operationalDefinition
     ));
 
-  behavior?.proactiveStrategies &&
+  proactiveStrategies &&
     (await typeRichTextEditior(
       ProgramPageMetaTestIds.proactiveStrategiesField,
-      behavior?.proactiveStrategies
+      proactiveStrategies
     ));
 
-  behavior?.precursorBehaviors &&
+  precursorBehaviors &&
     (await typeRichTextEditior(
       ProgramPageMetaTestIds.precursorBehaviorField,
-      behavior?.precursorBehaviors
+      precursorBehaviors
     ));
 
-  behavior?.reactiveStrategies &&
+  reactiveStrategies &&
     (await typeRichTextEditior(
       ProgramPageMetaTestIds.reactiveStrategiesField,
-      behavior?.reactiveStrategies
+      reactiveStrategies
     ));
 };

@@ -4,10 +4,10 @@ import {
   BehaviorType,
   Domains,
   Program,
-  Result,
-  ProgramViewTypes
+  ProgramViewTypes,
+  Result
 } from "@parsimony/types";
-import { getFullDate } from "../../../../utils";
+import { getFullDate, isBehavior, isTrial } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 
 const chartDefaults = {
@@ -43,7 +43,7 @@ export class ResultActions {
   }
 
   public calculateResult = (program: Program, results: Result[]) => {
-    if (program.targetStyle === ProgramViewTypes.Behavior) {
+    if (isBehavior(program)) {
       return this.#calculateBehaviorResults(program, results);
     }
 
@@ -72,7 +72,7 @@ export class ResultActions {
     }));
 
     const programCompletenessData = processedResults?.map((result) => {
-      if (program.behavior?.type === BehaviorType.Duration) {
+      if (program.viewType === ProgramViewTypes.DurationBehavior) {
         return Math.round(result.calculatedResult / 1000);
       }
       return result.calculatedResult;
@@ -115,16 +115,19 @@ export class ResultActions {
   }
 
   public getYAxisLabel = (program: Program) => {
-    if (program.targetStyle !== ProgramViewTypes.Behavior)
+    if (isTrial(program)) {
       return "Completeness";
-    if (program.behavior?.type === BehaviorType.Frequency) return "Frequency";
-    if (program.behavior?.type === BehaviorType.Duration) return "Seconds";
-    if (program.behavior?.type === BehaviorType.Interval) return "Occurrences";
+    }
+    if (program.viewType === ProgramViewTypes.FrequencyBehavior)
+      return "Frequency";
+    if (program.viewType === ProgramViewTypes.DurationBehavior)
+      return "Seconds";
+    if (program.viewType === ProgramViewTypes.IntervalBehavior)
+      return "Occurrences";
   };
 
   public getKeyByProgram = (program: Program) => {
-    if (program.targetStyle !== ProgramViewTypes.Behavior)
-      return "programCompleteness";
+    if (isTrial(program)) return "programCompleteness";
     return "behaviorData.result";
   };
 
@@ -162,12 +165,11 @@ export class ResultActions {
 
   #isPercentage(program: Program) {
     return (
-      program.targetStyle !== ProgramViewTypes.Behavior ||
-      program.behavior?.type === BehaviorType.Interval
+      isTrial(program) || program.viewType === ProgramViewTypes.IntervalBehavior
     );
   }
 
   #isDuration(program: Program) {
-    return program.behavior?.type === BehaviorType.Duration;
+    return program.viewType === ProgramViewTypes.DurationBehavior;
   }
 }

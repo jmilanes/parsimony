@@ -3,8 +3,10 @@ import React from "react";
 import {
   BehaviorType,
   IModes,
+  IntervalBehaviorType,
   Program,
-  ProgramPageMetaTestIds
+  ProgramPageMetaTestIds,
+  ProgramViewTypes
 } from "@parsimony/types";
 import { Checkbox, Field, RichText, Selector } from "../../../components";
 import { isReadOnlyMode } from "../../../../utils";
@@ -16,7 +18,7 @@ export const ProgramPageBehaviorView = ({
   form,
   mode
 }: {
-  form: InputForm<Program>;
+  form: InputForm<IntervalBehaviorType>;
   mode: IModes;
 }) => {
   const readOnly = isReadOnlyMode(mode);
@@ -63,10 +65,10 @@ export const ProgramPageBehaviorView = ({
       />
       <Selector
         title="Behavior Type"
-        value={form.Data.behavior?.type}
+        value={form.Data.viewType}
         options={behaviorTypes}
         onChange={(value) =>
-          form.updateData({ behavior: { type: value as BehaviorType } }, true)
+          form.updateData({ viewType: value as ProgramViewTypes })
         }
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.behaviorTypeSelector}
@@ -92,46 +94,36 @@ export const ProgramPageBehaviorView = ({
 
       <Field
         placeHolderText="Alert Duration"
-        value={form.Data.behavior?.alertTime?.toString()}
-        onChange={(value) =>
-          form.updateData({ behavior: { alertTime: parseInt(value) } }, true)
-        }
+        value={form.Data.alertTime?.toString()}
+        onChange={(value) => form.updateData({ alertTime: parseInt(value) })}
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.alertDurration}
       />
       <RichText
         placeHolderText="Operational Definition"
-        content={form.Data.behavior?.operationalDefinition}
-        onChange={(value) =>
-          form.updateData({ behavior: { operationalDefinition: value } }, true)
-        }
+        content={form.Data.operationalDefinition}
+        onChange={(value) => form.updateData({ operationalDefinition: value })}
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.operationalDefinitionField}
       />
       <RichText
         placeHolderText="Precursor Behaviors"
-        content={form.Data.behavior?.precursorBehaviors}
-        onChange={(value) =>
-          form.updateData({ behavior: { precursorBehaviors: value } }, true)
-        }
+        content={form.Data.precursorBehaviors}
+        onChange={(value) => form.updateData({ precursorBehaviors: value })}
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.precursorBehaviorField}
       />
       <RichText
         placeHolderText="Proactive Strategies"
-        content={form.Data.behavior?.proactiveStrategies}
-        onChange={(value) =>
-          form.updateData({ behavior: { proactiveStrategies: value } }, true)
-        }
+        content={form.Data.proactiveStrategies}
+        onChange={(value) => form.updateData({ proactiveStrategies: value })}
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.proactiveStrategiesField}
       />
       <RichText
         placeHolderText="Reactive Strategies"
-        content={form.Data.behavior?.reactiveStrategies}
-        onChange={(value) =>
-          form.updateData({ behavior: { reactiveStrategies: value } }, true)
-        }
+        content={form.Data.reactiveStrategies}
+        onChange={(value) => form.updateData({ reactiveStrategies: value })}
         readOnly={readOnly}
         metaTestId={ProgramPageMetaTestIds.reactiveStrategiesField}
       />

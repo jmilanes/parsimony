@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { Program } from "@parsimony/types";
+import { IntervalBehaviorType, Program } from "@parsimony/types";
 import { buildCreateBehaviorRequest } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
 import { BehaviorTracker, Interval } from "../appState.types";
@@ -58,7 +58,7 @@ export class IntervalActions {
     this.#api.Dialog.close();
   };
 
-  public resetIntervalTracking = ({ id }: Program) => {
+  public resetIntervalTracking = ({ id }: IntervalBehaviorType) => {
     const { intervalId } = this.getIntervalState(id);
     clearInterval(intervalId);
     this.closeIntervalDialog();
@@ -72,11 +72,14 @@ export class IntervalActions {
     });
   };
 
-  public startInterval = (program: Program, onInterval: () => void) => {
-    if (program.behavior?.alertTime) {
+  public startInterval = (
+    program: IntervalBehaviorType,
+    onInterval: () => void
+  ) => {
+    if (program?.alertTime) {
       const intervalId = setInterval(() => {
         onInterval();
-      }, program.behavior?.alertTime * 1000);
+      }, program?.alertTime * 1000);
       this.#updateIntervalState(program.id, { intervalId });
     }
   };
@@ -87,7 +90,7 @@ export class IntervalActions {
     openDialog();
   };
 
-  public submit = async (program: Program) => {
+  public submit = async (program: IntervalBehaviorType) => {
     const { occurred, total, notes } = this.getIntervalState(program.id);
     const result = Math.round((occurred / total) * 100);
     await this.#api.makeRequest(
@@ -99,7 +102,9 @@ export class IntervalActions {
   //TODO Figure this out cause you can have n dialogs per ID
   public cancelAllIntervals = () => {
     const { intervals } = this.getAppState();
-    Object.keys(intervals).forEach((id) => this.resetIntervalTracking({ id }));
+    Object.keys(intervals).forEach((id) =>
+      this.resetIntervalTracking({ id } as IntervalBehaviorType)
+    );
     this.#api.Dialog.clear();
   };
 
