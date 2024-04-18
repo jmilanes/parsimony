@@ -14,6 +14,7 @@ import {
   getFullName,
   getRouterParams,
   getSearchParams,
+  isBehavior,
   isEditMode,
   isReadOnlyMode,
   navigateToRoute
@@ -142,7 +143,7 @@ const ProgramPage = () => {
       />
 
       {client && <Header text={`Client: ${getFullName(client)}`} size="sm" />}
-      {program.behavior?.type ? (
+      {isBehavior(program) ? (
         <ProgramPageBehaviorView form={form} mode={mode} />
       ) : (
         <ProgramPageProgramView form={form} mode={mode} />

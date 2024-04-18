@@ -2,7 +2,12 @@ import React from "react";
 import { Button, Header, RichText } from "../components";
 import { getRouterParams, navigateToRoute } from "../../utils";
 
-import { Domains, ObservationMetaTestIds } from "@parsimony/types";
+import {
+  DiscreteTrial,
+  Domains,
+  ObservationMetaTestIds,
+  TaskAnalysis
+} from "@parsimony/types";
 
 import { Container } from "typedi";
 
@@ -27,7 +32,9 @@ const Observe = () => {
     return <Spin />;
   }
 
-  const program = API.system.getItem(Domains.Program, programId);
+  const program = API.system.getItem(Domains.Program, programId) as
+    | DiscreteTrial
+    | TaskAnalysis;
 
   if (!program.targetOptions) {
     return null;

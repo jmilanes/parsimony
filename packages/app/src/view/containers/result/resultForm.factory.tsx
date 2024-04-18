@@ -4,7 +4,8 @@ import {
   Program,
   BehaviorType,
   TaskAnalysis,
-  DiscreteTrial
+  DiscreteTrial,
+  BaseBcbaProgram
 } from "@parsimony/types";
 import { InputForm } from "../../../domains/forms/form";
 import { DurationResultForm } from "./durationResult.form";
@@ -14,7 +15,7 @@ import { TrialResultForm } from "./trialResult.form";
 import { isTrial } from "../../../utils";
 
 export type ResultFormProps = {
-  program: TaskAnalysis | DiscreteTrial;
+  program: Program;
   form: InputForm<Result>;
   isReadonly: boolean;
 };
