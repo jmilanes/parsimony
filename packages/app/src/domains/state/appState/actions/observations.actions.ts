@@ -10,7 +10,9 @@ import {
   TargetResult,
   TargetResultOption,
   ProgramViewTypes,
-  TrialChainingDirections
+  TrialChainingDirections,
+  DiscreteTrial,
+  TaskAnalysis
 } from "@parsimony/types";
 import { initialResultData } from "../../../../fixtures";
 import {
@@ -79,7 +81,10 @@ export class ObservationActions {
       payload: { id: programId }
     });
 
-    const program = this.#api.getItem(Domains.Program, programId);
+    const program = this.#api.getItem(
+      Domains.Program,
+      programId
+    ) as TaskAnalysis;
     this.#updateObservationState({
       isLoaded: true,
       program: program,
@@ -228,12 +233,12 @@ export class ObservationActions {
 
   public isDiscreteTrial = () => {
     const { program } = this.state();
-    return program?.targetStyle === ProgramViewTypes.DiscreteTrials;
+    return program.viewType === ProgramViewTypes.DiscreteTrials;
   };
 
   public isTaskAnalysis = () => {
     const { program } = this.state();
-    return program?.targetStyle === ProgramViewTypes.TaskAnalysis;
+    return program.viewType === ProgramViewTypes.TaskAnalysis;
   };
 
   onChange() {
@@ -291,7 +296,8 @@ export class ObservationActions {
 
     if (
       this.isDiscreteTrial() ||
-      program?.chaining?.type === TrialChainingDirections.Total
+      (!(program instanceof DiscreteTrial) &&
+        program?.chaining?.type === TrialChainingDirections.Total)
     ) {
       return false;
     }
@@ -300,12 +306,16 @@ export class ObservationActions {
 
   public isBackwardChain = () => {
     const { program } = this.state();
-    return program?.chaining?.type === TrialChainingDirections.Backward;
+    return !(program instanceof DiscreteTrial)
+      ? program?.chaining?.type === TrialChainingDirections.Backward
+      : false;
   };
 
   public isForwardChain = () => {
     const { program } = this.state();
-    return program?.chaining?.type === TrialChainingDirections.Forward;
+    return !(program instanceof DiscreteTrial)
+      ? program?.chaining?.type === TrialChainingDirections.Forward
+      : false;
   };
 
   public updateCurrentTrialCompleteness = () => {

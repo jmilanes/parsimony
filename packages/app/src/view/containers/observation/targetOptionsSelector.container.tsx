@@ -5,11 +5,13 @@ import { Field, Repeater, Button, Row, Col, Header } from "../../components";
 import { message } from "antd";
 
 import {
+  DiscreteTrial,
   Program,
   PromptTypes,
   Target,
   TargetFormMetaTestIds,
-  TargetOption
+  TargetOption,
+  TaskAnalysis
 } from "@parsimony/types";
 
 import { generateKey, removeItemByIndex } from "../../../utils";
@@ -18,7 +20,7 @@ import { InputForm } from "../../../domains/forms/form";
 import { cloneDeep } from "lodash";
 
 type TargetOptionSelectorProps = {
-  form: InputForm<Program>;
+  form: InputForm<TaskAnalysis | DiscreteTrial>;
   readOnly?: boolean;
 };
 

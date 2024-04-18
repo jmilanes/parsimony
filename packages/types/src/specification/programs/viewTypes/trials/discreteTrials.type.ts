@@ -4,7 +4,7 @@ import { TargetOption } from "./shared/target.option.type";
 import { Target } from "./shared/target.type";
 import { BaseBcbaProgram } from "../../BaseBcbaProgram";
 
-export class DiscreteTrialsType extends BaseBcbaProgram {
+export class DiscreteTrial extends BaseBcbaProgram {
   viewType = ProgramViewTypes.DiscreteTrials;
 
   @Description("Target options for for selection")

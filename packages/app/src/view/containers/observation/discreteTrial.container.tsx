@@ -1,8 +1,8 @@
 import React from "react";
 
 import { ObserveTarget } from "./observeTarget.container";
-import { Program } from "@parsimony/types";
+import { DiscreteTrial } from "@parsimony/types";
 
-export const DiscreteTrial = ({ program }: { program: Program }) => {
+export const DiscreteTrialComp = ({ program }: { program: DiscreteTrial }) => {
   return <ObserveTarget target={program.targets as []} />;
 };

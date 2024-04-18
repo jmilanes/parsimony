@@ -2,13 +2,18 @@ import React from "react";
 import { Field, Repeater, Button, Row, Col, RichText } from "../../components";
 import { initialTargetData } from "../../../fixtures";
 
-import { Program, TargetFormMetaTestIds, Target } from "@parsimony/types";
+import {
+  TargetFormMetaTestIds,
+  Target,
+  TaskAnalysis,
+  DiscreteTrial
+} from "@parsimony/types";
 import { generateKey, removeItemByIndex } from "../../../utils";
 import { InputForm } from "../../../domains/forms/form";
 import { cloneDeep } from "lodash";
 
 type TargetFormProps = {
-  form: InputForm<Program>;
+  form: InputForm<TaskAnalysis | DiscreteTrial>;
   readOnly?: boolean;
 };
 

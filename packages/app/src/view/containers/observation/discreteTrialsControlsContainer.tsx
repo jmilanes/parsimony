@@ -1,5 +1,5 @@
 import React from "react";
-import { ObservationMetaTestIds, Target } from "@parsimony/types";
+import { ObservationMetaTestIds } from "@parsimony/types";
 import { Discrete_Trial_ID } from "../../../domains/state/appState/actions/observations.actions";
 import { Button } from "../../components";
 import { Container } from "typedi";

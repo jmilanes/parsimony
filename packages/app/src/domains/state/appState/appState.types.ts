@@ -1,4 +1,10 @@
-import { ICompletenessState, IResultsState, Program } from "@parsimony/types";
+import {
+  DiscreteTrial,
+  ICompletenessState,
+  IResultsState,
+  Program,
+  TaskAnalysis
+} from "@parsimony/types";
 
 // TODO These should live closer to the domain "action" or "service" where ever the name winds up
 export enum DrawerContentTypes {
@@ -87,7 +93,7 @@ export type Observation = {
   resultsData: Record<string, unknown>;
   isLoaded: boolean;
   notes: String;
-  program?: Program;
+  program: TaskAnalysis | DiscreteTrial;
   // TODO Figure out why this cant just be an object
   targetStates: Record<string, ObservationTarget>;
 };

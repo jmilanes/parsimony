@@ -9,8 +9,8 @@ import { Container } from "typedi";
 import { useAsyncRetry } from "react-use";
 import { message, Spin } from "antd";
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
-import { DiscreteTrial } from "../containers/observation/discreteTrial.container";
-import { TaskAnalysis } from "../containers/observation/taskAnalysis.container";
+import { DiscreteTrialComp } from "../containers/observation/discreteTrial.container";
+import { TaskAnalysisComp } from "../containers/observation/taskAnalysis.container";
 import { DatePicker } from "@mui/x-date-pickers";
 
 const Observe = () => {
@@ -54,9 +54,9 @@ const Observe = () => {
         />
       </div>
       {API.actions.observations.isDiscreteTrial() ? (
-        <DiscreteTrial program={program} />
+        <DiscreteTrialComp program={program} />
       ) : (
-        <TaskAnalysis program={program} />
+        <TaskAnalysisComp program={program} />
       )}
       <RichText
         placeHolderText="Notes"
