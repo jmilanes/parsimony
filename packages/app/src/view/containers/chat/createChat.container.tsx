@@ -29,14 +29,14 @@ export const CreateChat = () => {
   };
 
   const onCreateThread = async () => {
-    await API.system.makeRequest({
-      domain: Domains.Thread,
-      requestType: "create",
-      payload: {
-        name,
-        subscribers
-      }
-    });
+    // await API.system.makeRequest({
+    //   domain: Domains.Thread,
+    //   requestType: "create",
+    //   payload: {
+    //     name,
+    //     subscribers
+    //   }
+    // });
 
     await setToChatDrawer();
   };

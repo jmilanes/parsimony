@@ -23,6 +23,7 @@ import UIApi from "../../../domains/accessApis/uiApi/uiApi.Service";
 import AncestorNavigationContainer from "./ancestorNavigation.container";
 import parse from "html-react-parser";
 import { isArray } from "chart.js/helpers";
+import { isBehavior } from "../../../utils";
 
 export const parseHTMLObj = (v: any) => {
   if (isArray(v) || !v) {
@@ -104,13 +105,9 @@ const CollectionViewerContainer = ({
       .getItemsFromStore(Domains.Program)
       .filter((program) => program.collectionId === collectionId);
 
-  const programs = allPrograms.filter(
-    (program) => program.targetStyle !== ProgramViewTypes.Behavior
-  );
+  const programs = allPrograms.filter((program) => !isBehavior(program));
 
-  const behaviors = allPrograms.filter(
-    (program) => program.targetStyle === ProgramViewTypes.Behavior
-  );
+  const behaviors = allPrograms.filter((program) => isBehavior(program));
 
   const renderCollectionHeader = (collectionId: string) => {
     const collection = API.system.getItem(Domains.Collection, collectionId);

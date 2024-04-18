@@ -88,15 +88,6 @@ export const ProgramTable = ({
         delete copy["chaining.type"];
         delete copy["behavior.type"];
         copy.title = `${program.title}_copy`;
-        if (!program.behavior?.type) {
-          delete copy.behavior;
-        }
-        if (!program.chaining?.type) {
-          delete copy.chaining;
-        }
-        if (!program.category) {
-          delete copy.category;
-        }
         await API.system.makeRequest({
           domain: Domains.Program,
           requestType: "create",

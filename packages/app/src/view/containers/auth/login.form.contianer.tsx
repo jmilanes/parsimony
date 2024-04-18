@@ -1,9 +1,5 @@
 import React, { useMemo } from "react";
-import {
-  AuthPageMetaTestIds,
-  ChatMetaTestIds,
-  LoginPayload
-} from "@parsimony/types";
+import { AuthPageMetaTestIds, LoginPayload } from "@parsimony/types";
 
 import { Autocomplete, Button, Field } from "../../components";
 

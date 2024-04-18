@@ -11,7 +11,7 @@ import {
   ProgramViewTypes
 } from "@parsimony/types";
 import { Spin } from "antd";
-import { getFullName } from "../../../utils";
+import { getFullName, isBehavior } from "../../../utils";
 import { BehaviorClient } from "../../../domains/state/appState/appState.types";
 import { behaviorInputFactory } from "./behaviorInput.factory";
 import { Button } from "../../components";
@@ -51,9 +51,7 @@ export const BehaviorClientView = ({ client }: { client: BehaviorClient }) => {
 
   const behaviors = programs.filter((program) => {
     return (
-      program.targetStyle === ProgramViewTypes.Behavior &&
-      program.active &&
-      program.clientId === client.id
+      isBehavior(program) && program.active && program.clientId === client.id
     );
   });
 

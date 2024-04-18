@@ -1,7 +1,8 @@
 import { Description, Optional } from "@tsed/schema";
-import { BaseProgramView } from "../baseProgramView";
 
-export class BaseBehaviorView extends BaseProgramView {
+import { BaseBcbaProgram } from "../../BaseBcbaProgram";
+
+export class BaseBehavior extends BaseBcbaProgram {
   @Description("Operational definition content")
   @Optional()
   operationalDefinition?: string;

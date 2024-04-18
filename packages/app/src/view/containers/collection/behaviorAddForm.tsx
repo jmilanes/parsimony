@@ -5,7 +5,9 @@ import {
   Domains,
   Program,
   ProgramTypes,
-  BehaviorAddFormMetaTestIds
+  BehaviorAddFormMetaTestIds,
+  ProgramViewTypes,
+  IntervalBehaviorType
 } from "@parsimony/types";
 
 import {
@@ -35,8 +37,8 @@ export const BehaviorAddForm = ({
 
   const form = useMemo(
     () =>
-      //Need to destroy on use effect
-      API.system.Form.create<Program>(initialBehaviorData),
+      //Need to destroy on use effect and update after types (can rethink whole pattern now)
+      API.system.Form.create<IntervalBehaviorType>(new IntervalBehaviorType()),
     []
   );
 
@@ -84,14 +86,12 @@ export const BehaviorAddForm = ({
       />
       <Selector
         title="Behavior Type"
-        value={form.Data.behavior?.type}
+        value={form.Data?.viewType}
         options={behaviorTypes}
         onChange={(value) =>
           form.updateData(
             {
-              behavior: {
-                type: value as BehaviorType
-              }
+              viewType: value as ProgramViewTypes
             },
             true
           )
@@ -103,13 +103,11 @@ export const BehaviorAddForm = ({
         <Field
           placeHolderText="Alert Duration (Seconds)"
           //TODO Figure this out
-          value={form.Data.behavior?.alertTime?.toString()}
+          value={form.Data?.alertTime?.toString()}
           onChange={(value) =>
             form.updateData(
               {
-                behavior: {
-                  alertTime: parseInt(value)
-                }
+                alertTime: parseInt(value)
               },
               true
             )
@@ -141,13 +139,11 @@ export const BehaviorAddForm = ({
 
       <RichText
         placeHolderText="Operational Definition"
-        content={form.Data.behavior?.operationalDefinition}
+        content={form.Data.operationalDefinition}
         onChange={(value) =>
           form.updateData(
             {
-              behavior: {
-                operationalDefinition: value
-              }
+              operationalDefinition: value
             },
             true
           )
@@ -156,13 +152,11 @@ export const BehaviorAddForm = ({
       />
       <RichText
         placeHolderText="Precursor Behaviors"
-        content={form.Data.behavior?.precursorBehaviors}
+        content={form.Data.precursorBehaviors}
         onChange={(value) =>
           form.updateData(
             {
-              behavior: {
-                precursorBehaviors: value
-              }
+              precursorBehaviors: value
             },
             true
           )
@@ -171,13 +165,11 @@ export const BehaviorAddForm = ({
       />
       <RichText
         placeHolderText="Proactive Strategies"
-        content={form.Data.behavior?.proactiveStrategies}
+        content={form.Data?.proactiveStrategies}
         onChange={(value) =>
           form.updateData(
             {
-              behavior: {
-                proactiveStrategies: value
-              }
+              proactiveStrategies: value
             },
             true
           )
@@ -186,13 +178,11 @@ export const BehaviorAddForm = ({
       />
       <RichText
         placeHolderText="Reactive Strategies"
-        content={form.Data.behavior?.reactiveStrategies}
+        content={form.Data?.reactiveStrategies}
         onChange={(value) =>
           form.updateData(
             {
-              behavior: {
-                reactiveStrategies: value
-              }
+              reactiveStrategies: value
             },
             true
           )

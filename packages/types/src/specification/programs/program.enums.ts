@@ -38,9 +38,9 @@ export enum ProgramValueTypes {
 
 export enum ProgramViewTypes {
   Behavior = "BEHAVIOR",
-  DurationBehavior = "DURATION_BEHAVIOR",
-  FrequencyBehavior = "FREQUENCY_BEHAVIOR",
-  IntervalBehavior = "INTERVAL_BEHAVIOR",
+  DurationBehavior = "DURATION",
+  FrequencyBehavior = "FREQUENCY",
+  IntervalBehavior = "INTERVAL",
   DiscreteTrials = "DISCRETE_TRIALS",
   TaskAnalysis = "TASK_ANALYSIS"
 }

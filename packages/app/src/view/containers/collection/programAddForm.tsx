@@ -7,7 +7,8 @@ import {
   CollectionPageMetaTestIds,
   ProgramTypes,
   ProgramViewTypes,
-  TrialChainingDirections
+  TrialChainingDirections,
+  TaskAnalysis
 } from "@parsimony/types";
 
 import {
@@ -43,7 +44,7 @@ export const ProgramAddForm = ({
   const form = useMemo(
     () =>
       //Need to destroy on use effect
-      API.system.Form.create<Program>(initialProgramData),
+      API.system.Form.create<TaskAnalysis>(new TaskAnalysis()),
     []
   );
 
@@ -51,7 +52,7 @@ export const ProgramAddForm = ({
     if (form.Data.targetStyle === ProgramViewTypes.DiscreteTrials) {
       form.updateData({ chaining: undefined });
     } else {
-      form.updateData({ chaining: initialProgramData.chaining });
+      form.updateData({ chaining: new TaskAnalysis().chaining });
     }
   }, [form.Data.targetStyle]);
 
@@ -131,10 +132,10 @@ export const ProgramAddForm = ({
 
       <Selector
         title="Target Style"
-        value={form.Data.targetStyle}
+        value={form.Data.viewType}
         options={targetStyles}
         onChange={(value) =>
-          form.updateData({ targetStyle: value as ProgramViewTypes })
+          form.updateData({ viewType: value as ProgramViewTypes })
         }
         metaTestId={CollectionPageMetaTestIds.addProgramFormTargetStyleSelector}
       />

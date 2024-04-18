@@ -1,9 +1,8 @@
 import { ProgramViewTypes } from "../../program.enums";
 import { Description, Optional } from "@tsed/schema";
+import { BaseBehavior } from "./baseBehaviorView";
 
-import { BaseBcbaProgram } from "../../BaseBcbaProgram";
-
-export class IntervalBehaviorType extends BaseBcbaProgram {
+export class IntervalBehaviorType extends BaseBehavior {
   viewType = ProgramViewTypes.IntervalBehavior;
 
   @Description("Time used for Interval Type")

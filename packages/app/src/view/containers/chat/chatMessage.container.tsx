@@ -25,11 +25,11 @@ export const ChatMessage = ({
   // TODO: ADD This to store / clientside domains
   const currentUserId = authService.getCurrentUser()?.id;
   const onDeleteMessage = async (threadId: string, messageId: string) => {
-    await API.system.makeRequest({
-      domain: Domains.Thread,
-      requestType: "deleteMessage",
-      payload: { threadId, messageId }
-    });
+    // await API.system.makeRequest({
+    //   domain: Domains.Thread,
+    //   requestType: "deleteMessage",
+    //   payload: { threadId, messageId }
+    // });
   };
 
   const menuOptions = [

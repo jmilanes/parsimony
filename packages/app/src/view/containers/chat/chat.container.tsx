@@ -12,7 +12,7 @@ export const Chat = () => {
   const API = Container.get(UIApi);
   const authService = API.system.Auth;
   const [currentThread, setCurrentThread] = useState<string>();
-  const threads = API.system.getItemsFromStore(Domains.Thread);
+  const threads = [new Thread()];
 
   const showCreateChat = async () => {
     await API.system.updateAppState("drawer", {
