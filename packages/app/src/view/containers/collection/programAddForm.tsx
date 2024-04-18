@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from "react";
 
 import {
   Domains,
-  Program,
   ProgramCategories,
   CollectionPageMetaTestIds,
   ProgramTypes,
@@ -13,7 +12,6 @@ import {
 
 import {
   chainingTypesOptions,
-  initialProgramData,
   programCategories,
   programTypes,
   targetStyles,

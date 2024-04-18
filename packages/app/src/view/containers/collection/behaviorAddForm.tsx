@@ -3,18 +3,13 @@ import React, { useMemo } from "react";
 import {
   BehaviorType,
   Domains,
-  Program,
   ProgramTypes,
   BehaviorAddFormMetaTestIds,
   ProgramViewTypes,
   IntervalBehaviorType
 } from "@parsimony/types";
 
-import {
-  behaviorTypes,
-  initialBehaviorData,
-  programTypes
-} from "../../../fixtures";
+import { behaviorTypes, programTypes } from "../../../fixtures";
 import { Field, RichText, Selector } from "../../components";
 import { AddForm } from "../shared/addForm.container";
 

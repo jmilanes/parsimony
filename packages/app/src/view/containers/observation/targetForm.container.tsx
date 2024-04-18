@@ -1,6 +1,5 @@
 import React from "react";
 import { Field, Repeater, Button, Row, Col, RichText } from "../../components";
-import { initialTargetData } from "../../../fixtures";
 
 import {
   TargetFormMetaTestIds,
@@ -73,7 +72,7 @@ export const TargetForm = ({ form, readOnly = false }: TargetFormProps) => {
       form={form}
       items={form.Data.targets || []}
       generateRow={target}
-      initialData={initialTargetData}
+      initialData={new Target()}
       readOnly={readOnly}
       renderAddButton={(addFn) => {
         return (

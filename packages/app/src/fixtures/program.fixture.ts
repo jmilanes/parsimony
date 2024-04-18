@@ -1,13 +1,10 @@
 import {
-  BehaviorType,
   InputTypes,
-  Program,
   ProgramCategories,
   ProgramTypes,
   ProgramValueTypes,
   Prompts,
   PromptTypes,
-  Target,
   TargetOption,
   ProgramViewTypes,
   TrialChainingDirections,
@@ -18,73 +15,6 @@ import { IOption } from "../view/components";
 export const currentUserLS = localStorage.getItem("currentUserId") || null;
 
 // TODO: need to pass in the user... or make this better REFACTOR currentUSER....
-
-export const initialProgramData: Program = {
-  id: "",
-  title: "",
-  description: "",
-  materials: "",
-  writeAccess: [],
-  readAccess: [],
-  type: ProgramTypes.Template,
-  lastEditedBy: currentUserLS || undefined,
-  editedBy: currentUserLS ? [currentUserLS] : [],
-  createdBy: currentUserLS || undefined,
-  trials: 1,
-  targets: [],
-  mastered: false,
-  category: ProgramCategories.Aba,
-  targetOptions: [],
-  masteryTarget: 100,
-  masteryConsecutiveTargets: 3,
-  subscribers: currentUserLS ? [currentUserLS] : [],
-  collectionId: "",
-  targetStyle: ProgramViewTypes.DiscreteTrials,
-  chaining: {
-    type: TrialChainingDirections.Total
-  }
-};
-
-export const initialBehaviorData: Program = {
-  id: "",
-  title: "",
-  description: "",
-  materials: "",
-  writeAccess: [],
-  readAccess: [],
-  type: ProgramTypes.Template,
-  lastEditedBy: currentUserLS || undefined,
-  editedBy: currentUserLS ? [currentUserLS] : [],
-  createdBy: currentUserLS || undefined,
-  trials: 1,
-  mastered: false,
-  targetOptions: [],
-  targetStyle: ProgramViewTypes.Behavior,
-  masteryTarget: 100,
-  masteryConsecutiveTargets: 3,
-  subscribers: currentUserLS ? [currentUserLS] : [],
-  collectionId: "",
-  behavior: {
-    alertTime: 0,
-    type: BehaviorType.Frequency,
-    active: true,
-    operationalDefinition: "",
-    precursorBehaviors: "",
-    proactiveStrategies: "",
-    reactiveStrategies: ""
-  }
-};
-
-export const initialTargetData: Target = {
-  id: "",
-  title: "",
-  description: "",
-  required: true,
-  inputType: InputTypes.Radio,
-  valueType: ProgramValueTypes.Number,
-  mastered: false,
-  currentMasterCount: 0
-};
 
 export const initialOptionData = {
   name: "",
@@ -97,12 +27,18 @@ export const programTypes: IOption[] = [
 ];
 
 export const behaviorTypes: IOption[] = [
-  { name: BehaviorType.Frequency, value: BehaviorType.Frequency },
   {
-    name: BehaviorType.Duration,
-    value: BehaviorType.Duration
+    name: ProgramViewTypes.FrequencyBehavior,
+    value: ProgramViewTypes.FrequencyBehavior
   },
-  { name: BehaviorType.Interval, value: BehaviorType.Interval }
+  {
+    name: ProgramViewTypes.DurationBehavior,
+    value: ProgramViewTypes.DurationBehavior
+  },
+  {
+    name: ProgramViewTypes.IntervalBehavior,
+    value: ProgramViewTypes.IntervalBehavior
+  }
 ];
 
 export const targetStyles: IOption[] = [
