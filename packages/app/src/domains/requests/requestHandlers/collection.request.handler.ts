@@ -7,12 +7,13 @@ import {
   Collection,
   UpdateCollectionPayload
 } from "@parsimony/types";
-import { IRequestHandler } from "../IRequestHandler";
-import { collectionRequests } from "@parsimony/bal";
+import { CrudRequestHandler } from "../CrudRequestHandler";
+
 import { Service } from "typedi";
+import { createRestRequest } from "../request.utils";
 
 @Service()
-export class CollectionRequestHandler extends IRequestHandler<
+export class CollectionRequestHandler extends CrudRequestHandler<
   Collection,
   CreateCollectionPayload,
   DeleteCollectionPayload,
@@ -21,5 +22,23 @@ export class CollectionRequestHandler extends IRequestHandler<
   GetAllCollectionsByRelationshipPayload
 > {
   domainName = Domains.Collection;
-  requests = collectionRequests;
+  requests = {
+    get: createRestRequest<GetCollectionPayload, Collection>(
+      "GET",
+      "collections"
+    ),
+    getAll: createRestRequest<undefined, Collection[]>("GET", "collections"),
+    delete: createRestRequest<DeleteCollectionPayload, string>(
+      "DELETE",
+      "collections"
+    ),
+    create: createRestRequest<CreateCollectionPayload, Collection>(
+      "POST",
+      "collections"
+    ),
+    update: createRestRequest<UpdateCollectionPayload, Collection>(
+      "POST",
+      "collections"
+    )
+  };
 }

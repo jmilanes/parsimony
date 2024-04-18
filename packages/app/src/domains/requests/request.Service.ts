@@ -1,36 +1,65 @@
-import { Container, Service } from "typedi";
-import { Domains } from "@parsimony/types";
+import { Service } from "typedi";
 
 import { ProgramRequestHandler } from "./requestHandlers/program.request.handler";
 import { UserRequestHandler } from "./requestHandlers/user.request.handler";
 import { ResultRequestHandler } from "./requestHandlers/result.request.handler";
 
-import { ThreadRequestHandler } from "./requestHandlers/thread.request.handler";
+import { OperationRequestHandler } from "./requestHandlers/operation.request.handler";
 import { CollectionRequestHandler } from "./requestHandlers/collection.request.handler";
-import { IRequestHandler } from "./IRequestHandler";
-
-export interface RequestsTypeMap {
-  [Domains.Program]: ProgramRequestHandler;
-  [Domains.User]: UserRequestHandler;
-  [Domains.Result]: ResultRequestHandler;
-  [Domains.Thread]: ThreadRequestHandler;
-  [Domains.Collection]: CollectionRequestHandler;
-  [Domains.AppState]: ThreadRequestHandler;
-}
+import { noop } from "lodash";
+import { AuthRequestHandler } from "./requestHandlers/auth.request.handler";
 
 @Service()
 export default class RequestService {
-  public requests: Partial<
-    Record<Domains, IRequestHandler<any, any, any, any, any, any>>
-  >;
+  #userRequests: UserRequestHandler;
+  #programRequests: ProgramRequestHandler;
+  #resultRequests: ResultRequestHandler;
+  #collectionRequests: CollectionRequestHandler;
+  #operationsRequests: OperationRequestHandler;
+  #authRequests: AuthRequestHandler;
 
-  constructor() {
-    this.requests = {
-      [Domains.Program]: Container.get(ProgramRequestHandler),
-      [Domains.User]: Container.get(UserRequestHandler),
-      [Domains.Result]: Container.get(ResultRequestHandler),
-      [Domains.Collection]: Container.get(CollectionRequestHandler),
-      [Domains.Thread]: Container.get(ThreadRequestHandler)
-    };
+  // Kill this and just get each with injection!
+  constructor(
+    ur: UserRequestHandler,
+    pr: ProgramRequestHandler,
+    rr: ResultRequestHandler,
+    cr: CollectionRequestHandler,
+    or: OperationRequestHandler,
+    ar: AuthRequestHandler
+  ) {
+    this.#userRequests = ur;
+    this.#programRequests = pr;
+    this.#collectionRequests = cr;
+    this.#resultRequests = rr;
+    this.#operationsRequests = or;
+    this.#authRequests = ar;
+  }
+
+  get auth() {
+    return this.#authRequests;
+  }
+
+  get user() {
+    return this.#userRequests;
+  }
+
+  get program() {
+    return this.#programRequests;
+  }
+
+  get result() {
+    return this.#resultRequests;
+  }
+
+  get collection() {
+    return this.#collectionRequests;
+  }
+
+  get operation() {
+    return this.#operationsRequests;
+  }
+
+  get appControls() {
+    return noop();
   }
 }

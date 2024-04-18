@@ -7,12 +7,13 @@ import {
   UpdateUserPayload,
   User
 } from "@parsimony/types";
-import { IRequestHandler } from "../IRequestHandler";
-import { userRequests } from "@parsimony/bal";
+import { CrudRequestHandler } from "../CrudRequestHandler";
+
 import { Service } from "typedi";
+import { createRestRequest } from "../request.utils";
 
 @Service()
-export class UserRequestHandler extends IRequestHandler<
+export class UserRequestHandler extends CrudRequestHandler<
   User,
   CreateUserPayload,
   DeleteUserPayload,
@@ -21,5 +22,11 @@ export class UserRequestHandler extends IRequestHandler<
   GetAllUsersByRelationshipPayload
 > {
   domainName = Domains.User;
-  requests = userRequests;
+  requests = {
+    get: createRestRequest<GetUserPayload, User>("GET", "users"),
+    getAll: createRestRequest<undefined, User[]>("GET", "users"),
+    delete: createRestRequest<DeleteUserPayload, string>("DELETE", "users"),
+    create: createRestRequest<CreateUserPayload, User>("POST", "users"),
+    update: createRestRequest<UpdateUserPayload, User>("POST", "users")
+  };
 }

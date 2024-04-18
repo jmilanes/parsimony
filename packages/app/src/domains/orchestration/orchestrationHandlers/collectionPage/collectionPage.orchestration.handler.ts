@@ -2,8 +2,8 @@ import { Service } from "typedi";
 
 import { IOrchestrationHandler } from "../orchestrationHandler.interface";
 import RequestService from "../../../requests/request.Service";
-import ChatService from "../../../services/chat.service";
-import AppStateService from "../../../state/appState/appStateService";
+
+import { Program } from "@parsimony/types";
 
 export interface CollectionPageOrchestrationHandlerOptions {
   collectionId?: string;
@@ -18,7 +18,7 @@ export class CollectionPageOrchestrationHandler
 {
   #rs: RequestService;
 
-  constructor(rs: RequestService, cs: ChatService, ac: AppStateService) {
+  constructor(rs: RequestService) {
     this.#rs = rs;
   }
 
@@ -29,12 +29,14 @@ export class CollectionPageOrchestrationHandler
     if (!options.collectionId) {
       throw new Error("No Collection included in Data Request");
     }
-    await this.#rs.requests.collection?.get({ id: options.collectionId });
-    await this.#rs.requests.program?.getAllByRelationship({
+    await this.#rs.collection?.get({ id: options.collectionId });
+    await this.#rs.operation.getAllByRelationship<Program>({
+      model: "program",
       relationshipProperty: "collectionId",
       id: options.collectionId
     });
-    await this.#rs.requests.collection?.getAllByRelationship({
+    await this.#rs.operation?.getAllByRelationship({
+      model: "collection",
       relationshipProperty: "parentCollectionId",
       id: options.collectionId
     });

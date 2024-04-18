@@ -23,7 +23,7 @@ jobs:
           git config user.name "Joey Milanes"
           git config user.email "joemilanes5@gmail.com"
       - name: Lerna Version Bump
-        run: yarn lerna version minor --force-publish="@parsimony/types,@parsimony/bal,@parsimony/utilities" --yes
+        run: yarn lerna version minor --force-publish="@parsimony/types,@parsimony/utilities" --yes
       - name: prepack
         run: yarn prepack
       - name: Install dependencies and build @parsimony/types
@@ -32,9 +32,5 @@ jobs:
         run: cd ../../../
       - name: Install dependencies and build @parsimony/utilities 🔧
         run: cd packages/utilities && yarn build && yarn publish
-      - name: Back to Root
-        run: cd ../../../
-      - name: Install dependencies and build @parsimony/bal 🔧
-        run: cd packages/bal && yarn build && yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

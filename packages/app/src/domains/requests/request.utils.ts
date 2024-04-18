@@ -1,9 +1,11 @@
 import { IObject } from "@parsimony/types";
 import { envIs } from "@parsimony/utilities";
 
-const DEV_URL = "http://localhost:4000";
-const TEST_URL = "http://localhost:4444";
+const DEV_URL = "http://localhost:4000/";
+const TEST_URL = "http://localhost:4444/";
 const PRODUCTION_URL = "https://api.parsimony.app/";
+
+type MethodTypes = "POST" | "GET" | "DELETE";
 
 const getServerUrl = () => {
   if (envIs("prod")) {
@@ -15,17 +17,12 @@ const getServerUrl = () => {
   return DEV_URL;
 };
 
-export const createBody = (query: string, variables?: IObject) => {
-  const body = {
-    query,
-    variables: { now: new Date().toISOString(), ...variables }
-  };
-  return JSON.stringify(body);
-};
-
-export const createRequestOptions = <P>(mutation: string, payload?: P) => {
+export const createRequestOptions = <P>(
+  method: MethodTypes,
+  payload: P = {} as P
+) => {
   const requestParams = {
-    method: "POST",
+    method,
     headers: {
       Authorization: `Bearer ${localStorage?.getItem("accessToken")}`,
       "Content-Type": "application/json",
@@ -34,17 +31,20 @@ export const createRequestOptions = <P>(mutation: string, payload?: P) => {
   };
   return {
     ...requestParams,
-    body: createBody(mutation, { payload })
+    body: JSON.stringify(payload)
   };
 };
 
 // TODO 2 one void one return type or one with an optional return type
-export const createRequest = <P, R>(mutation: string) => {
+export const createRestRequest = <P, R>(type: MethodTypes, path: string) => {
   return async (payload?: P): Promise<R> => {
-    const response = await fetch(
-      getServerUrl(),
-      createRequestOptions<P>(mutation, payload)
-    );
+    //@ts-ignore
+    const URL = payload?.id
+      ? //@ts-ignore
+        `${getServerUrl()}${path}/${payload?.id}`
+      : `${getServerUrl()}${path}`;
+
+    const response = await fetch(URL, createRequestOptions<P>(type, payload));
 
     return parseResponseJson<R>(await response.json());
   };

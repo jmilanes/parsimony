@@ -10,7 +10,7 @@ type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
 };
 
 @Service()
-export class IRequestHandler<
+export class CrudRequestHandler<
   Schema,
   CreatePayload,
   DeletePayload,
@@ -20,14 +20,12 @@ export class IRequestHandler<
 > {
   domainName: Domains = "" as Domains;
 
-  //@ts-ignore
   requests: ICrudRequests<
     Schema,
     CreatePayload,
     DeletePayload,
     UpdatePayload,
-    GetPayload,
-    GetAllByRelationshipPayload
+    GetPayload
   >;
   #store: Store;
 
@@ -87,16 +85,16 @@ export class IRequestHandler<
     this.#store.addItemByDomain(this.domainName, item);
   };
 
-  getAllByRelationship = async (payload: GetAllByRelationshipPayload) => {
-    try {
-      const newItems = await this.requests.getAllByRelationship(payload);
-      if (newItems) {
-        this.#store.addItemsByDomain(this.domainName, arrayToObj(newItems));
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // getAllByRelationship = async (payload: GetAllByRelationshipPayload) => {
+  //   try {
+  //     const newItems = await this.requests.getAllByRelationship(payload);
+  //     if (newItems) {
+  //       this.#store.addItemsByDomain(this.domainName, arrayToObj(newItems));
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
   subscribe = (service: { set: (data: any[]) => void }) => {
     this.#store.subscribeToStoreDomain(

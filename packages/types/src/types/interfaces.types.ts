@@ -1,17 +1,13 @@
 export type ICrudRequests<
   Schema,
   CreatePayload,
-  DeleteThreadPayload,
+  DeletePayload,
   UploadPayload,
-  GetPayload,
-  GetAllByRelationshipPayload
+  GetPayload
 > = {
   getAll: () => Promise<Schema[]>;
   get: (payload: GetPayload) => Promise<Schema>;
-  getAllByRelationship: (
-    payload: GetAllByRelationshipPayload
-  ) => Promise<Schema[]>;
-  delete: (payload: DeleteThreadPayload) => Promise<string>;
+  delete: (payload: DeletePayload) => Promise<string>;
   create: (payload: CreatePayload) => Promise<Schema>;
   update: (payload: UploadPayload) => Promise<Schema>;
 };

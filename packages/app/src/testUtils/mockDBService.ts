@@ -39,9 +39,11 @@ export class MockDBService {
       for (const i in payloads) {
         const domain = key as unknown as Domains;
         const payload = this.#parseDomains(payloads[i]);
-        const item = await this.#rs.requests[domain]?.create(payload);
-        this.#createItems.push({ domain, id: item.id });
-        this.#uuidMap[createTargetUuidKey(domain, parseInt(i))] = item.id;
+
+        const item = await this.#rs[domain]?.create(payload as any);
+        this.#createItems.push({ domain, id: item?.id || "undefined" });
+        this.#uuidMap[createTargetUuidKey(domain, parseInt(i))] =
+          item?.id || "undefined";
       }
     }
   }
@@ -52,7 +54,7 @@ export class MockDBService {
   public async cleanUp() {
     await Promise.all(
       this.#createItems.map((item) => {
-        return this.#rs.requests[item.domain]?.delete({ id: item.id });
+        return this.#rs[item.domain]?.delete({ id: item.id });
       })
     );
 

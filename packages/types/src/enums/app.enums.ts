@@ -2,7 +2,6 @@ export enum Domains {
   User = "user",
   Program = "program",
   Result = "result",
-  Thread = "thread",
   Collection = "collection",
   // Move with to clientDomains
   AppState = "appControls"

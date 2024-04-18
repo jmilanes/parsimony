@@ -7,6 +7,13 @@ import { TemporaryPasswordService } from "../../../services/authentication/tempo
 import { EmailService } from "../../../services/communication/email.service";
 import { modelTypes } from "../../../services/database/models";
 import { EMAIL_TEMPLATES } from "../../../services/communication/emails/emails";
+import {
+  LoginPayload,
+  LogoutPayload,
+  MePayload,
+  RequestPasswordResetPayload,
+  ResetPasswordPayload
+} from "@parsimony/types";
 
 @Controller("auth")
 export class AuthController {
@@ -34,16 +41,14 @@ export class AuthController {
   }
 
   @Get("/me")
-  public async me(@Body() payload: { refreshToken: string; schoolId: string }) {
+  public async me(@Body() payload: MePayload) {
     // TODO: I Think this on should be the only one that is SchoolName (consider all)
     const foundID = this.#safeSchoolID(payload.schoolId);
     return await this.#ts.verifyRefreshToken(payload.refreshToken, foundID);
   }
 
   @Get("/login")
-  public async login(
-    @Body() payload: { email: string; password: string; schoolId: string }
-  ) {
+  public async login(@Body() payload: LoginPayload) {
     // When you have no way of knowing the id you can accept a school name maybe we name it better
     const foundID = this.#safeSchoolID(payload.schoolId);
     const db = this.#adg.dbBySchoolId(foundID);
@@ -79,12 +84,7 @@ export class AuthController {
   @Get("/resetPassword")
   public async resetPassword(
     @Body()
-    payload: {
-      email: string;
-      tempPassword: string;
-      newPassword: string;
-      schoolId: string;
-    }
+    payload: ResetPasswordPayload
   ) {
     const foundID = this.#safeSchoolID(payload.schoolId);
 
@@ -117,10 +117,7 @@ export class AuthController {
   @Get("/logout")
   public async logout(
     @Body()
-    payload: {
-      refreshToken: string;
-      schoolId: string;
-    }
+    payload: LogoutPayload
   ) {
     const foundID = this.#safeSchoolID(payload.schoolId);
     await this.#ts.deleteRefreshToken(payload.refreshToken, foundID);
@@ -132,9 +129,7 @@ export class AuthController {
   @Get("requestPasswordReset")
   public async requestPasswordReset(
     @Body()
-    payload: {
-      email: string;
-    }
+    payload: RequestPasswordResetPayload
   ) {
     try {
       // TODO Figure out a way to make sure the email is valid

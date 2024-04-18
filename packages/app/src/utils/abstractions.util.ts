@@ -3,7 +3,6 @@ import _ from "lodash";
 import { Domains, IObject, Program } from "@parsimony/types";
 import cn from "classnames";
 import { initialResultData } from "../fixtures";
-import { RequestsTypeMap } from "../domains/requests/request.Service";
 
 export const uuid = () => uuidv4();
 
@@ -29,7 +28,7 @@ export const buildCreateBehaviorRequest = ({
   const date = new Date();
   return {
     domain: Domains.Result,
-    requestType: "create" as keyof RequestsTypeMap[Domains.Result],
+    requestType: "create",
     payload: {
       ...initialResultData,
       id: undefined,

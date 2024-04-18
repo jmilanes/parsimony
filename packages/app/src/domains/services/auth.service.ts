@@ -5,30 +5,26 @@ import {
   User
 } from "@parsimony/types";
 
-import {
-  login,
-  logout,
-  me,
-  resetPassword,
-  requestPasswordReset
-} from "@parsimony/bal";
 import { Service } from "typedi";
 import { LoginViewTypes } from "../state/appState/appState.types";
 import AppStateService from "../state/appState/appStateService";
 import { message } from "antd";
+import RequestService from "../requests/request.Service";
 
 @Service()
 export default class AuthService {
   //TODO All be move to App State Service
   #ass: AppStateService;
+  #rs: RequestService;
   // #na: NotificationsActions;
   #currentUser: User;
   isLoggedIn: boolean;
   schoolName: string;
   schoolCached: boolean;
 
-  constructor(ass: AppStateService) {
+  constructor(ass: AppStateService, rs: RequestService) {
     this.#ass = ass;
+    this.#rs = rs;
     this.isLoggedIn = this.#getPersistentData("isLoggedIn") === "true";
     this.schoolCached = !!this.getSchoolName();
     window.onbeforeunload = (event) => {
@@ -60,7 +56,7 @@ export default class AuthService {
     if (localStorage?.getItem("isLoggedIn") === "true") {
       try {
         // This should pull schoolId from local storage
-        const meResponse = await me({
+        const meResponse = await this.#rs.auth.me({
           refreshToken: this.#getRefreshToken(),
           schoolId: this.getSchoolName()
         });
@@ -77,7 +73,7 @@ export default class AuthService {
 
   async logIn(payload: LoginPayload) {
     try {
-      const loginResponse = await login(payload);
+      const loginResponse = await this.#rs.auth.login(payload);
       if (loginResponse.resetPassword && loginResponse.tempPassword) {
         this.#ass.updateAppState("login", {
           view: "resetPassword",
@@ -107,7 +103,7 @@ export default class AuthService {
       this.#clearAuthData();
     }
     try {
-      await logout({
+      await this.#rs.auth.logout({
         refreshToken: this.#getRefreshToken(),
         // This should pull from local storage
         schoolId: this.getSchoolName()
@@ -120,7 +116,7 @@ export default class AuthService {
 
   public async resetPassword(payload: ResetPasswordPayload) {
     try {
-      await resetPassword(payload);
+      await this.#rs.auth.resetPassword(payload);
       this.#ass.updateAppState("login", {
         view: "login",
         tempPassword: "",
@@ -134,7 +130,7 @@ export default class AuthService {
 
   public async requestPasswordReset(payload: RequestPasswordResetPayload) {
     try {
-      await requestPasswordReset(payload);
+      await this.#rs.auth.requestPasswordReset(payload);
       this.#setLoginView("login");
     } catch (_e) {
       message.error("Request For Reset Password Failed");

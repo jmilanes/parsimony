@@ -5,15 +5,15 @@ import {
   GetAllProgramsByRelationshipPayload,
   GetProgramPayload,
   Program,
-  UpdateProgramPayload,
-  AddProgramsToClientPayload
+  UpdateProgramPayload
 } from "@parsimony/types";
-import { IRequestHandler } from "../IRequestHandler";
-import { programRequests } from "@parsimony/bal";
+import { CrudRequestHandler } from "../CrudRequestHandler";
+
 import { Service } from "typedi";
+import { createRestRequest } from "../request.utils";
 
 @Service()
-export class ProgramRequestHandler extends IRequestHandler<
+export class ProgramRequestHandler extends CrudRequestHandler<
   Program,
   CreateProgramPayload,
   DeleteProgramPayload,
@@ -22,9 +22,17 @@ export class ProgramRequestHandler extends IRequestHandler<
   GetAllProgramsByRelationshipPayload
 > {
   domainName = Domains.Program;
-  requests = programRequests;
-
-  addProgramsToClient = async (payload: AddProgramsToClientPayload) => {
-    await this.requests.addProgramsToClient(payload);
+  requests = {
+    get: createRestRequest<GetProgramPayload, Program>("GET", "programs"),
+    getAll: createRestRequest<undefined, Program[]>("GET", "programs"),
+    delete: createRestRequest<DeleteProgramPayload, string>(
+      "DELETE",
+      "programs"
+    ),
+    create: createRestRequest<CreateProgramPayload, Program>(
+      "POST",
+      "programs"
+    ),
+    update: createRestRequest<UpdateProgramPayload, Program>("POST", "programs")
   };
 }

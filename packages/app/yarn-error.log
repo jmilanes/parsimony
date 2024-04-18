@@ -54,7 +54,6 @@ npm manifest:
       "@mui/material": "^5.10.16",
       "@mui/x-data-grid": "^5.17.10",
       "@mui/x-date-pickers": "^6.12.0",
-      "@parsimony/bal": "^0.123.0",
       "@parsimony/utilities": "^0.123.0",
       "@tiptap/core": "^2.1.12",
       "@tiptap/extension-heading": "^2.1.12",

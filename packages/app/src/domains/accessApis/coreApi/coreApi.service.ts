@@ -8,14 +8,13 @@ import Store, { DomainReturnTypeMap } from "../../state/store/store";
 import { Domains } from "@parsimony/types";
 import { AppState } from "../../state/appState/appState.types";
 
-import RequestService, {
-  RequestsTypeMap
-} from "../../requests/request.Service";
 import AuthService from "../../services/auth.service";
 import StateService from "../../state/state.service";
 import { DialogControlService } from "../../controls/dialogControl.service";
 import { FormService } from "../../forms/form.service";
 import AppStateService from "../../state/appState/appStateService";
+import { capitalize } from "lodash";
+import RequestService from "../../requests/request.Service";
 
 /**
  * API Between service and UI Layer
@@ -127,10 +126,10 @@ export default class CoreApi {
     payload
   }: {
     domain: K;
-    requestType: keyof RequestsTypeMap[K];
+    requestType: string;
     payload?: Record<string, unknown> | unknown;
   }) => {
     //@ts-ignore
-    await this.#rs.requests[domain][requestType](payload);
+    await this.#rs[capitalize(domain)][requestType](payload);
   };
 }
