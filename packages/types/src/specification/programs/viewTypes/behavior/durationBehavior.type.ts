@@ -1,6 +1,7 @@
 import { ProgramViewTypes } from "../../program.enums";
-import { BaseBehaviorView } from "./baseBehaviorView";
 
-export class DurationBehaviorType extends BaseBehaviorView {
+import { BaseBcbaProgram } from "../../BaseBcbaProgram";
+
+export class DurationBehaviorType extends BaseBcbaProgram {
   viewType = ProgramViewTypes.DurationBehavior;
 }

@@ -1,6 +1,10 @@
 import { Default, Description, Optional, Required } from "@tsed/schema";
 
-import { ProgramCategories, ProgramTypes } from "./program.enums";
+import {
+  ProgramCategories,
+  ProgramTypes,
+  ProgramViewTypes
+} from "./program.enums";
 
 export class Program {
   @Description("UUID from database")
@@ -57,4 +61,16 @@ export class Program {
   @Description("Ids of users who wish to get updates about programs")
   @Optional()
   subscribers?: string[] = [];
+
+  @Description("View Type for a program")
+  @Required()
+  viewType: ProgramViewTypes = ProgramViewTypes.TaskAnalysis;
+
+  @Description("Title of program")
+  @Optional()
+  title?: string = "Program Title";
+
+  @Description("Description of the program")
+  @Optional()
+  description?: string = "Program Description";
 }

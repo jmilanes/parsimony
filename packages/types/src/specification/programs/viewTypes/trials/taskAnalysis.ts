@@ -1,8 +1,8 @@
-import { BaseProgramView } from "../baseProgramView";
 import { ProgramViewTypes, TrialChainingDirections } from "../../program.enums";
 import { Description, Optional } from "@tsed/schema";
 import { TargetOption } from "./shared/target.option.type";
 import { Target } from "./shared/target.type";
+import { BaseBcbaProgram } from "../../BaseBcbaProgram";
 
 export class Chaining {
   //TODO REFACTOR
@@ -10,7 +10,7 @@ export class Chaining {
   type?: TrialChainingDirections;
 }
 
-export class TaskAnalysis extends BaseProgramView {
+export class TaskAnalysis extends BaseBcbaProgram {
   viewType = ProgramViewTypes.TaskAnalysis;
 
   @Description("Target options for for selection")

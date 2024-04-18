@@ -3,7 +3,7 @@ import React from "react";
 import { generateKey } from "../../utils";
 import { Content, Button } from "./index";
 
-import { MetaTestIds, RepeatableMetaTestIds } from "@parsimony/types";
+import { RepeatableMetaTestIds } from "@parsimony/types";
 import MaterialCheckbox from "@mui/material/Checkbox";
 import { get } from "lodash";
 

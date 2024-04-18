@@ -1,6 +1,7 @@
 import { ProgramViewTypes } from "../../program.enums";
-import { BaseBehaviorView } from "./baseBehaviorView";
 
-export class FrequencyBehaviorType extends BaseBehaviorView {
+import { BaseBcbaProgram } from "../../BaseBcbaProgram";
+
+export class FrequencyBehaviorType extends BaseBcbaProgram {
   viewType = ProgramViewTypes.FrequencyBehavior;
 }

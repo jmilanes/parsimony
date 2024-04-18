@@ -1,8 +1,6 @@
 import React from "react";
 import MaterialButton from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import { generateMetaTestId } from "../../utils";
-import { MetaTestIds, UIMetaTargetTypes } from "@parsimony/types";
 
 export type IButtonProps = {
   key?: string;

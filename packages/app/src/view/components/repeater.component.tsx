@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Button, Row, Col } from "./index";
+import { Header } from "./index";
 import { clone } from "../../utils";
 import { InputForm } from "../../domains/forms/form";
 import { Program } from "@parsimony/types";
