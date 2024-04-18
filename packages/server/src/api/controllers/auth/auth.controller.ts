@@ -1,4 +1,4 @@
-import { Body, Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { AppDataGateway } from "../../../services/database/app.data.gateway";
 import TokenService from "../../../services/database/token.service";
 import { SchoolService } from "../../../services/school/school.service";
@@ -40,14 +40,14 @@ export class AuthController {
     this.#ens = ens;
   }
 
-  @Get("/me")
+  @Post("/me")
   public async me(@Body() payload: MePayload) {
     // TODO: I Think this on should be the only one that is SchoolName (consider all)
     const foundID = this.#safeSchoolID(payload.schoolId);
     return await this.#ts.verifyRefreshToken(payload.refreshToken, foundID);
   }
 
-  @Get("/login")
+  @Post("/login")
   public async login(@Body() payload: LoginPayload) {
     // When you have no way of knowing the id you can accept a school name maybe we name it better
     const foundID = this.#safeSchoolID(payload.schoolId);
@@ -81,7 +81,7 @@ export class AuthController {
     };
   }
 
-  @Get("/resetPassword")
+  @Post("/resetPassword")
   public async resetPassword(
     @Body()
     payload: ResetPasswordPayload
@@ -114,7 +114,7 @@ export class AuthController {
     };
   }
 
-  @Get("/logout")
+  @Post("/logout")
   public async logout(
     @Body()
     payload: LogoutPayload
@@ -126,7 +126,7 @@ export class AuthController {
     };
   }
 
-  @Get("requestPasswordReset")
+  @Post("requestPasswordReset")
   public async requestPasswordReset(
     @Body()
     payload: RequestPasswordResetPayload

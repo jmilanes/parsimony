@@ -15,14 +15,14 @@ import {
 @Service()
 export class AuthRequestHandler {
   async me(payload: MePayload) {
-    const request = createRestRequest<MePayload, MeResponse>("GET", "auth/me");
+    const request = createRestRequest<MePayload, MeResponse>("POST", "auth/me");
 
     return await request(payload);
   }
 
   async login(payload: LoginPayload) {
     const request = createRestRequest<LoginPayload, LoginResponse>(
-      "GET",
+      "POST",
       "auth/login"
     );
 
@@ -31,7 +31,7 @@ export class AuthRequestHandler {
 
   async logout(payload: LogoutPayload) {
     const request = createRestRequest<LogoutPayload, LoginResponse>(
-      "GET",
+      "POST",
       "auth/logout"
     );
 
@@ -42,7 +42,7 @@ export class AuthRequestHandler {
     const request = createRestRequest<
       ResetPasswordPayload,
       ResetPasswordResponse
-    >("GET", "auth/resetPassword");
+    >("POST", "auth/resetPassword");
 
     return await request(payload);
   }
@@ -51,7 +51,7 @@ export class AuthRequestHandler {
     const request = createRestRequest<
       RequestPasswordResetPayload,
       RequestPasswordResetResponse
-    >("GET", "auth/requestPasswordReset");
+    >("POST", "auth/requestPasswordReset");
 
     return await request(payload);
   }

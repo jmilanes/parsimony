@@ -70,9 +70,12 @@ export class CrudRequestHandler<
   getAll = async () => {
     try {
       const items = await this.requests.getAll();
+      //@ts-ignore TODO: Handle in NEST
+      const withId = items.map((x) => ({ ...x, id: x._id }));
+      debugger;
       this.#store
         .getDomain$(this.domainName)
-        .next(items ? arrayToObj(items) : {});
+        .next(withId ? arrayToObj(withId) : {});
     } catch (error) {
       console.error(error);
     }

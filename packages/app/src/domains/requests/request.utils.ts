@@ -31,7 +31,7 @@ export const createRequestOptions = <P>(
   };
   return {
     ...requestParams,
-    body: JSON.stringify(payload)
+    body: method === "GET" ? undefined : JSON.stringify(payload)
   };
 };
 
@@ -45,13 +45,7 @@ export const createRestRequest = <P, R>(type: MethodTypes, path: string) => {
       : `${getServerUrl()}${path}`;
 
     const response = await fetch(URL, createRequestOptions<P>(type, payload));
-
-    return parseResponseJson<R>(await response.json());
+    const data = await response.json();
+    return data as R;
   };
-};
-
-const parseResponseJson = <R>(response: {
-  data: Record<string, unknown>;
-}): R => {
-  return Object.values(response?.data || {})[0] as R;
 };

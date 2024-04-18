@@ -7,6 +7,7 @@ import { ValidationPipe } from "@nestjs/common";
 
 export async function makeApp() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   //NEED to install something
   // app.useGlobalPipes(new ValidationPipe());
   const MONGO_SERVER = app.get(ServerService);
