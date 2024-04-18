@@ -9,13 +9,13 @@ export class BaseBcbaProgram extends Program {
 
   @Description("Criteria for which the client must pass consecutively")
   @Optional()
-  masteryConsecutiveTargets?: number;
+  masteryConsecutiveTargets?: number = 1;
 
   @Description("Target percentage of mastery")
   @Optional()
-  masteryTarget?: number;
+  masteryTarget?: number = 100;
 
   @Description("List of materials for the program")
   @Optional()
-  materials?: string;
+  materials?: string = "";
 }

@@ -1,4 +1,3 @@
-export * from "./baseProgramView";
 export * from "./trials/discreteTrials.type";
 export * from "./trials/taskAnalysis";
 export * from "./behavior/baseBehaviorView";

@@ -57,7 +57,7 @@ describe("Frequency Results Page Tests", () => {
     const { app } = await makeTestApp({ initialRoute: `/results/${id}` });
     render(app);
 
-    const item = await mockDbService.RS.requests.result?.create(
+    const item = await mockDbService.RS.result?.create(
       createResultPayload({
         clientId: mockDbService.getUuidByKey(
           createTargetUuidKey(Domains.User, 0)
@@ -81,6 +81,6 @@ describe("Frequency Results Page Tests", () => {
       }
     ]);
 
-    await mockDbService.RS.requests.result?.delete(item.id);
+    await mockDbService.RS.result?.delete({ id: item.id });
   });
 });

@@ -3,10 +3,12 @@ import {
   CollectionCategories,
   Domains,
   InputTypes,
+  IntervalBehaviorType,
   ProgramCategories,
   ProgramTypes,
   ProgramValueTypes,
-  ProgramViewTypes
+  ProgramViewTypes,
+  TaskAnalysis
 } from "@parsimony/types";
 import {
   creatCollectionPayload,
@@ -35,9 +37,9 @@ export const initialProgramPageData = {
     })
   ],
   [Domains.Program]: [
-    createProgramPayload({
+    createProgramPayload<TaskAnalysis>(TaskAnalysis, {
       title: "Test Program",
-      targetStyle: ProgramViewTypes.TaskAnalysis,
+      viewType: ProgramViewTypes.TaskAnalysis,
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
@@ -64,8 +66,6 @@ export const initialProgramPageData = {
       mastered: false,
       description: "<p>This is a Test Program</p>",
       materials: "<p>None</p>",
-      writeAccess: [],
-      readAccess: [],
       type: ProgramTypes.Template,
       trials: 3,
       category: ProgramCategories.Aba,
@@ -96,24 +96,19 @@ export const initialProgramPageData = {
       subscribers: [USER_UUID],
       collectionId: COLLECTION_UUID
     }),
-    createProgramPayload({
+    createProgramPayload<IntervalBehaviorType>(IntervalBehaviorType, {
       collectionId: COLLECTION_UUID,
       title: "Behavior Interval 1",
       description: "Behavior Description",
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
-      chaining: {},
-      targetStyle: ProgramViewTypes.Behavior,
-      behavior: {
-        type: BehaviorType.Interval,
-        active: true,
-        alertTime: 0,
-        operationalDefinition: "operationalDefinition",
-        precursorBehaviors: "precursorBehaviors",
-        proactiveStrategies: "proactiveStrategies",
-        reactiveStrategies: "reactiveStrategies"
-      }
+      viewType: ProgramViewTypes.Behavior,
+      alertTime: 0,
+      operationalDefinition: "operationalDefinition",
+      precursorBehaviors: "precursorBehaviors",
+      proactiveStrategies: "proactiveStrategies",
+      reactiveStrategies: "reactiveStrategies"
     })
   ]
 };

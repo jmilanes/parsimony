@@ -1,8 +1,12 @@
 import {
   BehaviorType,
   CollectionCategories,
+  DiscreteTrial,
   Domains,
+  FrequencyBehaviorType,
+  IntervalBehaviorType,
   ProgramViewTypes,
+  TaskAnalysis,
   TrialChainingDirections
 } from "@parsimony/types";
 import {
@@ -32,10 +36,10 @@ export const initialCollectionPageData = {
     })
   ],
   [Domains.Program]: [
-    createProgramPayload({
+    createProgramPayload<TaskAnalysis>(TaskAnalysis, {
       collectionId: COLLECTION_UUID,
       title: "Forward Program 1",
-      targetStyle: ProgramViewTypes.TaskAnalysis,
+      viewType: ProgramViewTypes.TaskAnalysis,
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
@@ -44,10 +48,10 @@ export const initialCollectionPageData = {
         targetCompleteness: 100
       }
     }),
-    createProgramPayload({
+    createProgramPayload<TaskAnalysis>(TaskAnalysis, {
       collectionId: COLLECTION_UUID,
       title: "Backward Program 1",
-      targetStyle: ProgramViewTypes.TaskAnalysis,
+      viewType: ProgramViewTypes.TaskAnalysis,
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
@@ -56,10 +60,10 @@ export const initialCollectionPageData = {
         targetCompleteness: 100
       }
     }),
-    createProgramPayload({
+    createProgramPayload<TaskAnalysis>(TaskAnalysis, {
       collectionId: COLLECTION_UUID,
       title: "Total Program 1",
-      targetStyle: ProgramViewTypes.TaskAnalysis,
+      viewType: ProgramViewTypes.TaskAnalysis,
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
@@ -68,68 +72,49 @@ export const initialCollectionPageData = {
         targetCompleteness: 100
       }
     }),
-    createProgramPayload({
+    createProgramPayload<DiscreteTrial>(DiscreteTrial, {
       collectionId: COLLECTION_UUID,
       title: "Discrete Trial Program 1",
-      targetStyle: ProgramViewTypes.DiscreteTrials,
+      viewType: ProgramViewTypes.DiscreteTrials,
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
-      createdBy: USER_UUID,
-      chaining: {}
+      createdBy: USER_UUID
     }),
-    createProgramPayload({
+    createProgramPayload<IntervalBehaviorType>(IntervalBehaviorType, {
       collectionId: COLLECTION_UUID,
       title: "Behavior Interval 1",
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
-      chaining: {},
-      targetStyle: ProgramViewTypes.Behavior,
-      behavior: {
-        type: BehaviorType.Interval,
-        active: true,
-        alertTime: 0,
-        operationalDefinition: "operationalDefinition",
-        precursorBehaviors: "precursorBehaviors",
-        proactiveStrategies: "proactiveStrategies",
-        reactiveStrategies: "reactiveStrategies"
-      }
+      viewType: ProgramViewTypes.IntervalBehavior,
+      operationalDefinition: "operationalDefinition",
+      precursorBehaviors: "precursorBehaviors",
+      proactiveStrategies: "proactiveStrategies",
+      reactiveStrategies: "reactiveStrategies"
     }),
-    createProgramPayload({
+    createProgramPayload<FrequencyBehaviorType>(FrequencyBehaviorType, {
       collectionId: COLLECTION_UUID,
       title: "Behavior Frequency 1",
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
-      chaining: {},
-      targetStyle: ProgramViewTypes.Behavior,
-      behavior: {
-        type: BehaviorType.Frequency,
-        active: true,
-        alertTime: 0,
-        operationalDefinition: "operationalDefinition",
-        precursorBehaviors: "precursorBehaviors",
-        proactiveStrategies: "proactiveStrategies",
-        reactiveStrategies: "reactiveStrategies"
-      }
+      viewType: ProgramViewTypes.FrequencyBehavior,
+      operationalDefinition: "operationalDefinition",
+      precursorBehaviors: "precursorBehaviors",
+      proactiveStrategies: "proactiveStrategies",
+      reactiveStrategies: "reactiveStrategies"
     }),
-    createProgramPayload({
+    createProgramPayload<IntervalBehaviorType>(IntervalBehaviorType, {
       collectionId: COLLECTION_UUID,
       title: "Behavior Duration 1",
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
-      chaining: {},
-      targetStyle: ProgramViewTypes.Behavior,
-      behavior: {
-        type: BehaviorType.Duration,
-        active: true,
-        alertTime: 0,
-        operationalDefinition: "operationalDefinition",
-        precursorBehaviors: "precursorBehaviors",
-        proactiveStrategies: "proactiveStrategies",
-        reactiveStrategies: "reactiveStrategies"
-      }
+      viewType: ProgramViewTypes.IntervalBehavior,
+      operationalDefinition: "operationalDefinition",
+      precursorBehaviors: "precursorBehaviors",
+      proactiveStrategies: "proactiveStrategies",
+      reactiveStrategies: "reactiveStrategies"
     })
   ]
 };

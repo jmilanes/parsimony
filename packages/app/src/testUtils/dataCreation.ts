@@ -3,35 +3,19 @@ import {
   CollectionCategories,
   CollectionTypes,
   Program,
-  ProgramCategories,
-  ProgramTypes,
   Result,
-  User,
-  UserRoles
+  User
 } from "@parsimony/types";
+import { DeepPartial } from "chart.js/types/utils";
+import { mergeDeep } from "@tiptap/core";
 
 export const createUserPayload = (
-  user?: Partial<Omit<User, "id">>
+  overrides?: Partial<Omit<User, "id">>
 ): Omit<User, "id"> => {
+  const user = new User();
   return {
-    schoolId: "mockSchoolId",
-    roles: [UserRoles.Client],
-    type: UserRoles.Client,
-    documents: [],
-    email: "test@test.com",
-    firstName: "Test",
-    lastName: `User ${0}`,
-    dateOfBirth: new Date(),
-    phone: "1111111111",
-    contacts: [],
-    actionItems: [],
-    programs: [],
-    clients: [],
-    threadDisplayName: "Test User",
-    avatar: "",
-    color: "red",
-    serviceProvider: "",
-    ...user
+    ...user,
+    ...overrides
   };
 };
 
@@ -45,68 +29,22 @@ export const creatCollectionPayload = (collection?: Partial<Collection>) => {
   };
 };
 
-export const createProgramPayload = (
-  program:
-    | Required<Pick<Program, "title" | "collectionId" | "targetStyle">> &
-        Partial<Omit<Program, "title" | "collectionId" | "targetStyle">>
-): Omit<Program, "id"> => {
-  return {
-    description: "",
-    materials: "",
-    writeAccess: [],
-    readAccess: [],
-    type: ProgramTypes.Template,
-    lastEditedBy: "",
-    editedBy: [],
-    createdBy: "",
-    trials: 1,
-    targets: [],
-    mastered: false,
-    category: ProgramCategories.Aba,
-    targetOptions: [],
-    chaining: {},
-    behavior: {},
-    masteryTarget: 100,
-    masteryConsecutiveTargets: 3,
-    subscribers: [],
-    ...program
-  };
+export const createProgramPayload = <T extends Program>(
+  definition: any,
+  overrides: DeepPartial<T>
+) => {
+  const program = new definition();
+  return mergeDeep(program, {
+    ...overrides
+  });
 };
 
-// TODO: This pattern can be replaced once we have class typings with good defaults
 export const createResultPayload = (
-  result: Partial<Result>
+  overRides: Partial<Result>
 ): Omit<Result, "id"> => {
+  const initialResult = new Result();
   return {
-    programCompleteness: 0,
-    data: [],
-    notes: "",
-    updated_at: new Date(),
-    created_at: new Date(),
-    ...result
-  };
-};
-
-export const createBasicProgramPayload = (program: Partial<Program>) => {
-  return {
-    description: "",
-    materials: "",
-    writeAccess: [],
-    readAccess: [],
-    type: ProgramTypes.Template,
-    lastEditedBy: "",
-    editedBy: [],
-    createdBy: "",
-    trials: 1,
-    targets: [],
-    mastered: false,
-    category: ProgramCategories.Aba,
-    targetOptions: [],
-    chaining: {},
-    behavior: {},
-    masteryTarget: 100,
-    masteryConsecutiveTargets: 3,
-    subscribers: [],
-    ...program
+    ...initialResult,
+    ...overRides
   };
 };

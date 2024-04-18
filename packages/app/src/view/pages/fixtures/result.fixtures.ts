@@ -1,25 +1,32 @@
 import {
-  BehaviorType,
-  Chaining,
   CollectionCategories,
+  DiscreteTrial,
   Domains,
+  DurationBehaviorType,
+  FrequencyBehaviorType,
+  IntervalBehaviorType,
   Program,
-  ProgramViewTypes,
+  ResultType,
+  TaskAnalysis,
   TrialChainingDirections,
   UserRoles
 } from "@parsimony/types";
 import {
   creatCollectionPayload,
-  createBasicProgramPayload,
+  createProgramPayload,
   createResultPayload,
   createUserPayload
 } from "../../../testUtils/dataCreation";
 import { createTargetUuidKey } from "../../../testUtils/mockDBService";
+import { DeepPartial } from "chart.js/types/utils";
 
 const USER_UUID = createTargetUuidKey(Domains.User, 0);
 const COLLECTION_UUID = createTargetUuidKey(Domains.Collection, 1);
 
-export const createInitialResultFixture = (program: Partial<Program>) => ({
+export const createInitialResultFixture = <T extends Program>(
+  definition: any,
+  program: DeepPartial<T>
+) => ({
   [Domains.User]: [
     createUserPayload({ type: UserRoles.Client, roles: [UserRoles.Client] })
   ],
@@ -32,75 +39,72 @@ export const createInitialResultFixture = (program: Partial<Program>) => ({
     })
   ],
   [Domains.Program]: [
-    createBasicProgramPayload(program),
-    createBasicProgramPayload({
+    createProgramPayload<T>(definition, program),
+    createProgramPayload<T>(definition, {
       ...program,
       clientId: USER_UUID
     })
   ]
 });
 
-const createInitialBehaviorResultData = (
-  type: BehaviorType,
+const createInitialBehaviorResultData = <T extends Program>(
+  definition: any,
+  resultType: ResultType,
   result: number
 ) => {
   return {
-    ...createInitialResultFixture({
+    ...createInitialResultFixture<T>(definition, {
       collectionId: COLLECTION_UUID,
       title: "Behavior Interval 1",
       description: "Behavior Description",
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
-      createdBy: USER_UUID,
-      chaining: {},
-      targetStyle: ProgramViewTypes.Behavior,
-      behavior: {
-        type,
-        active: true,
-        alertTime: 0
-      }
-    }),
+      createdBy: USER_UUID
+    } as DeepPartial<T>),
     [Domains.Result]: [
       createResultPayload({
         clientId: USER_UUID,
         programId: createTargetUuidKey(Domains.Program, 1),
-        behaviorData: {
-          result,
-          type
-        }
+        result,
+        type: resultType
       })
     ]
   };
 };
 
-export const frequencyBehaviorResultsFixture = createInitialBehaviorResultData(
-  BehaviorType.Frequency,
-  1
-);
-export const durationBehaviorResultsFixture = createInitialBehaviorResultData(
-  BehaviorType.Duration,
-  1000
-);
-export const intervalBehaviorResultsFixture = createInitialBehaviorResultData(
-  BehaviorType.Interval,
-  50
-);
+export const frequencyBehaviorResultsFixture =
+  createInitialBehaviorResultData<FrequencyBehaviorType>(
+    FrequencyBehaviorType,
+    ResultType.Frequency,
+    1
+  );
+export const durationBehaviorResultsFixture =
+  createInitialBehaviorResultData<DurationBehaviorType>(
+    DurationBehaviorType,
+    ResultType.Duration,
+    1000
+  );
+export const intervalBehaviorResultsFixture =
+  createInitialBehaviorResultData<IntervalBehaviorType>(
+    IntervalBehaviorType,
+    ResultType.Interval,
+    50
+  );
 
-const createInitialProgramResultData = (
-  targetStyle: ProgramViewTypes,
-  chaining: Chaining = {}
+const createInitialProgramResultData = <T extends Program>(
+  definition: any,
+  overrides: DeepPartial<T>
 ) => {
   return {
-    ...createInitialResultFixture({
+    ...createInitialResultFixture<T>(definition, {
       collectionId: COLLECTION_UUID,
       title: "Program Interval 1",
       description: "Program Description",
       lastEditedBy: USER_UUID,
       editedBy: [USER_UUID],
       createdBy: USER_UUID,
-      chaining,
-      targetStyle
-    }),
+      ...overrides
+    } as DeepPartial<T>),
     [Domains.Result]: [
       createResultPayload({
         programId: createTargetUuidKey(Domains.Program, 1),
@@ -169,23 +173,26 @@ const createInitialProgramResultData = (
   };
 };
 
-export const discreteTrialResultInitialFixture = createInitialProgramResultData(
-  ProgramViewTypes.DiscreteTrials,
-  { type: TrialChainingDirections.Total, targetCompleteness: 100 }
-);
+export const discreteTrialResultInitialFixture =
+  createInitialProgramResultData<TaskAnalysis>(TaskAnalysis, {
+    chaining: { type: TrialChainingDirections.Total, targetCompleteness: 100 }
+  });
 
 export const discreteTrialForwardChainResultInitialFixture =
-  createInitialProgramResultData(ProgramViewTypes.DiscreteTrials, {
-    type: TrialChainingDirections.Forward,
-    targetCompleteness: 100
+  createInitialProgramResultData<TaskAnalysis>(TaskAnalysis, {
+    chaining: {
+      type: TrialChainingDirections.Forward,
+      targetCompleteness: 100
+    }
   });
 
 export const discreteTrialBackwardChainResultInitialFixture =
-  createInitialProgramResultData(ProgramViewTypes.DiscreteTrials, {
-    type: TrialChainingDirections.Backward,
-    targetCompleteness: 100
+  createInitialProgramResultData<TaskAnalysis>(TaskAnalysis, {
+    chaining: {
+      type: TrialChainingDirections.Backward,
+      targetCompleteness: 100
+    }
   });
 
-export const taskAnalysisResultInitialFixture = createInitialProgramResultData(
-  ProgramViewTypes.TaskAnalysis
-);
+export const taskAnalysisResultInitialFixture =
+  createInitialProgramResultData<DiscreteTrial>(DiscreteTrial, {});

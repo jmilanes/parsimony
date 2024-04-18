@@ -9,8 +9,10 @@ import {
 import {
   BehaviorAddFormMetaTestIds,
   CollectionPageMetaTestIds,
+  IntervalBehaviorType,
   Program,
   ProgramViewTypes,
+  TaskAnalysis,
   TrialChainingDirections
 } from "@parsimony/types";
 import { waitFor } from "@testing-library/react";
@@ -19,15 +21,15 @@ import { getTableAction, getTableData } from "../../selectors";
 export const updateProgramAddFormWithDefaultValues = async ({
   title,
   description,
-  targetStyle,
+  viewType,
   chaining
-}: Partial<Program>) => {
+}: Partial<TaskAnalysis>) => {
   // THESE TWO ARE WHERE THE ISSUE IS
   await waitFor(async () => {
-    targetStyle &&
+    viewType &&
       (await selectOption({
         target: CollectionPageMetaTestIds.addProgramFormTargetStyleSelector,
-        selectedOption: targetStyle,
+        selectedOption: viewType,
         // This is always the first item selected in the add form
         currentValue: ProgramViewTypes.DiscreteTrials
       }));
@@ -96,8 +98,11 @@ export const checkBehaviorAddButton = async () => {
 export const updateBehaviorAddFormWithDefaults = async ({
   title,
   description,
-  behavior = {}
-}: Partial<Program>) => {
+  operationalDefinition,
+  precursorBehaviors,
+  proactiveStrategies,
+  reactiveStrategies
+}: Partial<IntervalBehaviorType>) => {
   title &&
     (await typeValueToTarget(BehaviorAddFormMetaTestIds.titleField, title));
   description &&
@@ -106,28 +111,28 @@ export const updateBehaviorAddFormWithDefaults = async ({
       description
     ));
 
-  behavior?.operationalDefinition &&
+  operationalDefinition &&
     (await typeRichTextEditior(
       BehaviorAddFormMetaTestIds.operationalDefinitionField,
-      behavior?.operationalDefinition
+      operationalDefinition
     ));
 
-  behavior?.proactiveStrategies &&
+  proactiveStrategies &&
     (await typeRichTextEditior(
       BehaviorAddFormMetaTestIds.proactiveStrategiesField,
-      behavior?.proactiveStrategies
+      proactiveStrategies
     ));
 
-  behavior?.precursorBehaviors &&
+  precursorBehaviors &&
     (await typeRichTextEditior(
       BehaviorAddFormMetaTestIds.precursorBehaviorField,
-      behavior?.precursorBehaviors
+      precursorBehaviors
     ));
 
-  behavior?.reactiveStrategies &&
+  reactiveStrategies &&
     (await typeRichTextEditior(
       BehaviorAddFormMetaTestIds.reactiveStrategiesField,
-      behavior?.reactiveStrategies
+      reactiveStrategies
     ));
 
   await typeValueToTarget(BehaviorAddFormMetaTestIds.masteryTargetField, "80");
