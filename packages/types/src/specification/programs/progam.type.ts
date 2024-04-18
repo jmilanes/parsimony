@@ -2,8 +2,6 @@ import { Default, Description, Optional, Required } from "@tsed/schema";
 
 import { ProgramCategories, ProgramTypes } from "./program.enums";
 
-import { BaseProgramView, TaskAnalysisProgramViewType } from "./viewTypes";
-
 export class Program {
   @Description("UUID from database")
   @Required()
@@ -44,7 +42,7 @@ export class Program {
 
   @Description("Ids of users who edited the programs")
   @Optional()
-  editedBy?: string[];
+  editedBy?: string[] = [];
 
   @Description("Id of the user who last edited the program")
   @Optional()
@@ -59,7 +57,4 @@ export class Program {
   @Description("Ids of users who wish to get updates about programs")
   @Optional()
   subscribers?: string[] = [];
-
-  @Description("Details for display in the view layer")
-  view: BaseProgramView = new TaskAnalysisProgramViewType();
 }

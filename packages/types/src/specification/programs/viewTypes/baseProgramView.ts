@@ -1,10 +1,11 @@
 import { Description, Optional, Required } from "@tsed/schema";
 import { ProgramViewTypes } from "../program.enums";
+import { BaseBcbaProgram } from "../BaseBcbaProgram";
 
-export class BaseProgramView {
+export class BaseProgramView extends BaseBcbaProgram {
   @Description("View Type for a program")
   @Required()
-  type: ProgramViewTypes = ProgramViewTypes.TaskAnalysis;
+  viewType: ProgramViewTypes = ProgramViewTypes.TaskAnalysis;
 
   @Description("Title of program")
   @Optional()

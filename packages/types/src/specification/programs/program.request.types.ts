@@ -1,7 +1,7 @@
 import { BasicPayload, ByRelationshipPayload } from "../shared";
 
 import { Description, Optional, Required } from "@tsed/schema";
-import { Program } from "./baseProgam.type";
+import { Program } from "./progam.type";
 
 export type UpdateProgramPayload = Program;
 export type CreateProgramPayload = Omit<Program, "id">;

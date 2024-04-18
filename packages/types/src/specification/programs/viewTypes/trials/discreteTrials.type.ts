@@ -4,8 +4,8 @@ import { Description, Optional } from "@tsed/schema";
 import { TargetOption } from "./shared/target.option.type";
 import { Target } from "./shared/target.type";
 
-export class DiscreteTrialsProgramViewType extends BaseProgramView {
-  type = ProgramViewTypes.DiscreteTrials;
+export class DiscreteTrialsType extends BaseProgramView {
+  viewType = ProgramViewTypes.DiscreteTrials;
 
   @Description("Target options for for selection")
   @Optional()

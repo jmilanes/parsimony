@@ -1,4 +1,5 @@
 import { makeTestApp, TestAppAPI } from "../../../tests/makeTestApp";
+import { TaskAnalysis } from "@parsimony/types";
 
 const request = require("supertest");
 
@@ -14,7 +15,7 @@ describe("Program Controller Tests", () => {
   });
 
   it(`POST: /programs should create a program`, async () => {
-    const program = testAppAPI.fixtures.createTestProgram();
+    const program = testAppAPI.fixtures.createTestProgram(TaskAnalysis);
     const postResponse = await request(testAppAPI.app.getHttpServer())
       .post("/programs")
       .set("Authorization", testAppAPI.authorization.director)
@@ -26,28 +27,23 @@ describe("Program Controller Tests", () => {
       __v: 0,
       _id: "MONGO_ID",
       active: true,
+      description: "Program Description",
       editedBy: [],
-      readAccess: [],
+      mastered: false,
       subscribers: [],
       targetOptions: [],
       targets: [],
+      title: "Program Title",
+      trials: 3,
       type: "MAIN",
-      view: {
-        description: "Program Description",
-        targetOptions: [],
-        targets: [],
-        title: "Program Title",
-        trials: 3,
-        type: "TASK_ANALYSIS"
-      },
-      writeAccess: []
+      viewType: "TASK_ANALYSIS"
     });
   });
 
   it(`POST: /programs should not create a program without auth token`, async () => {
     await request(testAppAPI.app.getHttpServer())
       .post("/programs")
-      .send(testAppAPI.fixtures.createTestProgram({}))
+      .send(testAppAPI.fixtures.createTestProgram(TaskAnalysis))
       .expect(403);
   });
 
@@ -55,7 +51,7 @@ describe("Program Controller Tests", () => {
     await request(testAppAPI.app.getHttpServer())
       .post("/programs")
       .set("Authorization", testAppAPI.authorization.employee)
-      .send(testAppAPI.fixtures.createTestProgram())
+      .send(testAppAPI.fixtures.createTestProgram(TaskAnalysis))
       .expect(403);
   });
 
@@ -63,7 +59,7 @@ describe("Program Controller Tests", () => {
     await request(testAppAPI.app.getHttpServer())
       .post("/programs")
       .set("Authorization", "Bearer I_AM_NOT_A_VALID_TOKEN")
-      .send(testAppAPI.fixtures.createTestProgram())
+      .send(testAppAPI.fixtures.createTestProgram(TaskAnalysis))
       .expect(403);
   });
 
@@ -71,16 +67,16 @@ describe("Program Controller Tests", () => {
     const postResponse = await request(testAppAPI.app.getHttpServer())
       .post("/programs")
       .set("Authorization", testAppAPI.authorization.director)
-      .send(testAppAPI.fixtures.createTestProgram())
+      .send(testAppAPI.fixtures.createTestProgram(TaskAnalysis))
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
       .post(`/programs/${postResponse.body._id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .send(
-        testAppAPI.fixtures.createTestProgram({
+        testAppAPI.fixtures.createTestProgram<TaskAnalysis>(TaskAnalysis, {
           id: postResponse.body._id,
-          view: { title: "Test" }
+          title: "Test"
         })
       )
       .expect(201);
@@ -94,26 +90,22 @@ describe("Program Controller Tests", () => {
       __v: 0,
       _id: "MONGO_ID",
       active: true,
+      description: "Program Description",
       editedBy: [],
-      readAccess: [],
+      id: "MONGO_ID",
+      mastered: false,
       subscribers: [],
       targetOptions: [],
       targets: [],
+      title: "Test",
+      trials: 3,
       type: "MAIN",
-      view: {
-        description: "Program Description",
-        targetOptions: [],
-        targets: [],
-        title: "Test",
-        trials: 3,
-        type: "TASK_ANALYSIS"
-      },
-      writeAccess: []
+      viewType: "TASK_ANALYSIS"
     });
   });
 
   it(`POST: /programs/:id should not update a program without proper program role`, async () => {
-    const USER = testAppAPI.fixtures.createTestProgram();
+    const USER = testAppAPI.fixtures.createTestProgram(TaskAnalysis);
     const postResponse = await request(testAppAPI.app.getHttpServer())
       .post("/programs")
       .set("Authorization", testAppAPI.authorization.director)
@@ -131,15 +123,15 @@ describe("Program Controller Tests", () => {
     await request(testAppAPI.app.getHttpServer())
       .post("/programs")
       .set("Authorization", testAppAPI.authorization.director)
-      .send(testAppAPI.fixtures.createTestProgram())
+      .send(testAppAPI.fixtures.createTestProgram(TaskAnalysis))
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
       .post("/programs")
       .set("Authorization", testAppAPI.authorization.director)
       .send(
-        testAppAPI.fixtures.createTestProgram({
-          view: { title: "Test Program 2" }
+        testAppAPI.fixtures.createTestProgram<TaskAnalysis>(TaskAnalysis, {
+          title: "Test Program 2"
         })
       )
       .expect(201);
@@ -148,8 +140,8 @@ describe("Program Controller Tests", () => {
       .post("/programs")
       .set("Authorization", testAppAPI.authorization.director)
       .send(
-        testAppAPI.fixtures.createTestProgram({
-          view: { title: "Test Program 3" }
+        testAppAPI.fixtures.createTestProgram<TaskAnalysis>(TaskAnalysis, {
+          title: "Test Program 3"
         })
       )
       .expect(201);
@@ -164,61 +156,46 @@ describe("Program Controller Tests", () => {
         __v: 0,
         _id: "MONGO_ID",
         active: true,
+        description: "Program Description",
         editedBy: [],
-        readAccess: [],
+        mastered: false,
         subscribers: [],
         targetOptions: [],
         targets: [],
+        title: "Program Title",
+        trials: 3,
         type: "MAIN",
-        view: {
-          description: "Program Description",
-          targetOptions: [],
-          targets: [],
-          title: "Program Title",
-          trials: 3,
-          type: "TASK_ANALYSIS"
-        },
-        writeAccess: []
+        viewType: "TASK_ANALYSIS"
       },
       {
         __v: 0,
         _id: "MONGO_ID",
         active: true,
+        description: "Program Description",
         editedBy: [],
-        readAccess: [],
+        mastered: false,
         subscribers: [],
         targetOptions: [],
         targets: [],
+        title: "Test Program 2",
+        trials: 3,
         type: "MAIN",
-        view: {
-          description: "Program Description",
-          targetOptions: [],
-          targets: [],
-          title: "Test Program 2",
-          trials: 3,
-          type: "TASK_ANALYSIS"
-        },
-        writeAccess: []
+        viewType: "TASK_ANALYSIS"
       },
       {
         __v: 0,
         _id: "MONGO_ID",
         active: true,
+        description: "Program Description",
         editedBy: [],
-        readAccess: [],
+        mastered: false,
         subscribers: [],
         targetOptions: [],
         targets: [],
+        title: "Test Program 3",
+        trials: 3,
         type: "MAIN",
-        view: {
-          description: "Program Description",
-          targetOptions: [],
-          targets: [],
-          title: "Test Program 3",
-          trials: 3,
-          type: "TASK_ANALYSIS"
-        },
-        writeAccess: []
+        viewType: "TASK_ANALYSIS"
       }
     ]);
   });
@@ -227,7 +204,7 @@ describe("Program Controller Tests", () => {
     const createResponse = await request(testAppAPI.app.getHttpServer())
       .post("/programs")
       .set("Authorization", testAppAPI.authorization.director)
-      .send(testAppAPI.fixtures.createTestProgram())
+      .send(testAppAPI.fixtures.createTestProgram(TaskAnalysis))
       .expect(201);
 
     const getResponse = await request(testAppAPI.app.getHttpServer())
@@ -239,21 +216,16 @@ describe("Program Controller Tests", () => {
       __v: 0,
       _id: "MONGO_ID",
       active: true,
+      description: "Program Description",
       editedBy: [],
-      readAccess: [],
+      mastered: false,
       subscribers: [],
       targetOptions: [],
       targets: [],
+      title: "Program Title",
+      trials: 3,
       type: "MAIN",
-      view: {
-        description: "Program Description",
-        targetOptions: [],
-        targets: [],
-        title: "Program Title",
-        trials: 3,
-        type: "TASK_ANALYSIS"
-      },
-      writeAccess: []
+      viewType: "TASK_ANALYSIS"
     });
   });
 
@@ -268,7 +240,7 @@ describe("Program Controller Tests", () => {
     const createResponse = await request(testAppAPI.app.getHttpServer())
       .post("/programs")
       .set("Authorization", testAppAPI.authorization.director)
-      .send(testAppAPI.fixtures.createTestProgram())
+      .send(testAppAPI.fixtures.createTestProgram(TaskAnalysis))
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
@@ -293,7 +265,7 @@ describe("Program Controller Tests", () => {
     const createResponse = await request(testAppAPI.app.getHttpServer())
       .post("/programs")
       .set("Authorization", testAppAPI.authorization.director)
-      .send(testAppAPI.fixtures.createTestProgram())
+      .send(testAppAPI.fixtures.createTestProgram(TaskAnalysis))
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())

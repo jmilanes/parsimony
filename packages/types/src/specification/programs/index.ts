@@ -1,5 +1,4 @@
-export * from "./program.types";
-export * from "./baseProgam.type";
+export * from "./progam.type";
 export * from "./BaseBcbaProgram";
 export * from "./behavior.type";
 export * from "./program.enums";

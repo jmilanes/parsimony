@@ -1,5 +1,12 @@
 import TokenService from "../../services/database/token.service";
-import { Collection, Program, Result, User, UserRoles } from "@parsimony/types";
+import {
+  BaseBcbaProgram,
+  Collection,
+  Program,
+  Result,
+  User,
+  UserRoles
+} from "@parsimony/types";
 import { DeepPartial } from "utility-types";
 import { merge } from "lodash";
 
@@ -51,7 +58,10 @@ export const createTestCollection = (overrides?: Partial<Collection>) => {
   };
 };
 
-export const createTestProgram = (overrides?: DeepPartial<Program>) => {
-  const defaults = new Program();
+export const createTestProgram = <P extends BaseBcbaProgram>(
+  def: any,
+  overrides?: DeepPartial<P>
+) => {
+  const defaults = new def();
   return merge(defaults, overrides);
 };

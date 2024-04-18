@@ -1,5 +1,4 @@
-import { Default, Description, Optional, Required } from "@tsed/schema";
-import { ProgramViewTypes } from "../../program.enums";
+import { Description, Optional } from "@tsed/schema";
 import { BaseProgramView } from "../baseProgramView";
 
 export class BaseBehaviorView extends BaseProgramView {
