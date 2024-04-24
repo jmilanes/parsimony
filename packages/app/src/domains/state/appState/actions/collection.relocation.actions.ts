@@ -20,13 +20,10 @@ export class CollectionRelocationActions {
   };
 
   public init = async (entity: Program | Collection) => {
-    await this.#api.makeRequest({
-      domain: Domains.Collection,
-      requestType: "getAllByRelationship",
-      payload: {
-        relationshipProperty: "clientId",
-        id: entity.clientId
-      }
+    await this.#api.Requests.operation.getAllByRelationship({
+      relationshipProperty: "clientId",
+      id: entity.clientId || "",
+      model: Domains.Collection
     });
     this.updateState({
       idToUpdate: entity.id
@@ -54,34 +51,36 @@ export class CollectionRelocationActions {
     });
   };
 
-  public updateEntity = async (domain: Domains) => {
+  public updateCollection = async () => {
     const { idToUpdate, selectedId } = this.getState();
-    const key =
-      domain === Domains.Program ? "collectionId" : "parentCollectionId";
 
-    const ancestors = this.#getAncestors(domain);
-    //TODO Think about making this its own end point
-    this.#api
-      .makeRequest({
-        domain,
-        requestType: "update",
-        payload: {
-          id: idToUpdate,
-          ancestors,
-          [key]: selectedId
-        }
+    const ancestors = this.#getAncestors();
+
+    this.#api.Requests.collection
+      .update({
+        id: idToUpdate,
+        ancestors,
+        parentCollectionId: selectedId
       })
       .finally(this.reset);
   };
 
-  #getAncestors(domain: Domains) {
+  public updateProgram = async () => {
+    const { idToUpdate, selectedId } = this.getState();
+
+    this.#api.Requests[Domains.Program]
+      .update({
+        id: idToUpdate || "",
+        collectionId: selectedId
+      })
+      .finally(this.reset);
+  };
+
+  #getAncestors() {
     const { selectedId } = this.getState();
-    return domain === Domains.Program
-      ? undefined
-      : [
-          ...(this.#api.getItem(Domains.Collection, selectedId).ancestors ||
-            []),
-          selectedId
-        ];
+    return [
+      ...(this.#api.getItem(Domains.Collection, selectedId).ancestors || []),
+      selectedId
+    ];
   }
 }

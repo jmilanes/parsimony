@@ -55,14 +55,12 @@ export const ProgramAddForm = ({
   }, [form.Data.targetStyle]);
 
   const submitAddForm = async () => {
-    await API.system.makeRequest({
-      domain: Domains.Program,
-      requestType: "create",
-      payload: removeMongoIds({
+    await API.system.Requests.program.create(
+      removeMongoIds({
         ...form.Data,
         collectionId
       })
-    });
+    );
     setShowCb(false);
     form.reset();
   };

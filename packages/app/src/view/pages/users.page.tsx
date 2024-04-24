@@ -48,13 +48,9 @@ const Users = () => {
 
     form.Data.email = form.Data.email?.toLowerCase();
 
-    await API.system.makeRequest({
-      domain: Domains.User,
-      requestType: "create",
-      payload: {
-        ...form.Data,
-        schoolId: API.system.Auth.getCurrentUser()?.schoolId
-      }
+    await API.system.Requests.user.create({
+      ...form.Data,
+      schoolId: API.system.Auth.getCurrentUser()?.schoolId
     });
 
     setShowAddForm(false);
@@ -75,12 +71,8 @@ const Users = () => {
     {
       name: "Delete",
       method: async (user: Required<User>) => {
-        await API.system.makeRequest({
-          domain: Domains.User,
-          requestType: "delete",
-          payload: {
-            id: user.id
-          }
+        await API.system.Requests.user.delete({
+          id: user.id
         });
       }
     }

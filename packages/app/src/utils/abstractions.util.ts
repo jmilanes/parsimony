@@ -1,6 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
-import { Domains, IObject, Program, ProgramViewTypes } from "@parsimony/types";
+import {
+  CreateResultPayload,
+  Domains,
+  IObject,
+  Program,
+  ProgramViewTypes,
+  Result
+} from "@parsimony/types";
 import cn from "classnames";
 import { initialResultData } from "../fixtures";
 
@@ -37,20 +44,13 @@ export const buildCreateBehaviorRequest = ({
 }) => {
   const date = new Date();
   return {
-    domain: Domains.Result,
-    requestType: "create",
-    payload: {
-      ...initialResultData,
-      id: undefined,
-      clientId: program?.clientId,
-      programId: program?.id,
-      behaviorData: {
-        type: program.viewType,
-        result
-      },
-      created_at: date,
-      updated_at: date,
-      notes
-    }
-  };
+    ...new Result(),
+    clientId: program?.clientId || "",
+    programId: program?.id || "",
+    type: program.type,
+    result,
+    created_at: date,
+    updated_at: date,
+    notes
+  } as CreateResultPayload;
 };

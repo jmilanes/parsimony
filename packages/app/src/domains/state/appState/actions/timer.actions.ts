@@ -150,7 +150,7 @@ export class TimerActions {
   // This can be generic to all three once the behavior data is aligned
   public submit = async (program: Program) => {
     const { time, notes } = this.getTimerState(program.id);
-    await this.#api.makeRequest(
+    await this.#api.Requests.result.create(
       buildCreateBehaviorRequest({ program, result: time, notes })
     );
     this.cancel(program);

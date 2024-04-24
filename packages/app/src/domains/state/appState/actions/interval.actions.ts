@@ -93,7 +93,7 @@ export class IntervalActions {
   public submit = async (program: IntervalBehaviorType) => {
     const { occurred, total, notes } = this.getIntervalState(program.id);
     const result = Math.round((occurred / total) * 100);
-    await this.#api.makeRequest(
+    await this.#api.Requests.result.create(
       buildCreateBehaviorRequest({ program, result, notes })
     );
     this.resetIntervalTracking(program);

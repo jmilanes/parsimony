@@ -49,8 +49,7 @@ export const CollectionTable = ({
         },
         {
           name: "Submit",
-          action: () =>
-            API.actions.collectionRelocation.updateEntity(Domains.Collection)
+          action: () => API.actions.collectionRelocation.updateCollection()
         }
       ]
     });
@@ -64,11 +63,7 @@ export const CollectionTable = ({
     {
       name: "Delete",
       method: async (collection: Required<Collection>) => {
-        await API.system.makeRequest({
-          domain: Domains.Collection,
-          requestType: "delete",
-          payload: { id: collection.id }
-        });
+        await API.system.Requests.collection.delete({ id: collection.id });
       }
     }
   ];

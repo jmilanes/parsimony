@@ -43,34 +43,22 @@ const UserPage = () => {
     React.useState<string>();
 
   const { loading, value: form } = useAsync(async () => {
-    // Feels like this should move to orcestration
-    // This is why you would want a better accessor pattern
-    /// API.actions.collection.fetchByClientId
-    await API.system.makeRequest({
-      domain: Domains.Collection,
-      requestType: "getAllByRelationship",
-      payload: {
-        relationshipProperty: "clientId",
-        id: userId
-      }
+    if (!userId) {
+      return;
+    }
+    await API.system.Requests.operation.getAllByRelationship({
+      model: Domains.Collection,
+      relationshipProperty: "clientId",
+      id: userId
     });
 
-    /// API.actions.program.fetchByClientId
-    await API.system.makeRequest({
-      domain: Domains.Program,
-      requestType: "getAllByRelationship",
-      payload: {
-        relationshipProperty: "clientId",
-        id: userId
-      }
+    await API.system.Requests.operation.getAllByRelationship({
+      model: Domains.Program,
+      relationshipProperty: "clientId",
+      id: userId
     });
 
-    /// API.actions.program.fetchByClientId
-    await API.system.makeRequest({
-      domain: Domains.User,
-      requestType: "get",
-      payload: { id: userId }
-    });
+    await API.system.Requests.user.get({ id: userId });
 
     const user = API.system.getItem(Domains.User, userId);
     //Need to destroy on use effect
@@ -97,11 +85,7 @@ const UserPage = () => {
     // TODO: Make this better
     form.Data.email = form.Data.email?.toLowerCase();
 
-    await API.system.makeRequest({
-      domain: Domains.User,
-      requestType: "update",
-      payload: form.Data
-    });
+    await API.system.Requests.user.update(form.Data);
 
     updateMode("readOnly");
   };

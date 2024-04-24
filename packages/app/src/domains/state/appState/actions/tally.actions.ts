@@ -86,7 +86,7 @@ export class TallyActions {
 
   public submit = async (program: Program, tally: number) => {
     const { count, notes } = this.getCounter(program);
-    await this.#api.makeRequest(
+    await this.#api.Requests.result.create(
       buildCreateBehaviorRequest({ program, result: count, notes })
     );
     this.resetCounter(program);

@@ -54,8 +54,7 @@ export const ProgramTable = ({
         },
         {
           name: "Submit",
-          action: () =>
-            API.actions.collectionRelocation.updateEntity(Domains.Program)
+          action: () => API.actions.collectionRelocation.updateProgram()
         }
       ]
     });
@@ -69,11 +68,7 @@ export const ProgramTable = ({
     {
       name: "Delete",
       method: async (program: Required<Program>) => {
-        await API.system.makeRequest({
-          domain: Domains.Program,
-          requestType: "delete",
-          payload: { id: program.id }
-        });
+        await API.system.Requests.program.delete({ id: program.id });
       }
     },
     {
@@ -88,11 +83,7 @@ export const ProgramTable = ({
         delete copy["chaining.type"];
         delete copy["behavior.type"];
         copy.title = `${program.title}_copy`;
-        await API.system.makeRequest({
-          domain: Domains.Program,
-          requestType: "create",
-          payload: removeMongoIds(copy)
-        });
+        await API.system.Requests.program.create(removeMongoIds(copy));
       }
     }
   ];

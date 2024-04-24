@@ -1,7 +1,7 @@
-import { Description, Required } from "@tsed/schema";
+import { Description, Optional } from "@tsed/schema";
 
 export class BasicPayload {
   @Description("UUID from database")
-  @Required()
-  id: string;
+  @Optional()
+  id?: string;
 }

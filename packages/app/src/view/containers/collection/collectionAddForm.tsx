@@ -51,11 +51,7 @@ export const CollectionAddForm = ({
   );
 
   const submitAddForm = async () => {
-    await API.system.makeRequest({
-      domain: Domains.Collection,
-      requestType: "create",
-      payload: removeMongoIds(form.Data)
-    });
+    await API.system.Requests.collection.create(removeMongoIds(form.Data));
     setShowCb(false);
     form.reset();
   };

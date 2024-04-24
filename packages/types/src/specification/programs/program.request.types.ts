@@ -2,8 +2,9 @@ import { BasicPayload, ByRelationshipPayload } from "../shared";
 
 import { Description, Optional, Required } from "@tsed/schema";
 import { Program } from "./progam.type";
+import { DeepPartial } from "chart.js/types/utils";
 
-export type UpdateProgramPayload = Program;
+export type UpdateProgramPayload = DeepPartial<Program>;
 export type CreateProgramPayload = Omit<Program, "id">;
 export type DeleteProgramPayload = BasicPayload;
 export type GetProgramPayload = BasicPayload;

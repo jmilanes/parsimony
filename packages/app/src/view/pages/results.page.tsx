@@ -85,12 +85,8 @@ const Results = () => {
     {
       name: "Delete",
       method: async (result: Required<Result>) => {
-        await API.system
-          .makeRequest({
-            domain: Domains.Result,
-            requestType: "delete",
-            payload: { id: result.id }
-          })
+        await API.system.Requests.result
+          .delete({ id: result.id })
           .finally(() => {
             retry();
           });

@@ -3,7 +3,7 @@ import { Service } from "typedi";
 import { BulkProgram } from "../appState.types";
 import { exactIncludes } from "../../../../utils";
 import CoreApi from "../../../accessApis/coreApi/coreApi.service";
-import { Domains } from "@parsimony/types";
+import { AddProgramsToClientPayload, Domains } from "@parsimony/types";
 import { omit } from "ramda";
 import { message } from "antd";
 import { ActionUtiltites } from "./utilities.actions";
@@ -100,11 +100,10 @@ export class BulkProgramsActions {
     const payload = omit(["active"], this.#api.getAppState("bulkPrograms"));
 
     try {
-      await this.#api.makeRequest({
-        domain: Domains.Program,
-        requestType: "addProgramsToClient",
-        payload
-      });
+      //TODO: make sure this works
+      await this.#api.Requests.operation.addProgramsToClient(
+        payload as AddProgramsToClientPayload
+      );
       this.resetBulkProgram();
       this.#api.updateAppState("bulkPrograms", {
         active: false

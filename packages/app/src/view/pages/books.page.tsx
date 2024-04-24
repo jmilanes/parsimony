@@ -29,13 +29,10 @@ const Books = () => {
   const navigate = navigateToRoute();
 
   const { loading } = useAsync(async () => {
-    await API.system.makeRequest({
-      domain: Domains.Collection,
-      requestType: "getAllByRelationship",
-      payload: {
-        relationshipProperty: "category",
-        id: CollectionCategories.Book
-      }
+    await API.system.Requests.operation.getAllByRelationship({
+      relationshipProperty: "category",
+      id: CollectionCategories.Book,
+      model: Domains.Collection
     });
   });
   if (loading) return <Spin />;

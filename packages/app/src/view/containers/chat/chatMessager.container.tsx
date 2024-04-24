@@ -34,44 +34,14 @@ export const ChatMessager = ({ thread }: IChatMessageRProps) => {
 
   const onEditMessage = async (value: string) => {
     if (!selectedMessage || !thread) return;
-    // await API.system.makeRequest({
-    //   domain: Domains.Thread,
-    //   requestType: "editMessage",
-    //   payload: {
-    //     value,
-    //     threadId: thread?.id,
-    //     messageId: selectedMessage?.id
-    //   }
-    // });
     setSelectedMessage(null);
   };
 
   const currentUser = authService.getCurrentUser();
 
-  const onDelete = async (id: string) => {
-    // await API.system.makeRequest({
-    //   domain: Domains.Thread,
-    //   requestType: "delete",
-    //   payload: {
-    //     id
-    //   }
-    // });
-  };
+  const onDelete = async (id: string) => {};
 
-  const onAddMessage = async (threadId: string) => async (value: string) => {
-    // await API.system.makeRequest({
-    //   domain: Domains.Thread,
-    //   requestType: "addMessage",
-    //   payload: {
-    //     message: {
-    //       userId: currentUser?.id,
-    //       dataType: "string",
-    //       value
-    //     },
-    //     threadId
-    //   }
-    // });
-  };
+  const onAddMessage = async (threadId: string) => async (value: string) => {};
 
   const onCancel = () => {
     setSelectedMessage(null);

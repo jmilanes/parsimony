@@ -75,11 +75,7 @@ export class ObservationActions {
 
   public async init(programId?: string) {
     this.reset();
-    await this.#api.makeRequest({
-      domain: Domains.Program,
-      requestType: "get",
-      payload: { id: programId }
-    });
+    await this.#api.Requests.program.get({ id: programId });
 
     const program = this.#api.getItem(
       Domains.Program,
@@ -456,11 +452,7 @@ export class ObservationActions {
   };
 
   public submit = async () => {
-    await this.#api.makeRequest({
-      domain: Domains.Result,
-      requestType: "create",
-      payload: this.getResultsForCreation()
-    });
+    await this.#api.Requests.result.create(this.getResultsForCreation());
   };
 
   public validProgramResults = () => {

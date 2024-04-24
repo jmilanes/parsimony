@@ -20,13 +20,10 @@ export const BehaviorClientView = ({ client }: { client: BehaviorClient }) => {
   const API = Container.get(UIApi);
 
   const { loading } = useAsync(async () => {
-    await API.system.makeRequest({
-      domain: Domains.Program,
-      requestType: "getAllByRelationship",
-      payload: {
-        relationshipProperty: "clientId",
-        id: client.id
-      }
+    await API.system.Requests.operation.getAllByRelationship({
+      model: Domains.Program,
+      relationshipProperty: "clientId",
+      id: client.id
     });
   }, []);
 

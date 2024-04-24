@@ -29,20 +29,12 @@ const ResultPage = () => {
   const { resultId } = getRouterParams();
 
   const { loading } = useAsync(async () => {
-    await API.system.makeRequest({
-      domain: Domains.Result,
-      requestType: "get",
-      payload: {
-        id: resultId
-      }
+    await API.system.Requests.result.get({
+      id: resultId
     });
 
-    await API.system.makeRequest({
-      domain: Domains.Program,
-      requestType: "get",
-      payload: {
-        id: API.system.getItem(Domains.Result, resultId).programId
-      }
+    await API.system.Requests.program.get({
+      id: API.system.getItem(Domains.Result, resultId).programId
     });
   });
 
@@ -58,11 +50,7 @@ const ResultPage = () => {
   if (!form) return <Spin />;
 
   const submitForm = async () => {
-    await API.system.makeRequest({
-      domain: Domains.Result,
-      requestType: "update",
-      payload: addTimeStamp(form.Data)
-    });
+    await API.system.Requests.result.update(addTimeStamp(form.Data));
 
     updateMode("readOnly");
   };

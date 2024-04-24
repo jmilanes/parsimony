@@ -119,17 +119,4 @@ export default class CoreApi {
   ): AppState[K] => {
     return this.#ass.getAppStateByKey(appStateKey);
   };
-
-  public makeRequest = async <K extends Domains>({
-    domain,
-    requestType,
-    payload
-  }: {
-    domain: K;
-    requestType: string;
-    payload?: Record<string, unknown> | unknown;
-  }) => {
-    //@ts-ignore
-    await this.#rs[capitalize(domain)][requestType](payload);
-  };
 }

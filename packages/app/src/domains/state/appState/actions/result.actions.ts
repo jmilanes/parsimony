@@ -27,19 +27,13 @@ export class ResultActions {
   }
 
   public async init(programId: string) {
-    await this.#api.makeRequest({
-      domain: Domains.Result,
-      requestType: "getAllByRelationship",
-      payload: {
-        relationshipProperty: "programId",
-        id: programId
-      }
+    await this.#api.Requests.operation.getAllByRelationship({
+      relationshipProperty: "programId",
+      id: programId,
+      model: Domains.Result
     });
-    await this.#api.makeRequest({
-      domain: Domains.Program,
-      requestType: "get",
-      payload: { id: programId }
-    });
+
+    await this.#api.Requests.program.get({ id: programId });
   }
 
   public calculateResult = (program: Program, results: Result[]) => {

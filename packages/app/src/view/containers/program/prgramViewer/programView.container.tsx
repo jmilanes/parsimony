@@ -23,22 +23,16 @@ export const ProgramViewContainer = () => {
 
   const { loading } = useAsync(async () => {
     if (selectedClientId) {
-      await API.system.makeRequest({
-        domain: Domains.Collection,
-        requestType: "getAllByRelationship",
-        payload: {
-          relationshipProperty: "clientId",
-          id: selectedClientId
-        }
+      await API.system.Requests.operation.getAllByRelationship({
+        model: Domains.Collection,
+        relationshipProperty: "clientId",
+        id: selectedClientId
       });
     } else {
-      await API.system.makeRequest({
-        domain: Domains.Collection,
-        requestType: "getAllByRelationship",
-        payload: {
-          relationshipProperty: "category",
-          id: CollectionCategories.Book
-        }
+      await API.system.Requests.operation.getAllByRelationship({
+        model: Domains.Collection,
+        relationshipProperty: "category",
+        id: CollectionCategories.Book
       });
     }
   }, [selectedClientId]);

@@ -1,10 +1,3 @@
 import { Result } from "@parsimony/types";
 
-export const initialResultData: Result = {
-  id: "",
-  programId: "",
-  clientId: "",
-  programCompleteness: 0,
-  data: [],
-  notes: ""
-};
+export const initialResultData: Result = new Result();
