@@ -1,4 +1,9 @@
-import { programViewTypeMigration } from "./migrationSpecs/migrationsSpecs";
+import {
+  updateActive,
+  updateBehaviorDescDetails,
+  updateBehaviorDetails,
+  updateProgramViewType
+} from "./migrationSpecs/migrationsSpecs";
 
 const readline = require("readline");
 require("dotenv").config();
@@ -27,14 +32,12 @@ export type MigrateDataProps = {
   collection: string;
   // Update Many with mong
   updateManyOps?: any;
-  updateEachFn?: (x: any) => any;
   prod?: boolean;
 };
 
 const migrate = async ({
   collection,
   updateManyOps,
-  updateEachFn,
   prod = false
 }: MigrateDataProps) => {
   let client;
@@ -58,20 +61,7 @@ const migrate = async ({
         ? (await connectToDatabase(prod, schoolDbConnection)).db()
         : await client.db(schoolDbConnection);
 
-      if (updateManyOps) {
-        await db.collection(collection).updateMany({}, ...updateManyOps);
-      }
-
-      if (updateEachFn) {
-        const allCollectionItems = await db.collection(collection).find({});
-        await allCollectionItems.forEach(async (doc: any) => {
-          // replaceObjectIds(doc);
-          const update = updateEachFn(doc);
-          await db
-            .collection(collection)
-            .updateOne({ _id: update._id }, { $set: update });
-        });
-      }
+      await db.collection(collection).updateMany({}, updateManyOps);
     }
   } finally {
     console.log(
@@ -106,4 +96,4 @@ async function migrateToAllSchools(props: MigrateDataProps) {
 }
 
 // Execute the script
-migrateToAllSchools(programViewTypeMigration);
+migrateToAllSchools(updateBehaviorDescDetails);

@@ -38,11 +38,13 @@ export const createRequestOptions = <P>(
 // TODO 2 one void one return type or one with an optional return type
 export const createRestRequest = <P, R>(type: MethodTypes, path: string) => {
   return async (payload?: P): Promise<R> => {
-    //@ts-ignore
-    const URL = payload?.id
-      ? //@ts-ignore
-        `${getServerUrl()}${path}/${payload?.id}`
-      : `${getServerUrl()}${path}`;
+    //TODO Fix get situation
+    const URL =
+      //@ts-ignore
+      (type === "GET" || type === "DELETE") && payload?.id
+        ? //@ts-ignore
+          `${getServerUrl()}${path}/${payload?.id}`
+        : `${getServerUrl()}${path}`;
 
     const response = await fetch(URL, createRequestOptions<P>(type, payload));
     const data = await response.json();

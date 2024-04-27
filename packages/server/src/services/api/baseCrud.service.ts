@@ -4,6 +4,8 @@ import { AppDataGateway } from "../database/app.data.gateway";
 import { Injectable } from "@nestjs/common";
 import { AuthContext } from "../../api/decorators";
 import TokenService from "../database/token.service";
+import { ObjectId } from "mongodb";
+import { ByRelationshipPayload } from "@parsimony/types";
 
 @Injectable()
 export class BaseCrudService {
@@ -83,7 +85,7 @@ export class BaseCrudService {
 
   async getAllByRelationship(
     model: modelTypes,
-    payload: { relationshipProperty: string; id: string },
+    payload: ByRelationshipPayload,
     authCtx: AuthContext
   ) {
     const currentUser = await this.#ts.getUserFromAuthorization(
@@ -94,21 +96,32 @@ export class BaseCrudService {
     // Matches any direct ids or matches an id in an array
     const foundModel = await db.getModel(model);
     const propertyInstance =
-      foundModel.schema.paths[payload.relationshipProperty].instance;
+      foundModel.schema.paths[payload.relationshipProperty]?.instance;
+
     const match =
       propertyInstance === "Array"
         ? {
             [payload.relationshipProperty]: {
-              $elemMatch: { id: payload.id }
+              $elemMatch: { id: this.#resolveMatchValue(payload) }
             }
           }
-        : { [payload.relationshipProperty]: payload.id };
+        : {
+            [payload.relationshipProperty]: this.#resolveMatchValue(payload)
+          };
 
     const ret = await db.findEntries(model, {
-      // In some cases we are fetching an ID of something we need clientside so we also want to return the item that we are matching
+      // In some cases we are fetching an ID of something we need clientside
+      // so we also want to return the item that we are matching
       $or: [match]
     });
 
     return ret;
+  }
+
+  #resolveMatchValue(payload: ByRelationshipPayload) {
+    try {
+      return new ObjectId(payload.id);
+    } catch (e) {}
+    return payload.id;
   }
 }

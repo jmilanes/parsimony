@@ -1,13 +1,18 @@
-import { MigrateDataProps } from "../migrateData";
-import { BehaviorType, Program, ProgramViewTypes } from "@parsimony/types";
+import { Description, Optional } from "@tsed/schema";
 
 export const updateActive = {
   collection: "programs",
-  updateOp: [
+  updateManyOps: [
     {
       $set: {
         active: {
-          $ifNull: ["$behavior.active", true]
+          $cond: {
+            if: {
+              $eq: ["$behavior.active", null]
+            },
+            then: true,
+            else: "$behavior.active"
+          }
         }
       }
     }
@@ -16,7 +21,7 @@ export const updateActive = {
 
 export const resultInResults = {
   collection: "results",
-  updateOp: [
+  updateManyOps: [
     {
       $set: {
         result: {
@@ -30,18 +35,18 @@ export const resultInResults = {
   ]
 };
 
-const putBackMainPrograms = {
+export const updateProgramViewType = {
   collection: "programs",
-  upDateOp: [
+  updateManyOps: [
     {
       $set: {
-        type: {
+        viewType: {
           $cond: {
             if: {
-              $eq: ["$clientId", null]
+              $eq: ["$targetStyle", "BEHAVIOR"]
             },
-            then: "MAIN",
-            else: "CLIENT"
+            then: "$behavior.type",
+            else: "$targetStyle"
           }
         }
       }
@@ -49,44 +54,40 @@ const putBackMainPrograms = {
   ]
 };
 
-const programViewUpdate = (program: Program) => {
-  let view: any = {
-    title: program.title,
-    description: program.description
-  };
-
-  if (program.targetStyle === ProgramViewTypes.TaskAnalysis) {
-    view.type = ProgramViewTypes.TaskAnalysis;
-    view.trials = program.trials;
-    view.targets = program.targets;
-    view.targetOptions = program.targetOptions;
-    view.chaining = program.chaining;
-  }
-
-  if (program.targetStyle === ProgramViewTypes.DiscreteTrials) {
-    view.type = ProgramViewTypes.DiscreteTrials;
-    view.trials = program.trials;
-    view.targets = program.targets;
-    view.targetOptions = program.targetOptions;
-  }
-
-  if (program.targetStyle === "BEHAVIOR") {
-    if (program?.behavior?.type === BehaviorType.Duration) {
-      view.type = ProgramViewTypes.DurationBehavior;
-    }
-    if (program?.behavior?.type === BehaviorType.Frequency) {
-      view.type = ProgramViewTypes.FrequencyBehavior;
-    }
-    if (program?.behavior?.type === BehaviorType.Interval) {
-      view.type = ProgramViewTypes.IntervalBehavior;
-      view.alertTime = program.behavior.alertTime || 0;
-    }
-  }
-
-  return { ...program, view };
-};
-
-export const programViewTypeMigration: MigrateDataProps = {
+export const updateBehaviorDetails = {
   collection: "programs",
-  updateEachFn: programViewUpdate
+  updateManyOps: [
+    {
+      $set: {
+        alertTime: {
+          $cond: {
+            if: {
+              $gte: ["$behavior.alertTime", 1]
+            },
+            then: "$behavior.alertTime"
+          }
+        }
+      }
+    }
+  ]
 };
+
+export const updateBehaviorDescDetails = {
+  collection: "programs",
+  updateManyOps: [
+    {
+      $set: {
+        operationalDefinition: "$behavior.operationalDefinition",
+        precursorBehaviors: "$behavior.precursorBehaviors",
+        proactiveStrategies: "$behavior.proactiveStrategies",
+        reactiveStrategies: "$behavior.reactiveStrategies"
+      }
+    }
+  ]
+};
+
+const fullProductionMigration = [
+  updateProgramViewType,
+  updateBehaviorDetails,
+  updateBehaviorDescDetails
+];

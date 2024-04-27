@@ -53,6 +53,7 @@ export class CrudRequestHandler<
       process.env.NODE_ENV === "test" ||
       window.confirm(`Are you sure you want to Delete this Item?`)
     ) {
+      debugger;
       const id = await this.requests.delete(payload);
       this.#store.deleteItemByDomain(this.domainName, id);
       return id;
@@ -72,7 +73,6 @@ export class CrudRequestHandler<
       const items = await this.requests.getAll();
       //@ts-ignore TODO: Handle in NEST
       const withId = items.map((x) => ({ ...x, id: x._id }));
-      debugger;
       this.#store
         .getDomain$(this.domainName)
         .next(withId ? arrayToObj(withId) : {});
@@ -87,17 +87,6 @@ export class CrudRequestHandler<
     )) as AwaitedSchemaWithId<Schema>;
     this.#store.addItemByDomain(this.domainName, item);
   };
-
-  // getAllByRelationship = async (payload: GetAllByRelationshipPayload) => {
-  //   try {
-  //     const newItems = await this.requests.getAllByRelationship(payload);
-  //     if (newItems) {
-  //       this.#store.addItemsByDomain(this.domainName, arrayToObj(newItems));
-  //     }
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
 
   subscribe = (service: { set: (data: any[]) => void }) => {
     this.#store.subscribeToStoreDomain(
