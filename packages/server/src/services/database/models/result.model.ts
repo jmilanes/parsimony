@@ -25,7 +25,6 @@ export default {
   observerId: ObjectId,
   type: { type: String, enum: ResultType },
   programCompleteness: Number,
-  behaviorData: BehaviorData,
   data: [ResultData],
   notes: String,
   result: Number,

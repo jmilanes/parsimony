@@ -74,7 +74,6 @@ export default class AuthService {
   async logIn(payload: LoginPayload) {
     try {
       const loginResponse = await this.#rs.auth.login(payload);
-      debugger;
       if (loginResponse.resetPassword && loginResponse.tempPassword) {
         this.#ass.updateAppState("login", {
           view: "resetPassword",

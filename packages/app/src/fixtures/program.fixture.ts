@@ -41,7 +41,7 @@ export const behaviorTypes: IOption[] = [
   }
 ];
 
-export const targetStyles: IOption[] = [
+export const trialViewTypeOptions: IOption[] = [
   {
     name: ProgramViewTypes.DiscreteTrials,
     value: ProgramViewTypes.DiscreteTrials

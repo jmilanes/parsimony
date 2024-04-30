@@ -53,7 +53,6 @@ export class CrudRequestHandler<
       process.env.NODE_ENV === "test" ||
       window.confirm(`Are you sure you want to Delete this Item?`)
     ) {
-      debugger;
       const id = await this.requests.delete(payload);
       this.#store.deleteItemByDomain(this.domainName, id);
       return id;
@@ -72,10 +71,7 @@ export class CrudRequestHandler<
     try {
       const items = await this.requests.getAll();
       //@ts-ignore TODO: Handle in NEST
-      const withId = items.map((x) => ({ ...x, id: x._id }));
-      this.#store
-        .getDomain$(this.domainName)
-        .next(withId ? arrayToObj(withId) : {});
+      this.#store.getDomain$(this.domainName).next(arrayToObj(items));
     } catch (error) {
       console.error(error);
     }

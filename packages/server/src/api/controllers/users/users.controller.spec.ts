@@ -28,7 +28,7 @@ describe("User Controller Tests", () => {
 
     expect(testAppAPI.db.mockMongoId(postResponse.body)).toEqual({
       __v: 0,
-      _id: "MONGO_ID",
+      id: "MONGO_ID",
       actionItems: [],
       avatar: "",
       clients: [],
@@ -99,24 +99,24 @@ describe("User Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .post(`/users/${postResponse.body._id}`)
+      .post(`/users/${postResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .send(
         testAppAPI.fixtures.createTestUser({
-          id: postResponse.body._id,
+          id: postResponse.body.id,
           firstName: "CHANGE"
         })
       )
       .expect(201);
 
     const getResponse = await request(testAppAPI.app.getHttpServer())
-      .get(`/users/${postResponse.body._id}`)
+      .get(`/users/${postResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
 
     expect(testAppAPI.db.mockMongoId(getResponse.body)).toEqual({
       __v: 0,
-      _id: "MONGO_ID",
+      id: "MONGO_ID",
       actionItems: [],
       avatar: "",
       clients: [],
@@ -149,9 +149,9 @@ describe("User Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .post(`/users/${postResponse.body._id}`)
+      .post(`/users/${postResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.employee)
-      .send({ ...USER, id: postResponse.body._id, firstName: "CHANGE" })
+      .send({ ...USER, id: postResponse.body.id, firstName: "CHANGE" })
       .expect(403);
   });
 
@@ -197,7 +197,7 @@ describe("User Controller Tests", () => {
     expect(getResponse.body.map(testAppAPI.db.mockMongoId)).toEqual([
       {
         __v: 0,
-        _id: "MONGO_ID",
+        id: "MONGO_ID",
         actionItems: [],
         avatar: "",
         clients: [],
@@ -218,7 +218,7 @@ describe("User Controller Tests", () => {
       },
       {
         __v: 0,
-        _id: "MONGO_ID",
+        id: "MONGO_ID",
         actionItems: [],
         avatar: "",
         clients: [],
@@ -239,7 +239,7 @@ describe("User Controller Tests", () => {
       },
       {
         __v: 0,
-        _id: "MONGO_ID",
+        id: "MONGO_ID",
         actionItems: [],
         avatar: "",
         clients: [],
@@ -274,13 +274,13 @@ describe("User Controller Tests", () => {
       .expect(201);
 
     const getResponse = await request(testAppAPI.app.getHttpServer())
-      .get(`/users/${createResponse.body._id}`)
+      .get(`/users/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
 
     expect(testAppAPI.db.mockMongoId(getResponse.body)).toStrictEqual({
       __v: 0,
-      _id: "MONGO_ID",
+      id: "MONGO_ID",
       actionItems: [],
       avatar: "",
       clients: [],
@@ -321,12 +321,12 @@ describe("User Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .delete(`/users/${createResponse.body._id}`)
+      .delete(`/users/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
 
     await request(testAppAPI.app.getHttpServer())
-      .get(`/users/${createResponse.body._id}`)
+      .get(`/users/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(500);
   });
@@ -351,12 +351,12 @@ describe("User Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .delete(`/users/${createResponse.body._id}`)
+      .delete(`/users/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.employee)
       .expect(403);
 
     await request(testAppAPI.app.getHttpServer())
-      .get(`/users/${createResponse.body._id}`)
+      .get(`/users/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
   });

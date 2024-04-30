@@ -25,18 +25,22 @@ describe("Program Controller Tests", () => {
     //TODO: Fix these once migration is secured
     expect(testAppAPI.db.mockMongoId(postResponse.body)).toEqual({
       __v: 0,
-      _id: "MONGO_ID",
+      id: "MONGO_ID",
       active: true,
       description: "Program Description",
       editedBy: [],
       mastered: false,
+      masteryConsecutiveTargets: 1,
+      masteryTarget: 100,
+      materials: "",
       subscribers: [],
       targetOptions: [],
       targets: [],
       title: "Program Title",
       trials: 3,
       type: "MAIN",
-      viewType: "TASK_ANALYSIS"
+      viewType: "TASK_ANALYSIS",
+      chaining: {}
     });
   });
 
@@ -71,29 +75,32 @@ describe("Program Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .post(`/programs/${postResponse.body._id}`)
+      .post(`/programs/${postResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .send(
         testAppAPI.fixtures.createTestProgram<TaskAnalysis>(TaskAnalysis, {
-          id: postResponse.body._id,
+          id: postResponse.body.id,
           title: "Test"
         })
       )
       .expect(201);
 
     const getResponse = await request(testAppAPI.app.getHttpServer())
-      .get(`/programs/${postResponse.body._id}`)
+      .get(`/programs/${postResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
 
     expect(testAppAPI.db.mockMongoId(getResponse.body)).toEqual({
       __v: 0,
-      _id: "MONGO_ID",
       active: true,
+      chaining: {},
       description: "Program Description",
       editedBy: [],
       id: "MONGO_ID",
       mastered: false,
+      masteryConsecutiveTargets: 1,
+      masteryTarget: 100,
+      materials: "",
       subscribers: [],
       targetOptions: [],
       targets: [],
@@ -113,9 +120,9 @@ describe("Program Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .post(`/programs/${postResponse.body._id}`)
+      .post(`/programs/${postResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.employee)
-      .send({ ...USER, id: postResponse.body._id, firstName: "CHANGE" })
+      .send({ ...USER, id: postResponse.body.id, firstName: "CHANGE" })
       .expect(403);
   });
 
@@ -154,7 +161,10 @@ describe("Program Controller Tests", () => {
     expect(getResponse.body.map(testAppAPI.db.mockMongoId)).toEqual([
       {
         __v: 0,
-        _id: "MONGO_ID",
+        id: "MONGO_ID",
+        masteryConsecutiveTargets: 1,
+        masteryTarget: 100,
+        materials: "",
         active: true,
         description: "Program Description",
         editedBy: [],
@@ -169,7 +179,10 @@ describe("Program Controller Tests", () => {
       },
       {
         __v: 0,
-        _id: "MONGO_ID",
+        id: "MONGO_ID",
+        masteryConsecutiveTargets: 1,
+        masteryTarget: 100,
+        materials: "",
         active: true,
         description: "Program Description",
         editedBy: [],
@@ -184,7 +197,10 @@ describe("Program Controller Tests", () => {
       },
       {
         __v: 0,
-        _id: "MONGO_ID",
+        id: "MONGO_ID",
+        masteryConsecutiveTargets: 1,
+        masteryTarget: 100,
+        materials: "",
         active: true,
         description: "Program Description",
         editedBy: [],
@@ -208,15 +224,18 @@ describe("Program Controller Tests", () => {
       .expect(201);
 
     const getResponse = await request(testAppAPI.app.getHttpServer())
-      .get(`/programs/${createResponse.body._id}`)
+      .get(`/programs/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
 
     expect(testAppAPI.db.mockMongoId(getResponse.body)).toStrictEqual({
       __v: 0,
-      _id: "MONGO_ID",
+      id: "MONGO_ID",
       active: true,
       description: "Program Description",
+      masteryConsecutiveTargets: 1,
+      masteryTarget: 100,
+      materials: "",
       editedBy: [],
       mastered: false,
       subscribers: [],
@@ -244,12 +263,12 @@ describe("Program Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .delete(`/programs/${createResponse.body._id}`)
+      .delete(`/programs/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
 
     await request(testAppAPI.app.getHttpServer())
-      .get(`/programs/${createResponse.body._id}`)
+      .get(`/programs/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(500);
   });
@@ -269,12 +288,12 @@ describe("Program Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .delete(`/programs/${createResponse.body._id}`)
+      .delete(`/programs/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.employee)
       .expect(403);
 
     await request(testAppAPI.app.getHttpServer())
-      .get(`/programs/${createResponse.body._id}`)
+      .get(`/programs/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
   });

@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseInterceptors
+} from "@nestjs/common";
 import {
   Collection,
   CreateCollectionPayload,
@@ -9,7 +17,9 @@ import { BaseCrudService } from "../../../services/api/baseCrud.service";
 import { modelTypes } from "../../../services/database/models";
 import { AuthContext, ProtectRoute } from "../../decorators";
 import { ALLOWED_MUTATION_ROLES } from "../../../const/api.const";
+import { TransformIdInterceptor } from "../../interceptors/response.interceptor";
 
+@UseInterceptors(new TransformIdInterceptor())
 @Controller("collections")
 export class CollectionsController {
   #bcs: BaseCrudService;

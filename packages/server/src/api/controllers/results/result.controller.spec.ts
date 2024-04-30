@@ -22,7 +22,7 @@ describe("Result Controller Tests", () => {
 
     expect(testAppAPI.db.mockMongoId(postResponse.body)).toEqual({
       __v: 0,
-      _id: "MONGO_ID",
+      id: "MONGO_ID",
       data: [],
       notes: "",
       programCompleteness: 0,
@@ -62,24 +62,24 @@ describe("Result Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .post(`/results/${postResponse.body._id}`)
+      .post(`/results/${postResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .send(
         testAppAPI.fixtures.createTestResult({
-          id: postResponse.body._id,
+          id: postResponse.body.id,
           programCompleteness: 100
         })
       )
       .expect(201);
 
     const getResponse = await request(testAppAPI.app.getHttpServer())
-      .get(`/results/${postResponse.body._id}`)
+      .get(`/results/${postResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
 
     expect(testAppAPI.db.mockMongoId(getResponse.body)).toEqual({
       __v: 0,
-      _id: "MONGO_ID",
+      id: "MONGO_ID",
       data: [],
       notes: "",
       programCompleteness: 100,
@@ -98,9 +98,9 @@ describe("Result Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .post(`/results/${postResponse.body._id}`)
+      .post(`/results/${postResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.employee)
-      .send({ ...RESULT, id: postResponse.body._id, firstName: "CHANGE" })
+      .send({ ...RESULT, id: postResponse.body.id, firstName: "CHANGE" })
       .expect(403);
   });
 
@@ -131,7 +131,7 @@ describe("Result Controller Tests", () => {
     expect(getResponse.body.map(testAppAPI.db.mockMongoId)).toEqual([
       {
         __v: 0,
-        _id: "MONGO_ID",
+        id: "MONGO_ID",
         data: [],
         notes: "",
         programCompleteness: 0,
@@ -140,7 +140,7 @@ describe("Result Controller Tests", () => {
       },
       {
         __v: 0,
-        _id: "MONGO_ID",
+        id: "MONGO_ID",
         data: [],
         notes: "",
         programCompleteness: 0,
@@ -149,7 +149,7 @@ describe("Result Controller Tests", () => {
       },
       {
         __v: 0,
-        _id: "MONGO_ID",
+        id: "MONGO_ID",
         data: [],
         notes: "",
         programCompleteness: 0,
@@ -167,13 +167,13 @@ describe("Result Controller Tests", () => {
       .expect(201);
 
     const getResponse = await request(testAppAPI.app.getHttpServer())
-      .get(`/results/${createResponse.body._id}`)
+      .get(`/results/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
 
     expect(testAppAPI.db.mockMongoId(getResponse.body)).toStrictEqual({
       __v: 0,
-      _id: "MONGO_ID",
+      id: "MONGO_ID",
       data: [],
       notes: "",
       programCompleteness: 0,
@@ -197,12 +197,12 @@ describe("Result Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .delete(`/results/${createResponse.body._id}`)
+      .delete(`/results/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
 
     await request(testAppAPI.app.getHttpServer())
-      .get(`/results/${createResponse.body._id}`)
+      .get(`/results/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(500);
   });
@@ -222,12 +222,12 @@ describe("Result Controller Tests", () => {
       .expect(201);
 
     await request(testAppAPI.app.getHttpServer())
-      .delete(`/results/${createResponse.body._id}`)
+      .delete(`/results/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.employee)
       .expect(403);
 
     await request(testAppAPI.app.getHttpServer())
-      .get(`/results/${createResponse.body._id}`)
+      .get(`/results/${createResponse.body.id}`)
       .set("Authorization", testAppAPI.authorization.director)
       .expect(200);
   });

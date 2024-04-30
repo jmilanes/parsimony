@@ -15,10 +15,6 @@ export class BehaviorData {
 
 @Description("Parsimony Result")
 export class Result {
-  @Description("This will be refactored in the factory pattern")
-  @Optional()
-  behaviorData?: BehaviorData;
-
   @Description("")
   @Optional()
   clientId?: string;

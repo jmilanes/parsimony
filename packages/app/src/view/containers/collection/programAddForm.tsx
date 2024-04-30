@@ -14,7 +14,7 @@ import {
   chainingTypesOptions,
   programCategories,
   programTypes,
-  targetStyles,
+  trialViewTypeOptions,
   trialOptions
 } from "../../../fixtures";
 import { Field, RichText, Selector } from "../../components";
@@ -75,6 +75,15 @@ export const ProgramAddForm = ({
       }}
       title="Add Program"
     >
+      <Selector
+        title="View Type"
+        value={form.Data.viewType}
+        options={trialViewTypeOptions}
+        onChange={(value) =>
+          form.updateData({ viewType: value as ProgramViewTypes })
+        }
+        metaTestId={CollectionPageMetaTestIds.addProgramFormTargetStyleSelector}
+      />
       <Field
         placeHolderText="Title"
         value={form.Data.title}
@@ -92,13 +101,6 @@ export const ProgramAddForm = ({
         content={form.Data.materials}
         onChange={(value) => form.updateData({ materials: value })}
         metaTestId={CollectionPageMetaTestIds.addProgramFormFormMaterialsField}
-      />
-      <Selector
-        title="Type"
-        value={form.Data.type}
-        options={programTypes}
-        onChange={(value) => form.updateData({ type: value as ProgramTypes })}
-        metaTestId={CollectionPageMetaTestIds.addProgramFormTypeSelector}
       />
       <Field
         placeHolderText="Mastery Independence Target (%)"
@@ -124,16 +126,6 @@ export const ProgramAddForm = ({
         onChange={(value) => form.updateData({ trials: value as number })}
         isNumber={true}
         metaTestId={CollectionPageMetaTestIds.addProgramFormStepsSelector}
-      />
-
-      <Selector
-        title="Target Style"
-        value={form.Data.viewType}
-        options={targetStyles}
-        onChange={(value) =>
-          form.updateData({ viewType: value as ProgramViewTypes })
-        }
-        metaTestId={CollectionPageMetaTestIds.addProgramFormTargetStyleSelector}
       />
       {form.Data.targetStyle === ProgramViewTypes.TaskAnalysis && (
         <Selector

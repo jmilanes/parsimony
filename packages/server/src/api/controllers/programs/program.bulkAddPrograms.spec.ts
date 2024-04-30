@@ -1,6 +1,6 @@
 import { makeTestApp, TestAppAPI } from "../../../tests/makeTestApp";
 import request from "supertest";
-import { UserRoles } from "@parsimony/types";
+import { TaskAnalysis, UserRoles } from "@parsimony/types";
 import { modelTypes } from "../../../services/database/models";
 
 const setUpBulkProgramAdditions = async (api: TestAppAPI) => {
@@ -15,8 +15,8 @@ const setUpBulkProgramAdditions = async (api: TestAppAPI) => {
     .send(
       api.fixtures.createTestCollection({
         title: "Collection",
-        parentCollectionId: book.body?._id,
-        ancestors: [book.body?._id]
+        parentCollectionId: book.body?.id,
+        ancestors: [book.body?.id]
       })
     );
 
@@ -24,9 +24,9 @@ const setUpBulkProgramAdditions = async (api: TestAppAPI) => {
     .post("/programs")
     .set("Authorization", api.authorization.director)
     .send(
-      api.fixtures.createTestProgram({
-        view: { title: "Test Program 1" },
-        collectionId: collection.body?._id
+      api.fixtures.createTestProgram(TaskAnalysis, {
+        title: "Test Program 1",
+        collectionId: collection.body?.id
       })
     );
 
@@ -34,9 +34,9 @@ const setUpBulkProgramAdditions = async (api: TestAppAPI) => {
     .post("/programs")
     .set("Authorization", api.authorization.director)
     .send(
-      api.fixtures.createTestProgram({
-        view: { title: "Test Program 2" },
-        collectionId: collection.body?._id
+      api.fixtures.createTestProgram(TaskAnalysis, {
+        title: "Test Program 2",
+        collectionId: collection.body?.id
       })
     );
 
@@ -44,9 +44,9 @@ const setUpBulkProgramAdditions = async (api: TestAppAPI) => {
     .post("/programs")
     .set("Authorization", api.authorization.director)
     .send(
-      api.fixtures.createTestProgram({
-        view: { title: "Test Program 3" },
-        collectionId: collection.body?._id
+      api.fixtures.createTestProgram(TaskAnalysis, {
+        title: "Test Program 3",
+        collectionId: collection.body?.id
       })
     );
 
@@ -54,9 +54,9 @@ const setUpBulkProgramAdditions = async (api: TestAppAPI) => {
     .post("/programs")
     .set("Authorization", api.authorization.director)
     .send(
-      api.fixtures.createTestProgram({
-        view: { title: "Test Behavior" },
-        collectionId: collection.body?._id
+      api.fixtures.createTestProgram(TaskAnalysis, {
+        title: "Test Behavior",
+        collectionId: collection.body?.id
       })
     );
 
@@ -82,8 +82,8 @@ const setUpBulkProgramMultiLevelCategoryAdditions = async (api: TestAppAPI) => {
     .send(
       api.fixtures.createTestCollection({
         title: "Collection",
-        parentCollectionId: book.body?._id,
-        ancestors: [book.body?._id]
+        parentCollectionId: book.body?.id,
+        ancestors: [book.body?.id]
       })
     );
 
@@ -93,8 +93,8 @@ const setUpBulkProgramMultiLevelCategoryAdditions = async (api: TestAppAPI) => {
     .send(
       api.fixtures.createTestCollection({
         title: "Collection",
-        parentCollectionId: collectionL1.body?._id,
-        ancestors: [book.body?._id, collectionL1.body?._id]
+        parentCollectionId: collectionL1.body?.id,
+        ancestors: [book.body?.id, collectionL1.body?.id]
       })
     );
 
@@ -124,28 +124,28 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director);
 
     const p1 = await request(testAppAPI.app.getHttpServer())
-      .get(`/programs/${program1._id}`)
+      .get(`/programs/${program1.id}`)
       .set("Authorization", testAppAPI.authorization.director);
 
     const p2 = await request(testAppAPI.app.getHttpServer())
-      .get(`/programs/${program2._id}`)
+      .get(`/programs/${program2.id}`)
       .set("Authorization", testAppAPI.authorization.director);
 
     const p3 = await request(testAppAPI.app.getHttpServer())
-      .get(`/programs/${program3._id}`)
+      .get(`/programs/${program3.id}`)
       .set("Authorization", testAppAPI.authorization.director);
 
     const b = await request(testAppAPI.app.getHttpServer())
-      .get(`/collections/${book._id}`)
+      .get(`/collections/${book.id}`)
       .set("Authorization", testAppAPI.authorization.director);
 
     const c = await request(testAppAPI.app.getHttpServer())
-      .get(`/collections/${collection._id}`)
+      .get(`/collections/${collection.id}`)
       .set("Authorization", testAppAPI.authorization.director);
 
-    expect(p1.body.view.title).toBe("Test Program 1");
-    expect(p2.body.view.title).toBe("Test Program 2");
-    expect(p3.body.view.title).toBe("Test Program 3");
+    expect(p1.body.title).toBe("Test Program 1");
+    expect(p2.body.title).toBe("Test Program 2");
+    expect(p3.body.title).toBe("Test Program 3");
     expect(b.body.title).toBe("Book");
     expect(c.body.title).toBe("Collection");
     expect(programs.body.length).toBe(4);
@@ -167,9 +167,9 @@ describe("Bulk Add Program Tests", () => {
       .post("/operations/addProgramsToClient")
       .set("Authorization", testAppAPI.authorization.director)
       .send({
-        collectionIds: [book._id],
+        collectionIds: [book.id],
         programIds: [],
-        clientId: client.body._id,
+        clientId: client.body.id,
         excludedIds: [],
         subscribers: []
       });
@@ -179,7 +179,7 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.collection,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
 
@@ -188,14 +188,14 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.program,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
 
     const titles = collections.body.map((x: any) => x.title);
     const clientIds = collections.body.map((x: any) => x.clientId);
 
-    expect(clientIds.every((id: any) => id === client.body._id));
+    expect(clientIds.every((id: any) => id === client.body.id));
 
     expect(titles.includes("Book") && titles.includes("Collection")).toBe(true);
 
@@ -219,9 +219,9 @@ describe("Bulk Add Program Tests", () => {
       .post("/operations/addProgramsToClient")
       .set("Authorization", testAppAPI.authorization.director)
       .send({
-        collectionIds: [collection._id],
+        collectionIds: [collection.id],
         programIds: [],
-        clientId: client.body._id,
+        clientId: client.body.id,
         excludedIds: [],
         subscribers: []
       });
@@ -231,7 +231,7 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.program,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
 
@@ -257,8 +257,8 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         collectionIds: [],
-        programIds: [program2._id, program3._id, program1._id],
-        clientId: client.body._id,
+        programIds: [program2.id, program3.id, program1.id],
+        clientId: client.body.id,
         excludedIds: [],
         subscribers: []
       });
@@ -268,7 +268,7 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.program,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
 
@@ -291,10 +291,10 @@ describe("Bulk Add Program Tests", () => {
       .post("/operations/addProgramsToClient")
       .set("Authorization", testAppAPI.authorization.director)
       .send({
-        collectionIds: [book._id],
+        collectionIds: [book.id],
         programIds: [],
-        clientId: client.body._id,
-        excludedIds: [program1._id],
+        clientId: client.body.id,
+        excludedIds: [program1.id],
         subscribers: []
       });
 
@@ -303,7 +303,7 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.program,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
 
@@ -312,7 +312,7 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.collection,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
 
@@ -337,10 +337,10 @@ describe("Bulk Add Program Tests", () => {
       .post("/operations/addProgramsToClient")
       .set("Authorization", testAppAPI.authorization.director)
       .send({
-        collectionIds: [book._id],
+        collectionIds: [book.id],
         programIds: [],
-        clientId: client.body._id,
-        excludedIds: [collection._id],
+        clientId: client.body.id,
+        excludedIds: [collection.id],
         subscribers: []
       });
 
@@ -349,7 +349,7 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.program,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
 
@@ -358,7 +358,7 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.collection,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
     expect(collections.body.length).toBe(1);
@@ -383,9 +383,9 @@ describe("Bulk Add Program Tests", () => {
       .post("/operations/addProgramsToClient")
       .set("Authorization", testAppAPI.authorization.director)
       .send({
-        collectionIds: [book._id, collectionL1._id, collectionL2._id],
+        collectionIds: [book.id, collectionL1.id, collectionL2.id],
         programIds: [],
-        clientId: client.body._id,
+        clientId: client.body.id,
         excludedIds: [],
         subscribers: []
       });
@@ -395,7 +395,7 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.collection,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
 
@@ -420,9 +420,9 @@ describe("Bulk Add Program Tests", () => {
       .post("/operations/addProgramsToClient")
       .set("Authorization", testAppAPI.authorization.director)
       .send({
-        collectionIds: [collectionL2._id, collectionL1._id, book._id],
+        collectionIds: [collectionL2.id, collectionL1.id, book.id],
         programIds: [],
-        clientId: client.body._id,
+        clientId: client.body.id,
         excludedIds: [],
         subscribers: []
       });
@@ -432,7 +432,7 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.collection,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
 
@@ -457,9 +457,9 @@ describe("Bulk Add Program Tests", () => {
       .post("/operations/addProgramsToClient")
       .set("Authorization", testAppAPI.authorization.director)
       .send({
-        collectionIds: [collectionL2._id, book._id, collectionL1._id],
+        collectionIds: [collectionL2.id, book.id, collectionL1.id],
         programIds: [],
-        clientId: client.body._id,
+        clientId: client.body.id,
         excludedIds: [],
         subscribers: []
       });
@@ -469,7 +469,7 @@ describe("Bulk Add Program Tests", () => {
       .set("Authorization", testAppAPI.authorization.director)
       .send({
         model: modelTypes.collection,
-        id: client.body._id,
+        id: client.body.id,
         relationshipProperty: "clientId"
       });
     expect(collections.body.length).toBe(3);

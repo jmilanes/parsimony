@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseInterceptors
+} from "@nestjs/common";
 import { BaseCrudService } from "../../../services/api/baseCrud.service";
 import { modelTypes } from "../../../services/database/models";
 import { AuthContext, ProtectRoute } from "../../decorators";
@@ -12,7 +20,9 @@ import {
 } from "@parsimony/types";
 import { ALLOWED_MUTATION_ROLES } from "../../../const/api.const";
 import { ProgramApiService } from "../../../services/api/prgrams/program.api.service";
+import { TransformIdInterceptor } from "../../interceptors/response.interceptor";
 
+@UseInterceptors(new TransformIdInterceptor())
 @Controller("programs")
 export class ProgramsControllers {
   #bcs: BaseCrudService;

@@ -51,7 +51,10 @@ export const CollectionAddForm = ({
   );
 
   const submitAddForm = async () => {
-    await API.system.Requests.collection.create(removeMongoIds(form.Data));
+    await API.system.Requests.collection.create({
+      ...removeMongoIds(form.Data),
+      created_by: API.system.Auth.getCurrentUser().id
+    });
     setShowCb(false);
     form.reset();
   };

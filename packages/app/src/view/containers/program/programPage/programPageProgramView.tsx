@@ -16,7 +16,7 @@ import {
   chainingTypesOptions,
   programCategories,
   programTypes,
-  targetStyles,
+  trialViewTypeOptions,
   trialOptions
 } from "../../../../fixtures";
 import { TargetOptionSelector } from "../../observation/targetOptionsSelector.container";
@@ -57,12 +57,23 @@ export const ProgramPageProgramView = ({
           metaTestId={ProgramPageMetaTestIds.behaviorActiveCheckBok}
         />
       </div>
+
       <Field
         placeHolderText="Title"
         value={form.Data.title}
         onChange={(value) => form.updateData({ title: value })}
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.titleField}
+      />
+      <Selector
+        title="View Type"
+        value={form.Data.targetStyle}
+        options={trialViewTypeOptions}
+        onChange={(value) =>
+          form.updateData({ viewType: value as ProgramViewTypes })
+        }
+        readOnly={isReadOnlyMode(mode)}
+        metaTestId={ProgramPageMetaTestIds.targetStyleSelector}
       />
       <RichText
         content={form.Data.description}
@@ -108,16 +119,7 @@ export const ProgramPageProgramView = ({
         readOnly={isReadOnlyMode(mode)}
         metaTestId={ProgramPageMetaTestIds.stepsSelector}
       />
-      <Selector
-        title="Target Style"
-        value={form.Data.targetStyle}
-        options={targetStyles}
-        onChange={(value) =>
-          form.updateData({ viewType: value as ProgramViewTypes })
-        }
-        readOnly={isReadOnlyMode(mode)}
-        metaTestId={ProgramPageMetaTestIds.targetStyleSelector}
-      />
+
       <Field
         placeHolderText="Mastery Independence Target (%)"
         value={

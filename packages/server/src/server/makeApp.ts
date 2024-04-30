@@ -3,7 +3,6 @@ import { AppModule } from "./app.api.module";
 import ServerService from "../services/server/server.service";
 import { encrypt } from "@parsimony/utilities/dist";
 import { AppDataGateway } from "../services/database/app.data.gateway";
-import { ValidationPipe } from "@nestjs/common";
 
 export async function makeApp() {
   const app = await NestFactory.create(AppModule);

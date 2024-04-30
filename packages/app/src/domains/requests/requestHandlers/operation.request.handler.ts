@@ -23,12 +23,10 @@ export class OperationRequestHandler {
     );
 
     try {
-      const items = await await request(payload);
-      //@ts-ignore TODO: Handle in NEST
-      const withId = items.map((x) => ({ ...x, id: x._id }));
+      const items = await request(payload);
       if (items) {
         //@ts-ignore
-        this.#store.addItemsByDomain(payload.model, arrayToObj(withId));
+        this.#store.addItemsByDomain(payload.model, arrayToObj(items));
       }
     } catch (e) {
       console.error(e);
