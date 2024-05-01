@@ -38,7 +38,6 @@ export class OperationsController {
     @Body() payload: GetAllCollectionsByRelationshipPayload,
     @AuthContext() authCtx: AuthContext
   ): Promise<Collection[]> {
-    console.log(payload.model);
     return await this.#bcs.getAllByRelationship(
       payload.model as modelTypes,
       payload,
