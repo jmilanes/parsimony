@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { createRestRequest } from "../request.utils";
+import { RequestCreatorService } from "../requestCreator.service";
 import {
   AddProgramsToClientPayload,
   ByRelationshipPayload,
@@ -11,14 +11,15 @@ import Store from "../../state/store/store";
 @Service()
 export class OperationRequestHandler {
   #store: Store;
+  #rcs: RequestCreatorService;
 
-  constructor(s: Store) {
+  constructor(s: Store, rcs: RequestCreatorService) {
     this.#store = s;
+    this.#rcs = rcs;
   }
 
   async getAllByRelationship<T>(payload: ByRelationshipPayload) {
-    const request = createRestRequest<ByRelationshipPayload, T>(
-      "POST",
+    const request = this.#rcs.createPostRequest<ByRelationshipPayload, T>(
       "operations/byRelationship"
     );
 
@@ -34,10 +35,10 @@ export class OperationRequestHandler {
   }
 
   async addProgramsToClient(payload: AddProgramsToClientPayload) {
-    const request = createRestRequest<AddProgramsToClientPayload, Result>(
-      "POST",
-      "operations/addProgramsToClient"
-    );
+    const request = this.#rcs.createPostRequest<
+      AddProgramsToClientPayload,
+      Result
+    >("operations/addProgramsToClient");
     await request(payload);
   }
 }

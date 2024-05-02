@@ -138,6 +138,6 @@ describe("Discrete Trial Backward Chaining Result Page Tests", () => {
       }
     ]);
 
-    await mockDbService.RS.result?.delete({ id: item.id });
+    await mockDbService.RS.result?.delete(item.id);
   });
 });

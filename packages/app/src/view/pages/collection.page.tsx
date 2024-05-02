@@ -30,7 +30,10 @@ const CollectionPage = () => {
 
   const { loading } = useAsync(async () => {
     //TODO: Need to figure out how I want to access Domains stuff ()
-    await API.system.Requests.collection.get({ id: collectionId || "" });
+    if (!collectionId) {
+      return;
+    }
+    await API.system.Requests.collection.get(collectionId);
   }, [collectionId]);
 
   if (loading) return <Spin />;

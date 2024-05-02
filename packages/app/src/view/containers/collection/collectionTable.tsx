@@ -63,7 +63,7 @@ export const CollectionTable = ({
     {
       name: "Delete",
       method: async (collection: Required<Collection>) => {
-        await API.system.Requests.collection.delete({ id: collection.id });
+        await API.system.Requests.collection.delete(collection.id);
       }
     }
   ];

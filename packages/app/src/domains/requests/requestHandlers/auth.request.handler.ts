@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { createRestRequest } from "../request.utils";
+import { RequestCreatorService } from "../requestCreator.service";
 import {
   LoginPayload,
   LoginResponse,
@@ -14,15 +14,22 @@ import {
 
 @Service()
 export class AuthRequestHandler {
+  #rcs: RequestCreatorService;
+
+  constructor(rcs: RequestCreatorService) {
+    this.#rcs = rcs;
+  }
+
   async me(payload: MePayload) {
-    const request = createRestRequest<MePayload, MeResponse>("POST", "auth/me");
+    const request = this.#rcs.createPostRequest<MePayload, MeResponse>(
+      "auth/me"
+    );
 
     return await request(payload);
   }
 
   async login(payload: LoginPayload) {
-    const request = createRestRequest<LoginPayload, LoginResponse>(
-      "POST",
+    const request = this.#rcs.createPostRequest<LoginPayload, LoginResponse>(
       "auth/login"
     );
 
@@ -30,8 +37,7 @@ export class AuthRequestHandler {
   }
 
   async logout(payload: LogoutPayload) {
-    const request = createRestRequest<LogoutPayload, LoginResponse>(
-      "POST",
+    const request = this.#rcs.createPostRequest<LogoutPayload, LoginResponse>(
       "auth/logout"
     );
 
@@ -39,19 +45,19 @@ export class AuthRequestHandler {
   }
 
   async resetPassword(payload: ResetPasswordPayload) {
-    const request = createRestRequest<
+    const request = this.#rcs.createPostRequest<
       ResetPasswordPayload,
       ResetPasswordResponse
-    >("POST", "auth/resetPassword");
+    >("auth/resetPassword");
 
     return await request(payload);
   }
 
   async requestPasswordReset(payload: RequestPasswordResetPayload) {
-    const request = createRestRequest<
+    const request = this.#rcs.createPostRequest<
       RequestPasswordResetPayload,
       RequestPasswordResetResponse
-    >("POST", "auth/requestPasswordReset");
+    >("auth/requestPasswordReset");
 
     return await request(payload);
   }

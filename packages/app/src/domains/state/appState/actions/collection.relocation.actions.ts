@@ -55,9 +55,11 @@ export class CollectionRelocationActions {
     const { idToUpdate, selectedId } = this.getState();
 
     const ancestors = this.#getAncestors();
-
+    if (!idToUpdate) {
+      return;
+    }
     this.#api.Requests.collection
-      .update({
+      .update(idToUpdate, {
         id: idToUpdate,
         ancestors,
         parentCollectionId: selectedId
@@ -68,8 +70,11 @@ export class CollectionRelocationActions {
   public updateProgram = async () => {
     const { idToUpdate, selectedId } = this.getState();
 
+    if (!idToUpdate) {
+      return;
+    }
     this.#api.Requests[Domains.Program]
-      .update({
+      .update(idToUpdate, {
         id: idToUpdate || "",
         collectionId: selectedId
       })

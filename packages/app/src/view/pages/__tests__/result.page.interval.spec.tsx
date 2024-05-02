@@ -2,18 +2,14 @@ import React, { forwardRef } from "react";
 import { Container } from "typedi";
 import { render } from "@testing-library/react";
 
-import { BehaviorType, Domains, ResultsMetaTestIds } from "@parsimony/types";
+import { Domains, ResultsMetaTestIds, ResultType } from "@parsimony/types";
 import { makeTestApp } from "../../../testUtils/makeTestApp";
 import {
   createTargetUuidKey,
   MockDBService
 } from "../../../testUtils/mockDBService";
 
-import {
-  durationBehaviorResultsFixture,
-  frequencyBehaviorResultsFixture,
-  intervalBehaviorResultsFixture
-} from "../fixtures/result.fixtures";
+import { intervalBehaviorResultsFixture } from "../fixtures/result.fixtures";
 import { checkTableValues } from "../../../testUtils/domains/tables/table.actions.spec";
 import { createResultPayload } from "../../../testUtils/dataCreation";
 
@@ -48,7 +44,7 @@ describe("Interval Results Page Tests", () => {
       {
         tableName: ResultsMetaTestIds.table,
         rowIndex: 0,
-        colName: "behaviorData.result",
+        colName: "result",
         expectedValue: "50%"
       }
     ]);
@@ -69,10 +65,8 @@ describe("Interval Results Page Tests", () => {
         programId: mockDbService.getUuidByKey(
           createTargetUuidKey(Domains.Program, 1)
         ),
-        behaviorData: {
-          result: 100,
-          type: BehaviorType.Interval
-        }
+        result: 100,
+        type: ResultType.Interval
       })
     );
 
@@ -80,11 +74,11 @@ describe("Interval Results Page Tests", () => {
       {
         tableName: ResultsMetaTestIds.table,
         rowIndex: 1,
-        colName: "behaviorData.result",
+        colName: "result",
         expectedValue: "100%"
       }
     ]);
 
-    await mockDbService.RS.result?.delete({ id: item.id });
+    await mockDbService.RS.result?.delete(item.id);
   });
 });

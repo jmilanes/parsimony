@@ -25,6 +25,9 @@ const Observe = () => {
   const navigate = navigateToRoute();
 
   const { loading, retry } = useAsyncRetry(async () => {
+    if (!programId) {
+      return;
+    }
     await API.actions.observations.init(programId);
   });
 

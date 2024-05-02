@@ -29,13 +29,16 @@ const ResultPage = () => {
   const { resultId } = getRouterParams();
 
   const { loading } = useAsync(async () => {
-    await API.system.Requests.result.get({
-      id: resultId
-    });
+    if (!resultId) {
+      return;
+    }
+    await API.system.Requests.result.get(resultId);
 
-    await API.system.Requests.program.get({
-      id: API.system.getItem(Domains.Result, resultId).programId
-    });
+    const result = API.system.getItem(Domains.Result, resultId);
+    if (!result) {
+      return;
+    }
+    await API.system.Requests.program.get(result.programId);
   });
 
   const result = API.system.getItem(Domains.Result, resultId);
@@ -50,7 +53,10 @@ const ResultPage = () => {
   if (!form) return <Spin />;
 
   const submitForm = async () => {
-    await API.system.Requests.result.update(addTimeStamp(form.Data));
+    await API.system.Requests.result.update(
+      form.Data.id,
+      addTimeStamp(form.Data)
+    );
 
     updateMode("readOnly");
   };

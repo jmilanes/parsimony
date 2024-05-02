@@ -85,11 +85,9 @@ const Results = () => {
     {
       name: "Delete",
       method: async (result: Required<Result>) => {
-        await API.system.Requests.result
-          .delete({ id: result.id })
-          .finally(() => {
-            retry();
-          });
+        await API.system.Requests.result.delete(result.id).finally(() => {
+          retry();
+        });
       }
     },
     {

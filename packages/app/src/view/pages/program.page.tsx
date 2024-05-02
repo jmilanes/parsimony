@@ -38,7 +38,10 @@ const ProgramPage = () => {
   );
 
   const { loading } = useAsync(async () => {
-    await API.system.Requests.program.get({ id: programId });
+    if (!programId) {
+      return;
+    }
+    await API.system.Requests.program.get(programId);
   });
 
   const form = useMemo(() => {
@@ -55,14 +58,14 @@ const ProgramPage = () => {
     program?.clientId && API.system.getItem(Domains.User, program?.clientId);
 
   const submitForm = async () => {
-    await API.system.Requests.program.update(form.Data);
+    await API.system.Requests.program.update(form.Data.id, form.Data);
 
     updateMode("readOnly");
   };
 
   const deleteProgram = async () => {
     navigate(`/books`);
-    await API.system.Requests.program.update({ id: program.id });
+    await API.system.Requests.program.delete(program.id);
   };
 
   return (

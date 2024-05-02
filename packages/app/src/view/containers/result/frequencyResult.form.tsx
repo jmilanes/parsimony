@@ -7,10 +7,8 @@ export const FrequencyResultForm = ({ form, isReadonly }: ResultFormProps) => {
   return (
     <Field
       placeHolderText="Occurances"
-      value={form.Data.behaviorData.result.toString()}
-      onChange={(value) =>
-        form.updateData({ behaviorData: { result: parseInt(value) || 0 } })
-      }
+      value={form.Data.result.toString()}
+      onChange={(value) => form.updateData({ result: parseInt(value) || 0 })}
       readOnly={isReadonly}
       metaTestId={ResultPageMetaTestIds.frequencyTextField}
     />

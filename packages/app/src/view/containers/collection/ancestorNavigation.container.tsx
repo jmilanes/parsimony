@@ -21,7 +21,7 @@ const AncestorNavigationContainer = ({
   useAsync(async () => {
     await Promise.all(
       (collection.ancestors || []).map(
-        async (id) => await API.system.Requests.collection.get({ id })
+        async (id) => await API.system.Requests.collection.get(id)
       )
     );
   });

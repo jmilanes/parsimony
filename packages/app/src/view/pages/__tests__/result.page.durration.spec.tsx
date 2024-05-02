@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import { Container } from "typedi";
 import { render } from "@testing-library/react";
 
-import { BehaviorType, Domains, ResultsMetaTestIds } from "@parsimony/types";
+import { Domains, ResultsMetaTestIds, ResultType } from "@parsimony/types";
 import { makeTestApp } from "../../../testUtils/makeTestApp";
 import {
   createTargetUuidKey,
@@ -44,7 +44,7 @@ describe("Duration Results Page Tests", () => {
       {
         tableName: ResultsMetaTestIds.table,
         rowIndex: 0,
-        colName: "behaviorData.result",
+        colName: "result",
         expectedValue: "1s"
       }
     ]);
@@ -65,10 +65,8 @@ describe("Duration Results Page Tests", () => {
         programId: mockDbService.getUuidByKey(
           createTargetUuidKey(Domains.Program, 1)
         ),
-        behaviorData: {
-          result: 10000,
-          type: BehaviorType.Duration
-        }
+        result: 10000,
+        type: ResultType.Duration
       })
     );
 
@@ -76,11 +74,11 @@ describe("Duration Results Page Tests", () => {
       {
         tableName: ResultsMetaTestIds.table,
         rowIndex: 1,
-        colName: "behaviorData.result",
+        colName: "result",
         expectedValue: "10s"
       }
     ]);
 
-    await mockDbService.RS.result?.delete({ id: item.id });
+    await mockDbService.RS.result?.delete(item.id);
   });
 });

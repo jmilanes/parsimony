@@ -1,38 +1,37 @@
 import {
   Domains,
   CreateProgramPayload,
-  DeleteProgramPayload,
-  GetAllProgramsByRelationshipPayload,
-  GetProgramPayload,
   Program,
   UpdateProgramPayload
 } from "@parsimony/types";
 import { CrudRequestHandler } from "../CrudRequestHandler";
 
 import { Service } from "typedi";
-import { createRestRequest } from "../request.utils";
+import { RequestCreatorService } from "../requestCreator.service";
+import Store from "../../state/store/store";
 
 @Service()
 export class ProgramRequestHandler extends CrudRequestHandler<
   Program,
   CreateProgramPayload,
-  DeleteProgramPayload,
-  UpdateProgramPayload,
-  GetProgramPayload,
-  GetAllProgramsByRelationshipPayload
+  UpdateProgramPayload
 > {
   domainName = Domains.Program;
-  requests = {
-    get: createRestRequest<GetProgramPayload, Program>("GET", "programs"),
-    getAll: createRestRequest<undefined, Program[]>("GET", "programs"),
-    delete: createRestRequest<DeleteProgramPayload, { id: string }>(
-      "DELETE",
-      "programs"
-    ),
-    create: createRestRequest<CreateProgramPayload, Program>(
-      "POST",
-      "programs"
-    ),
-    update: createRestRequest<UpdateProgramPayload, Program>("POST", "programs")
-  };
+  #rcs: RequestCreatorService;
+
+  constructor(s: Store, rcs: RequestCreatorService) {
+    super(s);
+    this.#rcs = rcs;
+    this.requests = {
+      get: this.#rcs.createGetRequest<Program>("programs"),
+      getAll: this.#rcs.createGetAllRequest<Program[]>("programs"),
+      delete: this.#rcs.createDeleteRequest<{ id: string }>("programs"),
+      create: this.#rcs.createPostRequest<CreateProgramPayload, Program>(
+        "programs"
+      ),
+      update: this.#rcs.createPatchRequest<UpdateProgramPayload, Program>(
+        "programs"
+      )
+    };
+  }
 }

@@ -23,6 +23,7 @@ import { message } from "antd";
 import { Container } from "typedi";
 
 import UIApi from "../../domains/accessApis/uiApi/uiApi.Service";
+import { id } from "date-fns/locale";
 
 const Users = () => {
   const API = Container.get(UIApi);
@@ -71,9 +72,7 @@ const Users = () => {
     {
       name: "Delete",
       method: async (user: Required<User>) => {
-        await API.system.Requests.user.delete({
-          id: user.id
-        });
+        await API.system.Requests.user.delete(user.id);
       }
     }
   ];

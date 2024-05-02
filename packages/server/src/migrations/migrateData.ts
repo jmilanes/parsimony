@@ -1,4 +1,6 @@
 import {
+  applyFactoryToResultBehaviors,
+  undoResult,
   updateActive,
   updateBehaviorDescDetails,
   updateBehaviorDetails,
@@ -96,4 +98,4 @@ async function migrateToAllSchools(props: MigrateDataProps) {
 }
 
 // Execute the script
-migrateToAllSchools(updateBehaviorDescDetails);
+migrateToAllSchools(applyFactoryToResultBehaviors);

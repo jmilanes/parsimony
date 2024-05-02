@@ -1,44 +1,37 @@
 import {
   Domains,
   CreateCollectionPayload,
-  DeleteCollectionPayload,
-  GetAllCollectionsByRelationshipPayload,
-  GetCollectionPayload,
   Collection,
   UpdateCollectionPayload
 } from "@parsimony/types";
 import { CrudRequestHandler } from "../CrudRequestHandler";
 
 import { Service } from "typedi";
-import { createRestRequest } from "../request.utils";
+import { RequestCreatorService } from "../requestCreator.service";
+import Store from "../../state/store/store";
 
 @Service()
 export class CollectionRequestHandler extends CrudRequestHandler<
   Collection,
   CreateCollectionPayload,
-  DeleteCollectionPayload,
-  UpdateCollectionPayload,
-  GetCollectionPayload,
-  GetAllCollectionsByRelationshipPayload
+  UpdateCollectionPayload
 > {
   domainName = Domains.Collection;
-  requests = {
-    get: createRestRequest<GetCollectionPayload, Collection>(
-      "GET",
-      "collections"
-    ),
-    getAll: createRestRequest<undefined, Collection[]>("GET", "collections"),
-    delete: createRestRequest<DeleteCollectionPayload, { id: string }>(
-      "DELETE",
-      "collections"
-    ),
-    create: createRestRequest<CreateCollectionPayload, Collection>(
-      "POST",
-      "collections"
-    ),
-    update: createRestRequest<UpdateCollectionPayload, Collection>(
-      "POST",
-      "collections"
-    )
-  };
+  #rcs: RequestCreatorService;
+
+  constructor(s: Store, rcs: RequestCreatorService) {
+    super(s);
+    this.#rcs = rcs;
+    this.requests = {
+      get: this.#rcs.createGetRequest<Collection>("collections"),
+      getAll: this.#rcs.createGetAllRequest<Collection[]>("collections"),
+      delete: this.#rcs.createDeleteRequest<{ id: string }>("collections"),
+      create: this.#rcs.createPostRequest<CreateCollectionPayload, Collection>(
+        "collections"
+      ),
+      update: this.#rcs.createPatchRequest<UpdateCollectionPayload, Collection>(
+        "collections"
+      )
+    };
+  }
 }

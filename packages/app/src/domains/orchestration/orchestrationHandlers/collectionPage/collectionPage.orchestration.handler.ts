@@ -29,7 +29,7 @@ export class CollectionPageOrchestrationHandler
     if (!options.collectionId) {
       throw new Error("No Collection included in Data Request");
     }
-    await this.#rs.collection?.get({ id: options.collectionId });
+    await this.#rs.collection?.get(options.collectionId);
     await this.#rs.operation.getAllByRelationship<Program>({
       model: "program",
       relationshipProperty: "collectionId",

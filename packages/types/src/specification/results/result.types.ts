@@ -44,8 +44,8 @@ export class Result {
   programCompleteness?: number = 0;
 
   @Description("")
-  @Optional()
-  programId?: string;
+  @Required()
+  programId: string;
 
   @Description("")
   @Optional()

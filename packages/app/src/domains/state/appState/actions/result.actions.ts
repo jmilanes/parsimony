@@ -33,7 +33,7 @@ export class ResultActions {
       model: Domains.Result
     });
 
-    await this.#api.Requests.program.get({ id: programId });
+    await this.#api.Requests.program.get(programId);
   }
 
   public calculateResult = (program: Program, results: Result[]) => {
@@ -52,7 +52,7 @@ export class ResultActions {
     ];
 
     const calculate = (acc: number, result: Result) => {
-      const currentResult = result?.behaviorData?.result || 0;
+      const currentResult = result?.result || 0;
       return acc + currentResult;
     };
 
@@ -122,7 +122,7 @@ export class ResultActions {
 
   public getKeyByProgram = (program: Program) => {
     if (isTrial(program)) return "programCompleteness";
-    return "behaviorData.result";
+    return "result";
   };
 
   //ddd

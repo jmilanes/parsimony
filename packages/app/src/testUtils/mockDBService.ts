@@ -54,7 +54,7 @@ export class MockDBService {
   public async cleanUp() {
     await Promise.all(
       this.#createItems.map((item) => {
-        return this.#rs[item.domain]?.delete({ id: item.id });
+        return this.#rs[item.domain]?.delete(item.id);
       })
     );
 

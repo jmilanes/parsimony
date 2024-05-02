@@ -68,7 +68,7 @@ export const ProgramTable = ({
     {
       name: "Delete",
       method: async (program: Required<Program>) => {
-        await API.system.Requests.program.delete({ id: program.id });
+        await API.system.Requests.program.delete(program.id);
       }
     },
     {

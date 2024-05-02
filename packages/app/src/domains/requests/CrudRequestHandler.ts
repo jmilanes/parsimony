@@ -10,23 +10,9 @@ type AwaitedSchemaWithId<Schema> = Awaited<Schema> & {
 };
 
 @Service()
-export class CrudRequestHandler<
-  Schema,
-  CreatePayload,
-  DeletePayload,
-  UpdatePayload,
-  GetPayload,
-  GetAllByRelationshipPayload
-> {
+export class CrudRequestHandler<Schema, CreatePayload, UpdatePayload> {
   domainName: Domains = "" as Domains;
-
-  requests: ICrudRequests<
-    Schema,
-    CreatePayload,
-    DeletePayload,
-    UpdatePayload,
-    GetPayload
-  >;
+  requests: ICrudRequests<Schema, CreatePayload, UpdatePayload>;
   #store: Store;
 
   // TODO Add a debugger and better testing
@@ -46,22 +32,23 @@ export class CrudRequestHandler<
     return item;
   };
 
-  delete = async (payload: DeletePayload) => {
+  delete = async (id: string) => {
     // TODO: Make a better version of this this should be something built not
     // Relying on window so we can have a better ux and easier to tests.
     if (
       process.env.NODE_ENV === "test" ||
       window.confirm(`Are you sure you want to Delete this Item?`)
     ) {
-      const deletedItem = await this.requests.delete(payload);
+      const deletedItem = await this.requests.delete(id);
       debugger;
       this.#store.deleteItemByDomain(this.domainName, deletedItem.id);
       return deletedItem.id;
     }
   };
 
-  update = async (payload: UpdatePayload) => {
+  update = async (id: string, payload: UpdatePayload) => {
     const item = (await this.requests.update(
+      id,
       payload
     )) as AwaitedSchemaWithId<Schema>;
     this.#store.updateItemByDomain(this.domainName, item);
@@ -78,10 +65,8 @@ export class CrudRequestHandler<
     }
   };
 
-  get = async (payload: GetPayload) => {
-    const item = (await this.requests.get(
-      payload
-    )) as AwaitedSchemaWithId<Schema>;
+  get = async (id: string) => {
+    const item = (await this.requests.get(id)) as AwaitedSchemaWithId<Schema>;
     this.#store.addItemByDomain(this.domainName, item);
   };
 

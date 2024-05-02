@@ -73,9 +73,9 @@ export class ObservationActions {
     });
   };
 
-  public async init(programId?: string) {
+  public async init(programId: string) {
     this.reset();
-    await this.#api.Requests.program.get({ id: programId });
+    await this.#api.Requests.program.get(programId);
 
     const program = this.#api.getItem(
       Domains.Program,

@@ -58,7 +58,7 @@ const UserPage = () => {
       id: userId
     });
 
-    await API.system.Requests.user.get({ id: userId });
+    await API.system.Requests.user.get(userId);
 
     const user = API.system.getItem(Domains.User, userId);
     //Need to destroy on use effect
@@ -85,7 +85,7 @@ const UserPage = () => {
     // TODO: Make this better
     form.Data.email = form.Data.email?.toLowerCase();
 
-    await API.system.Requests.user.update(form.Data);
+    await API.system.Requests.user.update(form.Data.id, form.Data);
 
     updateMode("readOnly");
   };

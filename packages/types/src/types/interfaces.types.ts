@@ -1,13 +1,7 @@
-export type ICrudRequests<
-  Schema,
-  CreatePayload,
-  DeletePayload,
-  UploadPayload,
-  GetPayload
-> = {
+export type ICrudRequests<Schema, CreatePayload, UploadPayload> = {
   getAll: () => Promise<Schema[]>;
-  get: (payload: GetPayload) => Promise<Schema>;
-  delete: (payload: DeletePayload) => Promise<{ id: string }>;
+  get: (id: string) => Promise<Schema>;
+  delete: (id: string) => Promise<{ id: string }>;
   create: (payload: CreatePayload) => Promise<Schema>;
-  update: (payload: UploadPayload) => Promise<Schema>;
+  update: (id: string, payload: UploadPayload) => Promise<Schema>;
 };

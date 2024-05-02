@@ -1,5 +1,3 @@
-import { Description, Optional } from "@tsed/schema";
-
 export const updateActive = {
   collection: "programs",
   updateManyOps: [
@@ -13,22 +11,6 @@ export const updateActive = {
             then: true,
             else: "$behavior.active"
           }
-        }
-      }
-    }
-  ]
-};
-
-export const resultInResults = {
-  collection: "results",
-  updateManyOps: [
-    {
-      $set: {
-        result: {
-          $ifNull: ["$behaviorData.result", "$programCompleteness"]
-        },
-        type: {
-          $ifNull: ["$behaviorData.type", "TRIAL"]
         }
       }
     }
@@ -86,8 +68,30 @@ export const updateBehaviorDescDetails = {
   ]
 };
 
+export const undoResult = {
+  collection: "programs",
+  updateManyOps: [
+    {
+      $unset: ["type", "results"]
+    }
+  ]
+};
+
+export const applyFactoryToResultBehaviors = {
+  collection: "results",
+  updateManyOps: [
+    {
+      $set: {
+        result: { $ifNull: ["$behaviorData.result", "$programCompleteness"] },
+        type: { $ifNull: ["$behaviorData.type", "TRIAL"] }
+      }
+    }
+  ]
+};
+
 const fullProductionMigration = [
   updateProgramViewType,
   updateBehaviorDetails,
-  updateBehaviorDescDetails
+  updateBehaviorDescDetails,
+  applyFactoryToResultBehaviors
 ];

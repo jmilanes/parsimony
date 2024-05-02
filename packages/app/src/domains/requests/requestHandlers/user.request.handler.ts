@@ -1,35 +1,33 @@
 import {
   Domains,
   CreateUserPayload,
-  DeleteUserPayload,
-  GetAllUsersByRelationshipPayload,
-  GetUserPayload,
   UpdateUserPayload,
   User
 } from "@parsimony/types";
 import { CrudRequestHandler } from "../CrudRequestHandler";
 
 import { Service } from "typedi";
-import { createRestRequest } from "../request.utils";
+import { RequestCreatorService } from "../requestCreator.service";
+import Store from "../../state/store/store";
 
 @Service()
 export class UserRequestHandler extends CrudRequestHandler<
   User,
   CreateUserPayload,
-  DeleteUserPayload,
-  UpdateUserPayload,
-  GetUserPayload,
-  GetAllUsersByRelationshipPayload
+  UpdateUserPayload
 > {
   domainName = Domains.User;
-  requests = {
-    get: createRestRequest<GetUserPayload, User>("GET", "users"),
-    getAll: createRestRequest<undefined, User[]>("GET", "users"),
-    delete: createRestRequest<DeleteUserPayload, { id: string }>(
-      "DELETE",
-      "users"
-    ),
-    create: createRestRequest<CreateUserPayload, User>("POST", "users"),
-    update: createRestRequest<UpdateUserPayload, User>("POST", "users")
-  };
+  #rcs: RequestCreatorService;
+
+  constructor(s: Store, rcs: RequestCreatorService) {
+    super(s);
+    this.#rcs = rcs;
+    this.requests = {
+      get: this.#rcs.createGetRequest<User>("users"),
+      getAll: this.#rcs.createGetAllRequest<User[]>("users"),
+      delete: this.#rcs.createDeleteRequest<{ id: string }>("users"),
+      create: this.#rcs.createPostRequest<CreateUserPayload, User>("users"),
+      update: this.#rcs.createPatchRequest<UpdateUserPayload, User>("users")
+    };
+  }
 }
