@@ -25,7 +25,10 @@ export class UserRequestHandler extends CrudRequestHandler<
   requests = {
     get: createRestRequest<GetUserPayload, User>("GET", "users"),
     getAll: createRestRequest<undefined, User[]>("GET", "users"),
-    delete: createRestRequest<DeleteUserPayload, string>("DELETE", "users"),
+    delete: createRestRequest<DeleteUserPayload, { id: string }>(
+      "DELETE",
+      "users"
+    ),
     create: createRestRequest<CreateUserPayload, User>("POST", "users"),
     update: createRestRequest<UpdateUserPayload, User>("POST", "users")
   };

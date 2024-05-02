@@ -14,10 +14,6 @@ export class TransformIdInterceptor implements NestInterceptor {
   }
 
   private transformIds(data: any): any {
-    // Case for delete TODO: maybe normalize
-    if (typeof data === "string") {
-      return data;
-    }
     // Check if the data is an array or a single object
     if (Array.isArray(data)) {
       return data.map((item) => this.transformObjectIds(item));
@@ -27,7 +23,7 @@ export class TransformIdInterceptor implements NestInterceptor {
   }
 
   private transformObjectIds(obj: any): any {
-    const doc = obj?._doc;
+    const doc = obj?._doc || obj;
     if (!!doc?._id) {
       doc.id = doc._id;
       delete doc._id;

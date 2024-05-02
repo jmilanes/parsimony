@@ -41,7 +41,7 @@ export class BaseCrudService {
     await this.#adg
       .dbBySchoolId(currentUser?.schoolId)
       .deleteEntry(model, payload.id);
-    return payload.id;
+    return { id: payload.id };
   }
 
   async update(model: modelTypes, payload: any, authCtx: AuthContext) {

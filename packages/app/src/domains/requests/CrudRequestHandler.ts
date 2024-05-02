@@ -53,9 +53,10 @@ export class CrudRequestHandler<
       process.env.NODE_ENV === "test" ||
       window.confirm(`Are you sure you want to Delete this Item?`)
     ) {
-      const id = await this.requests.delete(payload);
-      this.#store.deleteItemByDomain(this.domainName, id);
-      return id;
+      const deletedItem = await this.requests.delete(payload);
+      debugger;
+      this.#store.deleteItemByDomain(this.domainName, deletedItem.id);
+      return deletedItem.id;
     }
   };
 

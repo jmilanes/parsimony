@@ -25,7 +25,7 @@ export class ProgramRequestHandler extends CrudRequestHandler<
   requests = {
     get: createRestRequest<GetProgramPayload, Program>("GET", "programs"),
     getAll: createRestRequest<undefined, Program[]>("GET", "programs"),
-    delete: createRestRequest<DeleteProgramPayload, string>(
+    delete: createRestRequest<DeleteProgramPayload, { id: string }>(
       "DELETE",
       "programs"
     ),

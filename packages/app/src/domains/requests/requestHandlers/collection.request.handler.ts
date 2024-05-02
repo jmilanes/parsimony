@@ -28,7 +28,7 @@ export class CollectionRequestHandler extends CrudRequestHandler<
       "collections"
     ),
     getAll: createRestRequest<undefined, Collection[]>("GET", "collections"),
-    delete: createRestRequest<DeleteCollectionPayload, string>(
+    delete: createRestRequest<DeleteCollectionPayload, { id: string }>(
       "DELETE",
       "collections"
     ),

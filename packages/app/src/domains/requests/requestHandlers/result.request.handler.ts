@@ -25,7 +25,10 @@ export class ResultRequestHandler extends CrudRequestHandler<
   requests = {
     get: createRestRequest<GetProgramPayload, Result>("GET", "results"),
     getAll: createRestRequest<undefined, Result[]>("GET", "results"),
-    delete: createRestRequest<DeleteResultPayload, string>("DELETE", "results"),
+    delete: createRestRequest<DeleteResultPayload, { id: string }>(
+      "DELETE",
+      "results"
+    ),
     create: createRestRequest<CreateResultPayload, Result>("POST", "results"),
     update: createRestRequest<UpdateResultPayload, Result>("POST", "results")
   };

@@ -1,6 +1,6 @@
 import { BasicPayload, ByRelationshipPayload } from "../shared";
 
-import { Description, Optional, Required } from "@tsed/schema";
+import { Description, Required } from "@tsed/schema";
 import { Program } from "./progam.type";
 import { DeepPartial } from "chart.js/types/utils";
 
