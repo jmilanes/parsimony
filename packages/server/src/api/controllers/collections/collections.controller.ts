@@ -10,7 +10,6 @@ import {
 import {
   Collection,
   CreateCollectionPayload,
-  GetAllCollectionsByRelationshipPayload,
   UpdateCollectionPayload
 } from "@parsimony/types";
 import { BaseCrudService } from "../../../services/api/baseCrud.service";
