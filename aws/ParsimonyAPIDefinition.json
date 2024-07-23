@@ -34,7 +34,7 @@
       "secrets": null,
       "dockerSecurityOptions": null,
       "memory": null,
-      "memoryReservation": 2048,
+      "memoryReservation": 512,
       "volumesFrom": [],
       "stopTimeout": null,
       "image": "519459422782.dkr.ecr.us-east-1.amazonaws.com/parsimony-api:latest",
@@ -58,9 +58,12 @@
     }
   ],
   "placementConstraints": [],
-  "memory": "2048",
+  "memory": "512",
   "taskRoleArn": null,
-  "compatibilities": ["EC2", "FARGATE"],
+  "compatibilities": [
+    "EC2",
+    "FARGATE"
+  ],
   "taskDefinitionArn": "arn:aws:ecs:us-east-1:519459422782:task-definition/parsimony-api-definition:1",
   "family": "parsimony-api-definition",
   "requiresAttributes": [
@@ -114,10 +117,12 @@
     }
   ],
   "pidMode": null,
-  "requiresCompatibilities": ["FARGATE"],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
   "networkMode": "awsvpc",
   "runtimePlatform": null,
-  "cpu": "1024",
+  "cpu": "256",
   "revision": 1,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
