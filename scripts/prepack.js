@@ -1,7 +1,6 @@
 const { readFileSync, writeFileSync } = require("fs");
 
 const files = [
-  "./packages/bal/package.json",
   "./packages/types/package.json",
   "./packages/utilities/package.json"
 ];
