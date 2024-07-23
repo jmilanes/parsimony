@@ -1,6 +1,6 @@
 require("dotenv").config();
 import { Injectable } from "@nestjs/common";
-import { envIs } from "@parsimony/utilities/dist";
+import { envIs } from "@parsimony/utilities";
 
 const DEV_DBS = {
   "parsimonyschools.f034n9b": "parsimonySchools"

@@ -5,7 +5,7 @@ require("dotenv").config();
 import nodemailer, { Transporter, SendMailOptions } from "nodemailer";
 import { Email, EMAIL_TEMPLATES, EmailOptions } from "./emails/emails";
 import { CreatedUserEmail } from "./emails/email.createUser";
-import { envIs } from "@parsimony/utilities/dist";
+import { envIs } from "@parsimony/utilities";
 import { Injectable } from "@nestjs/common";
 
 /**

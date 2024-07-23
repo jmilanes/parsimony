@@ -1,6 +1,6 @@
 import { Container } from "typedi";
 import ServerService from "./server.service";
-import { encrypt } from "@parsimony/utilities/dist";
+import { encrypt } from "@parsimony/utilities";
 
 export const makeServer = async () => {
   const server = Container.get(ServerService);

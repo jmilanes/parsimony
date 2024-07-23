@@ -1,7 +1,7 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.api.module";
 import ServerService from "../services/server/server.service";
-import { encrypt } from "@parsimony/utilities/dist";
+import { encrypt } from "@parsimony/utilities";
 import { AppDataGateway } from "../services/database/app.data.gateway";
 
 export async function makeApp() {
