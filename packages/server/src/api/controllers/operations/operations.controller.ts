@@ -1,18 +1,8 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  UseInterceptors
-} from "@nestjs/common";
+import { Body, Controller, Post, UseInterceptors } from "@nestjs/common";
 import {
   AddProgramsToClientPayload,
   Collection,
-  CreateCollectionPayload,
-  GetAllCollectionsByRelationshipPayload,
-  UpdateCollectionPayload
+  GetAllCollectionsByRelationshipPayload
 } from "@parsimony/types";
 import { BaseCrudService } from "../../../services/api/baseCrud.service";
 import { modelTypes } from "../../../services/database/models";
