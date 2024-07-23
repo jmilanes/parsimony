@@ -17,6 +17,15 @@ export const updateActive = {
   ]
 };
 
+export const undoResult = {
+  collection: "programs",
+  updateManyOps: [
+    {
+      $unset: ["type", "results"]
+    }
+  ]
+};
+
 export const updateProgramViewType = {
   collection: "programs",
   updateManyOps: [
@@ -68,15 +77,6 @@ export const updateBehaviorDescDetails = {
   ]
 };
 
-export const undoResult = {
-  collection: "programs",
-  updateManyOps: [
-    {
-      $unset: ["type", "results"]
-    }
-  ]
-};
-
 export const applyFactoryToResultBehaviors = {
   collection: "results",
   updateManyOps: [
@@ -89,7 +89,8 @@ export const applyFactoryToResultBehaviors = {
   ]
 };
 
-const fullProductionMigration = [
+// These the first set of updates to the data
+const FIRST_ROUND_DONE = [
   updateProgramViewType,
   updateBehaviorDetails,
   updateBehaviorDescDetails,

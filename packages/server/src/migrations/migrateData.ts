@@ -13,15 +13,19 @@ const { MongoClient } = require("mongodb");
 
 // Connect to MongoDB Atlas
 async function connectToDatabase(prod: boolean, db?: string) {
+  const PW = process.env.LOCAL_MONGO_PROD;
+
   const uri = prod
-    ? `mongodb+srv://joey_local:${process.env.LOCAL_MONGO_PROD}@${db}.mongodb.net/parsimony?retryWrites=true&w=majority`
+    ? `mongodb+srv://joey_local:${PW}@${db}.mongodb.net/parsimony?retryWrites=true&w=majority`
     : "mongodb://127.0.0.1:27017";
+
   const client = new MongoClient(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
 
   await client.connect();
+
   return client;
 }
 
@@ -46,9 +50,7 @@ const migrate = async ({
   let schoolsCount;
   try {
     client = await connectToDatabase(prod, "parsimonyschools.f034n9b");
-
     const schoolDB = prod ? client.db() : client.db("parsimonySchools");
-
     const schoolDbConnections = Object.values<any>(
       await schoolDB.collection("schools").find({}).toArray()
     ).map((school) => school.dbConnection);
@@ -69,7 +71,7 @@ const migrate = async ({
     console.log(
       `${collection} collection has been updated in ${schoolsCount} Schools`
     );
-    client.close();
+    await client?.close();
     process.exit(0);
   }
 };
@@ -98,4 +100,4 @@ async function migrateToAllSchools(props: MigrateDataProps) {
 }
 
 // Execute the script
-migrateToAllSchools(applyFactoryToResultBehaviors);
+// migrateToAllSchools(applyFactoryToResultBehaviors);
