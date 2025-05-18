@@ -1,3 +1,7 @@
-# parsimony
+# Parsimony
 
-Created with CodeSandbox
+To start Application:
+
+```yarn start```
+
+
